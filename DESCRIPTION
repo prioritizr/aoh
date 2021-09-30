@@ -1,0 +1,50 @@
+Package: aoh
+Type: Package
+Version: 0.0.0.99999
+Title: Area of Habitat Maps
+Description: Generate Area of Habitat maps for species distributions.
+    Maps are produced following procedures outlined by Brooks et al. (2019)
+    (<doi:10.1016/j.tree.2019.06.009>). They are derived using species'
+    distribution data from the International Union for Conservation
+    of Nature (IUCN) Red List of Threatened Species
+    (<https://www.iucnredlist.org/>),
+    terrestrial habitat classification data from Jung et al. (2020)
+    (<doi:10.1038/s41597-020-00599-8>), and elevation data from Jarvis et al.
+    (2008) (<http://srtm.csi.cgiar.org>).
+Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
+    email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
+Imports:
+    utils,
+    sp,
+    assertthat (>= 0.2.0),
+    progress (>= 1.2.0),
+    curl (>= 3.2),
+    httr (>= 1.3.1),
+    countrycode (>= 1.1.0),
+    lwgeom (>= 0.2-1),
+    tibble (>= 2.1.3),
+    rappdirs (>= 0.3.1),
+    withr (>= 2.4.1)
+Suggests:
+    testthat (>= 2.0.1),
+    knitr (>= 1.2.0),
+    roxygen2 (>= 6.1.1),
+    rmarkdown (>= 1.10),
+    ggmap (>= 2.6.1),
+    ggplot2 (>= 3.1.0),
+    pingr (>= 1.1.2)
+Depends:
+    R (>= 3.5.0),
+    sf (>= 1.0-2)
+License: GPL-3
+Encoding: UTF-8
+Language: en-US
+URL: https://jeffreyhanson.github.io/aoh/, https://github.com/jeffreyhanson/aoh
+BugReports: https://github.com/jeffreyhanson/aoh/issues
+VignetteBuilder: knitr
+RoxygenNote: 7.1.1
+Collate:
+    'internal.R'
+    'package.R'
+    'zzz.R'
+Roxygen: list(markdown = TRUE)

@@ -1,0 +1,13 @@
+authors:
+  Jeffrey O Hanson:
+    href: http://jeffrey-hanson.com
+
+template:
+  params:
+    bootswatch: flatly
+
+reference:
+  - title: Summary
+    desc: Summary of the package
+    contents:
+      - aoh

@@ -1,0 +1,33 @@
+Meta
+doc
+# C++ compiled files
+*.o
+*.so
+*.dll
+
+# R profile files
+*.Rproj.user
+*.Rhistory
+.Rproj.user
+# log files
+gurobi.log
+test.log
+check.log
+spell.log
+gp.log
+examples.log
+
+# system files
+.directory
+# do not ignore the following files
+!.gitkeep
+!*/
+!inst/doc/*.html
+!inst/doc/*.Rmd
+!inst/doc/.gitkeep
+# devtools files
+doc/*
+Meta/*
+.build.timestamp
+/doc/
+/Meta/
