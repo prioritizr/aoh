@@ -11,4 +11,8 @@
 NULL
 
 #' @import sf
+#' @import terra
 NULL
+
+# ensure package checks pass
+f <- rappdirs::app_dir

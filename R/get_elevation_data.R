@@ -1,0 +1,61 @@
+#' @include internal.R
+NULL
+
+#' Get elevation data
+#'
+#' Import elevation data produced by Amatulli *et al.* (2018).
+#' If data are not available locally, they are downloaded from the EarthEnv
+#' project (<http://www.earthenv.org/>).
+#'
+#' @inheritParams get_habitat_data
+#'
+#' @return A [raster::raster()] object containing the median elevation data.
+#'  data. These data are available at the 1 km \eqn{\times} 1 km resolution.
+#'
+#' @references
+#' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
+#' Jetz W (2018) A suite of global, cross-scale topographic variables for
+#' environmental and biodiversity modeling. Scientific Data, 5:180040.
+#' <https://doi.org/10.1038/sdata.2018.40>
+#'
+#' @examples
+#' \dontrun{
+#' # define persistent storage location
+#' download_dir <- rappdirs::app_dir("aoh")
+#'
+#' # download and import elevation data
+#' elev_data <- get_elevation_data(download_dir)
+#'
+#' # preview data
+#' print(elev_data)
+#'
+#' # plot data
+#' plot(elev_data)
+#' }
+#' @export
+get_elevation_data <- function(x = tempdir(), force = FALSE,
+                               verbose = TRUE) {
+  # assert arguments are valid
+  assertthat::assert_that(
+    assertthat::is.string(x),
+    assertthat::noNA(x),
+    file.exists(x),
+    assertthat::is.flag(force),
+    assertthat::noNA(force),
+    assertthat::is.flag(verbose),
+    assertthat::noNA(verbose)
+  )
+  # define data URL
+  url <- "https://data.earthenv.org/topography/elevation_1KMmd_GMTED.tif"
+  # define download location
+  path <- file.path(x, "elevation_1KMmd_GMTED.tif")
+  # check if need to download data data already available
+  if (!file.exists(path) || isTRUE(force)) {
+    if (!curl::has_internet()) {
+      stop("no internet connection detected.")
+    }
+    curl::curl_download(url, path, quiet = isTRUE(verbose))
+  }
+  # import data
+  terra::rast(path)
+}
