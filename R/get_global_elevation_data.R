@@ -1,13 +1,13 @@
 #' @include internal.R
 NULL
 
-#' Get elevation data
+#' Get global elevation data
 #'
 #' Import elevation data produced by Amatulli *et al.* (2018).
 #' If data are not available locally, they are downloaded from the EarthEnv
 #' project (<http://www.earthenv.org/>).
 #'
-#' @inheritParams get_habitat_data
+#' @inheritParams get_global_habitat_data
 #'
 #' @return A [raster::raster()] object containing the median elevation data.
 #'  data. These data are available at the 1 km \eqn{\times} 1 km resolution.
@@ -33,28 +33,28 @@ NULL
 #' plot(elev_data)
 #' }
 #' @export
-get_elevation_data <- function(x = tempdir(), force = FALSE,
-                               verbose = TRUE) {
+get_global_elevation_data <- function(dir = tempdir(), force = FALSE,
+                                      verbose = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
-    assertthat::is.string(x),
-    assertthat::noNA(x),
-    file.exists(x),
+    assertthat::is.string(dir),
+    assertthat::noNA(dir),
+    file.exists(dir),
     assertthat::is.flag(force),
     assertthat::noNA(force),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
   # define data URL
-  url <- "https://data.earthenv.org/topography/elevation_1KMmd_GMTED.tif"
+  url <- "https://data.earthenv.org/topography/elevation_1KMmd_GMTEDmd.tif"
   # define download location
-  path <- file.path(x, "elevation_1KMmd_GMTED.tif")
+  path <- file.path(dir, "elevation_1KMmd_GMTED.tif")
   # check if need to download data data already available
   if (!file.exists(path) || isTRUE(force)) {
     if (!curl::has_internet()) {
       stop("no internet connection detected.")
     }
-    curl::curl_download(url, path, quiet = isTRUE(verbose))
+    curl::curl_download(url = url, destfile = path, quiet = !isTRUE(verbose))
   }
   # import data
   terra::rast(path)

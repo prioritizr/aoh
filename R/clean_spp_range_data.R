@@ -1,12 +1,11 @@
 #' @include internal.R
 NULL
 
-#' Clean extent of occurrence data
+#' Clean species range data
 #'
-#' Species geographic range data obtained from the International Union for
-#' Conservation of Nature (IUCN) Red List of Threatened Species
-#' (<https://www.iucnredlist.org/>) require several data pre-processing steps
-#' that need to be completed before they can be used for subsequent analysis.
+#' Prepare species geographic range (i.e. extent of occurrence) data obtained
+#' from the International Union for Conservation of Nature (IUCN) Red List of
+#' Threatened Species (<https://www.iucnredlist.org/>) for analysis.
 #'
 #' @param x A [sf::sf()] object containing species geographic range data.
 #'
@@ -90,11 +89,21 @@ NULL
 #'
 #' # clean data
 #' sim_spp_range_data <- clean_eoo_data(sim_spp_range_data)
+#'
+#' # preview data (only if running R in an interactive session)
+#' if (interactive()) {
+#'   print(sim_spp_range_data)
 #' }
-#' @exports
-clean_eoo_data <- function(x, crs = sf::st_crs("ESRI:54017"),
-                                     snap_tolerance = 1,
-                                     geometry_precision = 1500) {
+#'
+#' # plot data (only if running R in an interactive session)
+#' if (interactive()) {
+#'   print(sim_spp_range_data)
+#' }
+#' }
+#' @export
+clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
+                                 snap_tolerance = 1,
+                                 geometry_precision = 1500) {
   # assert arguments are valid
   assertthat::assert_that(
     inherits(x, "sf"),
@@ -123,15 +132,18 @@ clean_eoo_data <- function(x, crs = sf::st_crs("ESRI:54017"),
     x$terrestrial <- "true"
   }
   # step 2: exclude uncertain presence
-  x <- dplyr::filter(x, presence == 1)
+  x <- x[which(x$presence == 1), , drop = FALSE]
   # step 3: exclude non-native origin
-  x <- dplyr::filter(x, x$origin == 1)
+  x <- x[which(x$origin == 1), , drop = FALSE]
   # step 4: exclude uncertain seasonality
-  x <- dplyr::filter(x, seasonal != 5)
+  x <- x[which(x$seasonal != 5), , drop = FALSE]
   # step 5: exclude non-terrestrial distributions
-  x <- dplyr::filter(
-    x, terrestrial == "true", marine == "false", freshwater == "false"
+  idx <- which(
+    x$terrestrial == "true" &
+    x$marine == "false" &
+    x$freshwater == "false"
   )
+  x <- x[idx, , drop = FALSE]
   # step 6: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)

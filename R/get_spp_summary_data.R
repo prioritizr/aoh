@@ -1,0 +1,83 @@
+#' @include internal.R
+NULL
+
+#' Get species summary data
+#'
+#' Import species summary data obtained from the International Union
+#' for Conservation of Nature (IUCN) Red List of Threatened
+#' Species (<https://www.iucnredlist.org/>).
+#'
+#' @inheritParams get_spp_habitat_data
+#'
+#' @details
+#' Data are downloaded from the IUCN Red List using the
+#' [rredlist::rl_search()]. This function is essentially a wrapper
+#' designed to help download data for multiple species and provide
+#' caching for previously downloaded data.
+#'
+#' @inherit get_spp_habitat_data references return
+#'
+#' @examples
+#' \dontrun{
+#' # define species to download data for based on taxon identifiers
+#' spp_ids <- c(12392, 22694927)
+#'
+#' # define persistent storage location
+#' download_dir <- rappdirs::app_dir("aoh")
+#'
+#' # download and import summary data
+#' spp_summary_data <- get_spp_summary_data(spp_ids, download_dir)
+#'
+#' # preview data (only if running R in an interactive session)
+#' if (interactive()) {
+#'   print(spp_summary_data)
+#' }
+#' }
+#' @export
+get_spp_summary_data <- function(x, dir = tempdir(), version = "latest",
+                                 key = NULL, delay = 2, force = FALSE,
+                                 verbose = TRUE) {
+  get_spp_api_data(
+    x = x,
+    api_function = rredlist::rl_get_spp,
+    data_template =  tibble::tibble(
+      taxonid = integer(0),
+      scientific_name = character(0),
+      kingdom = character(0),
+      phylum = character(0),
+      class = character(0),
+      order = character(0),
+      family = character(0),
+      genus = character(0),
+      main_common_name = character(0),
+      authority = character(0),
+      published_year = integer(0),
+      assessment_date = character(0),
+      category = character(0),
+      criteria = character(0),
+      population_trend = character(0),
+      marine_system = logical(0),
+      freshwater_system = logical(0),
+      terrestrial_system = logical(0),
+      assessor = character(0),
+      reviewer = character(0),
+      aoo_km2 = numeric(0),
+      eoo_km2 = numeric(0),
+      elevation_upper = numeric(0),
+      elevation_lower = numeric(0),
+      depth_upper = numeric(0),
+      depth_lower = numeric(0),
+      errata_flag = character(0),
+      errata_reason = character(0),
+      amended_flag = character(0),
+      amended_reason = character(0)
+    ),
+    data_prefix = "summary",
+    dir = dir,
+    version = version,
+    key = key,
+    delay = delay,
+    force = force,
+    verbose = verbose
+  )
+}

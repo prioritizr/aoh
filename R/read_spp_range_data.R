@@ -1,0 +1,61 @@
+#' @include internal.R
+NULL
+
+#' Read species range data
+#'
+#' Import species geographic range (i.e. extent of occurrence) data obtained
+#' from the International Union for Conservation of Nature (IUCN) Red List of
+#' Threatened Species (<https://www.iucnredlist.org/>).
+#'
+#' @param path `character` file path to the data (zip archive) file.
+#'
+#' @details
+#' Data for amphibians, reptiles, and mammals can be obtained directly from
+#' the International Union for Conservation of Nature (IUCN) Red List website
+#' (see https://www.iucnredlist.org/resources/spatial-data-download).
+#' Data for birds can be obtained by requesting data from
+#' [BirdLife International](http://www.birdlife.org/)
+#' (see http://datazone.birdlife.org/species/requestdis).
+#'
+#' @return A [sf::sf()] object containing the dataset.
+#'
+#' @seealso
+#' See [clean_spp_range_data()] to clean data for subsequent analysis.
+#'
+#' @examples
+#' # find file path for simulated data following the IUCN Red List format
+#' path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
+#'
+#' # import data
+#' sim_spp_range_data <- read_eoo_data(path)
+#'
+#' # preview data (only if running R in an interactive session)
+#' if (interactive()) {
+#'   print(sim_spp_range_data)
+#' }
+#'
+#' # plot data (only if running R in an interactive session)
+#' if (interactive()) {
+#'   print(sim_spp_range_data)
+#' }
+#' @export
+read_spp_range_data <- function(path) {
+  # assert arguments are valid
+  assertthat::assert_that(
+    assertthat::is.string(path),
+    assertthat::noNA(path),
+    file.exists(path),
+    endsWith(path, ".zip")
+  )
+  # unzip data to temporary directory
+  temp_dir <- tempfile()
+  dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
+  utils::unzip(path, temp_dir)
+  # find shapefile with data
+  input_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE)
+  if (length(input_path) != 1L) {
+    stop("argument to \"path\" does not contain spatial data")
+  }
+  # import data
+  sf::read_sf(input_path)
+}
