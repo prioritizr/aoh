@@ -320,18 +320,23 @@ create_aoh_data <- function(x,
 
   # Tabular data processing
   ## habitat_data
+  ### convert NA seasonality to "Resident" as default
+  spp_habitat_data$season[is.na(spp_habitat_data$season)] <- "Resident"
+  ### exclude species missing data
+  idx <- which(
+    !is.na(spp_habitat_data$code) & !is.na(spp_habitat_data$suitability)
+  )
+  spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ### exclude non-suitable habitats
   spp_habitat_data$suitability <- tolower(spp_habitat_data$suitability)
   spp_habitat_data <-
     spp_habitat_data[spp_habitat_data$suitability == "suitable", , drop = FALSE]
   ## assign aoh_id column
-  if (is.character(spp_habitat_data$seasonal)) {
-    spp_habitat_data$seasonal <- convert_to_seasonal_id(
-      spp_habitat_data$seasonal
-    )
-  }
+  spp_habitat_data$season <- convert_to_seasonal_id(
+    spp_habitat_data$season
+  )
   spp_habitat_data$aoh_id <- paste0(
-    "AOH_", spp_habitat_data$id_no, "_", spp_habitat_data$seasonal
+    "AOH_", spp_habitat_data$id_no, "_", spp_habitat_data$season
   )
 
   # GIS data processing

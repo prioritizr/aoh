@@ -12,14 +12,7 @@ context("read_spp_range_data()")
 # rappdirs::user_data_dir("iucn-red-list-data")
 
 test_that("simulated data", {
-  testthat::describe("simulated data", {
-    it("imports successfully", {
-      expect_true(TRUE) # TODO
-    })
-    it("follows IUCN data format conventions", {
-      expect_true(TRUE) # TODO
-    })
-  })
+  expect_true(TRUE) # TODO
 })
 
 test_that("amphibian data", {
@@ -31,17 +24,10 @@ test_that("amphibian data", {
     rappdirs::user_data_dir("iucn-red-list-data"),
     "AMPHIBIANS.zip"
   )
-  expect_true(file.exists(f))
   # tests
-  testthat::describe("amphibian data", {
-    it("imports successfully", {
-      expect_is((x <<- read_spp_range_data(f, n = 20)), "sf")
-    })
-    it("follows IUCN data format conventions", {
-      expect_gt(nrow(x), 1)
-      expect_true(sf::st_crs(x) == st_crs(4326))
-    })
-  })
+  expect_is((x <<- read_spp_range_data(f, n = 20)), "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
 })
 
 test_that("reptile data", {
@@ -53,17 +39,9 @@ test_that("reptile data", {
     rappdirs::user_data_dir("iucn-red-list-data"),
     "REPTILES.zip"
   )
-  expect_true(file.exists(f))
-  # tests
-  testthat::describe("reptile data", {
-    it("imports successfully", {
-      expect_is(x <<- read_spp_range_data(f, n = 20), "sf")
-    })
-    it("follows IUCN data format conventions", {
-      expect_gt(nrow(x), 1)
-      expect_true(sf::st_crs(x) == st_crs(4326))
-    })
-  })
+  expect_is(x <<- read_spp_range_data(f, n = 20), "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
 })
 
 test_that("terrestrial mammal data", {
@@ -75,15 +53,8 @@ test_that("terrestrial mammal data", {
     rappdirs::user_data_dir("iucn-red-list-data"),
     "MAMMALS_TERRESTRIAL_ONLY.zip"
   )
-  expect_true(file.exists(f))
   # tests
-  testthat::describe("terrestrial mammal data", {
-    it("imports successfully", {
-      expect_is(x <<- read_spp_range_data(f, n = 20), "sf")
-    })
-    it("follows IUCN data format conventions", {
-      expect_gt(nrow(x), 1)
-      expect_true(sf::st_crs(x) == st_crs(4326))
-    })
-  })
+  expect_is(x <<- read_spp_range_data(f, n = 20), "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
 })

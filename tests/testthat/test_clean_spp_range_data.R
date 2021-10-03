@@ -19,15 +19,13 @@ test_that("IUCN Red List amphibian data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
-  # import data
+  # find data
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "AMPHIBIANS.zip"
   )
-  expect_true(file.exists(f))
   # tests
-  x <- clean_spp_range_data(read_spp_range_data(f, n = 20))
-  expect_is(x, "sf")
+  expect_is(x <<- clean_spp_range_data(read_spp_range_data(f, n = 20)), "sf")
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs(4326))
   expect_equal(anyDuplicated(x$aoh_id), 0L)
@@ -37,14 +35,13 @@ test_that("IUCN Red List reptile data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
-  # import data
+  # find data
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "REPTILES.zip"
   )
   # tests
-  x <- clean_spp_range_data(read_spp_range_data(f, n = 20))
-  expect_is(x, "sf")
+  expect_is(x <<- clean_spp_range_data(read_spp_range_data(f, n = 20)), "sf")
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs(4326))
   expect_equal(anyDuplicated(x$aoh_id), 0L)
@@ -54,14 +51,13 @@ test_that("IUCN Red List terrestrial mammal data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
-  # import data
+  # find data
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "MAMMALS_TERRESTRIAL_ONLY.zip"
   )
   # tests
-  x <- clean_spp_range_data(read_spp_range_data(f, n = 20))
-  expect_is(x, "sf")
+  expect_is(x <<- clean_spp_range_data(read_spp_range_data(f, n = 20)), "sf")
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
   expect_equal(anyDuplicated(x$aoh_id), 0L)

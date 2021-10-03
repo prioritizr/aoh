@@ -53,9 +53,9 @@ NULL
 #' }
 #' @noRd
 get_spp_api_data <- function(x, api_function, data_prefix, data_template,
-                         dir = tempdir(), version = "latest",
-                         key = NULL, delay = 2, force = FALSE,
-                         verbose = TRUE) {
+                             dir = tempdir(), version = "latest",
+                             key = NULL, delay = 2, force = FALSE,
+                             verbose = TRUE) {
   # assert arguments are valid
   # TODO
 
@@ -81,8 +81,34 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
   if (file.exists(file_path) && !isTRUE(force)) {
     ## import cached data if available
     iucn_rl_data <- tibble::as_tibble(
-      data.table::fread(file_path, data.table = FALSE, sep = ",")
+      data.table::fread(
+        file_path, data.table = FALSE, sep = ",", na.strings = ""
+      )
     )
+    assertthat::assert_that(
+      identical(names(iucn_rl_data), c("id_no", names(data_template))),
+      msg = "issue loading cache data"
+    )
+    for (i in names(data_template)) {
+      if (
+        !identical(
+          class(iucn_rl_data[[i]])[[1]],
+          class(data_template[[i]])[[1]]
+        )
+      ) {
+        if (identical(class(data_template[[i]])[[1]], "numeric")) {
+          iucn_rl_data[[i]] <- methods::as(
+            iucn_rl_data[[i]],
+            "double"
+          )
+        } else {
+          iucn_rl_data[[i]] <- methods::as(
+            iucn_rl_data[[i]],
+            class(data_template[[i]])[[1]]
+          )
+        }
+      }
+    }
   } else {
     ## start from
     iucn_rl_data <- data_template
@@ -106,7 +132,7 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
         api_function(id = x, key = key)$result
     })
     ## determine which api calls were successful
-    api_success <- vapply(api_results, length, integer(1)) > 0
+    api_success <- vapply(api_results, inherits, logical(1), "data.frame")
     ## append data to cache
     if (any(api_success)) {
       iucn_rl_data <- dplyr::bind_rows(
@@ -114,25 +140,25 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
         tibble::as_tibble(
           plyr::ldply(which(api_success), function(i) {
             # format data
-            d <- api_results[[i]]$result
+            d <- tibble::as_tibble(api_results[[i]])
             for (j in setdiff(names(data_template), "id_no")) {
               if (j %in% names(d)) {
-                d[[j]] <- as(d[[j]], class(data_template[[j]]))
+                d[[j]] <- methods::as(d[[j]], class(data_template[[j]]))
               } else {
-                d[[j]] <- as(NA, class(data_template[[j]]))
+                d[[j]] <- methods::as(NA, class(data_template[[j]]))
               }
             }
             # assign id_no column with taxon id
-            out$id_no <- api_ids[[i]]
+            d$id_no <- api_ids[[i]]
             # return result
-            out[, names(iucn_rl_data), drop = FALSE]
+            d[, names(iucn_rl_data), drop = FALSE]
           })
         )
       )
     }
     ## save cache if any data available
     if (nrow(iucn_rl_data) > 0) {
-      data.table::fwrite(iucn_rl_data, file_path, sep = ",")
+      data.table::fwrite(iucn_rl_data, file_path, sep = ",", na = "")
     }
     ## throw errors
     if (any(!api_success)) {
@@ -145,7 +171,6 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     }
   }
   # extract data following same order as x
-  assertthat::assert_that(all(x %in% iucn_rl_data$id_no))
   out <- dplyr::left_join(
     tibble::tibble(id_no = x), iucn_rl_data, by = c("id_no")
   )
