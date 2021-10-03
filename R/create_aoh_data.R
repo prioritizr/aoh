@@ -1,4 +1,6 @@
-#' @include internal.R
+#' @include internal.R clean_spp_range_data.R
+#' @include get_global_elevation_data.R get_global_habitat_data.R
+#' @include get_spp_habitat_data.R get_spp_summary_data.R
 NULL
 
 #' Create Area of Habitat data
@@ -98,7 +100,15 @@ NULL
 #'  and processing data?
 #'  Defaults to `TRUE`.
 #'
-#' @return TODO.
+#' @return
+#' A [tibble::tibble()] data frame containing the metadata for the
+#' the Area of Habitat data. This object contains the same columns as the
+#' argument to `x` along with an additional `path` column that contains
+#' the file path for each Area of Habitat (GeoTIFF) raster file.
+#' Since Area of Habitat data cannot be produced for species lacking
+#' habitat preference data, species that do lack such data
+#' (per arguments to `spp_habitat_data` and `habitat_data`)
+#' have missing (`NA`) values for the `path` column.
 #'
 #' @references
 #' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
@@ -123,7 +133,41 @@ NULL
 #' <https://doi.org/10.5281/zenodo.4058819>
 #
 #' @examples
-#' # TODO
+#' \dontrun{
+#' # load built in datasets
+#' data(sim_spp_summary_data, package = "aoh")
+#' data(sim_spp_habitat_data, package = "aoh")
+#'
+#' # find file path for simulated data following the IUCN Red List format
+#' path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
+#'
+#' # import species range data
+#' sim_spp_range_data <- read_spp_range_data(path)
+#'
+#' # specify settings for data processing
+#' output_dir <- tempdir()                  # folder to save AOH data
+#' cache_dir <- rappdirs::user_data_dir()   # persistent storage location
+#' n_threads <- parallel::detectCores() - 1 # recommended for best performance
+#'
+#' # create Area of Habitat data for species
+#' sim_aoh_data <- create_aoh_data(
+#'   x = sim_spp_range_data,
+#'   output_dir = output_dir, ## change this
+#'   spp_summary_data = sim_spp_summary_data,
+#'   spp_habitat_data = sim_spp_habitat_data,
+#'   parallel_n_threads = n_threads,
+#'   cache_dir = cache_dir
+#' )
+#'
+#' # preview result
+#' print(sim_aoh_data)
+#'
+#' # import AOH data
+#' aoh_data <- lapply(sim_aoh_data, terra::rast)
+#'
+#' # compare range data (EOO) and AOH data for first species
+#' #TODO
+#' }
 #' @export
 create_aoh_data <- function(x,
                             output_dir,
@@ -200,12 +244,32 @@ create_aoh_data <- function(x,
     assertthat::has_name(spp_habitat_data, "suitability"),
     assertthat::has_name(spp_habitat_data, "season")
   )
+  assertthat::assert_that(
+    any(spp_habitat_data$code %in% names(habitat_data)),
+    msg = paste(
+      "argument to \"spp_habitat_data\" does not contain any codes",
+      "present in the names of \"habitat_data\""
+    )
+  )
+  unique_codes <- sort(unique(spp_habitat_data$code))
+  missing_codes <- !unique_codes %in% names(habitat_data)
+  if (any(missing_codes)) {
+    warning(
+      paste(
+        "argument to \"habitat_data\" is missing layers for the ",
+        sum(missing_codes),
+        "habitat classification codes:",
+        paste(paste0("\"", unique_codes[missing_codes], "\""), collapse = ", ")
+      ),
+      immediate. = TRUE
+    )
+  }
   if (any(!x$id_no %in% spp_habitat_data$id_no)) {
     warning(
       paste(
         "argument to \"x\" contains",
         sum(!x$id_no %in% spp_habitat_data$id_no),
-        "species lacking habitat data"
+        "species lacking habitat classification data"
       ),
       immediate. = TRUE
     )
@@ -226,35 +290,54 @@ create_aoh_data <- function(x,
       "argument to \"parallel_cluster\" is not  NULL, \"FORK\", or \"PSOCK\""
     )
   )
-  ## clean species range data
-  x <- clean_spp_range_data(x)
-  ## create template raster
+  ## create template raster and clean species data
   if (is.null(template_data)) {
-    # TODO
+    ## clean species range data to create raster
+    x <- clean_spp_range_data(x, crs = sf::st_crs("ESRI:54017"))
+    assertthat::assert_that(
+      nrow(x) > 0,
+      msg = "argument to x does not contain any terrestrial species"
+    )
+    ## create raster
+    template_data <- create_blank_rast(
+      xres = 1000,
+      yres = 1000,
+      crs = sf::st_crs(x),
+      ext = sf::st_bbox(x)
+    )
+  } else {
+    ## clean species range data using template data coordinate system
+    x <- clean_spp_range_data(x, crs = sf::st_crs(template_data))
   }
   ## additional data validation
   assertthat::assert_that(
     all(x$id_no %in% spp_summary_data$id_no)
   )
+  assertthat::assert_that(
+    nrow(x) > 0,
+    msg = "argument to x does not contain any terrestrial species"
+  )
 
   # Tabular data processing
   ## habitat_data
   ### exclude non-suitable habitats
-  habitat_data$suitability <- tolower(habitat_data$suitability)
-  habitat_data <-
-    habitat_data[habitat_data$suitability == "suitable", , drop = FALSE]
+  spp_habitat_data$suitability <- tolower(spp_habitat_data$suitability)
+  spp_habitat_data <-
+    spp_habitat_data[spp_habitat_data$suitability == "suitable", , drop = FALSE]
   ## assign aoh_id column
-  if (is.character(habitat_data$seasonal)) {
-    habitat_data$seasonal <- convert_to_seasonal_id(habitat_data$seasonal)
+  if (is.character(spp_habitat_data$seasonal)) {
+    spp_habitat_data$seasonal <- convert_to_seasonal_id(
+      spp_habitat_data$seasonal
+    )
   }
-  habitat_data$aoh_id <- paste0(
-    "AOH_", habitat_data$id_no, "_", habitat_data$seasonal
+  spp_habitat_data$aoh_id <- paste0(
+    "AOH_", spp_habitat_data$id_no, "_", spp_habitat_data$seasonal
   )
 
   # GIS data processing
   ## prepare habitat data
   habitat_data <- terra::app(habitat_data, function(x) {
-    x[which.lyr(is.na(x))] <- 0
+    x[terra::which.lyr(is.na(x))] <- 0
     x
   })
   habitat_data <- terra::project(
@@ -274,11 +357,15 @@ create_aoh_data <- function(x,
   ## prepare for parallel processing if needed
   if (identical(parallel_cluster, "FORK")) {
     ### FORK cluster
-    cl <- parallel::makeForkCluster(n_threads)
+    cl <- parallel::makeForkCluster(parallel_n_threads)
+    x_path <- NULL
+    elevation_path <- NULL
+    habitat_path <- NULL
+    template_path <- NULL
     doParallel::registerDoParallel(cl)
   } else {
     ### PSOCK cluster
-    cl <- parallel::makePSOCKCluster(n_threads)
+    cl <- parallel::makePSOCKCluster(parallel_n_threads)
     parallel::clusterExport(cl, c(
       "output_dir", "spp_summary_data", "spp_habitat_data",
       "elevation_path", "habitat_path", "template_path",
@@ -288,21 +375,22 @@ create_aoh_data <- function(x,
       library(terra)
       library(sf)
       x <- sf::read_sf(x_path)
-      elevation_path <- terra::rast(elevation_data)
+      elevation_path <- terra::rast(elevation_path)
       habitat_data <- terra::rast(habitat_path)
       template_data <- terra::rast(template_path)
     })
     doParallel::registerDoParallel(cl)
   }
   ## main processing
+  idx <- which(x$aoh_id %in% spp_habitat_data$aoh_id)
   result <- plyr::ldply(
-    .data = seq_len(nrow(x)),
+    .data = idx,
     .progress = ifelse(
       isTRUE(verbose) && isTRUE(n_threads == 1), "text", "none"
     ),
     .parallel = isTRUE(n_threads > 1),
     .fun = function(i) {
-      # initialization
+      ### initialization
       curr_spp_id <- x$aoh_id[i]
       curr_spp_id_no <- x$id_no[i]
       curr_spp_habitat_row <- which(spp_habitat_data$aoh_id == curr_spp_id)[1]
@@ -312,11 +400,7 @@ create_aoh_data <- function(x,
         spp_summary_data$elevation_lower[curr_spp_summary_row]
       curr_spp_upper_elevation <-
         spp_summary_data$elevation_upper[curr_spp_summary_row]
-      # prepare file paths
-      curr_tmp_dir <- tempfile()
-      dir.create(curr_tmp_dir, showWarnings = FALSE, recursive = TRUE)
-      curr_tmp_path <- file.path(curr_tmp_dir, "aoh.tif")
-      # generate bounding box for species range
+      ### generate bounding box for species range
       curr_spp_extent <- sf::st_bbox(x[i, , drop = FALSE])
       curr_spp_extent <- terra::ext(
         xmin = curr_spp_extent$xmin,
@@ -324,78 +408,61 @@ create_aoh_data <- function(x,
         ymin = curr_spp_extent$ymin,
         ymax = curr_spp_extent$ymax,
       )
-      # calculate habitat availability within bounding box of range
-      if (length(curr_spp_habitat_codes) == 0) {
-        ## no suitable habitat with just create empty raster
-        curr_spp_habitat_data <- terra::crop(
-          template_data,
-          curr_spp_extent
-        ) * 0
-      } else {
-        ## calculate total sum of habitat based on codes
-        curr_spp_habitat_data <- sum(
-          terra::crop(
-            habitat_data[[curr_spp_habitat_codes]],
-            terra::ext(curr_spp_data)
-          )
+      ### calculate total sum of habitat based on codes
+      curr_spp_habitat_data <- sum(
+        terra::crop(
+          habitat_data[[curr_spp_habitat_codes]],
+          terra::ext(curr_spp_data)
         )
-        ## apply altitudinal limits (if needed)
-        if (is.finite(curr_spp_lower_elevation) ||
-            is.finite(curr_spp_upper_elevation)) {
-          ## if lower or upper limits not available, set as -Inf/Inf
-          if (!is.finite(curr_spp_lower_elevation)) {
-            curr_spp_lower_elevation <- -Inf
-          }
-          if (!is.finite(curr_spp_upper_elevation)) {
-            curr_spp_upper_elevation <- Inf
-          }
-          ## create altitudinal mask
-          curr_elev_mask <- terra::crop(
-            x = elevation_data,
-            y = terra::ext(curr_spp_data)
-          )
-          curr_elev_mask <- terra::clamp(
-            curr_elev_mask,
-            lower = curr_spp_lower_elevation,
-            upper = curr_spp_upper_elevation,
-            values = FALSE
-          )
-          ## apply altitudinal mask
-          curr_spp_habitat_data <- terra::mask(
-            x = curr_spp_habitat_data,
-            mask = curr_elev_mask,
-            maskvalues = NA,
-            updatevalue = NA
-          )
+      )
+      ### apply altitudinal limits (if needed)
+      if (is.finite(curr_spp_lower_elevation) ||
+          is.finite(curr_spp_upper_elevation)) {
+        #### if lower or upper limits not available, set as -Inf/Inf
+        if (!is.finite(curr_spp_lower_elevation)) {
+          curr_spp_lower_elevation <- -Inf
         }
+        if (!is.finite(curr_spp_upper_elevation)) {
+          curr_spp_upper_elevation <- Inf
+        }
+        #### create altitudinal mask
+        curr_elev_mask <- terra::crop(
+          x = elevation_data,
+          y = terra::ext(curr_spp_data)
+        )
+        curr_elev_mask <- terra::clamp(
+          curr_elev_mask,
+          lower = curr_spp_lower_elevation,
+          upper = curr_spp_upper_elevation,
+          values = FALSE
+        )
+        ## apply altitudinal mask
+        curr_spp_habitat_data <- terra::mask(
+          x = curr_spp_habitat_data,
+          mask = curr_elev_mask,
+          maskvalues = NA,
+          updatevalue = NA
+        )
       }
-      # save raster to disk
+      ### apply mask
+      curr_spp_habitat_data <- terra::mask(
+        x = curr_spp_habitat_data,
+        mask = sf::vect(x[i, ]),
+        inverse = TRUE,
+        updatevalue = 0)
+      ### save data
+      aoh_path <- file.path(output_dir, paste0(curr_spp_id, ".tif"))
       terra::writeRaster(
         x = curr_spp_habitat_data,
-        filename = curr_tmp_path,
+        filename = aoh_path,
         overwrite = TRUE,
         gdal = "COMPRESS=DEFLATE",
         NAflag = -9999
       )
-      # apply mask to habitat raster based on range data
-      sf::gdal_utils(
-        util = "rasterize",
-        source = gpkg_path,
-        destination = curr_tmp_path,
-        quiet = TRUE,
-        options = c(
-          "-burn", "-9999",
-          "-i",
-          "-where" = paste0("id='", curr_spp_id, "'")
-        )
-      )
-      # copy result to output folder
-      aoh_path <- file.path(output_dir, curr_spp_id)
-      file.copy(curr_tmp_dir, aoh_path)
-      # clean up
-      unlink(curr_tmp_dir, recursive = TRUE, force = TRUE)
+      ### clean up
       rm(curr_spp_habitat_data, curr_elev_mask)
-      # return results
+      gc()
+      ### return
       aoh_path
   })
   ## post-processing
@@ -404,6 +471,6 @@ create_aoh_data <- function(x,
 
   # return table with metadata
   out <- sf::st_drop_geometry(x)
-  out$path <- vapply(result, `[[`, character(1), 1)
+  out$path[idx] <- vapply(result, `[[`, character(1), 1)
   out
 }

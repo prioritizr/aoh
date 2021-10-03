@@ -1,4 +1,4 @@
-#' @include internal.R
+#' @include internal.R geoprocessing.R
 NULL
 
 #' Read species range data
@@ -7,7 +7,10 @@ NULL
 #' from the International Union for Conservation of Nature (IUCN) Red List of
 #' Threatened Species (<https://www.iucnredlist.org/>).
 #'
-#' @param path `character` file path to the data (zip archive) file.
+#' @param path `character` File path to the data (zip archive) file.
+#'
+#' @param n `numeric` Number of features in the dataset to import.
+#'  Defaults to `NULL` such that all available data is imported.
 #'
 #' @details
 #' Data for amphibians, reptiles, and mammals can be obtained directly from
@@ -36,7 +39,7 @@ NULL
 #'   print(sim_spp_range_data)
 #' }
 #' @export
-read_spp_range_data <- function(path) {
+read_spp_range_data <- function(path, n = NULL) {
   # assert arguments are valid
   assertthat::assert_that(
     assertthat::is.string(path),
@@ -54,5 +57,5 @@ read_spp_range_data <- function(path) {
     stop("argument to \"path\" does not contain spatial data")
   }
   # import data
-  sf::read_sf(input_path)
+  read_sf_n(input_path, n = n)
 }

@@ -59,12 +59,6 @@ where \code{terrestrial == "true"}, \code{freshwater == "false"}, and
 
 \item Fix any potential geometry issues (using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
-\item Snap geometries to spatial grid (using \code{\link[lwgeom:st_snap_to_grid]{lwgeom::st_snap_to_grid()}}).
-Note that this step is only performed if the argument to \code{snap_tolerance}
-is greater than zero.
-
-\item Fix any potential geometry issues (using \code{\link[sf:valid]{sf::st_make_valid()}}).
-
 \item Wrap geometries to date line (using \code{\link[sf:st_transform]{sf::st_wrap_dateline()}}).
 
 \item Fix any potential geometry issues (i.e. using \code{\link[sf:valid]{sf::st_make_valid()}}).
@@ -73,6 +67,12 @@ is greater than zero.
 (i.e. using \code{\link[sf:st_transform]{sf::st_transform()}}).
 
 \item Fix any potential geometry issues (i.e. using \code{\link[sf:valid]{sf::st_make_valid()}}).
+
+\item Snap geometries to spatial grid (using \code{\link[lwgeom:st_snap_to_grid]{lwgeom::st_snap_to_grid()}}).
+Note that this step is only performed if the argument to \code{snap_tolerance}
+is greater than zero.
+
+\item Fix any potential geometry issues (using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
 \item Data are spatially dissolved so that each taxon is represented by
 a separate geometry.

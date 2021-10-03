@@ -24,8 +24,9 @@ test_that("IUCN Red List amphibian data", {
     rappdirs::user_data_dir("iucn-red-list-data"),
     "AMPHIBIANS.zip"
   )
+  expect_true(file.exists(f))
   # tests
-  x <- clean_spp_range_data(read_spp_range_data(f))
+  x <- clean_spp_range_data(read_spp_range_data(f, n = 20))
   expect_is(x, "sf")
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs(4326))
@@ -42,7 +43,7 @@ test_that("IUCN Red List reptile data", {
     "REPTILES.zip"
   )
   # tests
-  x <- clean_spp_range_data(read_spp_range_data(f))
+  x <- clean_spp_range_data(read_spp_range_data(f, n = 20))
   expect_is(x, "sf")
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs(4326))
@@ -59,7 +60,7 @@ test_that("IUCN Red List terrestrial mammal data", {
     "MAMMALS_TERRESTRIAL_ONLY.zip"
   )
   # tests
-  x <- clean_spp_range_data(read_spp_range_data(f))
+  x <- clean_spp_range_data(read_spp_range_data(f, n = 20))
   expect_is(x, "sf")
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))

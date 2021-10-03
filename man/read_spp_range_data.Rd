@@ -4,10 +4,13 @@
 \alias{read_spp_range_data}
 \title{Read species range data}
 \usage{
-read_spp_range_data(path)
+read_spp_range_data(path, n = NULL)
 }
 \arguments{
-\item{path}{\code{character} file path to the data (zip archive) file.}
+\item{path}{\code{character} File path to the data (zip archive) file.}
+
+\item{n}{\code{numeric} Number of features in the dataset to import.
+Defaults to \code{NULL} such that all available data is imported.}
 }
 \value{
 A \code{\link[sf:sf]{sf::sf()}} object containing the dataset.
