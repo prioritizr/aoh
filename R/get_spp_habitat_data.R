@@ -64,7 +64,12 @@ NULL
 #' spp_ids <- c(12392, 22694927)
 #'
 #' # define persistent storage location
-#' download_dir <- rappdirs::app_dir("aoh")
+#' download_dir <- rappdirs::user_data_dir("aoh")
+#'
+#' # create download directory if needed
+#' if (!file.exists(download_dir)) {
+#'   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
+#' }
 #'
 #' # download and import habitat preference data
 #' spp_habitat_data <- get_spp_habitat_data(spp_ids, download_dir)

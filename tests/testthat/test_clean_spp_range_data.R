@@ -1,4 +1,4 @@
-context("read_spp_range_data()")
+context("clean_spp_range_data()")
 
 # NOTICE
 #
@@ -12,69 +12,56 @@ context("read_spp_range_data()")
 # rappdirs::user_data_dir("iucn-red-list-data")
 
 test_that("simulated data", {
-  testthat::describe("simulated data", {
-    it("imports successfully", {
-      expect_true(TRUE) # TODO
-    })
-    it("follows IUCN data format conventions", {
-      expect_true(TRUE) # TODO
-    })
-  })
+  expect_true(TRUE) # TODO
 })
 
 test_that("IUCN Red List amphibian data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
-  # specify file path
+  # import data
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "AMPHIBIANS.zip"
   )
   # tests
-  it("imports successfully", {
-    expect_is(x <<- read_spp_range_data(f), "sf")
-  })
-  it("follows IUCN data format conventions", {
-    expect_gt(nrow(x), 1)
-    expect_true(sf::st_crs(x) == st_crs(4326))
-  })
+  x <- clean_spp_range_data(read_spp_range_data(f))
+  expect_is(x, "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_equal(anyDuplicated(x$aoh_id), 0L)
 })
 
 test_that("IUCN Red List reptile data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
-  # specify file path
+  # import data
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "REPTILES.zip"
   )
   # tests
-  it("imports successfully", {
-    expect_is(x <<- read_spp_range_data(f), "sf")
-  })
-  it("follows IUCN data format conventions", {
-    expect_gt(nrow(x), 1)
-    expect_true(sf::st_crs(x) == st_crs(4326))
-  })
+  x <- clean_spp_range_data(read_spp_range_data(f))
+  expect_is(x, "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_equal(anyDuplicated(x$aoh_id), 0L)
 })
 
 test_that("IUCN Red List terrestrial mammal data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
-  # specify file path
+  # import data
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "MAMMALS_TERRESTRIAL_ONLY.zip"
   )
   # tests
-  it("imports successfully", {
-    expect_is(x <<- read_spp_range_data(f), "sf")
-  })
-  it("follows IUCN data format conventions", {
-    expect_gt(nrow(x), 1)
-    expect_true(sf::st_crs(x) == st_crs(4326))
-  })
+  x <- clean_spp_range_data(read_spp_range_data(f))
+  expect_is(x, "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
+  expect_equal(anyDuplicated(x$aoh_id), 0L)
 })

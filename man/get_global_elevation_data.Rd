@@ -32,7 +32,12 @@ project (\url{http://www.earthenv.org/}).
 \examples{
 \dontrun{
 # define persistent storage location
-download_dir <- rappdirs::app_dir("aoh")
+download_dir <- rappdirs::user_data_dir("aoh")
+
+# create download directory if needed
+if (!file.exists(download_dir)) {
+  dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
+}
 
 # download and import elevation data
 elev_data <- get_elevation_data(download_dir)

@@ -19,15 +19,12 @@ NULL
 #'
 #' @return A [sf::sf()] object containing the dataset.
 #'
-#' @seealso
-#' See [clean_spp_range_data()] to clean data for subsequent analysis.
-#'
 #' @examples
 #' # find file path for simulated data following the IUCN Red List format
 #' path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
 #'
 #' # import data
-#' sim_spp_range_data <- read_eoo_data(path)
+#' sim_spp_range_data <- read_spp_range_data(path)
 #'
 #' # preview data (only if running R in an interactive session)
 #' if (interactive()) {
@@ -44,15 +41,15 @@ read_spp_range_data <- function(path) {
   assertthat::assert_that(
     assertthat::is.string(path),
     assertthat::noNA(path),
-    file.exists(path),
-    endsWith(path, ".zip")
+    assertthat::is.readable(path),
+    assertthat::has_extension(path, "zip")
   )
   # unzip data to temporary directory
   temp_dir <- tempfile()
   dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
-  utils::unzip(path, temp_dir)
+  utils::unzip(path, exdir = temp_dir)
   # find shapefile with data
-  input_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE)
+  input_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE, recursive = TRUE)
   if (length(input_path) != 1L) {
     stop("argument to \"path\" does not contain spatial data")
   }

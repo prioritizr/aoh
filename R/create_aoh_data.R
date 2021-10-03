@@ -11,8 +11,6 @@ NULL
 #'
 #' @param x [sf::sf()] Spatial data delineating species geographic ranges
 #'   obtained from the IUCN Red List (<https://www.iucnredlist.org/>).
-#'   **Note that it is strongly recommended to clean these data before
-#'   using them with this function (see [clean_spp_range_data()]).**
 #'
 #' @param output_dir `character` folder path to save raster files
 #'   (GeoTIFF format) containing the Area of Habitat data.
@@ -145,44 +143,98 @@ create_aoh_data <- function(x,
   # assert arguments are valid
   ## initial validation
   assertthat::assert_that(
-    #TODO
+    inherits(x, "sf"),
+    assertthat::is.writeable(output_dir),
+    assertthat::is.writeable(cache_dir),
+    assertthat::is.count(parallel_n_threads),
+    assertthat::noNA(parallel_n_threads),
+    assertthat::is.flag(verbose),
+    assertthat::noNA(force),
+    assertthat::is.flag(force),
+    assertthat::noNA(verbose)
   )
-  ## get data as needed
+  ## elevation data
   if (is.null(elevation_data)) {
     elevation_data <- get_global_elevation_data(
       dir = cache_dir, force = force, verbose = verbose
     )
   }
+  assertthat::assert_that(
+    inherits(elevation_data, "SpatRaster")
+  )
+  ## habitat_data
   if (is.null(habitat_data)) {
     habitat_data <- get_global_habitat_data(
       dir = cache_dir, version = habitat_version, force = force,
       verbose = verbose
     )
   }
+  assertthat::assert_that(
+    inherits(habitat_data, "SpatRaster")
+  )
+  ## spp_summary_data
   if (is.null(spp_summary_data)) {
     spp_habitat_data <- get_spp_habitat_data(
       x$id_no, dir = cache_dir, version = iucn_version, key = key,
       force = force, verbose = verbose
     )
   }
-  if (is.null(spp_summary_data)) {
+  assertthat::assert_that(
+    inherits(spp_summary_data, "data.frame"),
+    assertthat::has_name(spp_summary_data, "id_no"),
+    assertthat::has_name(spp_summary_data, "elevation_upper"),
+    assertthat::has_name(spp_summary_data, "elevation_lower"),
+  )
+  ## spp_habitat_data
+  if (is.null(spp_habitat_data)) {
     spp_habitat_data <- get_spp_habitat_data(
       x$id_no, dir = cache_dir, version = iucn_version, key = key,
       force = force, verbose = verbose
     )
   }
-  if (is.null(template_data)) {
-    # TODO
+  assertthat::assert_that(
+    inherits(spp_habitat_data, "data.frame"),
+    assertthat::has_name(spp_habitat_data, "id_no"),
+    assertthat::has_name(spp_habitat_data, "code"),
+    assertthat::has_name(spp_habitat_data, "habitat"),
+    assertthat::has_name(spp_habitat_data, "suitability"),
+    assertthat::has_name(spp_habitat_data, "season")
+  )
+  if (any(!x$id_no %in% spp_habitat_data$id_no)) {
+    warning(
+      paste(
+        "argument to \"x\" contains",
+        sum(!x$id_no %in% spp_habitat_data$id_no),
+        "species lacking habitat data"
+      ),
+      immediate. = TRUE
+    )
   }
+  ## parallel cluster
   if (is.null(parallel_cluster)) {
     parallel_cluster <- ifelse(
       identical(.Platform$OS.type, "unix"), "FORK", "PSOCK"
     )
   }
-
+  assertthat::assert_that(
+    assertthat::is.string(parallel_cluster),
+    assertthat::noNA(parallel_cluster)
+  )
+  assertthat::assert_that(
+    identical(parallel_cluster, "FORK") || identical(parallel_cluster, "PSOCK"),
+    msg = paste(
+      "argument to \"parallel_cluster\" is not  NULL, \"FORK\", or \"PSOCK\""
+    )
+  )
+  ## clean species range data
+  x <- clean_spp_range_data(x)
+  ## create template raster
+  if (is.null(template_data)) {
+    # TODO
+  }
   ## additional data validation
   assertthat::assert_that(
-
+    all(x$id_no %in% spp_summary_data$id_no)
   )
 
   # Tabular data processing
@@ -191,19 +243,32 @@ create_aoh_data <- function(x,
   habitat_data$suitability <- tolower(habitat_data$suitability)
   habitat_data <-
     habitat_data[habitat_data$suitability == "suitable", , drop = FALSE]
+  ## assign aoh_id column
+  if (is.character(habitat_data$seasonal)) {
+    habitat_data$seasonal <- convert_to_seasonal_id(habitat_data$seasonal)
+  }
+  habitat_data$aoh_id <- paste0(
+    "AOH_", habitat_data$id_no, "_", habitat_data$seasonal
+  )
 
   # GIS data processing
   ## prepare habitat data
-
+  habitat_data <- terra::app(habitat_data, function(x) {
+    x[which.lyr(is.na(x))] <- 0
+    x
+  })
+  habitat_data <- terra::project(
+    habitat_data,
+    template_data,
+    method = "bilinear"
+  )
   ## prepare elevation data
-
-  ## prepare species data
-
-  # ID processing
-  ## assign unique identifiers for each different seasonal distribution
-  ## associated with each taxon ID
-
-
+  elevation_data[terra::which.lyr(is.na(elevation_data))] <- 0
+  elevation_data <- terra::project(
+    elevation_data,
+    template_data,
+    method = "bilinear"
+  )
 
   # AOH processing
   ## prepare for parallel processing if needed
@@ -238,12 +303,11 @@ create_aoh_data <- function(x,
     .parallel = isTRUE(n_threads > 1),
     .fun = function(i) {
       # initialization
-      curr_spp_id <- x$id[i]
+      curr_spp_id <- x$aoh_id[i]
       curr_spp_id_no <- x$id_no[i]
-      curr_spp_habitat_row <- which(spp_habitat_data$id == curr_spp_id)[1]
-      curr_spp_summary_row <- which(spp_summary_data$id == curr_spp_id_no)[1]
-      curr_spp_habitat_codes <-
-        spp_habitat_data$code[curr_spp_habitat_row]
+      curr_spp_habitat_row <- which(spp_habitat_data$aoh_id == curr_spp_id)[1]
+      curr_spp_summary_row <- which(spp_summary_data$id_no == curr_spp_id_no)[1]
+      curr_spp_habitat_codes <- spp_habitat_data$code[curr_spp_habitat_row]
       curr_spp_lower_elevation <-
         spp_summary_data$elevation_lower[curr_spp_summary_row]
       curr_spp_upper_elevation <-

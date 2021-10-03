@@ -46,12 +46,6 @@ NULL
 #'
 #' \item Fix any potential geometry issues (using [sf::st_make_valid()]).
 #'
-#' \item Snap geometries to spatial grid (using [lwgeom::st_snap_to_grid()]).
-#'   Note that this step is only performed if the argument to `snap_tolerance`
-#'   is greater than zero.
-#'
-#' \item Fix any potential geometry issues (using [sf::st_make_valid()]).
-#'
 #' \item Wrap geometries to date line (using [sf::st_wrap_dateline()]).
 #'
 #' \item Fix any potential geometry issues (i.e. using [sf::st_make_valid()]).
@@ -60,6 +54,12 @@ NULL
 #'    (i.e. using [sf::st_transform()]).
 #'
 #' \item Fix any potential geometry issues (i.e. using [sf::st_make_valid()]).
+#'
+#' \item Snap geometries to spatial grid (using [lwgeom::st_snap_to_grid()]).
+#'   Note that this step is only performed if the argument to `snap_tolerance`
+#'   is greater than zero.
+#'
+#' \item Fix any potential geometry issues (using [sf::st_make_valid()]).
 #'
 #' \item Data are spatially dissolved so that each taxon is represented by
 #'   a separate geometry.
@@ -85,10 +85,10 @@ NULL
 #' path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
 #'
 #' # import data
-#' sim_spp_range_data <- read_eoo_data(path)
+#' sim_spp_range_data <- read_spp_range_data(path)
 #'
 #' # clean data
-#' sim_spp_range_data <- clean_eoo_data(sim_spp_range_data)
+#' sim_spp_range_data <- clean_spp_range_data(sim_spp_range_data)
 #'
 #' # preview data (only if running R in an interactive session)
 #' if (interactive()) {
@@ -105,22 +105,42 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
                                  snap_tolerance = 1,
                                  geometry_precision = 1500) {
   # assert arguments are valid
-  assertthat::assert_that(
-    inherits(x, "sf"),
-    has_valid_names(x),
-    nrow(x) > 0,
-    inherits(x, c("crs", "numeric", "character"))
-  )
   if (!inherits(x, "crs")) {
     crs <- sf::st_crs(crs)
   }
+  assertthat::assert_that(
+    inherits(x, "sf"),
+    nrow(x) > 0,
+    has_iucn_format_column_names(x),
+    inherits(crs, "crs")
+  )
+  assertthat::assert_that(
+    is.numeric(x$id_no),
+    is.numeric(x$presence),
+    is.numeric(x$origin),
+    is.numeric(x$seasonal),
+    is.character(x$freshwater)
+  )
+  assertthat::assert_that(
+    all(x$freshwater[!is.na(x$freshwater)] %in% c("true", "false")),
+    msg = "freshwater column should contain \"true\" or \"false\" values"
+  )
+  assertthat::assert_that(
+    all(x$marine[!is.na(x$freshwater)] %in% c("true", "false")),
+    msg = "marine column should contain \"true\" or \"false\" values"
+  )
+  assertthat::assert_that(
+    all(x$terrestial[!is.na(x$freshwater)] %in% c("true", "false")),
+    msg = "terrestial column should contain \"true\" or \"false\" values"
+  )
+
   # step 1: format column names
-  names(x)[-ncol(x)] <- tolower(names(x)[-ncol(x)])
+  x <- dplyr::rename_all(x, tolower)
   if ("terrestial" %in% names(x)) {
-    x <- dplyr::rename(terrestrial = "terrestial")
+    x <- dplyr::rename(x, terrestrial = terrestial)
   }
   if ("order_" %in% names(x)) {
-    x <- dplyr::rename(order = "order_")
+    x <- dplyr::rename(x, order = order_)
   }
   if (!"freshwater" %in% names(x)) {
     x$freshwater <- "false"
@@ -147,43 +167,47 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   # step 6: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
-  x <- dplyr::filter(!sf::st_is_empty(x))
+  x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  # step 7: snap geometries to grid
-  if (snap_tolerance > 0) {
-    x <- sf::st_set_precision(x, geometry_precision) %>%
-    x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
-  }
+  # step 7: wrap geometries to dateline
+  x <- sf::st_set_precision(x, geometry_precision)
+  x <- suppressWarnings(sf::st_wrap_dateline(x,
+    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
   # step 8: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
-  x <- dplyr::filter(!sf::st_is_empty(x))
+  x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  # step 9: wrap geometries to dateline
-  x <- sf::st_set_precision(x, geometry_precision) %>%
-  x <- suppressWarnings(sf::st_wrap_dateline(x,
-    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
+  # step 9: reproject data
+  x <- sf::st_set_precision(x, geometry_precision)
+  x <- sf::st_transform(x, crs)
   # step 10: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
-  x <- dplyr::filter(!sf::st_is_empty(x))
+  x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  # step 11: reproject data
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_transform(x, crs)
+  # step 11: snap geometries to grid
+  if (snap_tolerance > 0) {
+    x <- sf::st_set_precision(x, geometry_precision)
+    x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
+  }
   # step 12: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
-  x <- dplyr::filter(!sf::st_is_empty(x))
+  x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   # step 13: dissolve geometries by species, subspecies, seasonal
+  ## create id
+  if (is.character(x$seasonal)) {
+    x$seasonal <- convert_to_seasonal_id(x$seasonal)
+  }
+  x$aoh_id <- withr::with_options(
+    list(scipen = 1000),
+    paste0("AOH_", x$id_no, "_", x$seasonal)
+  )
+  ## geoprocessing
   x <-
     x %>%
-    dplyr::mutate(
-      aoh_id = as.numeric(factor(paste(
-        binomial, subspecies, kingdom, phylum, class, order, genus, seasonal
-      )))
-    ) %>%
     dplyr::group_by(aoh_id) %>%
     dplyr::summarize(
       id_no = dplyr::first(id_no),
@@ -195,13 +219,13 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
       phylum = dplyr::first(phylum),
       class = dplyr::first(class),
       order = dplyr::first(order),
-      genus = dplyr::first(id_no)
+      genus = dplyr::first(genus)
     ) %>%
     dplyr::ungroup()
   # step 14: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
-  x <- dplyr::filter(!sf::st_is_empty(x))
+  x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   # return result
   x

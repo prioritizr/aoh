@@ -90,10 +90,10 @@ IUCN SSC Red List Technical Working Group (2021).
 path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
 
 # import data
-sim_spp_range_data <- read_eoo_data(path)
+sim_spp_range_data <- read_spp_range_data(path)
 
 # clean data
-sim_spp_range_data <- clean_eoo_data(sim_spp_range_data)
+sim_spp_range_data <- clean_spp_range_data(sim_spp_range_data)
 
 # preview data (only if running R in an interactive session)
 if (interactive()) {

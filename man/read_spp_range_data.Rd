@@ -30,7 +30,7 @@ Data for birds can be obtained by requesting data from
 path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
 
 # import data
-sim_spp_range_data <- read_eoo_data(path)
+sim_spp_range_data <- read_spp_range_data(path)
 
 # preview data (only if running R in an interactive session)
 if (interactive()) {
@@ -41,7 +41,4 @@ if (interactive()) {
 if (interactive()) {
   print(sim_spp_range_data)
 }
-}
-\seealso{
-See \code{\link[=clean_spp_range_data]{clean_spp_range_data()}} to clean data for subsequent analysis.
 }

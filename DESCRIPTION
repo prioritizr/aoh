@@ -18,6 +18,7 @@ Imports:
     sp,
     assertthat (>= 0.2.0),
     progress (>= 1.2.0),
+    dplyr (>= 1.0.7),
     curl (>= 3.2),
     lwgeom (>= 0.2-1),
     tibble (>= 2.1.3),
@@ -34,7 +35,8 @@ Suggests:
     rmarkdown (>= 1.10),
     ggmap (>= 2.6.1),
     ggplot2 (>= 3.1.0),
-    pingr (>= 1.1.2)
+    pingr (>= 1.1.2),
+    piggyback (>= 0.1.1)
 Depends:
     R (>= 3.5.0),
     sf (>= 1.0-2),
@@ -45,9 +47,10 @@ Language: en-US
 URL: https://jeffreyhanson.github.io/aoh/, https://github.com/jeffreyhanson/aoh
 BugReports: https://github.com/jeffreyhanson/aoh/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate:
     'internal.R'
+    'assertions.R'
     'clean_spp_range_data.R'
     'create_aoh_data.R'
     'get_global_elevation_data.R'
