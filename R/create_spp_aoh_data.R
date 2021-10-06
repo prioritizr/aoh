@@ -116,7 +116,7 @@ NULL
 #' @param use_ee `logical` Should data processing be completed using
 #'  Google Earth Engine (via the \pkg{rgee}) package?
 #'  Defaults to `FALSE`.
-
+#'
 #' @param verbose `logical` Should progress be displayed while downloading
 #'  and processing data?
 #'  Defaults to `TRUE`.
@@ -132,8 +132,13 @@ NULL
 #' \describe{
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
 #' \item{seasonal}{`numeric` seasonal distribution code.}
-#' \item{habitat_code}{`list` of `character` values habitat
-#'   codes used to create the species' Area of Habitat data.}
+#' \item{habitat_code}{`character` habitat
+#'   codes used to create the species' Area of Habitat data.
+#'   If a given species has multiple suitable habitat classes,
+#'   then these are denoted using a pipe-delimeted format.
+#'   For example, if the habitat classes denoted with the codes
+#'   `"1.5"` and `"1.9"` were considered suitable for a given species, then
+#'   these codes would be indicated as `"1.5|1.9"`.}
 #' \item{elevation_lower}{`numeric` lower elevation threshold used to create
 #'   the species' Area of Habitat data.}
 #' \item{elevation_upper}{`numeric` upper elevation threshold used to create
@@ -574,6 +579,8 @@ create_spp_aoh_data <- function(x,
     xmin, xmax, ymin, ymax,
     path
   )
+  ## convert list-column to "|" delimited character-column
+  x$habitat_code <- vapply(x$habitat_code, paste, character(1), collapse = "|")
   ## update message
   if (verbose) {
     cli::cli_process_done()

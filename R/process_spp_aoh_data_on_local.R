@@ -63,8 +63,7 @@ process_spp_aoh_data_on_local <- function(x,
   }
   ## determine which species need processing
   if (!force & any(file.exists(x$path))) {
-    # idx <- which(!is.na(x$path) & !file.exists(x$path))
-    idx <- which(!is.na(x$path))
+    idx <- which(!is.na(x$path) & !file.exists(x$path))
     if (verbose) {
       message(
         paste(

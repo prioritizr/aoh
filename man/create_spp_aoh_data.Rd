@@ -156,8 +156,13 @@ Specifically, the object contains the following columns:
 \describe{
 \item{id_no}{\code{numeric} species' taxon identifier on the IUCN Red List.}
 \item{seasonal}{\code{numeric} seasonal distribution code.}
-\item{habitat_code}{\code{list} of \code{character} values habitat
-codes used to create the species' Area of Habitat data.}
+\item{habitat_code}{\code{character} habitat
+codes used to create the species' Area of Habitat data.
+If a given species has multiple suitable habitat classes,
+then these are denoted using a pipe-delimeted format.
+For example, if the habitat classes denoted with the codes
+\code{"1.5"} and \code{"1.9"} were considered suitable for a given species, then
+these codes would be indicated as \code{"1.5|1.9"}.}
 \item{elevation_lower}{\code{numeric} lower elevation threshold used to create
 the species' Area of Habitat data.}
 \item{elevation_upper}{\code{numeric} upper elevation threshold used to create
