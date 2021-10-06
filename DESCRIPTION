@@ -56,10 +56,19 @@ Collate:
     'get_spp_habitat_data.R'
     'get_global_habitat_data.R'
     'get_global_elevation_data.R'
-    'create_aoh_data.R'
-    'geoprocessing.R'
+    'create_spp_aoh_data.R'
+    'default_omit_iucn_habitat_codes.R'
+    'fast_reproject.R'
+    'misc_sf.R'
+    'misc_terra.R'
+    'format_spp_data.R'
     'get_spp_api_data.R'
     'package.R'
+    'process_spp_aoh_data_on_ee.R'
+    'process_spp_aoh_data_on_local.R'
     'read_spp_range_data.R'
+    'world_berhman_1km_rast.R'
     'zzz.R'
 Roxygen: list(markdown = TRUE)
+Remotes:
+  rspatial/terra

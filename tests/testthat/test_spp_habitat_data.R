@@ -26,7 +26,7 @@ test_that("single taxon identifier", {
   expect_identical(x, x2)
 })
 
-test_that("multiple taxon identifier", {
+test_that("multiple taxon identifiers", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()

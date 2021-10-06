@@ -3,9 +3,8 @@ NULL
 
 #' Get species summary data
 #'
-#' Import species summary data obtained from the International Union
-#' for Conservation of Nature (IUCN) Red List of Threatened
-#' Species (<https://www.iucnredlist.org/>).
+#' Import species summary data obtained from the
+#' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
 #'
 #' @inheritParams get_spp_habitat_data
 #'

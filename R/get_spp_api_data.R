@@ -57,8 +57,28 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
                              key = NULL, delay = 2, force = FALSE,
                              verbose = TRUE) {
   # assert arguments are valid
-  # TODO
-
+  assertthat::assert_that(
+    is.numeric(x),
+    assertthat::noNA(x),
+    length(x) > 0,
+    is.function(api_function),
+    assertthat::is.string(data_prefix),
+    assertthat::noNA(data_prefix),
+    inherits(data_template, "data.frame"),
+    assertthat::is.string(dir),
+    assertthat::is.writeable(dir),
+    assertthat::is.string(version),
+    assertthat::noNA(version),
+    inherits(key, c("NULL", "character")),
+    assertthat::is.number(delay),
+    assertthat::noNA(delay),
+    assertthat::is.flag(force),
+    assertthat::noNA(force),
+    assertthat::is.flag(verbose),
+    assertthat::noNA(verbose)
+  )
+  # remove duplicates
+  x <- unique(x)
   # find version of data
   if (identical(version, "latest")) {
     iucn_rl_version <- rredlist::rl_version()
@@ -97,14 +117,12 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
         )
       ) {
         if (identical(class(data_template[[i]])[[1]], "numeric")) {
-          iucn_rl_data[[i]] <- methods::as(
-            iucn_rl_data[[i]],
-            "double"
+          iucn_rl_data[[i]] <- suppressWarnings(
+            methods::as(iucn_rl_data[[i]], "double")
           )
         } else {
-          iucn_rl_data[[i]] <- methods::as(
-            iucn_rl_data[[i]],
-            class(data_template[[i]])[[1]]
+          iucn_rl_data[[i]] <- suppressWarnings(
+            methods::as(iucn_rl_data[[i]], class(data_template[[i]])[[1]])
           )
         }
       }

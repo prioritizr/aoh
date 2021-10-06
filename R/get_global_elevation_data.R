@@ -4,8 +4,8 @@ NULL
 #' Get global elevation data
 #'
 #' Import elevation data produced by Amatulli *et al.* (2018).
-#' If data are not available locally, they are downloaded from the EarthEnv
-#' project (<http://www.earthenv.org/>).
+#' If data are not available locally, they are downloaded from the
+#' [EarthEnv project](http://www.earthenv.org/).
 #'
 #' @inheritParams get_global_habitat_data
 #'

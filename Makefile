@@ -2,15 +2,14 @@ all: clean initc docs test check
 
 clean:
 	rm -rf man/*
-	rm -rf data/*
 	rm -rf docs/*
 	rm -rf inst/doc/*
 
-initc:
-	R --slave -e "Rcpp::compileAttributes()"
-	R --slave -e "tools::package_native_routine_registration_skeleton('.', 'src/init.c', character_only = FALSE)"
-
 docs: man readme vigns site
+
+data:
+	R --slave -e "source('inst/scripts/simulate-data.R')"
+	R --slave -e "source('inst/scripts/world-behrman-1km-rast.R')"
 
 man:
 	R --slave -e "devtools::document()"

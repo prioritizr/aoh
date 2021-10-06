@@ -1,11 +1,11 @@
-#' @include internal.R geoprocessing.R
+#' @include internal.R misc_sf.R
 NULL
 
 #' Read species range data
 #'
 #' Import species geographic range (i.e. extent of occurrence) data obtained
-#' from the International Union for Conservation of Nature (IUCN) Red List of
-#' Threatened Species (<https://www.iucnredlist.org/>).
+#' from the
+#' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
 #'
 #' @param path `character` File path to the data (zip archive) file.
 #'
@@ -57,5 +57,9 @@ read_spp_range_data <- function(path, n = NULL) {
     stop("argument to \"path\" does not contain spatial data")
   }
   # import data
-  read_sf_n(input_path, n = n)
+  out <- read_sf_n(input_path, n = n)
+  # clean up
+  unlink(temp_dir, recursive = TRUE, force = TRUE)
+  # return result
+  out
 }

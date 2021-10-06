@@ -1,4 +1,4 @@
-context("create_blank_rast()")
+context("create_template_rast()")
 
 test_that("expected results", {
   # load data
@@ -6,7 +6,7 @@ test_that("expected results", {
   nc <- sf::st_transform(nc, sf::st_crs("ESRI:54017"))
   # tests
   expect_is(
-    r <<- create_blank_rast(1000, 2000, sf::st_crs(nc), sf::st_bbox(nc)),
+    r <<- create_template_rast(1000, 2000, sf::st_crs(nc), sf::st_bbox(nc)),
     "SpatRaster"
   )
   expect_equal(terra::xres(r), 1000)

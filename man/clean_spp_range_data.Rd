@@ -31,9 +31,9 @@ finer-scale resolutions, consider using a greater value (e.g.
 A \code{\link[sf:sf]{sf::sf()}} object containing the dataset.
 }
 \description{
-Prepare species geographic range (i.e. extent of occurrence) data obtained
-from the International Union for Conservation of Nature (IUCN) Red List of
-Threatened Species (\url{https://www.iucnredlist.org/}) for analysis.
+Clean species geographic range (i.e. extent of occurrence) data obtained
+from the
+\href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
 }
 \details{
 This function applies the following data cleaning procedures:

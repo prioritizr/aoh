@@ -26,8 +26,8 @@ data. These data are available at the 1 km \eqn{\times} 1 km resolution.
 }
 \description{
 Import elevation data produced by Amatulli \emph{et al.} (2018).
-If data are not available locally, they are downloaded from the EarthEnv
-project (\url{http://www.earthenv.org/}).
+If data are not available locally, they are downloaded from the
+\href{http://www.earthenv.org/}{EarthEnv project}.
 }
 \examples{
 \dontrun{

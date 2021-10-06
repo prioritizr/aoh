@@ -3,9 +3,9 @@ NULL
 
 #' Clean species range data
 #'
-#' Prepare species geographic range (i.e. extent of occurrence) data obtained
-#' from the International Union for Conservation of Nature (IUCN) Red List of
-#' Threatened Species (<https://www.iucnredlist.org/>) for analysis.
+#' Clean species geographic range (i.e. extent of occurrence) data obtained
+#' from the
+#' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
 #'
 #' @param x A [sf::sf()] object containing species geographic range data.
 #'
@@ -105,9 +105,6 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
                                  snap_tolerance = 1,
                                  geometry_precision = 1500) {
   # assert arguments are valid
-  if (!inherits(x, "crs")) {
-    crs <- sf::st_crs(crs)
-  }
   assertthat::assert_that(
     inherits(x, "sf"),
     nrow(x) > 0,

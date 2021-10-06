@@ -34,7 +34,6 @@ convert_to_seasonal_id <- function(x) {
   # assert arguments are valid
   assertthat::assert_that(
     is.character(x),
-    assertthat::noNA(x),
     length(x) > 0
   )
   # standardize characters
@@ -46,6 +45,7 @@ convert_to_seasonal_id <- function(x) {
   out[!grepl("non", x) & grepl("breed", x)] <- 2L
   out[grepl("non", x)] <- 3L
   out[grep("passage", x)] <- 4L
+  out[is.na(x)] <- NA_integer_
   # return result
   out
 }

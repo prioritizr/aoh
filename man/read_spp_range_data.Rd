@@ -17,8 +17,8 @@ A \code{\link[sf:sf]{sf::sf()}} object containing the dataset.
 }
 \description{
 Import species geographic range (i.e. extent of occurrence) data obtained
-from the International Union for Conservation of Nature (IUCN) Red List of
-Threatened Species (\url{https://www.iucnredlist.org/}).
+from the
+\href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
 }
 \details{
 Data for amphibians, reptiles, and mammals can be obtained directly from

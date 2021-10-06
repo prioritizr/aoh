@@ -53,54 +53,10 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   out
 }
 
-#' Create a blank SpatRast raster
-#'
-#' Create an empty [terra::rast()] raster object based on specified
-#' spatial properties.
-#'
-#' @param xres `numeric` Resolution for the x-axis.
-#'
-#' @param yres `numeric` Resolution for the y-axis.
-#'
-#' @param crs [sf::st_crs()] Spatial reference coordinate system object.
-#'
-#' @param bbox [sf::st_bbox()] Spatial bounding box object.
-#'
-#' @return A [terra::rast()] object with desired spatial properties.
-#'
-#' @examples
-#' # load data
-#' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
-#'
-#' # re-project to projected coordinate system
-#' nc <- st_transform(nc, st_crs("ESRI:54017"))
-#'
-#' # create blank raster from nc
-#' r <-  create_blank_rast(1000, 1000, st_crs(nc), st_bbox(nc))
-#'
-#' # preview raster
-#' print(r)
-#' @noRd
-create_blank_rast <- function(xres, yres, crs, bbox) {
-  # assert arguments are valid
-  assertthat::assert_that(
-    assertthat::is.count(xres),
-    assertthat::noNA(xres),
-    assertthat::is.count(yres),
-    assertthat::noNA(yres),
-    inherits(crs, "crs"),
-    inherits(bbox, "bbox")
-  )
-  # preliminary processing
-  xmin <- floor(bbox$xmin[[1]])
-  xmax <- xmin + (xres * ceiling((ceiling(bbox$xmax[[1]]) - xmin) / xres))
-  ymin <- floor(bbox$ymin[[1]])
-  ymax <- ymin + (yres * ceiling((ceiling(bbox$ymax[[1]]) - ymin) / yres))
-  # return raster
-  terra::rast(
-    xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax,
-    nlyrs = 1,
-    crs = as.character(crs)[[2]],
-    resolution = c(xres, yres)
-  )
+sf_terra_ext <- function(x) {
+  assertthat::assert_that(inherits(x, c("sf", "bbox")))
+  if (inherits(x, "sf")) {
+    x <- sf::st_bbox(x)
+  }
+  terra::ext(c(x$xmin, x$xmax, x$ymin, x$ymax))
 }

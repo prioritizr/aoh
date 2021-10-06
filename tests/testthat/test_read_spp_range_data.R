@@ -1,19 +1,18 @@
 context("read_spp_range_data()")
 
-# NOTICE
-#
-# The IUCN Red List data are downloaded from a private data repository
-# that requires valid GitHub user credentials for access.
-# Thus these datasets are NOT distributed with the package.
-# They are also NOT publicly accessible either.
+test_that("simulated data", {
+  expect_true(TRUE) # TODO
+})
+
+# The following tests use IUCN Red List data that are downloaded from a private
+# data repository. To ensure compliance with IUCN Red List data licenses,
+# this data repository requires valid user credentials for access.
+# Thus the IUCN Red List data are NOT distributed with the package and
+# they are NOT publicly accessible.
 # If you wish to run these tests locally, you need to download the relevant IUCN
 # datasets manually (from https://www.iucnredlist.org/) and copy the
 # files into the folder at the following location:
 # rappdirs::user_data_dir("iucn-red-list-data")
-
-test_that("simulated data", {
-  expect_true(TRUE) # TODO
-})
 
 test_that("amphibian data", {
   # skip if needed

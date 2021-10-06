@@ -59,9 +59,8 @@ Defaults to \code{TRUE}.}
 A table (\code{\link[tibble:tibble]{tibble::tibble()}}) object.
 }
 \description{
-Import species summary data obtained from the International Union
-for Conservation of Nature (IUCN) Red List of Threatened
-Species (\url{https://www.iucnredlist.org/}).
+Import species summary data obtained from the
+\href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
 }
 \details{
 Data are downloaded from the IUCN Red List using the
