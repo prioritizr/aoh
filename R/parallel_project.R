@@ -165,7 +165,7 @@ parallel_project <- function(x,
   x <- furrr::future_map(
     .x = seq_len(terra::nlyr(x)),
     .f = function(i) {
-      ## import layers if in parallel
+      ## import layers if in parallel (alas clusterEvalQ does NOT work)
       if (
         isTRUE(parallel_n_threads > 1) &&
         !identical(Sys.getenv("setup"), "TRUE")
