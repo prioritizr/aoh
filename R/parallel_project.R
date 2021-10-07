@@ -170,7 +170,6 @@ parallel_project <- function(x,
         isTRUE(parallel_n_threads > 1) &&
         !identical(Sys.getenv("setup"), "TRUE")
       ) {
-        m <<- 1
         x <<- terra::rast(x_path)
         y <<- terra::rast(y_path)
         if (!is.null(crop_ext_list)) {
