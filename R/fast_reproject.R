@@ -19,6 +19,9 @@ NULL
 #' @param buffer `numeric` Buffer for clipping data.
 #'   Defaults to 0.
 #'
+#' @param temp_dir `character` Directory for saving temporary files.
+#'   Defaults to [base::tempdir()].
+#'
 #' @param verbose `logical` Should progress bars be displayed during processing?
 #'   Defaults to `TRUE`.
 #'
@@ -59,12 +62,13 @@ fast_reproject <- function(x,
   )
 
   # prepare for parallel processing if needed
-  pb <- progressr::progressor(steps = length(x))
-  paths <- lapply(seq_len(terra::nlyrs(x), function(x) {
-    tempfile(tmpdir = tempdir(), fileext = ".tif")
+  pb <- progressr::progressor(steps = terra::nlyr(x))
+  paths <- lapply(seq_len(terra::nlyr(x)), function(x) {
+    tempfile(tmpdir = temp_dir, fileext = ".tif")
   })
+
+  # set up parallel strategy
   if (isTRUE(parallel_n_threads > 1)) {
-    path
     if (identical(parallel_strategy, "multicore")) {
       ### create cluster (store existing future plan if needed)
       old_plan <- future::plan("multicore", workers = parallel_n_threads)
@@ -89,8 +93,8 @@ fast_reproject <- function(x,
       ))
       parallel::clusterEvaLQ(cl, {
         library(terra)
-        x <- terra::rast(x)
-        y <- terra::rast(y)
+        x <- terra::rast(x_path)
+        y <- terra::rast(y_path)
       })
       ### create cluster (store existing future plan if needed)
       old_plan <- future::plan("cluster", workers = cl)
@@ -101,8 +105,8 @@ fast_reproject <- function(x,
 
   # process data
   x <- furrr::future_map(
-    seq_along(terra::nlyrs(x),
-    function(i) {
+    .x = seq_len(terra::nlyr(x)),
+    .f = function(i) {
       ## extract layer
       p <- paths[[i]]
       i <- x[[i]]
@@ -119,7 +123,10 @@ fast_reproject <- function(x,
       if (parallel_n_threads > 1) {
         if (is.character(x_path)) {
           ## sink to disk if too large for memory
-          do.call(terra::writeRaster, list(x = i, filename = p, write_args))
+          do.call(
+            terra::writeRaster,
+            append(list(x = i, filename = p), write_args)
+          )
           i <- p
         } else {
           ## wrap
@@ -129,32 +136,19 @@ fast_reproject <- function(x,
       ##  update progress bar
       pb()
       ## return result
-      list(p)
+      i
     }
   )
 
   # process result
-
-
-  # crop x to extent of y if possible
-  if (!inherits(crop_ext, "try-error")) {
-    x <- terra::rast(
-      plyr::llply(
-        as.list(x),
-        function(x) {
-          suppressMessages(
-
-          )
-        }
-      )
-    )
+  if (inherits(x[[1]], "character")) {
+    x <- terra::rast(unlist(x))
+  } else {
+    x <- terra::rast(x)
   }
 
-
-  ### reproject to y
-  #### create parallelization
-
-
+  # return result
+  x
 }
 
 #' Intersecting extent

@@ -60,10 +60,6 @@ process_spp_aoh_data_on_local <- function(x,
   habitat_codes <- names(habitat_data)
 
   # AOH processing
-  ## display message
-  if (verbose) {
-    cli::cli_alert("generating Area of Habitat data")
-  }
   ## determine which species need processing
   if (!force & any(file.exists(x$path))) {
     idx <- which(!is.na(x$path))
@@ -81,7 +77,7 @@ process_spp_aoh_data_on_local <- function(x,
     idx <- which(!is.na(x$path))
   }
   ## prepare for parallel processing if needed
-  pb <- progressr::progressor(steps = length(x))
+  pb <- progressr::progressor(steps = length(idx))
   if (isTRUE(parallel_n_threads > 1)) {
     if (identical(parallel_strategy, "multicore")) {
       ### create cluster (store existing future plan if needed)

@@ -450,19 +450,21 @@ create_spp_aoh_data <- function(x,
   }
   ## processing
   ### reproject data to template
-  withr::with_tempdir(
-    tmpdir = tmp_rast_dir,
-    clean = FALSE,
-    habitat_data <- fast_reproject(
-      x = habitat_data,
-      y = template_data,
-      method = "bilinear",
-      buffer = 5000,
-      verbose = verbose,
-      parallel_n_threads = parallel_n_threads,
-      parallel_strategy = parallel_strategy,
-      datatype = "INT2U",
-    )
+  progressr::with_progress(
+    enable = verbose,
+    expr = {
+      habitat_data <- fast_reproject(
+        x = habitat_data,
+        y = template_data,
+        method = "bilinear",
+        buffer = 5000,
+        temp_dir = tmp_rast_dir,
+        verbose = verbose,
+        parallel_n_threads = parallel_n_threads,
+        parallel_strategy = parallel_strategy,
+        datatype = "INT2U"
+      )
+    }
   )
   ### verify that habitat data encompasses that species range data
   assertthat::assert_that(
@@ -486,6 +488,10 @@ create_spp_aoh_data <- function(x,
   )
   #### assign names
   names(habitat_data) <- habitat_codes
+  ### update message
+  if (verbose) {
+    cli::cli_process_done()
+  }
 
   # prepare elevation data
   ## display message
@@ -496,17 +502,14 @@ create_spp_aoh_data <- function(x,
   ### convert NA values to zeros
   elevation_data[is.na(elevation_data)] <- 0
   ### reproject data to template
-  withr::with_tempdir(
-    tmpdir = tmp_rast_dir,
-    clean = FALSE,
-    elevation_data <- fast_reproject(
-      x = elevation_data,
-      y = template_data,
-      method = "bilinear",
-      buffer = 5000,
-      datatype = "INT2U",
-      verbose = FALSE
-    )
+  elevation_data <- fast_reproject(
+    x = elevation_data,
+    y = template_data,
+    method = "bilinear",
+    buffer = 5000,
+    temp_dir = tmp_rast_dir,
+    verbose = FALSE,
+    datatype = "INT2U"
   )
   ### verify that elevation data encompasses that species range data
   assertthat::assert_that(
@@ -555,6 +558,11 @@ create_spp_aoh_data <- function(x,
   }
 
   # main processing
+  ## display message
+  if (verbose) {
+    cli::cli_alert("generating Area of Habitat data")
+  }
+  ## processing
   if (isTRUE(use_ee)) {
     ## use Earth Engine for processing
     result <- process_spp_aoh_data_on_ee(
