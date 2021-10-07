@@ -96,11 +96,12 @@ NULL
 #'   Note that this parameter is only used if `use_ee` is `FALSE`.
 #'   Defaults to 1.
 #'
-#' @param parallel_cluster `character` Name of cluster method for
-#'  processing data in parallel. Available options are `"FORK"` and `"PSOCK"`.
-#'  Defaults to `NULL` such that `"FORK"` is used on Unix operating systems,
-#'  and `"PSOCK"` otherwise.
-#'   Note that this parameter is only used if `use_ee` is `FALSE`.
+#' @param parallel_strategy `character` Name of strategy for
+#'  processing data in parallel. Available options are `"multisession"` and
+#'  `"multicore"`.
+#'  Defaults to `NULL` such that `"multisession"` is used on Microsoft
+#'  Windows operating systems, and `"multicore"` otherwise.
+#'  Note that this parameter is only used if `use_ee` is `FALSE`.
 #'  Defaults to 1.
 #'
 #' @param omit_habitat_codes `character` Habitat classification codes
@@ -239,7 +240,7 @@ create_spp_aoh_data <- function(x,
                                 key = NULL,
                                 force = FALSE,
                                 parallel_n_threads = 1,
-                                parallel_cluster = NULL,
+                                parallel_strategy = NULL,
                                 omit_habitat_codes =
                                   default_omit_iucn_habitat_codes(),
                                 use_ee = FALSE,
@@ -270,19 +271,21 @@ create_spp_aoh_data <- function(x,
     inherits(template_data, "SpatRaster")
   )
   ## parallel cluster
-  if (is.null(parallel_cluster)) {
-    parallel_cluster <- ifelse(
-      identical(.Platform$OS.type, "unix"), "FORK", "PSOCK"
+  if (is.null(parallel_strategy)) {
+    parallel_strategy <- ifelse(
+      identical(.Platform$OS.type, "unix"), "multicore", "multisession"
     )
   }
   assertthat::assert_that(
-    assertthat::is.string(parallel_cluster),
-    assertthat::noNA(parallel_cluster)
+    assertthat::is.string(parallel_strategy),
+    assertthat::noNA(parallel_strategy)
   )
   assertthat::assert_that(
-    identical(parallel_cluster, "FORK") || identical(parallel_cluster, "PSOCK"),
+    identical(parallel_strategy, "multicore") ||
+    identical(parallel_strategy, "multisession"),
     msg = paste(
-      "argument to \"parallel_cluster\" is not NULL, \"FORK\", or \"PSOCK\""
+      "argument to \"parallel_strategy\" is not NULL,",
+      "\"multicore\", or \"multisession\""
     )
   )
   ## update message
@@ -447,13 +450,19 @@ create_spp_aoh_data <- function(x,
   }
   ## processing
   ### reproject data to template
-  habitat_data <- fast_reproject(
-    x = habitat_data,
-    y = template_data,
-    method = "bilinear",
-    buffer = 5000,
-    datatype = "INT2U",
-    verbose = verbose
+  withr::with_tempdir(
+    tmpdir = tmp_rast_dir,
+    clean = FALSE,
+    habitat_data <- fast_reproject(
+      x = habitat_data,
+      y = template_data,
+      method = "bilinear",
+      buffer = 5000,
+      verbose = verbose,
+      parallel_n_threads = parallel_n_threads,
+      parallel_strategy = parallel_strategy,
+      datatype = "INT2U",
+    )
   )
   ### verify that habitat data encompasses that species range data
   assertthat::assert_that(
@@ -487,13 +496,17 @@ create_spp_aoh_data <- function(x,
   ### convert NA values to zeros
   elevation_data[is.na(elevation_data)] <- 0
   ### reproject data to template
-  elevation_data <- fast_reproject(
-    x = elevation_data,
-    y = template_data,
-    method = "bilinear",
-    buffer = 5000,
-    datatype = "INT2U",
-    verbose = FALSE
+  withr::with_tempdir(
+    tmpdir = tmp_rast_dir,
+    clean = FALSE,
+    elevation_data <- fast_reproject(
+      x = elevation_data,
+      y = template_data,
+      method = "bilinear",
+      buffer = 5000,
+      datatype = "INT2U",
+      verbose = FALSE
+    )
   )
   ### verify that elevation data encompasses that species range data
   assertthat::assert_that(
@@ -550,20 +563,24 @@ create_spp_aoh_data <- function(x,
       elevation_data = elevation_data,
       cache_dir = cache_dir,
       force = force,
-      verbose = verbose,
-
+      verbose = verbose
     )
   } else {
     ## use local host for processing
-    result <- process_spp_aoh_data_on_local(
-      x = x,
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      cache_dir = cache_dir,
-      force = force,
-      parallel_n_threads = parallel_n_threads,
-      parallel_cluster = parallel_cluster,
-      verbose = verbose
+    progressr::with_progress(
+      enable = verbose,
+      expr = {
+        result <- process_spp_aoh_data_on_local(
+          x = x,
+          habitat_data = habitat_data,
+          elevation_data = elevation_data,
+          cache_dir = cache_dir,
+          force = force,
+          parallel_n_threads = parallel_n_threads,
+          parallel_strategy = parallel_strategy,
+          verbose = verbose
+        )
+      }
     )
   }
 

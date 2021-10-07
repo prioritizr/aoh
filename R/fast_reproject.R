@@ -19,10 +19,12 @@ NULL
 #' @param buffer `numeric` Buffer for clipping data.
 #'   Defaults to 0.
 #'
+#' @param verbose `logical` Should progress bars be displayed during processing?
+#'   Defaults to `TRUE`.
+#'
 #' @param ... arguments passed to [terra::crop()] and [terra::project()].
 #'
-#' @param verbose `logical` Should progress bars be displayed during processing?
-#'  Defaults to `TRUE`.
+#' @inheritParams process_spp_aoh_data_on_local
 #'
 #' @details
 #' This function speeds up data reprojection by manually excluding
@@ -32,8 +34,15 @@ NULL
 #' @return A [terra::ext()] object.
 #'
 #' @noRd
-fast_reproject <- function(x, y, method = "bilinear", buffer = 0, ...,
-                           verbose = TRUE) {
+fast_reproject <- function(x,
+                           y,
+                           method = "bilinear",
+                           buffer = 0,
+                           parallel_n_threads = 1,
+                           parallel_strategy = "multisession",
+                           temp_dir = tempdir(),
+                           verbose = TRUE,
+                           ...) {
   # assert valid arguments
   assertthat::assert_that(
     inherits(x, "SpatRaster"),
@@ -41,47 +50,111 @@ fast_reproject <- function(x, y, method = "bilinear", buffer = 0, ...,
     assertthat::is.number(buffer),
     assertthat::noNA(buffer)
   )
-  ### identify spatial extent for cropping data prior to reprojection
+  write_args <- list(...)
+
+  # identify spatial extent for cropping data prior to reprojection
   crop_ext <- try(
     intersecting_ext(x, y, buffer = 5000),
     silent = TRUE
   )
-  ### crop x to extent of y if possible
+
+  # prepare for parallel processing if needed
+  pb <- progressr::progressor(steps = length(x))
+  paths <- lapply(seq_len(terra::nlyrs(x), function(x) {
+    tempfile(tmpdir = tempdir(), fileext = ".tif")
+  })
+  if (isTRUE(parallel_n_threads > 1)) {
+    path
+    if (identical(parallel_strategy, "multicore")) {
+      ### create cluster (store existing future plan if needed)
+      old_plan <- future::plan("multicore", workers = parallel_n_threads)
+    } else {
+      ## multi session cluster
+      #### save large large objects to disk
+      if (terra::isMemory(x)) {
+        x_path <- terra::wrap(x)
+      } else {
+        x_path <- terra::sources(x)$source
+      }
+      if (terra::isMemory(y)) {
+        y_path <- terra::wrap(y)
+      } else {
+        y_path <- terra::sources(y)$source
+      }
+      ### initialize cluster
+      cl <- parallel::makePSOCKCluster(parallel_n_threads)
+      parallel::clusterExport(cl, c(
+        "x_path", "y_path", "pb", "write_args", "crop_ext", "method",
+        "parallel_n_threads", "paths"
+      ))
+      parallel::clusterEvaLQ(cl, {
+        library(terra)
+        x <- terra::rast(x)
+        y <- terra::rast(y)
+      })
+      ### create cluster (store existing future plan if needed)
+      old_plan <- future::plan("cluster", workers = cl)
+    }
+    ## set old plan if needed
+    on.exit(future::plan(old_plan), add = TRUE)
+  }
+
+  # process data
+  x <- furrr::future_map(
+    seq_along(terra::nlyrs(x),
+    function(i) {
+      ## extract layer
+      p <- paths[[i]]
+      i <- x[[i]]
+      ## crop layer
+      if (!inherits(crop_ext, "try-error")) {
+        i <- do.call(terra::crop, append(list(x = i, y = crop_ext), write_args))
+      }
+      ## reproject layer
+      i <- do.call(
+        terra::project,
+        append(list(x = i, y = y, method = method), write_args)
+      )
+      ## if parallel then prepare result for host
+      if (parallel_n_threads > 1) {
+        if (is.character(x_path)) {
+          ## sink to disk if too large for memory
+          do.call(terra::writeRaster, list(x = i, filename = p, write_args))
+          i <- p
+        } else {
+          ## wrap
+          i <- terra::wrap(i)
+        }
+      }
+      ##  update progress bar
+      pb()
+      ## return result
+      list(p)
+    }
+  )
+
+  # process result
+
+
+  # crop x to extent of y if possible
   if (!inherits(crop_ext, "try-error")) {
     x <- terra::rast(
       plyr::llply(
         as.list(x),
-        .progress = ifelse(verbose, "text", "none"),
         function(x) {
           suppressMessages(
-            terra::crop(
-              x = x,
-              y = crop_ext,
-              ...
-            )
+
           )
         }
       )
     )
   }
+
+
   ### reproject to y
-  x <- terra::rast(
-    plyr::llply(
-      as.list(x),
-      .progress = ifelse(verbose, "text", "none"),
-      function(x) {
-        suppressMessages(
-        terra::project(
-          x = x,
-          y = y,
-          ...
-        )
-        )
-      }
-    )
-  )
-  # return result
-  x
+  #### create parallelization
+
+
 }
 
 #' Intersecting extent

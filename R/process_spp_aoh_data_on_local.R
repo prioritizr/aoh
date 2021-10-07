@@ -19,9 +19,12 @@ NULL
 #' @param habitat_data [terra::rast()] Multi-layer raster data delineating the
 #'   coverage of different habitat classes.
 #'
-#' @param parallel_cluster `character` Name of cluster method for
-#'  processing data in parallel. Available options are `"FORK"` and `"PSOCK"`.
-#'  Defaults to `"PSOCK"`.
+#' @param parallel_strategy `character` Name of strategy for
+#'  processing data in parallel.
+#'  Available options are `"multisession"` and `"multicore"`.
+#'  Defaults to `NULL` such that `"multisession"` is used on Microsoft
+#'  Windows operating systems, and `"multicore"` otherwise.
+#'  Defaults to `"multisession"`.
 #'
 #' @noRd
 process_spp_aoh_data_on_local <- function(x,
@@ -30,7 +33,7 @@ process_spp_aoh_data_on_local <- function(x,
                                           cache_dir = tempdir(),
                                           force = FALSE,
                                           parallel_n_threads = 1,
-                                          parallel_cluster = "PSOCK",
+                                          parallel_strategy = "multisession",
                                           verbose = TRUE) {
   # assert that arguments are valid
   assertthat::assert_that(
@@ -46,8 +49,8 @@ process_spp_aoh_data_on_local <- function(x,
     assertthat::noNA(force),
     assertthat::is.count(parallel_n_threads),
     assertthat::noNA(parallel_n_threads),
-    assertthat::is.string(parallel_cluster),
-    assertthat::noNA(parallel_cluster),
+    assertthat::is.string(parallel_strategy),
+    assertthat::noNA(parallel_strategy),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose),
     terra::compareGeom(habitat_data[[1]], elevation_data, stopOnError = FALSE)
@@ -63,7 +66,8 @@ process_spp_aoh_data_on_local <- function(x,
   }
   ## determine which species need processing
   if (!force & any(file.exists(x$path))) {
-    idx <- which(!is.na(x$path) & !file.exists(x$path))
+    idx <- which(!is.na(x$path))
+    # idx <- which(!is.na(x$path) & !file.exists(x$path))
     if (verbose) {
       message(
         paste(
@@ -77,13 +81,13 @@ process_spp_aoh_data_on_local <- function(x,
     idx <- which(!is.na(x$path))
   }
   ## prepare for parallel processing if needed
+  pb <- progressr::progressor(steps = length(x))
   if (isTRUE(parallel_n_threads > 1)) {
-    if (identical(parallel_cluster, "FORK")) {
-      ### FORK cluster
-      cl <- parallel::makeForkCluster(parallel_n_threads)
-      doParallel::registerDoParallel(cl)
+    if (identical(parallel_strategy, "multicore")) {
+      ### create cluster (store existing future plan if needed)
+      old_plan <- future::plan("multicore", workers = parallel_n_threads)
     } else {
-      ### PSOCK cluster
+      ## multi session cluster
       #### save large large objects to disk
       x_path <- tempfile(fileext = ".rda")
       saveRDS(x, x_path, compress = "xz")
@@ -100,7 +104,7 @@ process_spp_aoh_data_on_local <- function(x,
       cl <- parallel::makePSOCKCluster(parallel_n_threads)
       parallel::clusterExport(cl, c(
         "output_dir", "spp_summary_data", "spp_habitat_data",
-        "elevation_path", "habitat_path", "x_path"
+        "elevation_path", "habitat_path", "x_path", "pb"
       ))
       parallel::clusterEvaLQ(cl, {
         library(terra)
@@ -109,17 +113,16 @@ process_spp_aoh_data_on_local <- function(x,
         elevation_path <- terra::rast(elevation_path)
         habitat_data <- terra::rast(habitat_path)
       })
-      doParallel::registerDoParallel(cl)
+      ### create cluster (store existing future plan if needed)
+      old_plan <- future::plan("cluster", workers = cl)
     }
+    ## set old plan if needed
+    on.exit(future::plan(old_plan), add = TRUE)
   }
   ## main processing
-  result <- plyr::laply(
-    .data = idx,
-    .progress = ifelse(
-      isTRUE(verbose) && isTRUE(parallel_n_threads == 1), "text", "none"
-    ),
-    .parallel = isTRUE(parallel_n_threads > 1),
-    .fun = function(i) {
+  result <- furrr::future_map_lgl(
+    .x = idx,
+    .f = function(i) {
       ### initialization
       curr_spp_path <- x$path[i]
       curr_spp_habitat_codes <- x$habitat_code[[i]]
@@ -192,13 +195,16 @@ process_spp_aoh_data_on_local <- function(x,
       unlink(curr_spp_tmp_dir, force = TRUE, recursive = TRUE)
       rm(curr_spp_habitat_data, curr_elev_mask)
       gc()
+      ### increment progress bar
+      pb()
       ### return success
       TRUE
   })
-  ## post-processing
+  ## clean up
   if (isTRUE(parallel_n_threads > 1)) {
-    doParallel::stopImplicitCluster()
-    parallel::stopCluster(cl)
+    if (identical(parallel_strategy, "multisession")) {
+      cl <- parallel::stopCluster(cl)
+    }
   }
 
   # return result
