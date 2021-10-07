@@ -118,8 +118,7 @@ NULL
 #'  Google Earth Engine (via the \pkg{rgee}) package?
 #'  Defaults to `FALSE`.
 #'
-#' @param verbose `logical` Should progress be displayed while downloading
-#'  and processing data?
+#' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
 #'
 #' @return
@@ -453,7 +452,7 @@ create_spp_aoh_data <- function(x,
   progressr::with_progress(
     enable = verbose,
     expr = {
-      habitat_data <- fast_reproject(
+      habitat_data <- parallel_project(
         x = habitat_data,
         y = template_data,
         method = "bilinear",
@@ -502,7 +501,7 @@ create_spp_aoh_data <- function(x,
   ### convert NA values to zeros
   elevation_data[is.na(elevation_data)] <- 0
   ### reproject data to template
-  elevation_data <- fast_reproject(
+  elevation_data <- parallel_project(
     x = elevation_data,
     y = template_data,
     method = "bilinear",

@@ -18,7 +18,7 @@ create_spp_aoh_data(
   key = NULL,
   force = FALSE,
   parallel_n_threads = 1,
-  parallel_cluster = NULL,
+  parallel_strategy = NULL,
   omit_habitat_codes = default_omit_iucn_habitat_codes(),
   use_ee = FALSE,
   verbose = TRUE
@@ -121,10 +121,11 @@ parameter based on the number of available threads (see Examples below).}
 Note that this parameter is only used if \code{use_ee} is \code{FALSE}.
 Defaults to 1.}
 
-\item{parallel_cluster}{\code{character} Name of cluster method for
-processing data in parallel. Available options are \code{"FORK"} and \code{"PSOCK"}.
-Defaults to \code{NULL} such that \code{"FORK"} is used on Unix operating systems,
-and \code{"PSOCK"} otherwise.
+\item{parallel_strategy}{\code{character} Name of strategy for
+processing data in parallel. Available options are \code{"multisession"} and
+\code{"multicore"}.
+Defaults to \code{NULL} such that \code{"multisession"} is used on Microsoft
+Windows operating systems, and \code{"multicore"} otherwise.
 Note that this parameter is only used if \code{use_ee} is \code{FALSE}.
 Defaults to 1.}
 
@@ -141,8 +142,7 @@ the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{I
 Google Earth Engine (via the \pkg{rgee}) package?
 Defaults to \code{FALSE}.}
 
-\item{verbose}{\code{logical} Should progress be displayed while downloading
-and processing data?
+\item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}
 }
 \value{

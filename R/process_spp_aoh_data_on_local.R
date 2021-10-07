@@ -6,6 +6,8 @@ NULL
 #' Process species Area of Habitat (AOH) data using computational
 #' resources that are available locally.
 #'
+#' @inheritParams create_spp_aoh_data
+#'
 #' @param x [sf::sf()] Spatial data delineating species geographic ranges
 #'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
 #'   These data should have previously been cleaned (via
@@ -19,13 +21,6 @@ NULL
 #' @param habitat_data [terra::rast()] Multi-layer raster data delineating the
 #'   coverage of different habitat classes.
 #'
-#' @param parallel_strategy `character` Name of strategy for
-#'  processing data in parallel.
-#'  Available options are `"multisession"` and `"multicore"`.
-#'  Defaults to `NULL` such that `"multisession"` is used on Microsoft
-#'  Windows operating systems, and `"multicore"` otherwise.
-#'  Defaults to `"multisession"`.
-#'
 #' @noRd
 process_spp_aoh_data_on_local <- function(x,
                                           habitat_data,
@@ -33,9 +28,10 @@ process_spp_aoh_data_on_local <- function(x,
                                           cache_dir = tempdir(),
                                           force = FALSE,
                                           parallel_n_threads = 1,
-                                          parallel_strategy = "multisession",
+                                          parallel_strategy = NULL,
                                           verbose = TRUE) {
   # assert that arguments are valid
+  ## initial validation
   assertthat::assert_that(
     inherits(x, "sf"),
     assertthat::noNA(x$elevation_lower),
@@ -54,6 +50,24 @@ process_spp_aoh_data_on_local <- function(x,
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose),
     terra::compareGeom(habitat_data[[1]], elevation_data, stopOnError = FALSE)
+  )
+  ## parallel cluster
+  if (is.null(parallel_strategy)) {
+    parallel_strategy <- ifelse(
+      identical(.Platform$OS.type, "unix"), "multicore", "multisession"
+    )
+  }
+  assertthat::assert_that(
+    assertthat::is.string(parallel_strategy),
+    assertthat::noNA(parallel_strategy)
+  )
+  assertthat::assert_that(
+    identical(parallel_strategy, "multicore") ||
+    identical(parallel_strategy, "multisession"),
+    msg = paste(
+      "argument to \"parallel_strategy\" is not NULL,",
+      "\"multicore\", or \"multisession\""
+    )
   )
 
   # preliminary processing
@@ -98,7 +112,7 @@ process_spp_aoh_data_on_local <- function(x,
       }
       ### initialize cluster
       cl <- parallel::makePSOCKCluster(parallel_n_threads)
-      parallel::clusterExport(cl, c(
+      parallel::clusterExport(cl, envir = environment(), c(
         "output_dir", "spp_summary_data", "spp_habitat_data",
         "elevation_path", "habitat_path", "x_path", "pb"
       ))
