@@ -19,15 +19,21 @@ test_that("amphibian data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
-  # specify file path
+  # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "AMPHIBIANS.zip"
   )
   cd <- rappdirs::user_data_dir("aoh")
+  hv <- "10.5281/zenodo.3816946"
   # tests
   expect_is((d <<- read_spp_range_data(f, n = 20)), "sf")
-  expect_is((x <<- create_spp_aoh_data(d, tempdir(), cache_dir = cd)), "tbl_df")
+  expect_is(
+    x <<- create_spp_aoh_data(
+      d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
+    ),
+    "tbl_df"
+  )
   expect_equal(nrow(x), nrow(d))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
@@ -37,13 +43,21 @@ test_that("reptile data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
-  # specify file path
+  # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "REPTILES.zip"
   )
+  cd <- rappdirs::user_data_dir("aoh")
+  hv <- "10.5281/zenodo.3816946"
+  # tests
   expect_is((d <<- read_spp_range_data(f, n = 20)), "sf")
-  expect_is((x <<- create_spp_aoh_data(d, tempdir(), cache_dir = cd)), "tbl_df")
+  expect_is(
+    x <<- create_spp_aoh_data(
+      d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
+    ),
+    "tbl_df"
+  )
   expect_equal(nrow(x), nrow(d))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
@@ -53,14 +67,21 @@ test_that("terrestrial mammal data", {
   # skip if needed
   skip_on_cran()
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
-  # specify file path
+  # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "MAMMALS_TERRESTRIAL_ONLY.zip"
   )
+  cd <- rappdirs::user_data_dir("aoh")
+  hv <- "10.5281/zenodo.3816946"
   # tests
   expect_is((d <<- read_spp_range_data(f, n = 20)), "sf")
-  expect_is((x <<- create_spp_aoh_data(d, tempdir(), cache_dir = cd)), "tbl_df")
+  expect_is(
+    x <<- create_spp_aoh_data(
+      d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
+    ),
+    "tbl_df"
+  )
   expect_equal(nrow(x), nrow(d))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)

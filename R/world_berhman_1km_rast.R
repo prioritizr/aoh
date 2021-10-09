@@ -16,7 +16,7 @@ NULL
 #'
 #' @examples
 #' # import data
-#' x <- world_berhman_1km_rast()
+#' x <- get_world_berhman_1km_rast()
 #'
 #' # preview data
 #' print(x)
@@ -24,7 +24,7 @@ NULL
 #' # plot data
 #' plot(x)
 #' @export
-world_berhman_1km_rast <- function() {
+get_world_berhman_1km_rast <- function() {
   terra::rast(
     system.file("extdata", "world_behrman_1km_rast.tif", package = "aoh")
   )

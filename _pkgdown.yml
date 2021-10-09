@@ -11,3 +11,26 @@ reference:
     desc: Summary of the package
     contents:
       - aoh
+
+  - title: Create Area of Habitat data
+    desc: Function for creating Area of Habitat data
+    contents:
+      - create_spp_aoh_data
+
+  - title: Importing data
+    desc: Functions for downloading and importing data
+    contents:
+      - starts_with("get_")
+
+  - title: IUCN Red List range data
+    desc: Functions for reading and cleaning species range data
+    contents:
+      - read_spp_range_data
+      - clean_spp_range_data
+
+  - title: Miscellaneous geoprocessing
+    desc: Functions for processing spatial data
+    contents:
+      - parallel_project
+      - starts_with("sf_")
+      - starts_with("terra_")

@@ -15,7 +15,18 @@ NULL
 #'
 #' @return [sf::sf()] object.
 #'
-#' @noRd
+#' @examples
+#' # read all data
+#' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
+#' print(nc)
+#'
+#' # read only first five geometries
+#' nc2 <- read_sf(system.file("shape/nc.shp", package = "sf"), n = 5)
+#' print(nc2)
+#'
+#' @family geoprocessing
+#'
+#' @export
 read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   # validate arguments
   assertthat::assert_that(assertthat::is.string(dsn),
@@ -53,6 +64,25 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   out
 }
 
+#' Spatial extent
+#'
+#' Create a [terra::ext()] object to describe the spatial extent of
+#' a [sf::st_sf()] object following the \pkg{terra} package conventions.
+#'
+#' @param x [sf::st_sf()] Spatial object.
+#'
+#' @return A [terra::ext()] extent object.
+#'
+#' @examples
+#' # import sf object
+#' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
+#'
+#' # create terra extent object (i.e. SpatExtent)
+#' sf_terra_ext(nc)
+#'
+#' @family geoprocessing
+#'
+#' @export
 sf_terra_ext <- function(x) {
   assertthat::assert_that(inherits(x, c("sf", "bbox")))
   if (inherits(x, "sf")) {

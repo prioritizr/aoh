@@ -21,6 +21,8 @@ NULL
 #' @param habitat_data [terra::rast()] Multi-layer raster data delineating the
 #'   coverage of different habitat classes.
 #'
+#' @param ... arguments passed to [terra::terraOptions()] for processing.
+#'
 #' @noRd
 process_spp_aoh_data_on_local <- function(x,
                                           habitat_data,
@@ -28,16 +30,31 @@ process_spp_aoh_data_on_local <- function(x,
                                           cache_dir = tempdir(),
                                           force = FALSE,
                                           parallel_n_threads = 1,
-                                          parallel_strategy = NULL,
-                                          verbose = TRUE) {
+                                          parallel_cluster = NULL,
+                                          verbose = TRUE,
+                                          ...) {
   # assert that arguments are valid
   ## initial validation
   assertthat::assert_that(
     inherits(x, "sf"),
+    assertthat::has_name(x, "id_no"),
+    assertthat::has_name(x, "seasonal"),
+    assertthat::has_name(x, "aoh_id"),
+    assertthat::has_name(x, "path"),
+    assertthat::has_name(x, "elevation_lower"),
+    assertthat::has_name(x, "elevation_upper"),
+    assertthat::has_name(x, "habitat_code"),
+    assertthat::noNA(x$id_no),
+    assertthat::noNA(x$seasonal),
+    assertthat::noNA(x$aoh_id),
+    assertthat::noNA(x$path),
+    assertthat::noNA(x$habitat_code),
     assertthat::noNA(x$elevation_lower),
     assertthat::noNA(x$elevation_upper),
+    assertthat::noNA(x$habitat_code),
     inherits(habitat_data, "SpatRaster"),
     inherits(elevation_data, "SpatRaster"),
+    terra::compareGeom(habitat_data[[1]], elevation_data, stopOnError = FALSE),
     assertthat::is.string(cache_dir),
     assertthat::noNA(cache_dir),
     assertthat::is.writeable(cache_dir),
@@ -45,36 +62,34 @@ process_spp_aoh_data_on_local <- function(x,
     assertthat::noNA(force),
     assertthat::is.count(parallel_n_threads),
     assertthat::noNA(parallel_n_threads),
-    assertthat::is.string(parallel_strategy),
-    assertthat::noNA(parallel_strategy),
+    assertthat::is.string(parallel_cluster),
+    assertthat::noNA(parallel_cluster),
     assertthat::is.flag(verbose),
-    assertthat::noNA(verbose),
-    terra::compareGeom(habitat_data[[1]], elevation_data, stopOnError = FALSE)
+    assertthat::noNA(verbose)
   )
-  ## parallel cluster
-  if (is.null(parallel_strategy)) {
-    parallel_strategy <- ifelse(
-      identical(.Platform$OS.type, "unix"), "multicore", "multisession"
+  ## validate parallel configuration
+  if (is.null(parallel_cluster)) {
+    parallel_cluster <- ifelse(
+      identical(.Platform$OS.type, "unix"), "FORK", "PSOCK"
     )
   }
   assertthat::assert_that(
-    assertthat::is.string(parallel_strategy),
-    assertthat::noNA(parallel_strategy)
+    assertthat::is.string(parallel_cluster),
+    assertthat::noNA(parallel_cluster)
   )
   assertthat::assert_that(
-    identical(parallel_strategy, "multicore") ||
-    identical(parallel_strategy, "multisession"),
+    identical(parallel_cluster, "FORK") ||
+    identical(parallel_cluster, "PSOCK"),
     msg = paste(
-      "argument to \"parallel_strategy\" is not NULL,",
-      "\"multicore\", or \"multisession\""
+      "argument to \"parallel_cluster\" is not NULL,",
+      "\"FORK\", or \"PSOCK\""
     )
   )
 
-  # preliminary processing
-  habitat_codes <- names(habitat_data)
+  # prepare prepare variables for data processing
+  wopt <- list(...)
 
-  # AOH processing
-  ## determine which species need processing
+  # determine which species need processing
   if (!force & any(file.exists(x$path))) {
     idx <- which(!is.na(x$path))
     # idx <- which(!is.na(x$path) & !file.exists(x$path))
@@ -90,110 +105,146 @@ process_spp_aoh_data_on_local <- function(x,
   } else {
     idx <- which(!is.na(x$path))
   }
-  ## prepare for parallel processing if needed
+
+  # prepare for parallel processing if needed
   pb <- progressr::progressor(steps = length(idx))
   if (isTRUE(parallel_n_threads > 1)) {
-    if (identical(parallel_strategy, "multicore")) {
-      ### create cluster (store existing future plan if needed)
-      old_plan <- future::plan("multicore", workers = parallel_n_threads)
+    ## prepare data
+    ### elevation_data
+    if (all(terra::inMemory(elevation_data))) {
+      elevation_path <- tempfile(fileext = ".tif")
+      terra::writeRaster(
+        x = elevation_data, filename = elevation_path, wopt = wopt
+      )
     } else {
-      ## multi session cluster
-      #### save large large objects to disk
-      x_path <- tempfile(fileext = ".rda")
-      saveRDS(x, x_path, compress = "xz")
-      if (terra::isMemory(elevation_data)) {
-      } else {
-        elevation_path <- terra::sources(elevation_data)$source
-      }
-      if (terra::isMemory(habitat_data)) {
-        habitat_path <- terra::wrap(habitat_data)
-      } else {
-        habitat_path <- terra::sources(habitat_data)$source
-      }
-      ### initialize cluster
-      cl <- parallel::makePSOCKCluster(parallel_n_threads)
-      parallel::clusterExport(cl, envir = environment(), c(
-        "output_dir", "spp_summary_data", "spp_habitat_data",
-        "elevation_path", "habitat_path", "x_path", "pb"
-      ))
-      parallel::clusterEvaLQ(cl, {
-        library(terra)
-        library(sf)
-        x <- readRDS(x_path)
-        elevation_path <- terra::rast(elevation_path)
-        habitat_data <- terra::rast(habitat_path)
-      })
-      ### create cluster (store existing future plan if needed)
-      old_plan <- future::plan("cluster", workers = cl)
+      elevation_path <- terra::sources(elevation_data)$source
     }
-    ## set old plan if needed
+    ### habitat_data
+    if (all(terra::inMemory(habitat_data))) {
+      habitat_path <- tempfile(fileext = ".tif")
+      terra::writeRaster(
+        x = habitat_data, filename = habitat_path, wopt = wopt
+      )
+    } else {
+      habitat_path <- terra::sources(habitat_data)$source
+    }
+    ### x
+    x_path <- tempfile(fileext = ".rda")
+    saveRDS(x, x_path, compress = "xz")
+
+    ## create cluster
+    if (identical(parallel_cluster, "FORK")) {
+      cl <- parallel::makeCluster(parallel_n_threads, "FORK")
+    } else {
+      cl <- parallel::makeCluster(parallel_n_threads, "PSOCK")
+      parallel::clusterExport(
+        cl = cl,
+        envir = environment(),
+        varlist = c(
+          "x_path", "habitat_path", "elevation_path", "pb", "wopt",
+          "parallel_n_threads"
+        )
+      )
+    }
+    ## set up workers
+    on.exit(parallel::stopCluster(cl), add = TRUE)
+
+    ## set up future plan
+    old_plan <- future::plan("cluster", workers = cl)
     on.exit(future::plan(old_plan), add = TRUE)
   }
-  ## main processing
+
+  # main processing
   result <- furrr::future_map_lgl(
     .x = idx,
+    .options = furrr::furrr_options(seed = TRUE),
     .f = function(i) {
-      ### initialization
-      curr_spp_path <- x$path[i]
-      curr_spp_habitat_codes <- x$habitat_code[[i]]
-      curr_spp_lower_elevation <- x$elevation_lower[i]
-      curr_spp_upper_elevation <- x$elevation_upper[i]
-      ### create temporary directory for species
+      ## initialization
+      if (!all(
+        exists("habitat_data2"),
+        exists("elevation_data2"),
+        exists("x2"))
+      ) {
+        if (isTRUE(parallel_n_threads > 1)) {
+          ## if parallel processing
+          assign("x2", readRDS(x_path), envir = globalenv())
+          assign(
+            "habitat_data2", terra::rast(habitat_path), envir = globalenv()
+          )
+          assign(
+            "elevation_data2", terra::rast(elevation_path), envir = globalenv()
+          )
+        } else {
+          ## if local processing
+          x2 <- x
+          habitat_data2 <- habitat_data
+          elevation_data2 <- elevation_data
+        }
+      }
+
+      ## extract data for current iteration
+      curr_spp_path <- x2$path[i]
+      curr_spp_habitat_codes <- x2$habitat_code[[i]]
+      curr_spp_lower_elevation <- x2$elevation_lower[i]
+      curr_spp_upper_elevation <- x2$elevation_upper[i]
+      curr_spp_extent <- aoh::sf_terra_ext(x2[i, , drop = FALSE])
+
+      ## create temporary directory for species
       curr_spp_tmp_dir <- tempfile()
       dir.create(curr_spp_tmp_dir, showWarnings = FALSE, recursive = TRUE)
-      terra::terraOptions(progress = 0, tempdir = curr_spp_tmp_dir)
-      ### generate bounding box for species range
-      curr_spp_extent <- sf_terra_ext(x[i, , drop = FALSE])
-      ### calculate total sum of habitat based on codes
+      do.call(
+        terra::terraOptions,
+        append(list(progress = 0, tempdir = curr_spp_tmp_dir), wopt)
+      )
+
+      ## calculate total sum of habitat based on codes
       curr_spp_habitat_data <- sum(
         terra::crop(
-          x = habitat_data[[curr_spp_habitat_codes]],
+          x = habitat_data2[[curr_spp_habitat_codes]],
           y = curr_spp_extent,
           snap = "out",
-          datatype = "INT2U"
         ),
         na.rm = TRUE
       )
-      ### apply altitudinal limits (if needed)
+      ## apply altitudinal limits (if needed)
       if (is.finite(curr_spp_lower_elevation) ||
           is.finite(curr_spp_upper_elevation)) {
-        #### create altitudinal mask
+        ### create altitudinal mask
         curr_elev_mask <- terra::crop(
-          x = elevation_data,
+          x = elevation_data2,
           y = terra::ext(curr_spp_habitat_data),
-          snap = "out",
-          datatype = "INT2U"
+          snap = "out"
         )
         curr_elev_mask <- terra::clamp(
           x = curr_elev_mask,
           lower = curr_spp_lower_elevation,
           upper = curr_spp_upper_elevation,
-          values = FALSE,
-          datatype = "INT2U"
+          values = FALSE
         )
-        ## apply altitudinal mask
+        ### apply altitudinal mask
         curr_spp_habitat_data <- terra::mask(
           x = curr_spp_habitat_data,
           mask = curr_elev_mask,
           maskvalue = NA_integer_,
-          updatevalue = 0,
-          datatype = "INT2U"
+          updatevalue = 0
         )
       }
-      ### apply mask
+
+      ## apply mask
       curr_spp_habitat_data <- terra::mask(
         x = curr_spp_habitat_data,
         mask = terra::vect(x[i, ]),
-        updatevalue = NA_integer_,
-        datatype = "INT2U"
+        updatevalue = NA_integer_
       )
-      ### rescale data to proportion
+
+      ## rescale data to proportion
       curr_spp_habitat_data <- terra::app(
         x = curr_spp_habitat_data,
-        function(x) x / (1000 * terra::nlyr(habitat_data)),
+        function(x) x / (1000 * terra::nlyr(habitat_data2)),
         wopt = list(datatype = "FLT4S")
       )
-      ### save data
+
+      ## save data
       terra::writeRaster(
         x = curr_spp_habitat_data,
         filename = curr_spp_path,
@@ -201,21 +252,18 @@ process_spp_aoh_data_on_local <- function(x,
         datatype = "FLT4S"
       )
       file.exists(curr_spp_path)
-      ### clean up
+
+      ## clean up
       unlink(curr_spp_tmp_dir, force = TRUE, recursive = TRUE)
       rm(curr_spp_habitat_data, curr_elev_mask)
       gc()
-      ### increment progress bar
+
+      ## increment progress bar
       pb()
-      ### return success
+
+      ## return success
       TRUE
   })
-  ## clean up
-  if (isTRUE(parallel_n_threads > 1)) {
-    if (identical(parallel_strategy, "multisession")) {
-      cl <- parallel::stopCluster(cl)
-    }
-  }
 
   # return result
   result

@@ -12,13 +12,13 @@ create_spp_aoh_data(
   spp_habitat_data = NULL,
   elevation_data = NULL,
   habitat_data = NULL,
-  template_data = world_berhman_1km_rast(),
+  template_data = get_world_berhman_1km_rast(),
   iucn_version = "latest",
   habitat_version = "latest",
   key = NULL,
   force = FALSE,
   parallel_n_threads = 1,
-  parallel_strategy = NULL,
+  parallel_cluster = NULL,
   omit_habitat_codes = default_omit_iucn_habitat_codes(),
   use_ee = FALSE,
   verbose = TRUE
@@ -86,7 +86,7 @@ are automatically obtained from Jung \emph{et al.} 2020b
 \item{template_data}{\code{\link[terra:rast]{terra::rast()}} Template raster specifying the
 resolution, coordinate reference system, and dimensionality for the
 output raster files.
-Defaults to \code{\link[=world_berhman_1km_rast]{world_berhman_1km_rast()}} which is a global 1 km resolution
+Defaults to \code{\link[=get_world_berhman_1km_rast]{get_world_berhman_1km_rast()}} which is a global 1 km resolution
 raster under the World Behrman coordinate reference system (ESRI:54017).}
 
 \item{iucn_version}{\code{character} Version of the
@@ -121,12 +121,13 @@ parameter based on the number of available threads (see Examples below).}
 Note that this parameter is only used if \code{use_ee} is \code{FALSE}.
 Defaults to 1.}
 
-\item{parallel_strategy}{\code{character} Name of strategy for
-processing data in parallel. Available options are \code{"multisession"} and
-\code{"multicore"}.
-Defaults to \code{NULL} such that \code{"multisession"} is used on Microsoft
-Windows operating systems, and \code{"multicore"} otherwise.
-Note that this parameter is only used if \code{use_ee} is \code{FALSE}.
+\item{parallel_cluster}{\code{character} Name of strategy for
+processing data in parallel. Available options are \code{"FORK"} and
+\code{"PSOCK"}.
+Defaults to \code{NULL} such that \code{"PSOCK"} is used on Microsoft
+Windows operating systems, and \code{"FORK"} otherwise.
+Note that this parameter only affects data pre-processing if
+Earth Engine is used (i.e. if \code{use_ee} is \code{TRUE}).
 Defaults to 1.}
 
 \item{omit_habitat_codes}{\code{character} Habitat classification codes

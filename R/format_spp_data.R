@@ -21,7 +21,7 @@ NULL
 #'
 #' @noRd
 format_spp_data <- function(x,
-                            template_data = world_berhman_1km_rast(),
+                            template_data = get_world_berhman_1km_rast(),
                             spp_summary_data = NULL,
                             spp_habitat_data = NULL,
                             cache_dir = tempdir(),

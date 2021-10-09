@@ -10,7 +10,7 @@ parallel_project(
   method = "bilinear",
   buffer = 0,
   parallel_n_threads = 1,
-  parallel_strategy = NULL,
+  parallel_cluster = NULL,
   temp_dir = tempdir(),
   verbose = TRUE,
   ...
@@ -38,12 +38,13 @@ parameter based on the number of available threads (see Examples below).}
 Note that this parameter is only used if \code{use_ee} is \code{FALSE}.
 Defaults to 1.}
 
-\item{parallel_strategy}{\code{character} Name of strategy for
-processing data in parallel. Available options are \code{"multisession"} and
-\code{"multicore"}.
-Defaults to \code{NULL} such that \code{"multisession"} is used on Microsoft
-Windows operating systems, and \code{"multicore"} otherwise.
-Note that this parameter is only used if \code{use_ee} is \code{FALSE}.
+\item{parallel_cluster}{\code{character} Name of strategy for
+processing data in parallel. Available options are \code{"FORK"} and
+\code{"PSOCK"}.
+Defaults to \code{NULL} such that \code{"PSOCK"} is used on Microsoft
+Windows operating systems, and \code{"FORK"} otherwise.
+Note that this parameter only affects data pre-processing if
+Earth Engine is used (i.e. if \code{use_ee} is \code{TRUE}).
 Defaults to 1.}
 
 \item{temp_dir}{\code{character} Directory for saving temporary files.

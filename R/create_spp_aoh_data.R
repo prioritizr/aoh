@@ -1,6 +1,7 @@
 #' @include internal.R clean_spp_range_data.R
 #' @include get_global_elevation_data.R get_global_habitat_data.R
 #' @include get_spp_habitat_data.R get_spp_summary_data.R
+#' @include misc_terra.R misc_sf.R
 NULL
 
 #' Create Area of Habitat data
@@ -86,7 +87,7 @@ NULL
 #' @param template_data [terra::rast()] Template raster specifying the
 #'  resolution, coordinate reference system, and dimensionality for the
 #'  output raster files.
-#'  Defaults to [world_berhman_1km_rast()] which is a global 1 km resolution
+#'  Defaults to [get_world_berhman_1km_rast()] which is a global 1 km resolution
 #'  raster under the World Behrman coordinate reference system (ESRI:54017).
 #'
 #' @param parallel_n_threads `integer` Number of computational threads to use
@@ -96,12 +97,13 @@ NULL
 #'   Note that this parameter is only used if `use_ee` is `FALSE`.
 #'   Defaults to 1.
 #'
-#' @param parallel_strategy `character` Name of strategy for
-#'  processing data in parallel. Available options are `"multisession"` and
-#'  `"multicore"`.
-#'  Defaults to `NULL` such that `"multisession"` is used on Microsoft
-#'  Windows operating systems, and `"multicore"` otherwise.
-#'  Note that this parameter is only used if `use_ee` is `FALSE`.
+#' @param parallel_cluster `character` Name of strategy for
+#'  processing data in parallel. Available options are `"FORK"` and
+#'  `"PSOCK"`.
+#'  Defaults to `NULL` such that `"PSOCK"` is used on Microsoft
+#'  Windows operating systems, and `"FORK"` otherwise.
+#'  Note that this parameter only affects data pre-processing if
+#'  Earth Engine is used (i.e. if `use_ee` is `TRUE`).
 #'  Defaults to 1.
 #'
 #' @param omit_habitat_codes `character` Habitat classification codes
@@ -233,13 +235,13 @@ create_spp_aoh_data <- function(x,
                                 spp_habitat_data = NULL,
                                 elevation_data = NULL,
                                 habitat_data = NULL,
-                                template_data = world_berhman_1km_rast(),
+                                template_data = get_world_berhman_1km_rast(),
                                 iucn_version = "latest",
                                 habitat_version = "latest",
                                 key = NULL,
                                 force = FALSE,
                                 parallel_n_threads = 1,
-                                parallel_strategy = NULL,
+                                parallel_cluster = NULL,
                                 omit_habitat_codes =
                                   default_omit_iucn_habitat_codes(),
                                 use_ee = FALSE,
@@ -270,21 +272,21 @@ create_spp_aoh_data <- function(x,
     inherits(template_data, "SpatRaster")
   )
   ## parallel cluster
-  if (is.null(parallel_strategy)) {
-    parallel_strategy <- ifelse(
-      identical(.Platform$OS.type, "unix"), "multicore", "multisession"
+  if (is.null(parallel_cluster)) {
+    parallel_cluster <- ifelse(
+      identical(.Platform$OS.type, "unix"), "FORK", "PSOCK"
     )
   }
   assertthat::assert_that(
-    assertthat::is.string(parallel_strategy),
-    assertthat::noNA(parallel_strategy)
+    assertthat::is.string(parallel_cluster),
+    assertthat::noNA(parallel_cluster)
   )
   assertthat::assert_that(
-    identical(parallel_strategy, "multicore") ||
-    identical(parallel_strategy, "multisession"),
+    identical(parallel_cluster, "FORK") ||
+    identical(parallel_cluster, "PSOCK"),
     msg = paste(
-      "argument to \"parallel_strategy\" is not NULL,",
-      "\"multicore\", or \"multisession\""
+      "argument to \"parallel_cluster\" is not NULL,",
+      "\"FORK\", or \"PSOCK\""
     )
   )
   ## update message
@@ -308,7 +310,9 @@ create_spp_aoh_data <- function(x,
     }
   }
   assertthat::assert_that(
-    inherits(elevation_data, "SpatRaster")
+    inherits(elevation_data, "SpatRaster"),
+    terra::nlyr(elevation_data) == 1,
+    all(terra::hasValues(elevation_data))
   )
   ## habitat_data
   if (is.null(habitat_data)) {
@@ -327,7 +331,8 @@ create_spp_aoh_data <- function(x,
     }
   }
   assertthat::assert_that(
-    inherits(habitat_data, "SpatRaster")
+    inherits(habitat_data, "SpatRaster"),
+    all(terra::hasValues(habitat_data))
   )
   ## additional data validation
   rng_cells <- as.matrix(terra::spatSample(
@@ -460,7 +465,7 @@ create_spp_aoh_data <- function(x,
         temp_dir = tmp_rast_dir,
         verbose = verbose,
         parallel_n_threads = parallel_n_threads,
-        parallel_strategy = parallel_strategy,
+        parallel_cluster = parallel_cluster,
         datatype = "INT2U"
       )
     }
@@ -508,7 +513,8 @@ create_spp_aoh_data <- function(x,
     buffer = 5000,
     temp_dir = tmp_rast_dir,
     verbose = FALSE,
-    datatype = "INT2U"
+    parallel_n_threads = 1, # no speed up to be had with one layer
+    datatype = "INT2U",
   )
   ### verify that elevation data encompasses that species range data
   assertthat::assert_that(
@@ -570,7 +576,8 @@ create_spp_aoh_data <- function(x,
       elevation_data = elevation_data,
       cache_dir = cache_dir,
       force = force,
-      verbose = verbose
+      verbose = verbose,
+      datatype = "INT2U"
     )
   } else {
     ## use local host for processing
@@ -584,8 +591,9 @@ create_spp_aoh_data <- function(x,
           cache_dir = cache_dir,
           force = force,
           parallel_n_threads = parallel_n_threads,
-          parallel_strategy = parallel_strategy,
-          verbose = verbose
+          parallel_cluster = parallel_cluster,
+          verbose = verbose,
+          datatype = "INT2U"
         )
       }
     )

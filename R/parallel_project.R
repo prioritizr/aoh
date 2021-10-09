@@ -1,4 +1,4 @@
-#' @include internal.R
+#' @include internal.R misc_terra.R misc_sf.R
 NULL
 
 #' Parallel project
@@ -150,7 +150,7 @@ parallel_project <- function(x,
         envir = environment(),
         varlist = c(
           "x_path", "y_path", "pb", "wopt", "method", "paths",
-          "crop_ext_list", "parallel_n_threads", "parallel_cluster"
+          "crop_ext_list", "parallel_n_threads"
         )
       )
     }
@@ -164,36 +164,53 @@ parallel_project <- function(x,
   # process data
   x <- furrr::future_map(
     .x = seq_len(terra::nlyr(x)),
+    .options = furrr::furrr_options(seed = TRUE),
     .f = function(i) {
-      ## import layers if in parallel (alas clusterEvalQ does NOT work)
-      if (
-        isTRUE(parallel_n_threads > 1) &&
-        !identical(Sys.getenv("setup"), "TRUE")
-      ) {
-        x <<- terra::rast(x_path)
-        y <<- terra::rast(y_path)
-        if (!is.null(crop_ext_list)) {
-          crop_ext <<- terra::ext(crop_ext_list)
+      ## initialization (alas clusterEvalQ not compatible with terra)
+      if (!all(exists("x2"), exists("y2"), exists("crop_ext2"))) {
+        if (isTRUE(parallel_n_threads > 1)) {
+          ## if parallel processing
+          assign("x2", terra::rast(x_path), envir = globalenv())
+          assign("y2", terra::rast(y_path), envir = globalenv())
+          if (!is.null(crop_ext_list)) {
+            assign("crop_ext2", terra::ext(crop_ext_list), envir = globalenv())
+          } else {
+            assign("crop_ext2", NULL, envir = globalenv())
+          }
+        } else {
+          ## if local processing
+          x2 <- x
+          y2 <- y
+          if (!is.null(crop_ext_list)) {
+            crop_ext2 <- crop_ext
+          } else {
+            crop_ext2 <- NULL
+          }
         }
-        Sys.setenv("setup" = "TRUE")
       }
+
       ## extract layer
-      xi <- x[[i]]
+      xi <- x2[[i]]
+
       ## crop layer
       if (!is.null(crop_ext_list)) {
-        xi <- do.call(terra::crop, append(list(x = xi, y = crop_ext), wopt))
+        xi <- do.call(terra::crop, append(list(x = xi, y = crop_ext2), wopt))
       }
+
       ## reproject layer
       xi <- do.call(
         terra::project,
-        append(list(x = xi, y = y, method = method), wopt)
+        append(list(x = xi, y = y2, method = method), wopt)
       )
+
       ## if parallel then prepare result for host
       if (isTRUE(parallel_n_threads > 1)) {
         terra::writeRaster(x = xi, filename = paths[[i]], wopt = wopt)
       }
+
       ##  update progress bar
       pb()
+
       ## return result
       if (isTRUE(parallel_n_threads > 1)) {
         return(paths[[i]])
@@ -202,6 +219,7 @@ parallel_project <- function(x,
       }
     }
   )
+
   # process result
   if (inherits(x[[1]], "character")) {
     x <- terra::rast(unlist(x, recursive = FALSE, use.names = FALSE))

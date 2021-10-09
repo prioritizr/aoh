@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Create a template SpatRast raster
+#' Create a template raster
 #'
 #' Create a template [terra::rast()] raster object based on specified
 #' spatial properties.
@@ -31,7 +31,10 @@ NULL
 #'
 #' # preview raster
 #' print(r)
-#' @noRd
+#'
+#' @family geoprocessing
+#'
+#' @export
 create_template_rast <- function(xres, yres, crs, bbox) {
   # assert arguments are valid
   assertthat::assert_that(
@@ -58,11 +61,59 @@ create_template_rast <- function(xres, yres, crs, bbox) {
   r
 }
 
+#' Coordinate reference system
+#'
+#' Create a [sf::st_crs()] object to describe the spatial coordinate
+#' reference system of a [terra::rast()] object following the \pkg{sf} package
+#' conventions.
+#'
+#' @param x [terra::rast()] Raster object.
+#'
+#' @return A [sf::st_crs()] object.
+#'
+#' @examples
+#' # create raster object
+#' x <- rast(
+#'   ncols = 40, nrows = 40,
+#'   xmin = -110, xmax = -90, ymin = 40, ymax = 60,
+#'   crs = "+proj=longlat +datum=WGS84"
+#' )
+#'
+#' # extract coordinate reference system
+#' terra_st_crs(x)
+#'
+#' @family geoprocessing
+#'
+#' @export
 terra_st_crs <- function(x) {
   assertthat::assert_that(inherits(x, "SpatRaster"))
   sf::st_crs(terra::crs(x))
 }
 
+#' Bounding box
+#'
+#' Create a [sf::st_bbox()] object to describe the spatial extent
+#' of a [terra::rast()] object following the \pkg{sf} package
+#' conventions.
+#'
+#' @param x [terra::rast()] Raster object.
+#'
+#' @return A sf::st_crs()] object.
+#'
+#' @examples
+#' # create raster object
+#' x <- rast(
+#'   ncols = 40, nrows = 40,
+#'   xmin = -110, xmax = -90, ymin = 40, ymax = 60,
+#'   crs = "+proj=longlat +datum=WGS84"
+#' )
+#'
+#' # extract bounding box
+#' terra_st_bbox(x)
+#'
+#' @family geoprocessing
+#'
+#' @export
 terra_st_bbox <- function(x) {
   assertthat::assert_that(inherits(x, "SpatRaster"))
   sf::st_bbox(
