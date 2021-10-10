@@ -43,6 +43,7 @@ assertthat::assert_that(
 )
 
 # Exports
+## save raster
 terra::writeRaster(
   x = rast,
   filename = "inst/extdata/world_behrman_1km_rast.tif",
@@ -50,3 +51,6 @@ terra::writeRaster(
   NAflag = -9999,
   gdal = "COMPRESS=DEFLATE"
 )
+
+## display message
+message("Done!")

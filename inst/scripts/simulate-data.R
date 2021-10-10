@@ -11,6 +11,9 @@ library(sf)
 library(dplyr)
 library(terra)
 
+# set rng state
+set.seed(500)
+
 # Preliminary processing
 ## install dependencies if needed
 if (!require(rnaturalearthhires)) {
@@ -130,3 +133,6 @@ write.table(
   sep = ",",
   row.names = FALSE
 )
+
+## display message
+message("Done!")
