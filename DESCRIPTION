@@ -37,7 +37,9 @@ Suggests:
     ggmap (>= 2.6.1),
     ggplot2 (>= 3.1.0),
     pingr (>= 1.1.2),
-    piggyback (>= 0.1.1)
+    piggyback (>= 0.1.1),
+    RandomFields (>= 3.3.10),
+    smoothr (>= 0.2.2)
 Depends:
     R (>= 3.5.0),
     sf (>= 1.0-2),
@@ -53,6 +55,7 @@ Collate:
     'internal.R'
     'assertions.R'
     'clean_spp_range_data.R'
+    'convert_seasonal.R'
     'misc_sf.R'
     'misc_terra.R'
     'get_spp_summary_data.R'
@@ -63,11 +66,13 @@ Collate:
     'default_omit_iucn_habitat_codes.R'
     'format_spp_data.R'
     'get_spp_api_data.R'
+    'misc_randomfields.R'
     'package.R'
     'parallel_project.R'
     'process_spp_aoh_data_on_ee.R'
     'process_spp_aoh_data_on_local.R'
     'read_spp_range_data.R'
+    'simulate_spp_data.R'
     'world_berhman_1km_rast.R'
     'zzz.R'
 Roxygen: list(markdown = TRUE)

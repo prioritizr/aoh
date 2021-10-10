@@ -7,7 +7,9 @@ NULL
 #' Create Area of Habitat data
 #'
 #' Create Area of Habitat (AOH) data for species based on their altitudinal and
-#' habitat preferences (Brooks *et al.* 2019).
+#' habitat preferences (Brooks *et al.* 2019). This function is designed to
+#' work with data obtained from the
+#' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
 #'
 #' @inheritParams get_global_habitat_data
 #' @inheritParams get_spp_summary_data
@@ -230,12 +232,12 @@ NULL
 #' @export
 create_spp_aoh_data <- function(x,
                                 output_dir,
-                                cache_dir = tempdir(),
                                 spp_summary_data = NULL,
                                 spp_habitat_data = NULL,
                                 elevation_data = NULL,
                                 habitat_data = NULL,
                                 template_data = get_world_berhman_1km_rast(),
+                                cache_dir = tempdir(),
                                 iucn_version = "latest",
                                 habitat_version = "latest",
                                 key = NULL,

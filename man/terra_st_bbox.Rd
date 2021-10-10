@@ -33,6 +33,7 @@ terra_st_bbox(x)
 Other geoprocessing: 
 \code{\link{create_template_rast}()},
 \code{\link{read_sf_n}()},
+\code{\link{sf_terra_crs}()},
 \code{\link{sf_terra_ext}()},
 \code{\link{terra_st_crs}()}
 }

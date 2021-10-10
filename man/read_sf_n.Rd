@@ -34,6 +34,7 @@ print(nc2)
 \seealso{
 Other geoprocessing: 
 \code{\link{create_template_rast}()},
+\code{\link{sf_terra_crs}()},
 \code{\link{sf_terra_ext}()},
 \code{\link{terra_st_bbox}()},
 \code{\link{terra_st_crs}()}

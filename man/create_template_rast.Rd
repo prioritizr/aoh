@@ -42,6 +42,7 @@ print(r)
 \seealso{
 Other geoprocessing: 
 \code{\link{read_sf_n}()},
+\code{\link{sf_terra_crs}()},
 \code{\link{sf_terra_ext}()},
 \code{\link{terra_st_bbox}()},
 \code{\link{terra_st_crs}()}

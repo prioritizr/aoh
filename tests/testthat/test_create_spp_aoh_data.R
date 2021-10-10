@@ -34,7 +34,7 @@ test_that("amphibian data", {
     ),
     "tbl_df"
   )
-  expect_equal(nrow(x), nrow(d))
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
 })
@@ -58,7 +58,7 @@ test_that("reptile data", {
     ),
     "tbl_df"
   )
-  expect_equal(nrow(x), nrow(d))
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
 })
@@ -82,7 +82,7 @@ test_that("terrestrial mammal data", {
     ),
     "tbl_df"
   )
-  expect_equal(nrow(x), nrow(d))
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
 })

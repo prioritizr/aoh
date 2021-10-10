@@ -90,3 +90,30 @@ sf_terra_ext <- function(x) {
   }
   terra::ext(c(x$xmin, x$xmax, x$ymin, x$ymax))
 }
+
+#' Coordinate reference system
+#'
+#' Create a `character` object to describe the coordinate reference system
+#' of a [sf::st_sf()] object following the \pkg{terra} package conventions.
+#'
+#' @param x [sf::st_sf()] Object.
+#'
+#' @return A `character` value.
+#'
+#' @examples
+#' # import sf object
+#' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
+#'
+#' # create terra CRS value
+#' sf_terra_crs(nc)
+#'
+#' @family geoprocessing
+#'
+#' @export
+sf_terra_crs <- function(x) {
+  assertthat::assert_that(inherits(x, c("sf", "crs")))
+  if (inherits(x, "sf")) {
+    x <- sf::st_crs(x)
+  }
+  as.character(x)$wkt
+}

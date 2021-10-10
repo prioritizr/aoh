@@ -7,12 +7,12 @@
 create_spp_aoh_data(
   x,
   output_dir,
-  cache_dir = tempdir(),
   spp_summary_data = NULL,
   spp_habitat_data = NULL,
   elevation_data = NULL,
   habitat_data = NULL,
   template_data = get_world_berhman_1km_rast(),
+  cache_dir = tempdir(),
   iucn_version = "latest",
   habitat_version = "latest",
   key = NULL,
@@ -30,11 +30,6 @@ obtained from the \href{https://www.iucnredlist.org/}{IUCN Red List}.}
 
 \item{output_dir}{\code{character} folder path to save raster files
 (GeoTIFF format) containing the Area of Habitat data.}
-
-\item{cache_dir}{\code{character} folder path for downloading and caching data.
-By default, a temporary directory is used (i.e. \code{tempdir()}).
-\strong{To avoid downloading the same data multiple times, it is strongly
-recommended to specify a persistent storage location (see Examples below).}}
 
 \item{spp_summary_data}{\code{\link[tibble:tibble]{tibble::tibble()}} Table containing summary
 information for each species (in the argument to \code{x}).
@@ -88,6 +83,11 @@ resolution, coordinate reference system, and dimensionality for the
 output raster files.
 Defaults to \code{\link[=get_world_berhman_1km_rast]{get_world_berhman_1km_rast()}} which is a global 1 km resolution
 raster under the World Behrman coordinate reference system (ESRI:54017).}
+
+\item{cache_dir}{\code{character} folder path for downloading and caching data.
+By default, a temporary directory is used (i.e. \code{tempdir()}).
+\strong{To avoid downloading the same data multiple times, it is strongly
+recommended to specify a persistent storage location (see Examples below).}}
 
 \item{iucn_version}{\code{character} Version of the
 IUCN Red List dataset that should be used. See documentation for the
@@ -193,7 +193,9 @@ data).
 }
 \description{
 Create Area of Habitat (AOH) data for species based on their altitudinal and
-habitat preferences (Brooks \emph{et al.} 2019).
+habitat preferences (Brooks \emph{et al.} 2019). This function is designed to
+work with data obtained from the
+\href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
 }
 \examples{
 \dontrun{
