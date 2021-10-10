@@ -253,9 +253,9 @@ habitat_codes <- function(x) {
     x[which(nchar(x) > 0)[1]]
   })
   # import codes conversion table
-  code_data <- system.file("extdata", "habitat-codes.csv", package = "aoh")
-  code_data <- data.table::fread(
-    code_data, data.table = FALSE, sep = ",", sep2 = ""
+  code_data <- read.table(
+    system.file("extdata", "habitat-codes.csv", package = "aoh"),
+    header = TRUE, sep = ",", quote = "\"", colClasses = "character"
   )
   code_data <- tibble::as_tibble(code_data)
   # convert to IUCN codes

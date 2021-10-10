@@ -34,7 +34,11 @@ sim_boundary_data <-
   dplyr::mutate(area = sf::st_area(.)) %>%
   dplyr::arrange(dplyr::desc(area)) %>%
   dplyr::filter(seq_along(area) == 1) %>%
-  dplyr::select(id)
+  dplyr::select(id) %>%
+  sf::st_set_precision(1500) %>%
+  sf::st_make_valid() %>%
+  dplyr::filter(!sf::st_is_empty(.)) %>%
+  {suppressWarnings(sf::st_collection_extract(., "POLYGON"))}
 
 ## create habitat data based on spatial boundary
 sim_habitat_data <-
@@ -68,6 +72,14 @@ sim_elevation_data <-
     }
   )
 
+## simulate data
+sim_data <- simulate_spp_data(
+  n = n_spp,
+  boundary_data = sim_boundary_data,
+  habitat_data = sim_habitat_data,
+  elevation_data = sim_elevation_data
+)
+
 # Exports
 ## save boundary data
 sf::write_sf(
@@ -86,10 +98,35 @@ terra::writeRaster(
 )
 
 ## save range data
-# TODO
+temp_dir <- tempfile()
+dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
+sf::write_sf(
+  sim_data$spp_range_data,
+  file.path(temp_dir, "SIMULATED_SPECIES.shp")
+)
+zip_path <- file.path(getwd(), "inst/extdata/SIMULATED_SPECIES.zip")
+withr::with_dir(
+  temp_dir,
+  utils::zip(
+    zipfile = zip_path,
+    files = dir(temp_dir)
+  )
+)
 
 ## save habitat data
-# TODO
+write.table(
+  sim_data$spp_habitat_data,
+  "inst/extdata/sim_spp_habitat_data.csv",
+  quote = TRUE,
+  sep = ",",
+  row.names = FALSE
+)
 
 ## save summary data
-# TODO
+write.table(
+  sim_data$spp_summary_data,
+  "inst/extdata/sim_spp_summary_data.csv",
+  quote = TRUE,
+  sep = ",",
+  row.names = FALSE
+)

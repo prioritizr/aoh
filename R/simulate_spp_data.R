@@ -87,11 +87,13 @@ simulate_spp_data <- function(n,
                               boundary_data,
                               habitat_data = NULL,
                               elevation_data = NULL,
-                              cache_dir = tempdir(),
-                              omit_habitat_codes =
-                                default_omit_iucn_habitat_codes(),
                               rf_model_scale_min = 1e+5,
                               rf_model_scale_max = 2e+5,
+                              cache_dir = tempdir(),
+                              habitat_version = "latest",
+                              force = FALSE,
+                              omit_habitat_codes =
+                                default_omit_iucn_habitat_codes(),
                               verbose = TRUE) {
   # assert that arguments are valid
   if (!requireNamespace("RandomFields", quietly = TRUE))
@@ -163,8 +165,8 @@ simulate_spp_data <- function(n,
     bbox = bb
   )
   sim_rast <- terra::mask(
-    terra::init(sim_rast, 1),
-    terra::vect(boundary_data_proj)
+    x = terra::init(sim_rast, 1),
+    mask = terra::vect(boundary_data_proj)
   )
 
   # simulate species range maps
@@ -217,32 +219,54 @@ simulate_spp_data <- function(n,
     # simulate additional data
     extra_idx <- setdiff(seq_len(nrow(x)), dist_idx)
     if (length(extra_idx) > 0) {
-      extra_idx <- sample(extra_idx, min(length(extra_idx), 3))
+      ## simulate additional distriubtions
+      extra_idx <- sample(x = extra_idx, size = min(length(extra_idx), 3))
       d2 <- x[extra_idx, , drop = FALSE]
-      d2$presence <- sample(c(1, seq(3, 6)), length(extra_idx), replace = TRUE)
-      d2$origin <- sample(seq(2, 6), length(extra_idx), replace = TRUE)
+      d2$presence <- sample(
+        x = c(1, seq(3, 6)), size = length(extra_idx), replace = TRUE
+      )
+      d2$origin <- sample(
+        x = seq(2, 6), size = length(extra_idx), replace = TRUE
+      )
       if (migrant) {
-        d2$seasonal <- sample(seq(2, 5), length(extra_idx), replace = TRUE)
+        d2$seasonal <- sample(
+          x = seq(2, 5), size = length(extra_idx), replace = TRUE
+        )
       } else {
         d2$seasonal <- 1
       }
+      out <- dplyr::bind_rows(d1, d2)
+    } else {
+      out <- d1
     }
     # return result
-    dplyr::bind_rows(d1, d2)
+    rownames(out) <- NULL
+    out
   })
 
   # smooth the distributions
   sim_range_data <- lapply(sim_range_data, function(x) {
-    suppressWarnings(
-      sf::st_intersection(
-        smoothr::smooth(x, method = "ksmooth", smoothness = 2),
-        boundary_data_proj
-      )
-    )
+    # smooth data
+    x <- smoothr::smooth(x, method = "ksmooth", smoothness = 2)
+    # repair any geometry issues
+    x <- sf::st_set_precision(x, 1500)
+    x <- sf::st_make_valid(x)
+    x <- dplyr::filter(x, !sf::st_is_empty(x))
+    x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+    # run intersection
+    x <- suppressWarnings(sf::st_intersection(x, boundary_data_proj))
+    # fix geometry issues
+    x <- sf::st_set_precision(x, 1500)
+    x <- sf::st_make_valid(x)
+    x <- dplyr::filter(x, !sf::st_is_empty(x))
+    x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+    # return result
+    x
   })
 
   # combine data
   sim_range_data <- do.call(dplyr::bind_rows, sim_range_data)
+  rownames(sim_range_data) <- NULL
 
   # add metadata
   sim_range_data <- dplyr::mutate(
@@ -270,21 +294,22 @@ simulate_spp_data <- function(n,
     terrestial = "true",
     freshwater = "false"
   )
+  sim_range_data <- dplyr::select(sim_range_data, -id)
 
   # simulate habitat preference data
   sim_habitat_data <- simulate_habitat_data(
-    sim_range_data,
-    terra::project(
+    x = sim_range_data,
+    habitat_data = terra::project(
       x = habitat_data,
       y = sim_rast,
-      omit_habitat_codes = omit_habitat_codes
-    )
+    ),
+    omit_habitat_codes = omit_habitat_codes
   )
 
   # simulate summary data
   sim_summary_data <- simulate_summary_data(
-    sim_range_data,
-    terra::project(
+    x = sim_range_data,
+    elevation_data = terra::project(
       x = elevation_data,
       y = sim_rast
     )
@@ -304,7 +329,7 @@ simulate_summary_data <- function(x, elevation_data) {
   assertthat::assert_that(
     inherits(x, "sf"),
     assertthat::has_name(x, "id_no"),
-    inherits(elevation_data, "SpatRaster"),
+    inherits(elevation_data, "SpatRaster")
   )
 
   # preliminary processing
@@ -317,6 +342,7 @@ simulate_summary_data <- function(x, elevation_data) {
   result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
     ## initialization
     curr_id_no <- x_distinct$id_no[[i]]
+
     ## subset data
     idx <- which(
       (x$id_no == curr_id_no) &
@@ -326,15 +352,15 @@ simulate_summary_data <- function(x, elevation_data) {
     )
     xi <- x[idx, , drop = FALSE]
     xi <- sf::st_as_sf(sf::st_union(xi))
+
     ## find elevation ranges
-    elev_range <- terra::quantile(
-      x = terra::mask(
-        x = elevation_data,
-        y = terra::vect(xi)
-      ),
+    elev_range <- stats::quantile(
+      terra::values(terra::mask(x = elevation_data, mask = terra::vect(xi))),
       probs = c(0.2, 0.8),
-      na.rm = TRUE
+      na.rm = TRUE,
+      names = FALSE
     )
+
     ## return result
     tibble::tibble(
       id_no = curr_id_no,
@@ -389,13 +415,17 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
   ## unique combinations id_no and seasonal
   x_distinct <- sf::st_drop_geometry(x)
   x_distinct <- dplyr::distinct(dplyr::select(x_distinct, id_no, seasonal))
+  x_distinct <- x_distinct[x_distinct$seasonal <= 4, , drop = FALSE]
   x_distinct$seasonal_name <- convert_to_seasonal_name(x_distinct$seasonal)
 
   ## convert habitat codes to names
-  code_data <- system.file("extdata", "habitat-codes.csv", package = "aoh")
-  if (all(names(habitat_data) %in% code_data$name)) {
+  code_data <- read.table(
+    system.file("extdata", "habitat-codes.csv", package = "aoh"),
+    header = TRUE, sep = ",", quote = "\"", colClasses = "character"
+  )
+  if (all(names(habitat_data) %in% code_data$iucn_code)) {
     habitat_names <- code_data$name
-    names(habitat_names) <- code_data$code
+    names(habitat_names) <- code_data$iucn_code
   } else {
     habitat_names <- paste0("code ", names(habitat_data))
     names(habitat_names) <- names(habitat_data)
@@ -407,6 +437,7 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
     curr_id_no <- x_distinct$id_no[[i]]
     curr_seasonal <- x_distinct$seasonal[[i]]
     curr_seasonal_name <- x_distinct$seasonal_name[[i]]
+
     ## subset data
     idx <- which(
       (x$id_no == curr_id_no) &
@@ -415,6 +446,7 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
       (x$origin == 1)
     )
     xi <- x[idx, , drop = FALSE]
+
     ## find available habitat
     xi_habitat_data <- terra::global(
       x = terra::mask(
@@ -424,7 +456,8 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
       fun = "sum",
       na.rm = TRUE
     )
-    xi_habitat_data <- xi_habitat_data[xi_habitat_data$sum > 0, , drop = FALSE]
+    idx <- which(xi_habitat_data$sum > 0)
+    xi_habitat_data <- xi_habitat_data[idx, , drop = FALSE]
     xi_habitat_data <- dplyr::arrange(xi_habitat_data,  dplyr::desc(sum))
 
     ## extract suitable habitat
@@ -433,20 +466,20 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
 
     ## sample suitable codes
     suitable_codes <- sample(
-      rownames(xi_suitable_habitat_data),
-      n = min(nrow(xi_suitable_habitat_data), 3),
+      x = rownames(xi_suitable_habitat_data),
+      size = min(nrow(xi_suitable_habitat_data), 3),
       replace = FALSE
     )
 
     ## sample marginal codes
     if (
-      (runif() > 0.8) &&
+      (stats::runif(1) > 0.8) &&
       (length(suitable_codes) < nrow(xi_habitat_data))
     ) {
       potential_codes <- setdiff(suitable_codes, rownames(xi_habitat_data))
       marginal_codes <- sample(
-        potential_codes,
-        min(length(potential_codes), 2)
+        x = potential_codes,
+        size = min(length(potential_codes), 2)
       )
     } else {
       marginal_codes <- c()
@@ -455,11 +488,11 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
     ## return data for species' seasonal distribution
     tibble::tibble(
       id_no = curr_id_no,
-      code = habitat_codes,
+      code = c(suitable_codes, marginal_codes),
       habitat = unname(habitat_names[c(suitable_codes, marginal_codes)]),
       suitability = c(
         rep("Suitable", length(suitable_codes)),
-        rep("Marginal", length(marginal_codes)),
+        rep("Marginal", length(marginal_codes))
       ),
       season = curr_seasonal_name,
       majorimportance = NA_character_

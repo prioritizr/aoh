@@ -9,10 +9,12 @@ simulate_spp_data(
   boundary_data,
   habitat_data = NULL,
   elevation_data = NULL,
-  cache_dir = tempdir(),
-  omit_habitat_codes = default_omit_iucn_habitat_codes(),
   rf_model_scale_min = 1e+05,
   rf_model_scale_max = 2e+05,
+  cache_dir = tempdir(),
+  habitat_version = "latest",
+  force = FALSE,
+  omit_habitat_codes = default_omit_iucn_habitat_codes(),
   verbose = TRUE
 )
 }
@@ -43,20 +45,6 @@ Defaults to \code{NULL} such that data
 are automatically obtained from Jung \emph{et al.} 2020b
 (using \code{\link[=get_global_elevation_data]{get_global_elevation_data()}}).}
 
-\item{cache_dir}{\code{character} folder path for downloading and caching data.
-By default, a temporary directory is used (i.e. \code{tempdir()}).
-\strong{To avoid downloading the same data multiple times, it is strongly
-recommended to specify a persistent storage location (see Examples below).}}
-
-\item{omit_habitat_codes}{\code{character} Habitat classification codes
-to omit from resulting Area of Habitat data. If the aim is to identify
-places that contain natural, suitable habitats, then processing should
-exclude (i) anthropogenically modified habitat classifications and (ii)
-unknown habitat classification types. Defaults to all artificial,
-introduced vegetation, and unknown habitat classifications on
-the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{IUCN Red List Habitat Classification Scheme}
-(see \code{\link[=default_omit_iucn_habitat_codes]{default_omit_iucn_habitat_codes()}},}
-
 \item{rf_model_scale_min}{\code{numeric} Minimum scaling parameter used
 to control the smallest possible size of simulated species ranges.
 See the documentation for the \code{scale} parameter in
@@ -68,6 +56,31 @@ to control the largest possible size of simulated species ranges.
 See the documentation for the \code{scale} parameter in
 \code{RandomFields::RMgauss()} for more information.
 Defaults to \code{2e+5}.}
+
+\item{cache_dir}{\code{character} folder path for downloading and caching data.
+By default, a temporary directory is used (i.e. \code{tempdir()}).
+\strong{To avoid downloading the same data multiple times, it is strongly
+recommended to specify a persistent storage location (see Examples below).}}
+
+\item{habitat_version}{\code{character} Version of the
+habitat dataset that should be used. See documentation for the
+the \code{version} parameter in the \code{\link[=get_global_habitat_data]{get_global_habitat_data()}} function
+for further details.
+Defaults to \code{"latest"} such that the most recent version of the dataset is
+used.}
+
+\item{force}{\code{logical} should the data be downloaded even if the
+the data are already available?
+Defaults to \code{FALSE}.}
+
+\item{omit_habitat_codes}{\code{character} Habitat classification codes
+to omit from resulting Area of Habitat data. If the aim is to identify
+places that contain natural, suitable habitats, then processing should
+exclude (i) anthropogenically modified habitat classifications and (ii)
+unknown habitat classification types. Defaults to all artificial,
+introduced vegetation, and unknown habitat classifications on
+the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{IUCN Red List Habitat Classification Scheme}
+(see \code{\link[=default_omit_iucn_habitat_codes]{default_omit_iucn_habitat_codes()}},}
 
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}

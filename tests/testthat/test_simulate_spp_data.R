@@ -1,7 +1,31 @@
 context("simulate_spp_data()")
 
-test_that("single species [manually specified data]", {
+test_that("single species", {
   # create data
+  n <- 1
+  boundary_data <- sf::read_sf(
+    system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("extdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  elevation_data <- terra::rast(
+    system.file("extdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  # tests
+  ## simulations
+  expect_is(
+    x <<- simulate_spp_data(n, boundary_data, habitat_data, elevation_data),
+    "list"
+  )
+  validate_range_data(x$spp_range_data, n = n)
+  validate_habitat_data(x$spp_habitat_data, n = n)
+  validate_summary_data(x$spp_summary_data, n = n)
+})
+
+test_that("multiple species", {
+  # create data
+  n <- 5
   boundary_data <- sf::read_sf(
     system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
   )
@@ -13,47 +37,30 @@ test_that("single species [manually specified data]", {
   )
   # tests
   expect_is(
-    x <<- simulate_spp_data(1, boundary_data, habitat_data, elevation_data),
+    x <<- simulate_spp_data(n, boundary_data, habitat_data, elevation_data),
     "list"
   )
-  expect_is(x$range_data, "sf")
-  expect_is(x$habitat_data, "tbl_df")
-  expect_is(x$summary_data, "tbl_df")
+  validate_range_data(x$spp_range_data, n = n)
+  validate_habitat_data(x$spp_habitat_data, n = n)
+  validate_summary_data(x$spp_summary_data, n = n)
 })
 
-test_that("multiple species [manually specified data]", {
+test_that("global elevation and habitat data", {
   # create data
-  boundary_data <- sf::read_sf(
-    system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
-  )
-  habitat_data <- terra::rast(
-    system.file("extdata", "sim_habitat_data.tif", package = "aoh")
-  )
-  elevation_data <- terra::rast(
-    system.file("extdata", "sim_elevation_data.tif", package = "aoh")
-  )
-  # tests
-  expect_is(
-    x <<- simulate_spp_data(5, boundary_data, habitat_data, elevation_data),
-    "list"
-  )
-  expect_is(x$range_data, "sf")
-  expect_is(x$habitat_data, "tbl_df")
-  expect_is(x$summary_data, "tbl_df")
-})
-
-test_that("multiple species [automatic specified data]", {
-  # create data
+  n <- 5
+  hv <- "10.5281/zenodo.3816946"
   cd <- rappdirs::user_data_dir("aoh")
   boundary_data <- sf::read_sf(
     system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
   )
   # tests
   expect_is(
-    x <<- simulate_spp_data(5, boundary_data, cache_dir = cd),
+    x <<- simulate_spp_data(
+      n, boundary_data, habitat_version = hv, cache_dir = cd
+    ),
     "list"
   )
-  expect_is(x$range_data, "sf")
-  expect_is(x$habitat_data, "tbl_df")
-  expect_is(x$summary_data, "tbl_df")
+  validate_range_data(x$spp_range_data, n = n)
+  validate_habitat_data(x$spp_habitat_data, n = n)
+  validate_summary_data(x$spp_summary_data, n = n)
 })

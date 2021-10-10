@@ -39,7 +39,7 @@ simulate_rf_data <- function(x, n, model, transform = identity, ...) {
   assertthat::assert_that(
     inherits(x, "SpatRaster"),
     assertthat::is.number(n),
-    is.finite(terra::global(sim_rast, "max", na.rm = TRUE)[[1]]),
+    is.finite(terra::global(x, "max", na.rm = TRUE)[[1]]),
     inherits(model, "RMmodel"),
     inherits(transform, "function"))
 

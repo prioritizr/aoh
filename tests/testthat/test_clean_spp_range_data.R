@@ -26,7 +26,7 @@ test_that("IUCN Red List amphibian data", {
   # tests
   expect_is(x <<- clean_spp_range_data(read_spp_range_data(f, n = 20)), "sf")
   expect_gt(nrow(x), 1)
-  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
   expect_equal(anyDuplicated(x$aoh_id), 0L)
 })
 
@@ -42,7 +42,7 @@ test_that("IUCN Red List reptile data", {
   # tests
   expect_is(x <<- clean_spp_range_data(read_spp_range_data(f, n = 20)), "sf")
   expect_gt(nrow(x), 1)
-  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
   expect_equal(anyDuplicated(x$aoh_id), 0L)
 })
 

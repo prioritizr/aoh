@@ -74,22 +74,23 @@ convert_to_seasonal_id <- function(x) {
 #' # print result
 #' print(y)
 #' @noRd
-convert_to_seasonal_names <- function(x) {
+convert_to_seasonal_name <- function(x) {
   # assert arguments are valid
   assertthat::assert_that(
-    is.character(x),
-    length(x) > 0
+    is.numeric(x),
+    length(x) > 0,
+    min(x, na.rm = TRUE) >= 1,
+    max(x, na.rm = TRUE) <= 5
   )
-  # standardize characters
-  x <- tolower(x)
   # convert characters
-  ## accounting for potential capitalization and extra punctuation
-  out <- rep(5L, length(x))
-  out[grepl("resident", x)] <- 1L
-  out[!grepl("non", x) & grepl("breed", x)] <- 2L
-  out[grepl("non", x)] <- 3L
-  out[grep("passage", x)] <- 4L
-  out[is.na(x)] <- NA_integer_
+  out <- character(length(x))
+  out[x == 1] <- "Resident"
+  out[x == 2] <- "Breeding Season"
+  out[x == 3] <- "Non-breeding Season"
+  out[x == 4] <- "Passage"
+  out[x == 5] <- "Seasonal Occurrence Uncertain"
+  out[is.na(x)] <- NA_character_
+
   # return result
   out
 }
