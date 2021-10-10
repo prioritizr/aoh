@@ -66,6 +66,7 @@ Collate:
     'default_omit_iucn_habitat_codes.R'
     'format_spp_data.R'
     'get_spp_api_data.R'
+    'get_world_berhman_1km_rast.R'
     'misc_randomfields.R'
     'package.R'
     'parallel_project.R'
@@ -73,7 +74,6 @@ Collate:
     'process_spp_aoh_data_on_local.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
-    'world_berhman_1km_rast.R'
     'zzz.R'
 Roxygen: list(markdown = TRUE)
 Remotes:

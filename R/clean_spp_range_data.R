@@ -82,7 +82,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # find file path for simulated data following the IUCN Red List format
-#' path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
+#' path <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
 #'
 #' # import data
 #' sim_spp_range_data <- read_spp_range_data(path)

@@ -255,7 +255,7 @@ process_spp_aoh_data_on_local <- function(x,
 
       ## clean up
       unlink(curr_spp_tmp_dir, force = TRUE, recursive = TRUE)
-      rm(curr_spp_habitat_data, curr_elev_mask)
+      suppressWarnings(rm(curr_spp_habitat_data, curr_elev_mask))
       gc()
 
       ## increment progress bar

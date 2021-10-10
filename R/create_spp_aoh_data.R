@@ -200,7 +200,7 @@ NULL
 #' data(sim_spp_habitat_data, package = "aoh")
 #'
 #' # find file path for simulated data following the IUCN Red List format
-#' path <- system.file("XENOMORPHS_TERRESTRIAL_ONLY.zip")
+#' path <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
 #'
 #' # import species range data
 #' sim_spp_range_data <- read_spp_range_data(path)
@@ -213,7 +213,7 @@ NULL
 #' # create Area of Habitat data for species
 #' sim_aoh_data <- create_aoh_data(
 #'   x = sim_spp_range_data,
-#'   output_dir = output_dir, ## change this
+#'   output_dir = output_dir,
 #'   spp_summary_data = sim_spp_summary_data,
 #'   spp_habitat_data = sim_spp_habitat_data,
 #'   parallel_n_threads = n_threads,
@@ -410,7 +410,7 @@ create_spp_aoh_data <- function(x,
   ##   they have no habitat layers at all,
   ##   none of their habitat layers are available
   x$path[is.na(x$xmin)] <- NA_character_
-  x$path[nchar(x$habitat_code) == 0] <- NA_character_
+  x$path[vapply(x$habitat_code, length, integer(1)) == 0] <- NA_character_
 
   # preliminary GIS data processing
   ## remove unused habitat layers

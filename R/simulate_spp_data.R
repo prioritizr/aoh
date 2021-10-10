@@ -386,8 +386,8 @@ simulate_summary_data <- function(x, elevation_data) {
       reviewer = NA_character_,
       aoo_km2 = NA_character_,
       eoo_km2 = NA_character_,
-      elevation_upper = elev_range[[1]],
-      elevation_lower = elev_range[[2]],
+      elevation_upper = ceiling(elev_range[[2]]),
+      elevation_lower = floor(elev_range[[1]]),
       depth_upper = NA_real_,
       depth_lower = NA_real_,
       errata_flag = NA_character_,
@@ -421,7 +421,8 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
   ## convert habitat codes to names
   code_data <- read.table(
     system.file("extdata", "habitat-codes.csv", package = "aoh"),
-    header = TRUE, sep = ",", quote = "\"", colClasses = "character"
+    header = TRUE, sep = ",", quote = "\"", colClasses = "character",
+    stringsAsFactors = FALSE
   )
   if (all(names(habitat_data) %in% code_data$iucn_code)) {
     habitat_names <- code_data$name

@@ -44,7 +44,7 @@ NULL
 #' )
 #' x <- rast(lapply(seq_len(10), function(i) {
 #'  init(x, "runif")
-#' })
+#' }))
 #'
 #' # preview object
 #' print(x)
@@ -109,7 +109,7 @@ parallel_project <- function(x,
 
   # identify spatial extent for cropping data prior to reprojection
   crop_ext <- try(
-    intersecting_ext(x, y, buffer = 5000),
+    intersecting_ext(x, y, buffer = max(terra::res(y) * 5)),
     silent = TRUE
   )
   crop_ext_list <- NULL
@@ -192,7 +192,7 @@ parallel_project <- function(x,
       ## extract layer
       xi <- x2[[i]]
 
-      ## crop layer
+      # crop layer
       if (!is.null(crop_ext_list)) {
         xi <- do.call(terra::crop, append(list(x = xi, y = crop_ext2), wopt))
       }
@@ -229,82 +229,4 @@ parallel_project <- function(x,
 
   # return result
   x
-}
-
-#' Intersecting extent
-#'
-#' Generate a [terra::ext()] object containing the spatial extent of one
-#' [terra::rast()] raster object inside another [terra::rast()] object.
-#'
-#' @param x [terra::rast()] Raster object. This object specifies the
-#'   [terra::crs()] coordinate reference system used for the output object.
-#'
-#' @param y [terra::rast()] Raster object. This object specifies the
-#'   spatial extent for the output object.
-#'
-#' @param buffer `numeric` buffer applied to the spatial extent of `y` before
-#'   reprojecting to the coordinate reference system of `x`. Defaults to 0.
-#'
-#' @return A [terra::ext()] object.
-#'
-#' @noRd
-intersecting_ext <- function(x, y, buffer = 0) {
-  # assert arguments are valid
-  assertthat::assert_that(
-    inherits(x, "SpatRaster"),
-    inherits(y, "SpatRaster"),
-    assertthat::is.number(buffer)
-  )
-  # processing
-  ## extract extent for y
-  y_ext <- sf::st_as_sfc(terra_st_bbox(y))
-  ## extract extent for x
-  x_ext <- sf::st_as_sfc(terra_st_bbox(x))
-  ## reproject to x coordinate system without buffer
-  y_ext_no_buffer <- sf::st_bbox(
-    sf::st_transform(y_ext, sf::st_crs(x))
-  )
-  ## reproject to x coordinate system with buffer
-  y_ext_buffer <- sf::st_bbox(
-    sf::st_transform(sf::st_buffer(y_ext, buffer), sf::st_crs(x))
-  )
-  ## handle NAs
-  if (any(is.na(c(y_ext_buffer)))) {
-    ## create new extent
-    y_ext_buffer2 <- c(xmin = 0, xmax = 0, ymin = 0, ymax = 0)
-    y_ext_buffer2[["xmin"]] <- ifelse(
-      is.na(y_ext_buffer$xmin), y_ext_no_buffer$xmin, y_ext_buffer$xmin
-    )
-    y_ext_buffer2[["xmax"]] <- ifelse(
-      is.na(y_ext_buffer$xmax), y_ext_no_buffer$xmax, y_ext_buffer$xmax
-    )
-    y_ext_buffer2[["ymin"]] <- ifelse(
-      is.na(y_ext_buffer$ymin), y_ext_no_buffer$ymin, y_ext_buffer$ymin
-    )
-    y_ext_buffer2[["ymax"]] <- ifelse(
-      is.na(y_ext_buffer$ymax), y_ext_no_buffer$ymax, y_ext_buffer$ymax
-    )
-    ## handle if any remaining NAs
-    if (any(is.na(y_ext_buffer2))) {
-      ### if x is in lon/lat, and we still get NAs for reprojecting extent
-      ## of y into x, then this is due to precision issues with
-      ## data in x occurring at the global scale, so we can manually
-      ## assume a global extent for x
-      if (terra::is.lonlat(x)) {
-        y_ext_buffer2 <-
-          sf::st_bbox(
-            c(xmin = -180, xmax = 180, ymin = -90, ymax = 90), crs =
-            sf::st_crs(x)
-          )
-      } else {
-        stop("failed to find intersecting extents")
-      }
-    }
-  } else {
-    y_ext_buffer2 <- y_ext_buffer
-  }
-  ## clip to x coordinate system
-  y_ext <- sf::st_bbox(sf::st_intersection(y_ext_buffer2, x_ext))
-  ## return extent of intersecting areas
-  terra::ext(c(y_ext$xmin, y_ext$xmax, y_ext$ymin, y_ext$ymax))
 }

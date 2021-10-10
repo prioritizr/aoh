@@ -173,14 +173,14 @@ format_spp_data <- function(x,
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## replace rows with NA values "season" in the season column with
   ## duplicates for every possible seasonal code (i.e. [1, 2, 3, 4, 5])
-  idx <- is.na(spp_habitat_data$habitat_code)
+  idx <- is.na(spp_habitat_data$seasonal)
   spp_habitat_data <- dplyr::bind_rows(
     spp_habitat_data[!idx, , drop = FALSE],
     plyr::ldply(
       which(idx),
       function(i) {
         x <- spp_habitat_data[rep(i, 5), , drop = FALSE]
-        x$habitat_code <- as.character(seq_len(5))
+        x$seasonal <- seq_len(5)
         x
       }
     )

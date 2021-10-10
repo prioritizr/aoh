@@ -74,4 +74,5 @@ validate_summary_data <- function(x, n = 1) {
   expect_true(assertthat::noNA(x$elevation_lower))
   expect_true(all(is.finite((x$elevation_lower))))
   expect_gte(min(x$elevation_lower), 0)
+  expect_true(all(x$elevation_lower <= x$elevation_upper))
 }

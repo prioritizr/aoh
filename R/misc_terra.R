@@ -125,3 +125,113 @@ terra_st_bbox <- function(x) {
     crs = sf::st_crs(terra::crs(x))
   )
 }
+
+#' Intersecting extent
+#'
+#' Generate a [terra::ext()] object containing the spatial extent of one
+#' [terra::rast()] raster object inside another [terra::rast()] object.
+#'
+#' @param x [terra::rast()] Raster object. This object specifies the
+#'   [terra::crs()] coordinate reference system used for the output object.
+#'
+#' @param y [terra::rast()] Raster object. This object specifies the
+#'   spatial extent for the output object.
+#'
+#' @param buffer `numeric` buffer applied to the spatial extent of `y` before
+#'   reprojecting to the coordinate reference system of `x`. Defaults to 0.
+#'
+#' @return A [terra::ext()] object.
+#'
+#' @examples
+#' # define raster object
+#' x <- rast(
+#'   ncols = 40, nrows = 40,
+#'   xmin = -110, xmax = -90, ymin = 40, ymax = 60,
+#'   crs = "+proj=longlat +datum=WGS84"
+#' )
+#' print(x)
+#'
+#' # define raster object with different coordinate reference system
+#' y <- rast(
+#'   ncols = 94, nrows = 124,
+#'   xmin = -944881, xmax = 935118, ymin = 4664377, ymax = 7144377,
+#'   crs = "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"
+#' )
+#' print(y)
+#'
+#' # find spatial extent of x that intersects with the spatial extent of y
+#' print(intersecting_ext(x, y))
+#'
+#' @family geoprocessing
+#'
+#' @export
+intersecting_ext <- function(x, y, buffer = 0) {
+  # assert arguments are valid
+  assertthat::assert_that(
+    inherits(x, "SpatRaster"),
+    inherits(y, "SpatRaster"),
+    assertthat::is.number(buffer)
+  )
+  # processing
+  ## extract extent for y
+  y_ext <- sf::st_as_sfc(terra_st_bbox(y))
+  ## extract extent for x
+  x_ext <- sf::st_as_sfc(terra_st_bbox(x))
+  ## reproject to x coordinate system without buffer
+  y_ext_no_buffer <- sf::st_bbox(
+    sf::st_transform(y_ext, terra_st_crs(x))
+  )
+  ## reproject to x coordinate system with buffer
+  y_ext_buffer <- sf::st_bbox(
+    sf::st_transform(sf::st_buffer(y_ext, buffer), terra_st_crs(x))
+  )
+  ## handle NAs
+  if (any(is.na(c(y_ext_buffer)))) {
+    ## create new extent
+    y_ext_buffer2 <- c(xmin = 0, xmax = 0, ymin = 0, ymax = 0)
+    y_ext_buffer2[["xmin"]] <- ifelse(
+      is.na(y_ext_buffer$xmin), y_ext_no_buffer$xmin, y_ext_buffer$xmin
+    )
+    y_ext_buffer2[["xmax"]] <- ifelse(
+      is.na(y_ext_buffer$xmax), y_ext_no_buffer$xmax, y_ext_buffer$xmax
+    )
+    y_ext_buffer2[["ymin"]] <- ifelse(
+      is.na(y_ext_buffer$ymin), y_ext_no_buffer$ymin, y_ext_buffer$ymin
+    )
+    y_ext_buffer2[["ymax"]] <- ifelse(
+      is.na(y_ext_buffer$ymax), y_ext_no_buffer$ymax, y_ext_buffer$ymax
+    )
+    ## handle if any remaining NAs
+    if (any(is.na(y_ext_buffer2))) {
+      ### if x is in lon/lat, and we still get NAs for reprojecting extent
+      ## of y into x, then this is due to precision issues with
+      ## data in x occurring at the global scale, so we can manually
+      ## assume a global extent for x
+      if (terra::is.lonlat(x)) {
+        y_ext_buffer2 <-
+          sf::st_bbox(
+            c(xmin = -180, xmax = 180, ymin = -90, ymax = 90), crs =
+            terra_st_crs(x)
+          )
+      } else {
+        stop("failed to find intersecting extents")
+      }
+    }
+  } else {
+    y_ext_buffer2 <- y_ext_buffer
+  }
+  ## clip to x coordinate system
+  y_ext <- sf::st_bbox(
+    sf::st_intersection(
+      sf::st_as_sfc(
+        sf::st_bbox(
+          y_ext_buffer2,
+          crs = terra_st_crs(x)
+        )
+      ),
+      x_ext
+    )
+  )
+  ## return extent of intersecting areas
+  terra::ext(c(y_ext$xmin, y_ext$xmax, y_ext$ymin, y_ext$ymax))
+}
