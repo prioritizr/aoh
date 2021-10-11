@@ -32,6 +32,7 @@ terra_st_crs(x)
 \seealso{
 Other geoprocessing: 
 \code{\link{create_template_rast}()},
+\code{\link{intersecting_ext}()},
 \code{\link{read_sf_n}()},
 \code{\link{sf_terra_crs}()},
 \code{\link{sf_terra_ext}()},

@@ -34,12 +34,12 @@ NULL
 #'  (i.e. a value of 0.5 indicates 50% coverage).
 #'
 #' @references
-#' Jung M, Dahal PR, Butchart SH, Donald PF, De Lamo X, Lesiv M, Kapos V,
+#' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020a) A global map of
 #' terrestrial habitat types. Scientific data, 7:1--8.
 #' <https://doi.org/10.1038/s41597-020-00599-8>
 #'
-#' Jung M, Dahal PR, Butchart SH, Donald PF, De Lamo X, Lesiv M, Kapos V,
+#' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020b) A global map of
 #' terrestrial habitat types (insert version) \[Data set\]. Zenodo.
 #' <https://doi.org/10.5281/zenodo.4058819>

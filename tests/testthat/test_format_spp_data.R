@@ -40,7 +40,6 @@ test_that("correct format", {
   expect_true(assertthat::noNA(x$elevation_upper))
 })
 
-
 test_that("correct handling of NAs in in spp_habitat_data", {
   # skip if needed
   skip_on_cran()

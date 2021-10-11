@@ -21,7 +21,7 @@ NULL
 #' @param habitat_data [terra::rast()] Multi-layer raster data delineating the
 #'   coverage of different habitat classes.
 #'
-#' @param ... arguments passed to [terra::terraOptions()] for processing.
+#' @param ... arguments passed to [terra::writeRaster()] for processing.
 #'
 #' @noRd
 process_spp_aoh_data_on_local <- function(x,
@@ -192,19 +192,19 @@ process_spp_aoh_data_on_local <- function(x,
       ## create temporary directory for species
       curr_spp_tmp_dir <- tempfile()
       dir.create(curr_spp_tmp_dir, showWarnings = FALSE, recursive = TRUE)
-      do.call(
-        terra::terraOptions,
-        append(list(progress = 0, tempdir = curr_spp_tmp_dir), wopt)
-      )
+      terra::terraOptions(progress = 0, tempdir = curr_spp_tmp_dir)
 
       ## calculate total sum of habitat based on codes
-      curr_spp_habitat_data <- sum(
+      curr_spp_habitat_data <- terra::app(
         terra::crop(
           x = habitat_data2[[curr_spp_habitat_codes]],
           y = curr_spp_extent,
           snap = "out",
+          wopt = wopt
         ),
-        na.rm = TRUE
+        "sum",
+        na.rm = TRUE,
+        wopt = wopt
       )
       ## apply altitudinal limits (if needed)
       if (is.finite(curr_spp_lower_elevation) ||
@@ -213,20 +213,23 @@ process_spp_aoh_data_on_local <- function(x,
         curr_elev_mask <- terra::crop(
           x = elevation_data2,
           y = terra::ext(curr_spp_habitat_data),
-          snap = "out"
+          snap = "out",
+          wopt = wopt
         )
         curr_elev_mask <- terra::clamp(
           x = curr_elev_mask,
           lower = curr_spp_lower_elevation,
           upper = curr_spp_upper_elevation,
-          values = FALSE
+          values = FALSE,
+          wopt = wopt
         )
         ### apply altitudinal mask
         curr_spp_habitat_data <- terra::mask(
           x = curr_spp_habitat_data,
           mask = curr_elev_mask,
           maskvalue = NA_integer_,
-          updatevalue = 0
+          updatevalue = 0,
+          wopt = wopt
         )
       }
 
@@ -234,22 +237,21 @@ process_spp_aoh_data_on_local <- function(x,
       curr_spp_habitat_data <- terra::mask(
         x = curr_spp_habitat_data,
         mask = terra::vect(x[i, ]),
-        updatevalue = NA_integer_
+        updatevalue = NA_integer_,
+        wopt = wopt
       )
 
       ## rescale data to proportion
       curr_spp_habitat_data <- terra::app(
         x = curr_spp_habitat_data,
-        function(x) x / (1000 * terra::nlyr(habitat_data2)),
-        wopt = list(datatype = "FLT4S")
+        function(x) x / (1000 * terra::nlyr(habitat_data2))
       )
 
       ## save data
       terra::writeRaster(
         x = curr_spp_habitat_data,
         filename = curr_spp_path,
-        overwrite = TRUE,
-        datatype = "FLT4S"
+        overwrite = TRUE
       )
       file.exists(curr_spp_path)
 

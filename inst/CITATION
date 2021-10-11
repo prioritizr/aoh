@@ -1,0 +1,117 @@
+year <- sub("-.*", "", meta$Date)
+if (is.null(year) || identical(year, "") || isTRUE(length(year) == 0))
+  year <- format(Sys.Date(), "%Y")
+
+ndots <- length(gregexpr(".", meta$Version, fixed = TRUE)[[1]])
+if (ndots == 3) {
+  cite_url <- "https://github.com/jeffreyhanson/aoh"
+} else {
+  cite_url <- "https://CRAN.R-project.org/package=aoh"
+}
+
+citHeader("To cite the aoh package and the underlying datasets used to create the Area of Habitat maps, please use:")
+
+citEntry(
+  entry = "Manual",
+  author = personList(person(c("Jeffrey", "O"), "Hanson")),
+  title = "aoh: Area of Habitat Maps",
+  year = year,
+  note = paste("R package version", meta$Version),
+  url = cite_url,
+  textVersion = paste0(
+     "Hanson JO (", year, ") aoh: Area of Habitat Maps.",
+     "R package version ", meta$Version, ". ",
+     cite_url
+  )
+)
+
+citEntry(
+  entry = "Manual",
+  author = "IUCN",
+  title = "IUCN Red List of Threatened Species",
+  year = "[insert year]",
+  note = "Version [insert version]",
+  url = "www.iucnredlist.org",
+  textVersion = paste0(
+    "IUCN [insert year]. IUCN Red List of Threatened Species. Version ",
+    "[insert version]. Available at www.iucnredlist.org."
+  )
+)
+
+citEntry(
+  entry = "Article",
+  author = personList(
+    person(c("Giuseppe"), "Amatulli"),
+    person(c("Sami"), "Domisch"),
+    person(c("Mao-Ning"), "Tuanmu"),
+    person(c("Benoit"), "Tuanmu"),
+    person(c("Ajay"), "Ranipeta"),
+    person(c("Jeremy"), "Malczyk"),
+    person(c("Walter"), "Jetz")
+  ),
+  title = paste(
+    "A suite of global, cross-scale topographic variables for environmental",
+    "and biodiversity modeling"
+  ),
+  journal = "Scientific Data",
+  year = "2018",
+  volume = "5",
+  number = "1",
+  doi = "10.1038/sdata.2018.40",
+  textVersion = paste(
+    "Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J,",
+    "and Jetz W (2018) A suite of global, cross-scale topographic variables",
+    "for environmental and biodiversity modeling. Scientific Data, 5:180040."
+  )
+)
+
+citEntry(
+  entry = "Article",
+  author = personList(
+    person(c("Martin"), "Jung"),
+    person(c("Prabhat", "Raj"), "Dahal"),
+    person(c("Stuart", "H.", "M."), "Butchart"),
+    person(c("Paul", "F."), "Donald"),
+    person(c("Xavier"), "De Lamo"),
+    person(c("Myroslava"), "Lesiv"),
+    person(c("Valerie"), "Kapos"),
+    person(c("Carlo"), "Rondinini"),
+    person(c("Piero"), "Visconti")
+  ),
+  title = "A global map of terrestrial habitat types",
+  year = "2020",
+  journal = "Scientific Data",
+  volume = "7",
+  number = "1",
+  doi = "10.1038/s41597-020-00599-8",
+  textVersion = paste(
+   "Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,",
+   "Rondinini C, and Visconti P (2020a) A global map of",
+   "terrestrial habitat types. Scientific data, 7:1--8."
+  )
+)
+
+citEntry(
+  entry = "Manual",
+  author = personList(
+    person(c("Martin"), "Jung"),
+    person(c("Prabhat", "Raj"), "Dahal"),
+    person(c("Stuart", "H.", "M."), "Butchart"),
+    person(c("Paul", "F."), "Donald"),
+    person(c("Xavier"), "De Lamo"),
+    person(c("Myroslava"), "Lesiv"),
+    person(c("Valerie"), "Kapos"),
+    person(c("Carlo"), "Rondinini"),
+    person(c("Piero"), "Visconti")
+  ),
+  title = "A global map of terrestrial habitat types [Data set]",
+  year = "[insert year]",
+  note = "Zenodo",
+  doi = "https://doi.org/10.5281/zenodo.4058819",
+  textVersion = paste(
+    "Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,",
+    "Rondinini C, and Visconti P (2020b) A global map of",
+    "terrestrial habitat types (insert version) [Data set]. Zenodo.",
+    "Available at https://doi.org/10.5281/zenodo.4058819."
+  )
+)

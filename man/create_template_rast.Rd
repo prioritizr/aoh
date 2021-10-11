@@ -41,6 +41,7 @@ print(r)
 }
 \seealso{
 Other geoprocessing: 
+\code{\link{intersecting_ext}()},
 \code{\link{read_sf_n}()},
 \code{\link{sf_terra_crs}()},
 \code{\link{sf_terra_ext}()},

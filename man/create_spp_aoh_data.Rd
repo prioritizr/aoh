@@ -246,12 +246,12 @@ Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 (AOH) and its Utility for the IUCN Red List. Trends in Ecology & Evolution.
 34:977--986. \url{doi:10.1016/j.tree.2019.06.009}
 
-Jung M, Dahal PR, Butchart SH, Donald PF, De Lamo X, Lesiv M, Kapos V,
+Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
 terrestrial habitat types. Scientific data, 7:1--8.
 \url{https://doi.org/10.1038/s41597-020-00599-8}
 
-Jung M, Dahal PR, Butchart SH, Donald PF, De Lamo X, Lesiv M, Kapos V,
+Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set]. Zenodo.
 \url{https://doi.org/10.5281/zenodo.4058819}

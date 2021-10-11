@@ -183,12 +183,12 @@ NULL
 #' (AOH) and its Utility for the IUCN Red List. Trends in Ecology & Evolution.
 #' 34:977--986. <doi:10.1016/j.tree.2019.06.009>
 #'
-#' Jung M, Dahal PR, Butchart SH, Donald PF, De Lamo X, Lesiv M, Kapos V,
+#' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020a) A global map of
 #' terrestrial habitat types. Scientific data, 7:1--8.
 #' <https://doi.org/10.1038/s41597-020-00599-8>
 #'
-#' Jung M, Dahal PR, Butchart SH, Donald PF, De Lamo X, Lesiv M, Kapos V,
+#' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020b) A global map of
 #' terrestrial habitat types (insert version) \[Data set\]. Zenodo.
 #' <https://doi.org/10.5281/zenodo.4058819>
@@ -258,6 +258,7 @@ create_spp_aoh_data <- function(x,
   tmp_rast_dir <- tempfile()
   dir.create(tmp_rast_dir, showWarnings = FALSE, recursive = TRUE)
   terra::terraOptions(progress = 0, tempdir = tmp_rast_dir)
+  on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()), add = TRUE)
   ## initial validation
   assertthat::assert_that(
     inherits(x, "sf"),
@@ -273,6 +274,19 @@ create_spp_aoh_data <- function(x,
     assertthat::noNA(use_ee),
     inherits(template_data, "SpatRaster")
   )
+  ## use_ee
+  if (isTRUE(use_ee)) {
+    if (verbose) {
+      cli::cli_alert("checking interface to Google Earth Engine")
+    }
+    assertthat::assert_that(
+      rgee::ee_check(quiet = !verbose),
+      msg = paste(
+        "system not set up for Earth Engine,",
+        "see rgee::ee_check() for details"
+      )
+    )
+  }
   ## parallel cluster
   if (is.null(parallel_cluster)) {
     parallel_cluster <- ifelse(

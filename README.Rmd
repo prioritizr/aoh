@@ -30,7 +30,12 @@ TODO.
 
 ### Installation
 
-TODO.
+The latest developmental version can be installed using the following _R_ code. This package requires the [_sf_](https://github.com/r-spatial/sf) and [_terra_](https://github.com/r-spatial/terra) _R_ packages which may require additional software to be installed. If you encounter problems installing the _aoh R_ package, please consult the installation instructions for these packages.
+
+```{r, eval = FALSE}
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("jeffreyhanson/aoh")
+```
 
 ### Usage
 
@@ -38,4 +43,8 @@ TODO.
 
 ### Citation
 
-TODO.
+Please cite the _aoh R_ package and the underlying datasets used to produce Area of Habitat maps.
+
+```{r, echo  = FALSE, result = "asis", comment = ""}
+citation("aoh")
+```

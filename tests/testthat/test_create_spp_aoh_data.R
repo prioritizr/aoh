@@ -38,6 +38,121 @@ test_that("simulated data", {
   expect_equal(sum(is.na(x$path)), 0)
 })
 
+test_that("PSOCK parallel processing", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("extdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("extdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("extdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("extdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # tests
+  expect_is(d <<- read_spp_range_data(f), "sf")
+  expect_is(
+    x1 <<- create_spp_aoh_data(
+      x = d,
+      output_dir = tempdir(),
+      habitat_data = habitat_data,
+      elevation_data = elevation_data,
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      verbose = FALSE
+    ),
+    "tbl_df"
+  )
+  expect_is(
+    x2 <<- create_spp_aoh_data(
+      x = d,
+      output_dir = tempdir(),
+      habitat_data = habitat_data,
+      elevation_data = elevation_data,
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      parallel_n_threads = 2,
+      parallel_cluster = "PSOCK",
+      verbose = FALSE
+    ),
+    "tbl_df"
+  )
+  expect_equal(x1, x2)
+  expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
+    all(
+      terra::values(terra::rast(x1$path[[i]])) ==
+      terra::values(terra::rast(x2$path[[i]])),
+      na.rm = TRUE
+    )
+  })))
+})
+
+test_that("FORK parallel processing", {
+  # skip if needed
+  skip_on_cran()
+  skip_on_os("windows")
+  # specify file path
+  f <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("extdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("extdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("extdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("extdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # tests
+  expect_is(d <<- read_spp_range_data(f), "sf")
+  expect_is(
+    x1 <<- create_spp_aoh_data(
+      x = d,
+      output_dir = tempdir(),
+      habitat_data = habitat_data,
+      elevation_data = elevation_data,
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      verbose = FALSE
+    ),
+    "tbl_df"
+  )
+  expect_is(
+    x2 <<- create_spp_aoh_data(
+      x = d,
+      output_dir = tempdir(),
+      habitat_data = habitat_data,
+      elevation_data = elevation_data,
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      parallel_n_threads = 2,
+      parallel_cluster = "FORK",
+      verbose = FALSE
+    ),
+    "tbl_df"
+  )
+  expect_equal(x1, x2)
+  expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
+    all(
+      terra::values(terra::rast(x1$path[[i]])) ==
+      terra::values(terra::rast(x2$path[[i]])),
+      na.rm = TRUE
+    )
+  })))
+})
+
 test_that("amphibian data", {
   # skip if needed
   skip_on_cran()

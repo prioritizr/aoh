@@ -77,7 +77,7 @@ x <- rast(
 )
 x <- rast(lapply(seq_len(10), function(i) {
  init(x, "runif")
-})
+}))
 
 # preview object
 print(x)
