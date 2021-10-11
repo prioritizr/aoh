@@ -30,7 +30,7 @@ TODO.
 
 ### Installation
 
-The latest developmental version can be installed using the following _R_ code. This package requires the [_sf_](https://github.com/r-spatial/sf) and [_terra_](https://github.com/r-spatial/terra) _R_ packages which may require additional software to be installed. If you encounter problems installing the _aoh R_ package, please consult the installation instructions for these packages.
+The [latest developmental version of the _aoh R_ package](https://github.com/jeffreyhanson/aoh) can be installed using the following _R_ code. Please note that it requires the [_sf_](https://github.com/r-spatial/sf) and [_terra_](https://github.com/r-spatial/terra) _R_ packages which may require additional software to be installed. If you encounter problems installing these dependencies, please consult their installation instructions.
 
 ```{r, eval = FALSE}
 if (!require(remotes)) install.packages("remotes")
@@ -39,7 +39,89 @@ remotes::install_github("jeffreyhanson/aoh")
 
 ### Usage
 
-TODO.
+Here we provide a short introduction to the _aoh R_ package. In this example, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (_Calotriton asper_), Iberian frog (_Rana iberica_), western spadefoot toad (_Pelobates cultripes_), and golden striped salamnader (_Chioglossa lusitanica_). To start off, we will load the package. We will also load the [_rappdirs R_ package](https://CRAN.R-project.org/package=rappdirs) to cache downloaded datasets, and the [_terra R_ package](https://CRAN.R-project.org/package=terra) to visualize results.
+
+```{r}
+# load packages
+library(aoh)
+library(terra)
+library(rappdirs)
+```
+
+Now we will import range data for the species. Although users would typically obtain range data from the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/), here we will use built-in geographic range data distributed with the package for convenience. **Please note that these data were not obtained from the IUCN Red List, and were manually generated using occurrence records from [iNaturalist](https://www.inaturalist.org/).**
+
+```{r}
+# find file path for data
+path <- system.file("extdata", "hmolleri.zip", package = "aoh")
+
+# import data
+spp_range_data <- read_spp_range_data(path)
+
+# preview data
+print(spp_range_data)
+```
+
+Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data (from Jung [*et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8); [Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40)), (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species (following [Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). We also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+
+```{r, message = FALSE}
+# specify cache directory
+cache_dir <- user_data_dir("aoh")
+
+# specify folder to save Area of Habitat data
+## here we use a temporary directory to avoid polluting up your computer
+## with unimportant files, but you would normally specify the folder
+## on your computer where you want to save data
+output_dir <- tempdir()
+
+# generate Area of Habitat data
+spp_aoh_data <- create_spp_aoh_data(
+  spp_range_data, output_dir = output_dir, cache_dir = cache_dir
+)
+
+# preview results
+## resulting dataset is a simple features (sf) object containing
+## spatial geometries for cleaned versions of the range data
+## (in the geometry column) and the following additional columns:
+##
+## - aoh_id:          identifier for the Area of Habitat data
+## - id_no:           IUCN Red List taxon identifier
+## - seasonal:        integer identifier for seasonal distributions
+## - habitat_code:    IUCN Red List codes for suitable habitat classes
+##                    (multiple codes are delimited using "|" symbols)
+## - elevation_lower: lower limit for the species on IUCN Red List
+## - elevation_upper: upper limit for the species on IUCN Red List
+## - xmin:            minimum x-coordinate for Area of Habitat data
+## - xmin:            maximum x-coordinate for Area of Habitat data
+## - xmin:            minimum y-coordinate for Area of Habitat data
+## - xmin:            maximum y-coordinate for Area of Habitat data
+## - path:            file path for Area of Habitat data (in GeoTIFF format)
+##
+## since data obtained from the IUCN Red List cannot be redistributed,
+## we will not show all the columns in this object
+##
+## N.B. you can view all columns on your computer with: print(spp_aoh_data)
+print(spp_aoh_data[, c("aoh_id", "id_no", "seasonal", "path")])
+```
+
+After generating the Area of Habitat data, we can import them.
+
+```{r}
+# import the Area of Habitat data
+## since the data for each species have a different spatial extent
+## (to reduce file sizes), we will import each dataset separately and store
+## them in a list
+spp_aoh_rasters <- lapply(spp_aoh_data$path, rast)
+
+# preview raster data
+print(spp_aoh_rasters)
+```
+
+Finally, let's create some maps to compare the geographic range data with the Area of habitat data. Although we could create these maps manually (e.g. via the [_ggplot2 R_ package](https://CRAN.R-project.org/package=rappdirs)), we will use a plotting function distributed with the _aoh R_ package for  convenience.
+
+```{r}
+# create maps showing the geographic range and Area of Habitat data
+plot_range_and_aoh_data(spp_aoh_data)
+```
 
 ### Citation
 
