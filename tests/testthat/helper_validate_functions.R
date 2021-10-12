@@ -1,6 +1,6 @@
 
-habitat_codes <- habitat_code_data()$iucn_code
-habitat_names <- habitat_code_data()$name
+habitat_codes <- aoh:::habitat_code_data()$iucn_code
+habitat_names <- aoh:::habitat_code_data()$name
 
 validate_range_data <- function(x, n = 1) {
   expect_is(x, "sf")

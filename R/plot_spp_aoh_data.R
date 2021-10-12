@@ -188,7 +188,7 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
     p <-
       p +
       ggplot2::geom_tile(
-        ggplot2::aes(x = x, y = y, fill = value),
+        ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value),
         height = gg_tile_data[[i]]$height,
         width = gg_tile_data[[i]]$width,
         data = gg_tile_data[[i]]$data
@@ -197,7 +197,7 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
   p <-
     p +
     ggplot2::geom_sf(
-      ggplot2::aes(color = type, size = type),
+      ggplot2::aes(color = .data$type, size = .data$type),
       fill = NA,
       inherit.aes = FALSE,
       data = x

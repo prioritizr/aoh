@@ -590,10 +590,10 @@ create_spp_aoh_data <- function(x,
   }
   ## processing
   x <- dplyr::select(
-    x, id_no, binomial, seasonal,
-    habitat_code, elevation_lower, elevation_upper,
-    xmin, xmax, ymin, ymax,
-    path
+    x, .data$id_no, .data$binomial, .data$seasonal,
+    .data$habitat_code, .data$elevation_lower, .data$elevation_upper,
+    .data$xmin, .data$xmax, .data$ymin, .data$ymax,
+    .data$path
   )
   ## convert list-column to "|" delimited character-column
   x$habitat_code <- vapply(x$habitat_code, paste, character(1), collapse = "|")

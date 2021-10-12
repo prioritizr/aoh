@@ -197,18 +197,18 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   ## geoprocessing
   x <-
     x %>%
-    dplyr::group_by(aoh_id) %>%
+    dplyr::group_by(.data$aoh_id) %>%
     dplyr::summarize(
-      id_no = dplyr::first(id_no),
-      category = dplyr::first(category),
-      binomial = dplyr::first(binomial),
-      subspecies = dplyr::first(subspecies),
-      seasonal = dplyr::first(seasonal),
-      kingdom = dplyr::first(kingdom),
-      phylum = dplyr::first(phylum),
-      class = dplyr::first(class),
-      order = dplyr::first(order),
-      genus = dplyr::first(genus)
+      id_no = dplyr::first(.data$id_no),
+      category = dplyr::first(.data$category),
+      binomial = dplyr::first(.data$binomial),
+      subspecies = dplyr::first(.data$subspecies),
+      seasonal = dplyr::first(.data$seasonal),
+      kingdom = dplyr::first(.data$kingdom),
+      phylum = dplyr::first(.data$phylum),
+      class = dplyr::first(.data$class),
+      order = dplyr::first(.data$order),
+      genus = dplyr::first(.data$genus)
     ) %>%
     dplyr::ungroup()
   # step 14: fix any potential geometry issues

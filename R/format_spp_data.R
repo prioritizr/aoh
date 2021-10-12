@@ -186,10 +186,12 @@ format_spp_data <- function(x,
     )
   )
   ## combine habitat codes into a single column using "|" delimiters
-  spp_habitat_data <- dplyr::group_by(spp_habitat_data, id_no, seasonal)
+  spp_habitat_data <- dplyr::group_by(
+    spp_habitat_data, .data$id_no, .data$seasonal
+  )
   spp_habitat_data <- dplyr::summarize(
     spp_habitat_data,
-    habitat_code = list(habitat_code)
+    habitat_code = list(.data$habitat_code)
   )
   spp_habitat_data <- dplyr::ungroup(spp_habitat_data)
   ## add habitat codes to x

@@ -273,7 +273,7 @@ simulate_spp_data <- function(n,
   # add metadata
   sim_range_data <- dplyr::mutate(
     sim_range_data,
-    binomial = paste("Simulus", "spp.", id_no),
+    binomial = paste("Simulus", "spp.", .data$id_no),
     compiler = "Simulation",
     yrcompiled = NA_real_,
     citation = NA_character_,
@@ -296,7 +296,7 @@ simulate_spp_data <- function(n,
     terrestial = "true",
     freshwater = "false"
   )
-  sim_range_data <- dplyr::select(sim_range_data, -id)
+  sim_range_data <- dplyr::select(sim_range_data, -.data$id)
 
   # simulate habitat preference data
   sim_habitat_data <- simulate_habitat_data(
@@ -337,7 +337,7 @@ simulate_summary_data <- function(x, elevation_data) {
   # preliminary processing
   ## unique combinations id_no and seasonal
   x_distinct <- sf::st_drop_geometry(x)
-  x_distinct <- dplyr::distinct(x_distinct, id_no, .keep_all = TRUE)
+  x_distinct <- dplyr::distinct(x_distinct, .data$id_no, .keep_all = TRUE)
 
   # main processing
   # create habitat data
@@ -416,7 +416,9 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
   # preliminary processing
   ## unique combinations id_no and seasonal
   x_distinct <- sf::st_drop_geometry(x)
-  x_distinct <- dplyr::distinct(dplyr::select(x_distinct, id_no, seasonal))
+  x_distinct <- dplyr::distinct(
+    dplyr::select(x_distinct, .data$id_no, .data$seasonal)
+  )
   x_distinct <- x_distinct[x_distinct$seasonal <= 4, , drop = FALSE]
   x_distinct$seasonal_name <- convert_to_seasonal_name(x_distinct$seasonal)
 

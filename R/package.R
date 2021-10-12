@@ -12,6 +12,7 @@ NULL
 
 #' @import sf
 #' @import terra
+#' @importFrom rlang .data
 NULL
 
 # ensure package checks pass
