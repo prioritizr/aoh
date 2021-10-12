@@ -4,24 +4,32 @@ test_that("single taxon identifier", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  # tests
+  # set parameters
   id_no <- c(18)
-  expect_is(
-    x <<- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE),
-    "data.frame"
-  )
+  # create objects
+  x1 <- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
   Sys.sleep(2)
-  expect_is(
-    x2 <<- get_spp_summary_data(id_no, force = FALSE, verbose = FALSE),
-    "data.frame"
+  x2 <- get_spp_summary_data(id_no, force = FALSE, verbose = FALSE)
+  # tests
+  expect_is(x1, "data.frame")
+  expect_is(x2, "data.frame")
+  expect_gte(nrow(x1), 1)
+  expect_named(
+    x1,
+    c(
+      "id_no", "taxonid", "scientific_name", "kingdom", "phylum", "class",
+       "order", "family", "genus", "main_common_name", "authority",
+       "published_year", "assessment_date", "category", "criteria",
+       "population_trend", "marine_system", "freshwater_system",
+       "terrestrial_system",
+       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
+       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
+       "errata_reason", "amended_flag", "amended_reason"
+     )
   )
-  expect_gte(nrow(x), 1)
-  expect_true(assertthat::has_name(x, "id_no"))
-  expect_true(assertthat::has_name(x, "elevation_upper"))
-  expect_true(assertthat::has_name(x, "elevation_lower"))
-  expect_true(all(id_no %in% x$id_no))
-  expect_equal(anyDuplicated(x$id_no), 0L)
-  expect_identical(x, x2)
+  expect_true(all(id_no %in% x1$id_no))
+  expect_equal(anyDuplicated(x1$id_no), 0L)
+  expect_identical(x1, x2)
 })
 
 test_that("multiple taxon identifiers", {
@@ -30,30 +38,39 @@ test_that("multiple taxon identifiers", {
   skip_if_offline()
   # tests
   id_no <- c(18, 137, 138, 139)
-  expect_is(
-    x <<- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE),
-    "data.frame"
-  )
+  # create objects
+  x1 <- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
   Sys.sleep(2)
-  expect_is(
-    x2 <<- get_spp_summary_data(id_no, force = FALSE, verbose = FALSE),
-    "data.frame"
+  x2 <- get_spp_summary_data(id_no, force = FALSE, verbose = FALSE)
+  # tests
+  expect_is(x1, "data.frame")
+  expect_is(x2, "data.frame")
+  expect_gte(nrow(x1), 1)
+  expect_named(
+    x1,
+    c(
+      "id_no", "taxonid", "scientific_name", "kingdom", "phylum", "class",
+       "order", "family", "genus", "main_common_name", "authority",
+       "published_year", "assessment_date", "category", "criteria",
+       "population_trend", "marine_system", "freshwater_system",
+       "terrestrial_system",
+       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
+       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
+       "errata_reason", "amended_flag", "amended_reason"
+     )
   )
-  expect_gte(nrow(x), 1)
-  expect_true(assertthat::has_name(x, "id_no"))
-  expect_true(assertthat::has_name(x, "elevation_upper"))
-  expect_true(assertthat::has_name(x, "elevation_lower"))
-  expect_true(all(id_no %in% x$id_no))
-  expect_equal(anyDuplicated(x$id_no), 0L)
-  expect_identical(x, x2)
+  expect_true(all(id_no %in% x1$id_no))
+  expect_equal(anyDuplicated(x1$id_no), 0L)
+  expect_identical(x1, x2)
 })
 
 test_that("invalid taxon identifier", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  # tests
+  # set parameters
   id_no <- c(18, -100)
+  # tests
   expect_error(
     get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
   )

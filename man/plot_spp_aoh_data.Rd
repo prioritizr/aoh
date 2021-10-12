@@ -53,16 +53,14 @@ path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 spp_range_data <- read_spp_range_data(path)
 
 # specify settings for data processing
-output_dir <- tempdir()                  # folder to save AOH data
-cache_dir <- rappdirs::user_data_dir()   # persistent storage location
-n_threads <- parallel::detectCores() - 1 # recommended for best performance
+output_dir <- tempdir()                       # folder to save AOH data
+cache_dir <- rappdirs::user_data_dir("aoh")   # persistent storage location
+n_threads <- parallel::detectCores() - 1      # speed up analysis
 
 # create Area of Habitat data for species
-spp_aoh_data <- create_aoh_data(
+spp_aoh_data <- create_spp_aoh_data(
   x = spp_range_data,
   output_dir = output_dir,
-  spp_summary_data = sim_spp_summary_data,
-  spp_habitat_data = sim_spp_habitat_data,
   parallel_n_threads = n_threads,
   cache_dir = cache_dir
 )

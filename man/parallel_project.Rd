@@ -73,7 +73,7 @@ x <- rast(
   crs = "+proj=longlat +datum=WGS84"
 )
 x <- rast(lapply(seq_len(10), function(i) {
- init(x, "runif")
+ init(x, runif)
 }))
 
 # preview object

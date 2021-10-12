@@ -14,10 +14,10 @@ knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center",
 ## aoh: Area of Habitat Maps
 
 [![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/jeffreyhanson/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/jeffreyhanson/aoh/actions)
-[![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/jeffreyhanson/aoh/Windows/master.svg?label=Windows)](https://github.com/jeffreyhanson/aoh/actions)
-[![R-CMD-check-Mac-OSX](https://img.shields.io/github/workflow/status/jeffreyhanson/aoh/Mac%20OSX/master.svg?label=Mac%20OSX)](https://github.com/jeffreyhanson/aoh/actions)
-[![Coverage Status](https://codecov.io/github/jeffreyhanson/aoh/coverage.svg?branch=master)](https://codecov.io/github/jeffreyhanson/aoh?branch=master)
+[![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
+[![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/aoh/Windows/master.svg?label=Windows)](https://github.com/prioritizr/aoh/actions)
+[![R-CMD-check-Mac-OSX](https://img.shields.io/github/workflow/status/prioritizr/aoh/Mac%20OSX/master.svg?label=Mac%20OSX)](https://github.com/prioritizr/aoh/actions)
+[![Coverage Status](https://codecov.io/github/prioritizr/aoh/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/aoh?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/aoh)](https://CRAN.R-project.org/package=aoh)
 
 ```{r, include = FALSE}
@@ -30,11 +30,11 @@ TODO.
 
 ### Installation
 
-The [latest developmental version of the _aoh R_ package](https://github.com/jeffreyhanson/aoh) can be installed using the following _R_ code. Please note that it requires the [_sf_](https://github.com/r-spatial/sf) and [_terra_](https://github.com/r-spatial/terra) _R_ packages which may require additional software to be installed. If you encounter problems installing these dependencies, please consult their installation instructions.
+The [latest developmental version of the _aoh R_ package](https://github.com/prioritizr/aoh) can be installed using the following _R_ code. Please note that it requires the [_sf_](https://github.com/r-spatial/sf) and [_terra_](https://github.com/r-spatial/terra) _R_ packages which may require additional software to be installed. If you encounter problems installing these dependencies, please consult their installation instructions.
 
 ```{r, eval = FALSE}
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("jeffreyhanson/aoh")
+remotes::install_github("prioritizr/aoh")
 ```
 
 ### Usage

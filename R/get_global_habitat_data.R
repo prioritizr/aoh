@@ -1,4 +1,4 @@
-#' @include internal.R
+#' @include internal.R convert_filename_to_habitat_code.R
 NULL
 
 #' Get global habitat classification data
@@ -15,7 +15,8 @@ NULL
 #' @param version `character` indicating the specific version of the dataset
 #'  that should be downloaded. The version should be indicated using the
 #'  Digital Object Identifier of the specific version required (e.g.
-#'  10.5281/zenodo.3673586). Defaults to `"latest"` such that the latest
+#'  `"10.5281/zenodo.3673586"`).
+#'  Defaults to `"latest"` such that the latest
 #'  release of the dataset with available habitat data is used.
 #'
 #' @param force `logical` should the data be downloaded even if the
@@ -125,7 +126,7 @@ get_global_habitat_data <- function(dir = tempdir(), version = "latest",
   # import data
   r <- terra::rast(layer_paths)
   # assign names
-  names(r) <- habitat_codes(basename(layer_paths))
+  names(r) <- convert_filename_to_habitat_code(basename(layer_paths))
   # return result
   r
 }
@@ -216,50 +217,6 @@ download_habitat_data <- function(x, dir, z = zen4R::ZenodoManager$new(),
   )
   # return succes
   invisible(TRUE)
-}
-
-#' Habitat codes
-#'
-#' Identify IUCN Red List habitat classification codes for data
-#' files distributed with the Jung *et al.* (2020) dataset.
-#'
-#' @param x `character` file name(s).
-#'
-#' @details
-#' This function is designed to be used for processing habitat classification
-#' data downloaded from Jung *et al.* (2020).
-#'
-#' @inherit get_habitat_data references
-#'
-#' @return `character` habitat classification codes.
-#'
-#' @noRd
-habitat_codes <- function(x) {
-  # assert arguments are valid
-  assertthat::assert_that(
-    is.character(x),
-    assertthat::noNA(x),
-    all(nchar(x) > 0),
-    length(x) >= 0
-  )
-  # extract Jung et al. codes
-  assertthat::assert_that(
-    all(startsWith(x, "iucn_habitatclassification_fraction_lvl2")),
-    msg = "file name(s) is not recognized"
-  )
-  x <- gsub("iucn_habitatclassification_fraction_lvl2", "", x, fixed = TRUE)
-  x <- strsplit(x, "_", x, fixed = TRUE)
-  x <- vapply(x, FUN.VALUE = character(1), function(x) {
-    x[which(nchar(x) > 0)[1]]
-  })
-  # import codes conversion table
-  code_data <- habitat_code_data()
-  # convert to IUCN codes
-  assertthat::assert_that(
-    all(x %in% code_data$code),
-    msg = "habitat classification code(s) not recognized"
-  )
-  code_data$iucn_code[match(x, code_data$code)]
 }
 
 #' Latest version of habitat data

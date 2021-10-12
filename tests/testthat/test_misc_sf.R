@@ -1,7 +1,9 @@
 context("misc_sf")
 
 test_that("read_sf_n()", {
+  # specify file path
   f <- system.file("shape/nc.shp", package = "sf")
+  # tests
   expect_equal(sf::read_sf(f), read_sf_n(f))
   expect_equal(sf::read_sf(f)[1:5, ], read_sf_n(f, n = 5))
 })

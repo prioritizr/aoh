@@ -1,7 +1,3 @@
-
-habitat_codes <- aoh:::habitat_code_data()$iucn_code
-habitat_names <- aoh:::habitat_code_data()$name
-
 validate_range_data <- function(x, n = 1) {
   expect_is(x, "sf")
   expect_true(sf::st_crs(x)  == sf::st_crs(4326))
@@ -35,10 +31,10 @@ validate_habitat_data <- function(x, n = 1) {
   expect_true(assertthat::noNA(x$id_no))
   expect_true(assertthat::has_name(x, "code"))
   expect_true(assertthat::noNA(x$code))
-  expect_true(all(x$code %in% habitat_codes))
+  expect_true(all(x$code %in% aoh:::habitat_code_data()$iucn_code))
   expect_true(assertthat::has_name(x, "habitat"))
   expect_true(assertthat::noNA(x$habitat))
-  expect_true(all(x$habitat %in% habitat_names))
+  expect_true(all(x$habitat %in% aoh:::habitat_code_data()$name))
   expect_true(assertthat::has_name(x, "suitability"))
   expect_true(assertthat::noNA(x$suitability))
   expect_true(all(x$suitability == "Suitable"))

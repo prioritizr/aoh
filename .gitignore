@@ -5,6 +5,9 @@ doc
 *.so
 *.dll
 
+# temporary fi;es
+Rplots.pdf
+
 # R profile files
 *.Rproj.user
 *.Rhistory

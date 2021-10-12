@@ -16,12 +16,15 @@ NULL
 #' @return [sf::sf()] object.
 #'
 #' @examples
+#' # set data pth
+#' path <- system.file("shape/nc.shp", package = "sf")
+#'
 #' # read all data
-#' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
+#' nc <- read_sf(path)
 #' print(nc)
 #'
 #' # read only first five geometries
-#' nc2 <- read_sf(system.file("shape/nc.shp", package = "sf"), n = 5)
+#' nc2 <- read_sf_n(path, n = 5)
 #' print(nc2)
 #'
 #' @family geoprocessing
@@ -112,8 +115,8 @@ sf_terra_ext <- function(x) {
 #' @export
 sf_terra_crs <- function(x) {
   assertthat::assert_that(inherits(x, c("sf", "crs")))
-  if (inherits(x, "sf")) {
+  if (!inherits(x, "crs")) {
     x <- sf::st_crs(x)
   }
-  as.character(x)$wkt
+  x$wkt
 }

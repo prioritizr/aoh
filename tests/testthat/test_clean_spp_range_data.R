@@ -5,8 +5,10 @@ test_that("simulated data", {
   skip_on_cran()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  # create object
+  x <- clean_spp_range_data(read_spp_range_data(f))
   # tests
-  expect_is(x <<- clean_spp_range_data(read_spp_range_data(f)), "sf")
+  expect_is(x, "sf")
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
   expect_equal(anyDuplicated(x$aoh_id), 0L)

@@ -77,14 +77,23 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
-  # remove duplicates
+  # prepare x
+  ## remove duplicates
   x <- unique(x)
+  ## convert to integer
+  assertthat::assert_that(
+    all(abs(round(x) - x) <= 1e-5),
+    msg = "x does not contain integer numbers"
+  )
+  x <- as.integer(x)
+
   # find version of data
   if (identical(version, "latest")) {
     iucn_rl_version <- rredlist::rl_version()
   } else {
     iucn_rl_version <- version
   }
+
   # create file path for caching data
   file_path <- file.path(
     dir, paste0("iucn-red-list-", data_prefix, "-", iucn_rl_version, ".csv.gz")
@@ -97,35 +106,24 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
       )
     )
   }
+
   # access cached data
   if (file.exists(file_path) && !isTRUE(force)) {
     ## import cached data if available
     iucn_rl_data <- readr::read_csv(
       file_path, col_names = TRUE, na = "", progress = FALSE,
-      col_types = readr::spec(data_template), show_col_types = FALSE
+      show_col_types = FALSE,
+      col_types = readr::as.col_spec(
+        dplyr::bind_cols(
+          tibble::tibble(id_no = integer(nrow(data_template))),
+          data_template
+        )
+      )
     )
     assertthat::assert_that(
       identical(names(iucn_rl_data), c("id_no", names(data_template))),
       msg = "issue loading cache data"
     )
-    for (i in names(data_template)) {
-      if (
-        !identical(
-          class(iucn_rl_data[[i]])[[1]],
-          class(data_template[[i]])[[1]]
-        )
-      ) {
-        if (identical(class(data_template[[i]])[[1]], "numeric")) {
-          iucn_rl_data[[i]] <- suppressWarnings(
-            methods::as(iucn_rl_data[[i]], "double")
-          )
-        } else {
-          iucn_rl_data[[i]] <- suppressWarnings(
-            methods::as(iucn_rl_data[[i]], class(data_template[[i]])[[1]])
-          )
-        }
-      }
-    }
   } else {
     ## start from
     iucn_rl_data <- data_template
@@ -163,23 +161,21 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     if (any(api_success)) {
       iucn_rl_data <- dplyr::bind_rows(
         iucn_rl_data,
-        tibble::as_tibble(
-          purrr::map_dfr(which(api_success), function(i) {
-            # format data
-            d <- tibble::as_tibble(api_results[[i]])
-            for (j in setdiff(names(data_template), "id_no")) {
-              if (j %in% names(d)) {
-                d[[j]] <- methods::as(d[[j]], class(data_template[[j]]))
-              } else {
-                d[[j]] <- methods::as(NA, class(data_template[[j]]))
-              }
+        purrr::map_dfr(which(api_success), function(i) {
+          # format data
+          d <- tibble::as_tibble(api_results[[i]])
+          for (j in setdiff(names(data_template), "id_no")) {
+            if (j %in% names(d)) {
+              d[[j]] <- methods::as(d[[j]], class(data_template[[j]]))
+            } else {
+              d[[j]] <- methods::as(NA, class(data_template[[j]]))
             }
-            # assign id_no column with taxon id
-            d$id_no <- api_ids[[i]]
-            # return result
-            d[, names(iucn_rl_data), drop = FALSE]
-          })
-        )
+          }
+          # assign id_no column with taxon id
+          d$id_no <- api_ids[[i]]
+          # re-order columns
+          d[, names(iucn_rl_data), drop = FALSE]
+        })
       )
     }
     ## save cache if any data available
@@ -196,10 +192,12 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
       )
     }
   }
+
   # extract data following same order as x
   out <- dplyr::left_join(
     tibble::tibble(id_no = x), iucn_rl_data, by = c("id_no")
   )
+
   # return result
   out
 }

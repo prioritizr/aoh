@@ -20,7 +20,8 @@ recommended to specify a persistent storage location (see Examples below).}}
 \item{version}{\code{character} indicating the specific version of the dataset
 that should be downloaded. The version should be indicated using the
 Digital Object Identifier of the specific version required (e.g.
-10.5281/zenodo.3673586). Defaults to \code{"latest"} such that the latest
+\code{"10.5281/zenodo.3673586"}).
+Defaults to \code{"latest"} such that the latest
 release of the dataset with available habitat data is used.}
 
 \item{force}{\code{logical} should the data be downloaded even if the

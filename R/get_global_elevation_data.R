@@ -29,7 +29,7 @@ NULL
 #' }
 #'
 #' # download and import elevation data
-#' elev_data <- get_elevation_data(download_dir)
+#' elev_data <- get_global_elevation_data(download_dir)
 #'
 #' # preview data
 #' print(elev_data)

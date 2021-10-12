@@ -53,14 +53,15 @@ Depends:
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
-URL: https://jeffreyhanson.github.io/aoh/, https://github.com/jeffreyhanson/aoh
-BugReports: https://github.com/jeffreyhanson/aoh/issues
+URL: https://prioritizr.github.io/aoh/, https://github.com/prioritizr/aoh
+BugReports: https://github.com/prioritizr/aoh/issues
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Collate:
     'internal.R'
     'assertions.R'
     'clean_spp_range_data.R'
+    'convert_filename_to_habitat_code.R'
     'convert_seasonal.R'
     'misc_sf.R'
     'misc_terra.R'

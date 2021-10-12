@@ -7,24 +7,23 @@ test_that("correct format", {
   f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
   f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
+  # load data
+  d1 <- read_spp_range_data(f1)
   d2 <- utils::read.table(
     f2, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
   d3 <- utils::read.table(
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
-  # tests
-  expect_is(d1 <<- read_spp_range_data(f1), "sf")
-  expect_is(
-    x <<- format_spp_data(
-      x = d1,
-      spp_summary_data = d2,
-      spp_habitat_data = d3,
-      verbose = FALSE
-    ),
-    "sf"
+  # create objects
+  x <- format_spp_data(
+    x = d1,
+    spp_summary_data = d2,
+    spp_habitat_data = d3,
+    verbose = FALSE
   )
-  expect_is(x, "tbl_df")
+  # tests
+  expect_is(x, "sf")
   expect_true(assertthat::has_name(x, "aoh_id"))
   expect_is(x$aoh_id, "character")
   expect_equal(anyDuplicated(x$aoh_id), 0L)
@@ -51,6 +50,8 @@ test_that("correct handling of NAs in in spp_habitat_data", {
   f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
   f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
+  # load data
+  d1 <- read_spp_range_data(f1)
   d2 <- utils::read.table(
     f2, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
@@ -58,31 +59,27 @@ test_that("correct handling of NAs in in spp_habitat_data", {
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
   # prepare data
-  expect_is(d1 <<- read_spp_range_data(f1), "sf")
   d1 <- d1[1, , drop = FALSE]
   d2 <- d2[d2$id_no %in% d1$id_no, , drop = FALSE]
   d3 <- d3[d3$id_no %in% d1$id_no, , drop = FALSE]
   d3_alt <- d3
   d3$season <- NA_character_
+  # create objects
+  x1 <- format_spp_data(
+    x = d1,
+    spp_summary_data = d2,
+    spp_habitat_data = d3,
+    verbose = FALSE
+  )
+  x2 <- format_spp_data(
+    x = d1,
+    spp_summary_data = d2,
+    spp_habitat_data = d3_alt,
+    verbose = FALSE
+  )
   # tests
-  expect_is(
-    x1 <<- format_spp_data(
-      x = d1,
-      spp_summary_data = d2,
-      spp_habitat_data = d3,
-      verbose = FALSE
-    ),
-    "sf"
-  )
-  expect_is(
-    x2 <<- format_spp_data(
-      x = d1,
-      spp_summary_data = d2,
-      spp_habitat_data = d3_alt,
-      verbose = FALSE
-    ),
-    "sf"
-  )
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
   expect_equal(x1, x2)
   expect_equal(x1$habitat_code, list(as.character(d3$code)))
 })

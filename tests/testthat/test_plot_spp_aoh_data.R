@@ -19,24 +19,20 @@ test_that("no base map", {
     system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
     sep = ",", header = TRUE
   )
-  # create data
-  expect_is(
-    x <<- create_spp_aoh_data(
-      x = read_spp_range_data(f, n = 4),
-      output_dir = tempdir(),
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      spp_habitat_data = spp_habitat_data,
-      spp_summary_data = spp_summary_data,
-      verbose = FALSE
-    ),
-    "tbl_df"
+  # prepare data
+  x <- create_spp_aoh_data(
+    x = read_spp_range_data(f, n = 4),
+    output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = FALSE
   )
+  # create object
+  p <- plot_spp_aoh_data(x, zoom = NULL, maptype = NULL)
   # tests
-  expect_is(
-    p <<- plot_spp_aoh_data(x, zoom = NULL, maptype = NULL),
-    "gg"
-  )
+  expect_is(p, "gg")
   expect_is(suppressWarnings(print(p)), "gg")
 })
 
@@ -60,24 +56,20 @@ test_that("base map", {
     system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
     sep = ",", header = TRUE
   )
-  # create data
-  expect_is(
-    x <<- create_spp_aoh_data(
-      x = read_spp_range_data(f, n = 4),
-      output_dir = tempdir(),
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      spp_habitat_data = spp_habitat_data,
-      spp_summary_data = spp_summary_data,
-      verbose = FALSE
-    ),
-    "tbl_df"
+  # prepare data
+  x <- create_spp_aoh_data(
+    x = read_spp_range_data(f, n = 4),
+    output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = FALSE
   )
+  # create object
+  p <- plot_spp_aoh_data(x, zoom = 3, maptype = "toner")
   # tests
-  expect_is(
-    p <<- plot_spp_aoh_data(x, zoom = 3, maptype = "toner"),
-    "gg"
-  )
+  expect_is(p, "gg")
   expect_is(suppressWarnings(print(p)), "gg")
 })
 
@@ -100,33 +92,29 @@ test_that("customized", {
     system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
     sep = ",", header = TRUE
   )
-  # create data
-  expect_is(
-    x <<- create_spp_aoh_data(
-      x = read_spp_range_data(f, n = 4),
-      output_dir = tempdir(),
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      spp_habitat_data = spp_habitat_data,
-      spp_summary_data = spp_summary_data,
-      verbose = FALSE
-    ),
-    "tbl_df"
+  # prepare data
+  x <- create_spp_aoh_data(
+    x = read_spp_range_data(f, n = 4),
+    output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = FALSE
   )
+  # create object
+  p <-
+    plot_spp_aoh_data(x, zoom = NULL, maptype = NULL) +
+    ggplot2::scale_fill_viridis_c() +
+    ggplot2::scale_color_manual(values = c("range" = "blue")) +
+    ggplot2::scale_size_manual(values = c("range" = 10)) +
+    ggplot2::theme(
+      strip.text = ggplot2::element_text(color = "white"),
+      strip.background = ggplot2::element_rect(
+        fill = "black", color = "black"
+      )
+    )
   # tests
-  expect_is(
-    p <<-
-      plot_spp_aoh_data(x, zoom = NULL, maptype = NULL) +
-      ggplot2::scale_fill_viridis_c() +
-      ggplot2::scale_color_manual(values = c("range" = "blue")) +
-      ggplot2::scale_size_manual(values = c("range" = 10)) +
-      ggplot2::theme(
-        strip.text = ggplot2::element_text(color = "white"),
-        strip.background = ggplot2::element_rect(
-          fill = "black", color = "black"
-        )
-      ),
-    "gg"
-  )
+  expect_is(p, "gg")
   expect_is(suppressWarnings(print(p)), "gg")
 })

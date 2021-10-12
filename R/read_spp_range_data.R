@@ -35,7 +35,7 @@ NULL
 #' print(spp_range_data)
 #'
 #' # plot data
-#' plot(spp_range_data)
+#' plot(spp_range_data[, "id_no"])
 #' @export
 read_spp_range_data <- function(path, n = NULL) {
   # assert arguments are valid

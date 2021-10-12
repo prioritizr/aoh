@@ -150,13 +150,20 @@ Specifically, the object contains the following columns:
 \item{id_no}{\code{numeric} species' taxon identifier on the IUCN Red List.}
 \item{binomial}{\code{character} species name.}
 \item{seasonal}{\code{numeric} seasonal distribution code.}
-\item{habitat_code}{\code{character} habitat
-codes used to create the species' Area of Habitat data.
+\item{full_habitat_code}{\code{character} all habitat classification
+codes that contain suitable habitat for the species.
 If a given species has multiple suitable habitat classes,
 then these are denoted using a pipe-delimeted format.
 For example, if the habitat classes denoted with the codes
 \code{"1.5"} and \code{"1.9"} were considered suitable for a given species, then
 these codes would be indicated as \code{"1.5|1.9"}.}
+\item{habitat_code}{\code{character} habitat
+codes used to create the species' Area of Habitat data.
+Since the argument to \code{habitat_data} may not contain habitat
+classes for all suitable habitats for a given species
+(e.g. the default dataset does not contain subterranean cave systems),
+this column contains the subset of the habitat codes listed in the
+\code{"full_habitat_code"}column that were used for processing.}
 \item{elevation_lower}{\code{numeric} lower elevation threshold used to create
 the species' Area of Habitat data.}
 \item{elevation_upper}{\code{numeric} upper elevation threshold used to create
@@ -201,16 +208,14 @@ path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 spp_range_data <- read_spp_range_data(path)
 
 # specify settings for data processing
-output_dir <- tempdir()                  # folder to save AOH data
-cache_dir <- rappdirs::user_data_dir()   # persistent storage location
-n_threads <- parallel::detectCores() - 1 # recommended for best performance
+output_dir <- tempdir()                       # folder to save AOH data
+cache_dir <- rappdirs::user_data_dir("aoh")   # persistent storage location
+n_threads <- parallel::detectCores() - 1      # speed up analysis
 
 # create Area of Habitat data for species
-spp_aoh_data <- create_aoh_data(
+spp_aoh_data <- create_spp_aoh_data(
   x = spp_range_data,
   output_dir = output_dir,
-  spp_summary_data = sim_spp_summary_data,
-  spp_habitat_data = sim_spp_habitat_data,
   parallel_n_threads = n_threads,
   cache_dir = cache_dir
 )

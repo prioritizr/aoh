@@ -44,7 +44,7 @@ get_spp_summary_data <- function(x, dir = tempdir(), version = "latest",
   get_spp_api_data(
     x = x,
     api_function = rredlist::rl_search,
-    data_template =  tibble::tibble(
+    data_template = tibble::tibble(
       taxonid = integer(0),
       scientific_name = character(0),
       kingdom = character(0),

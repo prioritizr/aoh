@@ -20,11 +20,11 @@ has_iucn_format_column_names <- function(x) {
 assertthat::on_failure(has_iucn_format_column_names) <- function(call, env) {
   missing_names <- iucn_column_names[!iucn_column_names %in% names(env$x)]
   print(missing_names)
-  if (!(any("terrestial", "terrestrial") %in% names(x))) {
+  if (!(any(c("terrestial", "terrestrial") %in% names(env$x)))) {
     missing_names <- c(missing_names, "terrestial")
   }
   paste0(
-    deparse(call$x), "is missing the following columns: ",
+    deparse(call$x), " is missing the following columns: ",
     paste(paste0("\"", missing_names, "\""), collapse = ", ")
   )
 }

@@ -41,5 +41,5 @@ spp_range_data <- read_spp_range_data(path)
 print(spp_range_data)
 
 # plot data
-plot(spp_range_data)
+plot(spp_range_data[, "id_no"])
 }

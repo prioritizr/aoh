@@ -22,12 +22,15 @@ Import spatial data. If desired, only a subset of the available data
 are imported.
 }
 \examples{
+# set data pth
+path <- system.file("shape/nc.shp", package = "sf")
+
 # read all data
-nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
+nc <- read_sf(path)
 print(nc)
 
 # read only first five geometries
-nc2 <- read_sf(system.file("shape/nc.shp", package = "sf"), n = 5)
+nc2 <- read_sf_n(path, n = 5)
 print(nc2)
 
 }

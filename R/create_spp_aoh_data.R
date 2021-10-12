@@ -130,13 +130,20 @@ NULL
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
 #' \item{binomial}{`character` species name.}
 #' \item{seasonal}{`numeric` seasonal distribution code.}
-#' \item{habitat_code}{`character` habitat
-#'   codes used to create the species' Area of Habitat data.
+#' \item{full_habitat_code}{`character` all habitat classification
+#'   codes that contain suitable habitat for the species.
 #'   If a given species has multiple suitable habitat classes,
 #'   then these are denoted using a pipe-delimeted format.
 #'   For example, if the habitat classes denoted with the codes
 #'   `"1.5"` and `"1.9"` were considered suitable for a given species, then
 #'   these codes would be indicated as `"1.5|1.9"`.}
+#' \item{habitat_code}{`character` habitat
+#'   codes used to create the species' Area of Habitat data.
+#'   Since the argument to `habitat_data` may not contain habitat
+#'   classes for all suitable habitats for a given species
+#'   (e.g. the default dataset does not contain subterranean cave systems),
+#'   this column contains the subset of the habitat codes listed in the
+#'   `"full_habitat_code"`column that were used for processing.}
 #' \item{elevation_lower}{`numeric` lower elevation threshold used to create
 #'   the species' Area of Habitat data.}
 #' \item{elevation_upper}{`numeric` upper elevation threshold used to create
@@ -198,16 +205,14 @@ NULL
 #' spp_range_data <- read_spp_range_data(path)
 #'
 #' # specify settings for data processing
-#' output_dir <- tempdir()                  # folder to save AOH data
-#' cache_dir <- rappdirs::user_data_dir()   # persistent storage location
-#' n_threads <- parallel::detectCores() - 1 # recommended for best performance
+#' output_dir <- tempdir()                       # folder to save AOH data
+#' cache_dir <- rappdirs::user_data_dir("aoh")   # persistent storage location
+#' n_threads <- parallel::detectCores() - 1      # speed up analysis
 #'
 #' # create Area of Habitat data for species
-#' spp_aoh_data <- create_aoh_data(
+#' spp_aoh_data <- create_spp_aoh_data(
 #'   x = spp_range_data,
 #'   output_dir = output_dir,
-#'   spp_summary_data = sim_spp_summary_data,
-#'   spp_habitat_data = sim_spp_habitat_data,
 #'   parallel_n_threads = n_threads,
 #'   cache_dir = cache_dir
 #' )
@@ -383,22 +388,49 @@ create_spp_aoh_data <- function(x,
     omit_habitat_codes = omit_habitat_codes,
     verbose = verbose
   )
+
   ## additional data validation
   ### check that habitat_data has all codes in spp_habitat_data
   habitat_codes <- unique(unlist(x$habitat_code, use.names = FALSE))
   missing_codes <- !habitat_codes %in% names(habitat_data)
   if (any(missing_codes)) {
-    stop(
+    warning(
       paste(
         "argument to \"habitat_data\" is missing layers for the following",
         sum(missing_codes),
         "habitat classification codes:",
         paste(paste0("\"", habitat_codes[missing_codes], "\""), collapse = ", ")
-      )
+      ),
+      immediate. = TRUE
     )
   }
+  assertthat::assert_that(
+    any(habitat_codes %in% names(habitat_data)),
+    msg = paste(
+      "argument to \"habitat_data\" does not have any layer names that",
+      "match the habitat classification codes - did you forget to specify",
+      "layer names for \"habitat_data\"?"
+    )
+  )
+  assertthat::assert_that(
+    length(habitat_codes) >= 1,
+    msg = paste(
+      "none of the species have any suitable habitat classes -",
+      "perhaps the argument to \"spp_habitat_data\" is missing",
+      "some information or the argument to \"omit_habitat_codes\"",
+      "contains codes that should not be omitted?"
+    )
+  )
+
+  habitat_codes <- habitat_codes[!missing_codes]
   ## add column with output file paths
   x$path <- file.path(output_dir, paste0(x$aoh_id, ".tif"))
+  ## copy all habitat codes to full_habitat_code
+  x$full_habitat_code <- x$habitat_code
+  ## subset habitat codes to those that are available
+  x$habitat_code <- lapply(x$full_habitat_code, function(x) {
+    base::intersect(x, habitat_codes)
+  })
   ## set paths to NA if the species won't be processed
   ## species won't be processed if:
   ##   they don't overlap with the template,
@@ -591,12 +623,18 @@ create_spp_aoh_data <- function(x,
   ## processing
   x <- dplyr::select(
     x, .data$id_no, .data$binomial, .data$seasonal,
-    .data$habitat_code, .data$elevation_lower, .data$elevation_upper,
+    .data$full_habitat_code, .data$habitat_code,
+    .data$elevation_lower, .data$elevation_upper,
     .data$xmin, .data$xmax, .data$ymin, .data$ymax,
     .data$path
   )
   ## convert list-column to "|" delimited character-column
-  x$habitat_code <- vapply(x$habitat_code, paste, character(1), collapse = "|")
+  x$habitat_code <- vapply(
+    x$habitat_code, paste, character(1), collapse = "|"
+  )
+  x$full_habitat_code <- vapply(
+    x$full_habitat_code, paste, character(1), collapse = "|"
+  )
   ## update message
   if (verbose) {
     cli::cli_process_done()

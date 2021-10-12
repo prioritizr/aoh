@@ -87,7 +87,7 @@ get_spp_habitat_data <- function(x, dir = tempdir(), version = "latest",
     x = x,
     api_function = rredlist::rl_habitats,
     data_template =  tibble::tibble(
-      code = numeric(0),
+      code = character(0),
       habitat = character(0),
       suitability = character(0),
       season = character(0),

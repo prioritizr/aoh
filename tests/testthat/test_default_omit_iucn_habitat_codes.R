@@ -1,6 +1,7 @@
 context("default_omit_iucn_habitat_codes()")
 
 test_that("expected results", {
-  expect_is(x <<- default_omit_iucn_habitat_codes(), "character")
+  x <- default_omit_iucn_habitat_codes()
+  expect_is(x, "character")
   expect_gt(length(x), 0)
 })

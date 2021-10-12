@@ -5,11 +5,10 @@ test_that("expected results", {
   skip_on_cran()
   skip_if_offline()
   skip_if_local_and_slow_internet()
+  # create object
+  x <- get_global_elevation_data(force = TRUE, verbose = FALSE)
   # tests
-  expect_is(
-    d <<- get_global_elevation_data(force = TRUE, verbose = FALSE),
-    "SpatRaster"
-  )
+  expect_is(x, "SpatRaster")
   expect_true(sf::st_crs(terra::crs(d)) == sf::st_crs(4326))
   expect_lte(terra::xmin(d), -180)
   expect_gte(terra::xmax(d), 180)
