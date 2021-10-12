@@ -1,124 +1,124 @@
 "id_no","code","habitat","suitability","season","majorimportance"
-204,"1.8","Forest - Subtropical/tropical swamp","Suitable","Resident",NA
-204,"1.4","Forest - Temperate","Suitable","Resident",NA
-204,"1","Forest","Suitable","Resident",NA
-224,"5.10","Wetlands (inland) - Tundra wetlands (inc. pools and temporary waters from snowmelt)","Suitable","Resident",NA
-224,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Resident",NA
-224,"1","Forest","Suitable","Resident",NA
-550,"4.4","Grassland - Temperate","Suitable","Resident",NA
-550,"5","Wetlands (inland)","Suitable","Resident",NA
-550,"5.5","Wetlands (inland) - Permanent freshwater lakes (over 8 ha)","Suitable","Resident",NA
-799,"1.8","Forest - Subtropical/tropical swamp","Suitable","Resident",NA
-799,"5.6","Wetlands (inland) - Seasonal/intermittent freshwater lakes (over 8 ha)","Suitable","Resident",NA
-799,"1","Forest","Suitable","Resident",NA
-964,"6","Rocky Areas (e.g., inland cliffs, mountain peaks)","Suitable","Breeding Season",NA
-964,"8.2","Desert - Temperate","Suitable","Breeding Season",NA
-964,"8.1","Desert - Hot","Suitable","Breeding Season",NA
-964,"8.3","Desert - Cold","Suitable","Passage",NA
-964,"1.5","Forest - Subtropical/tropical dry","Suitable","Passage",NA
-964,"5","Wetlands (inland)","Suitable","Passage",NA
-1164,"8.2","Desert - Temperate","Suitable","Resident",NA
-1164,"5.1","Wetlands (inland) - Permanent rivers/streams/creeks (includes waterfalls)","Suitable","Resident",NA
-1164,"5.13","Wetlands (inland) - Permanent inland deltas","Suitable","Resident",NA
-2102,"5.5","Wetlands (inland) - Permanent freshwater lakes (over 8 ha)","Suitable","Breeding Season",NA
-2102,"2.1","Savanna - Dry","Suitable","Breeding Season",NA
-2102,"1.4","Forest - Temperate","Suitable","Breeding Season",NA
-2102,"1","Forest","Suitable","Non-breeding Season",NA
-2102,"4.5","Grassland - Subtropical/tropical dry","Suitable","Non-breeding Season",NA
-2102,"3.5","Shrubland - Subtropical/tropical dry","Suitable","Non-breeding Season",NA
-2102,"5","Wetlands (inland)","Suitable","Passage",NA
-2102,"3.4","Shrubland - Temperate","Suitable","Passage",NA
-2102,"4","Grassland","Suitable","Passage",NA
-2454,"3.4","Shrubland - Temperate","Suitable","Resident",NA
-2454,"1.5","Forest - Subtropical/tropical dry","Suitable","Resident",NA
-2454,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Resident",NA
-2529,"5.13","Wetlands (inland) - Permanent inland deltas","Suitable","Resident",NA
-2529,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Resident",NA
-2529,"5.15","Wetlands (inland) - Seasonal/intermittent saline, brackish or alkaline lakes and flats","Suitable","Resident",NA
-2609,"5","Wetlands (inland)","Suitable","Resident",NA
-2609,"3.4","Shrubland - Temperate","Suitable","Resident",NA
-2609,"4.1","Grassland - Tundra","Suitable","Resident",NA
-2614,"3","Shrubland","Suitable","Breeding Season",NA
-2614,"3.4","Shrubland - Temperate","Suitable","Breeding Season",NA
-2614,"5.5","Wetlands (inland) - Permanent freshwater lakes (over 8 ha)","Suitable","Breeding Season",NA
-2614,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Non-breeding Season",NA
-2614,"1","Forest","Suitable","Non-breeding Season",NA
-2614,"5.1","Wetlands (inland) - Permanent rivers/streams/creeks (includes waterfalls)","Suitable","Non-breeding Season",NA
-2614,"5.11","Wetlands (inland) - Alpine wetlands (inc. temporary waters from snowmelt)","Suitable","Passage",NA
-2614,"5.6","Wetlands (inland) - Seasonal/intermittent freshwater lakes (over 8 ha)","Suitable","Passage",NA
-2614,"6","Rocky Areas (e.g., inland cliffs, mountain peaks)","Suitable","Passage",NA
-2680,"4","Grassland","Suitable","Resident",NA
-2680,"5.11","Wetlands (inland) - Alpine wetlands (inc. temporary waters from snowmelt)","Suitable","Resident",NA
-2680,"3.4","Shrubland - Temperate","Suitable","Resident",NA
-3016,"5.1","Wetlands (inland) - Permanent rivers/streams/creeks (includes waterfalls)","Suitable","Resident",NA
-3016,"3.4","Shrubland - Temperate","Suitable","Resident",NA
-3016,"5.2","Wetlands (inland) - Seasonal/intermittent/irregular rivers/streams/creeks","Suitable","Resident",NA
-3888,"2.1","Savanna - Dry","Suitable","Resident",NA
-3888,"6","Rocky Areas (e.g., inland cliffs, mountain peaks)","Suitable","Resident",NA
-3888,"8.3","Desert - Cold","Suitable","Resident",NA
-4082,"8.3","Desert - Cold","Suitable","Resident",NA
-4082,"3","Shrubland","Suitable","Resident",NA
-4082,"1.4","Forest - Temperate","Suitable","Resident",NA
-4198,"4.7","Grassland - Subtropical/tropical high altitude","Suitable","Resident",NA
-4198,"1","Forest","Suitable","Resident",NA
-4198,"1.8","Forest - Subtropical/tropical swamp","Suitable","Resident",NA
-4422,"8.3","Desert - Cold","Suitable","Resident",NA
-4422,"5.11","Wetlands (inland) - Alpine wetlands (inc. temporary waters from snowmelt)","Suitable","Resident",NA
-4422,"4.5","Grassland - Subtropical/tropical dry","Suitable","Resident",NA
-4942,"5.13","Wetlands (inland) - Permanent inland deltas","Suitable","Resident",NA
-4942,"3.5","Shrubland - Subtropical/tropical dry","Suitable","Resident",NA
-4942,"1.5","Forest - Subtropical/tropical dry","Suitable","Resident",NA
-5122,"1.4","Forest - Temperate","Suitable","Resident",NA
-5122,"5.2","Wetlands (inland) - Seasonal/intermittent/irregular rivers/streams/creeks","Suitable","Resident",NA
-5122,"4.1","Grassland - Tundra","Suitable","Resident",NA
-5167,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Resident",NA
-5167,"4.4","Grassland - Temperate","Suitable","Resident",NA
-5167,"3.4","Shrubland - Temperate","Suitable","Resident",NA
-5479,"5.10","Wetlands (inland) - Tundra wetlands (inc. pools and temporary waters from snowmelt)","Suitable","Breeding Season",NA
-5479,"1.5","Forest - Subtropical/tropical dry","Suitable","Breeding Season",NA
-5479,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Breeding Season",NA
-5479,"1.4","Forest - Temperate","Suitable","Non-breeding Season",NA
-5479,"3","Shrubland","Suitable","Non-breeding Season",NA
-5479,"1.5","Forest - Subtropical/tropical dry","Suitable","Non-breeding Season",NA
-5479,"4","Grassland","Suitable","Passage",NA
-5479,"4.4","Grassland - Temperate","Suitable","Passage",NA
-5479,"3.4","Shrubland - Temperate","Suitable","Passage",NA
-6081,"3","Shrubland","Suitable","Resident",NA
-6081,"5.1","Wetlands (inland) - Permanent rivers/streams/creeks (includes waterfalls)","Suitable","Resident",NA
-6081,"4.7","Grassland - Subtropical/tropical high altitude","Suitable","Resident",NA
-6437,"4.4","Grassland - Temperate","Suitable","Breeding Season",NA
-6437,"4","Grassland","Suitable","Breeding Season",NA
-6437,"4.5","Grassland - Subtropical/tropical dry","Suitable","Breeding Season",NA
-6437,"1.4","Forest - Temperate","Suitable","Non-breeding Season",NA
-6437,"1","Forest","Suitable","Non-breeding Season",NA
-6437,"5","Wetlands (inland)","Suitable","Non-breeding Season",NA
-6437,"1.7","Forest - Subtropical/tropical mangrove vegetation above high tide level","Suitable","Passage",NA
-6437,"1.8","Forest - Subtropical/tropical swamp","Suitable","Passage",NA
-6437,"4.4","Grassland - Temperate","Suitable","Passage",NA
-7097,"5.10","Wetlands (inland) - Tundra wetlands (inc. pools and temporary waters from snowmelt)","Suitable","Resident",NA
-7097,"5.11","Wetlands (inland) - Alpine wetlands (inc. temporary waters from snowmelt)","Suitable","Resident",NA
-7097,"1","Forest","Suitable","Resident",NA
-7707,"4.7","Grassland - Subtropical/tropical high altitude","Suitable","Resident",NA
-7707,"5.6","Wetlands (inland) - Seasonal/intermittent freshwater lakes (over 8 ha)","Suitable","Resident",NA
-7707,"5.11","Wetlands (inland) - Alpine wetlands (inc. temporary waters from snowmelt)","Suitable","Resident",NA
-7722,"6","Rocky Areas (e.g., inland cliffs, mountain peaks)","Suitable","Breeding Season",NA
-7722,"3","Shrubland","Suitable","Breeding Season",NA
-7722,"1.5","Forest - Subtropical/tropical dry","Suitable","Breeding Season",NA
-7722,"1","Forest","Suitable","Non-breeding Season",NA
-7722,"5.2","Wetlands (inland) - Seasonal/intermittent/irregular rivers/streams/creeks","Suitable","Non-breeding Season",NA
-7722,"1.5","Forest - Subtropical/tropical dry","Suitable","Non-breeding Season",NA
-7722,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Passage",NA
-7722,"3.4","Shrubland - Temperate","Suitable","Passage",NA
-7722,"1.5","Forest - Subtropical/tropical dry","Suitable","Passage",NA
-8298,"4","Grassland","Suitable","Resident",NA
-8298,"8.1","Desert - Hot","Suitable","Resident",NA
-8298,"4.5","Grassland - Subtropical/tropical dry","Suitable","Resident",NA
-8550,"4.4","Grassland - Temperate","Suitable","Resident",NA
-8550,"3","Shrubland","Suitable","Resident",NA
-8550,"4","Grassland","Suitable","Resident",NA
-9362,"3.5","Shrubland - Subtropical/tropical dry","Suitable","Resident",NA
-9362,"4.5","Grassland - Subtropical/tropical dry","Suitable","Resident",NA
-9362,"3","Shrubland","Suitable","Resident",NA
-9478,"3","Shrubland","Suitable","Resident",NA
-9478,"5.2","Wetlands (inland) - Seasonal/intermittent/irregular rivers/streams/creeks","Suitable","Resident",NA
-9478,"3.8","Shrubland - Mediterranean-type shrubby vegetation","Suitable","Resident",NA
+204,"14.3","Plantations","Suitable","Resident",NA
+204,"14.1","Arable Land","Suitable","Resident",NA
+204,"14.5","Urban Areas","Suitable","Resident",NA
+224,"14.3","Plantations","Suitable","Resident",NA
+224,"14.5","Urban Areas","Suitable","Resident",NA
+224,"14.2","Pastureland","Suitable","Resident",NA
+550,"14.3","Plantations","Suitable","Resident",NA
+550,"14.2","Pastureland","Suitable","Resident",NA
+550,"14.5","Urban Areas","Suitable","Resident",NA
+799,"14.5","Urban Areas","Suitable","Resident",NA
+799,"14.1","Arable Land","Suitable","Resident",NA
+799,"14.2","Pastureland","Suitable","Resident",NA
+964,"14.2","Pastureland","Suitable","Breeding Season",NA
+964,"14.5","Urban Areas","Suitable","Breeding Season",NA
+964,"14.1","Arable Land","Suitable","Breeding Season",NA
+964,"14.1","Arable Land","Suitable","Passage",NA
+964,"14.3","Plantations","Suitable","Passage",NA
+964,"14.5","Urban Areas","Suitable","Passage",NA
+1164,"14.3","Plantations","Suitable","Resident",NA
+1164,"14.5","Urban Areas","Suitable","Resident",NA
+1164,"14.1","Arable Land","Suitable","Resident",NA
+2102,"14.2","Pastureland","Suitable","Breeding Season",NA
+2102,"14.3","Plantations","Suitable","Breeding Season",NA
+2102,"14.5","Urban Areas","Suitable","Breeding Season",NA
+2102,"14.3","Plantations","Suitable","Non-breeding Season",NA
+2102,"14.2","Pastureland","Suitable","Non-breeding Season",NA
+2102,"14.1","Arable Land","Suitable","Non-breeding Season",NA
+2102,"14.1","Arable Land","Suitable","Passage",NA
+2102,"14.2","Pastureland","Suitable","Passage",NA
+2102,"14.5","Urban Areas","Suitable","Passage",NA
+2454,"14.3","Plantations","Suitable","Resident",NA
+2454,"14.2","Pastureland","Suitable","Resident",NA
+2454,"14.1","Arable Land","Suitable","Resident",NA
+2529,"14.5","Urban Areas","Suitable","Resident",NA
+2529,"14.1","Arable Land","Suitable","Resident",NA
+2529,"14.3","Plantations","Suitable","Resident",NA
+2609,"14.2","Pastureland","Suitable","Resident",NA
+2609,"14.1","Arable Land","Suitable","Resident",NA
+2609,"14.3","Plantations","Suitable","Resident",NA
+2614,"14.2","Pastureland","Suitable","Breeding Season",NA
+2614,"14.5","Urban Areas","Suitable","Breeding Season",NA
+2614,"14.1","Arable Land","Suitable","Breeding Season",NA
+2614,"14.1","Arable Land","Suitable","Non-breeding Season",NA
+2614,"14.5","Urban Areas","Suitable","Non-breeding Season",NA
+2614,"14.3","Plantations","Suitable","Non-breeding Season",NA
+2614,"14.3","Plantations","Suitable","Passage",NA
+2614,"14.2","Pastureland","Suitable","Passage",NA
+2614,"14.1","Arable Land","Suitable","Passage",NA
+2680,"14.5","Urban Areas","Suitable","Resident",NA
+2680,"14.1","Arable Land","Suitable","Resident",NA
+2680,"14.3","Plantations","Suitable","Resident",NA
+3016,"14.5","Urban Areas","Suitable","Resident",NA
+3016,"14.3","Plantations","Suitable","Resident",NA
+3016,"14.1","Arable Land","Suitable","Resident",NA
+3888,"14.2","Pastureland","Suitable","Resident",NA
+3888,"14.1","Arable Land","Suitable","Resident",NA
+3888,"14.5","Urban Areas","Suitable","Resident",NA
+4082,"14.5","Urban Areas","Suitable","Resident",NA
+4082,"14.2","Pastureland","Suitable","Resident",NA
+4082,"14.3","Plantations","Suitable","Resident",NA
+4198,"14.3","Plantations","Suitable","Resident",NA
+4198,"14.2","Pastureland","Suitable","Resident",NA
+4198,"14.1","Arable Land","Suitable","Resident",NA
+4422,"14.1","Arable Land","Suitable","Resident",NA
+4422,"14.2","Pastureland","Suitable","Resident",NA
+4422,"14.5","Urban Areas","Suitable","Resident",NA
+4942,"14.1","Arable Land","Suitable","Resident",NA
+4942,"14.2","Pastureland","Suitable","Resident",NA
+4942,"14.5","Urban Areas","Suitable","Resident",NA
+5122,"14.3","Plantations","Suitable","Resident",NA
+5122,"14.1","Arable Land","Suitable","Resident",NA
+5122,"14.2","Pastureland","Suitable","Resident",NA
+5167,"14.2","Pastureland","Suitable","Resident",NA
+5167,"14.1","Arable Land","Suitable","Resident",NA
+5167,"14.3","Plantations","Suitable","Resident",NA
+5479,"14.3","Plantations","Suitable","Breeding Season",NA
+5479,"14.2","Pastureland","Suitable","Breeding Season",NA
+5479,"14.5","Urban Areas","Suitable","Breeding Season",NA
+5479,"14.2","Pastureland","Suitable","Non-breeding Season",NA
+5479,"14.3","Plantations","Suitable","Non-breeding Season",NA
+5479,"14.5","Urban Areas","Suitable","Non-breeding Season",NA
+5479,"14.3","Plantations","Suitable","Passage",NA
+5479,"14.1","Arable Land","Suitable","Passage",NA
+5479,"14.2","Pastureland","Suitable","Passage",NA
+6081,"14.3","Plantations","Suitable","Resident",NA
+6081,"14.2","Pastureland","Suitable","Resident",NA
+6081,"14.5","Urban Areas","Suitable","Resident",NA
+6437,"14.5","Urban Areas","Suitable","Breeding Season",NA
+6437,"14.3","Plantations","Suitable","Breeding Season",NA
+6437,"14.2","Pastureland","Suitable","Breeding Season",NA
+6437,"14.2","Pastureland","Suitable","Non-breeding Season",NA
+6437,"14.5","Urban Areas","Suitable","Non-breeding Season",NA
+6437,"14.3","Plantations","Suitable","Non-breeding Season",NA
+6437,"14.3","Plantations","Suitable","Passage",NA
+6437,"14.2","Pastureland","Suitable","Passage",NA
+6437,"14.5","Urban Areas","Suitable","Passage",NA
+7097,"14.1","Arable Land","Suitable","Resident",NA
+7097,"14.5","Urban Areas","Suitable","Resident",NA
+7097,"14.3","Plantations","Suitable","Resident",NA
+7707,"14.2","Pastureland","Suitable","Resident",NA
+7707,"14.5","Urban Areas","Suitable","Resident",NA
+7707,"14.3","Plantations","Suitable","Resident",NA
+7722,"14.2","Pastureland","Suitable","Breeding Season",NA
+7722,"14.3","Plantations","Suitable","Breeding Season",NA
+7722,"14.1","Arable Land","Suitable","Breeding Season",NA
+7722,"14.5","Urban Areas","Suitable","Non-breeding Season",NA
+7722,"14.2","Pastureland","Suitable","Non-breeding Season",NA
+7722,"14.3","Plantations","Suitable","Non-breeding Season",NA
+7722,"14.5","Urban Areas","Suitable","Passage",NA
+7722,"14.2","Pastureland","Suitable","Passage",NA
+7722,"14.1","Arable Land","Suitable","Passage",NA
+8298,"14.3","Plantations","Suitable","Resident",NA
+8298,"14.2","Pastureland","Suitable","Resident",NA
+8298,"14.5","Urban Areas","Suitable","Resident",NA
+8550,"14.3","Plantations","Suitable","Resident",NA
+8550,"14.1","Arable Land","Suitable","Resident",NA
+8550,"14.2","Pastureland","Suitable","Resident",NA
+9362,"14.5","Urban Areas","Suitable","Resident",NA
+9362,"14.1","Arable Land","Suitable","Resident",NA
+9362,"14.3","Plantations","Suitable","Resident",NA
+9478,"14.3","Plantations","Suitable","Resident",NA
+9478,"14.1","Arable Land","Suitable","Resident",NA
+9478,"14.2","Pastureland","Suitable","Resident",NA

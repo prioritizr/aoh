@@ -1,0 +1,20 @@
+# specify variables used with dplyr non-standard evalaution
+utils::globalVariables(
+  c(
+    "aoh_id",
+    "id_no",
+    "category",
+    "binomial",
+    "subspecies",
+    "seasonal",
+    "kingdom",
+    "phylum",
+    "genus",
+    "habitat_code",
+    "elevation_lower",
+    "elevation_upper",
+    "y",
+    "value",
+    "type"
+  )
+)

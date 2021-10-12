@@ -158,7 +158,7 @@ simulate_spp_data <- function(n,
   )
   bb <- sf::st_bbox(boundary_data_proj)
   res <- min(bb$xmax - bb$xmin, bb$ymax - bb$ymin) / 500
-  res <- max(1000, plyr::round_any(res, 1000))
+  res <- max(1000, round(res / 1000) * 1000)
 
   # create spatial grid for simulations
   sim_rast <- create_template_rast(
@@ -199,7 +199,7 @@ simulate_spp_data <- function(n,
     x <- suppressWarnings(sf::st_cast(x, "POLYGON"))
     rownames(x) <- NULL
     # determine if species has seasonal distributions or not
-    if (isTRUE(runif(1) > 0.7) && (nrow(x) >= 3)) {
+    if (isTRUE(stats::runif(1) > 0.7) && (nrow(x) >= 3)) {
       # migratory
       migrant <- TRUE
       dist_idx <- sample(order(sf::st_area(x), decreasing = TRUE)[seq_len(3)])
@@ -341,7 +341,7 @@ simulate_summary_data <- function(x, elevation_data) {
 
   # main processing
   # create habitat data
-  result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
+  result <- purrr::map_dfr(seq_len(nrow(x_distinct)), function(i) {
     ## initialization
     curr_id_no <- x_distinct$id_no[[i]]
 
@@ -421,11 +421,7 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
   x_distinct$seasonal_name <- convert_to_seasonal_name(x_distinct$seasonal)
 
   ## convert habitat codes to names
-  code_data <- read.table(
-    system.file("extdata", "habitat-codes.csv", package = "aoh"),
-    header = TRUE, sep = ",", quote = "\"", colClasses = "character",
-    stringsAsFactors = FALSE
-  )
+  code_data <- habitat_code_data()
   if (all(names(habitat_data) %in% code_data$iucn_code)) {
     habitat_names <- code_data$name
     names(habitat_names) <- code_data$iucn_code
@@ -435,7 +431,7 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
   }
 
   # create habitat data
-  result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
+  result <- purrr::map_dfr(seq_len(nrow(x_distinct)), function(i) {
     ## initialization
     curr_id_no <- x_distinct$id_no[[i]]
     curr_seasonal <- x_distinct$seasonal[[i]]

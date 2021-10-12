@@ -4,25 +4,107 @@
 \alias{plot_spp_aoh_data}
 \title{Plot species range and Area of Habitat data}
 \usage{
-plot_spp_aoh_data(x, maptype)
+plot_spp_aoh_data(x, max_plot = 9, zoom = NULL, maptype = NULL, ...)
 }
 \arguments{
 \item{x}{\code{\link[sf:sf]{sf::st_sf()}} Object containing the species data.
 This object should be produced using the \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}
 function.}
 
-\item{maptype}{\code{character} Value indicating the name of the
-the basemap to use for the plot.
-See documentation for the \code{maptype} parameter in the \link[ggmap:get_stamenmap]{ggmap::get_stamenmap}
+\item{max_plot}{\code{integer} Maximum number of Area of Habitat datasets
+to plot.
+Defaults to 9.}
+
+\item{zoom}{\code{numeric} Value indicating the zoom level for the basemap.
+See documentation for the \code{zoom} parameter in the \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}
 function for details.
 Defaults to \code{NULL} such that no basemap is shown.}
+
+\item{maptype}{\code{character} Value indicating the name of the
+the basemap to use for the plot.
+See documentation for the \code{maptype} parameter in the
+\code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}
+function for details.
+Defaults to \code{NULL} such that no basemap is shown.}
+
+\item{...}{Additional arguments passed to \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}.}
 }
 \value{
 A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.
 }
 \description{
-Create a map to compare species geographic range and Area of habitat data.
+Create a map to compare species geographic range and Area of Habitat data.
+}
+\details{
+Note that the Area of Habitat data are automatically projected to a
+geographic coordinate system (EPSG:4326) when they are plotted with
+a base map. This means that the Area of Habitat data shown in
+maps that contain a base map might look slightly different from
+underlying dataset.
 }
 \examples{
-#TODO
+\dontrun{
+# find file path for example range data following IUCN Red List data format
+## N.B. the range data were not obtained from the IUCN Red List,
+## and were instead based on data from GBIF (https://www.gbif.org/)
+path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
+
+# import data
+spp_range_data <- read_spp_range_data(path)
+
+# specify settings for data processing
+output_dir <- tempdir()                  # folder to save AOH data
+cache_dir <- rappdirs::user_data_dir()   # persistent storage location
+n_threads <- parallel::detectCores() - 1 # recommended for best performance
+
+# create Area of Habitat data for species
+spp_aoh_data <- create_aoh_data(
+  x = spp_range_data,
+  output_dir = output_dir,
+  spp_summary_data = sim_spp_summary_data,
+  spp_habitat_data = sim_spp_habitat_data,
+  parallel_n_threads = n_threads,
+  cache_dir = cache_dir
+)
+
+# plot the data to visualize the range maps and AOH data
+p <- plot_spp_aoh_data(spp_aoh_data)
+print(p)
+
+# this plot can be customized using ggplot2 functions
+# for example, let's style the plot and update the colors
+## load ggplot2 package
+library(ggplot2)
+
+## customize plot
+p2 <-
+ p +
+ scale_fill_viridis() +
+ scale_color_manual(c("range" = "red")) +
+ scale_size_manual(c("range" = 2)) +
+ theme(
+   axis.title = element_blank(),
+   strip.text = element_text(color = "white"),
+   strip.background = element_rect(fill = "black", color = "black")
+ )
+
+## print customized plot
+print(p2)
+}
+
+\dontrun{
+# we can also plot the data with a base map too
+if (require(ggmap)) {
+  p3 <-
+    plot_spp_aoh_data(spp_aoh_data, maptype = "toner") +
+    scale_fill_viridis() +
+    scale_color_manual(c("range" = "red")) +
+    scale_size_manual(c("range" = 2)) +
+    theme(
+      axis.title = element_blank(),
+      strip.text = element_text(color = "white"),
+      strip.background = element_rect(fill = "black", color = "black")
+    )
+}
+}
 }

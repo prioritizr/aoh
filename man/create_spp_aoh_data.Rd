@@ -148,6 +148,7 @@ to \code{x} so they can be used to generate the Area of Habitat data
 Specifically, the object contains the following columns:
 \describe{
 \item{id_no}{\code{numeric} species' taxon identifier on the IUCN Red List.}
+\item{binomial}{\code{character} species name.}
 \item{seasonal}{\code{numeric} seasonal distribution code.}
 \item{habitat_code}{\code{character} habitat
 codes used to create the species' Area of Habitat data.
@@ -191,15 +192,13 @@ work with data obtained from the
 }
 \examples{
 \dontrun{
-# load built in datasets
-data(sim_spp_summary_data, package = "aoh")
-data(sim_spp_habitat_data, package = "aoh")
+# find file path for example range data following IUCN Red List data format
+## N.B. the range data were not obtained from the IUCN Red List,
+## and were instead based on data from GBIF (https://www.gbif.org/)
+path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 
-# find file path for simulated data following the IUCN Red List format
-path <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
-
-# import species range data
-sim_spp_range_data <- read_spp_range_data(path)
+# import data
+spp_range_data <- read_spp_range_data(path)
 
 # specify settings for data processing
 output_dir <- tempdir()                  # folder to save AOH data
@@ -207,8 +206,8 @@ cache_dir <- rappdirs::user_data_dir()   # persistent storage location
 n_threads <- parallel::detectCores() - 1 # recommended for best performance
 
 # create Area of Habitat data for species
-sim_aoh_data <- create_aoh_data(
-  x = sim_spp_range_data,
+spp_aoh_data <- create_aoh_data(
+  x = spp_range_data,
   output_dir = output_dir,
   spp_summary_data = sim_spp_summary_data,
   spp_habitat_data = sim_spp_habitat_data,
@@ -216,14 +215,19 @@ sim_aoh_data <- create_aoh_data(
   cache_dir = cache_dir
 )
 
-# preview result
-print(sim_aoh_data)
+ # preview result (only if running R in an interactive session)
+if (interactive()) {
+ print(spp_aoh_data)
+}
 
-# import AOH data
-aoh_data <- lapply(sim_aoh_data, terra::rast)
+# import AOH data as a list of terra::rast() objects
+spp_aoh_rasters <- lapply(spp_aoh_data$path, terra::rast)
 
-# compare range data (EOO) and AOH data for first species
-#TODO
+# print AOH data list
+print(spp_aoh_rasters)
+
+# plot the data to visualize the range maps and AOH data
+plot_spp_aoh_data(spp_aoh_data)
 }
 }
 \references{

@@ -54,8 +54,7 @@ are excluded (i.e. filtering based on \code{origin == 1}).
 (i.e. filtering based on \code{seasonal != 5}).
 
 \item Species that are not terrestrial are excluded (i.e. filtering based on
-where \code{terrestrial == "true"}, \code{freshwater == "false"}, and
-\code{marine == "false"}).
+where \code{terrestrial == "true"}).
 
 \item Fix any potential geometry issues (using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
@@ -86,24 +85,24 @@ IUCN SSC Red List Technical Working Group (2021).
 }
 \examples{
 \dontrun{
-# find file path for simulated data following the IUCN Red List format
-path <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
+# find file path for example range data following IUCN Red List data format
+## N.B. the range data were not obtained from the IUCN Red List,
+## and were instead based on data from GBIF (https://www.gbif.org/)
+path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 
 # import data
-sim_spp_range_data <- read_spp_range_data(path)
+spp_range_data <- read_spp_range_data(path)
 
 # clean data
-sim_spp_range_data <- clean_spp_range_data(sim_spp_range_data)
+spp_cleaned_range_data <- clean_spp_range_data(spp_range_data)
 
-# preview data (only if running R in an interactive session)
-if (interactive()) {
-  print(sim_spp_range_data)
-}
+# preview data
+print(spp_range_data)
 
-# plot data (only if running R in an interactive session)
-if (interactive()) {
-  print(sim_spp_range_data)
-}
+# plot data
+## N.B. the cleaned data are very similar to the input data
+## because they don't have any issues
+plot(spp_cleaned_range_data)
 }
 }
 \references{

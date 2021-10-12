@@ -9,13 +9,13 @@ docs: man readme vigns site
 
 data: inst/extdata/world_behrman_1km_rast.tif inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip
 
-inst/extdata/world_behrman_1km_rast.tif:
+inst/extdata/world_behrman_1km_rast.tif: inst/scripts/world-behrman-1km-rast.R
 	R --slave -e "source('inst/scripts/world-behrman-1km-rast.R')"
 
-inst/testdata/SIMULATED_SPECIES.zip:
+inst/testdata/SIMULATED_SPECIES.zip: inst/scripts/test-data.R
 	R --slave -e "source('inst/scripts/test-data.R')"
 
-inst/extdata/EXAMPLE_SPECIES.zip:
+inst/extdata/EXAMPLE_SPECIES.zip: inst/scripts/range-data.R
 	R --slave -e "source('inst/scripts/range-data.R')"
 
 man:

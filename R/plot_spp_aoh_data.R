@@ -196,13 +196,11 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
   }
   p <-
     p +
-    suppressWarnings(
-      ggplot2::geom_sf(
-        ggplot2::aes(color = type, size = type),
-        fill = NA,
-        inherit.aes = FALSE,
-        data = x
-      )
+    ggplot2::geom_sf(
+      ggplot2::aes(color = type, size = type),
+      fill = NA,
+      inherit.aes = FALSE,
+      data = x
     ) +
     ggplot2::facet_wrap(~ binomial + filename) +
     ggplot2::labs(

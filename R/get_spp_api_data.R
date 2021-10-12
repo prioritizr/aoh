@@ -100,10 +100,9 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
   # access cached data
   if (file.exists(file_path) && !isTRUE(force)) {
     ## import cached data if available
-    iucn_rl_data <- tibble::as_tibble(
-      data.table::fread(
-        file_path, data.table = FALSE, sep = ",", na.strings = ""
-      )
+    iucn_rl_data <- readr::read_csv(
+      file_path, col_names = TRUE, na = "", progress = FALSE,
+      col_types = readr::spec(data_template), show_col_types = FALSE
     )
     assertthat::assert_that(
       identical(names(iucn_rl_data), c("id_no", names(data_template))),
@@ -140,15 +139,24 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     ## specify ids that need downloaded
     api_ids <- x[!x %in% iucn_rl_data$id_no]
     ## download data
-    api_results <- plyr::llply(
-      .data = api_ids,
-      .progress = ifelse(verbose, "text", "none"),
-      .fun = function(x) {
-        # wait as need
-        Sys.sleep(delay)
-        # attempt to download data
-        api_function(id = x, key = key)$result
-    })
+    pb <- progressr::progressor(along = api_ids)
+    progressr::with_progress(
+      enable = verbose,
+      expr = {
+        api_results <- purrr::map(
+          .x = api_ids,
+          .f = function(x) {
+            # wait as need
+            Sys.sleep(delay)
+            # attempt to download data
+            out <- api_function(id = x, key = key)$result
+            # update progress bar
+            pb()
+            # return result
+            out
+        })
+      }
+    )
     ## determine which api calls were successful
     api_success <- vapply(api_results, inherits, logical(1), "data.frame")
     ## append data to cache
@@ -156,7 +164,7 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
       iucn_rl_data <- dplyr::bind_rows(
         iucn_rl_data,
         tibble::as_tibble(
-          plyr::ldply(which(api_success), function(i) {
+          purrr::map_dfr(which(api_success), function(i) {
             # format data
             d <- tibble::as_tibble(api_results[[i]])
             for (j in setdiff(names(data_template), "id_no")) {
@@ -176,7 +184,7 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     }
     ## save cache if any data available
     if (nrow(iucn_rl_data) > 0) {
-      data.table::fwrite(iucn_rl_data, file_path, sep = ",", na = "")
+      readr::write_csv(iucn_rl_data, file_path, progress = FALSE, na = "")
     }
     ## throw errors
     if (any(!api_success)) {

@@ -7,8 +7,12 @@ test_that("correct format", {
   f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
   f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
-  d2 <- read.table(f2, header = TRUE, sep = ",", stringsAsFactors = FALSE)
-  d3 <- read.table(f3, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+  d2 <- utils::read.table(
+    f2, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
+  d3 <- utils::read.table(
+    f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
   # tests
   expect_is(d1 <<- read_spp_range_data(f1), "sf")
   expect_is(
@@ -47,8 +51,12 @@ test_that("correct handling of NAs in in spp_habitat_data", {
   f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
   f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
-  d2 <- read.table(f2, header = TRUE, sep = ",", stringsAsFactors = FALSE)
-  d3 <- read.table(f3, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+  d2 <- utils::read.table(
+    f2, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
+  d3 <- utils::read.table(
+    f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
   # prepare data
   expect_is(d1 <<- read_spp_range_data(f1), "sf")
   d1 <- d1[1, , drop = FALSE]

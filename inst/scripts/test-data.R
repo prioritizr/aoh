@@ -108,6 +108,7 @@ sf::write_sf(
   file.path(temp_dir, "SIMULATED_SPECIES.shp")
 )
 zip_path <- file.path(getwd(), "inst/testdata/SIMULATED_SPECIES.zip")
+if (file.exists(zip_path)) unlink(zip_path, force = TRUE)
 withr::with_dir(
   temp_dir,
   utils::zip(

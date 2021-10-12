@@ -74,13 +74,11 @@ test_that("example data", {
     x <<- create_spp_aoh_data(
       x = d,
       output_dir = tempdir(),
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      spp_habitat_data = spp_habitat_data,
-      spp_summary_data = spp_summary_data,
+      cache_dir = cd,
+      habitat_version = hv,
       verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
@@ -118,7 +116,7 @@ test_that("PSOCK parallel processing", {
       spp_summary_data = spp_summary_data,
       verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_is(
     x2 <<- create_spp_aoh_data(
@@ -132,7 +130,7 @@ test_that("PSOCK parallel processing", {
       parallel_cluster = "PSOCK",
       verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_equal(x1, x2)
   expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
@@ -176,7 +174,7 @@ test_that("FORK parallel processing", {
       spp_summary_data = spp_summary_data,
       verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_is(
     x2 <<- create_spp_aoh_data(
@@ -190,7 +188,7 @@ test_that("FORK parallel processing", {
       parallel_cluster = "FORK",
       verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_equal(x1, x2)
   expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
@@ -220,7 +218,7 @@ test_that("amphibian data", {
     x <<- create_spp_aoh_data(
       d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
@@ -245,7 +243,7 @@ test_that("reptile data", {
     x <<- create_spp_aoh_data(
       d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
@@ -270,7 +268,7 @@ test_that("terrestrial mammal data", {
     x <<- create_spp_aoh_data(
       d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
     ),
-    "tbl_df"
+    "sf"
   )
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")

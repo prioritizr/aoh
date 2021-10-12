@@ -1,13 +1,6 @@
-habitat_codes <- read.table(
-    system.file("extdata", "habitat-codes.csv", package = "aoh"),
-    header = TRUE, sep = ",", quote = "\"", colClasses = "character"
-  )[["iucn_code"]]
 
-habitat_names <- read.table(
-    system.file("extdata", "habitat-codes.csv", package = "aoh"),
-    header = TRUE, sep = ",", quote = "\"", colClasses = "character"
-  )[["name"]]
-
+habitat_codes <- habitat_code_data()$iucn_code
+habitat_names <- habitat_code_data()$name
 
 validate_range_data <- function(x, n = 1) {
   expect_is(x, "sf")

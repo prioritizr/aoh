@@ -21,11 +21,7 @@ NULL
 #' @export
 default_omit_iucn_habitat_codes <- function() {
   # import codes conversion table
-  code_data <- system.file("extdata", "habitat-codes.csv", package = "aoh")
-  code_data <- data.table::fread(
-    code_data, data.table = FALSE, sep = ",", sep2 = ""
-  )
-  code_data <- tibble::as_tibble(code_data)
+  code_data <- habitat_code_data()
   # return codes
-  as.character(code_data$iucn_code[code_data$omit_from_aoh])
+  as.character(code_data$iucn_code[!code_data$omit_from_aoh])
 }

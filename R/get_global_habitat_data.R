@@ -253,12 +253,7 @@ habitat_codes <- function(x) {
     x[which(nchar(x) > 0)[1]]
   })
   # import codes conversion table
-  code_data <- read.table(
-    system.file("extdata", "habitat-codes.csv", package = "aoh"),
-    header = TRUE, sep = ",", quote = "\"", colClasses = "character",
-    stringsAsFactors = FALSE
-  )
-  code_data <- tibble::as_tibble(code_data)
+  code_data <- habitat_code_data()
   # convert to IUCN codes
   assertthat::assert_that(
     all(x %in% code_data$code),

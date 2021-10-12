@@ -9,7 +9,7 @@ spp_data <- tibble::tibble(
     "Alytes dickhilleni",
     "Chioglossa lusitanica"
   ),
-  taxon_id = c(59448, 58622, 979, 4657),
+  id_no = c(59448, 58622, 979, 4657),
   terrestrial = c(TRUE, TRUE, TRUE, TRUE),
   freshwater = c(TRUE, TRUE, TRUE, TRUE),
   marine = c(FALSE, FALSE, FALSE, FALSE)
@@ -25,8 +25,8 @@ library(sfheaders)
 library(rangemap)
 
 ## define functions
-create_range_map <- function(x, boundary_data, binomial, taxon_id, terrestrial,
-                             freshwater, marine) {
+create_range_map <- function(x, boundary_data, binomial, id_no,
+                             terrestrial, freshwater, marine) {
   ## create hull based on records
   h <-
     x %>%
@@ -48,6 +48,7 @@ create_range_map <- function(x, boundary_data, binomial, taxon_id, terrestrial,
   r <- sf::st_as_sf(
     sf::st_geometry(h),
     tibble::tibble(
+      id_no = id_no,
       binomial = binomial,
       compiler = "Derived from GBIF",
       yrcompiled = NA_real_,
@@ -132,7 +133,7 @@ spp_range_map <-
        x = spp_records[[i]],
        boundary_data = boundary_data,
        binomial = spp_data$binomial[[i]],
-       taxon_id = spp_data$taxon_id[[i]],
+       id_no = spp_data$id_no[[i]],
        terrestrial = spp_data$terrestrial[[i]],
        freshwater = spp_data$freshwater[[i]],
        marine = spp_data$marine[[i]]
@@ -150,6 +151,7 @@ sf::write_sf(
   file.path(temp_dir, "EXAMPLE_SPECIES.shp")
 )
 zip_path <- file.path(getwd(), "inst/extdata/EXAMPLE_SPECIES.zip")
+if (file.exists(zip_path)) unlink(zip_path, force = TRUE)
 withr::with_dir(
   temp_dir,
   utils::zip(

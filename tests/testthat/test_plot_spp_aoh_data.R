@@ -37,7 +37,7 @@ test_that("no base map", {
     p <<- plot_spp_aoh_data(x, zoom = NULL, maptype = NULL),
     "gg"
   )
-  expect_is(print(p), "gg")
+  expect_is(suppressWarnings(print(p)), "gg")
 })
 
 test_that("base map", {
@@ -78,7 +78,7 @@ test_that("base map", {
     p <<- plot_spp_aoh_data(x, zoom = 3, maptype = "toner"),
     "gg"
   )
-  expect_is(print(p), "gg")
+  expect_is(suppressWarnings(print(p)), "gg")
 })
 
 test_that("customized", {
@@ -128,5 +128,5 @@ test_that("customized", {
       ),
     "gg"
   )
-  expect_is(print(p), "gg")
+  expect_is(suppressWarnings(print(p)), "gg")
 })
