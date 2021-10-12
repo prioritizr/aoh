@@ -1,16 +1,19 @@
 context("simulate_spp_data()")
 
 test_that("single species", {
+  # skip if needed
+  skip_if_not_installed("smoothr")
+  skip_if_not_installed("RandomFields")
   # create data
   n <- 1
   boundary_data <- sf::read_sf(
-    system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
+    system.file("testdata", "sim_boundary_data.gpkg", package = "aoh")
   )
   habitat_data <- terra::rast(
-    system.file("extdata", "sim_habitat_data.tif", package = "aoh")
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
   )
   elevation_data <- terra::rast(
-    system.file("extdata", "sim_elevation_data.tif", package = "aoh")
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
   )
   # tests
   ## simulations
@@ -24,16 +27,19 @@ test_that("single species", {
 })
 
 test_that("multiple species", {
+  # skip if needed
+  skip_if_not_installed("smoothr")
+  skip_if_not_installed("RandomFields")
   # create data
   n <- 5
   boundary_data <- sf::read_sf(
-    system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
+    system.file("testdata", "sim_boundary_data.gpkg", package = "aoh")
   )
   habitat_data <- terra::rast(
-    system.file("extdata", "sim_habitat_data.tif", package = "aoh")
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
   )
   elevation_data <- terra::rast(
-    system.file("extdata", "sim_elevation_data.tif", package = "aoh")
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
   )
   # tests
   expect_is(
@@ -46,12 +52,15 @@ test_that("multiple species", {
 })
 
 test_that("global elevation and habitat data", {
+  # skip if needed
+  skip_if_not_installed("smoothr")
+  skip_if_not_installed("RandomFields")
   # create data
   n <- 5
   hv <- "10.5281/zenodo.3816946"
   cd <- rappdirs::user_data_dir("aoh")
   boundary_data <- sf::read_sf(
-    system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
+    system.file("testdata", "sim_boundary_data.gpkg", package = "aoh")
   )
   # tests
   expect_is(

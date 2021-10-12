@@ -95,11 +95,13 @@ simulate_spp_data <- function(n,
                               omit_habitat_codes =
                                 default_omit_iucn_habitat_codes(),
                               verbose = TRUE) {
-  # assert that arguments are valid
+  # assert dependencies available
   if (!requireNamespace("RandomFields", quietly = TRUE))
     stop("the \"RandomFields\" package must be installed to simulate data")
   if (!requireNamespace("smoothr", quietly = TRUE))
     stop("the \"smoothr\" package must be installed to simulate data")
+
+  # assert that arguments are valid
   ## initial validation
   assertthat::assert_that(
     assertthat::is.count(n),

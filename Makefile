@@ -7,9 +7,16 @@ clean:
 
 docs: man readme vigns site
 
-data:
-	R --slave -e "source('inst/scripts/simulate-data.R')"
+data: inst/extdata/world_behrman_1km_rast.tif inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip
+
+inst/extdata/world_behrman_1km_rast.tif:
 	R --slave -e "source('inst/scripts/world-behrman-1km-rast.R')"
+
+inst/testdata/SIMULATED_SPECIES.zip:
+	R --slave -e "source('inst/scripts/test-data.R')"
+
+inst/extdata/EXAMPLE_SPECIES.zip:
+	R --slave -e "source('inst/scripts/range-data.R')"
 
 man:
 	R --slave -e "devtools::document()"

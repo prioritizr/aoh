@@ -4,7 +4,7 @@ test_that("simulated data", {
   # skip if needed
   skip_on_cran()
   # specify file path
-  f <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   # tests
   expect_is((x <<- read_spp_range_data(f)), "sf")
   expect_gt(nrow(x), 1)

@@ -12,10 +12,11 @@ reference:
     contents:
       - aoh
 
-  - title: Create Area of Habitat data
-    desc: Function for creating Area of Habitat data
+  - title: Area of Habitat data
+    desc: Functions for creating and visualizing Area of Habitat data
     contents:
       - create_spp_aoh_data
+      - plot_spp_aoh_data
 
   - title: Importing data
     desc: Functions for downloading and importing data

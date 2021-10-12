@@ -96,7 +96,6 @@ NULL
 #'   for data processing.
 #'   **To reduce run time, it is strongly recommended to set this
 #'   parameter based on the number of available threads (see Examples below).**
-#'   Note that this parameter is only used if `use_ee` is `FALSE`.
 #'   Defaults to 1.
 #'
 #' @param parallel_cluster `character` Name of strategy for
@@ -104,8 +103,6 @@ NULL
 #'  `"PSOCK"`.
 #'  Defaults to `NULL` such that `"PSOCK"` is used on Microsoft
 #'  Windows operating systems, and `"FORK"` otherwise.
-#'  Note that this parameter only affects data pre-processing if
-#'  Earth Engine is used (i.e. if `use_ee` is `TRUE`).
 #'  Defaults to 1.
 #'
 #' @param omit_habitat_codes `character` Habitat classification codes
@@ -117,10 +114,6 @@ NULL
 #' the [IUCN Red List Habitat Classification
 #' Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme)
 #' (see [default_omit_iucn_habitat_codes()],
-#'
-#' @param use_ee `logical` Should data processing be completed using
-#'  Google Earth Engine (via the \pkg{rgee}) package?
-#'  Defaults to `FALSE`.
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
@@ -135,6 +128,7 @@ NULL
 #' Specifically, the object contains the following columns:
 #' \describe{
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
+#' \item{binomial}{`character` species name.}
 #' \item{seasonal}{`numeric` seasonal distribution code.}
 #' \item{habitat_code}{`character` habitat
 #'   codes used to create the species' Area of Habitat data.
@@ -195,15 +189,13 @@ NULL
 #
 #' @examples
 #' \dontrun{
-#' # load built in datasets
-#' data(sim_spp_summary_data, package = "aoh")
-#' data(sim_spp_habitat_data, package = "aoh")
+#' # find file path for example range data following IUCN Red List data format
+#' ## N.B. the range data were not obtained from the IUCN Red List,
+#' ## and were instead based on data from GBIF (https://www.gbif.org/)
+#' path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 #'
-#' # find file path for simulated data following the IUCN Red List format
-#' path <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
-#'
-#' # import species range data
-#' sim_spp_range_data <- read_spp_range_data(path)
+#' # import data
+#' spp_range_data <- read_spp_range_data(path)
 #'
 #' # specify settings for data processing
 #' output_dir <- tempdir()                  # folder to save AOH data
@@ -211,8 +203,8 @@ NULL
 #' n_threads <- parallel::detectCores() - 1 # recommended for best performance
 #'
 #' # create Area of Habitat data for species
-#' sim_aoh_data <- create_aoh_data(
-#'   x = sim_spp_range_data,
+#' spp_aoh_data <- create_aoh_data(
+#'   x = spp_range_data,
 #'   output_dir = output_dir,
 #'   spp_summary_data = sim_spp_summary_data,
 #'   spp_habitat_data = sim_spp_habitat_data,
@@ -220,14 +212,19 @@ NULL
 #'   cache_dir = cache_dir
 #' )
 #'
-#' # preview result
-#' print(sim_aoh_data)
+#'  # preview result (only if running R in an interactive session)
+#' if (interactive()) {
+#'  print(spp_aoh_data)
+#' }
 #'
-#' # import AOH data
-#' aoh_data <- lapply(sim_aoh_data, terra::rast)
+#' # import AOH data as a list of terra::rast() objects
+#' spp_aoh_rasters <- lapply(spp_aoh_data$path, terra::rast)
 #'
-#' # compare range data (EOO) and AOH data for first species
-#' #TODO
+#' # print AOH data list
+#' print(spp_aoh_rasters)
+#'
+#' # plot the data to visualize the range maps and AOH data
+#' plot_spp_aoh_data(spp_aoh_data)
 #' }
 #' @export
 create_spp_aoh_data <- function(x,
@@ -246,7 +243,6 @@ create_spp_aoh_data <- function(x,
                                 parallel_cluster = NULL,
                                 omit_habitat_codes =
                                   default_omit_iucn_habitat_codes(),
-                                use_ee = FALSE,
                                 verbose = TRUE) {
 
   # initialization
@@ -270,23 +266,8 @@ create_spp_aoh_data <- function(x,
     assertthat::noNA(force),
     assertthat::is.flag(force),
     assertthat::noNA(verbose),
-    assertthat::is.flag(use_ee),
-    assertthat::noNA(use_ee),
     inherits(template_data, "SpatRaster")
   )
-  ## use_ee
-  if (isTRUE(use_ee)) {
-    if (verbose) {
-      cli::cli_alert("checking interface to Google Earth Engine")
-    }
-    assertthat::assert_that(
-      rgee::ee_check(quiet = !verbose),
-      msg = paste(
-        "system not set up for Earth Engine,",
-        "see rgee::ee_check() for details"
-      )
-    )
-  }
   ## parallel cluster
   if (is.null(parallel_cluster)) {
     parallel_cluster <- ifelse(
@@ -584,36 +565,23 @@ create_spp_aoh_data <- function(x,
     cli::cli_alert("generating Area of Habitat data")
   }
   ## processing
-  if (isTRUE(use_ee)) {
-    ## use Earth Engine for processing
-    result <- process_spp_aoh_data_on_ee(
-      x = x,
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      cache_dir = cache_dir,
-      force = force,
-      verbose = verbose,
-      datatype = "INT2U"
-    )
-  } else {
-    ## use local host for processing
-    progressr::with_progress(
-      enable = verbose,
-      expr = {
-        result <- process_spp_aoh_data_on_local(
-          x = x,
-          habitat_data = habitat_data,
-          elevation_data = elevation_data,
-          cache_dir = cache_dir,
-          force = force,
-          parallel_n_threads = parallel_n_threads,
-          parallel_cluster = parallel_cluster,
-          verbose = verbose,
-          datatype = "INT2U"
-        )
-      }
-    )
-  }
+  ## use local host for processing
+  progressr::with_progress(
+    enable = verbose,
+    expr = {
+      result <- process_spp_aoh_data_on_local(
+        x = x,
+        habitat_data = habitat_data,
+        elevation_data = elevation_data,
+        cache_dir = cache_dir,
+        force = force,
+        parallel_n_threads = parallel_n_threads,
+        parallel_cluster = parallel_cluster,
+        verbose = verbose,
+        datatype = "INT2U"
+      )
+    }
+  )
 
   # prepare table with metadata
   ## display message
@@ -622,7 +590,7 @@ create_spp_aoh_data <- function(x,
   }
   ## processing
   x <- dplyr::select(
-    x, id_no, seasonal,
+    x, id_no, binomial, seasonal,
     habitat_code, elevation_lower, elevation_upper,
     xmin, xmax, ymin, ymax,
     path

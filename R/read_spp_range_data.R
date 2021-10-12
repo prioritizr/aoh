@@ -23,21 +23,19 @@ NULL
 #' @return A [sf::sf()] object containing the dataset.
 #'
 #' @examples
-#' # find file path for simulated data following the IUCN Red List format
-#' path <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
+#' # find file path for example range data following IUCN Red List data format
+#' ## N.B. the range data were not obtained from the IUCN Red List,
+#' ## and were instead based on data from GBIF (https://www.gbif.org/)
+#' path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 #'
 #' # import data
-#' sim_spp_range_data <- read_spp_range_data(path)
+#' spp_range_data <- read_spp_range_data(path)
 #'
-#' # preview data (only if running R in an interactive session)
-#' if (interactive()) {
-#'   print(sim_spp_range_data)
-#' }
+#' # preview data
+#' print(spp_range_data)
 #'
-#' # plot data (only if running R in an interactive session)
-#' if (interactive()) {
-#'   print(sim_spp_range_data)
-#' }
+#' # plot data
+#' plot(spp_range_data)
 #' @export
 read_spp_range_data <- function(path, n = NULL) {
   # assert arguments are valid

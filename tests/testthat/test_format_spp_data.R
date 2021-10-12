@@ -4,9 +4,9 @@ test_that("correct format", {
   # skip if needed
   skip_on_cran()
   # specify file path
-  f1 <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  f2 <- system.file("extdata", "sim_spp_summary_data.csv", package = "aoh")
-  f3 <- system.file("extdata", "sim_spp_habitat_data.csv", package = "aoh")
+  f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
+  f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
   d2 <- read.table(f2, header = TRUE, sep = ",", stringsAsFactors = FALSE)
   d3 <- read.table(f3, header = TRUE, sep = ",", stringsAsFactors = FALSE)
   # tests
@@ -28,7 +28,7 @@ test_that("correct format", {
   expect_is(x$id_no, "integer")
   expect_true(all(x$id_no %in% d1$id_no))
   expect_true(assertthat::has_name(x, "seasonal"))
-  expect_is(x$seasonal, "numeric")
+  expect_is(x$seasonal, "integer")
   expect_true(all(x$seasonal %in% seq_len(5)))
   expect_true(assertthat::has_name(x, "habitat_code"))
   expect_is(x$habitat_code, "list")
@@ -44,9 +44,9 @@ test_that("correct handling of NAs in in spp_habitat_data", {
   # skip if needed
   skip_on_cran()
   # specify file path
-  f1 <- system.file("extdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  f2 <- system.file("extdata", "sim_spp_summary_data.csv", package = "aoh")
-  f3 <- system.file("extdata", "sim_spp_habitat_data.csv", package = "aoh")
+  f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
+  f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
   d2 <- read.table(f2, header = TRUE, sep = ",", stringsAsFactors = FALSE)
   d3 <- read.table(f3, header = TRUE, sep = ",", stringsAsFactors = FALSE)
   # prepare data

@@ -119,8 +119,20 @@ print(spp_aoh_rasters)
 Finally, let's create some maps to compare the geographic range data with the Area of habitat data. Although we could create these maps manually (e.g. via the [_ggplot2 R_ package](https://CRAN.R-project.org/package=rappdirs)), we will use a plotting function distributed with the _aoh R_ package for  convenience.
 
 ```{r}
-# create maps showing the geographic range and Area of Habitat data
-plot_range_and_aoh_data(spp_aoh_data)
+# create maps
+map <-
+  plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
+  scale_fill_viridis() +
+  scale_color_manual(c("range" = "red")) +
+  scale_size_manual(c("range" = 2)) +
+  theme(
+    axis.title = element_blank(),
+    strip.text = element_text(color = "white"),
+    strip.background = elemetn_rect(fill = "black", color = "black")
+  )
+
+# display maps
+print(map)
 ```
 
 ### Citation

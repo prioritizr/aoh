@@ -35,7 +35,6 @@ Defaults to 0.}
 for data processing.
 \strong{To reduce run time, it is strongly recommended to set this
 parameter based on the number of available threads (see Examples below).}
-Note that this parameter is only used if \code{use_ee} is \code{FALSE}.
 Defaults to 1.}
 
 \item{parallel_cluster}{\code{character} Name of strategy for
@@ -43,8 +42,6 @@ processing data in parallel. Available options are \code{"FORK"} and
 \code{"PSOCK"}.
 Defaults to \code{NULL} such that \code{"PSOCK"} is used on Microsoft
 Windows operating systems, and \code{"FORK"} otherwise.
-Note that this parameter only affects data pre-processing if
-Earth Engine is used (i.e. if \code{use_ee} is \code{TRUE}).
 Defaults to 1.}
 
 \item{temp_dir}{\code{character} Directory for saving temporary files.

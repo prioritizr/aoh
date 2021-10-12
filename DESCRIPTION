@@ -1,14 +1,14 @@
 Package: aoh
 Type: Package
 Version: 0.0.0.99999
-Title: Area of Habitat Maps
-Description: Generate Area of Habitat maps for species distributions.
+Title: Area of Habitat
+Description: Generate Area of Habitat data for species distributions.
     Maps are produced following procedures outlined by Brooks et al. (2019)
     (<doi:10.1016/j.tree.2019.06.009>). They are derived using species'
     distribution data from the International Union for Conservation
     of Nature (IUCN) Red List of Threatened Species
     (<https://www.iucnredlist.org/>),
-    terrestrial habitat classification data from Jung et al. (2020)
+    habitat classification data from Jung et al. (2020)
     (<doi:10.1038/s41597-020-00599-8>), and elevation data from Amatulli et al.
     (2018) (<doi:10.1038/sdata.2018.40>).
 Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
@@ -29,17 +29,14 @@ Imports:
     parallel (>= 4.1.1),
     furrr (>= 0.2.3),
     progressr (>= 0.9.0),
-    rgee (>= 1.1.0),
-    raster (>= 3.4.13)
+    ggplot2 (>= 3.1.0),
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
     roxygen2 (>= 6.1.1),
     rmarkdown (>= 1.10),
-    ggmap (>= 2.6.1),
-    ggplot2 (>= 3.1.0),
     pingr (>= 1.1.2),
-    piggyback (>= 0.1.1),
+    ggmap (>= 2.6.1),
     RandomFields (>= 3.3.10),
     smoothr (>= 0.2.2)
 Depends:
@@ -72,7 +69,7 @@ Collate:
     'misc_randomfields.R'
     'package.R'
     'parallel_project.R'
-    'process_spp_aoh_data_on_ee.R'
+    'plot_spp_aoh_data.R'
     'process_spp_aoh_data_on_local.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
