@@ -24,8 +24,9 @@ Jung \emph{et al.} 2020a,b) are automatically downloaded, and data on species'
 habitat preferences and altitudinal limits are obtained automatically using
 the \href{https://apiv3.iucnredlist.org/}{IUCN Red List API}.
 Since accessing the IUCN Red List API
-requires a token, users may need to \link{obtain a token}(https://
-apiv3.iucnredlist.org/api/v3/token) and update their R configuration to
+requires a token, users may need to
+\href{https://apiv3.iucnredlist.org/api/v3/token}{obtain a token}
+and update their R configuration to
 recognize the token (see instructions below for details).
 }
 \section{Accessing the IUCN Red List API}{

@@ -231,7 +231,7 @@ process_spp_aoh_data_on_local <- function(x,
       ## apply mask
       curr_spp_habitat_data <- terra::mask(
         x = curr_spp_habitat_data,
-        mask = terra::vect(x[i, ]),
+        mask = terra_fasterize(sf = x[i, ], raster = curr_spp_habitat_data),
         updatevalue = NA_integer_,
         wopt = wopt
       )

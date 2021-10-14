@@ -42,16 +42,13 @@ site:
 quickcheck:
 	echo "\n===== R CMD CHECK =====\n" > check.log 2>&1
 	R --slave -e "devtools::check(build_args = '--no-build-vignettes', args = '--no-build-vignettes', run_dont_test = TRUE, vignettes = FALSE)" >> check.log 2>&1
-	cp -R doc inst/
 
 check:
 	echo "\n===== R CMD CHECK =====\n" > check.log 2>&1
 	R --slave -e "devtools::check(build_args = '--no-build-vignettes', args = '--no-build-vignettes', run_dont_test = TRUE, vignettes = FALSE)" >> check.log 2>&1
-	cp -R doc inst/
 
 wbcheck:
 	R --slave -e "devtools::check_win_devel()"
-	cp -R doc inst/
 
 solarischeck:
 	R --slave -e "rhub::check(platform = 'solaris-x86-patched', email = 'jeffrey.hanson@uqconnect.edu.au', show_status = FALSE)"

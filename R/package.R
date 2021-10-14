@@ -19,8 +19,9 @@
 #' habitat preferences and altitudinal limits are obtained automatically using
 #' the [IUCN Red List API](https://apiv3.iucnredlist.org/).
 #' Since accessing the IUCN Red List API
-#' requires a token, users may need to [obtain a token](https://
-#' apiv3.iucnredlist.org/api/v3/token) and update their R configuration to
+#' requires a token, users may need to
+#' [obtain a token](https://apiv3.iucnredlist.org/api/v3/token)
+#' and update their R configuration to
 #' recognize the token (see instructions below for details).
 #'
 #' @section Accessing the IUCN Red List API:

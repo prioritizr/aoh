@@ -19,7 +19,6 @@ Imports:
     methods,
     assertthat (>= 0.2.0),
     rlang (>= 0.4.11),
-    progress (>= 1.2.0),
     readr (>= 2.0.2),
     dplyr (>= 1.0.7),
     curl (>= 3.2),
@@ -36,6 +35,8 @@ Imports:
     furrr (>= 0.2.3),
     progressr (>= 0.9.0),
     ggplot2 (>= 3.1.0),
+    fasterize (>= 1.0.3),
+    raster (>= 3.5.2),
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
@@ -46,6 +47,8 @@ Suggests:
     RandomFields (>= 3.3.10),
     smoothr (>= 0.2.2),
     piggyback (>= 0.1.1),
+    rnaturalearth (>= 0.1.0),
+    rgdal (>= 1.5.27),
 Depends:
     R (>= 3.5.0),
     sf (>= 1.0-2),

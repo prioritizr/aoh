@@ -44,3 +44,40 @@ test_that("terra_st_bbox()", {
   # tests
   expect_equal(as.list(bb), as.list(terra_st_bbox(x)))
 })
+
+test_that("terra_fasterize() (small dataset)", {
+  skip_on_cran()
+  # load data
+  nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf"))
+  nc <- sf::st_transform(nc, sf::st_crs("ESRI:54017"))
+  r <- get_world_berhman_1km_rast()
+  # create objects
+  x <- terra_fasterize(nc, r)
+  y <- terra::rasterize(terra::vect(nc), r)
+  names(x) <- names(y)
+  # compare results
+  expect_equal(terra::values(x), terra::values(y))
+})
+
+test_that("terra_fasterize() (large dataset)", {
+  skip_on_cran()
+  skip_if_not_installed("rnaturalearth")
+  # load data
+  d <- rnaturalearth::ne_countries(type = "countries")
+  d <- sf::st_as_sf(d)
+  d <- d[d$region_wb %in% c("Sub-Saharan Africa", "North America"), ]
+  d <- sf::st_make_valid(d)
+  d <- sf::st_wrap_dateline(d, options = c("WRAPDATELINE=YES"))
+  d <- sf::st_make_valid(d)
+  d <- sf::st_transform(d, sf::st_crs("ESRI:54017"))
+  d <- sf::st_union(d)
+  d <- sf::st_make_valid(d)
+  d <- sf::st_as_sf(d, idx = 1)
+  r <- get_world_berhman_1km_rast()
+  # create objects
+  x <- terra_fasterize(d, r)
+  y <- terra::rasterize(terra::vect(d), r)
+  names(x) <- names(y)
+  # compare results
+  expect_equal(terra::values(x), terra::values(y))
+})

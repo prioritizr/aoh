@@ -196,7 +196,7 @@ habitat preferences (Brooks \emph{et al.} 2019).
 \details{
 The Area of Habitat data are produced by
 (i) cleaning the range data to prepare them for subsequent analysis
-(see \code{\link[=clean_spp_aoh_data]{clean_spp_aoh_data()}} for details);
+(see \code{\link[=clean_spp_range_data]{clean_spp_range_data()}} for details);
 (ii) automatically downloading global elevation and habitat classification
 data (if needed);
 (iii) automatically downloading information on the

@@ -264,3 +264,61 @@ intersecting_ext <- function(x, y, buffer = 0) {
   # return extent of intersecting areas
   terra::ext(c(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax))
 }
+
+#' Fasterize
+#'
+#' This function converts a [sf::st_as_sf()] object to a [terra::rast()]
+#' object using [fasterize::fasterize()]. It is similar to
+#' [terra::rasterize()], except that it has greater performance.
+#'
+#' @param sf [sf::st_sf()] Object.
+#'
+#' @param raster [terra::rast()] Object.
+#'
+#' @param ... Additional arguments passed to [fasterize::fasterize()].
+#'
+#' @return A [terra::rast()] object.
+#'
+#' @examples
+#' \dontrun{
+#' # load data
+#' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
+#' nc <- st_transform(nc, st_crs("ESRI:54017"))
+#' r <- get_world_berhman_1km_rast()
+#'
+#' # convert to raster
+#' nc_rast <- terra_fasterize(nc, r)
+#'
+#' # plot result
+#' plot(nc_rast)
+#' }
+#' @export
+terra_fasterize <- function(sf, raster, ...) {
+  # assert that arguments are valid
+  assertthat::assert_that(
+    inherits(sf, "sf"),
+    inherits(raster, "SpatRaster")
+  )
+
+  # convert raster to RasterLayer
+  raster <- methods::as(raster[[1]], "Raster")
+
+  # store raster filename
+  raster_filename <- raster::filename(raster)
+
+  # create result
+  out <- fasterize::fasterize(
+    sf = sf,
+    raster = raster,
+    ...
+  )
+
+  # ensure that result isn't affected by
+  # https://github.com/ecohealthalliance/fasterize/issues/41
+  if (identical(raster::filename(out), raster_filename)) {
+    out <- raster::brick(out)
+  }
+
+  # return result as terra object
+  methods::as(out, "SpatRaster")
+}
