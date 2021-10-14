@@ -1,4 +1,4 @@
-#' aoh: Area of Habitat
+#' aoh: Create Area of Habitat Data
 #'
 #' Area of Habitat (AOH) maps aim to delineate the spatial distribution of
 #' suitable habitat for a species (Brooks *et al.* 2019). They are used to help

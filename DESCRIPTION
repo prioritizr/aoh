@@ -1,7 +1,7 @@
 Package: aoh
 Type: Package
 Version: 0.0.0.99999
-Title: Area of Habitat
+Title: Create Area of Habitat Data
 Description: Generate Area of Habitat data for species distributions.
     Maps are produced following procedures outlined by Brooks et al. (2019)
     (<doi:10.1016/j.tree.2019.06.009>). They are derived using species'
