@@ -5,6 +5,8 @@ NULL
 #'
 #' Import species summary data obtained from the
 #' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
+#' Please note that a token is required to download
+#' data from the IUCN Red List (see instructions below to obtain a token).
 #'
 #' @inheritParams get_spp_habitat_data
 #'
@@ -13,6 +15,8 @@ NULL
 #' [rredlist::rl_search()]. This function is essentially a wrapper
 #' designed to help download data for multiple species and provide
 #' caching for previously downloaded data.
+#'
+#' @inheritSection aoh Accessing the IUCN Red List API
 #'
 #' @inherit get_spp_habitat_data references return
 #'

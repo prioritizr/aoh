@@ -41,7 +41,9 @@
 
 <meta property="og:title" content="Get species summary data — get_spp_summary_data" />
 <meta property="og:description" content="Import species summary data obtained from the
-International Union for Conservation of Nature (IUCN) Red List of Threatened Species." />
+International Union for Conservation of Nature (IUCN) Red List of Threatened Species.
+Please note that a token is required to download
+data from the IUCN Red List (see instructions below to obtain a token)." />
 
 
 
@@ -121,7 +123,9 @@ International Union for Conservation of Nature (IUCN) Red List of Threatened Spe
 
     <div class="ref-description">
     <p>Import species summary data obtained from the
-<a href='https://www.iucnredlist.org/'>International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>.</p>
+<a href='https://www.iucnredlist.org/'>International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>.
+Please note that a token is required to download
+data from the IUCN Red List (see instructions below to obtain a token).</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_spp_summary_data</span><span class='op'>(</span>
@@ -166,9 +170,7 @@ version of the IUCN Red List.</p></td>
     <tr>
       <th>key</th>
       <td><p><code>character</code> Token for querying the IUCN Red List API.
-<strong>Please note that a token is required to download
-data from the IUCN Red List.</strong> To obtain a token, please see
-<code><a href='https://docs.ropensci.org/rredlist/reference/rl_use_iucn.html'>rredlist::rl_use_iucn()</a></code>. Defaults to <code>NULL</code> such that the token
+Defaults to <code>NULL</code> such that the token
 accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 (which can be specified in the .Renviron file).</p></td>
     </tr>
@@ -202,10 +204,36 @@ Defaults to <code>TRUE</code>.</p></td>
 <code><a href='https://docs.ropensci.org/rredlist/reference/rl_search.html'>rredlist::rl_search()</a></code>. This function is essentially a wrapper
 designed to help download data for multiple species and provide
 caching for previously downloaded data.</p>
+    <h2 class="hasAnchor" id="accessing-the-iucn-red-list-api"><a class="anchor" href="#accessing-the-iucn-red-list-api"></a>Accessing the IUCN Red List API</h2>
+
+    
+
+
+<p>You will need to obtain a token for the
+<a href='https://apiv3.iucnredlist.org/'>IUCN Red List API</a> (if you do not have one
+already). To achieve this, please visit the IUCN website
+(see <a href='https://apiv3.iucnredlist.org/api/v3/token'>https://apiv3.iucnredlist.org/api/v3/token</a>) and fill out the form to
+apply for a token. You should then receive a token shortly after completing
+the form (but not immediately). After receiving a token, please open the
+<code>.Renviron</code> file on your computer (e.g. using <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code>).
+Next, please add the following text to the file (replacing the string with
+the token) and save the file:</p><pre class='sourceCode r'><code><span class='va'>IUCN_REDLIST_KEY</span><span class='op'>=</span><span class='st'>"your_actual_token_not_this_string"</span>
+</code></pre>
+
+<p>Please restart your R session. You should now be able to access the IUCN Red
+List API. To verify this, please try running the following <em>R</em> code and --
+assuming everything works correctly -- you should see the current version of
+the IUCN Red List:</p><pre class='sourceCode r'><code><span class='co'># verify access to IUCN Red List API</span>
+<span class='fu'>rredlist</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/rredlist/reference/rl_version.html'>rl_version</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+
+<p>If these instructions did not work, please consult the documentation for the
+<span class="pkg">rredlist</span> package for further details.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Please use the following citation for data obtained from the IUCN Red List:</p>
-<p>IUCN (insert year). IUCN Red List of Threatened Species. Version</p>
+<p>IUCN (insert year). IUCN Red List of Threatened Species. Version
+(insert version) &lt;www.iucnredlist.org&gt;.</p>
 <p>To obtain the version number of the latest version, use
 <code><a href='https://docs.ropensci.org/rredlist/reference/rl_version.html'>rredlist::rl_version()</a></code>.</p>
 

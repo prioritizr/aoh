@@ -247,9 +247,7 @@ used.</p></td>
     <tr>
       <th>key</th>
       <td><p><code>character</code> Token for querying the IUCN Red List API.
-<strong>Please note that a token is required to download
-data from the IUCN Red List.</strong> To obtain a token, please see
-<code><a href='https://docs.ropensci.org/rredlist/reference/rl_use_iucn.html'>rredlist::rl_use_iucn()</a></code>. Defaults to <code>NULL</code> such that the token
+Defaults to <code>NULL</code> such that the token
 accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 (which can be specified in the .Renviron file).</p></td>
     </tr>
@@ -349,15 +347,18 @@ data).</p></dd>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The Area of Habitat data are produced by (i) automatically downloading
-global elevation and habitat classification data
-(from Jung <em>et al.</em> 2020a, 2020b; Amatulli <em>et al.</em> 2018),
-(ii) automatically downloading information on the
+    <p>The Area of Habitat data are produced by
+(i) cleaning the range data to prepare them for subsequent analysis
+(see <code>clean_spp_aoh_data()</code> for details);
+(ii) automatically downloading global elevation and habitat classification
+data (if needed);
+(iii) automatically downloading information on the
 altitudinal limits and habitat preferences of the species from the IUCN Red
-List (per the taxon identifiers in  the <code>id_no</code> column), and
-(iii) cross-reference this information to identify suitable habitat inside
-the geographic range of each species (following Brooks <em>et al.</em> 2019).
-To account for migratory species, the spatial distribution of species
+List (per the taxon identifiers in the <code>id_no</code> column) (if needed);
+and (iv) cross-referencing this information to identify suitable habitat
+located within the altitudinal limits and geographic range of each species
+(following Brooks <em>et al.</em> 2019).
+To account for migratory species, the spatial distribution of species'
 seasonal distributions (e.g. breeding, non-breeding, and passage
 distributions) are processed separately.
 Thus a separate Area of Habitat dataset is produced for each seasonal
@@ -368,21 +369,21 @@ and will not apply to marine species.</p>
 
     <p>Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 Jetz W (2018) A suite of global, cross-scale topographic variables for
-environmental and biodiversity modeling. Scientific Data, 5:180040.
+environmental and biodiversity modeling. <em>Scientific Data</em>, 5:180040.
 <a href='https://doi.org/10.1038/sdata.2018.40'>https://doi.org/10.1038/sdata.2018.40</a></p>
 <p>Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
-(AOH) and its Utility for the IUCN Red List. Trends in Ecology &amp; Evolution.
-34:977--986. <a href='doi:10.1016/j.tree.2019.06.009'>doi:10.1016/j.tree.2019.06.009</a></p>
+(AOH) and its Utility for the IUCN Red List. <em>Trends in Ecology &amp; Evolution</em>,
+34:977--986. <a href='https://doi.org/10.1016/j.tree.2019.06.009'>https://doi.org/10.1016/j.tree.2019.06.009</a></p>
 <p>Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
-terrestrial habitat types. Scientific data, 7:1--8.
+terrestrial habitat types. <em>Scientific Data</em>, 7:1--8.
 <a href='https://doi.org/10.1038/s41597-020-00599-8'>https://doi.org/10.1038/s41597-020-00599-8</a></p>
 <p>Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020b) A global map of
-terrestrial habitat types (insert version) [Data set]. Zenodo.
-<a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10.5281/zenodo.4058819</a></p>
+terrestrial habitat types (insert version) [Data set].
+<em>Zenodo Digital Repository</em>. <a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10.5281/zenodo.4058819</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontrun{</span></span>
@@ -436,7 +437,25 @@ terrestrial habitat types (insert version) [Data set]. Zenodo.
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cleaning species range data</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data ... done</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in cli::cli_alert_warning(paste("argument to \"habitat_data\" is missing layers for the following",     sum(missing_codes), "habitat classification codes:", paste(paste0("\"",         habitat_codes[missing_codes], "\""), collapse = ", ")),     immediate. = TRUE)</span> unused argument (immediate. = TRUE)</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> argument to "habitat_data" is missing layers for the following 3 habitat classification codes: "5.18", "7.1", "7.2"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> removing unused habitat layers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> removing unused habitat layers ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cropping template to species range data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cropping template to species range data ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> → preparing habitat data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preparing elevation data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing elevation data ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> writing intermediate files to disk</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> writing intermediate files to disk ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> → generating Area of Habitat data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> post-processing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> finished</span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span> <span class='co'># interactive()</span></span>
@@ -448,15 +467,57 @@ terrestrial habitat types (insert version) [Data set]. Zenodo.
 <span class='r-in'><span class='co'># \dontrun{</span></span>
 <span class='r-in'><span class='co'># import AOH data as a list of terra::rast() objects</span></span>
 <span class='r-in'><span class='va'>spp_aoh_rasters</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>spp_aoh_data</span><span class='op'>$</span><span class='va'>path</span>, <span class='fu'>terra</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/terra/man/rast.html'>rast</a></span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in lapply(spp_aoh_data$path, terra::rast)</span> object 'spp_aoh_data' not found</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># print AOH data list</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>spp_aoh_rasters</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(spp_aoh_rasters)</span> object 'spp_aoh_rasters' not found</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 516, 537, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1000, 1000  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -915531, -378531, 4551769, 5067769  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : World_Behrmann </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : AOH_4657_1.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        :     lyr.1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   :         0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   : 0.1428571 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 499, 752, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1000, 1000  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -904531, -152531, 4568769, 5067769  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : World_Behrmann </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : AOH_58622_1.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        : lyr.1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   :     0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   : 0.158 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 228, 568, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1000, 1000  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -248531, 319469, 4837769, 5065769  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : World_Behrmann </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : AOH_59448_1.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        :     lyr.1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   :         0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   : 0.1785714 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 260, 371, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1000, 1000  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -468531, -97531, 4363769, 4623769  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : World_Behrmann </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : AOH_979_1.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        :     lyr.1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   :         0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   : 0.1307143 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># plot the data to visualize the range maps and AOH data</span></span>
 <span class='r-in'><span class='fu'><a href='plot_spp_aoh_data.html'>plot_spp_aoh_data</a></span><span class='op'>(</span><span class='va'>spp_aoh_data</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in inherits(x, "sf")</span> object 'spp_aoh_data' not found</span>
+<span class='r-plt'><img src='create_spp_aoh_data-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'><span class='co'># }</span></span>
 </code></pre></div>
   </div>

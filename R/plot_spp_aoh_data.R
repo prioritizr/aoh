@@ -13,6 +13,10 @@ NULL
 #'   to plot.
 #'   Defaults to 9.
 #'
+#' @param expand `numeric` Proportion to expand the plotting limits.
+#'   Defaults to 0.05 such that plot limits are extended 5% beyond the
+#'   spatial extent of the data.
+#'
 #' @param zoom `numeric` Value indicating the zoom level for the basemap.
 #'   See documentation for the `zoom` parameter in the [ggmap::get_stamenmap()]
 #'   function for details.
@@ -107,7 +111,7 @@ NULL
 #' }
 #' }
 #' @export
-plot_spp_aoh_data <- function(x, max_plot = 9,
+plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
                               zoom = NULL, maptype = NULL, ...) {
   # assert argument is valid
   assertthat::assert_that(
@@ -119,7 +123,10 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
   )
   assertthat::assert_that(
     assertthat::is.count(max_plot),
-    assertthat::noNA(max_plot)
+    assertthat::noNA(max_plot),
+    assertthat::is.number(expand),
+    assertthat::noNA(expand),
+    isTRUE(expand >= 0)
   )
   if (!is.null(maptype)) {
     if (!requireNamespace("ggmap", quietly = TRUE)) {
@@ -170,6 +177,7 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
     ## extract data
     d <- terra::as.data.frame(r[[1]], xy = TRUE, na.rm = TRUE)
     names(d) <- c("x", "y", "value")
+    d <- d[is.finite(d$value), , drop = FALSE]
     d$binomial <- x$binomial[[i]]
     d$filename <- x$filename[[i]]
     ## return list with data
@@ -184,7 +192,9 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
   if (is.null(maptype)) {
     g <- ggplot2::ggplot()
   } else {
-    g <- ggmap::ggmap(get_ggmap_basemap(x, zoom = zoom, maptype = maptype, ...))
+    g <- ggmap::ggmap(
+      get_ggmap_basemap(x, expand = expand, zoom = zoom, maptype = maptype, ...)
+    )
   }
 
   # create plot
@@ -227,7 +237,19 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
 #' @param x [sf::st_sf()] object.
 #'
 #' @return A [ggmap::get_stamenmap()] object.
-get_ggmap_basemap <- function(x, ...) {
+#'
+#' @noRd
+get_ggmap_basemap <- function(x, expand = 0.05, ...) {
   assertthat::assert_that(sf::st_crs(x) == sf::st_crs(4326))
-  ggmap::get_stamenmap(unname(sf::st_bbox(x)), ...)
+  bb <- as.list(sf::st_bbox(x))
+  bb2 <- bb
+  if (expand > 0) {
+    xf <- abs(bb[["xmax"]] - bb[["xmin"]]) * expand
+    yf <- abs(bb[["ymax"]] - bb[["ymin"]]) * expand
+    bb2[["xmin"]] <- bb[["xmin"]] - xf
+    bb2[["xmax"]] <- bb[["xmax"]] + xf
+    bb2[["ymin"]] <- bb[["ymin"]] - yf
+    bb2[["ymax"]] <- bb[["ymax"]] + yf
+  }
+  ggmap::get_stamenmap(unname(unlist(bb2)), ...)
 }

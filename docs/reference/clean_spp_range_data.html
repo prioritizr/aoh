@@ -42,7 +42,12 @@
 <meta property="og:title" content="Clean species range data — clean_spp_range_data" />
 <meta property="og:description" content="Clean species geographic range (i.e. extent of occurrence) data obtained
 from the
-International Union for Conservation of Nature (IUCN) Red List of Threatened Species." />
+International Union for Conservation of Nature (IUCN) Red List of Threatened Species.
+Please note that this function should not be used to clean data
+before using the data to create Area of Habitat data
+(i.e. create_spp_aoh_data()). The procedures used the
+create create Area of Habitat data will automatically clean the data
+range data." />
 
 
 
@@ -123,7 +128,12 @@ International Union for Conservation of Nature (IUCN) Red List of Threatened Spe
     <div class="ref-description">
     <p>Clean species geographic range (i.e. extent of occurrence) data obtained
 from the
-<a href='https://www.iucnredlist.org/'>International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>.</p>
+<a href='https://www.iucnredlist.org/'>International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>.
+Please note that this function should <strong>not</strong> be used to clean data
+before using the data to create Area of Habitat data
+(i.e. <code><a href='create_spp_aoh_data.html'>create_spp_aoh_data()</a></code>). The procedures used the
+create create Area of Habitat data will automatically clean the data
+range data.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>clean_spp_range_data</span><span class='op'>(</span>

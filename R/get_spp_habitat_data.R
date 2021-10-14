@@ -3,9 +3,11 @@ NULL
 
 #' Get species habitat data
 #'
-#' Import species habitat preference data obtained from the International Union
+#' Import species habitat preference data obtained from the [International Union
 #' for Conservation of Nature (IUCN) Red List of Threatened
-#' Species (<https://www.iucnredlist.org/>).
+#' Species](https://www.iucnredlist.org/).
+#' Please note that a token is required to download
+#' data from the IUCN Red List (see instructions below to obtain a token).
 #'
 #' @param x `integer` Taxon identifier for the species on the International
 #'   Union for Conservation of Nature (IUCN) Red List of Threatened
@@ -28,9 +30,7 @@ NULL
 #'   version of the IUCN Red List.
 #'
 #' @param key `character` Token for querying the IUCN Red List API.
-#'   **Please note that a token is required to download
-#'   data from the IUCN Red List.** To obtain a token, please see
-#'   [rredlist::rl_use_iucn()]. Defaults to `NULL` such that the token
+#'   Defaults to `NULL` such that the token
 #'   accessed from  the `"IUCN_REDLIST_KEY"` environmental variable
 #'   (which can be specified in the .Renviron file).
 #
@@ -47,13 +47,15 @@ NULL
 #' designed to help download data for multiple species and provide
 #' caching for previously downloaded data.
 #'
+#' @inheritSection aoh Accessing the IUCN Red List API
+#'
 #' @return A table ([tibble::tibble()]) object.
 #'
 #' @references
 #' Please use the following citation for data obtained from the IUCN Red List:
 #'
 #' IUCN (insert year). IUCN Red List of Threatened Species. Version
-#  (insert version) <www.iucnredlist.org>.
+#'  (insert version) <www.iucnredlist.org>.
 #'
 #' To obtain the version number of the latest version, use
 #' [rredlist::rl_version()].

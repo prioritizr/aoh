@@ -36,9 +36,7 @@ Defaults to \code{"latest"} such that data are downloaded from the most recent
 version of the IUCN Red List.}
 
 \item{key}{\code{character} Token for querying the IUCN Red List API.
-\strong{Please note that a token is required to download
-data from the IUCN Red List.} To obtain a token, please see
-\code{\link[rredlist:rl_use_iucn]{rredlist::rl_use_iucn()}}. Defaults to \code{NULL} such that the token
+Defaults to \code{NULL} such that the token
 accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
 (which can be specified in the .Renviron file).}
 
@@ -59,9 +57,9 @@ Defaults to \code{TRUE}.}
 A table (\code{\link[tibble:tibble]{tibble::tibble()}}) object.
 }
 \description{
-Import species habitat preference data obtained from the International Union
-for Conservation of Nature (IUCN) Red List of Threatened
-Species (\url{https://www.iucnredlist.org/}).
+Import species habitat preference data obtained from the \href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
+Please note that a token is required to download
+data from the IUCN Red List (see instructions below to obtain a token).
 }
 \details{
 Data are downloaded from the IUCN Red List using the
@@ -69,6 +67,31 @@ Data are downloaded from the IUCN Red List using the
 designed to help download data for multiple species and provide
 caching for previously downloaded data.
 }
+\section{Accessing the IUCN Red List API}{
+
+
+You will need to obtain a token for the
+\href{https://apiv3.iucnredlist.org/}{IUCN Red List API} (if you do not have one
+already). To achieve this, please visit the IUCN website
+(see \url{https://apiv3.iucnredlist.org/api/v3/token}) and fill out the form to
+apply for a token. You should then receive a token shortly after completing
+the form (but not immediately). After receiving a token, please open the
+\code{.Renviron} file on your computer (e.g. using \code{usethis::edit_r_environ()}).
+Next, please add the following text to the file (replacing the string with
+the token) and save the file:\preformatted{IUCN_REDLIST_KEY="your_actual_token_not_this_string"
+}
+
+Please restart your R session. You should now be able to access the IUCN Red
+List API. To verify this, please try running the following \emph{R} code and --
+assuming everything works correctly -- you should see the current version of
+the IUCN Red List:\preformatted{# verify access to IUCN Red List API
+rredlist::rl_version()
+}
+
+If these instructions did not work, please consult the documentation for the
+\pkg{rredlist} package for further details.
+}
+
 \examples{
 \dontrun{
 # define species to download data for based on taxon identifiers
@@ -97,6 +120,7 @@ print(result)
 Please use the following citation for data obtained from the IUCN Red List:
 
 IUCN (insert year). IUCN Red List of Threatened Species. Version
+(insert version) <www.iucnredlist.org>.
 
 To obtain the version number of the latest version, use
 \code{\link[rredlist:rl_version]{rredlist::rl_version()}}.

@@ -34,6 +34,11 @@ A \code{\link[sf:sf]{sf::sf()}} object containing the dataset.
 Clean species geographic range (i.e. extent of occurrence) data obtained
 from the
 \href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
+Please note that this function should \strong{not} be used to clean data
+before using the data to create Area of Habitat data
+(i.e. \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}). The procedures used the
+create create Area of Habitat data will automatically clean the data
+range data.
 }
 \details{
 This function applies the following data cleaning procedures:

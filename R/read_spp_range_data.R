@@ -18,7 +18,7 @@ NULL
 #' (see https://www.iucnredlist.org/resources/spatial-data-download).
 #' Data for birds can be obtained by requesting data from
 #' [BirdLife International](http://www.birdlife.org/)
-#' (see http://datazone.birdlife.org/species/requestdis).
+#' (see <http://datazone.birdlife.org/species/requestdis>).
 #'
 #' @return A [sf::sf()] object containing the dataset.
 #'

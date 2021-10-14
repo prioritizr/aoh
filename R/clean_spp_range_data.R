@@ -6,6 +6,11 @@ NULL
 #' Clean species geographic range (i.e. extent of occurrence) data obtained
 #' from the
 #' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
+#' Please note that this function should **not** be used to clean data
+#' before using the data to create Area of Habitat data
+#' (i.e. [create_spp_aoh_data()]). The procedures used the
+#' create create Area of Habitat data will automatically clean the data
+#' range data.
 #'
 #' @param x A [sf::sf()] object containing species geographic range data.
 #'

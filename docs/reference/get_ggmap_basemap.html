@@ -122,7 +122,7 @@
     <p>Get a basemap for plotting spatial data using the <span class="pkg">ggmap</span> package.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_ggmap_basemap</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_ggmap_basemap</span><span class='op'>(</span><span class='va'>x</span>, expand <span class='op'>=</span> <span class='fl'>0.05</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -130,6 +130,12 @@
     <tr>
       <th>x</th>
       <td><p><code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::st_sf()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>expand</th>
+      <td><p><code>numeric</code> Proportion to expand the plotting limits.
+Defaults to 0.05 such that plot limits are extended 5% beyond the
+spatial extent of the data.</p></td>
     </tr>
     <tr>
       <th>...</th>

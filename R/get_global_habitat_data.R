@@ -5,7 +5,7 @@ NULL
 #'
 #' Import habitat classification data produced by Jung *et al.* (2020a).
 #' If data are not available locally, they are downloaded from
-#' the Zenodo Digital Archive (Jung *et al.* 2020b).
+#' the Zenodo Digital Repository (Jung *et al.* 2020b).
 #'
 #' @param dir `character` folder path for downloading and caching data.
 #'  By default, data are downloaded to a temporary directory (i.e. `tempdir()`).
@@ -37,13 +37,13 @@ NULL
 #' @references
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020a) A global map of
-#' terrestrial habitat types. Scientific data, 7:1--8.
+#' terrestrial habitat types. *Scientific Data*, 7:1--8.
 #' <https://doi.org/10.1038/s41597-020-00599-8>
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020b) A global map of
-#' terrestrial habitat types (insert version) \[Data set\]. Zenodo.
-#' <https://doi.org/10.5281/zenodo.4058819>
+#' terrestrial habitat types (insert version) \[Data set\].
+#' *Zenodo Digital Repository*. <https://doi.org/10.5281/zenodo.4058819>
 #'
 #' @examples
 #' \dontrun{

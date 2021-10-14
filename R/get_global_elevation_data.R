@@ -15,7 +15,7 @@ NULL
 #' @references
 #' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 #' Jetz W (2018) A suite of global, cross-scale topographic variables for
-#' environmental and biodiversity modeling. Scientific Data, 5:180040.
+#' environmental and biodiversity modeling. *Scientific Data*, 5:180040.
 #' <https://doi.org/10.1038/sdata.2018.40>
 #'
 #' @examples

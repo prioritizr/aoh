@@ -4,7 +4,14 @@
 \alias{plot_spp_aoh_data}
 \title{Plot species range and Area of Habitat data}
 \usage{
-plot_spp_aoh_data(x, max_plot = 9, zoom = NULL, maptype = NULL, ...)
+plot_spp_aoh_data(
+  x,
+  max_plot = 9,
+  expand = 0.05,
+  zoom = NULL,
+  maptype = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{\link[sf:sf]{sf::st_sf()}} Object containing the species data.
@@ -14,6 +21,10 @@ function.}
 \item{max_plot}{\code{integer} Maximum number of Area of Habitat datasets
 to plot.
 Defaults to 9.}
+
+\item{expand}{\code{numeric} Proportion to expand the plotting limits.
+Defaults to 0.05 such that plot limits are extended 5\% beyond the
+spatial extent of the data.}
 
 \item{zoom}{\code{numeric} Value indicating the zoom level for the basemap.
 See documentation for the \code{zoom} parameter in the \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}

@@ -117,15 +117,18 @@ NULL
 #'  Defaults to `TRUE`.
 #'
 #' @details
-#' The Area of Habitat data are produced by (i) automatically downloading
-#' global elevation and habitat classification data
-#' (from Jung *et al.* 2020a, 2020b; Amatulli *et al.* 2018),
-#' (ii) automatically downloading information on the
+#' The Area of Habitat data are produced by
+#' (i) cleaning the range data to prepare them for subsequent analysis
+#' (see [clean_spp_aoh_data()] for details);
+#' (ii) automatically downloading global elevation and habitat classification
+#' data (if needed);
+#' (iii) automatically downloading information on the
 #' altitudinal limits and habitat preferences of the species from the IUCN Red
-#' List (per the taxon identifiers in  the `id_no` column), and
-#' (iii) cross-reference this information to identify suitable habitat inside
-#' the geographic range of each species (following Brooks *et al.* 2019).
-#' To account for migratory species, the spatial distribution of species
+#' List (per the taxon identifiers in the `id_no` column) (if needed);
+#' and (iv) cross-referencing this information to identify suitable habitat
+#' located within the altitudinal limits and geographic range of each species
+#' (following Brooks *et al.* 2019).
+#' To account for migratory species, the spatial distribution of species'
 #' seasonal distributions (e.g. breeding, non-breeding, and passage
 #' distributions) are processed separately.
 #' Thus a separate Area of Habitat dataset is produced for each seasonal
@@ -190,25 +193,25 @@ NULL
 #' @references
 #' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 #' Jetz W (2018) A suite of global, cross-scale topographic variables for
-#' environmental and biodiversity modeling. Scientific Data, 5:180040.
+#' environmental and biodiversity modeling. *Scientific Data*, 5:180040.
 #' <https://doi.org/10.1038/sdata.2018.40>
 #'
 #' Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
-#' (AOH) and its Utility for the IUCN Red List. Trends in Ecology & Evolution.
-#' 34:977--986. <doi:10.1016/j.tree.2019.06.009>
+#' (AOH) and its Utility for the IUCN Red List. *Trends in Ecology & Evolution*,
+#' 34:977--986. <https://doi.org/10.1016/j.tree.2019.06.009>
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020a) A global map of
-#' terrestrial habitat types. Scientific data, 7:1--8.
+#' terrestrial habitat types. *Scientific Data*, 7:1--8.
 #' <https://doi.org/10.1038/s41597-020-00599-8>
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020b) A global map of
-#' terrestrial habitat types (insert version) \[Data set\]. Zenodo.
-#' <https://doi.org/10.5281/zenodo.4058819>
-#
+#' terrestrial habitat types (insert version) \[Data set\].
+#' *Zenodo Digital Repository*. <https://doi.org/10.5281/zenodo.4058819>
+#'
 #' @examples
 #' \dontrun{
 #' # find file path for example range data following IUCN Red List data format

@@ -103,9 +103,7 @@ Defaults to \code{"latest"} such that the most recent version of the dataset is
 used.}
 
 \item{key}{\code{character} Token for querying the IUCN Red List API.
-\strong{Please note that a token is required to download
-data from the IUCN Red List.} To obtain a token, please see
-\code{\link[rredlist:rl_use_iucn]{rredlist::rl_use_iucn()}}. Defaults to \code{NULL} such that the token
+Defaults to \code{NULL} such that the token
 accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
 (which can be specified in the .Renviron file).}
 
@@ -196,15 +194,18 @@ Create Area of Habitat (AOH) data for species based on their altitudinal and
 habitat preferences (Brooks \emph{et al.} 2019).
 }
 \details{
-The Area of Habitat data are produced by (i) automatically downloading
-global elevation and habitat classification data
-(from Jung \emph{et al.} 2020a, 2020b; Amatulli \emph{et al.} 2018),
-(ii) automatically downloading information on the
+The Area of Habitat data are produced by
+(i) cleaning the range data to prepare them for subsequent analysis
+(see \code{\link[=clean_spp_aoh_data]{clean_spp_aoh_data()}} for details);
+(ii) automatically downloading global elevation and habitat classification
+data (if needed);
+(iii) automatically downloading information on the
 altitudinal limits and habitat preferences of the species from the IUCN Red
-List (per the taxon identifiers in  the \code{id_no} column), and
-(iii) cross-reference this information to identify suitable habitat inside
-the geographic range of each species (following Brooks \emph{et al.} 2019).
-To account for migratory species, the spatial distribution of species
+List (per the taxon identifiers in the \code{id_no} column) (if needed);
+and (iv) cross-referencing this information to identify suitable habitat
+located within the altitudinal limits and geographic range of each species
+(following Brooks \emph{et al.} 2019).
+To account for migratory species, the spatial distribution of species'
 seasonal distributions (e.g. breeding, non-breeding, and passage
 distributions) are processed separately.
 Thus a separate Area of Habitat dataset is produced for each seasonal
@@ -256,22 +257,22 @@ plot_spp_aoh_data(spp_aoh_data)
 \references{
 Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 Jetz W (2018) A suite of global, cross-scale topographic variables for
-environmental and biodiversity modeling. Scientific Data, 5:180040.
+environmental and biodiversity modeling. \emph{Scientific Data}, 5:180040.
 \url{https://doi.org/10.1038/sdata.2018.40}
 
 Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
-(AOH) and its Utility for the IUCN Red List. Trends in Ecology & Evolution.
-34:977--986. \url{doi:10.1016/j.tree.2019.06.009}
+(AOH) and its Utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
+34:977--986. \url{https://doi.org/10.1016/j.tree.2019.06.009}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
-terrestrial habitat types. Scientific data, 7:1--8.
+terrestrial habitat types. \emph{Scientific Data}, 7:1--8.
 \url{https://doi.org/10.1038/s41597-020-00599-8}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020b) A global map of
-terrestrial habitat types (insert version) [Data set]. Zenodo.
-\url{https://doi.org/10.5281/zenodo.4058819}
+terrestrial habitat types (insert version) [Data set].
+\emph{Zenodo Digital Repository}. \url{https://doi.org/10.5281/zenodo.4058819}
 }

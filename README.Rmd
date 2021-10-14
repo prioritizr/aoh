@@ -26,8 +26,7 @@ devtools::load_all()
 
 ### Overview
 
-Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). They are used to help understand the impacts of habitat loss on species, and prioritize areas for conservation (e.g. [Tracewski *et al.* 2016](https://doi.org/10.1111/cobi.12715); [Rondinini *et al.* 2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x)). These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import them (using `read_spp_range_data()`) and then use them to create Area of Habitat data (using `create_spp_aoh_data()`). Data on species' habitat preferences and altitudinal limits are obtained automatically using the
-[IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the [IUCN Red List API](https://apiv3.iucnredlist.org/) requires a token, users will need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see installation instructions below for details).
+Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). They are used to help understand the impacts of habitat loss on species, and prioritize areas for conservation (e.g. [Tracewski *et al.* 2016](https://doi.org/10.1111/cobi.12715); [Rondinini *et al.* 2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x)). These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import them (using `read_spp_range_data()`) and then use them to create Area of Habitat data (using `create_spp_aoh_data()`). Global elevation and habitat classification data ([Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8)) are automatically downloaded, and data on species' habitat preferences and altitudinal limits are obtained automatically using the [IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List requires a token, users may need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see installation instructions below for details).
 
 ### Installation
 
@@ -50,7 +49,7 @@ IUCN_REDLIST_KEY="your_actual_token_not_this_string"
 
 Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following _R_ code and -- assuming everything works correctly -- you should see the current version of the IUCN Red List:
 
-```{r}
+```{r, eval = FALSE}
 # verify access to IUCN Red List API
 rredlist::rl_version()
 ```
@@ -82,7 +81,7 @@ spp_range_data <- read_spp_range_data(path)
 print(spp_range_data)
 ```
 
-Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data (from [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8); [Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40)), (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species (following [Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). We also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data (from [Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8)), (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species (following [Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). We also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
 
 ```{r, message = FALSE}
 # specify cache directory
@@ -102,7 +101,7 @@ spp_aoh_data <- create_spp_aoh_data(
 )
 ```
 
-After running the code, we see that it displayed a warning message telling us that certain habitat classes were not available (i.e. "5.18", "7.1", and "7.2"). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class (see [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8) for details). Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution (similar to [Ficetola *et al.* 2015](https://doi.org/10.1111/ddi.12296)).
+While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. "5.18", "7.1", and "7.2"). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class (see [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8) for details). Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution (similar to [Ficetola *et al.* 2015](https://doi.org/10.1111/ddi.12296)).
 
 ```{r}
 # preview results
@@ -136,25 +135,25 @@ After generating the Area of Habitat data, we can import them.
 ```{r}
 # import the Area of Habitat data
 ## since the data for each species have a different spatial extent
-## (to reduce file sizes), we will import each dataset separately and store
-## them in a list
+## (to reduce file sizes), we will import each dataset separately in a list
 spp_aoh_rasters <- lapply(spp_aoh_data$path, rast)
 
 # preview raster data
 print(spp_aoh_rasters)
 ```
 
-Finally, let's create some maps to compare the geographic range data with the Area of habitat data. Although we could create these maps manually (e.g. using the [_ggplot2_](https://CRAN.R-project.org/package=rappdirs) _R_ package), we will use a plotting function distributed with the _aoh R_ package for convenience.
+Finally, let's create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g. using the [_ggplot2_](https://CRAN.R-project.org/package=rappdirs) _R_ package), we will use a plotting function distributed with the _aoh R_ package for convenience.
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(knitr:::is_html_output(excludes = c("markdown"))), "60%", "90%")}
 # create maps
 map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
   scale_fill_viridis_c() +
   scale_color_manual(values = c("range" = "red")) +
-  scale_size_manual(values = c("range" = 2)) +
+  scale_size_manual(values = c("range" = 0.5)) +
   theme(
     axis.title = element_blank(),
+    axis.text = element_text(size = 6),
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )

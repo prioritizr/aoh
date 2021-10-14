@@ -43,7 +43,7 @@ denotes the fraction of the pixel that contains a given habitat type
 \description{
 Import habitat classification data produced by Jung \emph{et al.} (2020a).
 If data are not available locally, they are downloaded from
-the Zenodo Digital Archive (Jung \emph{et al.} 2020b).
+the Zenodo Digital Repository (Jung \emph{et al.} 2020b).
 }
 \examples{
 \dontrun{
@@ -68,11 +68,11 @@ plot(habitat_data)
 \references{
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
-terrestrial habitat types. Scientific data, 7:1--8.
+terrestrial habitat types. \emph{Scientific Data}, 7:1--8.
 \url{https://doi.org/10.1038/s41597-020-00599-8}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020b) A global map of
-terrestrial habitat types (insert version) [Data set]. Zenodo.
-\url{https://doi.org/10.5281/zenodo.4058819}
+terrestrial habitat types (insert version) [Data set].
+\emph{Zenodo Digital Repository}. \url{https://doi.org/10.5281/zenodo.4058819}
 }

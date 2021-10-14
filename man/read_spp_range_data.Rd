@@ -26,7 +26,7 @@ the International Union for Conservation of Nature (IUCN) Red List website
 (see https://www.iucnredlist.org/resources/spatial-data-download).
 Data for birds can be obtained by requesting data from
 \href{http://www.birdlife.org/}{BirdLife International}
-(see http://datazone.birdlife.org/species/requestdis).
+(see \url{http://datazone.birdlife.org/species/requestdis}).
 }
 \examples{
 # find file path for example range data following IUCN Red List data format

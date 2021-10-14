@@ -122,7 +122,14 @@
     <p>Create a map to compare species geographic range and Area of Habitat data.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_spp_aoh_data</span><span class='op'>(</span><span class='va'>x</span>, max_plot <span class='op'>=</span> <span class='fl'>9</span>, zoom <span class='op'>=</span> <span class='cn'>NULL</span>, maptype <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_spp_aoh_data</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  max_plot <span class='op'>=</span> <span class='fl'>9</span>,
+  expand <span class='op'>=</span> <span class='fl'>0.05</span>,
+  zoom <span class='op'>=</span> <span class='cn'>NULL</span>,
+  maptype <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,6 +145,12 @@ function.</p></td>
       <td><p><code>integer</code> Maximum number of Area of Habitat datasets
 to plot.
 Defaults to 9.</p></td>
+    </tr>
+    <tr>
+      <th>expand</th>
+      <td><p><code>numeric</code> Proportion to expand the plotting limits.
+Defaults to 0.05 such that plot limits are extended 5% beyond the
+spatial extent of the data.</p></td>
     </tr>
     <tr>
       <th>zoom</th>
@@ -224,13 +237,30 @@ underlying dataset.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cleaning species range data</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data ... done</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in cli::cli_alert_warning(paste("argument to \"habitat_data\" is missing layers for the following",     sum(missing_codes), "habitat classification codes:", paste(paste0("\"",         habitat_codes[missing_codes], "\""), collapse = ", ")),     immediate. = TRUE)</span> unused argument (immediate. = TRUE)</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> argument to "habitat_data" is missing layers for the following 3 habitat classification codes: "5.18", "7.1", "7.2"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> removing unused habitat layers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> removing unused habitat layers ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cropping template to species range data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cropping template to species range data ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> → preparing habitat data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preparing elevation data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing elevation data ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> writing intermediate files to disk</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> writing intermediate files to disk ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> → generating Area of Habitat data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> post-processing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> finished</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># plot the data to visualize the range maps and AOH data</span></span>
 <span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>plot_spp_aoh_data</span><span class='op'>(</span><span class='va'>spp_aoh_data</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in inherits(x, "sf")</span> object 'spp_aoh_data' not found</span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(p)</span> object 'p' not found</span>
+<span class='r-plt'><img src='plot_spp_aoh_data-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># this plot can be customized using ggplot2 functions</span></span>
 <span class='r-in'><span class='co'># for example, let's style the plot and update the colors</span></span>
@@ -249,11 +279,10 @@ underlying dataset.</p>
 <span class='r-in'>     fill <span class='op'>=</span> <span class='st'>"black"</span>, color <span class='op'>=</span> <span class='st'>"black"</span></span>
 <span class='r-in'>   <span class='op'>)</span></span>
 <span class='r-in'> <span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in eval(expr, envir, enclos)</span> object 'p' not found</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## print customized plot</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p2</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(p2)</span> object 'p2' not found</span>
+<span class='r-plt'><img src='plot_spp_aoh_data-2.png' alt='' width='700' height='433' /></span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># \dontrun{</span></span>
@@ -284,7 +313,38 @@ underlying dataset.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The following object is masked from ‘package:terra’:</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>     inset</span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in inherits(x, "sf")</span> object 'spp_aoh_data' not found</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/60/46.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/61/46.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/62/46.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/63/46.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/64/46.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/65/46.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/60/47.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/61/47.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/62/47.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/63/47.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/64/47.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/65/47.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/60/48.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/61/48.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/62/48.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/63/48.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/64/48.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/65/48.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/60/49.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/61/49.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/62/49.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/63/49.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/64/49.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/65/49.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/60/50.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/61/50.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/62/50.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/63/50.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/64/50.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Source : http://tile.stamen.com/toner/7/65/50.png</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
+<span class='r-plt'><img src='plot_spp_aoh_data-3.png' alt='' width='700' height='433' /></span>
 <span class='r-in'><span class='co'># }</span></span>
 </code></pre></div>
   </div>

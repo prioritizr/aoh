@@ -16,8 +16,8 @@ reference:
     desc: Functions for creating and visualizing Area of Habitat data
     contents:
       - create_spp_aoh_data
-      - default_omit_iucn_habitat_codes
       - plot_spp_aoh_data
+      - default_omit_iucn_habitat_codes
 
   - title: Importing data
     desc: Functions for downloading and importing data

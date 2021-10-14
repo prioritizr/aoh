@@ -31,14 +31,17 @@ Species](https://www.iucnredlist.org/). After manually downloading
 species range data from the [IUCN Red
 List](https://www.iucnredlist.org/resources/spatial-data-download),
 users can import them (using `read_spp_range_data()`) and then use them
-to create Area of Habitat data (using `create_spp_aoh_data()`). Data on
-species’ habitat preferences and altitudinal limits are obtained
-automatically using the [IUCN Red List
-API](https://apiv3.iucnredlist.org/). Since accessing the [IUCN Red List
-API](https://apiv3.iucnredlist.org/) requires a token, users will need
-to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and
-update their *R* configuration to recognize the token (see installation
-instructions below for details).
+to create Area of Habitat data (using `create_spp_aoh_data()`). Global
+elevation and habitat classification data ([Amatulli *et al.*
+2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.*
+2020](https://doi.org/10.1038/s41597-020-00599-8)) are automatically
+downloaded, and data on species’ habitat preferences and altitudinal
+limits are obtained automatically using the [IUCN Red List
+API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List
+requires a token, users may need to [obtain a
+token](https://apiv3.iucnredlist.org/api/v3/token) and update their *R*
+configuration to recognize the token (see installation instructions
+below for details).
 
 ### Installation
 
@@ -81,8 +84,6 @@ version of the IUCN Red List:
 # verify access to IUCN Red List API
 rredlist::rl_version()
 ```
-
-    ## [1] "2021-2"
 
 If these instructions did not work, please consult the documentation for
 the [*rredlist*](https://CRAN.R-project.org/package=rredlist) *R*
@@ -149,9 +150,9 @@ print(spp_range_data)
 
 Next, we will generate Area of Habitat data for the species. To achieve
 this, the package will (i) automatically download global elevation and
-habitat classification data (from [Jung *et al.*
-2020](https://doi.org/10.1038/s41597-020-00599-8); [Amatulli *et al.*
-2018](https://doi.org/10.1038/sdata.2018.40)), (ii) automatically
+habitat classification data (from [Amatulli *et al.*
+2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.*
+2020](https://doi.org/10.1038/s41597-020-00599-8)), (ii) automatically
 download information on the altitudinal limits and habitat preferences
 of the species from the IUCN Red List (per the taxon identifiers in the
 `id_no` column), and (iii) cross-reference this information to identify
@@ -178,11 +179,11 @@ spp_aoh_data <- create_spp_aoh_data(
 )
 ```
 
-After running the code, we see that it displayed a warning message
-telling us that certain habitat classes were not available (i.e. “5.18”,
-“7.1”, and “7.2”). **This is fine. It is not an error.** The reason we
-see this message is because although the global habitat dataset contains
-the majority of [IUCN habitat
+While running the code, we see that it displayed a message telling us
+that certain habitat classes were not available (i.e. “5.18”, “7.1”, and
+“7.2”). **This is fine. It is not an error.** The reason we see this
+message is because although the global habitat dataset contains the
+majority of [IUCN habitat
 classes](https://www.iucnredlist.org/resources/habitat-classification-scheme)
 for terrestrial environments, it does not contain every single IUCN
 habitat class (see [Jung *et al.*
@@ -192,7 +193,7 @@ classes](https://www.iucnredlist.org/resources/habitat-classification-scheme),
 we can see that these classes correspond to caves and other subterranean
 environments. Although failing to account for such habitats could
 potentially be an issue, here we will assume that accounting for the
-species’ non-subterranean habitat types is sufficient to describe their
+species’ non-subterranean habitats is sufficient to describe their
 spatial distribution (similar to [Ficetola *et al.*
 2015](https://doi.org/10.1111/ddi.12296)).
 
@@ -231,18 +232,17 @@ print(spp_aoh_data[, c("id_no", "seasonal", "path")])
     ## # A tibble: 4 × 4
     ##   id_no seasonal path                                                   geometry
     ##   <dbl>    <int> <chr>                                             <POLYGON [m]>
-    ## 1  4657        1 /tmp/RtmpAL4X6Z/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-    ## 2 58622        1 /tmp/RtmpAL4X6Z/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-    ## 3 59448        1 /tmp/RtmpAL4X6Z/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-    ## 4   979        1 /tmp/RtmpAL4X6Z/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
+    ## 1  4657        1 /tmp/Rtmp9CqUoV/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+    ## 2 58622        1 /tmp/Rtmp9CqUoV/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+    ## 3 59448        1 /tmp/Rtmp9CqUoV/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+    ## 4   979        1 /tmp/Rtmp9CqUoV/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
 
 After generating the Area of Habitat data, we can import them.
 
 ``` r
 # import the Area of Habitat data
 ## since the data for each species have a different spatial extent
-## (to reduce file sizes), we will import each dataset separately and store
-## them in a list
+## (to reduce file sizes), we will import each dataset separately in a list
 spp_aoh_rasters <- lapply(spp_aoh_data$path, rast)
 
 # preview raster data
@@ -293,12 +293,11 @@ print(spp_aoh_rasters)
     ## min value   :         0 
     ## max value   : 0.1307143
 
-Finally, let’s create some maps to compare the geographic range data
-with the Area of habitat data. Although we could create these maps
-manually (e.g. using the
-[*ggplot2*](https://CRAN.R-project.org/package=rappdirs) *R* package),
-we will use a plotting function distributed with the *aoh R* package for
-convenience.
+Finally, let’s create some maps to compare the range data with the Area
+of habitat data. Although we could create these maps manually
+(e.g. using the [*ggplot2*](https://CRAN.R-project.org/package=rappdirs)
+*R* package), we will use a plotting function distributed with the *aoh
+R* package for convenience.
 
 ``` r
 # create maps
@@ -306,9 +305,10 @@ map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
   scale_fill_viridis_c() +
   scale_color_manual(values = c("range" = "red")) +
-  scale_size_manual(values = c("range" = 2)) +
+  scale_size_manual(values = c("range" = 0.5)) +
   theme(
     axis.title = element_blank(),
+    axis.text = element_text(size = 6),
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )
@@ -317,13 +317,7 @@ map <-
 print(map)
 ```
 
-    ## Warning: Removed 6 rows containing missing values (geom_tile).
-
-    ## Warning: Removed 1 rows containing missing values (geom_tile).
-
-    ## Warning: Removed 2 rows containing missing values (geom_tile).
-
-<img src="man/figures/README-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Citation
 

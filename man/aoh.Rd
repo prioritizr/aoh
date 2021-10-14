@@ -3,10 +3,86 @@
 \docType{package}
 \name{aoh}
 \alias{aoh}
-\title{aoh: Area of Habitat Maps}
+\title{aoh: Area of Habitat}
 \description{
-TODO.
+Area of Habitat (AOH) maps aim to delineate the spatial distribution of
+suitable habitat for a species (Brooks \emph{et al.} 2019). They are used to help
+understand the impacts of habitat loss on species, and prioritize areas for
+conservation (e.g. Tracewski \emph{et al.} 2016; Rondinini \emph{et al.} 2005).
+These maps are generally produced by obtaining geographic range data for a
+species, and then removing areas that do not contain suitable habitat or
+occur outside the known altitudinal limits for the species
+(Brooks \emph{et al.} 2019). To help make these maps accessible, the package
+provides routines for automatically creating Area of Habitat data based on
+the \href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}. After manually downloading
+species range data from the
+\href{https://www.iucnredlist.org/resources/spatial-data-download}{IUCN Red List},
+users can import them (using \code{\link[=read_spp_range_data]{read_spp_range_data()}}) and then use them to
+create Area of Habitat data (using \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}).
+Global elevation and habitat classification data (Amatulli \emph{et al.} 2018;
+Jung \emph{et al.} 2020a,b) are automatically downloaded, and data on species'
+habitat preferences and altitudinal limits are obtained automatically using
+the \href{https://apiv3.iucnredlist.org/}{IUCN Red List API}.
+Since accessing the IUCN Red List API
+requires a token, users may need to \link{obtain a token}(https://
+apiv3.iucnredlist.org/api/v3/token) and update their R configuration to
+recognize the token (see instructions below for details).
 }
+\section{Accessing the IUCN Red List API}{
+
+
+You will need to obtain a token for the
+\href{https://apiv3.iucnredlist.org/}{IUCN Red List API} (if you do not have one
+already). To achieve this, please visit the IUCN website
+(see \url{https://apiv3.iucnredlist.org/api/v3/token}) and fill out the form to
+apply for a token. You should then receive a token shortly after completing
+the form (but not immediately). After receiving a token, please open the
+\code{.Renviron} file on your computer (e.g. using \code{usethis::edit_r_environ()}).
+Next, please add the following text to the file (replacing the string with
+the token) and save the file:\preformatted{IUCN_REDLIST_KEY="your_actual_token_not_this_string"
+}
+
+Please restart your R session. You should now be able to access the IUCN Red
+List API. To verify this, please try running the following \emph{R} code and --
+assuming everything works correctly -- you should see the current version of
+the IUCN Red List:\preformatted{# verify access to IUCN Red List API
+rredlist::rl_version()
+}
+
+If these instructions did not work, please consult the documentation for the
+\pkg{rredlist} package for further details.
+}
+
 \references{
-TODO.
+Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
+Jetz W (2018) A suite of global, cross-scale topographic variables for
+environmental and biodiversity modeling. \emph{Scientific Data}, 5:180040.
+\url{https://doi.org/10.1038/sdata.2018.40}
+
+Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
+Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
+Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
+(AOH) and its Utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
+34:977--986. \url{https://doi.org/10.1016/j.tree.2019.06.009}
+
+Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
+Rondinini C, and Visconti P (2020a) A global map of
+terrestrial habitat types. \emph{Scientific data}, 7:1--8.
+\url{https://doi.org/10.1038/s41597-020-00599-8}
+
+Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
+Rondinini C, and Visconti P (2020b) A global map of
+terrestrial habitat types (insert version) [Data set].
+\emph{Zenodo Digital Repository}. \url{https://doi.org/10.5281/zenodo.4058819}
+
+Rondinini C, Stuart S, Boitani L (2005) Habitat suitability models and the
+shortfall in conservation planning for African vertebrates.
+\emph{Conservation Biology}, 19:1488--1497.
+\url{https://doi.org/10.1111/j.1523-1739.2005.00204.x}
+
+Tracewski Ł, Butchart SHM, Di Marco M, Ficetola GF, Rondinini C, Symes A,
+Wheatley H, Beresford AE, Buchanan GM (2016) Toward quantification of the
+impact of 21st‐century deforestation on the extinction risk of terrestrial
+vertebrates. \emph{Conservation Biology}, 30:1070--1079.
+\url{https://doi.org/10.1111/cobi.12715}
 }
