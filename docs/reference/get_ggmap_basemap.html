@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • aoh</title>
+<title>Get a basemap using ggmap — get_ggmap_basemap • aoh</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Get a basemap using ggmap — get_ggmap_basemap" />
+<meta property="og:description" content="Get a basemap for plotting spatial data using the ggmap package." />
 
 
 
@@ -66,7 +67,7 @@
   <body data-spy="scroll" data-target="#toc">
     
 
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,23 +113,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/prioritizr/aoh/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Get a basemap using ggmap</h1>
+    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/plot_spp_aoh_data.R'><code>R/plot_spp_aoh_data.R</code></a></small>
+    <div class="hidden name"><code>get_ggmap_basemap.Rd</code></div>
     </div>
 
-    <div id="aoh-00099999" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.0.99999">
-<a href="#aoh-00099999" class="anchor" aria-hidden="true"></a>aoh 0.0.0.99999</h1>
-<ul><li>Initial work on developing package.</li>
-</ul></div>
-  </div>
+    <div class="ref-description">
+    <p>Get a basemap for plotting spatial data using the <span class="pkg">ggmap</span> package.</p>
+    </div>
 
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_ggmap_basemap</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p><code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::st_sf()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code><a href='https://rdrr.io/pkg/ggmap/man/get_stamenmap.html'>ggmap::get_stamenmap()</a></code>.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code><a href='https://rdrr.io/pkg/ggmap/man/get_stamenmap.html'>ggmap::get_stamenmap()</a></code> object.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

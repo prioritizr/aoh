@@ -12,22 +12,23 @@ reference:
     contents:
       - aoh
 
-  - title: Area of Habitat data
+  - title: Area of Habitat
     desc: Functions for creating and visualizing Area of Habitat data
     contents:
       - create_spp_aoh_data
+      - default_omit_iucn_habitat_codes
       - plot_spp_aoh_data
 
   - title: Importing data
     desc: Functions for downloading and importing data
     contents:
+      - read_spp_range_data
       - starts_with("get_")
 
-  - title: IUCN Red List range data
-    desc: Functions for reading and cleaning species range data
+  - title: Simulating data
+    desc: Functions for simulating data
     contents:
-      - read_spp_range_data
-      - clean_spp_range_data
+      - simulate_spp_data
 
   - title: Miscellaneous geoprocessing
     desc: Functions for processing spatial data
@@ -35,3 +36,7 @@ reference:
       - parallel_project
       - starts_with("sf_")
       - starts_with("terra_")
+      - read_sf_n
+      - intersecting_ext
+      - create_template_rast
+      - clean_spp_range_data

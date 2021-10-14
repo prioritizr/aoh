@@ -93,7 +93,9 @@ print(p2)
 
 \dontrun{
 # we can also plot the data with a base map too
+## note that you might need to install ggmap to run this example
 if (require(ggmap)) {
+  ## create customized map with basemap
   p3 <-
     plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "toner") +
     scale_fill_viridis_c() +
@@ -105,6 +107,9 @@ if (require(ggmap)) {
       fill = "black", color = "black"
     )
   )
+
+  ## print customized plot
+  print(p3)
 }
 }
 }

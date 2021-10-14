@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • aoh</title>
+<title>Default IUCN Red List Habitat Classification Scheme omission codes — default_omit_iucn_habitat_codes • aoh</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,16 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Default IUCN Red List Habitat Classification Scheme omission codes — default_omit_iucn_habitat_codes" />
+<meta property="og:description" content="The International Union for Conservation of Nature (IUCN) Red List of Threatened Species
+provides a
+habitat classification scheme
+for different habitat types worldwide.
+Under this scheme, each habitat type is assigned to a code.
+This function returns the
+codes for habitat types that correspond to artificial, unknown,
+miscellaneous, or invasive vegetation habitat types that should be omitted
+from Area of Habitat calculations." />
 
 
 
@@ -66,7 +75,7 @@
   <body data-spy="scroll" data-target="#toc">
     
 
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,23 +121,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/prioritizr/aoh/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Default IUCN Red List Habitat Classification Scheme omission codes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/default_omit_iucn_habitat_codes.R'><code>R/default_omit_iucn_habitat_codes.R</code></a></small>
+    <div class="hidden name"><code>default_omit_iucn_habitat_codes.Rd</code></div>
     </div>
 
-    <div id="aoh-00099999" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.0.99999">
-<a href="#aoh-00099999" class="anchor" aria-hidden="true"></a>aoh 0.0.0.99999</h1>
-<ul><li>Initial work on developing package.</li>
-</ul></div>
-  </div>
+    <div class="ref-description">
+    <p>The <a href='https://www.iucnredlist.org/'>International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>
+provides a
+<a href='https://www.iucnredlist.org/resources/habitat-classification-scheme'>habitat classification scheme</a>
+for different habitat types worldwide.
+Under this scheme, each habitat type is assigned to a code.
+This function returns the
+codes for habitat types that correspond to artificial, unknown,
+miscellaneous, or invasive vegetation habitat types that should be omitted
+from Area of Habitat calculations.</p>
+    </div>
 
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>default_omit_iucn_habitat_codes</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
+
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code>character</code> vector of habitat codes.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># print omission codes</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>default_omit_iucn_habitat_codes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "14"    "14.1"  "14.2"  "14.3"  "14.4"  "14.5"  "14.6"  "15"    "15.1" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "15.2"  "15.3"  "15.4"  "15.5"  "15.6"  "15.7"  "15.8"  "15.9"  "15.10"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "15.11" "15.12" "15.13" "16"    "17"    "18"   </span>
+</code></pre></div>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

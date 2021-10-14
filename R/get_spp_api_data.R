@@ -3,9 +3,9 @@ NULL
 
 #' Get species data from the IUCN Red List API
 #'
-#' Import species data obtained from the International Union
+#' Import species data obtained from the [International Union
 #' for Conservation of Nature (IUCN) Red List of Threatened
-#' Species (<https://www.iucnredlist.org/>).
+#' Species](https://www.iucnredlist.org/).
 #'
 #' @inheritParams get_spp_habitat_data
 #'

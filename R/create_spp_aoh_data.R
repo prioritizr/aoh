@@ -7,9 +7,7 @@ NULL
 #' Create Area of Habitat data
 #'
 #' Create Area of Habitat (AOH) data for species based on their altitudinal and
-#' habitat preferences (Brooks *et al.* 2019). This function is designed to
-#' work with data obtained from the
-#' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
+#' habitat preferences (Brooks *et al.* 2019).
 #'
 #' @inheritParams get_global_habitat_data
 #' @inheritParams get_spp_summary_data
@@ -117,6 +115,23 @@ NULL
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
+#'
+#' @details
+#' The Area of Habitat data are produced by (i) automatically downloading
+#' global elevation and habitat classification data
+#' (from Jung *et al.* 2020a, 2020b; Amatulli *et al.* 2018),
+#' (ii) automatically downloading information on the
+#' altitudinal limits and habitat preferences of the species from the IUCN Red
+#' List (per the taxon identifiers in  the `id_no` column), and
+#' (iii) cross-reference this information to identify suitable habitat inside
+#' the geographic range of each species (following Brooks *et al.* 2019).
+#' To account for migratory species, the spatial distribution of species
+#' seasonal distributions (e.g. breeding, non-breeding, and passage
+#' distributions) are processed separately.
+#' Thus a separate Area of Habitat dataset is produced for each seasonal
+#' distribution of each species.
+#' Please note that these procedures are designed for terrestrial species
+#' and will not apply to marine species.
 #'
 #' @return
 #' A [sf::st_sf()] object containing range maps for the species distributions
@@ -404,8 +419,7 @@ create_spp_aoh_data <- function(x,
         sum(missing_codes),
         "habitat classification codes:",
         paste(paste0("\"", habitat_codes[missing_codes], "\""), collapse = ", ")
-      ),
-      immediate. = TRUE
+      )
     )
   }
   assertthat::assert_that(

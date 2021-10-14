@@ -16,6 +16,66 @@
     <loc>/reference/aoh.html</loc>
   </url>
   <url>
+    <loc>/reference/clean_spp_range_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_spp_aoh_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_template_rast.html</loc>
+  </url>
+  <url>
+    <loc>/reference/default_omit_iucn_habitat_codes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_ggmap_basemap.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_global_elevation_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_global_habitat_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_spp_habitat_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_spp_summary_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_world_berhman_1km_rast.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/intersecting_ext.html</loc>
+  </url>
+  <url>
+    <loc>/reference/parallel_project.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_spp_aoh_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_sf_n.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_spp_range_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sf_terra_crs.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sf_terra_ext.html</loc>
+  </url>
+  <url>
+    <loc>/reference/simulate_spp_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_st_bbox.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_st_crs.html</loc>
   </url>
 </urlset>

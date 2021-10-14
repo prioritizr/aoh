@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • aoh</title>
+<title>Spatial extent — sf_terra_ext • aoh</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Spatial extent — sf_terra_ext" />
+<meta property="og:description" content="Create a terra::ext() object to describe the spatial extent of
+a sf::st_sf() object following the terra package conventions." />
 
 
 
@@ -66,7 +68,7 @@
   <body data-spy="scroll" data-target="#toc">
     
 
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,23 +114,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/prioritizr/aoh/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Spatial extent</h1>
+    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/misc_sf.R'><code>R/misc_sf.R</code></a></small>
+    <div class="hidden name"><code>sf_terra_ext.Rd</code></div>
     </div>
 
-    <div id="aoh-00099999" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.0.99999">
-<a href="#aoh-00099999" class="anchor" aria-hidden="true"></a>aoh 0.0.0.99999</h1>
-<ul><li>Initial work on developing package.</li>
-</ul></div>
-  </div>
+    <div class="ref-description">
+    <p>Create a <code><a href='https://rdrr.io/pkg/terra/man/ext.html'>terra::ext()</a></code> object to describe the spatial extent of
+a <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::st_sf()</a></code> object following the <span class="pkg">terra</span> package conventions.</p>
+    </div>
 
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>sf_terra_ext</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p><code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::st_sf()</a></code> Spatial object.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code><a href='https://rdrr.io/pkg/terra/man/ext.html'>terra::ext()</a></code> extent object.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other geoprocessing: 
+<code><a href='create_template_rast.html'>create_template_rast</a>()</code>,
+<code><a href='intersecting_ext.html'>intersecting_ext</a>()</code>,
+<code><a href='read_sf_n.html'>read_sf_n</a>()</code>,
+<code><a href='sf_terra_crs.html'>sf_terra_crs</a>()</code>,
+<code><a href='terra_st_bbox.html'>terra_st_bbox</a>()</code>,
+<code><a href='terra_st_crs.html'>terra_st_crs</a>()</code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># import sf object</span></span>
+<span class='r-in'><span class='va'>nc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>read_sf</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shape/nc.shp"</span>, package <span class='op'>=</span> <span class='st'>"sf"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># create terra extent object (i.e. SpatExtent)</span></span>
+<span class='r-in'><span class='fu'>sf_terra_ext</span><span class='op'>(</span><span class='va'>nc</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SpatExtent : -84.3238525390625, -75.4569778442383, 33.8819923400879, 36.5896492004395 (xmin, xmax, ymin, ymax)</span>
+<span class='r-in'></span>
+</code></pre></div>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
