@@ -22,7 +22,7 @@ Import spatial data. If desired, only a subset of the available data
 are imported.
 }
 \examples{
-# set data pth
+# set data path
 path <- system.file("shape/nc.shp", package = "sf")
 
 # read all data

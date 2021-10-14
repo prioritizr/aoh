@@ -46,24 +46,29 @@ NULL
 #' data for real or simulated species.
 #'
 #' @examples
-#' \dontrun{
-#' # import data to simulate species data
-#' sim_boundary_data <- sf::read_sf(
-#'   system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
-#' )
-#' sim_habitat_data <- terra::rast(
-#'   system.file("extdata", "sim_habitat_data.tif", package = "aoh")
-#' )
-#' sim_elevation_data <- terra::rast(
-#'   system.file("extdata", "sim_elevation_data.tif", package = "aoh")
-#' )
+#' # please ensure that the RandomFields and smoothr packages are installed
+#' # to run these examples
 #'
+#' @examplesIf require(RandomFields) && require(smoothr)
+#' \dontrun{
+#' # define persistent storage location
+#' download_dir <- rappdirs::user_data_dir("aoh")
+#'
+#' # create download directory if needed
+#' if (!file.exists(download_dir)) {
+#'   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
+#' }
+#'
+#' # specify file path for boundary data
+#' boundary_path <- system.file("shape/nc.shp", package = "sf")
+#'
+#' # import boundary data to simulate species data
+#' boundary_data <- sf::st_union(sf::read_sf(boundary_path))
+#'
+#' # specify
 #' # simulate data for 5 species
 #' x <- simulate_spp_data(
-#'   n = 5,
-#'   boundary_data = sim_boundary_data,
-#'   habitat_data = sim_habitat_data,
-#'   elevation_data = sim_elevation_data
+#'   n = 5, boundary_data = boundary_data, cache_dir = download_dir
 #' )
 #'
 #' # preview species range data
@@ -166,9 +171,13 @@ simulate_spp_data <- function(n,
     crs = sf::st_crs(boundary_data_proj),
     bbox = bb
   )
+  boundary_data_proj_vect <- terra::vect(boundary_data_proj)
+  terra::crs(boundary_data_proj_vect) <- sf_terra_crs(
+    sf::st_crs(boundary_data_proj)
+  )
   sim_rast <- terra::mask(
     x = terra::init(sim_rast, 1),
-    mask = terra::vect(boundary_data_proj)
+    mask = boundary_data_proj_vect
   )
 
   # simulate species range maps
@@ -195,8 +204,14 @@ simulate_spp_data <- function(n,
 
   # split range data into discrete distributions
   sim_range_data <- lapply(sim_range_data, function(x) {
-    # split into seperate polygons
+    # split into separate polygons
     x <- suppressWarnings(sf::st_cast(x, "POLYGON"))
+    # extract only valid polygons
+    x <- x[sf::st_is_valid(x), , drop = FALSE]
+    print(x)
+    if (nrow(x) == 0) {
+      stop("failed to simulate data")
+    }
     rownames(x) <- NULL
     # determine if species has seasonal distributions or not
     if (isTRUE(stats::runif(1) > 0.7) && (nrow(x) >= 3)) {
@@ -296,7 +311,9 @@ simulate_spp_data <- function(n,
     terrestial = "true",
     freshwater = "false"
   )
-  sim_range_data <- dplyr::select(sim_range_data, -.data$id)
+  if ("id" %in% names(sim_range_data)) {
+    sim_range_data <- dplyr::select(sim_range_data, -.data$id)
+  }
 
   # simulate habitat preference data
   sim_habitat_data <- simulate_habitat_data(

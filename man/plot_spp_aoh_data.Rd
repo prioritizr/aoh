@@ -77,13 +77,14 @@ library(ggplot2)
 ## customize plot
 p2 <-
  p +
- scale_fill_viridis() +
- scale_color_manual(c("range" = "red")) +
- scale_size_manual(c("range" = 2)) +
+ scale_fill_viridis_c() +
+ scale_color_manual(values = c("range" = "blue")) +
+ scale_size_manual(values = c("range" = 10)) +
  theme(
-   axis.title = element_blank(),
-   strip.text = element_text(color = "white"),
-   strip.background = element_rect(fill = "black", color = "black")
+   strip.text = ggplot2::element_text(color = "white"),
+   strip.background = ggplot2::element_rect(
+     fill = "black", color = "black"
+   )
  )
 
 ## print customized plot
@@ -94,15 +95,16 @@ print(p2)
 # we can also plot the data with a base map too
 if (require(ggmap)) {
   p3 <-
-    plot_spp_aoh_data(spp_aoh_data, maptype = "toner") +
-    scale_fill_viridis() +
-    scale_color_manual(c("range" = "red")) +
-    scale_size_manual(c("range" = 2)) +
+    plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "toner") +
+    scale_fill_viridis_c() +
+    scale_color_manual(values = c("range" = "blue")) +
+    scale_size_manual(values = c("range" = 10)) +
     theme(
-      axis.title = element_blank(),
-      strip.text = element_text(color = "white"),
-      strip.background = element_rect(fill = "black", color = "black")
+      strip.text = ggplot2::element_text(color = "white"),
+      strip.background = ggplot2::element_rect(
+      fill = "black", color = "black"
     )
+  )
 }
 }
 }

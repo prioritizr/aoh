@@ -61,7 +61,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # define species to download data for based on taxon identifiers
-#' spp_ids <- c(12392, 22694927)
+#' spp_ids <- c(18, 22694927)
 #'
 #' # define persistent storage location
 #' download_dir <- rappdirs::user_data_dir("aoh")
@@ -73,11 +73,12 @@ NULL
 #'
 #' # download and import habitat preference data
 #' spp_habitat_data <- get_spp_habitat_data(spp_ids, download_dir)
-#'
-#' # preview data (only if running R in an interactive session)
-#' if (interactive()) {
-#'   print(spp_habitat_data)
 #' }
+#'
+#' @examplesIf interactive()
+#' \dontrun{
+#' # preview data
+#' print(result)
 #' }
 #' @export
 get_spp_habitat_data <- function(x, dir = tempdir(), version = "latest",

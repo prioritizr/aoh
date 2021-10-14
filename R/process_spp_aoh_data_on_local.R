@@ -91,8 +91,7 @@ process_spp_aoh_data_on_local <- function(x,
 
   # determine which species need processing
   if (!force & any(file.exists(x$path))) {
-    idx <- which(!is.na(x$path))
-    # idx <- which(!is.na(x$path) & !file.exists(x$path))
+    idx <- which(!is.na(x$path) & !file.exists(x$path))
     if (verbose) {
       message(
         paste(
@@ -167,13 +166,9 @@ process_spp_aoh_data_on_local <- function(x,
       ) {
         if (isTRUE(parallel_n_threads > 1)) {
           ## if parallel processing
-          assign("x2", readRDS(x_path), envir = globalenv())
-          assign(
-            "habitat_data2", terra::rast(habitat_path), envir = globalenv()
-          )
-          assign(
-            "elevation_data2", terra::rast(elevation_path), envir = globalenv()
-          )
+          x2 <- readRDS(x_path)
+          habitat_data2 <- terra::rast(habitat_path)
+          elevation_data2 <- terra::rast(elevation_path)
         } else {
           ## if local processing
           x2 <- x

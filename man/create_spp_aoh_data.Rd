@@ -219,12 +219,15 @@ spp_aoh_data <- create_spp_aoh_data(
   parallel_n_threads = n_threads,
   cache_dir = cache_dir
 )
-
- # preview result (only if running R in an interactive session)
-if (interactive()) {
- print(spp_aoh_data)
 }
 
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
+# preview data
+print(result)
+}
+\dontshow{\}) # examplesIf}
+\dontrun{
 # import AOH data as a list of terra::rast() objects
 spp_aoh_rasters <- lapply(spp_aoh_data$path, terra::rast)
 

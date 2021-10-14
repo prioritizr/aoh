@@ -170,12 +170,12 @@ parallel_project <- function(x,
       if (!all(exists("x2"), exists("y2"), exists("crop_ext2"))) {
         if (isTRUE(parallel_n_threads > 1)) {
           ## if parallel processing
-          assign("x2", terra::rast(x_path), envir = globalenv())
-          assign("y2", terra::rast(y_path), envir = globalenv())
+          x2 <- terra::rast(x_path)
+          y2 <- terra::rast(y_path)
           if (!is.null(crop_ext_list)) {
-            assign("crop_ext2", terra::ext(crop_ext_list), envir = globalenv())
+            crop_ext2 <- terra::ext(crop_ext_list)
           } else {
-            assign("crop_ext2", NULL, envir = globalenv())
+            crop_ext2 <- NULL
           }
         } else {
           ## if local processing

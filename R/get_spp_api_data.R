@@ -45,11 +45,12 @@ NULL
 #'   ),
 #'   dir = download_dir
 #' )
-#'
-#' # preview result (only if running R in an interactive session)
-#' if (interactive()) {
-#'   print(result)
 #' }
+#'
+#' @examplesIf interactive()
+#' \dontrun{
+#' # preview data
+#' print(result)
 #' }
 #' @noRd
 get_spp_api_data <- function(x, api_function, data_prefix, data_template,

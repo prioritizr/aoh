@@ -216,12 +216,16 @@ NULL
 #'   parallel_n_threads = n_threads,
 #'   cache_dir = cache_dir
 #' )
-#'
-#'  # preview result (only if running R in an interactive session)
-#' if (interactive()) {
-#'  print(spp_aoh_data)
 #' }
 #'
+#' @examplesIf interactive()
+#' \dontrun{
+#' # preview data
+#' print(result)
+#' }
+#'
+#' @examples
+#' \dontrun{
 #' # import AOH data as a list of terra::rast() objects
 #' spp_aoh_rasters <- lapply(spp_aoh_data$path, terra::rast)
 #'

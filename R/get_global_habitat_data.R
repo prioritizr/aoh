@@ -56,7 +56,7 @@ NULL
 #' }
 #'
 #' # download and import habitat data
-#' habitat_data <- aoh_get_habitat_data(download_dir, version = "latest")
+#' habitat_data <- get_global_habitat_data(download_dir, version = "latest")
 #'
 #' # preview data
 #' print(habitat_data)

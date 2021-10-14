@@ -172,11 +172,10 @@ intersecting_ext <- function(x, y, buffer = 0) {
     inherits(y, "SpatRaster"),
     assertthat::is.number(buffer)
   )
+
   # processing
   ## extract extent for y
   y_ext <- sf::st_as_sfc(terra_st_bbox(y))
-  ## extract extent for x
-  x_ext <- sf::st_as_sfc(terra_st_bbox(x))
   ## reproject to x coordinate system without buffer
   y_ext_no_buffer <- sf::st_bbox(
     sf::st_transform(y_ext, terra_st_crs(x))
@@ -185,7 +184,7 @@ intersecting_ext <- function(x, y, buffer = 0) {
   y_ext_buffer <- sf::st_bbox(
     sf::st_transform(sf::st_buffer(y_ext, buffer), terra_st_crs(x))
   )
-  ## handle NAs
+  ## handle NAs when reprojecting y to x
   if (any(is.na(c(y_ext_buffer)))) {
     ## create new extent
     y_ext_buffer2 <- c(xmin = 0, xmax = 0, ymin = 0, ymax = 0)
@@ -210,8 +209,8 @@ intersecting_ext <- function(x, y, buffer = 0) {
       if (terra::is.lonlat(x)) {
         y_ext_buffer2 <-
           sf::st_bbox(
-            c(xmin = -180, xmax = 180, ymin = -90, ymax = 90), crs =
-            terra_st_crs(x)
+            c(xmin = -180, xmax = 180, ymin = -90, ymax = 90),
+            crs = terra_st_crs(x)
           )
       } else {
         stop("failed to find intersecting extents")
@@ -220,18 +219,48 @@ intersecting_ext <- function(x, y, buffer = 0) {
   } else {
     y_ext_buffer2 <- y_ext_buffer
   }
+  ## handle case where x is lon/lat and has a spatial extent that is
+  ## larger than the world
+  if (suppressWarnings(sf::st_is_longlat(x))) {
+    x_ext <- as.list(terra_st_bbox(x))
+    x_ext$xmin <- max(x_ext$xmin, -180)
+    x_ext$xmax <- min(x_ext$xmax, 180)
+    x_ext$ymin <- max(x_ext$ymin, -90)
+    x_ext$ymax <- min(x_ext$ymax, 90)
+    x_ext <- sf::st_bbox(unlist(x_ext), crs = sf::st_crs(x))
+  } else {
+    x_ext <- terra_st_bbox(x)
+  }
   ## clip to x coordinate system
-  y_ext <- sf::st_bbox(
-    sf::st_intersection(
-      sf::st_as_sfc(
-        sf::st_bbox(
-          y_ext_buffer2,
-          crs = terra_st_crs(x)
-        )
-      ),
-      x_ext
+  if (
+    isTRUE(y_ext_buffer2$xmin >= x_ext$xmin) &&
+    isTRUE(y_ext_buffer2$ymin >= x_ext$ymin) &&
+    isTRUE(y_ext_buffer2$xmax <= x_ext$xmax) &&
+    isTRUE(y_ext_buffer2$ymax <= x_ext$ymax)
+  ) {
+    ### manually calculate intersecting extent
+    z_ext <- y_ext_buffer2
+  } else {
+    ### use geoprocessing to calculate intersecting extent
+    z_ext <- sf::st_bbox(
+      sf::st_intersection(
+        sf::st_as_sfc(
+          sf::st_bbox(
+            y_ext_buffer2,
+            crs = terra_st_crs(x)
+          )
+        ),
+        sf::st_as_sfc(x_ext)
+      )
     )
+  }
+
+  # check that all coordinates are valid
+  assertthat::assert_that(
+    all(is.finite(c(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax))),
+    msg = "failed to find intersecting extents"
   )
-  ## return extent of intersecting areas
-  terra::ext(c(y_ext$xmin, y_ext$xmax, y_ext$ymin, y_ext$ymax))
+
+  # return extent of intersecting areas
+  terra::ext(c(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax))
 }

@@ -72,7 +72,7 @@ caching for previously downloaded data.
 \examples{
 \dontrun{
 # define species to download data for based on taxon identifiers
-spp_ids <- c(12392, 22694927)
+spp_ids <- c(18, 22694927)
 
 # define persistent storage location
 download_dir <- rappdirs::user_data_dir("aoh")
@@ -84,12 +84,14 @@ if (!file.exists(download_dir)) {
 
 # download and import habitat preference data
 spp_habitat_data <- get_spp_habitat_data(spp_ids, download_dir)
+}
 
-# preview data (only if running R in an interactive session)
-if (interactive()) {
-  print(spp_habitat_data)
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
+# preview data
+print(result)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \references{
 Please use the following citation for data obtained from the IUCN Red List:

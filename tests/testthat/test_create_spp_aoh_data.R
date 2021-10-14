@@ -177,13 +177,15 @@ test_that("example data", {
   # load data
   d <- read_spp_range_data(f)
   # create objects
-  x <- create_spp_aoh_data(
-    x = d,
-    output_dir = tempdir(),
-    cache_dir = cd,
-    habitat_version = hv,
-    parallel_n_threads = 2,
-    verbose = FALSE
+  x <- suppressWarnings(
+    create_spp_aoh_data(
+      x = d,
+      output_dir = tempdir(),
+      cache_dir = cd,
+      habitat_version = hv,
+      parallel_n_threads = 2,
+      verbose = FALSE
+    )
   )
   # tests
   expect_is(x, "sf")

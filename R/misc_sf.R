@@ -16,7 +16,7 @@ NULL
 #' @return [sf::sf()] object.
 #'
 #' @examples
-#' # set data pth
+#' # set data path
 #' path <- system.file("shape/nc.shp", package = "sf")
 #'
 #' # read all data

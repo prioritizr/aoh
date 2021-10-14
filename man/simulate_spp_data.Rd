@@ -105,24 +105,29 @@ Simulate species data for creating Area of Habitat data
 species geographic ranges, summary information, and habitat preferences.
 }
 \examples{
-\dontrun{
-# import data to simulate species data
-sim_boundary_data <- sf::read_sf(
-  system.file("extdata", "sim_boundary_data.gpkg", package = "aoh")
-)
-sim_habitat_data <- terra::rast(
-  system.file("extdata", "sim_habitat_data.tif", package = "aoh")
-)
-sim_elevation_data <- terra::rast(
-  system.file("extdata", "sim_elevation_data.tif", package = "aoh")
-)
+# please ensure that the RandomFields and smoothr packages are installed
+# to run these examples
 
+\dontshow{if (require(RandomFields) && require(smoothr)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
+# define persistent storage location
+download_dir <- rappdirs::user_data_dir("aoh")
+
+# create download directory if needed
+if (!file.exists(download_dir)) {
+  dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
+}
+
+# specify file path for boundary data
+boundary_path <- system.file("shape/nc.shp", package = "sf")
+
+# import boundary data to simulate species data
+boundary_data <- sf::st_union(sf::read_sf(boundary_path))
+
+# specify
 # simulate data for 5 species
 x <- simulate_spp_data(
-  n = 5,
-  boundary_data = sim_boundary_data,
-  habitat_data = sim_habitat_data,
-  elevation_data = sim_elevation_data
+  n = 5, boundary_data = boundary_data, cache_dir = download_dir
 )
 
 # preview species range data
@@ -134,6 +139,7 @@ print(x$spp_habitat_data)
 # preview species summary data
 print(x$spp_summary_data)
 }
+\dontshow{\}) # examplesIf}
 }
 \references{
 Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
