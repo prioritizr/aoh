@@ -398,7 +398,7 @@ create_spp_aoh_data <- function(x,
   habitat_codes <- unique(unlist(x$habitat_code, use.names = FALSE))
   missing_codes <- !habitat_codes %in% names(habitat_data)
   if (any(missing_codes)) {
-    warning(
+    cli::cli_alert_warning(
       paste(
         "argument to \"habitat_data\" is missing layers for the following",
         sum(missing_codes),
