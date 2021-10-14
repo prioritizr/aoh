@@ -87,7 +87,9 @@ NULL
 #'
 #' \dontrun{
 #' # we can also plot the data with a base map too
+#' ## note that you might need to install ggmap to run this example
 #' if (require(ggmap)) {
+#'   ## create customized map with basemap
 #'   p3 <-
 #'     plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "toner") +
 #'     scale_fill_viridis_c() +
@@ -99,6 +101,9 @@ NULL
 #'       fill = "black", color = "black"
 #'     )
 #'   )
+#'
+#'   ## print customized plot
+#'   print(p3)
 #' }
 #' }
 #' @export
@@ -148,7 +153,7 @@ plot_spp_aoh_data <- function(x, max_plot = 9,
 
   # prepare data
   ## range data
-  x$type <- factor("range", levels = "range")
+  x$type <- ordered(factor("range", levels = "range"))
   x$filename <- basename(x$path)
   if (!is.null(zoom) && !is.null(maptype)) {
     x <- sf::st_transform(x, 4326)
