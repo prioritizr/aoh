@@ -19,9 +19,9 @@ citEntry(
   note = paste("R package version", meta$Version),
   url = cite_url,
   textVersion = paste0(
-     "Hanson JO (", year, ") aoh: Create Area of Habitat Data.",
-     "R package version ", meta$Version, ". ",
-     cite_url
+     "Hanson JO (", year, ") aoh: Create Area of Habitat Data. ",
+     "R package version ", meta$Version, ". Available at ",
+     cite_url, "."
   )
 )
 
@@ -32,8 +32,8 @@ citEntry(
   year = "[insert year]",
   note = "Version [insert version]",
   url = "www.iucnredlist.org",
-  textVersion = paste0(
-    "IUCN [insert year]. IUCN Red List of Threatened Species. Version ",
+  textVersion = paste(
+    "IUCN [insert year]. IUCN Red List of Threatened Species. Version",
     "[insert version]. Available at www.iucnredlist.org."
   )
 )

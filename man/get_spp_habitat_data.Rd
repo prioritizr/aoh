@@ -59,7 +59,8 @@ A table (\code{\link[tibble:tibble]{tibble::tibble()}}) object.
 \description{
 Import species habitat preference data obtained from the \href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
 Please note that a token is required to download
-data from the IUCN Red List (see instructions below to obtain a token).
+data from the \href{https://apiv3.iucnredlist.org/}{IUCN Red List API}
+(see instructions below to obtain a token).
 }
 \details{
 Data are downloaded from the IUCN Red List using the
@@ -120,7 +121,7 @@ print(result)
 Please use the following citation for data obtained from the IUCN Red List:
 
 IUCN (insert year). IUCN Red List of Threatened Species. Version
-(insert version) <www.iucnredlist.org>.
+(insert version). Available at <www.iucnredlist.org>.
 
 To obtain the version number of the latest version, use
 \code{\link[rredlist:rl_version]{rredlist::rl_version()}}.

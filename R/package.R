@@ -56,34 +56,35 @@
 #' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 #' Jetz W (2018) A suite of global, cross-scale topographic variables for
 #' environmental and biodiversity modeling. *Scientific Data*, 5:180040.
-#' <https://doi.org/10.1038/sdata.2018.40>
+#' Available at<https://doi.org/10.1038/sdata.2018.40>.
 #'
 #' Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 #' (AOH) and its Utility for the IUCN Red List. *Trends in Ecology & Evolution*,
-#' 34:977--986. <https://doi.org/10.1016/j.tree.2019.06.009>
+#' 34:977--986. Available at <https://doi.org/10.1016/j.tree.2019.06.009>.
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020a) A global map of
 #' terrestrial habitat types. *Scientific data*, 7:1--8.
-#' <https://doi.org/10.1038/s41597-020-00599-8>
+#' Available at <https://doi.org/10.1038/s41597-020-00599-8>.
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020b) A global map of
 #' terrestrial habitat types (insert version) \[Data set\].
-#' *Zenodo Digital Repository*. <https://doi.org/10.5281/zenodo.4058819>
+#' *Zenodo Digital Repository*.
+#' Available at <https://doi.org/10.5281/zenodo.4058819>.
 #'
 #' Rondinini C, Stuart S, Boitani L (2005) Habitat suitability models and the
 #' shortfall in conservation planning for African vertebrates.
 #' *Conservation Biology*, 19:1488--1497.
-#' <https://doi.org/10.1111/j.1523-1739.2005.00204.x>
+#' Available at <https://doi.org/10.1111/j.1523-1739.2005.00204.x>.
 #'
 #' Tracewski Ł, Butchart SHM, Di Marco M, Ficetola GF, Rondinini C, Symes A,
 #' Wheatley H, Beresford AE, Buchanan GM (2016) Toward quantification of the
 #' impact of 21st‐century deforestation on the extinction risk of terrestrial
 #' vertebrates. *Conservation Biology*, 30:1070--1079.
-#' <https://doi.org/10.1111/cobi.12715>
+#' Available at <https://doi.org/10.1111/cobi.12715>.
 #'
 #' @name aoh
 #'

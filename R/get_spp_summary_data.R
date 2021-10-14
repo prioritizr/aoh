@@ -6,7 +6,8 @@ NULL
 #' Import species summary data obtained from the
 #' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
 #' Please note that a token is required to download
-#' data from the IUCN Red List (see instructions below to obtain a token).
+#' data from the [IUCN Red List API](https://apiv3.iucnredlist.org/)
+#' (see instructions below to obtain a token).
 #'
 #' @inheritParams get_spp_habitat_data
 #'

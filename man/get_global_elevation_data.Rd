@@ -53,5 +53,5 @@ plot(elev_data)
 Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 Jetz W (2018) A suite of global, cross-scale topographic variables for
 environmental and biodiversity modeling. \emph{Scientific Data}, 5:180040.
-\url{https://doi.org/10.1038/sdata.2018.40}
+Available at \url{https://doi.org/10.1038/sdata.2018.40}.
 }

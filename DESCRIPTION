@@ -81,7 +81,6 @@ Collate:
     'process_spp_aoh_data_on_local.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
-    'zzz.R'
 Roxygen: list(markdown = TRUE)
 Remotes:
   rspatial/terra

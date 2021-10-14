@@ -69,10 +69,11 @@ plot(habitat_data)
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
 terrestrial habitat types. \emph{Scientific Data}, 7:1--8.
-\url{https://doi.org/10.1038/s41597-020-00599-8}
+Available at \url{https://doi.org/10.1038/s41597-020-00599-8}.
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
-\emph{Zenodo Digital Repository}. \url{https://doi.org/10.5281/zenodo.4058819}
+\emph{Zenodo Digital Repository}.
+Available at \url{https://doi.org/10.5281/zenodo.4058819}.
 }

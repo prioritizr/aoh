@@ -194,23 +194,24 @@ NULL
 #' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 #' Jetz W (2018) A suite of global, cross-scale topographic variables for
 #' environmental and biodiversity modeling. *Scientific Data*, 5:180040.
-#' <https://doi.org/10.1038/sdata.2018.40>
+#' Available at <https://doi.org/10.1038/sdata.2018.40>.
 #'
 #' Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 #' (AOH) and its Utility for the IUCN Red List. *Trends in Ecology & Evolution*,
-#' 34:977--986. <https://doi.org/10.1016/j.tree.2019.06.009>
+#' 34:977--986. Available at <https://doi.org/10.1016/j.tree.2019.06.009>.
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020a) A global map of
 #' terrestrial habitat types. *Scientific Data*, 7:1--8.
-#' <https://doi.org/10.1038/s41597-020-00599-8>
+#' Available at <https://doi.org/10.1038/s41597-020-00599-8>.
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020b) A global map of
 #' terrestrial habitat types (insert version) \[Data set\].
-#' *Zenodo Digital Repository*. <https://doi.org/10.5281/zenodo.4058819>
+#' *Zenodo Digital Repository*.
+#' Available at <https://doi.org/10.5281/zenodo.4058819>.
 #'
 #' @examples
 #' \dontrun{

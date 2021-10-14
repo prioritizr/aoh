@@ -7,7 +7,8 @@ NULL
 #' for Conservation of Nature (IUCN) Red List of Threatened
 #' Species](https://www.iucnredlist.org/).
 #' Please note that a token is required to download
-#' data from the IUCN Red List (see instructions below to obtain a token).
+#' data from the [IUCN Red List API](https://apiv3.iucnredlist.org/)
+#' (see instructions below to obtain a token).
 #'
 #' @param x `integer` Taxon identifier for the species on the International
 #'   Union for Conservation of Nature (IUCN) Red List of Threatened
@@ -55,7 +56,7 @@ NULL
 #' Please use the following citation for data obtained from the IUCN Red List:
 #'
 #' IUCN (insert year). IUCN Red List of Threatened Species. Version
-#'  (insert version) <www.iucnredlist.org>.
+#'  (insert version). Available at <www.iucnredlist.org>.
 #'
 #' To obtain the version number of the latest version, use
 #' [rredlist::rl_version()].

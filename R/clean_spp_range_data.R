@@ -81,7 +81,7 @@ NULL
 #' IUCN SSC Red List Technical Working Group (2021)
 #' Mapping Standards and Data Quality for the IUCN Red List Spatial Data
 #' (Version 1.19). International Union for Conservation of Nature (IUCN).
-#' <https://nc.iucnredlist.org/redlist/resources/files/1539098236-Mapping_Standards_Version_1.16_2018.pdf>
+#' Available at <https://nc.iucnredlist.org/redlist/resources/files/1539098236-Mapping_Standards_Version_1.16_2018.pdf>.
 #'
 #' @examples
 #' \dontrun{

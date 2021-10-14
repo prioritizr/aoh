@@ -1,7 +1,7 @@
 
 <!--- README.md is generated from README.Rmd. Please edit that file -->
 
-## aoh: Area of Habitat
+## aoh: Create Area of Habitat Data
 
 [![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
@@ -232,10 +232,10 @@ print(spp_aoh_data[, c("id_no", "seasonal", "path")])
     ## # A tibble: 4 × 4
     ##   id_no seasonal path                                                   geometry
     ##   <dbl>    <int> <chr>                                             <POLYGON [m]>
-    ## 1  4657        1 /tmp/Rtmp9CqUoV/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-    ## 2 58622        1 /tmp/Rtmp9CqUoV/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-    ## 3 59448        1 /tmp/Rtmp9CqUoV/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-    ## 4   979        1 /tmp/Rtmp9CqUoV/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
+    ## 1  4657        1 /tmp/RtmpuV1IWj/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+    ## 2 58622        1 /tmp/RtmpuV1IWj/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+    ## 3 59448        1 /tmp/RtmpuV1IWj/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+    ## 4   979        1 /tmp/RtmpuV1IWj/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
 
 After generating the Area of Habitat data, we can import them.
 
@@ -328,8 +328,8 @@ produce Area of Habitat data.
     To cite the aoh package and the underlying datasets used to create the
     Area of Habitat data, please use:
 
-      Hanson JO (2021) aoh: Area of Habitat.R package version 0.0.0.99999.
-      https://github.com/jeffreyhanson/aoh
+      Hanson JO (2021) aoh: Create Area of Habitat Data. R package version
+      0.0.0.99999. Available at https://github.com/jeffreyhanson/aoh.
 
       IUCN [insert year]. IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

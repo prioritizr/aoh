@@ -5,7 +5,8 @@ NULL
 #'
 #' Import species geographic range (i.e. extent of occurrence) data obtained
 #' from the
-#' [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/).
+#' [International Union for Conservation of Nature (IUCN) Red List of
+#' Threatened Species](https://www.iucnredlist.org/).
 #'
 #' @param path `character` File path to the data (zip archive) file.
 #'

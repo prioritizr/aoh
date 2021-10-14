@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Area of Habitat • aoh</title>
+<title>Create Area of Habitat Data • aoh</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Area of Habitat">
+<script src="pkgdown.js"></script><meta property="og:title" content="Create Area of Habitat Data">
 <meta property="og:description" content="Generate Area of Habitat data for species distributions.
     Maps are produced following procedures outlined by Brooks et al. (2019)
     (&lt;doi:10.1016/j.tree.2019.06.009&gt;). They are derived using species'
@@ -73,9 +73,9 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="aoh-area-of-habitat" class="section level2">
+<div id="aoh-create-area-of-habitat-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#aoh-area-of-habitat" class="anchor" aria-hidden="true"></a>aoh: Area of Habitat</h2>
+<a href="#aoh-create-area-of-habitat-data" class="anchor" aria-hidden="true"></a>aoh: Create Area of Habitat Data</h2>
 
 <div id="overview" class="section level3">
 <h3 class="hasAnchor">
@@ -193,10 +193,10 @@
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 4 × 4</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="do">##   id_no seasonal path                                                   geometry</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 1  4657        1 /tmp/Rtmp9CqUoV/AOH_4657_1.tif  ((-855061 4559107, -854997 455…</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 58622        1 /tmp/Rtmp9CqUoV/AOH_58622_1.tif ((-849079 4613824, -835314 460…</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 59448        1 /tmp/Rtmp9CqUoV/AOH_59448_1.tif ((-244432 5022110, -248291 500…</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 4   979        1 /tmp/Rtmp9CqUoV/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</span></span></code></pre></div>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 1  4657        1 /tmp/RtmpuV1IWj/AOH_4657_1.tif  ((-855061 4559107, -854997 455…</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 58622        1 /tmp/RtmpuV1IWj/AOH_58622_1.tif ((-849079 4613824, -835314 460…</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 59448        1 /tmp/RtmpuV1IWj/AOH_59448_1.tif ((-244432 5022110, -248291 500…</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 4   979        1 /tmp/RtmpuV1IWj/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</span></span></code></pre></div>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -275,8 +275,8 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>To cite the aoh package and the underlying datasets used to create the</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Area of Habitat data, please use<span class="sc">:</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2021</span>) aoh<span class="sc">:</span> Area of Habitat.R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">99999.</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>jeffreyhanson<span class="sc">/</span>aoh</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2021</span>) aoh<span class="sc">:</span> Create Area of Habitat Data. R package version</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">99999.</span> Available at https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>jeffreyhanson<span class="sc">/</span>aoh.</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  IUCN [insert year]. IUCN Red List of Threatened Species. Version</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at www.iucnredlist.org.</span>

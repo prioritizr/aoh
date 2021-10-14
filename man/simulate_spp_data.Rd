@@ -146,7 +146,7 @@ Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 (AOH) and its Utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
-34:977--986. \url{https://doi.org/10.1016/j.tree.2019.06.009}
+34:977--986. Available at \url{https://doi.org/10.1016/j.tree.2019.06.009}.
 }
 \seealso{
 See \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}} for creating Area of Habitat maps using
