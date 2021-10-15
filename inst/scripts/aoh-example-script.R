@@ -1,3 +1,6 @@
+# System command to execute:
+# R CMD BATCH --no-restore --no-save aoh-example-script.R
+
 # Initialization
 ## load packages
 library(aoh)
