@@ -30,7 +30,6 @@ test:
 
 vigns:
 	R --slave -e "devtools::build_vignettes()"
-	cp -R doc inst/
 
 quicksite:
 	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
@@ -55,7 +54,6 @@ solarischeck:
 
 build:
 	R --slave -e "devtools::build()"
-	cp -R doc inst/
 
 install:
 	R --slave -e "devtools::install_local('../aoh')"

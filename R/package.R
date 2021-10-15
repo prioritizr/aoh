@@ -9,7 +9,8 @@
 #' occur outside the known altitudinal limits for the species
 #' (Brooks *et al.* 2019). To help make these maps accessible, the package
 #' provides routines for automatically creating Area of Habitat data based on
-#' the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading
+#' the [International Union for Conservation of Nature (IUCN) Red List of
+#' Threatened Species](https://www.iucnredlist.org/). After manually downloading
 #' species range data from the
 #' [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download),
 #' users can import them (using [read_spp_range_data()]) and then use them to
@@ -18,8 +19,7 @@
 #' Jung *et al.* 2020a,b) are automatically downloaded, and data on species'
 #' habitat preferences and altitudinal limits are obtained automatically using
 #' the [IUCN Red List API](https://apiv3.iucnredlist.org/).
-#' Since accessing the IUCN Red List API
-#' requires a token, users may need to
+#' Since accessing the IUCN Red List API requires a token, users may need to
 #' [obtain a token](https://apiv3.iucnredlist.org/api/v3/token)
 #' and update their R configuration to
 #' recognize the token (see instructions below for details).
