@@ -15,7 +15,7 @@ input_file <- "AMPHIBIANS.zip"
 input_dir <- rappdirs::user_data_dir("iucn-red-list-data")
 
 ### change this to where you want to save the outputs
-output_dir <- "~/data"
+output_dir <- "~/aoh-data"
 
 # Preliminary processing
 ## specify cache directory
@@ -29,7 +29,7 @@ if (!file.exists(cache_dir)) {
 
 ## update output directory based on input data filename
 output_dir <- file.path(
-  output_dir, tools::file_path_sans_ext(basename(input_file))
+  path.expand(output_dir), tools::file_path_sans_ext(basename(input_file))
 )
 
 ## create output directory
