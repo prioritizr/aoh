@@ -11,8 +11,10 @@ Description: Generate Area of Habitat data for species distributions.
     habitat classification data from Jung et al. (2020)
     (<doi:10.1038/s41597-020-00599-8>), and elevation data from Amatulli et al.
     (2018) (<doi:10.1038/sdata.2018.40>).
-Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
-    email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
+Authors@R:
+    c(person(c('Jeffrey', 'O'), 'Hanson',
+        email='jeffrey.hanson@uqconnect.edu.au', role = c('aut','cre'),
+        comment = c(ORCID = '0000-0002-4716-6134')))
 Imports:
     utils,
     sp,
