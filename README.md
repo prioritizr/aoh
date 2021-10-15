@@ -50,8 +50,9 @@ below for details).
 The [latest developmental version of the *aoh R*
 package](https://github.com/prioritizr/aoh) can be installed using the
 following *R* code. Please note that it requires the
-[*sf*](https://CRAN.R-project.org/package=sf) and
-[*terra*](https://CRAN.R-project.org/package=terra) *R* packages which
+[*sf*](https://CRAN.R-project.org/package=sf),
+[*terra*](https://CRAN.R-project.org/package=terra), and
+[*zen4R*](https://CRAN.R-project.org/package=zen4R) *R* packages which
 may require additional software to be installed. If you encounter
 problems installing these dependencies, please consult their
 installation instructions.
@@ -165,6 +166,11 @@ need to re-downloaded again during subsequent runs.
 # specify cache directory
 cache_dir <- user_data_dir("aoh")
 
+# create cache_dir if needed
+if (!file.exists(cache_dir)) {
+  dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
+}
+
 # specify folder to save Area of Habitat data
 ## although we use a temporary directory here to avoid polluting your
 ## with examples files, you would normally specify the folder
@@ -232,10 +238,10 @@ print(spp_aoh_data[, c("id_no", "seasonal", "path")])
     ## # A tibble: 4 × 4
     ##   id_no seasonal path                                                   geometry
     ##   <dbl>    <int> <chr>                                             <POLYGON [m]>
-    ## 1  4657        1 /tmp/Rtmpl460J2/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-    ## 2 58622        1 /tmp/Rtmpl460J2/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-    ## 3 59448        1 /tmp/Rtmpl460J2/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-    ## 4   979        1 /tmp/Rtmpl460J2/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
+    ## 1  4657        1 /tmp/Rtmpb3hNyg/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+    ## 2 58622        1 /tmp/Rtmpb3hNyg/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+    ## 3 59448        1 /tmp/Rtmpb3hNyg/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+    ## 4   979        1 /tmp/Rtmpb3hNyg/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
 
 After generating the Area of Habitat data, we can import them.
 

@@ -32,7 +32,7 @@ Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable
 
 #### Package installation
 
-The [latest developmental version of the _aoh R_ package](https://github.com/prioritizr/aoh) can be installed using the following _R_ code. Please note that it requires the [_sf_](https://CRAN.R-project.org/package=sf) and [_terra_](https://CRAN.R-project.org/package=terra) _R_ packages which may require additional software to be installed. If you encounter problems installing these dependencies, please consult their installation instructions.
+The [latest developmental version of the _aoh R_ package](https://github.com/prioritizr/aoh) can be installed using the following _R_ code. Please note that it requires the [_sf_](https://CRAN.R-project.org/package=sf), [_terra_](https://CRAN.R-project.org/package=terra), and [_zen4R_](https://CRAN.R-project.org/package=zen4R) _R_ packages which may require additional software to be installed. If you encounter problems installing these dependencies, please consult their installation instructions.
 
 ```{r, eval = FALSE}
 if (!require(remotes)) install.packages("remotes")
@@ -86,6 +86,11 @@ Next, we will generate Area of Habitat data for the species. To achieve this, th
 ```{r, message = FALSE}
 # specify cache directory
 cache_dir <- user_data_dir("aoh")
+
+# create cache_dir if needed
+if (!file.exists(cache_dir)) {
+  dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
+}
 
 # specify folder to save Area of Habitat data
 ## although we use a temporary directory here to avoid polluting your
