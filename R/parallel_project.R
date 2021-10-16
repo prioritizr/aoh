@@ -141,6 +141,10 @@ parallel_project <- function(x,
       crop_ext_list <- NULL
     }
     ## create cluster
+    print("")
+    print("here1")
+    print("")
+
     if (identical(parallel_cluster, "FORK")) {
       cl <- parallel::makeCluster(parallel_n_threads, "FORK")
     } else {
@@ -158,8 +162,18 @@ parallel_project <- function(x,
     ## setup workers
     on.exit(parallel::stopCluster(cl), add = TRUE)
     ## set up future plan
+
+    print("")
+    print("here2")
+    print("")
+
     old_plan <- future::plan("cluster", workers = cl)
     on.exit(future::plan(old_plan), add = TRUE)
+
+    print("")
+    print("here3")
+    print("")
+
   } else {
     x_import <- x
     y_import <- y
