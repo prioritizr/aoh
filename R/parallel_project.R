@@ -170,11 +170,7 @@ parallel_project <- function(x,
     X = seq_len(terra::nlyr(x)),
     future.envir = baseenv(),
     future.seed = FALSE,
-    future.globals = c(
-      "x_import", "y_import",
-      "pb", "wopt", "method", "paths",
-      "crop_ext_list", "parallel_n_threads"
-    ),
+    future.globals = FALSE,
     FUN = function(i) {
       ## initialization (alas clusterEvalQ not compatible with terra)
       if (isTRUE(parallel_n_threads > 1)) {
