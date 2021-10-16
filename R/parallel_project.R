@@ -141,10 +141,6 @@ parallel_project <- function(x,
       crop_ext_list <- NULL
     }
     ## create cluster
-    print("")
-    print("here1")
-    print("")
-
     if (identical(parallel_cluster, "FORK")) {
       cl <- parallel::makeCluster(parallel_n_threads, "FORK")
     } else {
@@ -162,44 +158,17 @@ parallel_project <- function(x,
     ## setup workers
     on.exit(parallel::stopCluster(cl), add = TRUE)
     ## set up future plan
-
-    print("")
-    print("here2")
-    print("")
-
     old_plan <- future::plan("cluster", workers = cl)
     on.exit(future::plan(old_plan), add = TRUE)
-
-    print("")
-    print("here3")
-    print("")
-
   } else {
     x_import <- x
     y_import <- y
   }
 
-  print("x_import")
-  print(x_import)
-  print("y_import")
-  print(y_import)
-  print("pb")
-  print(pb)
-  print("wopt")
-  print(wopt)
-  print("method")
-  print(method)
-  print("paths")
-  print(paths)
-  print("crop_ext_list")
-  print(crop_ext_list)
-  print("parallel_n_threads")
-  print(parallel_n_threads)
-
-
   # process data
   x <- furrr::future_map(
     .x = seq_len(terra::nlyr(x)),
+    .env_globals = baseenv(),
     .options = furrr::furrr_options(
       seed = TRUE,
       globals = c(
