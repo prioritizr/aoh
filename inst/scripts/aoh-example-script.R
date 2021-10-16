@@ -3,7 +3,7 @@
 
 # Initialization
 ## set options
-options(future.globals.onReference = "warning")
+options(future.globals.onReference = "error")
 
 ## load packages
 library(aoh)
@@ -45,7 +45,7 @@ if (!file.exists(output_dir)) {
 
 # Main processing
 ## import data
-spp_data <- read_spp_range_data(file.path(input_dir, input_file))
+spp_data <- read_spp_range_data(file.path(input_dir, input_file))[1:100, ]
 
 ## create data
 result_data <- create_spp_aoh_data(
