@@ -166,8 +166,9 @@ parallel_project <- function(x,
   }
 
   # process data
+  idx <- seq_len(terra::nlyr(x))
   x <- future.apply::future_lapply(
-    X = seq_len(terra::nlyr(x)),
+    X = idx,
     future.envir = baseenv(),
     future.seed = FALSE,
     future.globals = FALSE,
