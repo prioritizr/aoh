@@ -168,6 +168,7 @@ parallel_project <- function(x,
   # process data
   x <- future.apply::future_lapply(
     X = seq_len(terra::nlyr(x)),
+    future.envir = baseenv(),
     future.seed = FALSE,
     future.globals = c(
       "x_import", "y_import",
