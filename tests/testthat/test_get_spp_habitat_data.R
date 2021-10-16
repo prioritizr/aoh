@@ -4,6 +4,7 @@ test_that("single taxon identifier", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_iucn_key_missing()
   # set parameters
   id_no <- c(18)
   # create objects
@@ -26,6 +27,7 @@ test_that("multiple taxon identifiers", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_iucn_key_missing()
   # set parameters
   id_no <- c(18, 137, 138, 139)
   # create objects
@@ -48,6 +50,7 @@ test_that("some taxon missing habitat information", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_iucn_key_missing()
   # set parameters
   id_no <- c(-100, 41129, 135913, 135758)
   # create objects

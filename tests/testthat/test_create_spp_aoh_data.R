@@ -248,6 +248,8 @@ test_that("FORK parallel processing", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
@@ -276,6 +278,8 @@ test_that("amphibian data", {
   # skip if needed
   skip_on_cran()
   skip_on_local()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
   # specify parameters for processing
   f <- file.path(
@@ -301,6 +305,8 @@ test_that("reptile data", {
   # skip if needed
   skip_on_cran()
   skip_on_local()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
   # specify parameters for processing
   f <- file.path(
@@ -325,6 +331,8 @@ test_that("terrestrial mammal data", {
   # skip if needed
   skip_on_cran()
   skip_on_local()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
   # specify parameters for processing
   f <- file.path(

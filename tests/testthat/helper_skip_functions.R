@@ -8,6 +8,13 @@ skip_on_local <- function(x) {
   testthat::skip_if(!identical(Sys.getenv("CI"), "true"), "On local")
 }
 
+skip_if_iucn_key_missing <- function() {
+  testthat::skip_if(
+    nchar(Sys.getenv("IUCN_REDLIST_KEY")) == 0,
+    "IUCN Red List API key not found"
+  )
+}
+
 skip_if_local_and_slow_internet <- function(x) {
   testthat::skip_if_not_installed("pingr")
   x <- (mean(pingr::ping("www.google.com", count = 10)) > 10) &&
