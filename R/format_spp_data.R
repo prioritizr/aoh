@@ -156,6 +156,9 @@ format_spp_data <- function(x,
   if (verbose) {
     cli::cli_process_start("extracting species habitat data")
   }
+  ## remove rows for taxa missing habitat information
+  idx <- !is.na(spp_habitat_data$code)
+  spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## remove rows for taxa not present in x
   idx <- spp_habitat_data$id_no %in% x$id_no
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
@@ -185,6 +188,7 @@ format_spp_data <- function(x,
       }
     )
   )
+
   ## combine habitat codes into a single column using "|" delimiters
   spp_habitat_data <- dplyr::group_by(
     spp_habitat_data, .data$id_no, .data$seasonal
@@ -194,6 +198,7 @@ format_spp_data <- function(x,
     habitat_code = list(.data$habitat_code)
   )
   spp_habitat_data <- dplyr::ungroup(spp_habitat_data)
+
   ## add habitat codes to x
   nms <- c("id_no", "seasonal", "habitat_code")
   x <- dplyr::left_join(
@@ -201,6 +206,13 @@ format_spp_data <- function(x,
     y = spp_habitat_data[, nms, drop = FALSE],
     by = c("id_no", "seasonal")
   )
+
+  ## replace NULLs with empty character vectors
+  x$habitat_code <- lapply(x$habitat_code, function(x) {
+    if (is.character(x)) return(x)
+    character(0)
+  })
+
   ## update message
   if (verbose) {
     cli::cli_process_done()

@@ -57,6 +57,8 @@ test_that("global elevation and habitat data", {
   skip_if_not_installed("smoothr")
   skip_if_not_installed("RandomFields")
   # set parameters
+  set.seed(500)
+  RandomFields::RFoptions(seed = 500)
   n <- 5
   hv <- "10.5281/zenodo.3816946"
   cd <- rappdirs::user_data_dir("aoh")

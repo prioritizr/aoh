@@ -56,6 +56,84 @@ test_that("simulated data", {
   expect_equal(sum(is.na(x$path)), 0)
 })
 
+test_that("some species missing habitat data", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # load data
+  d <- read_spp_range_data(f)
+  # create copy of spp_habitat_data with missing habitat data for one species
+  spp_id <- unique(spp_habitat_data$id_no)[2]
+  spp_habitat_data_alt <- dplyr::bind_rows(
+    dplyr::filter(spp_habitat_data, !id_no %in% spp_id),
+    dplyr::mutate(
+      head(dplyr::filter(spp_habitat_data, id_no %in% spp_id), 1),
+      code = NA_integer_
+    )
+  )
+  # create output dirs
+  output_dir1 <- tempfile()
+  output_dir2 <- tempfile()
+  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
+  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
+  # create objects
+  x1 <- create_spp_aoh_data(
+    x = d,
+    output_dir = output_dir1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    force = TRUE,
+    verbose = FALSE
+  )
+  x2 <- create_spp_aoh_data(
+    x = d,
+    output_dir = output_dir2,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data_alt,
+    spp_summary_data = spp_summary_data,
+    force = TRUE,
+    verbose = FALSE
+  )
+  # tests
+  expect_equal(
+    dplyr::select(x1[x1$id_no != spp_id, ], -path),
+    dplyr::select(x2[x2$id_no != spp_id, ], -path)
+  )
+  expect_equal(
+    lapply(
+      x1$path[x1$id_no != spp_id],
+      function(x) terra::values(terra::rast(x))
+    ),
+    lapply(
+      x2$path[x2$id_no != spp_id],
+      function(x) terra::values(terra::rast(x))
+    )
+  )
+  expect_equal(x2$habitat_code[x2$id_no == spp_id], "")
+  expect_equal(x2$path[x2$id_no == spp_id], NA_character_)
+  # clean up
+  unlink(output_dir1, recursive = TRUE)
+  unlink(output_dir2, recursive = TRUE)
+})
+
 test_that("PSOCK parallel processing", {
   # skip if needed
   skip_on_cran()

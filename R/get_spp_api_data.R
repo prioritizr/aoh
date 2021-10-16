@@ -137,6 +137,7 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
       iucn_rl_data[, c("id_no", names(data_template)), drop = FALSE]
     }
   }
+
   # update cache if needed
   if (any(!x %in% iucn_rl_data$id_no)) {
     ## specify ids that need downloaded
@@ -152,7 +153,7 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
             # wait as need
             Sys.sleep(delay)
             # attempt to download data
-            out <- api_function(id = x, key = key)$result
+            out <- try(api_function(id = x, key = key)$result)
             # update progress bar
             pb()
             # return result
@@ -160,15 +161,23 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
         })
       }
     )
+
     ## determine which api calls were successful
-    api_success <- vapply(api_results, inherits, logical(1), "data.frame")
+    api_success <- !vapply(api_results, inherits, logical(1), "try-error")
     ## append data to cache
     if (any(api_success)) {
       iucn_rl_data <- dplyr::bind_rows(
         iucn_rl_data,
         purrr::map_dfr(which(api_success), function(i) {
-          # format data
-          d <- tibble::as_tibble(api_results[[i]])
+          # extract data
+          d <- api_results[[i]]
+          # standardize data as tibble
+          if (inherits(d, "data.frame")) {
+            d <- tibble::as_tibble(d)
+          } else {
+            d <- tibble::tibble(id_no = api_ids[[i]])
+          }
+          # format columns
           for (j in setdiff(names(data_template), "id_no")) {
             if (j %in% names(d)) {
               d[[j]] <- methods::as(d[[j]], class(data_template[[j]]))

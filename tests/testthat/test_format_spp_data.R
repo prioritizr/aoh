@@ -43,7 +43,7 @@ test_that("correct format", {
   expect_true(assertthat::noNA(x$elevation_upper))
 })
 
-test_that("correct handling of NAs in in spp_habitat_data", {
+test_that("correct handling of NA season values in spp_habitat_data", {
   # skip if needed
   skip_on_cran()
   # specify file path
@@ -82,4 +82,55 @@ test_that("correct handling of NAs in in spp_habitat_data", {
   expect_is(x2, "sf")
   expect_equal(x1, x2)
   expect_equal(x1$habitat_code, list(as.character(d3$code)))
+})
+
+
+test_that("correct handling of NA code values in spp_habitat_data", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
+  f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
+  # load data
+  d1 <- read_spp_range_data(f1)
+  d2 <- utils::read.table(
+    f2, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
+  d3 <- utils::read.table(
+    f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
+  # prepare data by replacing NA to code column for one species
+  spp_id <- unique(d3$id_no)[2]
+  d3_alt <- dplyr::bind_rows(
+    dplyr::filter(d3, !id_no %in% spp_id),
+    dplyr::mutate(
+      head(dplyr::filter(d3, id_no %in% spp_id), 1),
+      code = NA_integer_
+    )
+  )
+  # create objects
+  x1 <- format_spp_data(
+    x = d1,
+    spp_summary_data = d2,
+    spp_habitat_data = d3,
+    verbose = FALSE
+  )
+  x2 <- format_spp_data(
+    x = d1,
+    spp_summary_data = d2,
+    spp_habitat_data = d3_alt,
+    verbose = FALSE
+  )
+  # tests
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
+  expect_equal(
+    x1[!x1$id_no %in% spp_id, , drop = FALSE],
+    x2[!x2$id_no %in% spp_id, , drop = FALSE]
+  )
+  expect_identical(
+    x2$habitat_code[x2$id_no %in% spp_id],
+    list(character(0))
+  )
 })

@@ -64,14 +64,37 @@ test_that("multiple taxon identifiers", {
   expect_identical(x1, x2)
 })
 
-test_that("invalid taxon identifier", {
+test_that("some taxon missing summary data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   # set parameters
   id_no <- c(18, -100)
+  # create objects
+  x1 <- get_spp_summary_data(id_no[1], force = TRUE, verbose = FALSE)
+  x2 <- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
   # tests
-  expect_error(
-    get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
+  ## x1
+  expect_is(x1, "data.frame")
+  expect_true(all(id_no[1] %in% x1$id_no))
+  expect_equal(nrow(x1), 1)
+  expect_named(
+    x1,
+    c(
+      "id_no", "taxonid", "scientific_name", "kingdom", "phylum", "class",
+       "order", "family", "genus", "main_common_name", "authority",
+       "published_year", "assessment_date", "category", "criteria",
+       "population_trend", "marine_system", "freshwater_system",
+       "terrestrial_system",
+       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
+       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
+       "errata_reason", "amended_flag", "amended_reason"
+     )
   )
+  ## x2
+  expect_is(x2, "data.frame")
+  expect_true(all(id_no == x2$id_no))
+  expect_equal(nrow(x2), 2)
+  expect_equal(x1, x2[1, ])
+  expect_true(all(vapply(x2[2, -1], FUN.VALUE = logical(1), is.na)))
 })
