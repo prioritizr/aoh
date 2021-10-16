@@ -165,6 +165,24 @@ parallel_project <- function(x,
     y_import <- y
   }
 
+  print("x_import")
+  print(x_import)
+  print("y_import")
+  print(y_import)
+  print("pb")
+  print(pb)
+  print("wopt")
+  print(wopt)
+  print("method")
+  print(method)
+  print("paths")
+  print(paths)
+  print("crop_ext_list")
+  print(crop_ext_list)
+  print("parallel_n_threads")
+  print(parallel_n_threads)
+
+
   # process data
   x <- furrr::future_map(
     .x = seq_len(terra::nlyr(x)),
