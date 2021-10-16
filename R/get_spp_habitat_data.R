@@ -103,6 +103,7 @@ get_spp_habitat_data <- function(x, dir = tempdir(), version = "latest",
     key = key,
     delay = delay,
     force = force,
+    progress_name = "querying",
     verbose = verbose
   )
 }

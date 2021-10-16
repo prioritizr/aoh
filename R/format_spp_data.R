@@ -48,17 +48,13 @@ format_spp_data <- function(x,
   if (is.null(spp_summary_data)) {
     #### display message
     if (verbose) {
-      cli::cli_process_start("importing species summary data")
+      cli::cli_alert_info("importing species summary data")
     }
     #### processing
     spp_summary_data <- get_spp_summary_data(
       x$id_no, dir = cache_dir, version = iucn_version, key = key,
       force = force, verbose = verbose
     )
-    #### update message
-    if (verbose) {
-      cli::cli_process_done()
-    }
   }
   ### validate data
   assertthat::assert_that(
@@ -72,17 +68,13 @@ format_spp_data <- function(x,
   if (is.null(spp_habitat_data)) {
     #### display message
     if (verbose) {
-      cli::cli_process_start("importing species habitat data")
+      cli::cli_alert_info("importing species habitat data")
     }
     #### processing
     spp_habitat_data <- get_spp_habitat_data(
       unique(x$id_no), dir = cache_dir, version = iucn_version, key = key,
       force = force, verbose = verbose
     )
-    #### update message
-    if (verbose) {
-      cli::cli_process_done()
-    }
   }
   ### validate data
   assertthat::assert_that(
@@ -107,7 +99,7 @@ format_spp_data <- function(x,
   # clean species range data
   ## display message
   if (verbose) {
-    cli::cli_process_start("cleaning species range data")
+    cli::cli_progress_step("cleaning species range data")
   }
   ## processing
   x <- clean_spp_range_data(x = x, crs = terra_st_crs(template_data))
@@ -134,7 +126,7 @@ format_spp_data <- function(x,
   # add elevation columns
   ## display message
   if (verbose) {
-    cli::cli_process_start("extracting species elevation data")
+    cli::cli_progress_step("extracting species elevation data")
   }
   ## convert NA values to -Inf and Inf for lower and upper thresholds
   idx <- is.na(spp_summary_data$elevation_lower)
@@ -146,15 +138,11 @@ format_spp_data <- function(x,
   spp_summary_data <- spp_summary_data[, nms, drop = FALSE]
   ## append columns
   x <- dplyr::left_join(x, spp_summary_data, by = "id_no")
-  ## update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   # add habitat affiliation columns
   ## display message
   if (verbose) {
-    cli::cli_process_start("extracting species habitat data")
+    cli::cli_progress_step("extracting species habitat data")
   }
   ## remove rows for taxa missing habitat information
   idx <- !is.na(spp_habitat_data$code)
@@ -213,15 +201,10 @@ format_spp_data <- function(x,
     character(0)
   })
 
-  ## update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
-
   # add spatial extent columns
   ## display message
   if (verbose) {
-    cli::cli_process_start("extracting spatial extent metadata")
+    cli::cli_progress_step("extracting spatial extent metadata")
   }
   ## create empty version of data template
   empty_template <- terra::rast(
@@ -261,10 +244,6 @@ format_spp_data <- function(x,
       )
     })
   )
-  ## update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   # return result
   x

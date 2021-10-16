@@ -281,7 +281,7 @@ create_spp_aoh_data <- function(x,
   # initialization
   ## display message
   if (verbose) {
-    cli::cli_process_start("initializing")
+    cli::cli_progress_step("initializing")
   }
   ## customize terra options
   tmp_rast_dir <- tempfile()
@@ -319,25 +319,18 @@ create_spp_aoh_data <- function(x,
       "\"FORK\", or \"PSOCK\""
     )
   )
-  ## update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   ## elevation data
   if (is.null(elevation_data)) {
     ### display message
     if (verbose) {
-      cli::cli_process_start("importing global elevation data")
+      cli::cli_progress_done()
+      cli::cli_alert_info("importing global elevation data")
     }
     ### processing
     elevation_data <- get_global_elevation_data(
       dir = cache_dir, force = force, verbose = verbose
     )
-    ## update message
-    if (verbose) {
-      cli::cli_process_done()
-    }
   }
   assertthat::assert_that(
     inherits(elevation_data, "SpatRaster"),
@@ -348,17 +341,13 @@ create_spp_aoh_data <- function(x,
   if (is.null(habitat_data)) {
     ### display message
     if (verbose) {
-      cli::cli_process_start("importing global habitat data")
+      cli::cli_alert_info("importing global habitat data")
     }
     ### processing
     habitat_data <- get_global_habitat_data(
       dir = cache_dir, version = habitat_version, force = force,
       verbose = verbose
     )
-    ## update message
-    if (verbose) {
-      cli::cli_process_done()
-    }
   }
   assertthat::assert_that(
     inherits(habitat_data, "SpatRaster"),
@@ -401,6 +390,9 @@ create_spp_aoh_data <- function(x,
   }
   ## clean up
   rm(rng_cells)
+  if (verbose) {
+    cli::cli_progress_done()
+  }
 
   # format species data
   ## main processing
@@ -470,19 +462,15 @@ create_spp_aoh_data <- function(x,
   ## remove unused habitat layers
   ### display message
   if (verbose) {
-    cli::cli_process_start("removing unused habitat layers")
+    cli::cli_progress_step("removing unused habitat layers")
   }
   ### processing
   habitat_data <- habitat_data[[habitat_codes]]
-  ## update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   ## crop template data if full extent not needed
   ### display message
   if (verbose) {
-    cli::cli_process_start("cropping template to species range data")
+    cli::cli_progress_step("cropping template to species range data")
   }
   ### processing
   template_data <- terra::crop(
@@ -498,14 +486,11 @@ create_spp_aoh_data <- function(x,
     snap = "out",
     NAflag = -9999,
   )
-  ### update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   # prepare habitat data
   ## display message
   if (verbose) {
+    cli::cli_progress_done()
     cli::cli_alert("preparing habitat data")
   }
   ## processing
@@ -548,15 +533,11 @@ create_spp_aoh_data <- function(x,
   )
   #### assign names
   names(habitat_data) <- habitat_codes
-  ### update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   # prepare elevation data
   ## display message
   if (verbose) {
-    cli::cli_process_start("preparing elevation data")
+    cli::cli_progress_step("preparing elevation data")
   }
   ## processing
   ### convert NA values to zeros
@@ -584,15 +565,11 @@ create_spp_aoh_data <- function(x,
       "fully contain species range data in the argument to \"x"
     )
   )
-  ### update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   # manual raster clean up
   ## display message
   if (verbose) {
-    cli::cli_process_start("writing intermediate files to disk")
+    cli::cli_progress_step("writing intermediate files to disk")
   }
   ## save habitat data to disk
   habitat_path <- tempfile(fileext = ".tif")
@@ -613,10 +590,6 @@ create_spp_aoh_data <- function(x,
   ## remove old terra files and reset terra options
   unlink(tmp_rast_dir, force = TRUE, recursive = TRUE)
   terra::terraOptions(progress = 0, tempdir = tempdir())
-  ## update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   # main processing
   ## display message
@@ -645,7 +618,7 @@ create_spp_aoh_data <- function(x,
   # prepare table with metadata
   ## display message
   if (verbose) {
-    cli::cli_process_start("post-processing")
+    cli::cli_progress_step("post-processing")
   }
   ## processing
   x <- dplyr::select(
@@ -662,14 +635,11 @@ create_spp_aoh_data <- function(x,
   x$full_habitat_code <- vapply(
     x$full_habitat_code, paste, character(1), collapse = "|"
   )
-  ## update message
-  if (verbose) {
-    cli::cli_process_done()
-  }
 
   # return result
   ## display message
   if (verbose) {
+    cli::cli_progress_done()
     cli::cli_alert_success("finished")
   }
   ## return

@@ -117,16 +117,12 @@ simulate_spp_data <- function(n,
   if (is.null(elevation_data)) {
     ### display message
     if (verbose) {
-      cli::cli_process_start("importing global elevation data")
+      cli::cli_progress_step("importing global elevation data")
     }
     ### processing
     elevation_data <- get_global_elevation_data(
       dir = cache_dir, force = force, verbose = verbose
     )
-    ## update message
-    if (verbose) {
-      cli::cli_process_done()
-    }
   }
   assertthat::assert_that(
     inherits(elevation_data, "SpatRaster"),
@@ -137,17 +133,13 @@ simulate_spp_data <- function(n,
   if (is.null(habitat_data)) {
     ### display message
     if (verbose) {
-      cli::cli_process_start("importing global habitat data")
+      cli::cli_progress_step("importing global habitat data")
     }
     ### processing
     habitat_data <- get_global_habitat_data(
       dir = cache_dir, version = habitat_version, force = force,
       verbose = verbose
     )
-    ## update message
-    if (verbose) {
-      cli::cli_process_done()
-    }
   }
   assertthat::assert_that(
     inherits(habitat_data, "SpatRaster"),

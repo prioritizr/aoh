@@ -23,6 +23,10 @@ NULL
 #'   classes (e.g. `numeric`, `character`, `logical`) for each column
 #'   expected from calling the argument to `api_function` (see Examples below).
 #'
+#' @param progress_name `character` Name for progress bar when downloading
+#'   data from IUCN Red List API.
+#'   Defaults to "`querying"`.
+#'
 #' @inherit get_spp_habitat_data references return
 #'
 #' @inheritSection aoh Accessing the IUCN Red List API
@@ -60,6 +64,7 @@ NULL
 get_spp_api_data <- function(x, api_function, data_prefix, data_template,
                              dir = tempdir(), version = "latest",
                              key = NULL, delay = 2, force = FALSE,
+                             progress_name = "querying",
                              verbose = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
@@ -143,25 +148,26 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     ## specify ids that need downloaded
     api_ids <- x[!x %in% iucn_rl_data$id_no]
     ## download data
-    pb <- progressr::progressor(along = api_ids)
-    progressr::with_progress(
-      enable = verbose,
-      expr = {
-        api_results <- purrr::map(
-          .x = api_ids,
-          .f = function(x) {
-            # wait as need
-            Sys.sleep(delay)
-            # attempt to download data
-            out <- try(api_function(id = x, key = key)$result)
-            # update progress bar
-            pb()
-            # return result
-            out
-        })
+    if (verbose) {
+      cli::cli_progress_bar(
+         progress_name,
+         total = length(api_ids)
+      )
+    }
+    api_results <- list()
+    {for (i in seq_along(api_ids)) {
+      # wait as need
+      Sys.sleep(delay)
+      # attempt to download data
+      api_results[[i]] <- try(api_function(id = api_ids[i], key = key)$result)
+      # update progress bar
+      if (verbose) {
+        cli::cli_progress_update()
       }
-    )
-
+    }}
+    if (verbose) {
+      cli::cli_progress_done()
+    }
     ## determine which api calls were successful
     api_success <- !vapply(api_results, inherits, logical(1), "try-error")
     ## append data to cache
