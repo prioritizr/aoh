@@ -166,18 +166,14 @@ parallel_project <- function(x,
   }
 
   # process data
-  x <- furrr::future_map(
-    .x = seq_len(terra::nlyr(x)),
-    .env_globals = baseenv(),
-    .options = furrr::furrr_options(
-      seed = TRUE,
-      globals = c(
-        "x_import", "y_import",
-        "pb", "wopt", "method", "paths",
-        "crop_ext_list", "parallel_n_threads"
-      )
+  x <- future.apply::future_lapply(
+    X = seq_len(terra::nlyr(x)),
+    future.globals = c(
+      "x_import", "y_import",
+      "pb", "wopt", "method", "paths",
+      "crop_ext_list", "parallel_n_threads"
     ),
-    .f = function(i) {
+    FUN = function(i) {
       ## initialization (alas clusterEvalQ not compatible with terra)
       if (isTRUE(parallel_n_threads > 1)) {
         ## if parallel processing
