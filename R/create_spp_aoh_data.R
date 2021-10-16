@@ -411,7 +411,7 @@ create_spp_aoh_data <- function(x,
 
   ## additional data validation
   ### check that habitat_data has all codes in spp_habitat_data
-  habitat_codes <- unique(unlist(x$habitat_code, use.names = FALSE))
+  habitat_codes <- sort(unique(unlist(x$habitat_code, use.names = FALSE)))
   missing_codes <- !habitat_codes %in% names(habitat_data)
   if (any(missing_codes)) {
     cli::cli_alert_warning(

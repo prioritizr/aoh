@@ -124,16 +124,16 @@ parallel_project <- function(x,
   if (isTRUE(parallel_n_threads > 1)) {
     ## prepare data
     if (all(terra::inMemory(x))) {
-      x_path <- tempfile(tmpdir = temp_dir, fileext = ".tif")
-      terra::writeRaster(x = x, filename = x_path, wopt = wopt)
+      x_import <- tempfile(tmpdir = temp_dir, fileext = ".tif")
+      terra::writeRaster(x = x, filename = x_import, wopt = wopt)
     } else {
-      x_path <- terra::sources(x)$source
+      x_import <- terra::sources(x)$source
     }
     if (all(terra::inMemory(y))) {
-      y_path <- tempfile(tmpdir = temp_dir, fileext = ".tif")
-      terra::writeRaster(x = y, filename = y_path, wopt = wopt)
+      y_import <- tempfile(tmpdir = temp_dir, fileext = ".tif")
+      terra::writeRaster(x = y, filename = y_import, wopt = wopt)
     } else {
-      y_path <- terra::sources(y)$source
+      y_import <- terra::sources(y)$source
     }
     if (!inherits(crop_ext, "try-error")) {
       crop_ext_list <- unlist(as.list(crop_ext))
@@ -149,7 +149,8 @@ parallel_project <- function(x,
         cl = cl,
         envir = environment(),
         varlist = c(
-          "x_path", "y_path", "pb", "wopt", "method", "paths",
+          "x_import", "y_import",
+          "pb", "wopt", "method", "paths",
           "crop_ext_list", "parallel_n_threads"
         )
       )
@@ -159,34 +160,32 @@ parallel_project <- function(x,
     ## set up future plan
     old_plan <- future::plan("cluster", workers = cl)
     on.exit(future::plan(old_plan), add = TRUE)
+  } else {
+    x_import <- x
+    y_import <- y
   }
 
   # process data
   x <- furrr::future_map(
     .x = seq_len(terra::nlyr(x)),
-    .options = furrr::furrr_options(seed = TRUE),
+    .options = furrr::furrr_options(
+      seed = TRUE,
+      globals = c(
+        "x_import", "y_import",
+        "pb", "wopt", "method", "paths",
+        "crop_ext_list", "parallel_n_threads"
+      )
+    ),
     .f = function(i) {
       ## initialization (alas clusterEvalQ not compatible with terra)
-      if (!all(exists("x2"), exists("y2"), exists("crop_ext2"))) {
-        if (isTRUE(parallel_n_threads > 1)) {
-          ## if parallel processing
-          x2 <- terra::rast(x_path)
-          y2 <- terra::rast(y_path)
-          if (!is.null(crop_ext_list)) {
-            crop_ext2 <- terra::ext(crop_ext_list)
-          } else {
-            crop_ext2 <- NULL
-          }
-        } else {
-          ## if local processing
-          x2 <- x
-          y2 <- y
-          if (!is.null(crop_ext_list)) {
-            crop_ext2 <- crop_ext
-          } else {
-            crop_ext2 <- NULL
-          }
-        }
+      if (isTRUE(parallel_n_threads > 1)) {
+        ## if parallel processing
+        x2 <- terra::rast(x_import)
+        y2 <- terra::rast(y_import)
+      } else {
+        ## if local processing
+        x2 <- x_import
+        y2 <- y_import
       }
 
       ## extract layer
@@ -194,6 +193,7 @@ parallel_project <- function(x,
 
       # crop layer
       if (!is.null(crop_ext_list)) {
+        crop_ext2 <- terra::ext(crop_ext_list)
         xi <- do.call(terra::crop, append(list(x = xi, y = crop_ext2), wopt))
       }
 

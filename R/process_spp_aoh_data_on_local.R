@@ -110,25 +110,25 @@ process_spp_aoh_data_on_local <- function(x,
     ## prepare data
     ### elevation_data
     if (all(terra::inMemory(elevation_data))) {
-      elevation_path <- tempfile(fileext = ".tif")
+      elevation_import <- tempfile(fileext = ".tif")
       terra::writeRaster(
-        x = elevation_data, filename = elevation_path, wopt = wopt
+        x = elevation_data, filename = elevation_import, wopt = wopt
       )
     } else {
-      elevation_path <- terra::sources(elevation_data)$source
+      elevation_import <- terra::sources(elevation_data)$source
     }
     ### habitat_data
     if (all(terra::inMemory(habitat_data))) {
-      habitat_path <- tempfile(fileext = ".tif")
+      habitat_import <- tempfile(fileext = ".tif")
       terra::writeRaster(
-        x = habitat_data, filename = habitat_path, wopt = wopt
+        x = habitat_data, filename = habitat_import, wopt = wopt
       )
     } else {
-      habitat_path <- terra::sources(habitat_data)$source
+      habitat_import <- terra::sources(habitat_data)$source
     }
     ### x
-    x_path <- tempfile(fileext = ".rda")
-    saveRDS(x, x_path, compress = "xz")
+    x_import <- tempfile(fileext = ".rda")
+    saveRDS(x, x_import, compress = "xz")
 
     ## create cluster
     if (identical(parallel_cluster, "FORK")) {
@@ -139,41 +139,45 @@ process_spp_aoh_data_on_local <- function(x,
         cl = cl,
         envir = environment(),
         varlist = c(
-          "x_path", "habitat_path", "elevation_path", "pb", "wopt",
-          "parallel_n_threads"
+          "x_import", "habitat_import", "elevation_import",
+          "pb", "wopt", "parallel_n_threads"
         )
       )
     }
     ## set up workers
-    on.exit(parallel::stopCluster(cl), add = TRUE)
+    on.exit(try(parallel::stopCluster(cl), silent = TRUE), add = TRUE)
 
     ## set up future plan
     old_plan <- future::plan("cluster", workers = cl)
     on.exit(future::plan(old_plan), add = TRUE)
+  } else {
+    x_import <- x
+    habitat_import <- habitat_data
+    elevation_import <- elevation_data
   }
 
   # main processing
   result <- furrr::future_map_lgl(
     .x = idx,
-    .options = furrr::furrr_options(seed = TRUE),
+    .options = furrr::furrr_options(
+      seed = TRUE,
+      globals = c(
+        "x_import", "habitat_import", "elevation_import",
+        "pb", "wopt", "parallel_n_threads"
+      )
+    ),
     .f = function(i) {
       ## initialization
-      if (!all(
-        exists("habitat_data2"),
-        exists("elevation_data2"),
-        exists("x2"))
-      ) {
-        if (isTRUE(parallel_n_threads > 1)) {
-          ## if parallel processing
-          x2 <- readRDS(x_path)
-          habitat_data2 <- terra::rast(habitat_path)
-          elevation_data2 <- terra::rast(elevation_path)
-        } else {
-          ## if local processing
-          x2 <- x
-          habitat_data2 <- habitat_data
-          elevation_data2 <- elevation_data
-        }
+      if (isTRUE(parallel_n_threads > 1)) {
+        ## if parallel processing
+        x2 <- readRDS(x_import)
+        habitat_data2 <- terra::rast(habitat_import)
+        elevation_data2 <- terra::rast(elevation_import)
+      } else {
+        ## if local processing
+        x2 <- x_import
+        habitat_data2 <- habitat_import
+        elevation_data2 <- elevation_import
       }
 
       ## extract data for current iteration
@@ -260,6 +264,11 @@ process_spp_aoh_data_on_local <- function(x,
       ## return success
       TRUE
   })
+
+  # stop cluster
+  if (parallel_n_threads > 1) {
+    parallel::stopCluster(cl)
+  }
 
   # return result
   result
