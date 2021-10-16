@@ -56,7 +56,7 @@ build:
 	R --slave -e "devtools::build()"
 
 install:
-	R --slave -e "devtools::remotes('.')"
+	R --slave -e "remotes::install_local('.')"
 
 spellcheck:
 	echo "\n===== SPELL CHECK =====\n" > spell.log 2>&1
