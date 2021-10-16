@@ -208,7 +208,6 @@ simulate_spp_data <- function(n,
     x <- suppressWarnings(sf::st_cast(x, "POLYGON"))
     # extract only valid polygons
     x <- x[sf::st_is_valid(x), , drop = FALSE]
-    print(x)
     if (nrow(x) == 0) {
       stop("failed to simulate data")
     }
