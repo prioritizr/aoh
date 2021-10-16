@@ -168,6 +168,7 @@ parallel_project <- function(x,
   # process data
   x <- future.apply::future_lapply(
     X = seq_len(terra::nlyr(x)),
+    future.seed = FALSE,
     future.globals = c(
       "x_import", "y_import",
       "pb", "wopt", "method", "paths",
@@ -217,12 +218,22 @@ parallel_project <- function(x,
     }
   )
 
+
+  print("")
+  print("here1")
+  print("")
+
   # process result
   if (inherits(x[[1]], "character")) {
     x <- terra::rast(unlist(x, recursive = FALSE, use.names = FALSE))
   } else {
     x <- terra::rast(x)
   }
+
+  print("")
+  print("here2")
+  print("")
+
 
   # return result
   x
