@@ -199,6 +199,7 @@ simulate_spp_data <- function(n,
     # split into separate polygons
     x <- suppressWarnings(sf::st_cast(x, "POLYGON"))
     # extract only valid polygons
+    x <- sf::st_make_valid(x)
     x <- x[sf::st_is_valid(x), , drop = FALSE]
     if (nrow(x) == 0) {
       stop("failed to simulate data")
@@ -349,7 +350,7 @@ simulate_summary_data <- function(x, elevation_data) {
 
   # main processing
   # create habitat data
-  result <- purrr::map_dfr(seq_len(nrow(x_distinct)), function(i) {
+  result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
     ## initialization
     curr_id_no <- x_distinct$id_no[[i]]
 
@@ -441,7 +442,7 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
   }
 
   # create habitat data
-  result <- purrr::map_dfr(seq_len(nrow(x_distinct)), function(i) {
+  result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
     ## initialization
     curr_id_no <- x_distinct$id_no[[i]]
     curr_seasonal <- x_distinct$seasonal[[i]]
