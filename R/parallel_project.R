@@ -115,7 +115,7 @@ parallel_project <- function(x,
   crop_ext_list <- NULL
 
   # prepare for parallel processing if needed
-  paths <- lapply(seq_len(terra::nlyr(x)), function(x) {
+  paths <- lapply(seq_len(terra::nlyr(x)), function(i) {
     tempfile(tmpdir = temp_dir, fileext = ".tif")
   })
   x_names <- names(x)
@@ -166,6 +166,9 @@ parallel_project <- function(x,
     x_import <- x
     y_import <- y
   }
+
+  print("x before [2]")
+  print(paths)
 
   print("x before")
   print(x)
@@ -222,8 +225,8 @@ parallel_project <- function(x,
   print(x)
 
   # process result
-  if (inherits(x[[1]], "character")) {
-    x <- terra::rast(unlist(x, recursive = FALSE, use.names = FALSE))
+  if (isTRUE(parallel_n_threads > 1)) {
+    x <- terra::rast(paths)
   } else {
     x <- terra::rast(x)
   }
