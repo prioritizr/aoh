@@ -486,8 +486,7 @@ create_spp_aoh_data <- function(x,
   # prepare habitat data
   ## display message
   if (verbose) {
-    cli::cli_progress_done()
-    cli::cli_alert("preparing habitat data")
+    cli::cli_progress_step("preparing habitat data")
   }
   ## processing
   ### reproject data to template
