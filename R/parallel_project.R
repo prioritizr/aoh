@@ -122,7 +122,12 @@ parallel_project <- function(x,
       tempfile(tmpdir = temp_dir, fileext = paste0(i, ".tif"))
     }
   )
+  x_itr <- seq_len(terra::nlyr(x))
   x_names <- names(x)
+
+  print("x before")
+  print(x)
+
 
   # prepare data for parallelization
   if (isTRUE(parallel_n_threads > 1)) {
@@ -144,8 +149,9 @@ parallel_project <- function(x,
     } else {
       crop_ext_list <- NULL
     }
+    rm(x, y)
     ## create cluster
-    cl <- parallel::makeCluster(parallel_n_threads, parallel_cluster)
+    cl <- parallel::makeCluster(parallel_n_threads, type = parallel_cluster)
     if (identical(parallel_cluster, "PSOCK")) {
       parallel::clusterExport(
         cl = cl,
@@ -158,7 +164,7 @@ parallel_project <- function(x,
       )
     }
     ## setup workers
-    doParallel::registerDoParallel()
+    doParallel::registerDoParallel(cl)
     on.exit(
       add = TRUE,
       expr = {
@@ -166,38 +172,27 @@ parallel_project <- function(x,
         parallel::stopCluster(cl)
       }
     )
-  } else {
-    x_import <- x
-    y_import <- y
   }
 
-  print("x before [2]")
+  print("paths before")
   print(paths)
-
-  print("x before")
-  print(x)
 
   # process data
   x <- suppressWarnings(plyr::llply(
-    .data = seq_len(terra::nlyr(x)),
+    .data = x_itr,
     .progress = ifelse(
       isTRUE(verbose) && isTRUE(parallel_n_threads == 1), "text", "none"
     ),
     .parallel = isTRUE(parallel_n_threads > 1),
     .fun = function(i) {
-      ## initialization (alas clusterEvalQ not compatible with terra)
+      ## initialization
       if (isTRUE(parallel_n_threads > 1)) {
-        ## if parallel processing
-        x2 <- terra::rast(x_import)
-        y2 <- terra::rast(y_import)
-      } else {
-        ## if local processing
-        x2 <- x_import
-        y2 <- y_import
+        x <- terra::rast(x_import)
+        y <- terra::rast(y_import)
       }
 
       ## extract layer
-      xi <- x2[[i]]
+      xi <- x[[i]]
 
       # crop layer
       if (!is.null(crop_ext_list)) {
@@ -208,7 +203,7 @@ parallel_project <- function(x,
       ## reproject layer
       xi <- do.call(
         terra::project,
-        append(list(x = xi, y = y2, method = method), wopt)
+        append(list(x = xi, y = y, method = method), wopt)
       )
 
       ## if parallel then prepare result for host
