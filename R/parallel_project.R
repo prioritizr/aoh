@@ -118,6 +118,7 @@ parallel_project <- function(x,
   paths <- lapply(seq_len(terra::nlyr(x)), function(x) {
     tempfile(tmpdir = temp_dir, fileext = ".tif")
   })
+  x_names <- names(x)
 
   # prepare data for parallelization
   if (isTRUE(parallel_n_threads > 1)) {
@@ -221,6 +222,7 @@ parallel_project <- function(x,
   } else {
     x <- terra::rast(x)
   }
+  names(x) <- x_names
 
   # return result
   x
