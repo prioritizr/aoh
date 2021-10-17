@@ -407,7 +407,7 @@ create_spp_aoh_data <- function(x,
 
   ## additional data validation
   ### check that habitat_data has all codes in spp_habitat_data
-  habitat_codes <- sort(unique(unlist(x$habitat_code, use.names = FALSE)))
+  habitat_codes <- unique(unlist(x$habitat_code, use.names = FALSE))
   missing_codes <- !habitat_codes %in% names(habitat_data)
   if (any(missing_codes)) {
     cli::cli_alert_warning(
@@ -415,7 +415,10 @@ create_spp_aoh_data <- function(x,
         "argument to \"habitat_data\" is missing layers for the following",
         sum(missing_codes),
         "habitat classification codes:",
-        paste(paste0("\"", habitat_codes[missing_codes], "\""), collapse = ", ")
+        paste(
+          paste0("\"", sort(habitat_codes[missing_codes]), "\""),
+          collapse = ", "
+        )
       )
     )
   }
@@ -521,8 +524,6 @@ create_spp_aoh_data <- function(x,
     values = TRUE,
     datatype = "INT2U"
   )
-  #### assign names
-  names(habitat_data) <- habitat_codes
 
   # prepare elevation data
   ## display message
