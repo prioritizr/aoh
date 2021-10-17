@@ -390,7 +390,58 @@ create_spp_aoh_data <- function(x,
   ## clean up
   rm(rng_cells)
 
+  ## spp_summary_data
+  ### import data
+  if (is.null(spp_summary_data)) {
+    #### display message
+    if (verbose) {
+      cli::cli_progress_step("importing species summary data")
+    }
+    #### processing
+    spp_summary_data <- get_spp_summary_data(
+      x$id_no, dir = cache_dir, version = iucn_version, key = key,
+      force = force, verbose = verbose
+    )
+  }
+
+  ## spp_habitat_data
+  if (is.null(spp_habitat_data)) {
+    #### display message
+    if (verbose) {
+      cli::cli_progress_step("importing species habitat data")
+    }
+    #### processing
+    spp_habitat_data <- get_spp_habitat_data(
+      unique(x$id_no), dir = cache_dir, version = iucn_version, key = key,
+      force = force, verbose = verbose
+    )
+  }
+
+  # clean species range data
+  ## display message
+  if (verbose) {
+    cli::cli_progress_step("cleaning species range data")
+  }
+  ## processing
+  x <- clean_spp_range_data(x = x, crs = terra_st_crs(template_data))
+  ## addition data validation
+  assertthat::assert_that(
+    nrow(x) > 0,
+    msg = "argument to x does not contain any terrestrial species"
+  )
+  assertthat::assert_that(
+    identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
+    msg = paste(
+      "failed to combine multiple geometries for a species'",
+      "seasonal distribution"
+    )
+  )
+
   # format species data
+  ## display message
+  if (verbose) {
+    cli::cli_progress_step("collating species data")
+  }
   ## main processing
   x <- format_spp_data(
     x = x,

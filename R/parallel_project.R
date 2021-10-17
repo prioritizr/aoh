@@ -125,10 +125,6 @@ parallel_project <- function(x,
   x_itr <- seq_len(terra::nlyr(x))
   x_names <- names(x)
 
-  print("x before")
-  print(x)
-
-
   # prepare data for parallelization
   if (isTRUE(parallel_n_threads > 1)) {
     ## prepare data
@@ -186,9 +182,6 @@ parallel_project <- function(x,
     )
   }
 
-  print("paths before")
-  print(paths)
-
   # process data
   x <- suppressWarnings(plyr::llply(
     .data = x_itr,
@@ -232,19 +225,12 @@ parallel_project <- function(x,
     }
   ))
 
-  print("x after")
-  print(x)
-
   # process result
   if (isTRUE(parallel_n_threads > 1)) {
     x <- terra::rast(paths)
   } else {
     x <- terra::rast(x)
   }
-
-  print("x after 2")
-  print(x)
-
   names(x) <- x_names
 
   # return result

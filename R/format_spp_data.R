@@ -9,6 +9,17 @@ NULL
 #' Specifically, it combines data delineating species geographic ranges,
 #' habitat preferences, and altitudinal limits into a single dataset.
 #'
+#' @param x `sf::st_sf()` Spatial object containing species range data.
+#'  Arguments should follow the output format from [clean_spp_range_data()].
+#'
+#' @param spp_summary_data `tibble:tibble()` Table containing species
+#'   summary data.
+#'   Arguments should follow the output format from [get_spp_summary_data()].
+#'
+#' @param spp_habitat_data `tibble:tibble()` Table containing species summary
+#'   data.
+#'   Arguments should follow the output format from [get_spp_habitat_data()].
+#'
 #' @inheritParams create spp_aoh_data
 #' @inheritParams clean_spp_range_data
 #'
@@ -21,9 +32,9 @@ NULL
 #'
 #' @noRd
 format_spp_data <- function(x,
+                            spp_summary_data,
+                            spp_habitat_data,
                             template_data = get_world_berhman_1km_rast(),
-                            spp_summary_data = NULL,
-                            spp_habitat_data = NULL,
                             cache_dir = tempdir(),
                             iucn_version = "latest",
                             key = NULL,
@@ -41,49 +52,26 @@ format_spp_data <- function(x,
     assertthat::has_name(x, "seasonal"),
     ## omit_habitat_codes
     is.character(omit_habitat_codes),
-    assertthat::noNA(omit_habitat_codes)
-  )
-  ## spp_summary_data
-  ### import data
-  if (is.null(spp_summary_data)) {
-    #### display message
-    if (verbose) {
-      cli::cli_alert_info("importing species summary data")
-    }
-    #### processing
-    spp_summary_data <- get_spp_summary_data(
-      x$id_no, dir = cache_dir, version = iucn_version, key = key,
-      force = force, verbose = verbose
-    )
-  }
-  ### validate data
-  assertthat::assert_that(
+    assertthat::noNA(omit_habitat_codes),
+    ## spp_summary_data
     inherits(spp_summary_data, "data.frame"),
     assertthat::has_name(spp_summary_data, "id_no"),
     assertthat::has_name(spp_summary_data, "elevation_upper"),
-    assertthat::has_name(spp_summary_data, "elevation_lower")
-  )
-  ## spp_habitat_data
-  ### import data
-  if (is.null(spp_habitat_data)) {
-    #### display message
-    if (verbose) {
-      cli::cli_alert_info("importing species habitat data")
-    }
-    #### processing
-    spp_habitat_data <- get_spp_habitat_data(
-      unique(x$id_no), dir = cache_dir, version = iucn_version, key = key,
-      force = force, verbose = verbose
-    )
-  }
-  ### validate data
-  assertthat::assert_that(
+    assertthat::has_name(spp_summary_data, "elevation_lower"),
+    ## spp_habitat_data
     inherits(spp_habitat_data, "data.frame"),
     assertthat::has_name(spp_habitat_data, "id_no"),
     assertthat::has_name(spp_habitat_data, "code"),
     assertthat::has_name(spp_habitat_data, "habitat"),
     assertthat::has_name(spp_habitat_data, "suitability"),
     assertthat::has_name(spp_habitat_data, "season")
+  )
+  assertthat::assert_that(
+    all(x$id_no %in% spp_summary_data$id_no),
+    msg = paste0(
+      "argument to x contains species not present in summary data ",
+      "(i.e. based on matching values in the \"id_no\" columns)"
+    )
   )
   if (any(!x$id_no %in% spp_habitat_data$id_no)) {
     warning(
@@ -96,38 +84,7 @@ format_spp_data <- function(x,
     )
   }
 
-  # clean species range data
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("cleaning species range data")
-  }
-  ## processing
-  x <- clean_spp_range_data(x = x, crs = terra_st_crs(template_data))
-  ## addition data validation
-  assertthat::assert_that(
-    nrow(x) > 0,
-    msg = "argument to x does not contain any terrestrial species"
-  )
-  assertthat::assert_that(
-    identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
-    msg = paste(
-      "failed to combine multiple geometries for a species'",
-      "seasonal distribution"
-    )
-  )
-  assertthat::assert_that(
-    all(x$id_no %in% spp_summary_data$id_no),
-    msg = paste0(
-      "argument to x contains species not present in summary data ",
-      "(i.e. based on matching values in the \"id_no\" columns)"
-    )
-  )
-
   # add elevation columns
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("extracting species elevation data")
-  }
   ## convert NA values to -Inf and Inf for lower and upper thresholds
   idx <- is.na(spp_summary_data$elevation_lower)
   spp_summary_data$elevation_lower[idx] <- -Inf
@@ -140,10 +97,6 @@ format_spp_data <- function(x,
   x <- dplyr::left_join(x, spp_summary_data, by = "id_no")
 
   # add habitat affiliation columns
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("extracting species habitat data")
-  }
   ## remove rows for taxa missing habitat information
   idx <- !is.na(spp_habitat_data$code)
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
@@ -202,10 +155,6 @@ format_spp_data <- function(x,
   })
 
   # add spatial extent columns
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("extracting spatial extent metadata")
-  }
   ## create empty version of data template
   empty_template <- terra::rast(
     xmin = terra::xmin(template_data),

@@ -17,7 +17,7 @@ test_that("correct format", {
   )
   # create objects
   x <- format_spp_data(
-    x = d1,
+    x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
     verbose = FALSE
@@ -66,13 +66,13 @@ test_that("correct handling of NA season values in spp_habitat_data", {
   d3$season <- NA_character_
   # create objects
   x1 <- format_spp_data(
-    x = d1,
+    x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
     verbose = FALSE
   )
   x2 <- format_spp_data(
-    x = d1,
+    x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3_alt,
     verbose = FALSE
@@ -111,13 +111,13 @@ test_that("correct handling of NA code values in spp_habitat_data", {
   )
   # create objects
   x1 <- format_spp_data(
-    x = d1,
+    x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
     verbose = FALSE
   )
   x2 <- format_spp_data(
-    x = d1,
+    x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3_alt,
     verbose = FALSE
