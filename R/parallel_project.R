@@ -167,6 +167,8 @@ parallel_project <- function(x,
     y_import <- y
   }
 
+  print("x before")
+  print(x)
 
   # process data
   x <- suppressWarnings(plyr::llply(
@@ -216,12 +218,19 @@ parallel_project <- function(x,
     }
   ))
 
+  print("x after")
+  print(x)
+
   # process result
   if (inherits(x[[1]], "character")) {
     x <- terra::rast(unlist(x, recursive = FALSE, use.names = FALSE))
   } else {
     x <- terra::rast(x)
   }
+
+  print("x after 2")
+  print(x)
+
   names(x) <- x_names
 
   # return result
