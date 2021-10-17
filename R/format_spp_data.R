@@ -167,7 +167,7 @@ format_spp_data <- function(x,
   idx <- is.na(spp_habitat_data$seasonal)
   spp_habitat_data <- dplyr::bind_rows(
     spp_habitat_data[!idx, , drop = FALSE],
-    purrr::map_dfr(
+    plyr::ldply(
       which(idx),
       function(i) {
         x <- spp_habitat_data[rep(i, 5), , drop = FALSE]
@@ -219,7 +219,7 @@ format_spp_data <- function(x,
   ### note that we return NAs if the species doesn't overlap with the template
   x <- dplyr::bind_cols(
     x,
-    purrr::map_dfr(seq_len(nrow(x)), function(i) {
+    plyr::ldply(seq_len(nrow(x)), function(i) {
       if (
         sf::st_intersects(
           x = sf::st_as_sfc(terra_st_bbox(empty_template)),

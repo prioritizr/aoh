@@ -19,15 +19,15 @@ test_that("single layer", {
   # create correct result
   z <- terra::project(x, y)
   # create results using function
-  z1 <- parallel_project(x, y, parallel_n_threads = 1)
+  z1 <- parallel_project(x, y, verbose = FALSE, parallel_n_threads = 1)
   expect_equal(terra::values(z), terra::values(z1), tolerance = 1e-5)
   z2 <- parallel_project(
-    x, y, parallel_n_threads = 2, parallel_cluster = "PSOCK"
+    x, y, parallel_n_threads = 2, verbose = FALSE, parallel_cluster = "PSOCK"
   )
   expect_equal(terra::values(z), terra::values(z2), tolerance = 1e-5)
   skip_on_os("windows")
   z3 <- parallel_project(
-    x, y, parallel_n_threads = 2, parallel_cluster = "FORK"
+    x, y, parallel_n_threads = 2, verbose = FALSE, parallel_cluster = "FORK"
   )
   expect_equal(terra::values(z), terra::values(z3), tolerance = 1e-5)
 })
@@ -55,15 +55,15 @@ test_that("multiple layers", {
   # create correct result
   z <- terra::project(x, y)
   # create results using function
-  z1 <- parallel_project(x, y, parallel_n_threads = 1)
+  z1 <- parallel_project(x, y, verbose = FALSE, parallel_n_threads = 1)
   expect_equal(terra::values(z), terra::values(z1), tolerance = 1e-5)
   z2 <- parallel_project(
-    x, y, parallel_n_threads = 2, parallel_cluster = "PSOCK"
+    x, y, parallel_n_threads = 2, verbose = FALSE, parallel_cluster = "PSOCK"
   )
   expect_equal(terra::values(z), terra::values(z2), tolerance = 1e-5)
   skip_on_os("windows")
   z3 <- parallel_project(
-    x, y, parallel_n_threads = 2, parallel_cluster = "FORK"
+    x, y, parallel_n_threads = 2, verbose = FALSE, parallel_cluster = "FORK"
   )
   expect_equal(terra::values(z), terra::values(z3), tolerance = 1e-5)
 })

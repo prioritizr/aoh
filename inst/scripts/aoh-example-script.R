@@ -2,9 +2,6 @@
 # R CMD BATCH --no-restore --no-save aoh-example-script.R
 
 # Initialization
-## set options
-options(future.globals.onReference = "error")
-
 ## load packages
 library(aoh)
 library(terra)

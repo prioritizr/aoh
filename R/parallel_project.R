@@ -115,7 +115,6 @@ parallel_project <- function(x,
   crop_ext_list <- NULL
 
   # prepare for parallel processing if needed
-  pb <- progressr::progressor(steps = terra::nlyr(x))
   paths <- lapply(seq_len(terra::nlyr(x)), function(x) {
     tempfile(tmpdir = temp_dir, fileext = ".tif")
   })
@@ -141,38 +140,41 @@ parallel_project <- function(x,
       crop_ext_list <- NULL
     }
     ## create cluster
-    if (identical(parallel_cluster, "FORK")) {
-      cl <- parallel::makeCluster(parallel_n_threads, "FORK")
-    } else {
-      cl <- parallel::makeCluster(parallel_n_threads, "PSOCK")
+    cl <- parallel::makeCluster(parallel_n_threads, parallel_cluster)
+    if (identical(parallel_cluster, "PSOCK")) {
       parallel::clusterExport(
         cl = cl,
         envir = environment(),
         varlist = c(
           "x_import", "y_import",
-          "pb", "wopt", "method", "paths",
+          "wopt", "method", "paths",
           "crop_ext_list", "parallel_n_threads"
         )
       )
     }
     ## setup workers
-    on.exit(parallel::stopCluster(cl), add = TRUE)
-    ## set up future plan
-    old_plan <- future::plan("cluster", workers = cl)
-    on.exit(future::plan(old_plan), add = TRUE)
+    doParallel::registerDoParallel()
+    on.exit(
+      add = TRUE,
+      expr = {
+        doParallel::stopImplicitCluster()
+        parallel::stopCluster(cl)
+      }
+    )
   } else {
     x_import <- x
     y_import <- y
   }
 
+
   # process data
-  idx <- seq_len(terra::nlyr(x))
-  x <- future.apply::future_lapply(
-    X = idx,
-    future.envir = baseenv(),
-    future.seed = FALSE,
-    future.globals = FALSE,
-    FUN = function(i) {
+  x <- suppressWarnings(plyr::llply(
+    .data = seq_len(terra::nlyr(x)),
+    .progress = ifelse(
+      isTRUE(verbose) && isTRUE(parallel_n_threads == 1), "text", "none"
+    ),
+    .parallel = isTRUE(parallel_n_threads > 1),
+    .fun = function(i) {
       ## initialization (alas clusterEvalQ not compatible with terra)
       if (isTRUE(parallel_n_threads > 1)) {
         ## if parallel processing
@@ -204,9 +206,6 @@ parallel_project <- function(x,
         terra::writeRaster(x = xi, filename = paths[[i]], wopt = wopt)
       }
 
-      ##  update progress bar
-      pb()
-
       ## return result
       if (isTRUE(parallel_n_threads > 1)) {
         return(paths[[i]])
@@ -214,12 +213,7 @@ parallel_project <- function(x,
         return(xi)
       }
     }
-  )
-
-
-  print("")
-  print("here1")
-  print("")
+  ))
 
   # process result
   if (inherits(x[[1]], "character")) {
@@ -227,11 +221,6 @@ parallel_project <- function(x,
   } else {
     x <- terra::rast(x)
   }
-
-  print("")
-  print("here2")
-  print("")
-
 
   # return result
   x

@@ -240,9 +240,9 @@ latest_version_habitat_data <- function(x, z = zen4R::ZenodoManager$new()) {
   )
   # find version
   version <- NA_character_
-  all_versions <- purrr::quietly(function() {
-    suppressWarnings(z$getRecordByDOI(x)$getVersions())
-  })()$result
+  invisible(utils::capture.output({
+    all_versions <- suppressWarnings(z$getRecordByDOI(x)$getVersions())
+  }))
   for (x in rev(all_versions$doi)) {
     if (version_has_habitat_data(x = x, z = z)) {
       version <- x

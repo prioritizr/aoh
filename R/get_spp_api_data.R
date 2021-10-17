@@ -174,7 +174,7 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     if (any(api_success)) {
       iucn_rl_data <- dplyr::bind_rows(
         iucn_rl_data,
-        purrr::map_dfr(which(api_success), function(i) {
+        plyr::ldply(which(api_success), function(i) {
           # extract data
           d <- api_results[[i]]
           # standardize data as tibble

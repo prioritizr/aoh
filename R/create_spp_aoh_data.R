@@ -324,8 +324,7 @@ create_spp_aoh_data <- function(x,
   if (is.null(elevation_data)) {
     ### display message
     if (verbose) {
-      cli::cli_progress_done()
-      cli::cli_alert_info("importing global elevation data")
+      cli::cli_progress_step("importing global elevation data")
     }
     ### processing
     elevation_data <- get_global_elevation_data(
@@ -341,7 +340,7 @@ create_spp_aoh_data <- function(x,
   if (is.null(habitat_data)) {
     ### display message
     if (verbose) {
-      cli::cli_alert_info("importing global habitat data")
+      cli::cli_progress_step("importing global habitat data")
     }
     ### processing
     habitat_data <- get_global_habitat_data(
@@ -390,9 +389,6 @@ create_spp_aoh_data <- function(x,
   }
   ## clean up
   rm(rng_cells)
-  if (verbose) {
-    cli::cli_progress_done()
-  }
 
   # format species data
   ## main processing
@@ -495,22 +491,17 @@ create_spp_aoh_data <- function(x,
   }
   ## processing
   ### reproject data to template
-  progressr::with_progress(
-    enable = verbose,
-    expr = {
-      habitat_data <- parallel_project(
-        x = habitat_data,
-        y = template_data,
-        method = "bilinear",
-        buffer = 5000,
-        temp_dir = tmp_rast_dir,
-        verbose = verbose,
-        parallel_n_threads = parallel_n_threads,
-        parallel_cluster = parallel_cluster,
-        datatype = "INT2U"
-      )
-    }
-  )
+    habitat_data <- parallel_project(
+      x = habitat_data,
+      y = template_data,
+      method = "bilinear",
+      buffer = 5000,
+      temp_dir = tmp_rast_dir,
+      verbose = verbose,
+      parallel_n_threads = parallel_n_threads,
+      parallel_cluster = parallel_cluster,
+      datatype = "INT2U"
+    )
   ### verify that habitat data encompasses that species range data
   assertthat::assert_that(
     sf::st_contains(
@@ -594,25 +585,20 @@ create_spp_aoh_data <- function(x,
   # main processing
   ## display message
   if (verbose) {
-    cli::cli_alert("generating Area of Habitat data")
+    cli::cli_progress_step("generating Area of Habitat data")
   }
   ## processing
   ## use local host for processing
-  progressr::with_progress(
-    enable = verbose,
-    expr = {
-      result <- process_spp_aoh_data_on_local(
-        x = x,
-        habitat_data = habitat_data,
-        elevation_data = elevation_data,
-        cache_dir = cache_dir,
-        force = force,
-        parallel_n_threads = parallel_n_threads,
-        parallel_cluster = parallel_cluster,
-        verbose = verbose,
-        datatype = "INT2U"
-      )
-    }
+  result <- process_spp_aoh_data_on_local(
+    x = x,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    cache_dir = cache_dir,
+    force = force,
+    parallel_n_threads = parallel_n_threads,
+    parallel_cluster = parallel_cluster,
+    verbose = verbose,
+    datatype = "INT2U"
   )
 
   # prepare table with metadata

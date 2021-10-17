@@ -105,7 +105,6 @@ process_spp_aoh_data_on_local <- function(x,
   }
 
   # prepare for parallel processing if needed
-  pb <- progressr::progressor(steps = length(idx))
   if (isTRUE(parallel_n_threads > 1)) {
     ## prepare data
     ### elevation_data
@@ -131,25 +130,26 @@ process_spp_aoh_data_on_local <- function(x,
     saveRDS(x, x_import, compress = "xz")
 
     ## create cluster
-    if (identical(parallel_cluster, "FORK")) {
-      cl <- parallel::makeCluster(parallel_n_threads, "FORK")
-    } else {
-      cl <- parallel::makeCluster(parallel_n_threads, "PSOCK")
+    cl <- parallel::makeCluster(parallel_n_threads, parallel_cluster)
+    if (identical(parallel_cluster, "PSOCK")) {
       parallel::clusterExport(
         cl = cl,
         envir = environment(),
         varlist = c(
           "x_import", "habitat_import", "elevation_import",
-          "pb", "wopt", "parallel_n_threads"
+          "wopt", "parallel_n_threads"
         )
       )
     }
     ## set up workers
-    on.exit(try(parallel::stopCluster(cl), silent = TRUE), add = TRUE)
-
-    ## set up future plan
-    old_plan <- future::plan("cluster", workers = cl)
-    on.exit(future::plan(old_plan), add = TRUE)
+    doParallel::registerDoParallel()
+    on.exit(
+      add = TRUE,
+      expr = {
+        doParallel::stopImplicitCluster()
+        parallel::stopCluster(cl)
+      }
+    )
   } else {
     x_import <- x
     habitat_import <- habitat_data
@@ -157,16 +157,13 @@ process_spp_aoh_data_on_local <- function(x,
   }
 
   # main processing
-  result <- furrr::future_map_lgl(
-    .x = idx,
-    .options = furrr::furrr_options(
-      seed = TRUE,
-      globals = c(
-        "x_import", "habitat_import", "elevation_import",
-        "pb", "wopt", "parallel_n_threads"
-      )
+  result <- plyr::llply(
+    .data = idx,
+    .progress = ifelse(
+      isTRUE(verbose) && isTRUE(parallel_n_threads == 1), "text", "none"
     ),
-    .f = function(i) {
+    .parallel = isTRUE(parallel_n_threads > 1),
+    .fun = function(i) {
       ## initialization
       if (isTRUE(parallel_n_threads > 1)) {
         ## if parallel processing
@@ -258,17 +255,9 @@ process_spp_aoh_data_on_local <- function(x,
       suppressWarnings(rm(curr_spp_habitat_data, curr_elev_mask))
       gc()
 
-      ## increment progress bar
-      pb()
-
       ## return success
       TRUE
   })
-
-  # stop cluster
-  if (parallel_n_threads > 1) {
-    parallel::stopCluster(cl)
-  }
 
   # return result
   result
