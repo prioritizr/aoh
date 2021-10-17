@@ -125,13 +125,15 @@ process_spp_aoh_data_on_local <- function(x,
     } else {
       habitat_import <- terra::sources(habitat_data)$source
     }
-    ### x
-    x_import <- tempfile(fileext = ".rda")
-    saveRDS(x, x_import, compress = "xz")
+
+    ## remove objects to avoid issues on FORK cluster
+    rm(elevation_data, habitat_data)
 
     ## create cluster
     cl <- parallel::makeCluster(parallel_n_threads, parallel_cluster)
     if (identical(parallel_cluster, "PSOCK")) {
+      x_import <- tempfile(fileext = ".rda")
+      saveRDS(x, x_import, compress = "xz")
       parallel::clusterExport(
         cl = cl,
         envir = environment(),
@@ -140,9 +142,18 @@ process_spp_aoh_data_on_local <- function(x,
           "wopt", "parallel_n_threads"
         )
       )
+      parallel::clusterEvalQ(
+        cl = cl,
+        expr = {
+          x <- readRDS(x_import)
+          habitat_data2 <- terra::rast(habitat_import)
+          elevation_data2 <- terra::rast(elevation_import)
+        }
+      )
     }
+
     ## set up workers
-    doParallel::registerDoParallel()
+    doParallel::registerDoParallel(cl)
     on.exit(
       add = TRUE,
       expr = {
@@ -151,38 +162,33 @@ process_spp_aoh_data_on_local <- function(x,
       }
     )
   } else {
-    x_import <- x
-    habitat_import <- habitat_data
-    elevation_import <- elevation_data
+    habitat_data2 <- habitat_data
+    elevation_data2 <- elevation_data
   }
 
   # main processing
-  result <- plyr::llply(
+  result <- suppressWarnings(plyr::llply(
     .data = idx,
     .progress = ifelse(
       isTRUE(verbose) && isTRUE(parallel_n_threads == 1), "text", "none"
     ),
     .parallel = isTRUE(parallel_n_threads > 1),
     .fun = function(i) {
-      ## initialization
-      if (isTRUE(parallel_n_threads > 1)) {
-        ## if parallel processing
-        x2 <- readRDS(x_import)
+      ## import data if needed
+      if (
+        identical(parallel_cluster, "FORK") &&
+        isTRUE(parallel_n_threads > 1)
+      ) {
         habitat_data2 <- terra::rast(habitat_import)
         elevation_data2 <- terra::rast(elevation_import)
-      } else {
-        ## if local processing
-        x2 <- x_import
-        habitat_data2 <- habitat_import
-        elevation_data2 <- elevation_import
       }
 
       ## extract data for current iteration
-      curr_spp_path <- x2$path[i]
-      curr_spp_habitat_codes <- x2$habitat_code[[i]]
-      curr_spp_lower_elevation <- x2$elevation_lower[i]
-      curr_spp_upper_elevation <- x2$elevation_upper[i]
-      curr_spp_extent <- aoh::sf_terra_ext(x2[i, , drop = FALSE])
+      curr_spp_path <- x$path[i]
+      curr_spp_habitat_codes <- x$habitat_code[[i]]
+      curr_spp_lower_elevation <- x$elevation_lower[i]
+      curr_spp_upper_elevation <- x$elevation_upper[i]
+      curr_spp_extent <- aoh::sf_terra_ext(x[i, , drop = FALSE])
 
       ## create temporary directory for species
       curr_spp_tmp_dir <- tempfile()
@@ -257,7 +263,7 @@ process_spp_aoh_data_on_local <- function(x,
 
       ## return success
       TRUE
-  })
+  }))
 
   # return result
   result

@@ -132,9 +132,17 @@ parallel_project <- function(x,
   # prepare data for parallelization
   if (isTRUE(parallel_n_threads > 1)) {
     ## prepare data
-    if (all(terra::inMemory(x))) {
-      x_import <- tempfile(tmpdir = temp_dir, fileext = ".tif")
-      terra::writeRaster(x = x, filename = x_import, wopt = wopt)
+    if (all(terra::inMemory(x)) ||
+       (nrow(terra::sources(x) == terra::nlyr(x)))) {
+      x_import <- vapply(
+        seq_len(terra::nlyr(x)),
+        FUN.VALUE = character(1),
+        function(i) {
+          p <- tempfile(tmpdir = temp_dir, fileext = paste0(i, ".tif"))
+          terra::writeRaster(x = x[[i]], filename = p, wopt = wopt)
+          p
+        }
+      )
     } else {
       x_import <- terra::sources(x)$source
     }
@@ -149,7 +157,10 @@ parallel_project <- function(x,
     } else {
       crop_ext_list <- NULL
     }
+
+    ## remove objects to avoid issues on FORK cluster
     rm(x, y)
+
     ## create cluster
     cl <- parallel::makeCluster(parallel_n_threads, type = parallel_cluster)
     if (identical(parallel_cluster, "PSOCK")) {
@@ -163,6 +174,7 @@ parallel_project <- function(x,
         )
       )
     }
+
     ## setup workers
     doParallel::registerDoParallel(cl)
     on.exit(
@@ -187,12 +199,11 @@ parallel_project <- function(x,
     .fun = function(i) {
       ## initialization
       if (isTRUE(parallel_n_threads > 1)) {
-        x <- terra::rast(x_import)
+        xi <- terra::rast(x_import[[i]])
         y <- terra::rast(y_import)
+      } else {
+        xi <- x[[i]]
       }
-
-      ## extract layer
-      xi <- x[[i]]
 
       # crop layer
       if (!is.null(crop_ext_list)) {
@@ -213,6 +224,7 @@ parallel_project <- function(x,
 
       ## return result
       if (isTRUE(parallel_n_threads > 1)) {
+        rm(xi)
         return(paths[[i]])
       } else {
         return(xi)
