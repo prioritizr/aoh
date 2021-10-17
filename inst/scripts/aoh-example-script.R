@@ -10,6 +10,9 @@ library(sf)
 library(rappdirs)
 
 ## set variables
+### set number of threads
+n_threads <- 10
+
 ### possible options based on for IUCN file name conventions
 input_file <- "AMPHIBIANS.zip"
 # input_file <- "MAMMALS_TERRESTRIAL_ONLY.zip"
@@ -48,7 +51,7 @@ spp_data <- read_spp_range_data(file.path(input_dir, input_file))[1:75, ]
 ## create data
 result_data <- create_spp_aoh_data(
   x = spp_data, output_dir = output_dir, cache_dir = cache_dir,
-  parallel_n_threads = parallel::detectCores() - 1
+  parallel_n_threads = n_threads
 )
 
 # Exports
