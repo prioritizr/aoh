@@ -115,9 +115,13 @@ parallel_project <- function(x,
   crop_ext_list <- NULL
 
   # prepare for parallel processing if needed
-  paths <- lapply(seq_len(terra::nlyr(x)), function(i) {
-    tempfile(tmpdir = temp_dir, fileext = ".tif")
-  })
+  paths <- vapply(
+    seq_len(terra::nlyr(x)),
+    FUN.VALUE = character(1),
+    function(i) {
+      tempfile(tmpdir = temp_dir, fileext = ".tif")
+    }
+  )
   x_names <- names(x)
 
   # prepare data for parallelization
