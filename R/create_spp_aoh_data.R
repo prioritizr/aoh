@@ -458,20 +458,13 @@ create_spp_aoh_data <- function(x,
   x$path[vapply(x$habitat_code, length, integer(1)) == 0] <- NA_character_
 
   # preliminary GIS data processing
+  ## display message
+  if (verbose) {
+    cli::cli_progress_step("preliminary geoprocessing")
+  }
   ## remove unused habitat layers
-  ### display message
-  if (verbose) {
-    cli::cli_progress_step("removing unused habitat layers")
-  }
-  ### processing
   habitat_data <- habitat_data[[habitat_codes]]
-
   ## crop template data if full extent not needed
-  ### display message
-  if (verbose) {
-    cli::cli_progress_step("cropping template to species range data")
-  }
-  ### processing
   template_data <- terra::crop(
     x = template_data,
     y = sf_terra_ext(
@@ -560,7 +553,7 @@ create_spp_aoh_data <- function(x,
   # manual raster clean up
   ## display message
   if (verbose) {
-    cli::cli_progress_step("writing intermediate files to disk")
+    cli::cli_progress_step("standardizing data")
   }
   ## save habitat data to disk
   habitat_path <- tempfile(fileext = ".tif")
@@ -604,7 +597,7 @@ create_spp_aoh_data <- function(x,
   # prepare table with metadata
   ## display message
   if (verbose) {
-    cli::cli_progress_step("post-processing")
+    cli::cli_progress_step("post-processing results")
   }
   ## processing
   x <- dplyr::select(
