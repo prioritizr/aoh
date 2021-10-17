@@ -229,7 +229,7 @@ test_that("FORK parallel processing", {
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     parallel_n_threads = 2,
-    parallel_cluster = "PSOCK",
+    parallel_cluster = "FORK",
     verbose = FALSE
   )
   # tests
