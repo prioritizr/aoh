@@ -6,6 +6,8 @@ test_that("single species", {
   skip_if_not_installed("RandomFields")
   # set parameters
   n <- 1
+  set.seed(500)
+  RandomFields::RFoptions(seed = 500)
   # load data
   boundary_data <- sf::read_sf(
     system.file("testdata", "sim_boundary_data.gpkg", package = "aoh")
@@ -32,6 +34,8 @@ test_that("multiple species", {
   skip_if_not_installed("RandomFields")
   # set parameters
   n <- 5
+  set.seed(500)
+  RandomFields::RFoptions(seed = 500)
   # load data
   boundary_data <- sf::read_sf(
     system.file("testdata", "sim_boundary_data.gpkg", package = "aoh")
