@@ -119,7 +119,7 @@ parallel_project <- function(x,
     seq_len(terra::nlyr(x)),
     FUN.VALUE = character(1),
     function(i) {
-      tempfile(tmpdir = temp_dir, fileext = ".tif")
+      tempfile(tmpdir = temp_dir, fileext = paste0(i, ".tif"))
     }
   )
   x_names <- names(x)
