@@ -557,7 +557,7 @@ create_spp_aoh_data <- function(x,
     )[[1]],
     msg = paste(
       "argument to \"habitat_data\" has a spatial extent that does not",
-      "fully contain species range data in the argument to \"x"
+      "fully contain species range data in the argument to \"x\""
     )
   )
   ### clamp to expected values
@@ -597,7 +597,7 @@ create_spp_aoh_data <- function(x,
     )[[1]],
     msg = paste(
       "argument to \"elevation_data\" has a spatial extent that does not",
-      "fully contain species range data in the argument to \"x"
+      "fully contain species range data in the argument to \"x\""
     )
   )
 
