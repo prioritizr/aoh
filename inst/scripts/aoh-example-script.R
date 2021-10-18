@@ -46,7 +46,7 @@ if (!file.exists(output_dir)) {
 
 # Main processing
 ## import data
-spp_data <- read_spp_range_data(file.path(input_dir, input_file))[1:75, ]
+spp_data <- read_spp_range_data(file.path(input_dir, input_file))[1:100, ]
 
 ## create data
 result_data <- create_spp_aoh_data(
