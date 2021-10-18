@@ -113,8 +113,8 @@ Defaults to \code{FALSE}.}
 
 \item{parallel_n_threads}{\code{integer} Number of computational threads to use
 for data processing.
-\strong{To reduce run time, it is strongly recommended to set this
-parameter based on the number of available threads (see Examples below).}
+To reduce run time, it is strongly recommended to set this
+parameter based on available resources (see Examples section below).
 Defaults to 1.}
 
 \item{parallel_cluster}{\code{character} Name of strategy for

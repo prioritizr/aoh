@@ -92,8 +92,8 @@ NULL
 #'
 #' @param parallel_n_threads `integer` Number of computational threads to use
 #'   for data processing.
-#'   **To reduce run time, it is strongly recommended to set this
-#'   parameter based on the number of available threads (see Examples below).**
+#'   To reduce run time, it is strongly recommended to set this
+#'   parameter based on available resources (see Examples section below).
 #'   Defaults to 1.
 #'
 #' @param parallel_cluster `character` Name of strategy for
