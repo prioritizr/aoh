@@ -123,7 +123,12 @@ get_global_habitat_data <- function(dir = tempdir(), version = "latest",
   dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
   utils::unzip(path, exdir = temp_dir)
   # find file paths for layers
-  layer_paths <- dir(temp_dir, "^.*\\.tif", recursive = TRUE, full.names = TRUE)
+  raw_layer_paths <- dir(
+    temp_dir, "^.*\\.tif", recursive = TRUE, full.names = TRUE
+  )
+  # rename file paths to remove non-ascii characters
+  layer_paths <- stringi::stri_trans_general(raw_layer_paths, "latin-ascii")
+  file.rename(from = raw_layer_paths, layer_paths)
   # import data
   r <- terra::rast(layer_paths)
   # assign names
