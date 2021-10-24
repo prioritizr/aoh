@@ -119,6 +119,7 @@ get_global_habitat_data <- function(dir = tempdir(), version = "latest",
   }
   # extract the data to temporary archive
   path <- dir(record_dir, "^.*\\.zip", full.names = TRUE)
+  path <- gsub("\\", "/", path, fixed = TRUE)
   temp_dir <- tempfile()
   dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
   utils::unzip(path, exdir = temp_dir)
@@ -126,6 +127,8 @@ get_global_habitat_data <- function(dir = tempdir(), version = "latest",
   raw_layer_paths <- dir(
     temp_dir, "^.*\\.tif", recursive = TRUE, full.names = TRUE
   )
+  # ensure consistent file path separators
+  raw_layer_paths <- gsub("\\", "/", raw_layer_paths, fixed = TRUE)
   # rename file paths to remove non-ascii characters
   layer_paths <- stringi::stri_trans_general(raw_layer_paths, "latin-ascii")
   file.rename(from = raw_layer_paths, layer_paths)

@@ -52,6 +52,7 @@ read_spp_range_data <- function(path, n = NULL) {
   utils::unzip(path, exdir = temp_dir)
   # find shapefile with data
   input_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE, recursive = TRUE)
+  input_path <- gsub("\\", "/", input_path, fixed = TRUE)
   if (length(input_path) != 1L) {
     stop("argument to \"path\" does not contain spatial data")
   }
