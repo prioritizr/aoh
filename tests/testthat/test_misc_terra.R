@@ -56,7 +56,7 @@ test_that("terra_fasterize() (small dataset)", {
   y <- terra::rasterize(terra::vect(nc), r)
   names(x) <- names(y)
   # compare results
-  expect_equal(terra::values(x), terra::values(y))
+  expect_true(terra::global(abs(x - y), "max", na.rm = TRUE) <= 1e-5)
 })
 
 test_that("terra_fasterize() (large dataset)", {
@@ -79,5 +79,5 @@ test_that("terra_fasterize() (large dataset)", {
   y <- terra::rasterize(terra::vect(d), r)
   names(x) <- names(y)
   # compare results
-  expect_equal(terra::values(x), terra::values(y))
+  expect_true(terra::global(abs(x - y), "max", na.rm = TRUE) <= 1e-5)
 })
