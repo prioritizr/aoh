@@ -130,8 +130,11 @@ get_global_habitat_data <- function(dir = tempdir(), version = "latest",
   # ensure consistent file path separators
   raw_layer_paths <- gsub("\\", "/", raw_layer_paths, fixed = TRUE)
   # rename file paths to remove non-ascii characters
-  layer_paths <- stringi::stri_trans_general(raw_layer_paths, "latin-ascii")
-  file.rename(from = raw_layer_paths, layer_paths)
+  layer_paths <- paste0(
+    dirname(raw_layer_paths), "/",
+    iconv(basename(raw_layer_paths), "latin1", "ASCII", sub = "")
+  )
+  file.rename(from = raw_layer_paths, to = layer_paths)
   # import data
   r <- terra::rast(layer_paths)
   # assign names

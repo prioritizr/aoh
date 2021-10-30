@@ -36,8 +36,7 @@ Imports:
     plyr (>= 1.8.6),
     ggplot2 (>= 3.1.0),
     fasterize (>= 1.0.3),
-    raster (>= 3.5.2),
-    stringi (>= 1.7.4)
+    raster (>= 3.5.2)
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
