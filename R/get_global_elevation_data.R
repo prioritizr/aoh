@@ -9,7 +9,7 @@ NULL
 #'
 #' @inheritParams get_global_habitat_data
 #'
-#' @return A [raster::raster()] object containing the median elevation data.
+#' @return A [terra::rast()] object containing the median elevation data.
 #'  data. These data are available at the 1 km \eqn{\times} 1 km resolution.
 #'
 #' @references

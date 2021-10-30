@@ -27,12 +27,14 @@ NULL
 #'  data?
 #'  Defaults to `TRUE`.
 #'
-#' @return A [raster::brick()] object containing the level 2 habitat
+#' @return A [terra::rast()] object containing the level 2 habitat
 #'  fractional coverage data.
 #'  These data are available at the 1 km \eqn{\times} 1 km resolution.
 #'  Each layer corresponds to a different habitat type, and each pixel
-#'  denotes the fraction of the pixel that contains a given habitat type
-#'  (i.e. a value of 0.5 indicates 50% coverage).
+#'  denotes the fraction of the pixel that contains a given habitat type.
+#'  **Note that pixel values are scaled to between 0 and 1000, such that
+#'  a value of 0 indicates 0% coverage of a habitat type, and a value of
+#'  1000 indicates 100% coverage of a habitat type.**
 #'
 #' @references
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,

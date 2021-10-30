@@ -83,7 +83,7 @@ print(spp_range_data)
 
 Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data (from [Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8)), (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species (following [Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). We also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
 
-```{r, message = FALSE}
+```{r, message = FALSE, results = "hide"}
 # specify cache directory
 cache_dir <- user_data_dir("aoh")
 
@@ -168,6 +168,8 @@ print(map)
 ```
 
 ### Citation
+
+**Please note that the package is still in the early stages of development and not ready for general use. It is not yet suitable for use in scientific publications or related work.**
 
 Please cite the _aoh R_ package and the underlying datasets used to produce Area of Habitat data.
 

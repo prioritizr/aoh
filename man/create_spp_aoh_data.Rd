@@ -151,7 +151,7 @@ Specifically, the object contains the following columns:
 \item{full_habitat_code}{\code{character} all habitat classification
 codes that contain suitable habitat for the species.
 If a given species has multiple suitable habitat classes,
-then these are denoted using a pipe-delimeted format.
+then these are denoted using a pipe-delimited format.
 For example, if the habitat classes denoted with the codes
 \code{"1.5"} and \code{"1.9"} were considered suitable for a given species, then
 these codes would be indicated as \code{"1.5|1.9"}.}

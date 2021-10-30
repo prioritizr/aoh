@@ -168,12 +168,14 @@ Defaults to <code>TRUE</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='https://rdrr.io/pkg/raster/man/brick.html'>raster::brick()</a></code> object containing the level 2 habitat
+    <p>A <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> object containing the level 2 habitat
 fractional coverage data.
 These data are available at the 1 km \(\times\) 1 km resolution.
 Each layer corresponds to a different habitat type, and each pixel
-denotes the fraction of the pixel that contains a given habitat type
-(i.e. a value of 0.5 indicates 50% coverage).</p>
+denotes the fraction of the pixel that contains a given habitat type.
+<strong>Note that pixel values are scaled to between 0 and 1000, such that
+a value of 0 indicates 0% coverage of a habitat type, and a value of
+1000 indicates 100% coverage of a habitat type.</strong></p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
@@ -207,7 +209,7 @@ Available at <a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10
 <span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -180.009, 180.0088, -90.00835, 90.00505  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326) </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> sources     : iucn_habitatclassification_fraction_lvl2__100_Forest__ver002.tif  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>               iucn_habitatclassification_fraction_lvl2__101_Forest – Boreal__ver002.tif  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               iucn_habitatclassification_fraction_lvl2__101_Forest  Boreal__ver002.tif  </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>               iucn_habitatclassification_fraction_lvl2__102_Forest - Subarctic__ver002.tif  </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>               ... and 56 more source(s)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> names       : 1, 1.1, 1.2, 1.3, 1.4, 1.5, ... </span>

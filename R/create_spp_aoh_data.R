@@ -151,7 +151,7 @@ NULL
 #' \item{full_habitat_code}{`character` all habitat classification
 #'   codes that contain suitable habitat for the species.
 #'   If a given species has multiple suitable habitat classes,
-#'   then these are denoted using a pipe-delimeted format.
+#'   then these are denoted using a pipe-delimited format.
 #'   For example, if the habitat classes denoted with the codes
 #'   `"1.5"` and `"1.9"` were considered suitable for a given species, then
 #'   these codes would be indicated as `"1.5|1.9"`.}

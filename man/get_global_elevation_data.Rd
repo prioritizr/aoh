@@ -21,7 +21,7 @@ data?
 Defaults to \code{TRUE}.}
 }
 \value{
-A \code{\link[raster:raster]{raster::raster()}} object containing the median elevation data.
+A \code{\link[terra:rast]{terra::rast()}} object containing the median elevation data.
 data. These data are available at the 1 km \eqn{\times} 1 km resolution.
 }
 \description{
