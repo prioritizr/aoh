@@ -11,7 +11,7 @@ library(rappdirs)
 
 ## set variables
 ### set number of threads
-n_threads <- 6
+n_threads <- 1
 
 ### possible options based on for IUCN file name conventions
 input_file <- "AMPHIBIANS.zip"
