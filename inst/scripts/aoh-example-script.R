@@ -51,7 +51,7 @@ spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 ## create data
 result_data <- create_spp_aoh_data(
   x = spp_data, output_dir = output_dir, cache_dir = cache_dir,
-  parallel_n_threads = 10
+  parallel_n_threads = n_threads
 )
 
 # Exports
