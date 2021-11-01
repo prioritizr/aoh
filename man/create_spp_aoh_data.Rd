@@ -188,6 +188,7 @@ inside different grid cells that contain suitable habitat for
 species' seasonal distribution.
 Thus a grid cell with a value of 0 has 0\% of its spatial extent covered by
 suitable habitat, a value of 1 has 100\% of its spatial extent covered by
+suitable habitat, and a missing (\code{NA}) value
 means that the cell is located outside of the species seasonal
 distribution (per the geographic range data).
 File paths that are denoted with missing (\code{NA}) values correspond to

@@ -187,7 +187,7 @@ NULL
 #'   species' seasonal distribution.
 #'   Thus a grid cell with a value of 0 has 0% of its spatial extent covered by
 #'   suitable habitat, a value of 1 has 100% of its spatial extent covered by
-#"   suitable habitat, and a missing (`NA`) value
+#'   suitable habitat, and a missing (`NA`) value
 #'   means that the cell is located outside of the species seasonal
 #'   distribution (per the geographic range data).
 #'   File paths that are denoted with missing (`NA`) values correspond to
@@ -645,7 +645,11 @@ create_spp_aoh_data <- function(x,
     cli::cli_progress_step("standardizing data")
   }
   ## save habitat data to disk
-  habitat_path <- tempfile(fileext = ".tif")
+  habitat_path <- replicate(
+    n = terra::nlyr(habitat_data),
+    tempfile(fileext = ".tif")
+  )
+  habitat_names <- names(habitat_data)
   terra::writeRaster(
     x = habitat_data,
     filename = habitat_path,
@@ -653,6 +657,7 @@ create_spp_aoh_data <- function(x,
     datatype = "INT2U"
   )
   habitat_data <- terra::rast(habitat_path)
+  names(habitat_data) <- habitat_names
   ## save elevation data to disk
   elevation_path <- tempfile(fileext = ".tif")
   terra::writeRaster(

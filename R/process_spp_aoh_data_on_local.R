@@ -87,6 +87,7 @@ process_spp_aoh_data_on_local <- function(x,
 
   # prepare prepare variables for data processing
   wopt <- list(...)
+  habitat_names <- names(habitat_data)
 
   # determine which species need processing
   if (!force & any(file.exists(x$path))) {
@@ -138,7 +139,7 @@ process_spp_aoh_data_on_local <- function(x,
         cl = cl,
         envir = environment(),
         varlist = c(
-          "x_import", "habitat_import", "elevation_import",
+          "x_import", "habitat_import", "habitat_names", "elevation_import",
           "wopt", "parallel_n_threads"
         )
       )
@@ -163,6 +164,7 @@ process_spp_aoh_data_on_local <- function(x,
     )
   } else {
     habitat_data2 <- habitat_data
+    names(habitat_data2) <- habitat_names
     elevation_data2 <- elevation_data
   }
 
@@ -180,6 +182,7 @@ process_spp_aoh_data_on_local <- function(x,
         isTRUE(parallel_n_threads > 1)
       ) {
         habitat_data2 <- terra::rast(habitat_import)
+        names(habitat_data2) <- habitat_names
         elevation_data2 <- terra::rast(elevation_import)
       }
 
