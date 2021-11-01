@@ -19,6 +19,7 @@ create_spp_aoh_data(
   force = FALSE,
   parallel_n_threads = 1,
   parallel_cluster = NULL,
+  use_gdal = is_gdal_available(),
   omit_habitat_codes = default_omit_iucn_habitat_codes(),
   verbose = TRUE
 )
@@ -123,6 +124,12 @@ processing data in parallel. Available options are \code{"FORK"} and
 Defaults to \code{NULL} such that \code{"PSOCK"} is used on Microsoft
 Windows operating systems, and \code{"FORK"} otherwise.
 Defaults to 1.}
+
+\item{use_gdal}{\code{logical} indicating if GDAL should be used for
+projecting raster data (i.e. \code{\link[=terra_gdal_project]{terra_gdal_project()}}?
+If GDAL is installed on the system and the \pkg{gdalUtils} package
+is installed, this can dramatically reduce run time.
+Defaults to \code{TRUE} if GDAL is available (per \code{\link[=is_gdal_available]{is_gdal_available()}}).}
 
 \item{omit_habitat_codes}{\code{character} Habitat classification codes
 to omit from resulting Area of Habitat data. If the aim is to identify

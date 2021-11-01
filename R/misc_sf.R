@@ -48,7 +48,7 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   if (!is.null(n)) {
     query <- paste0("SELECT * FROM \"", layer, "\" WHERE FID <= ", n)
   } else {
-    query <- NA
+    query <- paste0("SELECT * FROM \"", layer, "\"")
   }
   # import data
   out <- sf::read_sf(dsn = dsn, query = query)

@@ -49,7 +49,7 @@
     <loc>/reference/intersecting_ext.html</loc>
   </url>
   <url>
-    <loc>/reference/parallel_project.html</loc>
+    <loc>/reference/is_gdal_available.html</loc>
   </url>
   <url>
     <loc>/reference/plot_spp_aoh_data.html</loc>
@@ -71,6 +71,9 @@
   </url>
   <url>
     <loc>/reference/terra_fasterize.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_gdal_project.html</loc>
   </url>
   <url>
     <loc>/reference/terra_st_bbox.html</loc>

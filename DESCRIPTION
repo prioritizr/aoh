@@ -49,6 +49,7 @@ Suggests:
     piggyback (>= 0.1.1),
     rnaturalearth (>= 0.1.0),
     rgdal (>= 1.5.27),
+    gdalUtils (>= 2.0.3.2)
 Depends:
     R (>= 4.1.0),
     sf (>= 1.0-2),
@@ -77,9 +78,9 @@ Collate:
     'format_spp_data.R'
     'get_spp_api_data.R'
     'get_world_berhman_1km_rast.R'
+    'misc_gdal.R'
     'misc_randomfields.R'
     'package.R'
-    'parallel_project.R'
     'plot_spp_aoh_data.R'
     'process_spp_aoh_data_on_local.R'
     'read_spp_range_data.R'

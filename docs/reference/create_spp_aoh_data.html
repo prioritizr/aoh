@@ -139,6 +139,7 @@ habitat preferences (Brooks <em>et al.</em> 2019).</p>
   force <span class='op'>=</span> <span class='cn'>FALSE</span>,
   parallel_n_threads <span class='op'>=</span> <span class='fl'>1</span>,
   parallel_cluster <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use_gdal <span class='op'>=</span> <span class='fu'><a href='is_gdal_available.html'>is_gdal_available</a></span><span class='op'>(</span><span class='op'>)</span>,
   omit_habitat_codes <span class='op'>=</span> <span class='fu'><a href='default_omit_iucn_habitat_codes.html'>default_omit_iucn_habitat_codes</a></span><span class='op'>(</span><span class='op'>)</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
@@ -273,6 +274,14 @@ processing data in parallel. Available options are <code>"FORK"</code> and
 Defaults to <code>NULL</code> such that <code>"PSOCK"</code> is used on Microsoft
 Windows operating systems, and <code>"FORK"</code> otherwise.
 Defaults to 1.</p></td>
+    </tr>
+    <tr>
+      <th>use_gdal</th>
+      <td><p><code>logical</code> indicating if GDAL should be used for
+projecting raster data (i.e. <code><a href='terra_gdal_project.html'>terra_gdal_project()</a></code>?
+If GDAL is installed on the system and the <span class="pkg">gdalUtils</span> package
+is installed, this can dramatically reduce run time.
+Defaults to <code>TRUE</code> if GDAL is available (per <code><a href='is_gdal_available.html'>is_gdal_available()</a></code>).</p></td>
     </tr>
     <tr>
       <th>omit_habitat_codes</th>
@@ -414,45 +423,42 @@ Available at <a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10
 <span class='r-in'>  cache_dir <span class='op'>=</span> <span class='va'>cache_dir</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> initializing</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[27ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[39ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global elevation data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[27ms]</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[37.8s]</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species summary data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species summary data <span style='color: #B2B2B2;'>[1.3s]</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species habitat data <span style='color: #B2B2B2;'>[326ms]</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cleaning species range data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[134ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[109ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> collating species data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> extracting species elevation data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> extracting species elevation data <span style='color: #B2B2B2;'>[20ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> extracting species habitat data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> extracting species habitat data <span style='color: #B2B2B2;'>[25ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> extracting spatial extent metadata</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> extracting spatial extent metadata <span style='color: #B2B2B2;'>[55ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> argument to "habitat_data" is missing layers for the following 3 habitat classification codes: "5.18", "7.1", "7.2"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> collating species data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> collating species data <span style='color: #B2B2B2;'>[91ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> removing unused habitat layers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> removing unused habitat layers <span style='color: #B2B2B2;'>[13ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preliminary geoprocessing</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preliminary geoprocessing <span style='color: #B2B2B2;'>[75ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cropping template to species range data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cropping template to species range data <span style='color: #B2B2B2;'>[93ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preparing habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing habitat data <span style='color: #B2B2B2;'>[1m 33s]</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> → preparing habitat data</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preparing elevation data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing elevation data <span style='color: #B2B2B2;'>[25.7s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing elevation data <span style='color: #B2B2B2;'>[26.3s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> standardizing data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> standardizing data <span style='color: #B2B2B2;'>[566ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> writing intermediate files to disk</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> → generating Area of Habitat data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> writing intermediate files to disk</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> writing intermediate files to disk <span style='color: #B2B2B2;'>[4.1s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> generating Area of Habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> generating Area of Habitat data <span style='color: #B2B2B2;'>[1.8s]</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> post-processing results</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing results <span style='color: #B2B2B2;'>[40ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> post-processing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing <span style='color: #B2B2B2;'>[27ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> finished</span>
 <span class='r-in'><span class='co'># }</span></span>

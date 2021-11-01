@@ -134,7 +134,63 @@ test_that("some species missing habitat data", {
   unlink(output_dir2, recursive = TRUE)
 })
 
-test_that("PSOCK parallel processing", {
+test_that("GDAL processing", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_gdal_not_available()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # load data
+  d <- read_spp_range_data(f)
+  # create objects
+  x1 <- create_spp_aoh_data(
+    x = d,
+    output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    use_gdal = FALSE,
+    verbose = FALSE
+  )
+  x2 <- create_spp_aoh_data(
+    x = d,
+    output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    use_gdal = TRUE,
+    verbose = FALSE
+  )
+  # tests
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
+  expect_equal(x1, x2)
+  expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
+    all(
+      terra::values(terra::rast(x1$path[[i]])) ==
+      terra::values(terra::rast(x2$path[[i]])),
+      na.rm = TRUE
+    )
+  })))
+})
+
+test_that("parallel processing", {
   # skip if needed
   skip_on_cran()
   # specify file path

@@ -178,8 +178,9 @@ format_spp_data <- function(x,
       ) {
         ex <- terra::ext(
           terra::crop(
-            x = empty_template, y = sf_terra_ext(x[i, ]), snap = "out")
+            x = empty_template, y = sf_terra_ext(x[i, ]), snap = "out"
           )
+        )
       } else {
         ex <- list(
           xmin = NA_real_, xmax = NA_real_, ymin = NA_real_, ymax = NA_real_

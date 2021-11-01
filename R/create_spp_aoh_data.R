@@ -104,14 +104,20 @@ NULL
 #'  Defaults to 1.
 #'
 #' @param omit_habitat_codes `character` Habitat classification codes
-#' to omit from resulting Area of Habitat data. If the aim is to identify
-#' places that contain natural, suitable habitats, then processing should
-#' exclude (i) anthropogenically modified habitat classifications and (ii)
-#' unknown habitat classification types. Defaults to all artificial,
-#' introduced vegetation, and unknown habitat classifications on
-#' the [IUCN Red List Habitat Classification
-#' Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme)
-#' (see [default_omit_iucn_habitat_codes()],
+#'   to omit from resulting Area of Habitat data. If the aim is to identify
+#'   places that contain natural, suitable habitats, then processing should
+#'   exclude (i) anthropogenically modified habitat classifications and (ii)
+#'   unknown habitat classification types. Defaults to all artificial,
+#'   introduced vegetation, and unknown habitat classifications on
+#'   the [IUCN Red List Habitat Classification Scheme](
+#'   https://www.iucnredlist.org/resources/habitat-classification-scheme)
+#'   (see [default_omit_iucn_habitat_codes()],
+#'
+#' @param use_gdal `logical` indicating if GDAL should be used for
+#'   projecting raster data (i.e. [terra_gdal_project()]?
+#'   If GDAL is installed on the system and the \pkg{gdalUtils} package
+#'   is installed, this can dramatically reduce run time.
+#'   Defaults to `TRUE` if GDAL is available (per [is_gdal_available()]).
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
@@ -274,10 +280,10 @@ create_spp_aoh_data <- function(x,
                                 force = FALSE,
                                 parallel_n_threads = 1,
                                 parallel_cluster = NULL,
+                                use_gdal = is_gdal_available(),
                                 omit_habitat_codes =
                                   default_omit_iucn_habitat_codes(),
                                 verbose = TRUE) {
-
   # initialization
   ## display message
   if (verbose) {
@@ -301,6 +307,12 @@ create_spp_aoh_data <- function(x,
     assertthat::noNA(verbose),
     inherits(template_data, "SpatRaster")
   )
+  if (isTRUE(use_gdal)) {
+    assertthat::assert_that(
+      is_gdal_available(),
+      msg = "can't use GDAL because it's not available."
+    )
+  }
   ## parallel cluster
   if (is.null(parallel_cluster)) {
     parallel_cluster <- ifelse(
@@ -536,18 +548,32 @@ create_spp_aoh_data <- function(x,
     cli::cli_progress_step("preparing habitat data")
   }
   ## processing
-  ### reproject data to template
-    habitat_data <- parallel_project(
-      x = habitat_data,
-      y = template_data,
-      method = "bilinear",
-      buffer = 5000,
-      temp_dir = tmp_rast_dir,
-      verbose = verbose,
-      parallel_n_threads = parallel_n_threads,
-      parallel_cluster = parallel_cluster,
-      datatype = "INT2U"
+  if (use_gdal) {
+    #### use GDAL if possible
+    proj_files <- replicate(
+      n = terra::nlyr(habitat_data),
+      expr = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif")
     )
+    habitat_data <- terra::rast(lapply(seq_along(proj_files), function(i) {
+      terra_gdal_project(
+        x = habitat_data[[i]],
+        y = template_data,
+        filename = proj_files[i],
+        parallel_n_threads = parallel_n_threads,
+        verbose = FALSE,
+        datatype = "INT2U"
+      )
+    }))
+  } else {
+    #### otherwise use default terra processing
+    habitat_data <- terra::rast(
+      lapply(
+        terra::as.list(habitat_data), terra::project,
+        y = template_data, datatype = "INT2U"
+      )
+    )
+  }
+
   ### verify that habitat data encompasses that species range data
   assertthat::assert_that(
     sf::st_contains(
@@ -561,13 +587,16 @@ create_spp_aoh_data <- function(x,
     )
   )
   ### clamp to expected values
-  habitat_data <- terra::clamp(
-    habitat_data,
-    lower = 0,
-    upper = 1000,
-    values = TRUE,
-    datatype = "INT2U"
+  habitat_data <- terra::rast(
+    lapply(
+      as.list(habitat_data), terra::clamp,
+      lower = 0, upper = 1000, values = TRUE, datatype = "INT2U"
+    )
   )
+  ### delete previous temp files
+  if (use_gdal) {
+    unlink(proj_files, force = TRUE)
+  }
 
   # prepare elevation data
   ## display message
@@ -577,17 +606,26 @@ create_spp_aoh_data <- function(x,
   ## processing
   ### convert NA values to zeros
   elevation_data[is.na(elevation_data)] <- 0
-  ### reproject data to template
-  elevation_data <- parallel_project(
-    x = elevation_data,
-    y = template_data,
-    method = "bilinear",
-    buffer = 5000,
-    temp_dir = tmp_rast_dir,
-    verbose = FALSE,
-    parallel_n_threads = 1, # no speed up to be had with one layer
-    datatype = "INT2U",
-  )
+  ## processing
+  if (use_gdal) {
+    #### use GDAL for processing if possible
+    elevation_data <- terra_gdal_project(
+      x = elevation_data,
+      y = template_data,
+      parallel_n_threads = parallel_n_threads,
+      filename = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif"),
+      verbose = FALSE,
+      datatype = "INT2U"
+    )
+  } else {
+    #### otherwise use default processing
+    elevation_data <- terra::project(
+      x = elevation_data,
+      y = template_data,
+      datatype = "INT2U"
+    )
+  }
+
   ### verify that elevation data encompasses that species range data
   assertthat::assert_that(
     sf::st_contains(
@@ -611,6 +649,7 @@ create_spp_aoh_data <- function(x,
   terra::writeRaster(
     x = habitat_data,
     filename = habitat_path,
+    verbose = FALSE,
     datatype = "INT2U"
   )
   habitat_data <- terra::rast(habitat_path)

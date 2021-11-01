@@ -105,7 +105,7 @@ get_global_habitat_data <- function(dir = tempdir(), version = "latest",
     } else {
       ## verify that version valid
       all_versions <- suppressWarnings(z$getRecordByDOI(doi)$getVersions())
-      if (!version %in% all_versions) {
+      if (!version %in% all_versions$doi) {
         message("available versions include:")
         message(paste(paste0("\"", all_versions$doi, "\"", collapse = ",")))
         stop("argument to \"version\" is not valid")

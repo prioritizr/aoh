@@ -49,3 +49,7 @@ skip_if_iucn_red_list_data_not_available <- function(x) {
   }
   TRUE
 }
+
+skip_if_gdal_not_available <- function() {
+  skip_if_not(is_gdal_available(), message = "GDAL not available")
+}

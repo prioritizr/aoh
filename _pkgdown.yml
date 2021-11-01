@@ -33,10 +33,10 @@ reference:
   - title: Miscellaneous geoprocessing
     desc: Functions for processing spatial data
     contents:
-      - parallel_project
       - starts_with("sf_")
       - starts_with("terra_")
       - read_sf_n
       - intersecting_ext
       - create_template_rast
       - clean_spp_range_data
+      - is_gdal_available
