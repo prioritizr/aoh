@@ -90,6 +90,18 @@ format_spp_data <- function(x,
   spp_summary_data$elevation_lower[idx] <- -Inf
   idx <- is.na(spp_summary_data$elevation_upper)
   spp_summary_data$elevation_upper[idx] <- Inf
+  ## ensure that lower elevation limit is <= upper elevation limit
+  idx <- which(
+    is.finite(spp_summary_data$elevation_lower) &
+    is.finite(spp_summary_data$elevation_upper)
+  )
+  if (length(idx) > 0) {
+    l <- spp_summary_data$elevation_lower[idx]
+    u <- spp_summary_data$elevation_upper[idx]
+    spp_summary_data$elevation_lower[idx] <- pmin(l, u)
+    spp_summary_data$elevation_upper[idx] <- pmax(l, u)
+    rm(l, u)
+  }
   ## extract relevant columns
   nms <- c("id_no", "elevation_lower", "elevation_upper")
   spp_summary_data <- spp_summary_data[, nms, drop = FALSE]
