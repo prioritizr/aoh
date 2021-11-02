@@ -240,7 +240,6 @@ download_habitat_data <- function(x, dir, z = zen4R::ZenodoManager$new(),
 #'
 #' @inheritParams download_habitat_data
 #'
-#'
 #' @inherit download_habitat_data references details
 #'
 #' @return A `character` value indicating the DOI.
