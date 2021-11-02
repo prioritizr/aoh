@@ -31,6 +31,9 @@ Defaults to 1.}
 \item{filename}{\code{character} Filename for output raster.
 Defaults to \code{tempfile(fileext = ".tif")}.}
 
+\item{verbose}{\code{logical} should information be displayed during processing?
+Defaults to \code{TRUE}.}
+
 \item{...}{Arguments passed to \code{\link[terra:writeRaster]{terra::writeRaster()}}.}
 }
 \value{

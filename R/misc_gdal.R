@@ -45,6 +45,9 @@ is_gdal_available <- function() {
 #'
 #' @param ... Arguments passed to [terra::writeRaster()].
 #'
+#' @param verbose `logical` should information be displayed during processing?
+#'  Defaults to `TRUE`.
+#'
 #' @return A [terra::rast()] raster object.
 #'
 #' @examples

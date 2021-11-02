@@ -162,6 +162,11 @@ Defaults to 1.</p></td>
 Defaults to <code>tempfile(fileext = ".tif")</code>.</p></td>
     </tr>
     <tr>
+      <th>verbose</th>
+      <td><p><code>logical</code> should information be displayed during processing?
+Defaults to <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Arguments passed to <code><a href='https://rdrr.io/pkg/terra/man/writeRaster.html'>terra::writeRaster()</a></code>.</p></td>
     </tr>
@@ -195,7 +200,7 @@ Defaults to <code>tempfile(fileext = ".tif")</code>.</p></td>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Scanning for GDAL installations...</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking Sys.which...</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL version 3.2.2</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL command being used: "/usr/bin/gdalwarp" -overwrite  -te -944881 4664377 935118 7144377 -te_srs "/tmp/RtmpdowdJl/file5fe43358e70a9.wkt" -tr 19999.9893617021 20000 -s_srs "/tmp/RtmpdowdJl/file5fe43643e8388.wkt" -t_srs "/tmp/RtmpdowdJl/file5fe43358e70a9.wkt" -r "bilinear" -of "GTiff" -wo "NUM_THREADS=1" -co "COMPRESS=LZW" "/tmp/RtmpdowdJl/file5fe437b2009d3.tif" "/tmp/RtmpdowdJl/file5fe431548db59.tif"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL command being used: "/usr/bin/gdalwarp" -overwrite  -te -944881 4664377 935118 7144377 -te_srs "/tmp/RtmpJgVuKX/file7cc9d78a944ca.wkt" -tr 19999.9893617021 20000 -s_srs "/tmp/RtmpJgVuKX/file7cc9d214fd648.wkt" -t_srs "/tmp/RtmpJgVuKX/file7cc9d78a944ca.wkt" -r "bilinear" -of "GTiff" -wo "NUM_THREADS=1" -co "COMPRESS=LZW" "/tmp/RtmpJgVuKX/file7cc9d7965f0f8.tif" "/tmp/RtmpJgVuKX/file7cc9d422ae280.tif"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview result</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span></span>
@@ -204,7 +209,7 @@ Defaults to <code>tempfile(fileext = ".tif")</code>.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 19999.99, 20000  (x, y)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -944881, 935118, 4664377, 7144377  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : +proj=lcc +lat_0=0 +lon_0=-100 +lat_1=48 +lat_2=33 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file5fe431548db59.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file7cc9d422ae280.tif </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> name        : lyr.1 </span>
 </code></pre></div>
   </div>
