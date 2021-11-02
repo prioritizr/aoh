@@ -7,6 +7,7 @@
 get_global_habitat_data(
   dir = tempdir(),
   version = "latest",
+  preprocessed = TRUE,
   force = FALSE,
   verbose = TRUE
 )
@@ -23,6 +24,14 @@ Digital Object Identifier of the specific version required (e.g.
 \code{"10.5281/zenodo.3673586"}).
 Defaults to \code{"latest"} such that the latest
 release of the dataset with available habitat data is used.}
+
+\item{preprocessed}{\code{logical} Should a pre-processed version of the
+dataset be downloaded?
+If so, the data are downloaded
+from a GitHub repository
+(\url{https://github.com/prioritizr/aoh/releases/tag/data}).
+Otherwise, data are downloaded from original
+Zenodo Digital Repository (Jung \emph{et al.} 2020b).}
 
 \item{force}{\code{logical} should the data be downloaded even if the
 the data are already available?
@@ -45,7 +54,18 @@ a value of 0 indicates 0\% coverage of a habitat type, and a value of
 \description{
 Import habitat classification data produced by Jung \emph{et al.} (2020a).
 If data are not available locally, they are downloaded from
-the Zenodo Digital Repository (Jung \emph{et al.} 2020b).
+an online repository.
+}
+\details{
+The preprocessed version of the habitat data was produced by
+version was produced by projecting the data to conform
+with the default template raster for processing Area of Habitat data
+(see \code{\link[=get_world_berhman_1km_rast]{get_world_berhman_1km_rast()}}).
+Additionally, data were clamped to ensure values range between
+valid values (i.e. from 0 to 1000).
+The preprocessed version of the habitat data can be help
+run time when creating the Area of Habitat data with
+the default template raster.
 }
 \examples{
 \dontrun{

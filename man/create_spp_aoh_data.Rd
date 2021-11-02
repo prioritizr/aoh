@@ -58,14 +58,15 @@ Defaults to \code{NULL} such that data are automatically obtained from the
 latest version of the \href{https://www.iucnredlist.org}{IUCN Red List}.}
 
 \item{elevation_data}{\code{\link[terra:rast]{terra::rast()}} Raster data delineating the
-worldwide elevation data (e.g. Jung \emph{et al.} 2020a).
+worldwide elevation data (e.g. Amatulli \emph{et al.} 2018).
 Defaults to \code{NULL} such that data
-are automatically obtained from Jung \emph{et al.} 2020b
-(using \code{\link[=get_global_elevation_data]{get_global_elevation_data()}}).}
+are automatically obtained (using \code{\link[=get_global_elevation_data]{get_global_elevation_data()}}).
+If the data are obtained automatically, then a preprocessed version
+of the habitat data will be used to reduce processing time.}
 
 \item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Multi-layer raster data delineating the
 coverage of different habitat classes across world
-(e.g. Jung \emph{et al.} 2020a).
+(e.g. Jung \emph{et al.} 2020a,b).
 Each layer should correspond to a different habitat class,
 and the name of each layer should contain a unique code used to identify
 which places contain suitable habitat for a given species
@@ -75,8 +76,9 @@ an available habitat class.
 \strong{Critically, a value of 1000 should indicate 100\%, and a value of 0
 should indicate 0\%.}
 Defaults to \code{NULL} such that data
-are automatically obtained from Jung \emph{et al.} 2020b
-(using \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).}
+are automatically obtained (using \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).
+If the data are obtained automatically, then a preprocessed version
+of the habitat data will be used to reduce processing time.}
 
 \item{template_data}{\code{\link[terra:rast]{terra::rast()}} Template raster specifying the
 resolution, coordinate reference system, and dimensionality for the
@@ -100,8 +102,10 @@ used.}
 habitat dataset that should be used. See documentation for the
 the \code{version} parameter in the \code{\link[=get_global_habitat_data]{get_global_habitat_data()}} function
 for further details.
+This parameter is only used if habitat data are obtained
+automatically (i.e. the argument to \code{habitat_data} is \code{NULL}).
 Defaults to \code{"latest"} such that the most recent version of the dataset is
-used.}
+used if data need to be obtained.}
 
 \item{key}{\code{character} Token for querying the IUCN Red List API.
 Defaults to \code{NULL} such that the token

@@ -1,13 +1,13 @@
 context("get_global_habitat_data()")
 
-test_that("latest version", {
+test_that("latest version (raw)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
   x <- get_global_habitat_data(
-    version = "latest", force = TRUE, verbose = FALSE
+    version = "latest", preprocessed = FALSE, force = TRUE, verbose = TRUE
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -16,34 +16,41 @@ test_that("latest version", {
   expect_gte(terra::xmax(x), 180)
   expect_lte(terra::xmin(x), -89)
   expect_gte(terra::ymax(x), 89)
+  expect_equal(terra::nlyr(x), 59)
 })
 
-test_that("manually specified version (from online)", {
+test_that("latest version (preprocessed)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_local_and_slow_internet()
+  # get data
+  d <- get_world_berhman_1km_rast()
+  iucn_codes <- names(
+    get_global_habitat_data(
+      version = "10.5281/zenodo.4058819", preprocessed = FALSE, verbose = TRUE
+    )
+  )
   # create object
   x <- get_global_habitat_data(
-    version = "10.5281/zenodo.3816946", force = TRUE, verbose = FALSE
+    version = "latest", preprocessed = TRUE, force = TRUE, verbose = FALSE
   )
   # tests
   expect_is(x, "SpatRaster")
-  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
-  expect_lte(terra::xmin(x), -180)
-  expect_gte(terra::xmax(x), 180)
-  expect_lte(terra::xmin(x), -89)
-  expect_gte(terra::ymax(x), 89)
+  expect_true(terra::compareGeom(x, d, res = TRUE, stopOnError = FALSE))
+  expect_equal(terra::nlyr(x), 59)
+  expect_equal(sort(iucn_codes), sort(names(x)))
 })
 
-test_that("manually specified version (from cache)", {
+test_that("manually specified version (raw from online)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
   x <- get_global_habitat_data(
-    version = "10.5281/zenodo.3816946", force = FALSE, verbose = FALSE
+    version = "10.5281/zenodo.4058819", preprocessed = FALSE,
+    force = TRUE, verbose = FALSE
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -52,4 +59,61 @@ test_that("manually specified version (from cache)", {
   expect_gte(terra::xmax(x), 180)
   expect_lte(terra::xmin(x), -89)
   expect_gte(terra::ymax(x), 89)
+  expect_equal(terra::nlyr(x), 59)
+})
+
+test_that("manually specified version (preprocessed from online)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_local_and_slow_internet()
+  # get data
+  d <- get_world_berhman_1km_rast()
+  # create object
+  x <- get_global_habitat_data(
+    version = "10.5281/zenodo.4058819", preprocessed = TRUE,
+    force = TRUE, verbose = FALSE
+  )
+  # tests
+  expect_is(x, "SpatRaster")
+  expect_true(terra::compareGeom(x, d, res = TRUE, stopOnError = FALSE))
+  expect_equal(terra::nlyr(x), 59)
+})
+
+test_that("manually specified version (raw from cache)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_local_and_slow_internet()
+  # create object
+  x <- get_global_habitat_data(
+    version = "10.5281/zenodo.4058819", preprocessed = FALSE,
+    force = FALSE, verbose = FALSE
+  )
+  # tests
+  expect_is(x, "SpatRaster")
+  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
+  expect_lte(terra::xmin(x), -180)
+  expect_gte(terra::xmax(x), 180)
+  expect_lte(terra::xmin(x), -89)
+  expect_gte(terra::ymax(x), 89)
+  expect_equal(terra::nlyr(x), 59)
+})
+
+test_that("manually specified version (preprocessed from cache)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_local_and_slow_internet()
+  # get data
+  d <- get_world_berhman_1km_rast()
+  # create object
+  x <- get_global_habitat_data(
+    version = "10.5281/zenodo.4058819", preprocessed = TRUE,
+    force = FALSE, verbose = FALSE
+  )
+  # tests
+  expect_is(x, "SpatRaster")
+  expect_true(terra::compareGeom(x, d, res = TRUE, stopOnError = FALSE))
+  expect_equal(terra::nlyr(x), 59)
 })

@@ -152,7 +152,7 @@ Species. For example, the taxon identifier for the species
     </tr>
     <tr>
       <th>dir</th>
-      <td><p><code>character</code> folder path where data should be downloaded.
+      <td><p><code>character</code> Folder path where data should be downloaded.
 By default, data are downloaded to a temporary directory (i.e. <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong>
@@ -161,7 +161,7 @@ data are imported and not re-downloaded from the IUCN Red List.</p></td>
     </tr>
     <tr>
       <th>version</th>
-      <td><p><code>character</code> indicating version of the IUCN Red List for
+      <td><p><code>character</code> Value indicating version of the IUCN Red List for
 obtaining data (e.g. <code>"2021-2"</code>).
 Although it is not possible to query past versions
 of the IUCN Red List, this functionality is useful for accessing
@@ -254,8 +254,6 @@ the IUCN Red List:</p><pre class='sourceCode r'><code><span class='co'># verify 
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># download and import summary data</span></span>
 <span class='r-in'><span class='va'>spp_summary_data</span> <span class='op'>&lt;-</span> <span class='fu'>get_spp_summary_data</span><span class='op'>(</span><span class='va'>spp_ids</span>, <span class='va'>download_dir</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> querying <span style='color: #00BB00;'>■■■■■■■■■■■■■■■■                </span>  50% | ETA:  2s</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> querying <span style='color: #00BB00;'>■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span> <span class='co'># interactive()</span></span>

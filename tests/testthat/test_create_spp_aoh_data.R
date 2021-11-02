@@ -261,7 +261,47 @@ test_that("GDAL processing", {
   })))
 })
 
-test_that("parallel processing", {
+test_that("preprocessed data", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # load data
+  d <- read_spp_range_data(f)
+  # create objects
+  x <- create_spp_aoh_data(
+    x = d,
+    output_dir = tempdir(),
+    habitat_data = NULL,
+    elevation_data = NULL,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = TRUE
+  )
+  # tests
+  expect_is(x$id_no, "integer")
+  expect_is(x$binomial, "character")
+  expect_is(x$seasonal, "integer")
+  expect_is(x$habitat_code, "character")
+  expect_is(x$elevation_lower, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+})
+
+test_that("PSOCK parallel processing", {
   # skip if needed
   skip_on_cran()
   # specify file path
@@ -380,7 +420,7 @@ test_that("example data", {
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.3816946"
+  hv <- "10.5281/zenodo.4058819"
   # load data
   d <- read_spp_range_data(f)
   # create objects
@@ -414,7 +454,7 @@ test_that("amphibian data", {
     "AMPHIBIANS.zip"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.3816946"
+  hv <- "10.5281/zenodo.4058819"
   # load data
   d <- read_spp_range_data(f, n = 10)
   # create objects
@@ -441,7 +481,7 @@ test_that("reptile data", {
     "REPTILES.zip"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.3816946"
+  hv <- "10.5281/zenodo.4058819"
   # load data
   d <- read_spp_range_data(f, n = 10)
   # create objects
@@ -467,7 +507,7 @@ test_that("terrestrial mammal data", {
     "MAMMALS_TERRESTRIAL_ONLY.zip"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.3816946"
+  hv <- "10.5281/zenodo.4058819"
   # load data
   d <- read_spp_range_data(f, n = 10)
   # create objects

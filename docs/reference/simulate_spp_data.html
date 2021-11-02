@@ -156,7 +156,7 @@ spatial extent and boundary for simulating species ranges.</p></td>
       <th>habitat_data</th>
       <td><p><code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> Multi-layer raster data delineating the
 coverage of different habitat classes across world
-(e.g. Jung <em>et al.</em> 2020a).
+(e.g. Jung <em>et al.</em> 2020a,b).
 Each layer should correspond to a different habitat class,
 and the name of each layer should contain a unique code used to identify
 which places contain suitable habitat for a given species
@@ -166,16 +166,18 @@ an available habitat class.
 <strong>Critically, a value of 1000 should indicate 100%, and a value of 0
 should indicate 0%.</strong>
 Defaults to <code>NULL</code> such that data
-are automatically obtained from Jung <em>et al.</em> 2020b
-(using <code><a href='get_global_habitat_data.html'>get_global_habitat_data()</a></code>).</p></td>
+are automatically obtained (using <code><a href='get_global_habitat_data.html'>get_global_habitat_data()</a></code>).
+If the data are obtained automatically, then a preprocessed version
+of the habitat data will be used to reduce processing time.</p></td>
     </tr>
     <tr>
       <th>elevation_data</th>
       <td><p><code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> Raster data delineating the
-worldwide elevation data (e.g. Jung <em>et al.</em> 2020a).
+worldwide elevation data (e.g. Amatulli <em>et al.</em> 2018).
 Defaults to <code>NULL</code> such that data
-are automatically obtained from Jung <em>et al.</em> 2020b
-(using <code><a href='get_global_elevation_data.html'>get_global_elevation_data()</a></code>).</p></td>
+are automatically obtained (using <code><a href='get_global_elevation_data.html'>get_global_elevation_data()</a></code>).
+If the data are obtained automatically, then a preprocessed version
+of the habitat data will be used to reduce processing time.</p></td>
     </tr>
     <tr>
       <th>rf_model_scale_min</th>
@@ -206,8 +208,10 @@ recommended to specify a persistent storage location (see Examples below).</stro
 habitat dataset that should be used. See documentation for the
 the <code>version</code> parameter in the <code><a href='get_global_habitat_data.html'>get_global_habitat_data()</a></code> function
 for further details.
+This parameter is only used if habitat data are obtained
+automatically (i.e. the argument to <code>habitat_data</code> is <code>NULL</code>).
 Defaults to <code>"latest"</code> such that the most recent version of the dataset is
-used.</p></td>
+used if data need to be obtained.</p></td>
     </tr>
     <tr>
       <th>force</th>
@@ -288,8 +292,8 @@ data for real or simulated species.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[7ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global habitat data</span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in FUN(X[[i]], ...)</span> failed to simulate data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'>✖</span> importing global habitat data <span style='color: #B2B2B2;'>[1m 2.6s]</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in CPL_geos_make_valid(x)</span> Evaluation error: IllegalArgumentException: CGAlgorithmsDD::orientationIndex encountered NaN/Inf numbers.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'>✖</span> importing global habitat data <span style='color: #B2B2B2;'>[29.5s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview species range data</span></span>

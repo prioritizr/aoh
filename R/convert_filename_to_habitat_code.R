@@ -35,12 +35,6 @@ convert_filename_to_habitat_code <- function(x) {
   x <- vapply(x, FUN.VALUE = character(1), function(x) {
     x[which(nchar(x) > 0)[1]]
   })
-  # import codes conversion table
-  code_data <- habitat_code_data()
-  # convert to IUCN codes
-  assertthat::assert_that(
-    all(x %in% code_data$code),
-    msg = "habitat classification code(s) not recognized"
-  )
-  code_data$iucn_code[match(x, code_data$code)]
+  # return codes
+  convert_jung_codes_to_iucn_codes(x)
 }

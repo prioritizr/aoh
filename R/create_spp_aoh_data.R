@@ -50,14 +50,15 @@ NULL
 #'   latest version of the [IUCN Red List](https://www.iucnredlist.org).
 #'
 #' @param elevation_data [terra::rast()] Raster data delineating the
-#'   worldwide elevation data (e.g. Jung *et al.* 2020a).
+#'   worldwide elevation data (e.g. Amatulli *et al.* 2018).
 #'   Defaults to `NULL` such that data
-#'   are automatically obtained from Jung *et al.* 2020b
-#'   (using [get_global_elevation_data()]).
+#'   are automatically obtained (using [get_global_elevation_data()]).
+#'   If the data are obtained automatically, then a preprocessed version
+#'   of the habitat data will be used to reduce processing time.
 #'
 #' @param habitat_data [terra::rast()] Multi-layer raster data delineating the
 #'   coverage of different habitat classes across world
-#'   (e.g. Jung *et al.* 2020a).
+#'   (e.g. Jung *et al.* 2020a,b).
 #'   Each layer should correspond to a different habitat class,
 #'   and the name of each layer should contain a unique code used to identify
 #'   which places contain suitable habitat for a given species
@@ -67,8 +68,9 @@ NULL
 #'   **Critically, a value of 1000 should indicate 100%, and a value of 0
 #'   should indicate 0%.**
 #'   Defaults to `NULL` such that data
-#'   are automatically obtained from Jung *et al.* 2020b
-#'   (using [get_global_habitat_data()]).
+#'   are automatically obtained (using [get_global_habitat_data()]).
+#'   If the data are obtained automatically, then a preprocessed version
+#'   of the habitat data will be used to reduce processing time.
 #'
 #' @param iucn_version  `character` Version of the
 #'  IUCN Red List dataset that should be used. See documentation for the
@@ -81,8 +83,10 @@ NULL
 #'   habitat dataset that should be used. See documentation for the
 #'   the `version` parameter in the [get_global_habitat_data()] function
 #'   for further details.
+#'   This parameter is only used if habitat data are obtained
+#'   automatically (i.e. the argument to `habitat_data` is `NULL`).
 #'   Defaults to `"latest"` such that the most recent version of the dataset is
-#'   used.
+#'   used if data need to be obtained.
 #'
 #' @param template_data [terra::rast()] Template raster specifying the
 #'  resolution, coordinate reference system, and dimensionality for the
@@ -357,7 +361,7 @@ create_spp_aoh_data <- function(x,
     ### processing
     habitat_data <- get_global_habitat_data(
       dir = cache_dir, version = habitat_version, force = force,
-      verbose = verbose
+      preprocessed = TRUE, verbose = verbose
     )
   }
   assertthat::assert_that(
@@ -542,121 +546,42 @@ create_spp_aoh_data <- function(x,
     NAflag = -9999,
   )
 
-  # project habitat data
-  ## display message
-  if (verbose) {
-    pb <- cli::cli_progress_bar(
-      clear = FALSE,
-      total = terra::nlyr(habitat_data),
-      format = paste0(
-        "{.alert-info projecting habitat data} ",
-        "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
-      ),
-      format_done = paste0(
-        "{.alert-success projecting habitat data} [{cli::pb_elapsed}]"
-      )
+  # habitat processing
+  if (
+    identical(terra::crs(habitat_data), terra::crs(template_data)) &&
+    terra::compareGeom(
+      x = terra::crop(habitat_data[[1]], template_data, snap = "out"),
+      y = template_data, res = TRUE, stopOnError = FALSE
     )
-  }
-  ## processing
-  if (use_gdal) {
-    ### if using gdal
-    proj_files <- replicate(
-      n = terra::nlyr(habitat_data),
-      expr = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif")
-    )
-    #### main processing
-    habitat_data <- terra::rast(
-      plyr::llply(
-        seq_along(proj_files),
-        function(i) {
-          x <- terra_gdal_project(
-            x = habitat_data[[i]],
-            y = template_data,
-            filename = proj_files[i],
-            parallel_n_threads = parallel_n_threads,
-            verbose = FALSE,
-            datatype = "INT2U"
-          )
-          if (verbose) {
-            cli::cli_progress_update(id = pb)
-          }
-          x
-        }
-      )
-    )
+  ) {
+    ## display message
+    if (verbose) {
+      cli::cli_progress_step("preparing habitat data")
+    }
+    ## crop data
+    habitat_data <- terra::crop(habitat_data, template_data)
   } else {
-    #### otherwise use default terra processing
-    habitat_data <- terra::rast(
-      plyr::llply(terra::as.list(habitat_data), function(x) {
-        x <- terra::project(
-          x = x,
-          y = template_data,
-          datatype = "INT2U"
-        )
-        if (verbose) {
-          cli::cli_progress_update(id = pb)
-        }
-        x
-      })
+    ## project habitat data
+    habitat_data <- project_habitat_data(
+      x = habitat_data,
+      template_data = template_data,
+      parallel_n_threads = parallel_n_threads,
+      use_gdal = use_gdal,
+      temp_dir = tmp_rast_dir,
+      verbose = verbose
     )
-  }
-  ## update message
-  if (verbose) {
-    cli::cli_progress_done(id = pb)
-    rm(pb)
-  }
-  ### verify that habitat data encompasses that species range data
-  assertthat::assert_that(
-    sf::st_contains(
-      sf::st_as_sfc(terra_st_bbox(habitat_data)),
-      sf::st_as_sfc(sf::st_bbox(x)),
-      sparse = FALSE
-    )[[1]],
-    msg = paste(
-      "argument to \"habitat_data\" has a spatial extent that does not",
-      "fully contain species range data in the argument to \"x\""
-    )
-  )
-
-  # clamp habitat data
-  ## display message
-  if (verbose) {
-    pb <- cli::cli_progress_bar(
-      clear = TRUE,
-      total = terra::nlyr(habitat_data),
-      format = paste0(
-        "{.alert-info clamping habitat data} ",
-        "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
-      ),
-      format_done = paste0(
-        "{cli::symbol$tick} clamping habitat data [{cli::pb_elapsed}]"
+    ## verify that habitat data encompasses that species range data
+    assertthat::assert_that(
+      sf::st_contains(
+        sf::st_as_sfc(terra_st_bbox(habitat_data)),
+        sf::st_as_sfc(sf::st_bbox(x)),
+        sparse = FALSE
+      )[[1]],
+      msg = paste(
+        "argument to \"habitat_data\" has a spatial extent that does not",
+        "fully contain species range data in the argument to \"x\""
       )
     )
-  }
-  ## processing
-  habitat_data <- terra::rast(
-    plyr::llply(terra::as.list(habitat_data), function(x) {
-      x <- terra::clamp(
-        x = x,
-        lower = 0,
-        upper = 1000,
-        values = TRUE,
-        datatype = "INT2U",
-      )
-      if (verbose) {
-        cli::cli_progress_update(id = pb)
-      }
-      x
-    })
-  )
-  ## update message
-  if (verbose) {
-    cli::cli_progress_done(id = pb)
-    rm(pb)
-  }
-  ## delete previous temp files
-  if (use_gdal) {
-    unlink(proj_files, force = TRUE)
   }
 
   # prepare elevation data
@@ -664,30 +589,40 @@ create_spp_aoh_data <- function(x,
   if (verbose) {
     cli::cli_progress_step("preparing elevation data")
   }
-  ## processing
-  ### convert NA values to zeros
+  ## convert NA values to zeros
   elevation_data[is.na(elevation_data)] <- 0
-  ## processing
-  if (use_gdal) {
-    #### use GDAL for processing if possible
-    elevation_data <- terra_gdal_project(
-      x = elevation_data,
-      y = template_data,
-      parallel_n_threads = parallel_n_threads,
-      filename = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif"),
-      verbose = FALSE,
-      datatype = "INT2U"
+  ## align elevation data with template
+  if (
+    identical(terra::crs(elevation_data), terra::crs(template_data)) &&
+    terra::compareGeom(
+      x = terra::crop(elevation_data, template_data, snap = "out"),
+      y = template_data, res = TRUE, stopOnError = FALSE
     )
+  ) {
+    ### crop data
+    elevation_data <- terra::crop(elevation_data, template_data)
   } else {
-    #### otherwise use default processing
-    elevation_data <- terra::project(
-      x = elevation_data,
-      y = template_data,
-      datatype = "INT2U"
-    )
+    ### project data
+    if (use_gdal) {
+      #### use GDAL for processing if possible
+      elevation_data <- terra_gdal_project(
+        x = elevation_data,
+        y = template_data,
+        parallel_n_threads = parallel_n_threads,
+        filename = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif"),
+        verbose = FALSE,
+        datatype = "INT2U"
+      )
+    } else {
+      #### otherwise use default processing
+      elevation_data <- terra::project(
+        x = elevation_data,
+        y = template_data,
+        datatype = "INT2U"
+      )
+    }
   }
-
-  ### verify that elevation data encompasses that species range data
+  ## verify that elevation data encompasses that species range data
   assertthat::assert_that(
     sf::st_contains(
       sf::st_as_sfc(terra_st_bbox(elevation_data)),

@@ -1,5 +1,5 @@
 # System command to execute:
-# R CMD BATCH --no-restore --no-save habitat-data-script.R
+# R CMD BATCH --no-restore --no-save preprocess-habitat-data.R
 
 # Initialization
 ## load packages
@@ -16,12 +16,15 @@ library(gdalUtils)
 n_threads <- max(1, parallel::detectCores() - 2)
 
 ### change this to where you want to save the outputs
-output_dir <- tempfile()
+output_dir <-  "~/aoh-data"
 
 ### set version to process
 version <- aoh:::latest_version_habitat_data("10.5281/zenodo.4058356")
 
 # Preliminary processing
+## print version
+cli::cli_alert_info(paste0("Version: ", version))
+
 ## specify cache directory
 cache_dir <- rappdirs::user_data_dir("aoh")
 
@@ -34,7 +37,7 @@ if (!file.exists(cache_dir)) {
 ## update output directory based on input data filename
 output_dir <- file.path(
   path.expand(output_dir),
-  gsub("-", ".", gsub("/", "_", version, fixed = TRUE), fixed = TRUE)
+  gsub(".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE)
 )
 
 ## create output directory
@@ -44,80 +47,20 @@ if (!file.exists(output_dir)) {
 
 # Main processing
 ## import data
-habitat_data <- get_global_habitat_data(cache_dir, version = version)
+habitat_data <- get_global_habitat_data(
+  cache_dir, preprocessed = FALSE, version = version
+)
 template_data <- get_world_berhman_1km_rast()
 
 ## project data
-### create temp files
-proj_files <- replicate(
-  n = terra::nlyr(habitat_data),
-  expr = tempfile(fileext = ".tif")
+habitat_data <- aoh:::project_habitat_data(
+  x = habitat_data,
+  template_data = template_data,
+  parallel_n_threads = n_threads,
+  use_gdal = TRUE,
+  temp_dir = tempdir(),
+  verbose = TRUE
 )
-### set up
-pb <- cli::cli_progress_bar(
-  clear = FALSE,
-  total = terra::nlyr(habitat_data),
-  format = paste0(
-    "{.alert-info projecting habitat data} ",
-    "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
-  ),
-  format_done = paste0(
-    "{.alert-success projecting habitat data} [{cli::pb_elapsed}]"
-  )
-)
-### processing
-habitat_data <- terra::rast(
-  plyr::llply(
-    seq_along(proj_files),
-    function(i) {
-      x <- aoh::terra_gdal_project(
-        x = habitat_data[[i]],
-        y = template_data,
-        filename = proj_files[i],
-        parallel_n_threads = n_threads,
-        verbose = FALSE,
-        datatype = "INT2U"
-      )
-      cli::cli_progress_update(id = pb)
-      x
-    }
-  )
-)
-### clean up
-cli::cli_progress_done(id = pb)
-rm(pb)
-
-## clamp data
-### set up
-pb <- cli::cli_progress_bar(
-  clear = TRUE,
-  total = terra::nlyr(habitat_data),
-  format = paste0(
-    "{.alert-info clamping habitat data} ",
-    "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
-  ),
-  format_done = paste0(
-    "{cli::symbol$tick} clamping habitat data [{cli::pb_elapsed}]"
-  )
-)
-### processing
-habitat_data <- terra::rast(
-  plyr::llply(terra::as.list(habitat_data), function(x) {
-    x <- terra::clamp(
-      x = x,
-      lower = 0,
-      upper = 1000,
-      values = TRUE,
-      datatype = "INT2U",
-    )
-    cli::cli_progress_update(id = pb)
-    x
-  })
-)
-### clean up
-cli::cli_progress_done(id = pb)
-rm(pb)
-unlink(proj_files, force = TRUE)
 
 # Exports
 ## save rasters to disk

@@ -17,7 +17,6 @@ Authors@R:
         comment = c(ORCID = '0000-0002-4716-6134')))
 Imports:
     utils,
-    sp,
     methods,
     parallel,
     assertthat (>= 0.2.0),
@@ -36,7 +35,8 @@ Imports:
     plyr (>= 1.8.6),
     ggplot2 (>= 3.1.0),
     fasterize (>= 1.0.3),
-    raster (>= 3.5.2)
+    raster (>= 3.5.2),
+    piggyback(>= 0.1.1)
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
@@ -46,7 +46,6 @@ Suggests:
     ggmap (>= 2.6.1),
     RandomFields (>= 3.3.10),
     smoothr (>= 0.2.2),
-    piggyback (>= 0.1.1),
     rnaturalearth (>= 0.1.0),
     rgdal (>= 1.5.27),
     gdalUtils (>= 2.0.3.2)
@@ -66,6 +65,7 @@ Collate:
     'assertions.R'
     'clean_spp_range_data.R'
     'convert_filename_to_habitat_code.R'
+    'convert_jung_code_to_iucn_code.R'
     'convert_seasonal.R'
     'misc_sf.R'
     'misc_terra.R'
@@ -76,6 +76,8 @@ Collate:
     'create_spp_aoh_data.R'
     'default_omit_iucn_habitat_codes.R'
     'format_spp_data.R'
+    'get_prep_global_habitat_data.R'
+    'get_raw_global_habitat_data.R'
     'get_spp_api_data.R'
     'get_world_berhman_1km_rast.R'
     'misc_gdal.R'
@@ -83,6 +85,7 @@ Collate:
     'package.R'
     'plot_spp_aoh_data.R'
     'process_spp_aoh_data_on_local.R'
+    'project_habitat_data.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
 Roxygen: list(markdown = TRUE)

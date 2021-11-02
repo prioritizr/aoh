@@ -4,13 +4,26 @@
 \alias{get_global_elevation_data}
 \title{Get global elevation data}
 \usage{
-get_global_elevation_data(dir = tempdir(), force = FALSE, verbose = TRUE)
+get_global_elevation_data(
+  dir = tempdir(),
+  preprocessed = TRUE,
+  force = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{dir}{\code{character} folder path for downloading and caching data.
 By default, data are downloaded to a temporary directory (i.e. \code{tempdir()}).
 \strong{To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).}}
+
+\item{preprocessed}{\code{logical} Should a pre-processed version of the
+dataset be downloaded?
+If so, the data are downloaded
+from a GitHub repository
+(\url{https://github.com/prioritizr/aoh/releases/tag/data}).
+Otherwise, data are downloaded from the
+\href{http://www.earthenv.org/}{EarthEnv project}.}
 
 \item{force}{\code{logical} should the data be downloaded even if the
 the data are already available?
@@ -26,8 +39,20 @@ data. These data are available at the 1 km \eqn{\times} 1 km resolution.
 }
 \description{
 Import elevation data produced by Amatulli \emph{et al.} (2018).
-If data are not available locally, they are downloaded from the
-\href{http://www.earthenv.org/}{EarthEnv project}.
+If data are not available locally, they are downloaded from
+an online repository.
+}
+\details{
+The preprocessed version of the elevation data was produced by
+version was produced by projecting the data to conform
+with the default template raster for processing Area of Habitat data
+(see \code{\link[=get_world_berhman_1km_rast]{get_world_berhman_1km_rast()}}).
+Additionally, data were clamped to ensure validity
+(i.e. all values are greater than or equal to 0 because the dataset
+does not contain bathymetry data).
+The preprocessed version of the habitat data can be help
+run time when creating the Area of Habitat data with
+the default template raster.
 }
 \examples{
 \dontrun{
