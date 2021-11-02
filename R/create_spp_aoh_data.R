@@ -542,38 +542,69 @@ create_spp_aoh_data <- function(x,
     NAflag = -9999,
   )
 
-  # prepare habitat data
+  # project habitat data
   ## display message
   if (verbose) {
-    cli::cli_progress_step("preparing habitat data")
+    pb <- cli::cli_progress_bar(
+      clear = FALSE,
+      total = terra::nlyr(habitat_data),
+      format = paste0(
+        "{.alert-info projecting habitat data} ",
+        "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
+      ),
+      format_done = paste0(
+        "{.alert-success projecting habitat data} [{cli::pb_elapsed}]"
+      )
+    )
   }
   ## processing
   if (use_gdal) {
-    #### use GDAL if possible
+    ### if using gdal
     proj_files <- replicate(
       n = terra::nlyr(habitat_data),
       expr = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif")
     )
-    habitat_data <- terra::rast(lapply(seq_along(proj_files), function(i) {
-      terra_gdal_project(
-        x = habitat_data[[i]],
-        y = template_data,
-        filename = proj_files[i],
-        parallel_n_threads = parallel_n_threads,
-        verbose = FALSE,
-        datatype = "INT2U"
+    #### main processing
+    habitat_data <- terra::rast(
+      plyr::llply(
+        seq_along(proj_files),
+        function(i) {
+          x <- terra_gdal_project(
+            x = habitat_data[[i]],
+            y = template_data,
+            filename = proj_files[i],
+            parallel_n_threads = parallel_n_threads,
+            verbose = FALSE,
+            datatype = "INT2U"
+          )
+          if (verbose) {
+            cli::cli_progress_update(id = pb)
+          }
+          x
+        }
       )
-    }))
+    )
   } else {
     #### otherwise use default terra processing
     habitat_data <- terra::rast(
-      lapply(
-        terra::as.list(habitat_data), terra::project,
-        y = template_data, datatype = "INT2U"
-      )
+      plyr::llply(terra::as.list(habitat_data), function(x) {
+        x <- terra::project(
+          x = x,
+          y = template_data,
+          datatype = "INT2U"
+        )
+        if (verbose) {
+          cli::cli_progress_update(id = pb)
+        }
+        x
+      })
     )
   }
-
+  ## update message
+  if (verbose) {
+    cli::cli_progress_done(id = pb)
+    rm(pb)
+  }
   ### verify that habitat data encompasses that species range data
   assertthat::assert_that(
     sf::st_contains(
@@ -586,14 +617,44 @@ create_spp_aoh_data <- function(x,
       "fully contain species range data in the argument to \"x\""
     )
   )
-  ### clamp to expected values
-  habitat_data <- terra::rast(
-    lapply(
-      as.list(habitat_data), terra::clamp,
-      lower = 0, upper = 1000, values = TRUE, datatype = "INT2U"
+
+  # clamp habitat data
+  ## display message
+  if (verbose) {
+    pb <- cli::cli_progress_bar(
+      clear = TRUE,
+      total = terra::nlyr(habitat_data),
+      format = paste0(
+        "{.alert-info clamping habitat data} ",
+        "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
+      ),
+      format_done = paste0(
+        "{cli::symbol$tick} clamping habitat data [{cli::pb_elapsed}]"
+      )
     )
+  }
+  ## processing
+  habitat_data <- terra::rast(
+    plyr::llply(terra::as.list(habitat_data), function(x) {
+      x <- terra::clamp(
+        x = x,
+        lower = 0,
+        upper = 1000,
+        values = TRUE,
+        datatype = "INT2U",
+      )
+      if (verbose) {
+        cli::cli_progress_update(id = pb)
+      }
+      x
+    })
   )
-  ### delete previous temp files
+  ## update message
+  if (verbose) {
+    cli::cli_progress_done(id = pb)
+    rm(pb)
+  }
+  ## delete previous temp files
   if (use_gdal) {
     unlink(proj_files, force = TRUE)
   }
@@ -645,26 +706,39 @@ create_spp_aoh_data <- function(x,
     cli::cli_progress_step("standardizing data")
   }
   ## save habitat data to disk
+  ### create path
   habitat_path <- replicate(
     n = terra::nlyr(habitat_data),
     tempfile(fileext = ".tif")
   )
+  ### store names
   habitat_names <- names(habitat_data)
+  ### save data
   terra::writeRaster(
     x = habitat_data,
     filename = habitat_path,
     verbose = FALSE,
     datatype = "INT2U"
   )
+  ### clear memory
+  rm(habitat_data)
+  invisible(gc())
+  ### re-import data
   habitat_data <- terra::rast(habitat_path)
   names(habitat_data) <- habitat_names
   ## save elevation data to disk
+  ### create path
   elevation_path <- tempfile(fileext = ".tif")
+  ### save data
   terra::writeRaster(
     x = elevation_data,
     filename = elevation_path,
     datatype = "INT2U"
   )
+  ### clear memory
+  rm(elevation_data)
+  invisible(gc())
+  ### re-import data
   elevation_data <- terra::rast(elevation_path)
   ## remove old terra files and reset terra options
   unlink(tmp_rast_dir, force = TRUE, recursive = TRUE)
@@ -672,7 +746,7 @@ create_spp_aoh_data <- function(x,
 
   # main processing
   ## display message
-  if (verbose) {
+  if (verbose && (parallel_n_threads > 1)) {
     cli::cli_progress_step("generating Area of Habitat data")
   }
   ## processing

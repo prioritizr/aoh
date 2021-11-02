@@ -105,6 +105,21 @@ process_spp_aoh_data_on_local <- function(x,
     idx <- which(!is.na(x$path))
   }
 
+  # create custom progress bar
+  if (isTRUE(verbose) && isTRUE(parallel_n_threads == 1)) {
+    pb <- cli::cli_progress_bar(
+      clear = FALSE,
+      total = length(idx),
+      format = paste0(
+        "{.alert-info generating Area of Habitat data} ",
+        "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
+      ),
+      format_done = paste0(
+        "{.alert-success generating Area of Habitat data [{cli::pb_elapsed}]}"
+      )
+    )
+  }
+
   # prepare for parallel processing if needed
   if (isTRUE(parallel_n_threads > 1)) {
     ## prepare data
@@ -140,7 +155,7 @@ process_spp_aoh_data_on_local <- function(x,
         envir = environment(),
         varlist = c(
           "x_import", "habitat_import", "habitat_names", "elevation_import",
-          "wopt", "parallel_n_threads"
+          "wopt", "parallel_n_threads", "verbose"
         )
       )
       parallel::clusterEvalQ(
@@ -171,9 +186,6 @@ process_spp_aoh_data_on_local <- function(x,
   # main processing
   result <- suppressWarnings(plyr::llply(
     .data = idx,
-    .progress = ifelse(
-      isTRUE(verbose) && isTRUE(parallel_n_threads == 1), "text", "none"
-    ),
     .parallel = isTRUE(parallel_n_threads > 1),
     .fun = function(i) {
       ## import data if needed
@@ -264,9 +276,21 @@ process_spp_aoh_data_on_local <- function(x,
       suppressWarnings(rm(curr_spp_habitat_data, curr_elev_mask))
       gc()
 
+      ## update progress bar if needed
+      if (isTRUE(verbose) && isTRUE(parallel_n_threads == 1)) {
+        cli::cli_progress_update(id = pb)
+      }
+
       ## return success
       TRUE
   }))
+
+  # close progress bar if needed
+  if (isTRUE(verbose) && isTRUE(parallel_n_threads == 1)) {
+    cli::cli_progress_done(id = pb)
+    rm(pb)
+  }
+
 
   # return result
   result
