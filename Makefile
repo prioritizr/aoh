@@ -18,6 +18,9 @@ inst/testdata/SIMULATED_SPECIES.zip: inst/scripts/test-data.R
 inst/extdata/EXAMPLE_SPECIES.zip: inst/scripts/range-data.R
 	R --slave -e "source('inst/scripts/range-data.R')"
 
+habitat_data: inst/scripts/habitat-data-script.R
+	cd inst/scripts && R CMD BATCH --no-restore --no-save habitat-data-script.R
+
 man:
 	R --slave -e "devtools::document()"
 
