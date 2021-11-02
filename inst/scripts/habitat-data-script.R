@@ -34,7 +34,7 @@ if (!file.exists(cache_dir)) {
 ## update output directory based on input data filename
 output_dir <- file.path(
   path.expand(output_dir),
-  gsub(".", "_", gsub("/", "-", version, fixed = TRUE), fixed = TRUE)
+  gsub("-", ".", gsub("/", "_", version, fixed = TRUE), fixed = TRUE)
 )
 
 ## create output directory
