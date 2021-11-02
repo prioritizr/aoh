@@ -12,10 +12,10 @@ test_that("latest version", {
   # tests
   expect_is(x, "SpatRaster")
   expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
-  expect_lte(terra::xmin(d), -180)
-  expect_gte(terra::xmax(d), 180)
-  expect_lte(terra::xmin(d), -89)
-  expect_gte(terra::ymax(d), 89)
+  expect_lte(terra::xmin(x), -180)
+  expect_gte(terra::xmax(x), 180)
+  expect_lte(terra::xmin(x), -89)
+  expect_gte(terra::ymax(x), 89)
 })
 
 test_that("manually specified version (from online)", {
@@ -30,10 +30,10 @@ test_that("manually specified version (from online)", {
   # tests
   expect_is(x, "SpatRaster")
   expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
-  expect_lte(terra::xmin(d), -180)
-  expect_gte(terra::xmax(d), 180)
-  expect_lte(terra::xmin(d), -89)
-  expect_gte(terra::ymax(d), 89)
+  expect_lte(terra::xmin(x), -180)
+  expect_gte(terra::xmax(x), 180)
+  expect_lte(terra::xmin(x), -89)
+  expect_gte(terra::ymax(x), 89)
 })
 
 test_that("manually specified version (from cache)", {
@@ -48,8 +48,8 @@ test_that("manually specified version (from cache)", {
   # tests
   expect_is(x, "SpatRaster")
   expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
-  expect_lte(terra::xmin(d), -180)
-  expect_gte(terra::xmax(d), 180)
-  expect_lte(terra::xmin(d), -89)
-  expect_gte(terra::ymax(d), 89)
+  expect_lte(terra::xmin(x), -180)
+  expect_gte(terra::xmax(x), 180)
+  expect_lte(terra::xmin(x), -89)
+  expect_gte(terra::ymax(x), 89)
 })
