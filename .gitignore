@@ -13,6 +13,7 @@ inst/scripts/*.Rout
 *.Rproj.user
 *.Rhistory
 .Rproj.user
+
 # log files
 gurobi.log
 test.log
@@ -20,15 +21,20 @@ check.log
 spell.log
 gp.log
 examples.log
+aoh-data.Rout
+preprocess-habitat-data.Rout
+preprocess-elevation-data.Rout
 
 # system files
 .directory
+
 # do not ignore the following files
 !.gitkeep
 !*/
 !inst/doc/*.html
 !inst/doc/*.Rmd
 !inst/doc/.gitkeep
+
 # devtools files
 doc/*
 Meta/*

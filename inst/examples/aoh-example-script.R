@@ -13,10 +13,8 @@ library(rappdirs)
 ### set number of threads
 n_threads <- 1
 
-### possible options based on for IUCN file name conventions
+### change this to the zip file downloaded from the IUCN Red List
 input_file <- "AMPHIBIANS.zip"
-# input_file <- "MAMMALS_TERRESTRIAL_ONLY.zip"
-# input_file <- "REPTILES.zip"
 
 ### change this to the folder where the zip file is located
 input_dir <- rappdirs::user_data_dir("iucn-red-list-data")

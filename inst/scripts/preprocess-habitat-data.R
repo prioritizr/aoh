@@ -3,6 +3,7 @@
 
 # Initialization
 ## load packages
+devtools::load_all()
 library(aoh)
 library(raster)
 library(terra)
