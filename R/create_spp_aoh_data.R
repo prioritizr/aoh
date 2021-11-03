@@ -560,7 +560,7 @@ create_spp_aoh_data <- function(x,
     }
     ## crop data
     habitat_data <- terra::rast(
-      terra::lapply(
+      lapply(
         as.list(habitat_data), terra::crop,
         y = template_data, snap = "out", datatype = "INT2U"
       )
