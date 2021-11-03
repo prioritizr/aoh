@@ -37,13 +37,13 @@ aoh_amphibians:
 	R CMD BATCH --no-restore --no-save '--args amphibians' inst/scripts/aoh-data.R
 
 aoh_birds:
-	R CMD BATCH --no-restore --no-save inst/scripts/aoh-data.R birds
+	R CMD BATCH --no-restore --no-save '--args birds' inst/scripts/aoh-data.R
 
 aoh_mammals:
-	R CMD BATCH --no-restore --no-save inst/scripts/aoh-data.R mammals
+	R CMD BATCH --no-restore --no-save '--args mammals' inst/scripts/aoh-data.R
 
 aoh_reptiles:
-	R CMD BATCH --no-restore --no-save inst/scripts/aoh-data.R reptiles
+	R CMD BATCH --no-restore --no-save '--args reptiles' inst/scripts/aoh-data.R
 
 # documentation
 docs: man readme vigns site
