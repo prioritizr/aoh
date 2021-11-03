@@ -568,6 +568,7 @@ create_spp_aoh_data <- function(x,
           y = template_data,
           snap = "out",
           datatype = "INT2U",
+          verbose = TRUE
         )
       })
     )
@@ -611,7 +612,7 @@ create_spp_aoh_data <- function(x,
     )
   ) {
     ### crop data
-    elevation_data <- terra::crop(elevation_data, template_data)
+    elevation_data <- terra::crop(elevation_data, template_data, snap = "out")
   } else {
     ### project data
     if (use_gdal) {
