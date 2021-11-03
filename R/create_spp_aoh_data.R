@@ -567,8 +567,7 @@ create_spp_aoh_data <- function(x,
           x = x,
           y = template_data,
           snap = "out",
-          datatype = "INT2U",
-          verbose = TRUE
+          datatype = "INT2U"
         )
       })
     )
