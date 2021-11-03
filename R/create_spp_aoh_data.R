@@ -506,7 +506,7 @@ create_spp_aoh_data <- function(x,
       "contains codes that should not be omitted?"
     )
   )
-
+  ## remove missing codes
   habitat_codes <- habitat_codes[!missing_codes]
   ## add column with output file paths
   x$path <- file.path(output_dir, paste0(x$aoh_id, ".tif"))
@@ -550,7 +550,9 @@ create_spp_aoh_data <- function(x,
   if (
     identical(terra::crs(habitat_data), terra::crs(template_data)) &&
     terra::compareGeom(
-      x = terra::crop(habitat_data[[1]], template_data, snap = "out"),
+      x = terra::crop(
+        habitat_data[[1]], template_data, snap = "out", datatype = "INT2U"
+      ),
       y = template_data, res = TRUE, stopOnError = FALSE
     )
   ) {
@@ -560,10 +562,14 @@ create_spp_aoh_data <- function(x,
     }
     ## crop data
     habitat_data <- terra::rast(
-      lapply(
-        as.list(habitat_data), terra::crop,
-        y = template_data, snap = "out", datatype = "INT2U"
-      )
+      plyr::llply(terra::as.list(habitat_data), function(x) {
+        terra::crop(
+          x = x,
+          y = template_data,
+          snap = "out",
+          datatype = "INT2U",
+        )
+      })
     )
   } else {
     ## project habitat data
