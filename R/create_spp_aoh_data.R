@@ -559,7 +559,12 @@ create_spp_aoh_data <- function(x,
       cli::cli_progress_step("preparing habitat data")
     }
     ## crop data
-    habitat_data <- terra::crop(habitat_data, template_data)
+    habitat_data <- terra::rast(
+      terra::lapply(
+        as.list(habitat_data), terra::crop,
+        y = template_data, snap = "out", datatype = "INT2U"
+      )
+    )
   } else {
     ## project habitat data
     habitat_data <- project_habitat_data(
