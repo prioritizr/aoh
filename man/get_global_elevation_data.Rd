@@ -46,7 +46,7 @@ an online repository.
 The preprocessed version of the elevation data was produced by
 version was produced by projecting the data to conform
 with the default template raster for processing Area of Habitat data
-(see \code{\link[=get_world_berhman_1km_rast]{get_world_berhman_1km_rast()}}).
+(see \code{\link[=get_world_behrmann_1km_rast]{get_world_behrmann_1km_rast()}}).
 Additionally, data were clamped to ensure validity
 (i.e. all values are greater than or equal to 0 because the dataset
 does not contain bathymetry data).

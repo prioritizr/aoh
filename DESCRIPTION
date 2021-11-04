@@ -79,7 +79,7 @@ Collate:
     'get_prep_global_habitat_data.R'
     'get_raw_global_habitat_data.R'
     'get_spp_api_data.R'
-    'get_world_berhman_1km_rast.R'
+    'get_world_behrmann_1km_rast.R'
     'misc_gdal.R'
     'misc_randomfields.R'
     'package.R'

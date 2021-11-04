@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fasterize — terra_fasterize • aoh</title>
+<title>Combine — terra_combine • aoh</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Fasterize — terra_fasterize" />
-<meta property="og:description" content="This function converts a sf::st_as_sf() object to a terra::rast()
-object using fasterize::fasterize(). It is similar to
-terra::rasterize(), except that it has greater performance." />
+<meta property="og:title" content="Combine — terra_combine" />
+<meta property="og:description" content="Align and combine a list of multiple terra::rast() objects into a
+single terra::rast() object with multiple layers." />
 
 
 
@@ -118,33 +117,24 @@ terra::rasterize(), except that it has greater performance." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fasterize</h1>
+    <h1>Combine</h1>
     <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/misc_terra.R'><code>R/misc_terra.R</code></a></small>
-    <div class="hidden name"><code>terra_fasterize.Rd</code></div>
+    <div class="hidden name"><code>terra_combine.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function converts a <code><a href='https://r-spatial.github.io/sf/reference/st_as_sf.html'>sf::st_as_sf()</a></code> object to a <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code>
-object using <code><a href='https://rdrr.io/pkg/fasterize/man/fasterize.html'>fasterize::fasterize()</a></code>. It is similar to
-<code><a href='https://rdrr.io/pkg/terra/man/rasterize.html'>terra::rasterize()</a></code>, except that it has greater performance.</p>
+    <p>Align and combine a list of multiple <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> objects into a
+single <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> object with multiple layers.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>terra_fasterize</span><span class='op'>(</span><span class='va'>sf</span>, <span class='va'>raster</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>terra_combine</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sf</th>
-      <td><p><code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::st_sf()</a></code> Object.</p></td>
-    </tr>
-    <tr>
-      <th>raster</th>
-      <td><p><code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> Object.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed to <code><a href='https://rdrr.io/pkg/fasterize/man/fasterize.html'>fasterize::fasterize()</a></code>.</p></td>
+      <th>x</th>
+      <td><p><code>list</code> of <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> objects.</p></td>
     </tr>
     </table>
 
@@ -153,19 +143,40 @@ object using <code><a href='https://rdrr.io/pkg/fasterize/man/fasterize.html'>fa
     <p>A <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontrun{</span></span>
-<span class='r-in'><span class='co'># load data</span></span>
-<span class='r-in'><span class='va'>nc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>read_sf</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shape/nc.shp"</span>, package <span class='op'>=</span> <span class='st'>"sf"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>nc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='va'>nc</span>, <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_crs.html'>st_crs</a></span><span class='op'>(</span><span class='st'>"ESRI:54017"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>r</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_world_behrmann_1km_rast.html'>get_world_behrmann_1km_rast</a></span><span class='op'>(</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># create a raster</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/terra/man/rast.html'>rast</a></span><span class='op'>(</span></span>
+<span class='r-in'>  ncols <span class='op'>=</span> <span class='fl'>10</span>, nrows <span class='op'>=</span> <span class='fl'>10</span>,</span>
+<span class='r-in'>  xmin <span class='op'>=</span> <span class='fl'>0</span>, xmax <span class='op'>=</span> <span class='fl'>10</span>, ymin <span class='op'>=</span> <span class='fl'>0</span>, ymax <span class='op'>=</span> <span class='fl'>10</span>,</span>
+<span class='r-in'>  crs <span class='op'>=</span> <span class='st'>"+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 10, 10, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1, 1  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : 0, 10, 0, 10  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : +proj=lcc +lat_0=0 +lon_0=-100 +lat_1=48 +lat_2=33 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># convert to raster</span></span>
-<span class='r-in'><span class='va'>nc_rast</span> <span class='op'>&lt;-</span> <span class='fu'>terra_fasterize</span><span class='op'>(</span><span class='va'>nc</span>, <span class='va'>r</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># create another raster</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/terra/man/rast.html'>rast</a></span><span class='op'>(</span></span>
+<span class='r-in'>  ncols <span class='op'>=</span> <span class='fl'>5</span>, nrows <span class='op'>=</span> <span class='fl'>5</span>,</span>
+<span class='r-in'>  xmin <span class='op'>=</span> <span class='fl'>90</span>, xmax <span class='op'>=</span> <span class='fl'>95</span>, ymin <span class='op'>=</span> <span class='fl'>80</span>, ymax <span class='op'>=</span> <span class='fl'>85</span>,</span>
+<span class='r-in'>  crs <span class='op'>=</span> <span class='st'>"+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 5, 5, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1, 1  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : 90, 95, 80, 85  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : +proj=lcc +lat_0=0 +lon_0=-100 +lat_1=48 +lat_2=33 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># combine them together</span></span>
+<span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>terra_combine</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># plot result</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>nc_rast</span><span class='op'>)</span></span>
-<span class='r-plt'><img src='terra_fasterize-1.png' alt='' width='700' height='433' /></span>
-<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>[plot] SpatRaster has no cell values</span>
+<span class='r-plt'><img src='terra_combine-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

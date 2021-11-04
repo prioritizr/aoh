@@ -11,7 +11,7 @@ create_spp_aoh_data(
   spp_habitat_data = NULL,
   elevation_data = NULL,
   habitat_data = NULL,
-  template_data = get_world_berhman_1km_rast(),
+  template_data = get_world_behrmann_1km_rast(),
   cache_dir = tempdir(),
   iucn_version = "latest",
   habitat_version = "latest",
@@ -26,7 +26,8 @@ create_spp_aoh_data(
 }
 \arguments{
 \item{x}{\code{\link[sf:sf]{sf::sf()}} Spatial data delineating species geographic ranges
-obtained from the \href{https://www.iucnredlist.org/}{IUCN Red List}.}
+obtained from the \href{https://www.iucnredlist.org/}{IUCN Red List}.
+See below for details.}
 
 \item{output_dir}{\code{character} folder path to save raster files
 (GeoTIFF format) containing the Area of Habitat data.}
@@ -83,8 +84,9 @@ of the habitat data will be used to reduce processing time.}
 \item{template_data}{\code{\link[terra:rast]{terra::rast()}} Template raster specifying the
 resolution, coordinate reference system, and dimensionality for the
 output raster files.
-Defaults to \code{\link[=get_world_berhman_1km_rast]{get_world_berhman_1km_rast()}} which is a global 1 km resolution
-raster under the World Behrman coordinate reference system (ESRI:54017).}
+Defaults to \code{\link[=get_world_behrmann_1km_rast]{get_world_behrmann_1km_rast()}} which is a global 1 km
+resolution raster under the World Behrmann coordinate reference system
+(ESRI:54017).}
 
 \item{cache_dir}{\code{character} folder path for downloading and caching data.
 By default, a temporary directory is used (i.e. \code{tempdir()}).
@@ -225,6 +227,44 @@ distribution of each species.
 Please note that these procedures are designed for terrestrial species
 and will not apply to marine species.
 }
+\section{Species range data format}{
+
+Species range data are expected to follow the data format conventions
+for the IUCN Red List (see \href{https://www.iucnredlist.org/resources/mappingstandards}{IUCN Red List documentation} for
+details). Specifically, the argument to \code{x} must an
+\code{\link[sf:sf]{sf::st_sf()}} object with the following columns: \code{id_no}, \code{presence},
+\code{origin}, \code{seasonal}, \code{terrestrial} (or \code{terrestial}), \code{freshwater} and
+\code{marine}. Below we provide a brief description of each column:
+
+\describe{
+
+\item{\code{id_no}}{\code{numeric} taxon identifier on the IUCN Red List.}
+
+\item{\code{presence}}{\code{numeric} identifier describing information about
+the presence of the taxon in the range data.}
+
+\item{\code{origin}}{\code{numeric}  identifier describing if the species is native
+to the location(s) described by the range data.}
+
+\item{\code{seasonality}}{\code{numeric} identifier describing if the species
+is occupied by the location(s) describe by the range data throughout
+the whole year, of if only during certain seasons.}
+
+\item{\code{terrestial}}{\code{character} value indicating if the range
+data pertain to terrestrial environments (with \code{"true"} or \code{"false"}
+values.)}
+
+\item{\code{freshwater}}{\code{character} value indicating if the range
+data pertain to freshwater environments (with \code{"true"} or \code{"false"}
+values.)}
+
+\item{\code{marine}}{\code{character} value indicating if the range
+data pertain to marine environments (with \code{"true"} or \code{"false"}
+values.)}
+
+}
+}
+
 \examples{
 \dontrun{
 # find file path for example range data following IUCN Red List data format

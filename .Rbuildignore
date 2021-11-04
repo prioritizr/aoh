@@ -23,3 +23,6 @@ inst/WORDLIST
 ^_pkgdown\.yml$
 ^\.github$
 .covrignore
+aoh-data.Rout
+preprocess-habitat-data.Rout
+preprocess-elevation-data.Rout

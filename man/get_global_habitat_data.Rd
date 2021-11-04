@@ -60,7 +60,7 @@ an online repository.
 The preprocessed version of the habitat data was produced by
 version was produced by projecting the data to conform
 with the default template raster for processing Area of Habitat data
-(see \code{\link[=get_world_berhman_1km_rast]{get_world_berhman_1km_rast()}}).
+(see \code{\link[=get_world_behrmann_1km_rast]{get_world_behrmann_1km_rast()}}).
 Additionally, data were clamped to ensure values range between
 valid values (i.e. from 0 to 1000).
 The preprocessed version of the habitat data can be help

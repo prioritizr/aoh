@@ -51,7 +51,7 @@ if (!file.exists(output_dir)) {
 habitat_data <- get_global_habitat_data(
   cache_dir, preprocessed = FALSE, version = version
 )
-template_data <- get_world_berhman_1km_rast()
+template_data <- get_world_behrmann_1km_rast()
 
 ## project data
 habitat_data <- aoh:::project_habitat_data(

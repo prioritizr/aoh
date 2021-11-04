@@ -25,7 +25,7 @@ test_that("latest version (preprocessed)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # get data
-  d <- get_world_berhman_1km_rast()
+  d <- get_world_behrmann_1km_rast()
   iucn_codes <- names(
     get_global_habitat_data(
       version = "10.5281/zenodo.4058819", preprocessed = FALSE, verbose = TRUE
@@ -68,7 +68,7 @@ test_that("manually specified version (preprocessed from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # get data
-  d <- get_world_berhman_1km_rast()
+  d <- get_world_behrmann_1km_rast()
   # create object
   x <- get_global_habitat_data(
     version = "10.5281/zenodo.4058819", preprocessed = TRUE,
@@ -106,7 +106,7 @@ test_that("manually specified version (preprocessed from cache)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # get data
-  d <- get_world_berhman_1km_rast()
+  d <- get_world_behrmann_1km_rast()
   # create object
   x <- get_global_habitat_data(
     version = "10.5281/zenodo.4058819", preprocessed = TRUE,

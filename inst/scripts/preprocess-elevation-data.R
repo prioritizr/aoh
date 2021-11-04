@@ -42,7 +42,7 @@ if (!file.exists(output_dir)) {
 elevation_data <- get_global_elevation_data(
   cache_dir, preprocessed = FALSE, verbose = TRUE
 )
-template_data <- get_world_berhman_1km_rast()
+template_data <- get_world_behrmann_1km_rast()
 
 ## convert NA values to zeros
 elevation_data[is.na(elevation_data)] <- 0

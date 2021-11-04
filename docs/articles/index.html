@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>World Behrman 1 km raster — get_world_berhman_1km_rast • aoh</title>
+<title>Articles • aoh</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,7 @@
 
 
 
-<meta property="og:title" content="World Behrman 1 km raster — get_world_berhman_1km_rast" />
-<meta property="og:description" content="Import a terra::rast() template raster dataset delineating the
-global extent at 1 km resolution using the World Behrman
-coordinate reference system (ESRI:54017)." />
+<meta property="og:title" content="Articles" />
 
 
 
@@ -69,7 +66,7 @@ coordinate reference system (ESRI:54017)." />
   <body data-spy="scroll" data-target="#toc">
     
 
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -89,6 +86,9 @@ coordinate reference system (ESRI:54017)." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../articles/aoh.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -115,54 +115,18 @@ coordinate reference system (ESRI:54017)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>World Behrman 1 km raster</h1>
-    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/get_world_berhman_1km_rast.R'><code>R/get_world_berhman_1km_rast.R</code></a></small>
-    <div class="hidden name"><code>get_world_berhman_1km_rast.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    <p>Import a <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> template raster dataset delineating the
-global extent at 1 km resolution using the World Behrman
-coordinate reference system (ESRI:54017).</p>
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <dl>
+        <dt><a href="aoh.html">aoh: Create Area of Habitat Data</a></dt>
+        <dd></dt>
+      </dl>
     </div>
-
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_world_berhman_1km_rast</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
-
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> object.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This raster datast is intended to be used as a template for
-spatial data processing. As such, it does not contain any
-meaningful data. Specifically, all grid cells contain a value of 1.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># import data</span></span>
-<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>get_world_berhman_1km_rast</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># preview data</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 14685, 34736, 1  (nrow, ncol, nlyr)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1000, 1000  (x, y)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -17367531, 17368469, -7342231, 7342769  (xmin, xmax, ymin, ymax)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : World_Behrmann </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : world_behrman_1km_rast.tif </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> name        : lyr.1 </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   :     1 </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   :     1 </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># plot data</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
-<span class='r-plt'><img src='get_world_berhman_1km_rast-1.png' alt='' width='700' height='433' /></span>
-</code></pre></div>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <nav id="toc" data-toggle="toc" class="sticky-top">
-      <h2 data-toc-skip>Contents</h2>
-    </nav>
   </div>
 </div>
 

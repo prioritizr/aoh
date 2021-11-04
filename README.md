@@ -16,10 +16,12 @@ Status](https://codecov.io/github/prioritizr/aoh/coverage.svg?branch=master)](ht
 Area of Habitat (AOH) maps aim to delineate the spatial distribution of
 suitable habitat for a species ([Brooks *et al.*
 2019](https://doi.org/10.1016/j.tree.2019.06.009)). They are used to
-help understand the impacts of habitat loss on species, and prioritize
-areas for conservation (e.g. [Tracewski *et al.*
-2016](https://doi.org/10.1111/cobi.12715); [Rondinini *et al.*
-2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x)). These maps are
+assess performance of protected area systems, measure impacts of threats
+to biodiversity, and identify priorities for conservation actions
+(e.g. [Rondinini *et al.*
+2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x); [Tracewski *et
+al.* 2016](https://doi.org/10.1111/cobi.12715); [Durán *et al.*
+2021](https://doi.org/10.1111/2041-210X.13427)). These maps are
 generally produced by obtaining geographic range data for a species, and
 then removing areas that do not contain suitable habitat or occur
 outside the known altitudinal limits for the species ([Brooks *et al.*
@@ -92,16 +94,16 @@ package for further details.
 
 ### Usage
 
-Here we provide a short introduction to the *aoh R* package. In this
+Here we provide a short example for using the *aoh R* package. In this
 example, we will generate Area of Habitat data for the following Iberian
 species: Pyrenean brook salamander (*Calotriton asper*), Iberian frog
 (*Rana iberica*), western spadefoot toad (*Pelobates cultripes*), and
-golden striped salamnader (*Chioglossa lusitanica*). To start off, we
-will load the package. We will also load the
-[*rappdirs*](https://CRAN.R-project.org/package=rappdirs) *R* package to
-cache data, and the [*terra*](https://CRAN.R-project.org/package=terra)
-and [*ggplot2*](https://CRAN.R-project.org/package=ggplot2) *R* packages
-to visualize results.
+golden striped salamnader (*Chioglossa lusitanica*). Please note that
+this example is an abridged version of the tutorial provided in the
+[package vignette](https://prioritizr.github.io/aoh/articles/aoh.html),
+so please consult the package vignette for a more detailed tutorial on
+using the package. To start off, we will load the package and several
+other packages to help with data processing and visualization.
 
 ``` r
 # load packages
@@ -149,18 +151,9 @@ print(spp_range_data)
     ## #   family <chr>, genus <chr>, category <chr>, marine <chr>, terrestial <chr>,
     ## #   freshwater <chr>, geometry <POLYGON [°]>
 
-Next, we will generate Area of Habitat data for the species. To achieve
-this, the package will (i) automatically download global elevation and
-habitat classification data (from [Amatulli *et al.*
-2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.*
-2020](https://doi.org/10.1038/s41597-020-00599-8)), (ii) automatically
-download information on the altitudinal limits and habitat preferences
-of the species from the IUCN Red List (per the taxon identifiers in the
-`id_no` column), and (iii) cross-reference this information to identify
-suitable habitat inside the geographic range of each species (following
-[Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). We
-also specify a folder to cache the downloaded datasets so that we won’t
-need to re-downloaded again during subsequent runs.
+Next, we will generate Area of Habitat data for the species. We also
+specify a folder to cache the downloaded datasets so that we won’t need
+to re-downloaded again during subsequent runs.
 
 ``` r
 # specify cache directory
@@ -183,72 +176,15 @@ output_dir <- tempdir()
 spp_aoh_data <- create_spp_aoh_data(
   spp_range_data, output_dir = output_dir, cache_dir = cache_dir
 )
-```
 
-While running the code, we see that it displayed a message telling us
-that certain habitat classes were not available (i.e. “5.18”, “7.1”, and
-“7.2”). **This is fine. It is not an error.** The reason we see this
-message is because although the global habitat dataset contains the
-majority of [IUCN habitat
-classes](https://www.iucnredlist.org/resources/habitat-classification-scheme)
-for terrestrial environments, it does not contain every single IUCN
-habitat class (see [Jung *et al.*
-2020](https://doi.org/10.1038/s41597-020-00599-8) for details). Upon
-checking the [IUCN habitat
-classes](https://www.iucnredlist.org/resources/habitat-classification-scheme),
-we can see that these classes correspond to caves and other subterranean
-environments. Although failing to account for such habitats could
-potentially be an issue, here we will assume that accounting for the
-species’ non-subterranean habitats is sufficient to describe their
-spatial distribution (similar to [Ficetola *et al.*
-2015](https://doi.org/10.1111/ddi.12296)).
-
-``` r
 # preview results
-## resulting dataset is a simple features (sf) object containing
-## spatial geometries for cleaned versions of the range data
-## (in the geometry column) and the following additional columns:
-##
-## - id_no            : IUCN Red List taxon identifier
-## - seasonal         : integer identifier for seasonal distributions
-## - full_habitat_code: All IUCN Red List codes for suitable habitat classes
-##                      (multiple codes are delimited using "|" symbols)
-## - habitat_code     : IUCN Red List codes for suitable habitat classes
-##                      used to create AOH maps
-## - elevation_lower  : lower limit for the species on IUCN Red List
-## - elevation_upper  : upper limit for the species on IUCN Red List
-## - xmin             : minimum x-coordinate for Area of Habitat data
-## - xmax             : maximum x-coordinate for Area of Habitat data
-## - ymin             : minimum y-coordinate for Area of Habitat data
-## - ymax             : maximum y-coordinate for Area of Habitat data
-## - path             : file path for Area of Habitat data (GeoTIFF format)
-##
-## since data obtained from the IUCN Red List cannot be redistributed,
-## we will not show all the columns in this object
-##
-## N.B. you can view all columns on your computer with: print(spp_aoh_data)
 print(spp_aoh_data[, c("id_no", "seasonal", "path")])
 ```
-
-    ## Simple feature collection with 4 features and 3 fields
-    ## Geometry type: POLYGON
-    ## Dimension:     XY
-    ## Bounding box:  xmin: -914690 ymin: 4364364 xmax: 318726 ymax: 5066793
-    ## Projected CRS: World_Behrmann
-    ## # A tibble: 4 × 4
-    ##   id_no seasonal path                                                   geometry
-    ##   <dbl>    <int> <chr>                                             <POLYGON [m]>
-    ## 1  4657        1 /tmp/RtmpUcKvAK/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-    ## 2 58622        1 /tmp/RtmpUcKvAK/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-    ## 3 59448        1 /tmp/RtmpUcKvAK/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-    ## 4   979        1 /tmp/RtmpUcKvAK/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
 
 After generating the Area of Habitat data, we can import them.
 
 ``` r
 # import the Area of Habitat data
-## since the data for each species have a different spatial extent
-## (to reduce file sizes), we will import each dataset separately in a list
 spp_aoh_rasters <- lapply(spp_aoh_data$path, rast)
 
 # preview raster data
@@ -300,10 +236,7 @@ print(spp_aoh_rasters)
     ## max value   : 0.099625
 
 Finally, let’s create some maps to compare the range data with the Area
-of habitat data. Although we could create these maps manually
-(e.g. using the [*ggplot2*](https://CRAN.R-project.org/package=rappdirs)
-*R* package), we will use a plotting function distributed with the *aoh
-R* package for convenience.
+of habitat data.
 
 ``` r
 # create maps
@@ -323,7 +256,7 @@ map <-
 print(map)
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Citation
 
@@ -361,3 +294,10 @@ produce Area of Habitat data.
     To see these entries in BibTeX format, use 'print(<citation>,
     bibtex=TRUE)', 'toBibtex(.)', or set
     'options(citation.bibtex.max=999)'.
+
+## Getting help
+
+Please refer to the [package website](https://prioritizr.github.io/aoh)
+for more information. If you have any questions about using the package
+or suggestions for improving it, please [file an issue at the package’s
+online code repository](https://github.com/prioritizr/aoh/issues).

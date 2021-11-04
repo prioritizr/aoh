@@ -39,7 +39,7 @@ test_that("preprocessed data (from online)", {
   skip_on_cran()
   skip_if_offline()
   # get data
-  d <- get_world_berhman_1km_rast()
+  d <- get_world_behrmann_1km_rast()
   # create object
   x <- get_global_elevation_data(
     preprocessed = TRUE, force = TRUE, verbose = FALSE
@@ -55,7 +55,7 @@ test_that("preprocessed data (from cache)", {
   skip_on_cran()
   skip_if_offline()
   # get data
-  d <- get_world_berhman_1km_rast()
+  d <- get_world_behrmann_1km_rast()
   # create object
   x <- get_global_elevation_data(
     preprocessed = TRUE, force = FALSE, verbose = FALSE

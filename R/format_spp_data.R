@@ -34,7 +34,7 @@ NULL
 format_spp_data <- function(x,
                             spp_summary_data,
                             spp_habitat_data,
-                            template_data = get_world_berhman_1km_rast(),
+                            template_data = get_world_behrmann_1km_rast(),
                             cache_dir = tempdir(),
                             iucn_version = "latest",
                             key = NULL,

@@ -1,10 +1,10 @@
 #' @include internal.R
 NULL
 
-#' World Behrman 1 km raster
+#' World Behrmann 1 km raster
 #'
 #' Import a [terra::rast()] template raster dataset delineating the
-#' global extent at 1 km resolution using the World Behrman
+#' global extent at 1 km resolution using the World Behrmann
 #' coordinate reference system (ESRI:54017).
 #'
 #' @details
@@ -16,7 +16,7 @@ NULL
 #'
 #' @examples
 #' # import data
-#' x <- get_world_berhman_1km_rast()
+#' x <- get_world_behrmann_1km_rast()
 #'
 #' # preview data
 #' print(x)
@@ -24,8 +24,8 @@ NULL
 #' # plot data
 #' plot(x)
 #' @export
-get_world_berhman_1km_rast <- function() {
+get_world_behrmann_1km_rast <- function() {
   terra::rast(
-    system.file("extdata", "world_behrman_1km_rast.tif", package = "aoh")
+    system.file("extdata", "world_behrmann_1km_rast.tif", package = "aoh")
   )
 }

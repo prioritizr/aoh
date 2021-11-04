@@ -26,7 +26,7 @@ object using \code{\link[fasterize:fasterize]{fasterize::fasterize()}}. It is si
 # load data
 nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
 nc <- st_transform(nc, st_crs("ESRI:54017"))
-r <- get_world_berhman_1km_rast()
+r <- get_world_behrmann_1km_rast()
 
 # convert to raster
 nc_rast <- terra_fasterize(nc, r)

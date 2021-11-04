@@ -4,6 +4,12 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/aoh.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -40,7 +46,7 @@
     <loc>/reference/get_spp_summary_data.html</loc>
   </url>
   <url>
-    <loc>/reference/get_world_berhman_1km_rast.html</loc>
+    <loc>/reference/get_world_behrmann_1km_rast.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -68,6 +74,9 @@
   </url>
   <url>
     <loc>/reference/simulate_spp_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_combine.html</loc>
   </url>
   <url>
     <loc>/reference/terra_fasterize.html</loc>

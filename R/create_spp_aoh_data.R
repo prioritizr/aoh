@@ -14,6 +14,7 @@ NULL
 #'
 #' @param x [sf::sf()] Spatial data delineating species geographic ranges
 #'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
+#'   See below for details.
 #'
 #' @param output_dir `character` folder path to save raster files
 #'   (GeoTIFF format) containing the Area of Habitat data.
@@ -91,8 +92,9 @@ NULL
 #' @param template_data [terra::rast()] Template raster specifying the
 #'  resolution, coordinate reference system, and dimensionality for the
 #'  output raster files.
-#'  Defaults to [get_world_berhman_1km_rast()] which is a global 1 km resolution
-#'  raster under the World Behrman coordinate reference system (ESRI:54017).
+#'  Defaults to [get_world_behrmann_1km_rast()] which is a global 1 km
+#'  resolution raster under the World Behrmann coordinate reference system
+#'  (ESRI:54017).
 #'
 #' @param parallel_n_threads `integer` Number of computational threads to use
 #'   for data processing.
@@ -145,6 +147,43 @@ NULL
 #' distribution of each species.
 #' Please note that these procedures are designed for terrestrial species
 #' and will not apply to marine species.
+#'
+#' @section Species range data format:
+#' Species range data are expected to follow the data format conventions
+#' for the IUCN Red List (see [IUCN Red List
+#' documentation](https://www.iucnredlist.org/resources/mappingstandards) for
+#' details). Specifically, the argument to `x` must an
+#' [sf::st_sf()] object with the following columns: `id_no`, `presence`,
+#' `origin`, `seasonal`, `terrestrial` (or `terrestial`), `freshwater` and
+#' `marine`. Below we provide a brief description of each column:
+#'
+#' \describe{
+#'
+#' \item{`id_no`}{`numeric` taxon identifier on the IUCN Red List.}
+#'
+#' \item{`presence`}{`numeric` identifier describing information about
+#'   the presence of the taxon in the range data.}
+#'
+#' \item{`origin`}{`numeric`  identifier describing if the species is native
+#'   to the location(s) described by the range data.}
+#'
+#' \item{`seasonality`}{`numeric` identifier describing if the species
+#'  is occupied by the location(s) describe by the range data throughout
+#'  the whole year, of if only during certain seasons.}
+#'
+#' \item{`terrestial`}{`character` value indicating if the range
+#'  data pertain to terrestrial environments (with `"true"` or `"false"`
+#'  values.)}
+#'
+#' \item{`freshwater`}{`character` value indicating if the range
+#'  data pertain to freshwater environments (with `"true"` or `"false"`
+#'  values.)}
+#'
+#' \item{`marine`}{`character` value indicating if the range
+#'  data pertain to marine environments (with `"true"` or `"false"`
+#'  values.)}
+#'
+#' }
 #'
 #' @return
 #' A [sf::st_sf()] object containing range maps for the species distributions
@@ -276,7 +315,7 @@ create_spp_aoh_data <- function(x,
                                 spp_habitat_data = NULL,
                                 elevation_data = NULL,
                                 habitat_data = NULL,
-                                template_data = get_world_berhman_1km_rast(),
+                                template_data = get_world_behrmann_1km_rast(),
                                 cache_dir = tempdir(),
                                 iucn_version = "latest",
                                 habitat_version = "latest",

@@ -1,8 +1,8 @@
-context("world_berhman_1km_rast()")
+context("world_behrmann_1km_rast()")
 
 test_that("expected results", {
   # create object
-  x <- get_world_berhman_1km_rast()
+  x <- get_world_behrmann_1km_rast()
   # tests
   expect_is(x, "SpatRaster")
   expect_equal(terra::xres(x), 1000)
