@@ -365,13 +365,13 @@ terra_combine <- function(x) {
   )
   res <-
   assertthat::assert_that(
-    all(vapply(x, FUN.VALUE = logical(1), function(r) {
+    all(vapply(terra::as.list(x), FUN.VALUE = logical(1), function(r) {
       identical(terra::res(x[[1]]), terra::res(r))
     })),
     msg = "all elements in the argument to x must have the same resolution"
   )
   assertthat::assert_that(
-    all(vapply(x, FUN.VALUE = logical(1), function(r) {
+    all(vapply(terra::as.list(x), FUN.VALUE = logical(1), function(r) {
       identical(terra::origin(x[[1]]), terra::origin(r))
     })),
     msg = "all elements in the argument to x must have the same origin"
@@ -385,11 +385,20 @@ terra_combine <- function(x) {
     sf::st_set_crs(sf::st_sfc(max_ext), terra_st_crs(x[[1]]))
   ))))
 
+  # store names
+  x_names <- unlist(
+    lapply(terra::as.list(x), names),
+    use.names = FALSE, recursive = TRUE
+  )
+
   # expand extents as needed
   x <- terra::rast(lapply(terra::as.list(x), function(x) {
     if (terra::ext(x) == max_ext) return(x)
     terra::extend(x = x, y = max_ext)
   }))
+
+  # assign names
+  names(x) <- x_names
 
   # return result
   x

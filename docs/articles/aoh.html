@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2021-11-04</h4>
+            <h4 data-toc-skip class="date">2021-11-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/master/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -178,10 +178,10 @@
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1  4657        1 /tmp/RtmpAhEkHo/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-## 2 58622        1 /tmp/RtmpAhEkHo/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-## 3 59448        1 /tmp/RtmpAhEkHo/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-## 4   979        1 /tmp/RtmpAhEkHo/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
+## 1  4657        1 /tmp/RtmpYeiHxU/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+## 2 58622        1 /tmp/RtmpYeiHxU/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+## 3 59448        1 /tmp/RtmpYeiHxU/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+## 4   979        1 /tmp/RtmpYeiHxU/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -239,6 +239,11 @@
 <code class="sourceCode R"><span class="co"># combine raster data</span>
 <span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span>
 
+<span class="co"># assign identifiers to layer names</span>
+<span class="fu"><a href="https://rdrr.io/pkg/terra/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span>
+  <span class="st">"AOH_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">id_no</span>, <span class="st">"_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">seasonal</span>
+<span class="op">)</span>
+
 <span class="co"># preview raster data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
 <pre><code>## class       : SpatRaster 
@@ -250,9 +255,9 @@
 ##               memory  
 ##               memory  
 ##               ... and 1 more source(s)
-## names       :    lyr.1,    lyr.1,    lyr.1,    lyr.1 
-## min values  : 0.000000, 0.000125, 0.000000, 0.000000 
-## max values  : 0.124875, 0.125500, 0.126000, 0.099625</code></pre>
+## names       : AOH_4657_1, AOH_58622_1, AOH_59448_1, AOH_979_1 
+## min values  :   0.000000,    0.000125,    0.000000,  0.000000 
+## max values  :   0.124875,    0.125500,    0.126000,  0.099625</code></pre>
 <p>Finally, let’s create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g. using the <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link"><em>ggplot2</em></a> <em>R</em> package), we will use a plotting function distributed with the <em>aoh R</em> package for convenience.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create maps</span>

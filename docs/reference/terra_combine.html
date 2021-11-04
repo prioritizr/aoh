@@ -171,11 +171,11 @@ single <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># combine them together</span></span>
 <span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>terra_combine</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error:</span> [names&lt;-] incorrect number of names</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># plot result</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span></span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>[plot] SpatRaster has no cell values</span>
-<span class='r-plt'><img src='terra_combine-1.png' alt='' width='700' height='433' /></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in h(simpleError(msg, call))</span> error in evaluating the argument 'x' in selecting a method for function 'plot': object 'z' not found</span>
 <span class='r-in'></span>
 </code></pre></div>
   </div>

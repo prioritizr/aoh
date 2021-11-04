@@ -134,6 +134,11 @@ We can see that the Area of Habitat data for each species are stored in separate
 # combine raster data
 spp_aoh_rasters <- terra_combine(spp_aoh_rasters)
 
+# assign identifiers to layer names
+names(spp_aoh_rasters) <- paste0(
+  "AOH_", spp_aoh_data$id_no, "_", spp_aoh_data$seasonal
+)
+
 # preview raster data
 print(spp_aoh_rasters)
 ```
