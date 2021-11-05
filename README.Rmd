@@ -56,6 +56,36 @@ rredlist::rl_version()
 
 If these instructions did not work, please consult the documentation for the [_rredlist_](https://CRAN.R-project.org/package=rredlist) _R_ package for further details.
 
+### Optional system libraries
+
+The package can leverage the [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/) to help reduce processing time. Although use of GDAL is optional, it can help improve computational performance when not using the preprocessed habitat classification and elevation data. Below we provide platform-specific instructions to install GDAL.
+
+##### _Windows_
+
+The easiest way to install GDAL is through [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/), select the "Express Install" option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the _gdalUtils R_ package cannot find GDAL, you may also need to update the `PATH` environmental variable so that it contains the folder path for GDAL (default folder path is `C:\OSGeo4W\bin`),
+
+##### _Ubuntu_
+
+The GDAL binary library need to be installed. For recent versions of Ubuntu (18.04 and later), this library is available through official repositories. It can be installed using the following system commands.
+
+```
+apt-get -y update
+apt-get install -y gdal-bin
+```
+
+##### _Linux_
+
+For Unix-alikes, `gdal` (>= 3.0.2) are required.
+
+##### _MacOS_
+
+The easiest way to install the `gdal` library is using [HomeBrew](https://brew.sh/). After installing HomeBrew, the library can be installed using the following system commands.
+
+```
+brew install pkg-config
+brew install gdal
+```
+
 ### Usage
 
 Here we provide a short example for using the _aoh R_ package. In this example, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (_Calotriton asper_), Iberian frog (_Rana iberica_), western spadefoot toad (_Pelobates cultripes_), and golden striped salamnader (_Chioglossa lusitanica_). Please note that this example is an abridged version of the tutorial provided in the [package vignette](https://prioritizr.github.io/aoh/articles/aoh.html), so please consult the package vignette for a more detailed tutorial on using the package. To start off, we will load the package and several other packages to help with data processing and visualization.

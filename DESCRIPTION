@@ -2,15 +2,15 @@ Package: aoh
 Type: Package
 Version: 0.0.0.99999
 Title: Create Area of Habitat Data
-Description: Generate Area of Habitat data for species distributions.
-    Maps are produced following procedures outlined by Brooks et al. (2019)
-    (<doi:10.1016/j.tree.2019.06.009>). They are derived using species'
-    distribution data from the International Union for Conservation
-    of Nature (IUCN) Red List of Threatened Species
-    (<https://www.iucnredlist.org/>),
-    habitat classification data from Jung et al. (2020)
-    (<doi:10.1038/s41597-020-00599-8>), and elevation data from Amatulli et al.
-    (2018) (<doi:10.1038/sdata.2018.40>).
+Description: Create Area of Habitat data to characterize species distributions.
+    Data are produced following procedures outlined by Brooks et al. (2019)
+    (<doi:10.1016/j.tree.2019.06.009>). Briefly, they are derived using species'
+    range maps from the International Union for Conservation of Nature (IUCN)
+    Red List of Threatened Species (<https://www.iucnredlist.org/>),
+    habitat classification data (Jung et al. 2020;
+    <doi:10.1038/s41597-020-00599-8>), and
+    elevation data (Amatulli et al. 2018; <doi:10.1038/sdata.2018.40>).
+    Data processing methods can leverage 'GDAL' to reduce processing time.
 Authors@R:
     c(person(c('Jeffrey', 'O'), 'Hanson',
         email='jeffrey.hanson@uqconnect.edu.au', role = c('aut','cre'),
@@ -56,6 +56,7 @@ Depends:
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
+SystemRequirements: GDAL (>= 3.0.2)
 URL: https://prioritizr.github.io/aoh/, https://github.com/prioritizr/aoh
 BugReports: https://github.com/prioritizr/aoh/issues
 VignetteBuilder: knitr
