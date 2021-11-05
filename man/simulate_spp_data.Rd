@@ -128,7 +128,10 @@ boundary_path <- system.file("shape/nc.shp", package = "sf")
 # import boundary data to simulate species data
 boundary_data <- sf::st_union(sf::read_sf(boundary_path))
 
-# specify
+# set random number generator seeds for consistency
+set.seed(500)
+RandomFields::RFoptions(seed = 500)
+
 # simulate data for 5 species
 x <- simulate_spp_data(
   n = 5, boundary_data = boundary_data, cache_dir = download_dir

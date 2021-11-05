@@ -65,7 +65,10 @@ NULL
 #' # import boundary data to simulate species data
 #' boundary_data <- sf::st_union(sf::read_sf(boundary_path))
 #'
-#' # specify
+#' # set random number generator seeds for consistency
+#' set.seed(500)
+#' RandomFields::RFoptions(seed = 500)
+#'
 #' # simulate data for 5 species
 #' x <- simulate_spp_data(
 #'   n = 5, boundary_data = boundary_data, cache_dir = download_dir
@@ -256,7 +259,7 @@ simulate_spp_data <- function(n,
   # smooth the distributions
   sim_range_data <- lapply(sim_range_data, function(x) {
     # smooth data
-    x <- smoothr::smooth(x, method = "ksmooth", smoothness = 2)
+    x <- smoothr::smooth(x, method = "spline")
     # repair any geometry issues
     x <- sf::st_set_precision(x, 1500)
     x <- sf::st_make_valid(x)
