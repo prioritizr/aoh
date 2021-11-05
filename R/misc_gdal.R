@@ -6,10 +6,10 @@ NULL
 #' Check if GDAL is available for processing data.
 #'
 #' @details
-#' The function checks if GDAL is available by (1) verifying that the
-#' \pkg{gdalUtils} package in installed and (2) verifying that
-#' attempting to query the installed version of GDAL does not produce
-#' an error (i.e. `system("gdalinfo --version")`).
+#' The function verifies that (1) the \pkg{gdalUtils} package in installed,
+#' (2) GDAL is installed (i.e. via `system("gdalinfo --version")`), and
+#' (3) the version of GDAL installed is at least 3.0.2.
+#' If any of these checks fail, then GDAL is not considered available.
 #
 #' @return A `logical` indicating if GDAL is available or not.
 #'
@@ -19,9 +19,37 @@ NULL
 #'
 #' @export
 is_gdal_available <- function() {
-  requireNamespace("gdalUtils", quietly = TRUE) &&
-  !inherits(system("gdalinfo --version", intern = TRUE), "try-error")
+  if (!requireNamespace("gdalUtils")) return(FALSE)
+  v <- gdal_version()
+  if (is.na(v)) return(FALSE)
+  isTRUE(as.package_version(v) >= as.package_version("3.0.2"))
 }
+
+#' GDAL version
+#'
+#' Find the version of GDAL installed.
+#'
+#' @return A `character` value describing the version of GDAL installed.
+#' If GDAL is not installed, then a missing (`NA`) value is returned.
+#'
+#' @examples
+#' # show version of GDAL installed
+#' print(gdal_version())
+#'
+#' @export
+gdal_version <- function() {
+  v <- try(
+    silent = TRUE, {
+      x <- system("gdalinfo --version", intern = TRUE)
+      x <- strsplit(x, " ")[[1]][[2]]
+      x <- gsub(",", "", x, fixed = TRUE)
+      x
+    }
+  )
+  if (inherits(v, "try-error")) return(NA_character_)
+  v
+}
+
 
 #' Project a raster using GDAL
 #'

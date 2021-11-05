@@ -13,10 +13,10 @@ A \code{logical} indicating if GDAL is available or not.
 Check if GDAL is available for processing data.
 }
 \details{
-The function checks if GDAL is available by (1) verifying that the
-\pkg{gdalUtils} package in installed and (2) verifying that
-attempting to query the installed version of GDAL does not produce
-an error (i.e. \code{system("gdalinfo --version")}).
+The function verifies that (1) the \pkg{gdalUtils} package in installed,
+(2) GDAL is installed (i.e. via \code{system("gdalinfo --version")}), and
+(3) the version of GDAL installed is at least 3.0.2.
+If any of these checks fail, then GDAL is not considered available.
 }
 \examples{
 # check if GDAL is available?

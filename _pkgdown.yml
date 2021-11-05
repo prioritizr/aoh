@@ -40,3 +40,4 @@ reference:
       - create_template_rast
       - clean_spp_range_data
       - is_gdal_available
+      - gdal_version
