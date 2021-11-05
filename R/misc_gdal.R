@@ -19,7 +19,7 @@ NULL
 #'
 #' @export
 is_gdal_available <- function() {
-  requireNamespace("gdalUtils") &&
+  requireNamespace("gdalUtils", quietly = TRUE) &&
   !inherits(system("gdalinfo --version", intern = TRUE), "try-error")
 }
 
