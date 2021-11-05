@@ -64,7 +64,7 @@ test_that("global elevation and habitat data", {
   set.seed(500)
   RandomFields::RFoptions(seed = 500)
   n <- 5
-  hv <- "10.5281/zenodo.3816946"
+  hv <- "10.5281/zenodo.4058819"
   cd <- rappdirs::user_data_dir("aoh")
   # create data
   boundary_data <- sf::read_sf(
