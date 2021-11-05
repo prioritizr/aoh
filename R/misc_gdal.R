@@ -50,7 +50,6 @@ gdal_version <- function() {
   v
 }
 
-
 #' Project a raster using GDAL
 #'
 #' This function is a wrapper for [gdalUtils::gdalwarp()].
