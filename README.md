@@ -92,6 +92,48 @@ If these instructions did not work, please consult the documentation for
 the [*rredlist*](https://CRAN.R-project.org/package=rredlist) *R*
 package for further details.
 
+#### Optional system libraries
+
+The package can leverage the [Geospatial Data Abstraction Library
+(GDAL)](https://gdal.org/) to help reduce processing time. Although use
+of GDAL is optional, it can help improve computational performance when
+not using the preprocessed habitat classification and elevation data.
+Below we provide platform-specific instructions to install GDAL.
+
+##### *Windows*
+
+The easiest way to install GDAL is through
+[OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W
+installer](https://trac.osgeo.org/osgeo4w/), select the “Express
+Install” option, and then follow the prompts to complete the
+installation. After the installation process has finished, please
+restart your computer. If the *gdalUtils R* package cannot find GDAL,
+you may also need to update the `PATH` environmental variable so that it
+contains the folder path for GDAL (default folder path is
+`C:\OSGeo4W\bin`),
+
+##### *Ubuntu*
+
+The GDAL binary library need to be installed. For recent versions of
+Ubuntu (18.04 and later), this library is available through official
+repositories. It can be installed using the following system commands.
+
+    apt-get -y update
+    apt-get install -y gdal-bin
+
+##### *Linux*
+
+For Unix-alikes, `gdal` (&gt;= 3.0.2) are required.
+
+##### *MacOS*
+
+The easiest way to install the `gdal` library is using
+[HomeBrew](https://brew.sh/). After installing HomeBrew, the library can
+be installed using the following system commands.
+
+    brew install pkg-config
+    brew install gdal
+
 ### Usage
 
 Here we provide a short example for using the *aoh R* package. In this

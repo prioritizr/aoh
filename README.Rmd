@@ -56,7 +56,7 @@ rredlist::rl_version()
 
 If these instructions did not work, please consult the documentation for the [_rredlist_](https://CRAN.R-project.org/package=rredlist) _R_ package for further details.
 
-### Optional system libraries
+#### Optional system libraries
 
 The package can leverage the [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/) to help reduce processing time. Although use of GDAL is optional, it can help improve computational performance when not using the preprocessed habitat classification and elevation data. Below we provide platform-specific instructions to install GDAL.
 
