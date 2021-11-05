@@ -206,7 +206,7 @@ process_spp_aoh_data_on_local <- function(x,
       curr_spp_extent <- aoh::sf_terra_ext(x[i, , drop = FALSE])
 
       ## create temporary directory for species
-      curr_spp_tmp_dir <- tempfile()
+      curr_spp_tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
       dir.create(curr_spp_tmp_dir, showWarnings = FALSE, recursive = TRUE)
       terra::terraOptions(progress = 0, tempdir = curr_spp_tmp_dir)
 

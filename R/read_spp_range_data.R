@@ -47,7 +47,7 @@ read_spp_range_data <- function(path, n = NULL) {
     assertthat::has_extension(path, "zip")
   )
   # unzip data to temporary directory
-  temp_dir <- tempfile()
+  temp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
   dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
   utils::unzip(path, exdir = temp_dir)
   # find shapefile with data

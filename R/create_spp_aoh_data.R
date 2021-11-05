@@ -333,7 +333,7 @@ create_spp_aoh_data <- function(x,
     cli::cli_progress_step("initializing")
   }
   ## customize terra options
-  tmp_rast_dir <- tempfile()
+  tmp_rast_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
   dir.create(tmp_rast_dir, showWarnings = FALSE, recursive = TRUE)
   terra::terraOptions(progress = 0, tempdir = tmp_rast_dir)
   on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()), add = TRUE)

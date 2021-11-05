@@ -138,7 +138,7 @@ import_prep_habitat_data <- function(dir) {
   assertthat::assert_that(length(path) == 1)
   # unzip data
   path <- gsub("\\", "/", path, fixed = TRUE)
-  temp_dir <- tempfile()
+  temp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
   dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
   utils::unzip(path, exdir = temp_dir)
   # find file paths for layers
