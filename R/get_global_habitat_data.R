@@ -101,6 +101,10 @@ get_global_habitat_data <- function(dir = tempdir(), version = "latest",
     )
   }
 
+  # re-order layers
+  code_data <- habitat_code_data()$iucn_code
+  r <- r[[intersect(code_data, names(r))]]
+
   # return result
   r
 
