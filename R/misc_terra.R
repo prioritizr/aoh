@@ -339,6 +339,8 @@ terra_fasterize <- function(sf, raster, ...) {
 #'   xmin = 0, xmax = 10, ymin = 0, ymax = 10,
 #'   crs = "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"
 #' )
+#' values(x) <- runif(ncell(x))
+#' names(x) <- "lyr1"
 #' print(x)
 #'
 #' # create another raster
@@ -347,12 +349,14 @@ terra_fasterize <- function(sf, raster, ...) {
 #'   xmin = 90, xmax = 95, ymin = 80, ymax = 85,
 #'   crs = "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"
 #' )
+#' values(y) <- runif(ncell(y))
+#' names(y) <- "lyr2"
 #' print(y)
 #'
 #' # combine them together
 #' z <- terra_combine(list(x, y))
 #'
-#' # plot result
+#' # plot combined raster
 #' plot(z)
 #'
 #' @export

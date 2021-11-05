@@ -149,12 +149,18 @@ single <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a>
 <span class='r-in'>  xmin <span class='op'>=</span> <span class='fl'>0</span>, xmax <span class='op'>=</span> <span class='fl'>10</span>, ymin <span class='op'>=</span> <span class='fl'>0</span>, ymax <span class='op'>=</span> <span class='fl'>10</span>,</span>
 <span class='r-in'>  crs <span class='op'>=</span> <span class='st'>"+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"</span></span>
 <span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/values.html'>values</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/terra/man/dimensions.html'>ncell</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/names.html'>names</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"lyr1"</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 10, 10, 1  (nrow, ncol, nlyr)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1, 1  (x, y)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : 0, 10, 0, 10  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : +proj=lcc +lat_0=0 +lon_0=-100 +lat_1=48 +lat_2=33 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : memory </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        :        lyr1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   : 0.007399441 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   :   0.9970691 </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># create another raster</span></span>
 <span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/terra/man/rast.html'>rast</a></span><span class='op'>(</span></span>
@@ -162,20 +168,25 @@ single <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a>
 <span class='r-in'>  xmin <span class='op'>=</span> <span class='fl'>90</span>, xmax <span class='op'>=</span> <span class='fl'>95</span>, ymin <span class='op'>=</span> <span class='fl'>80</span>, ymax <span class='op'>=</span> <span class='fl'>85</span>,</span>
 <span class='r-in'>  crs <span class='op'>=</span> <span class='st'>"+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"</span></span>
 <span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/values.html'>values</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/terra/man/dimensions.html'>ncell</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/names.html'>names</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"lyr2"</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 5, 5, 1  (nrow, ncol, nlyr)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1, 1  (x, y)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : 90, 95, 80, 85  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : +proj=lcc +lat_0=0 +lon_0=-100 +lat_1=48 +lat_2=33 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : memory </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        :       lyr2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> min value   : 0.01147954 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> max value   :  0.9963469 </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># combine them together</span></span>
 <span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>terra_combine</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error:</span> [names&lt;-] incorrect number of names</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># plot result</span></span>
+<span class='r-in'><span class='co'># plot combined raster</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in h(simpleError(msg, call))</span> error in evaluating the argument 'x' in selecting a method for function 'plot': object 'z' not found</span>
+<span class='r-plt'><img src='terra_combine-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 </code></pre></div>
   </div>
