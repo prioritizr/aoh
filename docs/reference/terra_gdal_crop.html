@@ -144,6 +144,10 @@
       <td><p><code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> Raster object with source data.</p></td>
     </tr>
     <tr>
+      <th>ext</th>
+      <td><p><code><a href='https://rdrr.io/pkg/terra/man/ext.html'>terra::ext()</a></code> Raster extent object.</p></td>
+    </tr>
+    <tr>
       <th>n_threads</th>
       <td><p><code>integer</code> Number of computational threads to use
 for data processing.
@@ -175,10 +179,6 @@ Defaults to <code>TRUE</code>.</p></td>
       <th>...</th>
       <td><p>Arguments passed to <code><a href='https://rdrr.io/pkg/terra/man/writeRaster.html'>terra::writeRaster()</a></code>.</p></td>
     </tr>
-    <tr>
-      <th>fact</th>
-      <td><p><code>integer</code> factor to disaggregate data.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -200,12 +200,23 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/terra/man/ext.html'>ext</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/pkg/terra/man/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>2.5</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># crop data</span></span>
-<span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='terra_gdal_disaggregate.html'>terra_gdal_disaggregate</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error:</span> fact is not a count (a single positive integer)</span>
+<span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>terra_gdal_crop</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking gdal_installation...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Scanning for GDAL installations...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking Sys.which...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL version 3.2.2</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL command being used: "/usr/bin/gdal_translate" -tr 0.5 0.5 -projwin -105 58.5 -92.5 41 -ot "Float32" -of "GTiff" -projwin_srs "/tmp/RtmpVDF8Kj/file4137b22e414c0.wkt" -co "COMPRESS=LZW" -co "NUM_THREADS=1" -oo "NUM_THREADS=1" "/tmp/RtmpVDF8Kj/file4137b365e7c91.tif" "/tmp/RtmpVDF8Kj/file4137b13229d8c.tif"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Input file size is 40, 400...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview result</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(z)</span> object 'z' not found</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 35, 25, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 0.5, 0.5  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -105, -92.5, 41, 58.5  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file4137b13229d8c.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        : lyr.1 </span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

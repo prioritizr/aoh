@@ -248,16 +248,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-gdal-processing" class="hasAnchor"><a href="#section-gdal-processing" class="anchor"></a>GDAL processing</h2>
-          <p class="section-desc"><p>Functions for processing data with GDAL - contains(“gdal”)</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-miscellaneous-geoprocessing" class="hasAnchor"><a href="#section-miscellaneous-geoprocessing" class="anchor"></a>Miscellaneous geoprocessing</h2>
-          <p class="section-desc"><p>Functions for processing spatial data</p></p>
+          <p class="section-desc"><p>Functions for processing data with GDAL</p></p>
         </th>
       </tr>
       
@@ -268,27 +259,27 @@
       <tr>
         
         <td>
-          <p><code><a href="sf_terra_crs.html">sf_terra_crs()</a></code> </p>
+          <p><code><a href="gdal_datatype.html">gdal_datatype()</a></code> </p>
         </td>
-        <td><p>Coordinate reference system</p></td>
+        <td><p>GDAL datatype</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="sf_terra_ext.html">sf_terra_ext()</a></code> </p>
+          <p><code><a href="gdal_version.html">gdal_version()</a></code> </p>
         </td>
-        <td><p>Spatial extent</p></td>
+        <td><p>GDAL version</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="terra_combine.html">terra_combine()</a></code> </p>
+          <p><code><a href="is_gdal_available.html">is_gdal_available()</a></code> </p>
         </td>
-        <td><p>Combine</p></td>
+        <td><p>Is GDAL available?</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="terra_fasterize.html">terra_fasterize()</a></code> </p>
+          <p><code><a href="is_gdal_calc_available.html">is_gdal_calc_available()</a></code> </p>
         </td>
-        <td><p>Fasterize</p></td>
+        <td><p>Is gdal_calc available?</p></td>
       </tr><tr>
         
         <td>
@@ -313,30 +304,25 @@
           <p><code><a href="terra_gdal_project.html">terra_gdal_project()</a></code> </p>
         </td>
         <td><p>Project a raster using GDAL</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-miscellaneous-raster-processing" class="hasAnchor"><a href="#section-miscellaneous-raster-processing" class="anchor"></a>Miscellaneous raster processing</h2>
+          <p class="section-desc"><p>Functions for processing raster data</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="terra_on_disk.html">terra_on_disk()</a></code> </p>
+          <p><code><a href="create_template_rast.html">create_template_rast()</a></code> </p>
         </td>
-        <td><p>On disk?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="terra_st_bbox.html">terra_st_bbox()</a></code> </p>
-        </td>
-        <td><p>Bounding box</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="terra_st_crs.html">terra_st_crs()</a></code> </p>
-        </td>
-        <td><p>Coordinate reference system</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_sf_n.html">read_sf_n()</a></code> </p>
-        </td>
-        <td><p>Read spatial data</p></td>
+        <td><p>Create a template raster</p></td>
       </tr><tr>
         
         <td>
@@ -346,9 +332,64 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="create_template_rast.html">create_template_rast()</a></code> </p>
+          <p><code><a href="terra_st_crs.html">terra_st_crs()</a></code> </p>
         </td>
-        <td><p>Create a template raster</p></td>
+        <td><p>Coordinate reference system</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="terra_st_bbox.html">terra_st_bbox()</a></code> </p>
+        </td>
+        <td><p>Bounding box</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="terra_fasterize.html">terra_fasterize()</a></code> </p>
+        </td>
+        <td><p>Fasterize</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="terra_combine.html">terra_combine()</a></code> </p>
+        </td>
+        <td><p>Combine</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="terra_on_disk.html">terra_on_disk()</a></code> </p>
+        </td>
+        <td><p>On disk?</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-miscellaneous-vector-processing" class="hasAnchor"><a href="#section-miscellaneous-vector-processing" class="anchor"></a>Miscellaneous vector processing</h2>
+          <p class="section-desc"><p>Functions for processing vector data</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="sf_terra_crs.html">sf_terra_crs()</a></code> </p>
+        </td>
+        <td><p>Coordinate reference system</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sf_terra_ext.html">sf_terra_ext()</a></code> </p>
+        </td>
+        <td><p>Spatial extent</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="read_sf_n.html">read_sf_n()</a></code> </p>
+        </td>
+        <td><p>Read spatial data</p></td>
       </tr><tr>
         
         <td>

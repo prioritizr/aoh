@@ -32,14 +32,23 @@ reference:
 
   - title: GDAL processing
     desc: Functions for processing data with GDAL
-      - contains("gdal")
+    contents:
+      - matches("gdal")
 
-  - title: Miscellaneous geoprocessing
-    desc: Functions for processing spatial data
+  - title: Miscellaneous raster processing
+    desc: Functions for processing raster data
+    contents:
+      - create_template_rast
+      - intersecting_ext
+      - terra_st_crs
+      - terra_st_bbox
+      - terra_fasterize
+      - terra_combine
+      - terra_on_disk
+
+  - title: Miscellaneous vector processing
+    desc: Functions for processing vector data
     contents:
       - starts_with("sf_")
-      - starts_with("terra_")
       - read_sf_n
-      - intersecting_ext
-      - create_template_rast
       - clean_spp_range_data

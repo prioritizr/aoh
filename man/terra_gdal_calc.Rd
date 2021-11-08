@@ -49,7 +49,7 @@ This function is a wrapper for the \code{gdal_calc.py} script.
 # please ensure that the gdalUtils package is installed and
 # GDAL system binaries are installed to run this example
 
-\dontshow{if (is_gdal_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (is_gdal_available() && is_gdal_calc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # create raster with data
 x <- rast(
   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,

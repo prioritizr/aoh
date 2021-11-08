@@ -50,6 +50,26 @@ gdal_version <- function() {
   v
 }
 
+#' Is gdal_calc available?
+#'
+#' Check if `gdal_calc.py` is available.
+#'
+#' @return A `logical` value indicating if it is available.
+#'
+#' @examples
+#' # see if gdal_calc is available
+#' print(is_gdal_calc_available())
+#'
+#' @export
+is_gdal_calc_available <- function() {
+  v <- try(
+    system("gdal_calc.py --help", intern = TRUE),
+    silent = TRUE
+  )
+  if (inherits(v, "try-error")) return(FALSE)
+  TRUE
+}
+
 #' Project a raster using GDAL
 #'
 #' This function is a wrapper for [gdalUtils::gdalwarp()].
@@ -424,7 +444,7 @@ terra_gdal_crop <- function(x, ext,
 #' # please ensure that the gdalUtils package is installed and
 #' # GDAL system binaries are installed to run this example
 #'
-#' @examplesIf is_gdal_available()
+#' @examplesIf is_gdal_available() && is_gdal_calc_available()
 #' # create raster with data
 #' x <- rast(
 #'   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
@@ -456,7 +476,8 @@ terra_gdal_calc <- function(x, expr,
     assertthat::is.string(datatype),
     assertthat::noNA(datatype),
     terra::nlyr(x) == 1,
-    is_gdal_available()
+    is_gdal_available(),
+    is_gdal_calc_available()
   )
   # save raster if needed
   x_on_disk <- terra_on_disk(x)
