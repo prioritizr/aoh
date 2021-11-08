@@ -129,8 +129,11 @@
   <span class='va'>x</span>,
   <span class='va'>y</span>,
   method <span class='op'>=</span> <span class='st'>"bilinear"</span>,
-  parallel_n_threads <span class='op'>=</span> <span class='fl'>1</span>,
+  n_threads <span class='op'>=</span> <span class='fl'>1</span>,
   filename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".tif"</span><span class='op'>)</span>,
+  datatype <span class='op'>=</span> <span class='st'>"FLT4S"</span>,
+  cache_limit <span class='op'>=</span> <span class='fl'>200</span>,
+  tiled <span class='op'>=</span> <span class='cn'>FALSE</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></code></pre></div>
@@ -152,7 +155,7 @@ output data.</p></td>
       <td><p><code>character</code> Name of interpolation method.</p></td>
     </tr>
     <tr>
-      <th>parallel_n_threads</th>
+      <th>n_threads</th>
       <td><p><code>integer</code> Number of computational threads to use
 for data processing.
 To reduce run time, it is strongly recommended to set this
@@ -163,6 +166,21 @@ Defaults to 1.</p></td>
       <th>filename</th>
       <td><p><code>character</code> Filename for output raster.
 Defaults to <code>tempfile(fileext = ".tif")</code>.</p></td>
+    </tr>
+    <tr>
+      <th>datatype</th>
+      <td><p><code>character</code> Value indicating the data type for saving data.
+Defaults to <code>"FLT4S"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cache_limit</th>
+      <td><p><code>integer</code> Number of MB to use for GDAL caching.
+Defaults to 200.</p></td>
+    </tr>
+    <tr>
+      <th>tiled</th>
+      <td><p><code>logical</code> Value indicating if GeoTIFF files should be tiled.
+Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -188,7 +206,7 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-in'>  ncols <span class='op'>=</span> <span class='fl'>40</span>, nrows <span class='op'>=</span> <span class='fl'>40</span>, xmin <span class='op'>=</span> <span class='op'>-</span><span class='fl'>110</span>, xmax <span class='op'>=</span> <span class='op'>-</span><span class='fl'>90</span>, ymin <span class='op'>=</span> <span class='fl'>40</span>, ymax<span class='op'>=</span><span class='fl'>60</span>,</span>
 <span class='r-in'>  crs <span class='op'>=</span> <span class='st'>"+proj=longlat +datum=WGS84"</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/values.html'>values</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/pkg/terra/man/dimensions.html'>ncell</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/values.html'>values</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/terra/man/dimensions.html'>ncell</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># create raster to define spatial properties for projection</span></span>
 <span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/terra/man/rast.html'>rast</a></span><span class='op'>(</span></span>
@@ -200,10 +218,8 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-in'><span class='co'># project data</span></span>
 <span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>terra_gdal_project</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking gdal_installation...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Scanning for GDAL installations...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking Sys.which...</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL version 3.2.2</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL command being used: "/usr/bin/gdalwarp" -overwrite  -te -944881 4664377 935118 7144377 -te_srs "/tmp/RtmpUAUXnt/file20425bb87b07.wkt" -tr 19999.9893617021 20000 -s_srs "/tmp/RtmpUAUXnt/file20421d6ed29e.wkt" -t_srs "/tmp/RtmpUAUXnt/file20425bb87b07.wkt" -r "bilinear" -of "GTiff" -wo "NUM_THREADS=1" -co "COMPRESS=LZW" "/tmp/RtmpUAUXnt/file204274abc8db.tif" "/tmp/RtmpUAUXnt/file20425b501a00.tif"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL command being used: "/usr/bin/gdalwarp" -overwrite  -te -944881 4664377 935118 7144377 -te_srs "/tmp/RtmpYLukHr/file39634234e353d.wkt" -tr 19999.9893617021 20000 -wm "200" -s_srs "/tmp/RtmpYLukHr/file396341f837c9a.wkt" -t_srs "/tmp/RtmpYLukHr/file39634234e353d.wkt" -ot "Float32" -r "bilinear" -of "GTiff" -wo "NUM_THREADS=1" -co "COMPRESS=LZW" -co "NUM_THREADS=1" -oo "NUM_THREADS=1" -doo "NUM_THREADS=1" "/tmp/RtmpYLukHr/file39634463075e0.tif" "/tmp/RtmpYLukHr/file396345074be3c.tif"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview result</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span></span>
@@ -212,7 +228,7 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 19999.99, 20000  (x, y)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -944881, 935118, 4664377, 7144377  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : +proj=lcc +lat_0=0 +lon_0=-100 +lat_1=48 +lat_2=33 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file20425b501a00.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file396345074be3c.tif </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> name        : lyr.1 </span>
 </code></pre></div>
   </div>

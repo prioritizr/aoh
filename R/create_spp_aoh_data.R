@@ -96,18 +96,15 @@ NULL
 #'  resolution raster under the World Behrmann coordinate reference system
 #'  (ESRI:54017).
 #'
-#' @param parallel_n_threads `integer` Number of computational threads to use
+#' @param n_threads `integer` Number of computational threads to use
 #'   for data processing.
 #'   To reduce run time, it is strongly recommended to set this
 #'   parameter based on available resources (see Examples section below).
+#'   Note that parallel processing is only used for processing the
+#'   habitat classification and elevation data.
+#'   As such, this parameter will have no influence when using preprocessed
+#'   datasets.
 #'   Defaults to 1.
-#'
-#' @param parallel_cluster `character` Name of strategy for
-#'  processing data in parallel. Available options are `"FORK"` and
-#'  `"PSOCK"`.
-#'  Defaults to `NULL` such that `"PSOCK"` is used on Microsoft
-#'  Windows operating systems, and `"FORK"` otherwise.
-#'  Defaults to 1.
 #'
 #' @param omit_habitat_codes `character` Habitat classification codes
 #'   to omit from resulting Area of Habitat data. If the aim is to identify
@@ -120,7 +117,7 @@ NULL
 #'   (see [default_omit_iucn_habitat_codes()],
 #'
 #' @param use_gdal `logical` indicating if GDAL should be used for
-#'   projecting raster data (i.e. [terra_gdal_project()]?
+#'   projecting and cropping raster data?
 #'   If GDAL is installed on the system and the \pkg{gdalUtils} package
 #'   is installed, this can dramatically reduce run time.
 #'   Defaults to `TRUE` if GDAL is available (per [is_gdal_available()]).
@@ -286,7 +283,7 @@ NULL
 #' spp_aoh_data <- create_spp_aoh_data(
 #'   x = spp_range_data,
 #'   output_dir = output_dir,
-#'   parallel_n_threads = n_threads,
+#'   n_threads = n_threads,
 #'   cache_dir = cache_dir
 #' )
 #' }
@@ -321,8 +318,7 @@ create_spp_aoh_data <- function(x,
                                 habitat_version = "latest",
                                 key = NULL,
                                 force = FALSE,
-                                parallel_n_threads = 1,
-                                parallel_cluster = NULL,
+                                n_threads = 1,
                                 use_gdal = is_gdal_available(),
                                 omit_habitat_codes =
                                   default_omit_iucn_habitat_codes(),
@@ -342,8 +338,8 @@ create_spp_aoh_data <- function(x,
     inherits(x, "sf"),
     assertthat::is.writeable(output_dir),
     assertthat::is.writeable(cache_dir),
-    assertthat::is.count(parallel_n_threads),
-    assertthat::noNA(parallel_n_threads),
+    assertthat::is.count(n_threads),
+    assertthat::noNA(n_threads),
     assertthat::is.flag(verbose),
     assertthat::noNA(force),
     assertthat::is.flag(force),
@@ -356,24 +352,6 @@ create_spp_aoh_data <- function(x,
       msg = "can't use GDAL because it's not available."
     )
   }
-  ## parallel cluster
-  if (is.null(parallel_cluster)) {
-    parallel_cluster <- ifelse(
-      identical(.Platform$OS.type, "unix"), "FORK", "PSOCK"
-    )
-  }
-  assertthat::assert_that(
-    assertthat::is.string(parallel_cluster),
-    assertthat::noNA(parallel_cluster)
-  )
-  assertthat::assert_that(
-    identical(parallel_cluster, "FORK") ||
-    identical(parallel_cluster, "PSOCK"),
-    msg = paste(
-      "argument to \"parallel_cluster\" is not NULL,",
-      "\"FORK\", or \"PSOCK\""
-    )
-  )
 
   ## elevation data
   if (is.null(elevation_data)) {
@@ -570,7 +548,9 @@ create_spp_aoh_data <- function(x,
   }
   ## remove unused habitat layers
   habitat_data <- habitat_data[[habitat_codes]]
-  ## crop template data if full extent not needed
+  ## crop data to template
+  ## N.B. we don't use GDAL here because it doesn't support snapping,
+  ## which means that it might drop rows/columns inside the target extent
   template_data <- terra::crop(
     x = template_data,
     y = sf_terra_ext(
@@ -581,8 +561,7 @@ create_spp_aoh_data <- function(x,
         )
       )
     ),
-    snap = "out",
-    NAflag = -9999,
+    snap = "out"
   )
 
   # habitat processing
@@ -600,26 +579,37 @@ create_spp_aoh_data <- function(x,
       cli::cli_progress_step("preparing habitat data")
     }
     ## crop data
-    habitat_data <- terra::rast(
-      plyr::llply(terra::as.list(habitat_data), function(x) {
-        terra::crop(
-          x = x,
-          y = template_data,
-          snap = "out",
-          datatype = "INT2U"
-        )
-      })
-    )
+    if (use_gdal) {
+      habitat_data <- terra_gdal_crop(
+        x = habitat_data,
+        ext = terra::ext(template_data),
+        n_threads = n_threads,
+        datatype = "INT2U",
+        verbose = FALSE
+      )
+    } else {
+      habitat_data <- terra::rast(
+        plyr::llply(terra::as.list(habitat_data), function(x) {
+          terra::crop(
+            x = x,
+            y = template_data,
+            snap = "out",
+            datatype = "INT2U"
+          )
+        })
+      )
+    }
   } else {
     ## project habitat data
     habitat_data <- project_habitat_data(
       x = habitat_data,
       template_data = template_data,
-      parallel_n_threads = parallel_n_threads,
+      n_threads = n_threads,
       use_gdal = use_gdal,
       temp_dir = tmp_rast_dir,
       verbose = verbose
     )
+
     ## verify that habitat data encompasses that species range data
     assertthat::assert_that(
       sf::st_contains(
@@ -650,7 +640,22 @@ create_spp_aoh_data <- function(x,
     )
   ) {
     ### crop data
-    elevation_data <- terra::crop(elevation_data, template_data, snap = "out")
+    if (use_gdal) {
+      elevation_data <- terra_gdal_crop(
+        x = elevation_data,
+        ext = terra::ext(template_data),
+        n_threads = n_threads,
+        datatype = "INT2U",
+        verbose = FALSE
+      )
+    } else {
+      elevation_data <- terra::crop(
+        x = elevation_data,
+        y = template_data,
+        snap = "out",
+        datatype = "INT2U"
+      )
+    }
   } else {
     ### project data
     if (use_gdal) {
@@ -658,7 +663,7 @@ create_spp_aoh_data <- function(x,
       elevation_data <- terra_gdal_project(
         x = elevation_data,
         y = template_data,
-        parallel_n_threads = parallel_n_threads,
+        n_threads = n_threads,
         filename = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif"),
         verbose = FALSE,
         datatype = "INT2U"
@@ -731,7 +736,7 @@ create_spp_aoh_data <- function(x,
 
   # main processing
   ## display message
-  if (verbose && (parallel_n_threads > 1)) {
+  if (verbose && (n_threads > 1)) {
     cli::cli_progress_step("generating Area of Habitat data")
   }
   ## processing
@@ -742,8 +747,6 @@ create_spp_aoh_data <- function(x,
     elevation_data = elevation_data,
     cache_dir = cache_dir,
     force = force,
-    parallel_n_threads = parallel_n_threads,
-    parallel_cluster = parallel_cluster,
     verbose = verbose,
     datatype = "INT2U"
   )

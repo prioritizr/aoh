@@ -8,8 +8,11 @@ terra_gdal_project(
   x,
   y,
   method = "bilinear",
-  parallel_n_threads = 1,
+  n_threads = 1,
   filename = tempfile(fileext = ".tif"),
+  datatype = "FLT4S",
+  cache_limit = 200,
+  tiled = FALSE,
   verbose = TRUE,
   ...
 )
@@ -22,7 +25,7 @@ output data.}
 
 \item{method}{\code{character} Name of interpolation method.}
 
-\item{parallel_n_threads}{\code{integer} Number of computational threads to use
+\item{n_threads}{\code{integer} Number of computational threads to use
 for data processing.
 To reduce run time, it is strongly recommended to set this
 parameter based on available resources (see Examples section below).
@@ -30,6 +33,15 @@ Defaults to 1.}
 
 \item{filename}{\code{character} Filename for output raster.
 Defaults to \code{tempfile(fileext = ".tif")}.}
+
+\item{datatype}{\code{character} Value indicating the data type for saving data.
+Defaults to \code{"FLT4S"}.}
+
+\item{cache_limit}{\code{integer} Number of MB to use for GDAL caching.
+Defaults to 200.}
+
+\item{tiled}{\code{logical} Value indicating if GeoTIFF files should be tiled.
+Defaults to \code{FALSE}.}
 
 \item{verbose}{\code{logical} should information be displayed during processing?
 Defaults to \code{TRUE}.}
@@ -52,7 +64,7 @@ x <- rast(
   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
   crs = "+proj=longlat +datum=WGS84"
 )
-values(x) <- 1:ncell(x)
+values(x) <- seq_len(ncell(x))
 
 # create raster to define spatial properties for projection
 y <- rast(

@@ -17,8 +17,7 @@ create_spp_aoh_data(
   habitat_version = "latest",
   key = NULL,
   force = FALSE,
-  parallel_n_threads = 1,
-  parallel_cluster = NULL,
+  n_threads = 1,
   use_gdal = is_gdal_available(),
   omit_habitat_codes = default_omit_iucn_habitat_codes(),
   verbose = TRUE
@@ -118,21 +117,18 @@ accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
 the data are already available?
 Defaults to \code{FALSE}.}
 
-\item{parallel_n_threads}{\code{integer} Number of computational threads to use
+\item{n_threads}{\code{integer} Number of computational threads to use
 for data processing.
 To reduce run time, it is strongly recommended to set this
 parameter based on available resources (see Examples section below).
-Defaults to 1.}
-
-\item{parallel_cluster}{\code{character} Name of strategy for
-processing data in parallel. Available options are \code{"FORK"} and
-\code{"PSOCK"}.
-Defaults to \code{NULL} such that \code{"PSOCK"} is used on Microsoft
-Windows operating systems, and \code{"FORK"} otherwise.
+Note that parallel processing is only used for processing the
+habitat classification and elevation data.
+As such, this parameter will have no influence when using preprocessed
+datasets.
 Defaults to 1.}
 
 \item{use_gdal}{\code{logical} indicating if GDAL should be used for
-projecting raster data (i.e. \code{\link[=terra_gdal_project]{terra_gdal_project()}}?
+projecting and cropping raster data?
 If GDAL is installed on the system and the \pkg{gdalUtils} package
 is installed, this can dramatically reduce run time.
 Defaults to \code{TRUE} if GDAL is available (per \code{\link[=is_gdal_available]{is_gdal_available()}}).}
@@ -289,7 +285,7 @@ if (!file.exists(cache_dir)) {
 spp_aoh_data <- create_spp_aoh_data(
   x = spp_range_data,
   output_dir = output_dir,
-  parallel_n_threads = n_threads,
+  n_threads = n_threads,
   cache_dir = cache_dir
 )
 }

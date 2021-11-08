@@ -407,3 +407,27 @@ terra_combine <- function(x) {
   # return result
   x
 }
+
+#' On disk?
+#'
+#' Check if a raster ([terra::rast()]) object is stored on disk?
+#'
+#' @param x [terra::rast()] Raster object.
+#'
+#' @details
+#' The data is only considered available on disk if the data
+#' is not stored in memory and is only obtained from a single file source.
+#'
+#' @return A `logical` indicating if the data is stored on disk.
+#'
+#' @export
+terra_on_disk <- function(x) {
+  assertthat::assert_that(inherits(x, "SpatRaster"))
+  s <- terra::sources(x)
+  out <-
+    (nrow(s) == 1) &&
+    all(nchar(s$source) > 0) &&
+    all(file.exists(s$source))
+  if (!out) return(out)
+  out && (terra::nlyr(x) == terra::nlyr(terra::rast(s$source[[1]])))
+}

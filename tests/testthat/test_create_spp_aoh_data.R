@@ -29,7 +29,8 @@ test_that("simulated data", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    verbose = FALSE
+    use_gdal = FALSE,
+    verbose = TRUE
   )
   # tests
   expect_is(x, "sf")
@@ -54,6 +55,8 @@ test_that("simulated data", {
   expect_is(x$elevation_upper, "numeric")
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  # clean up
+  unlink(x$path[!is.na(x$path)])
 })
 
 test_that("some species missing habitat data", {
@@ -99,6 +102,7 @@ test_that("some species missing habitat data", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
+    use_gdal = FALSE,
     force = TRUE,
     verbose = FALSE
   )
@@ -109,6 +113,7 @@ test_that("some species missing habitat data", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data_alt,
     spp_summary_data = spp_summary_data,
+    use_gdal = FALSE,
     force = TRUE,
     verbose = FALSE
   )
@@ -172,6 +177,7 @@ test_that("species with reversed elevation limits", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
+    use_gdal = FALSE,
     force = TRUE,
     verbose = FALSE
   )
@@ -182,6 +188,7 @@ test_that("species with reversed elevation limits", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data_alt,
+    use_gdal = FALSE,
     force = TRUE,
     verbose = FALSE
   )
@@ -205,7 +212,7 @@ test_that("species with reversed elevation limits", {
   unlink(output_dir2, recursive = TRUE)
 })
 
-test_that("GDAL processing", {
+test_that("GDAL (single core)", {
   # skip if needed
   skip_on_cran()
   skip_if_gdal_not_available()
@@ -225,12 +232,17 @@ test_that("GDAL processing", {
     system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
     sep = ",", header = TRUE
   )
+  # create output dirs
+  output_dir1 <- tempfile()
+  output_dir2 <- tempfile()
+  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
+  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
   # load data
   d <- read_spp_range_data(f)
   # create objects
   x1 <- create_spp_aoh_data(
     x = d,
-    output_dir = tempdir(),
+    output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
@@ -240,7 +252,7 @@ test_that("GDAL processing", {
   )
   x2 <- create_spp_aoh_data(
     x = d,
-    output_dir = tempdir(),
+    output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
@@ -251,14 +263,94 @@ test_that("GDAL processing", {
   # tests
   expect_is(x1, "sf")
   expect_is(x2, "sf")
-  expect_equal(x1, x2)
-  expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
-    all(
-      terra::values(terra::rast(x1$path[[i]])) ==
-      terra::values(terra::rast(x2$path[[i]])),
-      na.rm = TRUE
+  expect_equal(
+    dplyr::select(x1, -path),
+    dplyr::select(x2, -path)
+  )
+  expect_equal(
+    lapply(
+      x1$path,
+      function(x) terra::values(terra::rast(x))
+    ),
+    lapply(
+      x2$path,
+      function(x) terra::values(terra::rast(x))
     )
-  })))
+  )
+  # clean up
+  unlink(output_dir1, recursive = TRUE)
+  unlink(output_dir2, recursive = TRUE)
+})
+
+test_that("GDAL (parallel processing)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_gdal_not_available()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # create output dirs
+  output_dir1 <- tempfile()
+  output_dir2 <- tempfile()
+  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
+  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
+  # load data
+  d <- read_spp_range_data(f)
+  # create objects
+  x1 <- create_spp_aoh_data(
+    x = d,
+    output_dir = output_dir1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    use_gdal = FALSE,
+    verbose = FALSE
+  )
+  x2 <- create_spp_aoh_data(
+    x = d,
+    output_dir = output_dir2,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    use_gdal = TRUE,
+    n_threads = 2,
+    verbose = FALSE
+  )
+  # tests
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
+  expect_equal(
+    dplyr::select(x1, -path),
+    dplyr::select(x2, -path)
+  )
+  expect_equal(
+    lapply(
+      x1$path,
+      function(x) terra::values(terra::rast(x))
+    ),
+    lapply(
+      x2$path,
+      function(x) terra::values(terra::rast(x))
+    )
+  )
+  # clean up
+  unlink(output_dir1, recursive = TRUE)
+  unlink(output_dir2, recursive = TRUE)
 })
 
 test_that("preprocessed data", {
@@ -299,117 +391,8 @@ test_that("preprocessed data", {
   expect_is(x$elevation_upper, "numeric")
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
-})
-
-test_that("PSOCK parallel processing", {
-  # skip if needed
-  skip_on_cran()
-  # specify file path
-  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  elevation_data <- terra::rast(
-    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
-  )
-  habitat_data <- terra::rast(
-    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
-  )
-  spp_habitat_data <- read.csv(
-    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  spp_summary_data <- read.csv(
-    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  # load data
-  d <- read_spp_range_data(f)
-  # create objects
-  x1 <- create_spp_aoh_data(
-    x = d,
-    output_dir = tempdir(),
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    verbose = FALSE
-  )
-  x2 <- create_spp_aoh_data(
-    x = d,
-    output_dir = tempdir(),
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    parallel_n_threads = 2,
-    parallel_cluster = "PSOCK",
-    verbose = FALSE
-  )
-  # tests
-  expect_is(x1, "sf")
-  expect_is(x2, "sf")
-  expect_equal(x1, x2)
-  expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
-    all(
-      terra::values(terra::rast(x1$path[[i]])) ==
-      terra::values(terra::rast(x2$path[[i]])),
-      na.rm = TRUE
-    )
-  })))
-})
-
-test_that("FORK parallel processing", {
-  # skip if needed
-  skip_on_cran()
-  skip_on_os("windows")
-  # specify file path
-  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  elevation_data <- terra::rast(
-    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
-  )
-  habitat_data <- terra::rast(
-    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
-  )
-  spp_habitat_data <- read.csv(
-    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  spp_summary_data <- read.csv(
-    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  # load data
-  d <- read_spp_range_data(f)
-  # create objects
-  x1 <- create_spp_aoh_data(
-    x = d,
-    output_dir = tempdir(),
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    verbose = FALSE
-  )
-  x2 <- create_spp_aoh_data(
-    x = d,
-    output_dir = tempdir(),
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    parallel_n_threads = 2,
-    parallel_cluster = "FORK",
-    verbose = FALSE
-  )
-  # tests
-  expect_is(x1, "sf")
-  expect_is(x2, "sf")
-  expect_equal(x1, x2)
-  expect_true(all(sapply(seq_len(nrow(x1)), function(i) {
-    all(
-      terra::values(terra::rast(x1$path[[i]])) ==
-      terra::values(terra::rast(x2$path[[i]])),
-      na.rm = TRUE
-    )
-  })))
+  # clean up
+  unlink(x$path[!is.na(x$path)])
 })
 
 test_that("example data", {
@@ -430,7 +413,7 @@ test_that("example data", {
       output_dir = tempdir(),
       cache_dir = cd,
       habitat_version = hv,
-      parallel_n_threads = 2,
+      n_threads = 2,
       verbose = FALSE
     )
   )
@@ -439,6 +422,8 @@ test_that("example data", {
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  # clean up
+  unlink(x$path[!is.na(x$path)])
 })
 
 test_that("amphibian data", {
@@ -466,6 +451,8 @@ test_that("amphibian data", {
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  # clean up
+  unlink(x$path[!is.na(x$path)])
 })
 
 test_that("reptile data", {
@@ -492,6 +479,8 @@ test_that("reptile data", {
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  # clean up
+  unlink(x$path[!is.na(x$path)])
 })
 
 test_that("terrestrial mammal data", {
@@ -518,4 +507,6 @@ test_that("terrestrial mammal data", {
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  # clean up
+  unlink(x$path[!is.na(x$path)])
 })

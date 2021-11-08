@@ -21,7 +21,7 @@ test_that("single layer (single core)", {
   z1 <- terra::project(x, y, method = "near")
   # create results using function
   z2 <- terra_gdal_project(
-    x, y, method = "near", verbose = FALSE, parallel_n_threads = 1
+    x, y, method = "near", verbose = FALSE, n_threads = 1
   )
   # tests
   expect_true(terra::compareGeom(z1, z2, stopOnError = FALSE, res = TRUE))
@@ -49,7 +49,7 @@ test_that("single layer (parallel processing)", {
   z1 <- terra::project(x, y, method = "near")
   # create results using function
   z2 <- terra_gdal_project(
-    x, y, method = "near", verbose = FALSE, parallel_n_threads = 2
+    x, y, method = "near", verbose = FALSE, n_threads = 2
   )
   # tests
   expect_true(terra::compareGeom(z1, z2, stopOnError = FALSE, res = TRUE))
@@ -82,7 +82,7 @@ test_that("multiple layers (single core)", {
   # create results using function
   z2 <- terra_gdal_project(
     x, y, method = "near", verbose = TRUE,
-    parallel_n_threads = 1, NAflag = -9999
+    n_threads = 1, NAflag = -9999
   )
   # tests
   expect_true(terra::compareGeom(z1, z2, stopOnError = FALSE, res = TRUE))
@@ -115,7 +115,7 @@ test_that("multiple layers (parallel processing)", {
   # create results using function
   z2 <- terra_gdal_project(
     x, y, method = "near", verbose = FALSE,
-    parallel_n_threads = 2, NAflag = -9999
+    n_threads = 2, NAflag = -9999
   )
   # tests
   expect_true(terra::compareGeom(z1, z2, stopOnError = FALSE, res = TRUE))

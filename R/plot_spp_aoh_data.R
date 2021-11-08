@@ -64,7 +64,7 @@ NULL
 #' spp_aoh_data <- create_spp_aoh_data(
 #'   x = spp_range_data,
 #'   output_dir = output_dir,
-#'   parallel_n_threads = n_threads,
+#'   n_threads = n_threads,
 #'   cache_dir = cache_dir
 #' )
 #'

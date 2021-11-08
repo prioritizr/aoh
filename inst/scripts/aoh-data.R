@@ -33,9 +33,6 @@ assertthat::assert_that(
   )
 )
 
-### set number of threads
-n_threads <- 1
-
 ### possible options based on for IUCN file name conventions
 input_file <- input_file_options[[cmd_args]]
 cli::cli_alert_info(paste0("processing file: ", input_file))
@@ -73,7 +70,7 @@ spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 ## create data
 result_data <- create_spp_aoh_data(
   x = spp_data, output_dir = output_dir, cache_dir = cache_dir,
-  parallel_n_threads = n_threads
+  use_gdal = FALSE
 )
 
 # Exports

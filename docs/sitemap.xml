@@ -34,6 +34,9 @@
     <loc>/reference/default_omit_iucn_habitat_codes.html</loc>
   </url>
   <url>
+    <loc>/reference/gdal_datatype.html</loc>
+  </url>
+  <url>
     <loc>/reference/gdal_version.html</loc>
   </url>
   <url>
@@ -85,7 +88,19 @@
     <loc>/reference/terra_fasterize.html</loc>
   </url>
   <url>
+    <loc>/reference/terra_gdal_calc.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_gdal_crop.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_gdal_disaggregate.html</loc>
+  </url>
+  <url>
     <loc>/reference/terra_gdal_project.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_on_disk.html</loc>
   </url>
   <url>
     <loc>/reference/terra_st_bbox.html</loc>

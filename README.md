@@ -240,9 +240,9 @@ print(spp_aoh_rasters)
     ## extent      : -915531, -378531, 4551769, 5067769  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_4657_1.tif 
-    ## name        :    lyr.1 
-    ## min value   :        0 
-    ## max value   : 0.124875 
+    ## name        : lyr.1 
+    ## min value   :     0 
+    ## max value   :     1 
     ## 
     ## [[2]]
     ## class       : SpatRaster 
@@ -251,9 +251,9 @@ print(spp_aoh_rasters)
     ## extent      : -904531, -152531, 4568769, 5067769  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_58622_1.tif 
-    ## name        :    lyr.1 
-    ## min value   : 0.000125 
-    ## max value   :   0.1255 
+    ## name        : lyr.1 
+    ## min value   :     0 
+    ## max value   :     1 
     ## 
     ## [[3]]
     ## class       : SpatRaster 
@@ -264,7 +264,7 @@ print(spp_aoh_rasters)
     ## source      : AOH_59448_1.tif 
     ## name        : lyr.1 
     ## min value   :     0 
-    ## max value   : 0.126 
+    ## max value   :     1 
     ## 
     ## [[4]]
     ## class       : SpatRaster 
@@ -273,9 +273,9 @@ print(spp_aoh_rasters)
     ## extent      : -468531, -97531, 4363769, 4623769  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_979_1.tif 
-    ## name        :    lyr.1 
-    ## min value   :        0 
-    ## max value   : 0.099625
+    ## name        : lyr.1 
+    ## min value   :     0 
+    ## max value   :     1
 
 Finally, let’s create some maps to compare the range data with the Area
 of habitat data.

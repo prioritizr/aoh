@@ -30,6 +30,10 @@ reference:
     contents:
       - simulate_spp_data
 
+  - title: GDAL processing
+    desc: Functions for processing data with GDAL
+      - contains("gdal")
+
   - title: Miscellaneous geoprocessing
     desc: Functions for processing spatial data
     contents:
@@ -39,5 +43,3 @@ reference:
       - intersecting_ext
       - create_template_rast
       - clean_spp_range_data
-      - is_gdal_available
-      - gdal_version

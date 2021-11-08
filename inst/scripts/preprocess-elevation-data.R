@@ -51,7 +51,7 @@ elevation_data[is.na(elevation_data)] <- 0
 elevation_data <- terra_gdal_project(
   x = elevation_data,
   y = template_data,
-  parallel_n_threads = n_threads,
+  n_threads = n_threads,
   filename = tempfile(fileext = ".tif"),
   verbose = TRUE,
   datatype = "INT2U"

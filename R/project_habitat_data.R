@@ -15,7 +15,7 @@ NULL
 #'
 #' @noRd
 project_habitat_data <- function(x, template_data,
-                                 parallel_n_threads = 1,
+                                 n_threads = 1,
                                  use_gdal = is_gdal_available(),
                                  temp_dir = tempdir(),
                                  verbose = TRUE) {
@@ -60,7 +60,7 @@ project_habitat_data <- function(x, template_data,
             x = x[[i]],
             y = template_data,
             filename = proj_files[i],
-            parallel_n_threads = parallel_n_threads,
+            n_threads = n_threads,
             verbose = FALSE,
             datatype = "INT2U"
           )

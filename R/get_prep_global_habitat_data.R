@@ -106,7 +106,7 @@ download_prep_habitat_data <- function(x, dir, verbose = TRUE) {
   )
   # download data
   piggyback::pb_download(
-    file = f,
+    file = paste0("prep-", f),
     repo = "prioritizr/aoh",
     tag = "data",
     overwrite = TRUE,

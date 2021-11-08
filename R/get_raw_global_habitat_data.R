@@ -40,10 +40,11 @@ get_raw_global_habitat_data <- function(dir = tempdir(),
     dir, paste0("raw-", gsub("/", "-", version, fixed = TRUE))
   )
 
+  # create Zenodo manager object
+  z <- zen4R::ZenodoManager$new(logger = NULL)
+
   # see if version is already available
   if (!file.exists(record_dir) || identical(version, "latest")) {
-    ## find all available version
-    z <- zen4R::ZenodoManager$new(logger = NULL)
     ## find specified version of dataset
     if (identical(version, "latest")) {
       ## find latest version DOI

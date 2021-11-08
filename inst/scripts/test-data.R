@@ -2,7 +2,7 @@
 ## define variables
 n_spp <- 30
 country_names <- c("spain", "portugal")
-habitat_version <- "10.5281/zenodo.3816946"
+habitat_version <- "10.5281/zenodo.4058819"
 cache_dir <- rappdirs::user_data_dir("aoh")
 
 ## load packages
