@@ -62,7 +62,7 @@ spp_range_data <- read_spp_range_data(path)
 print(spp_range_data)
 ```
 
-Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data [derived from @r4; @r5], (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species [following @r1]. We also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data [derived from @r4; @r5], (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species [following @r1]. We also specify a folder to cache the downloaded datasets so that we won't need to re-download again during subsequent runs.
 
 ```{r, message = FALSE, results = "hide"}
 # specify cache directory
@@ -74,7 +74,7 @@ if (!file.exists(cache_dir)) {
 }
 
 # specify folder to save Area of Habitat data
-## although we use a temporary directory here to avoid polluting your
+## although we use a temporary directory here to avoid polluting your directory
 ## with examples files, you would normally specify the folder
 ## on your computer where you want to save data
 output_dir <- tempdir()
@@ -173,7 +173,7 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
 * **I see the following error message `Error: need an API key for Red List data`, how do I resolve this?**
 
-    This error message indicates that you need to obtain a token to access the [IUCN Red List API](https://apiv3.iucnredlist.org/), or that you need to complete the set up process so that R can use the token. For further details on resolving this issue, please see the following section on obtaining access to the IUCN Red List API. If you have previously completed the set up procedures and still receive this error message, please try completing them again.
+    This error message indicates that you need to obtain a token to access the [IUCN Red List API](https://apiv3.iucnredlist.org/), or that you need to complete the setup process so that R can use the token. For further details on resolving this issue, please see the following section on obtaining access to the IUCN Red List API. If you have previously completed the set up procedures and still receive this error message, please try completing them again.
 
 * **How do I obtain access to the IUCN Red List API?**
 
