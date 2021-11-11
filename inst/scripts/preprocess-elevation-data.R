@@ -54,7 +54,7 @@ elevation_data <- terra_gdal_project(
   n_threads = n_threads,
   filename = tempfile(fileext = ".tif"),
   verbose = TRUE,
-  datatype = "INT2U"
+  datatype = "FLT4S"
 )
 
 ## clamp values
