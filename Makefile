@@ -33,17 +33,19 @@ prep_elevation_data: inst/scripts/preprocess-elevation-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/preprocess-elevation-data.R
 
 # process aoh data
+aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles
+
 aoh_amphibians:
-	R CMD BATCH --no-restore --no-save '--args amphibians' inst/scripts/aoh-data.R
+	R CMD BATCH --no-restore --no-save '--args amphibians' inst/scripts/aoh-data.R aoh-data-amphibians.Rout
 
 aoh_birds:
-	R CMD BATCH --no-restore --no-save '--args birds' inst/scripts/aoh-data.R
+	R CMD BATCH --no-restore --no-save '--args birds' inst/scripts/aoh-data.R aoh-data-birds.Rout
 
 aoh_mammals:
-	R CMD BATCH --no-restore --no-save '--args mammals' inst/scripts/aoh-data.R
+	R CMD BATCH --no-restore --no-save '--args mammals' inst/scripts/aoh-data.R aoh-data-mammals.Rout
 
 aoh_reptiles:
-	R CMD BATCH --no-restore --no-save '--args reptiles' inst/scripts/aoh-data.R
+	R CMD BATCH --no-restore --no-save '--args reptiles' inst/scripts/aoh-data.R aoh-data-reptiles.Rout
 
 # documentation
 docs: man readme vigns site
@@ -95,4 +97,4 @@ examples:
 	R --slave -e "devtools::run_examples(test = TRUE, run = TRUE);warnings()"  >> examples.log
 	rm -f Rplots.pdf
 
-.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples prep_habitat_data prep_elevation_data aoh_reptiles aoh_mammals aoh_birds aoh_amphibians
+.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples prep_habitat_data prep_elevation_data aoh_reptiles aoh_mammals aoh_birds aoh_amphibians aoh_global_data
