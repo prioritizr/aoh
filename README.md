@@ -32,7 +32,7 @@ Conservation of Nature (IUCN) Red List of Threatened
 Species](https://www.iucnredlist.org/). After manually downloading
 species range data from the [IUCN Red
 List](https://www.iucnredlist.org/resources/spatial-data-download),
-users can import them (using `read_spp_range_data()`) and then use them
+users can import these data (using `read_spp_range_data()`) and then use them
 to create Area of Habitat data (using `create_spp_aoh_data()`). Global
 elevation and habitat classification data ([Amatulli *et al.*
 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.*
@@ -54,7 +54,7 @@ package](https://github.com/prioritizr/aoh) can be installed using the
 following *R* code. Please note that it requires the
 [*sf*](https://CRAN.R-project.org/package=sf),
 [*terra*](https://CRAN.R-project.org/package=terra), and
-[*zen4R*](https://CRAN.R-project.org/package=zen4R) *R* packages which
+[*zen4R*](https://CRAN.R-project.org/package=zen4R) *R* packages, which
 may require additional software to be installed. If you encounter
 problems installing these dependencies, please consult their
 installation instructions.
@@ -68,13 +68,13 @@ remotes::install_github("prioritizr/aoh")
 
 After installing the *aoh R* package, you will need to obtain a token
 for the [IUCN Red List API](https://apiv3.iucnredlist.org/) (if you do
-not have one already). To achieve this, please visit the IUCN website
+not have one already). To do so, please visit the IUCN website
 (see <https://apiv3.iucnredlist.org/api/v3/token>) and fill out the form
 to apply for a token. You should then receive a token shortly after
 completing the form (but not immediately). After receiving a token,
 please open the `.Renviron` file on your computer (e.g. using
 `usethis::edit_r_environ()`). Next, please add the following text to the
-file (replacing the string with the token) and save the file:
+file (replacing the string with the token) and save the file, using your token in place of the string below:
 
     IUCN_REDLIST_KEY="your_actual_token_not_this_string"
 
@@ -114,7 +114,7 @@ contains the folder path for GDAL (default folder path is
 
 ##### *Ubuntu*
 
-The GDAL binary library need to be installed. For recent versions of
+When Using Umbunto, the GDAL binary library will need to be installed. For recent versions of
 Ubuntu (18.04 and later), this library is available through official
 repositories. It can be installed using the following system commands.
 
