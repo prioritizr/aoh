@@ -53,12 +53,8 @@ elevation_data <- terra_gdal_project(
   y = template_data,
   n_threads = n_threads,
   filename = tempfile(fileext = ".tif"),
-  verbose = TRUE,
-  datatype = "FLT4S"
+  verbose = TRUE
 )
-
-## clamp values
-elevation_data <- terra::clamp(elevation_data, lower = 0, values = TRUE)
 
 # Exports
 ## save raster to disk
