@@ -6,7 +6,7 @@
 [![lifecycle](https://img.shields.io/badge/Lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
 [![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/aoh/Windows/master.svg?label=Windows)](https://github.com/prioritizr/aoh/actions)
-[![R-CMD-check-Mac-OSX](https://img.shields.io/github/workflow/status/prioritizr/aoh/Mac%20OSX/master.svg?label=Mac%20OSX)](https://github.com/prioritizr/aoh/actions)
+[![R-CMD-check-MacOS](https://img.shields.io/github/workflow/status/prioritizr/aoh/Mac%20OSX/master.svg?label=MacOS)](https://github.com/prioritizr/aoh/actions)
 [![Coverage
 Status](https://codecov.io/github/prioritizr/aoh/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/aoh?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/aoh)](https://CRAN.R-project.org/package=aoh)
@@ -32,9 +32,9 @@ Conservation of Nature (IUCN) Red List of Threatened
 Species](https://www.iucnredlist.org/). After manually downloading
 species range data from the [IUCN Red
 List](https://www.iucnredlist.org/resources/spatial-data-download),
-users can import these data (using `read_spp_range_data()`) and then use them
-to create Area of Habitat data (using `create_spp_aoh_data()`). Global
-elevation and habitat classification data ([Amatulli *et al.*
+users can import these data (using `read_spp_range_data()`) and then use
+them to create Area of Habitat data (using `create_spp_aoh_data()`).
+Global elevation and habitat classification data ([Amatulli *et al.*
 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.*
 2020](https://doi.org/10.1038/s41597-020-00599-8)) are automatically
 downloaded, and data on species’ habitat preferences and altitudinal
@@ -68,20 +68,21 @@ remotes::install_github("prioritizr/aoh")
 
 After installing the *aoh R* package, you will need to obtain a token
 for the [IUCN Red List API](https://apiv3.iucnredlist.org/) (if you do
-not have one already). To do so, please visit the IUCN website
-(see <https://apiv3.iucnredlist.org/api/v3/token>) and fill out the form
-to apply for a token. You should then receive a token shortly after
+not have one already). To do so, please visit the IUCN website (see
+<https://apiv3.iucnredlist.org/api/v3/token>) and fill out the form to
+apply for a token. You should then receive a token shortly after
 completing the form (but not immediately). After receiving a token,
 please open the `.Renviron` file on your computer (e.g. using
 `usethis::edit_r_environ()`). Next, please add the following text to the
-file (replacing the string with the token) and save the file, using your token in place of the string below:
+file (replacing the string with the token) and save the file, using your
+token in place of the string below.
 
     IUCN_REDLIST_KEY="your_actual_token_not_this_string"
 
 Please restart your R session. You should now be able to access the IUCN
 Red List API. To verify this, please try running the following *R* code
 and – assuming everything works correctly – you should see the current
-version of the IUCN Red List:
+version of the IUCN Red List.
 
 ``` r
 # verify access to IUCN Red List API
@@ -114,9 +115,10 @@ contains the folder path for GDAL (default folder path is
 
 ##### *Ubuntu*
 
-When Using Umbunto, the GDAL binary library will need to be installed. For recent versions of
-Ubuntu (18.04 and later), this library is available through official
-repositories. It can be installed using the following system commands.
+The GDAL binary library will need to be installed when using Ubuntu. For
+recent versions of Ubuntu (18.04 and later), this library is available
+through official repositories. It can be installed using the following
+system commands.
 
     apt-get -y update
     apt-get install -y gdal-bin
