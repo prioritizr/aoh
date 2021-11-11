@@ -132,8 +132,7 @@ process_spp_aoh_data_on_local <- function(x,
         curr_elev_mask <- terra::crop(
           x = elevation_data,
           y = terra::ext(curr_spp_habitat_data),
-          snap = "out",
-          wopt = wopt
+          snap = "out"
         )
         curr_elev_mask <- terra::clamp(
           x = curr_elev_mask,

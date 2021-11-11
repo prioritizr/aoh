@@ -645,15 +645,14 @@ create_spp_aoh_data <- function(x,
         x = elevation_data,
         ext = terra::ext(template_data),
         n_threads = n_threads,
-        datatype = "INT2U",
+        datatype = "FLT4S",
         verbose = FALSE
       )
     } else {
       elevation_data <- terra::crop(
         x = elevation_data,
         y = template_data,
-        snap = "out",
-        datatype = "INT2U"
+        snap = "out"
       )
     }
   } else {
@@ -666,14 +665,13 @@ create_spp_aoh_data <- function(x,
         n_threads = n_threads,
         filename = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif"),
         verbose = FALSE,
-        datatype = "INT2U"
+        datatype = "FLT4S"
       )
     } else {
       #### otherwise use default processing
       elevation_data <- terra::project(
         x = elevation_data,
-        y = template_data,
-        datatype = "INT2U"
+        y = template_data
       )
     }
   }
@@ -723,7 +721,7 @@ create_spp_aoh_data <- function(x,
   terra::writeRaster(
     x = elevation_data,
     filename = elevation_path,
-    datatype = "INT2U"
+    datatype = "FLT4S"
   )
   ### clear memory
   rm(elevation_data)
