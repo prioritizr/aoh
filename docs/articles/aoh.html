@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2021-11-11</h4>
+            <h4 data-toc-skip class="date">2021-11-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/master/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -178,10 +178,10 @@
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1  4657        1 /tmp/RtmpLaDQ83/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-## 2 58622        1 /tmp/RtmpLaDQ83/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-## 3 59448        1 /tmp/RtmpLaDQ83/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-## 4   979        1 /tmp/RtmpLaDQ83/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
+## 1  4657        1 /tmp/RtmpYfYVyl/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+## 2 58622        1 /tmp/RtmpYfYVyl/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+## 3 59448        1 /tmp/RtmpYfYVyl/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+## 4   979        1 /tmp/RtmpYfYVyl/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -283,12 +283,12 @@
 <p>Here we provide answers to some of the frequently asked questions encountered when using the package.</p>
 <ul>
 <li>
-<p><strong>Where do I can find species range data for generating Area of Habitat data?</strong></p>
-<p>Species range data can be obtained from the <a href="https://www.iucnredlist.org/" class="external-link">IUCN Red List</a> (see <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">Spatial Data Download resources</a>). They can also be produced using observation records from data repositories, such as the <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and the <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>. Please note that species range data must follow the same data formats as the IUCN Red List (see <strong>Species range data format</strong> section in <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> documentation for details).</p>
+<p><strong>I keep seeing this message <code>Error in x$.self$finalize() : attempt to apply non-function</code>, what does it mean?</strong></p>
+<p>This message is commonly encountered when using the <em>terra</em> package with large datasets. Although there is currently no known solution, the message can be safely ignored (<a href="https://github.com/rspatial/terra/issues/30" class="external-link">see here for details</a>). This is because the message does not stop R from completing spatial data processing – meaning that R will continue processing data even when this message is displayed – and the underlying cause of the message is not thought to result in incorrect calculations.</p>
 </li>
 <li>
 <p><strong>I see the following error message <code>Error: need an API key for Red List data</code>, how do I resolve this?</strong></p>
-<p>This error message indicates that you need to obtain a token to access the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>, or that you need to complete the setup process so that R can use the token. For further details on resolving this issue, please see the following section on obtaining access to the IUCN Red List API. If you have previously completed the set up procedures and still receive this error message, please try completing them again.</p>
+<p>This error message indicates that you need to obtain a token to access the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>, or that you need to complete the setup process so that R can use the token. For further details on resolving this issue, please see below for details on obtaining access to the IUCN Red List API. If you have previously completed the set up procedures and still receive this error message, please try completing them again.</p>
 </li>
 <li>
 <p><strong>How do I obtain access to the IUCN Red List API?</strong></p>
@@ -302,23 +302,28 @@
 <p>If these instructions did not work, please consult the documentation for the <a href="https://CRAN.R-project.org/package=rredlist" class="external-link"><em>rredlist</em></a> <em>R</em> package for further details.</p>
 </li>
 <li>
+<p><strong>Where can I find species range data for generating Area of Habitat data?</strong></p>
+<p>Species range data can be obtained from the <a href="https://www.iucnredlist.org/" class="external-link">IUCN Red List</a> (see <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">Spatial Data Download resources</a>). They can also be produced using observation records from data repositories, such as the <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and the <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>. Please note that species range data must follow the same data formats as the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>.</p>
+</li>
+<li>
+<p><strong>I want to use a specific habitat classification dataset for generating Area of Habitat data (e.g. <a href="https://land.copernicus.eu/pan-european/corine-land-cover" class="external-link">CORRINE land cover dataset</a>), how can I do this?</strong></p>
+<p>The <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> function uses a multi-layer raster (<code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code>) object to describe the coverage of different habitat classes (per the <code>habitat_data</code> parameter). Specifically, each layer in the object should correspond to a different habitat class defined by the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN Red List Habitat Classification Scheme</a>. To identify which layers correspond to which habitat classes, each layer should have a name indicating the relevant IUCN Red List habitat classification code (see <code><a href="https://rdrr.io/pkg/terra/man/names.html" class="external-link">terra::names()</a></code> to set names). For example, a layer corresponding to the “Forest - Subarctic” habitat class should have the name <code>"1.1"</code>. It is important to ensure that the names of the raster object correspond to the IUCN Red List habitat classification code. To help verify the layer names, the <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> function will display a warning message if any IUCN habitat codes specified for particular species codes are missing from the argument to <code>habitat_data</code> (see tutorial above for an example of this).</p>
+<p>The cell values within each layer should correspond to the percent coverage of each habitat class, rescaled between 0 and 1,000. For example, a value of 1,000 means that a raster cell has 100% coverage by a given habitat class, a value of 500 means that a raster cell has 50% coverage by a given habitat class, and a value of 0 means that a raster cell has 0% coverage by a given habitat class. The reason why these values should range between 0 and 1,000 is because this enables the data to be stored in a certain format that drastically reduces run time and computational requirements (i.e. <code>INT2U</code> values, see documentation for the <code><a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">terra::writeRaster()</a></code> function for details). Although the input habitat data should have values ranging between 0 and 1,000; the output Area of Habitat data contain the percent coverage of suitable habitat within each raster cell, scaled between 0 and 1.</p>
+</li>
+<li>
 <p><strong>Can I produce Area of Habitat data for species globally?</strong></p>
 <p>Yes, the package can generate Area of Habitat data for species globally. To accomplish this, you will need a system with at least 32 Gb RAM and 65 Gb disk space. Additionally, the processing will likely take multiple days to complete. This is because it can take several days to obtain data from the IUCN Red List API, and it can also take several days to complete the subsequent spatial data processing.</p>
 </li>
 <li>
-<p><strong>The Area of Habitat rasters have different spatial extents, how can I combine them together?</strong></p>
-<p>The <code><a href="../reference/terra_combine.html">terra_combine()</a></code> can be used to align and combine a <code>list</code> of raster <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> objects into a single object. Note that this procedure is only recommended when all species occur in the same geographic region.</p>
-</li>
-<li>
-<p><strong>I keep seeing this message <code>Error in x$.self$finalize() : attempt to apply non-function</code>, what does it mean?</strong></p>
-<p>This message is commonly encountered when using the <em>terra</em> package with large datasets. Although there is currently no known solution, the message can be safely ignored (<a href="https://github.com/rspatial/terra/issues/30" class="external-link">see here for details</a>). This is because the message does not stop R from completing spatial data processing – meaning that R will continue processing data even when this message is displayed – and the underlying cause of the message is not thought to result in incorrect calculations.</p>
+<p><strong>The output Area of Habitat data have different spatial extents, how can I combine them together?</strong></p>
+<p>The <code><a href="../reference/terra_combine.html">terra_combine()</a></code> can be used to align and combine a <code>list</code> of raster <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> objects into a single object. Note that this procedure is only recommended when all species occur in the same geographic region. Please see the tutorial above for an example of using this function to combine Area of Habitat data for multiple species into a single object.</p>
 </li>
 </ul>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor" aria-hidden="true"></a>Conclusion</h2>
-<p>Hopefully, this vignette has provided a useful introduction to the package. If you encounter any issues when running the code in this tutorial – or when adapting the code for your own work – please see the the following section. Additionally, If you have any questions about using the package or suggestions for improving it, please <a href="https://github.com/prioritizr/aoh/issues" class="external-link">file an issue at the package’s online code repository</a>.</p>
+<p>Hopefully, this vignette has provided a useful introduction to the package. If you encounter any issues when running the code in this tutorial – or when adapting the code for your own work – please see the following section. Additionally, If you have any questions about using the package or suggestions for improving it, please <a href="https://github.com/prioritizr/aoh/issues" class="external-link">file an issue at the package’s online code repository</a>.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">

@@ -60,6 +60,7 @@ test:
 
 vigns:
 	R --slave -e "devtools::build_vignettes()"
+	cp -R doc inst/
 
 quicksite:
 	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
