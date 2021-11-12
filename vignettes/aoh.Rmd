@@ -169,7 +169,7 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
 * **I keep seeing this message `Error in x$.self$finalize() : attempt to apply non-function`, what does it mean?**
 
-    This message is commonly encountered when using the _terra_ package with large datasets. Although there is currently no known solution, the message can be safely ignored ([see here for details](https://github.com/rspatial/terra/issues/30)). This is because the message does not stop R from completing spatial data processing -- meaning that R will continue processing data even when this message is displayed -- and the underlying cause of the message is not thought to result in incorrect calculations.
+    This message is commonly encountered when using the _terra_ package with large datasets. Although there is currently no known solution to prevent this message from appearing, the message can be safely ignored ([see here for details](https://github.com/rspatial/terra/issues/30)). This is because the message does not stop R from completing spatial data processing -- meaning that R will continue processing data even when this message is displayed -- and the underlying cause of the message is not thought to result in incorrect calculations.
 
 * **I see the following error message `Error: need an API key for Red List data`, how do I resolve this?**
 
