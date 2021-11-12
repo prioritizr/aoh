@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2021-11-12</h4>
+            <h4 data-toc-skip class="date">2021-11-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/master/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -178,10 +178,10 @@
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1  4657        1 /tmp/RtmpeKikDp/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-## 2 58622        1 /tmp/RtmpeKikDp/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-## 3 59448        1 /tmp/RtmpeKikDp/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-## 4   979        1 /tmp/RtmpeKikDp/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
+## 1  4657        1 /tmp/RtmpGuRxgE/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+## 2 58622        1 /tmp/RtmpGuRxgE/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+## 3 59448        1 /tmp/RtmpGuRxgE/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+## 4   979        1 /tmp/RtmpGuRxgE/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -303,11 +303,11 @@
 </li>
 <li>
 <p><strong>Where can I find species range data for generating Area of Habitat data?</strong></p>
-<p>Species range data can be obtained from the <a href="https://www.iucnredlist.org/" class="external-link">IUCN Red List</a> (see <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">Spatial Data Download resources</a>). They can also be produced using observation records from data repositories, such as the <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and the <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>. Please note that species range data must follow the same data formats as the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>.</p>
+<p>Species range data can be obtained from the <a href="https://www.iucnredlist.org/" class="external-link">IUCN Red List</a> (see <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">Spatial Data Download resources</a>). They can also be obtained from other data sources (see the following question for details).</p>
 </li>
 <li>
 <p><strong>Can I use species range data from other data sources (instead of the IUCN Red List)?</strong></p>
-<p>Yes, species range data do not necessarily need to be obtained from the IUCN Red List. For example, species range data can be produced using observation records from data repositories <span class="citation">(e.g. following Palacio <em>et al.</em> 2021)</span>, such as the <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and the <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>. To generate Area of Habitat data from manually generated species range data, please ensure that the species range data follow the same data formats as the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>.</p>
+<p>Yes, species range data do not necessarily need to be obtained from the IUCN Red List. For example, species range data can be obtained from governmental (e.g. data for federally listed species in Canada are available through the <a href="https://open.canada.ca/en/open-data" class="external-link">Government of Canada data portal</a>) and non-governmental organizations (e.g. <a href="https://biendata.org/" class="external-link">Botanical Information and Ecology Network</a> and <a href="https://mol.org/" class="external-link">Map of Life</a>). These data can also be produced using observation records <span class="citation">(e.g. following Palacio <em>et al.</em> 2021)</span> from data repositories (e.g. <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>). After obtaining species range data, please format them so that they follow the same data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details on what values these columns should contain, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> and the <a href="https://www.iucnredlist.org/resources/mappingstandards" class="external-link">IUCN Red List documentation</a>.</p>
 <p>If you wish to use the IUCN Red List for specifying habitat affiliation data, please ensure that the <code>id_no</code> specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (<em>Calotriton asper</em>). To ensure that correct habitat affiliation data were obtained for this species from the the IUCN Red List, the <code>id_no</code> value specified for this species in the species range dataset was <code>59448</code>.</p>
 </li>
 <li>
