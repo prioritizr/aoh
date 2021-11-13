@@ -630,7 +630,10 @@ create_spp_aoh_data <- function(x,
     cli::cli_progress_step("preparing elevation data")
   }
   ## convert NA values to zeros
-  elevation_data[is.na(elevation_data)] <- 0
+  elevation_data <- terra::app(
+    elevation_data,
+    function(x) replace(x, is.na(x), 0)
+  )
   ## align elevation data with template
   if (
     identical(terra::crs(elevation_data), terra::crs(template_data)) &&
