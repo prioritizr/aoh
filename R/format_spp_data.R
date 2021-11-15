@@ -116,7 +116,9 @@ format_spp_data <- function(x,
   idx <- spp_habitat_data$id_no %in% x$id_no
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## remove rows for habitat preferences that are not Suitable
-  idx <- which(tolower(spp_habitat_data$suitability) == "suitable")
+  idx <- which(
+    tolower(spp_habitat_data$suitability) %in% c("major", "suitable")
+  )
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## convert season descriptions to codes
   spp_habitat_data$seasonal <- convert_to_seasonal_id(

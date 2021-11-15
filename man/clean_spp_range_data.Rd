@@ -52,8 +52,9 @@ case characters and fixing any spelling mistakes.
 to occur currently" are excluded (i.e. filtering based on
 \code{presence == 1}).
 
-\item Places where the species' presence is not "native to the area"
-are excluded (i.e. filtering based on \code{origin == 1}).
+\item Places where the species' presence is not "native to the area" or
+"reintroduced within its known historical range" are excluded
+(i.e. filtering based on \code{origin == 1} or \code{origin == 2}).
 
 \item Places where the species' seasonal occurrence is uncertain are excluded
 (i.e. filtering based on \code{seasonal != 5}).

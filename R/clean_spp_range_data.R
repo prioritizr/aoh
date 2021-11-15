@@ -39,8 +39,9 @@ NULL
 #'    to occur currently" are excluded (i.e. filtering based on
 #'    `presence == 1`).
 #'
-#' \item Places where the species' presence is not "native to the area"
-#'    are excluded (i.e. filtering based on `origin == 1`).
+#' \item Places where the species' presence is not "native to the area" or
+#'    "reintroduced within its known historical range" are excluded
+#'    (i.e. filtering based on `origin == 1` or `origin == 2`).
 #'
 #' \item Places where the species' seasonal occurrence is uncertain are excluded
 #'    (i.e. filtering based on `seasonal != 5`).
@@ -151,7 +152,7 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   # step 2: exclude uncertain presence
   x <- x[which(x$presence == 1), , drop = FALSE]
   # step 3: exclude non-native origin
-  x <- x[which(x$origin == 1), , drop = FALSE]
+  x <- x[which(x$origin == 1 | x$origin == 2), , drop = FALSE]
   # step 4: exclude uncertain seasonality
   x <- x[which(x$seasonal != 5), , drop = FALSE]
   # step 5: exclude non-terrestrial distributions
