@@ -298,7 +298,7 @@ NULL
 #'   classes for all suitable habitats for a given species
 #'   (e.g. the default dataset does not contain subterranean cave systems),
 #'   this column contains the subset of the habitat codes listed in the
-#'   `"full_habitat_code"`column that were used for processing.}
+#'   `"full_habitat_code"` column that were used for processing.}
 #' \item{elevation_lower}{`numeric` lower elevation threshold used to create
 #'   the species' Area of Habitat data.}
 #' \item{elevation_upper}{`numeric` upper elevation threshold used to create
@@ -410,7 +410,8 @@ create_spp_aoh_data <- function(x,
                                 force = FALSE,
                                 n_threads = 1,
                                 use_gdal = is_gdal_available(),
-                                omit_habitat_codes = character(0),
+                                omit_habitat_codes =
+                                  iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
   # initialization
   ## display message
@@ -589,7 +590,11 @@ create_spp_aoh_data <- function(x,
         sum(missing_codes),
         "habitat classification codes:",
         paste(
-          paste0("\"", sort(habitat_codes[missing_codes]), "\""),
+          paste0(
+            "\"",
+            stringi::stri_sort(habitat_codes[missing_codes], numeric = TRUE),
+            "\""
+          ),
           collapse = ", "
         )
       )

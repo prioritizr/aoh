@@ -64,7 +64,7 @@ print(spp_range_data)
 
 Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data [derived from @r4; @r5], (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species [following @r1]. We also specify a folder to cache the downloaded datasets so that we won't need to re-download again during subsequent runs.
 
-```{r, message = FALSE, results = "hide"}
+```{r, results = "hide", message = FALSE}
 # specify cache directory
 cache_dir <- user_data_dir("aoh")
 
@@ -87,7 +87,7 @@ spp_aoh_data <- create_spp_aoh_data(
 )
 ```
 
-While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. "5.18", "7.1", and "7.2"). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class [see @r5 for details]. Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution [@r6].
+While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. `"7.1"`, `"7.2"`, `"15.2"`, and `"15.3"`). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class [see @r5 for details]. Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution [@r6].
 
 ```{r}
 # preview results

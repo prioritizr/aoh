@@ -174,7 +174,7 @@ Since the argument to \code{habitat_data} may not contain habitat
 classes for all suitable habitats for a given species
 (e.g. the default dataset does not contain subterranean cave systems),
 this column contains the subset of the habitat codes listed in the
-\code{"full_habitat_code"}column that were used for processing.}
+\code{"full_habitat_code"} column that were used for processing.}
 \item{elevation_lower}{\code{numeric} lower elevation threshold used to create
 the species' Area of Habitat data.}
 \item{elevation_upper}{\code{numeric} upper elevation threshold used to create

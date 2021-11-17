@@ -233,7 +233,7 @@ div.csl-indent {
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>spp_aoh_data <span class="ot">&lt;-</span> <span class="fu">create_spp_aoh_data</span>(</span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  spp_range_data, <span class="at">output_dir =</span> output_dir, <span class="at">cache_dir =</span> cache_dir</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. “5.18”, “7.1”, and “7.2”). <strong>This is fine. It is not an error.</strong> The reason we see this message is because although the global habitat dataset contains the majority of <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme">IUCN habitat classes</a> for terrestrial environments, it does not contain every single IUCN habitat class <span class="citation">(see Jung <em>et al.</em> 2020 for details)</span>. Upon checking the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme">IUCN habitat classes</a>, we can see that these classes correspond to caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species’ non-subterranean habitats is sufficient to describe their spatial distribution <span class="citation">(Ficetola <em>et al.</em> 2014)</span>.</p>
+<p>While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. <code>&quot;7.1&quot;</code>, <code>&quot;7.2&quot;</code>, <code>&quot;15.2&quot;</code>, and <code>&quot;15.3&quot;</code>). <strong>This is fine. It is not an error.</strong> The reason we see this message is because although the global habitat dataset contains the majority of <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme">IUCN habitat classes</a> for terrestrial environments, it does not contain every single IUCN habitat class <span class="citation">(see Jung <em>et al.</em> 2020 for details)</span>. Upon checking the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme">IUCN habitat classes</a>, we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species’ non-subterranean habitats is sufficient to describe their spatial distribution <span class="citation">(Ficetola <em>et al.</em> 2014)</span>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preview results</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## resulting dataset is a simple features (sf) object containing</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## spatial geometries for cleaned versions of the range data</span></span>
@@ -266,10 +266,10 @@ div.csl-indent {
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1  4657        1 /tmp/Rtmp2D9cN4/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-## 2 58622        1 /tmp/Rtmp2D9cN4/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-## 3 59448        1 /tmp/Rtmp2D9cN4/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-## 4   979        1 /tmp/Rtmp2D9cN4/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
+## 1  4657        1 /tmp/Rtmp6iS0v6/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+## 2 58622        1 /tmp/Rtmp6iS0v6/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+## 3 59448        1 /tmp/Rtmp6iS0v6/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+## 4   979        1 /tmp/Rtmp6iS0v6/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the Area of Habitat data</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## since the data for each species have a different spatial extent</span></span>
