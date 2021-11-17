@@ -8,8 +8,10 @@ habitat_code_data <- function() {
       iucn_code = readr::col_character(),
       name = readr::col_character(),
       code = readr::col_character(),
-      omit_from_aoh = readr::col_logical(),
-      terrestrial = readr::col_logical()
+      is_terrestrial = readr::col_logical(),
+      is_artificial = readr::col_logical(),
+      is_misc = readr::col_logical(),
+      is_introduced = readr::col_logical()
     )
   )
 }

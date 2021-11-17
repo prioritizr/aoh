@@ -19,7 +19,7 @@ create_spp_aoh_data(
   force = FALSE,
   n_threads = 1,
   use_gdal = is_gdal_available(),
-  omit_habitat_codes = default_omit_iucn_habitat_codes(),
+  omit_habitat_codes = character(0),
   verbose = TRUE
 )
 }
@@ -134,24 +134,28 @@ is installed, this can dramatically reduce run time.
 Defaults to \code{TRUE} if GDAL is available (per \code{\link[=is_gdal_available]{is_gdal_available()}}).}
 
 \item{omit_habitat_codes}{\code{character} Habitat classification codes
-to omit from resulting Area of Habitat data. If the aim is to identify
-places that contain natural, suitable habitats, then processing should
-exclude (i) anthropogenically modified habitat classifications and (ii)
-unknown habitat classification types. Defaults to all artificial,
-introduced vegetation, and unknown habitat classifications on
-the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{IUCN Red List Habitat Classification Scheme}
-(see \code{\link[=default_omit_iucn_habitat_codes]{default_omit_iucn_habitat_codes()}},}
+to omit from resulting Area of Habitat data.
+Please see the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{IUCN Red List Habitat Classification Scheme}
+for the full range of habitat classification codes.
+For example,
+if the aim is to identify natural places that contain suitable conditions,
+then areas classified as anthropogenically modified
+(\code{\link[=iucn_habitat_codes_artificial]{iucn_habitat_codes_artificial()}}),
+introduced vegetation (\code{\link[=iucn_habitat_codes_introduced]{iucn_habitat_codes_introduced()}},
+or unknown habitat (\code{\link[=iucn_habitat_codes_misc]{iucn_habitat_codes_misc()}}) should
+be excluded.
+Defaults to \code{\link[=iucn_habitat_codes_marine]{iucn_habitat_codes_marine()}}, such that marine
+habitats are excluded.}
 
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}
 }
 \value{
-A \code{\link[sf:sf]{sf::st_sf()}} object containing range maps for the species distributions
-used to generate the Area of Habitat data and additional columns describing
-the Area of Habitat data.
+A \code{\link[sf:sf]{sf::st_sf()}} object containing range maps for the species
+distributions used to generate the Area of Habitat data and additional
+columns describing the Area of Habitat data.
 These range maps were produced by cleaning those supplied as an argument
-to \code{x} so they can be used to generate the Area of Habitat data
-(see \code{\link[=clean_spp_range_data]{clean_spp_range_data()}} for data cleaning procedures).
+to \code{x} so they can be used to generate the Area of Habitat data.
 Specifically, the object contains the following columns:
 \describe{
 \item{id_no}{\code{numeric} species' taxon identifier on the IUCN Red List.}
@@ -191,37 +195,18 @@ species' seasonal distribution.
 Thus a grid cell with a value of 0 has 0\% of its spatial extent covered by
 suitable habitat, a value of 1 has 100\% of its spatial extent covered by
 suitable habitat, and a missing (\code{NA}) value
-means that the cell is located outside of the species seasonal
+means that the cell is located outside of the species'
 distribution (per the geographic range data).
 File paths that are denoted with missing (\code{NA}) values correspond to
 species distributions that were not processed (e.g. due to lack of habitat
-data).
-}
+data).}
 }
 }
 \description{
 Create Area of Habitat (AOH) data for species based on their altitudinal and
 habitat preferences (Brooks \emph{et al.} 2019).
-}
-\details{
-The Area of Habitat data are produced by
-(i) cleaning the range data to prepare them for subsequent analysis
-(see \code{\link[=clean_spp_range_data]{clean_spp_range_data()}} for details);
-(ii) automatically downloading global elevation and habitat classification
-data (if needed);
-(iii) automatically downloading information on the
-altitudinal limits and habitat preferences of the species from the IUCN Red
-List (per the taxon identifiers in the \code{id_no} column) (if needed);
-and (iv) cross-referencing this information to identify suitable habitat
-located within the altitudinal limits and geographic range of each species
-(following Brooks \emph{et al.} 2019).
-To account for migratory species, the spatial distribution of species'
-seasonal distributions (e.g. breeding, non-breeding, and passage
-distributions) are processed separately.
-Thus a separate Area of Habitat dataset is produced for each seasonal
-distribution of each species.
 Please note that these procedures are designed for terrestrial species
-and will not apply to marine species.
+and will not apply to marine or freshwater species.
 }
 \section{Species range data format}{
 
@@ -257,6 +242,114 @@ values.)}
 \item{\code{marine}}{\code{character} value indicating if the range
 data pertain to marine environments (with \code{"true"} or \code{"false"}
 values.)}
+
+}
+}
+
+\section{Data processing}{
+
+The Area of Habitat data are produced using the following procedures.
+
+\enumerate{
+
+\item Global elevation and habitat classification are imported if needed.
+(see \code{\link[=get_elevation_data]{get_elevation_data()}} and \code{\link[=get_habitat_data]{get_habitat_data()}} for details).
+If these data are not available in the cache directory
+(i.e. argument to \code{cache_dir}), then they are automatically downloaded
+to the cache directory.
+For convenience, preprocessed versions of these datasets are downloaded
+to reduce processing time.
+Note that if elevation and habitat data are manually supplied
+(i.e. as arguments to \code{elevation_data} and \code{habitat_data}), then
+these datasets are used to generate Area of Habitat data.
+
+\item Species' altitudinal limit and habitat affiliation data are
+imported if needed
+(see \code{\link[=get_spp_summary_data]{get_spp_summary_data()}} and \code{\link[=get_spp_habitat_data]{get_spp_habitat_data()}} for details).
+If these data are not available in the cache directory
+(i.e. argument to \code{cache_dir}), then they are automatically downloaded
+to the cache directory
+Note that if species' altitudinal limit and habitat affiliation
+data are manually supplied (i.e. as arguments to \code{spp_summary_data} and
+\code{spp_habitat_data}), then these datasets are used to generate
+Area of Habitat data.
+
+\item Species range data cleaned to prepare them for subsequent
+analysis. Briefly, this process involves excluding places where the
+(i) species' presence is not \emph{extant} or
+\emph{probably extant}
+(i.e. filtering based on \code{presence == 1} or \code{presence == 2});
+(ii) species' origin is not \emph{native},
+\emph{reintroduced}, or the result of \emph{assisted colonization}
+(i.e. filtering based on \code{origin == 1}, \code{origin == 2}, or \code{origin == 6});
+(iii) available information on which species' seasonal distribution
+is \emph{uncertain}
+(i.e. filtering based on \code{seasonal != 5}); and
+(iv) species' distribution is not terrestrial
+(i.e. filtering based on where \code{terrestrial == "true"}).
+Additionally, the species' range data spatially dissolved so that each
+seasonal distribution for each taxon is represented by a separate geometry.
+Finally, geoprocessing routines are used to detect and repair
+any invalid geometries.
+
+\item The species data are collated into a single dataset containing
+their geographic ranges, altitudinal limits, and habitat affiliations.
+Specifically, taxon identifiers (per the \code{id_no} columns)
+are used merge the datasets together.
+When merging the habitat affiliation data, habitat affiliations are only
+included in the collated dataset if they are classified as \emph{suitable} for a
+given species.
+Additionally, if a habitat affiliation is defined for a specific seasonal
+distribution of a particular species, that habitat affiliation
+is only assigned to that specific seasonal distribution for the species.
+If a habitat affiliation is not defined for a specific
+seasonal distribution, then the habitat is assigned to all seasonal
+distributions.
+Furthermore, if a species is missing lower or upper altitudinal limits,
+then limits of 0 and 9,000 m are assumed respectively
+(following Lumbierres \emph{et al.} 2021).
+
+\item Preliminary geoprocessing routines are used to prepare the habitat and
+elevation data for subsequent processing. These routines involve
+(i) cropping the template data based on the maximum
+extent of the species' ranges;
+(ii) aligning the habitat data to conform to the same spatial
+properties as the template data; and
+(iii) aligning the elevation data to conform to the same spatial
+properties as the template data.
+Specifically, data alignment procedures involve reprojecting the
+the data to same coordinate reference system as the template data
+(if needed), and cropping their spatial extent to match
+that of the template data (if needed).
+
+\item The Area of Habitat data are then generated for each seasonal
+distribution of each species. For a given species' distribution,
+the data are generated by
+(i) selecting layers from the habitat data that correspond to
+the suitable habitats for the species' distribution;
+(ii) cropping these layers to the extent of the species'
+seasonal distribution;
+(iii) summing the layers together to produce a new layer;
+(iv) creating a mask based on the altitudinal limits of the species
+and the elevation data, and then using the mask to set values
+in the new layer to zero if they are outside of the species' altitudinal
+limits;
+(v) creating a mask by rasterizing the species' seasonal
+distribution, and then using the mask to set values in the new
+layer to missing (\code{NA}) values if they are outside the species'
+distribution;
+(vi) clamping the new layer such that values range between
+0 and 1,000 (because percent coverage values in the habitat data range
+between 0 and 1,000);
+(vii) rescaling the new layer to range between 0 and 1; and
+(viii) saving the resulting as the Area of Habitat data
+for the species' distribution.
+Note that species' distributions that already have Area of Habitat data
+available in the output directory are skipped.
+
+\item Post-processing routines are used to prepare the returned object.
+These routines involve updating the collated species data to include
+file names and spatial metadata for the Area of Habitat data.
 
 }
 }

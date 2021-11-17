@@ -78,13 +78,18 @@ the data are already available?
 Defaults to \code{FALSE}.}
 
 \item{omit_habitat_codes}{\code{character} Habitat classification codes
-to omit from resulting Area of Habitat data. If the aim is to identify
-places that contain natural, suitable habitats, then processing should
-exclude (i) anthropogenically modified habitat classifications and (ii)
-unknown habitat classification types. Defaults to all artificial,
-introduced vegetation, and unknown habitat classifications on
-the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{IUCN Red List Habitat Classification Scheme}
-(see \code{\link[=default_omit_iucn_habitat_codes]{default_omit_iucn_habitat_codes()}},}
+to omit from resulting Area of Habitat data.
+Please see the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{IUCN Red List Habitat Classification Scheme}
+for the full range of habitat classification codes.
+For example,
+if the aim is to identify natural places that contain suitable conditions,
+then areas classified as anthropogenically modified
+(\code{\link[=iucn_habitat_codes_artificial]{iucn_habitat_codes_artificial()}}),
+introduced vegetation (\code{\link[=iucn_habitat_codes_introduced]{iucn_habitat_codes_introduced()}},
+or unknown habitat (\code{\link[=iucn_habitat_codes_misc]{iucn_habitat_codes_misc()}}) should
+be excluded.
+Defaults to \code{\link[=iucn_habitat_codes_marine]{iucn_habitat_codes_marine()}}, such that marine
+habitats are excluded.}
 
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}

@@ -50,9 +50,6 @@ format_spp_data <- function(x,
     nrow(x) > 0,
     assertthat::has_name(x, "id_no"),
     assertthat::has_name(x, "seasonal"),
-    ## omit_habitat_codes
-    is.character(omit_habitat_codes),
-    assertthat::noNA(omit_habitat_codes),
     ## spp_summary_data
     inherits(spp_summary_data, "data.frame"),
     assertthat::has_name(spp_summary_data, "id_no"),
@@ -66,6 +63,13 @@ format_spp_data <- function(x,
     assertthat::has_name(spp_habitat_data, "suitability"),
     assertthat::has_name(spp_habitat_data, "season")
   )
+  ## omit_habitat_codes
+  if (length(omit_habitat_codes) > 0) {
+    assertthat::assert_that(
+      is.character(omit_habitat_codes),
+      assertthat::noNA(omit_habitat_codes)
+    )
+  }
   assertthat::assert_that(
     all(x$id_no %in% spp_summary_data$id_no),
     msg = paste0(
@@ -87,9 +91,9 @@ format_spp_data <- function(x,
   # add elevation columns
   ## convert NA values to -Inf and Inf for lower and upper thresholds
   idx <- is.na(spp_summary_data$elevation_lower)
-  spp_summary_data$elevation_lower[idx] <- -Inf
+  spp_summary_data$elevation_lower[idx] <- 0
   idx <- is.na(spp_summary_data$elevation_upper)
-  spp_summary_data$elevation_upper[idx] <- Inf
+  spp_summary_data$elevation_upper[idx] <- 9000
   ## ensure that lower elevation limit is <= upper elevation limit
   idx <- which(
     is.finite(spp_summary_data$elevation_lower) &

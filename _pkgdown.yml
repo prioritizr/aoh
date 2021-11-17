@@ -17,13 +17,17 @@ reference:
     contents:
       - create_spp_aoh_data
       - plot_spp_aoh_data
-      - default_omit_iucn_habitat_codes
 
   - title: Importing data
     desc: Functions for downloading and importing data
     contents:
       - read_spp_range_data
       - starts_with("get_")
+
+  - title: IUCN habitat codes
+    desc: Functions for IUCN habitat codes given certain criteria
+    contents:
+      - starts_with("iucn_habitat_codes")
 
   - title: Simulating data
     desc: Functions for simulating data
@@ -51,4 +55,3 @@ reference:
     contents:
       - starts_with("sf_")
       - read_sf_n
-      - clean_spp_range_data

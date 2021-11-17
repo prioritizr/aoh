@@ -35,13 +35,13 @@ NULL
 #' \item Column names are standardized. This involves converting them to lower
 #'   case characters and fixing any spelling mistakes.
 #'
-#' \item Places where the species' presence is not "known or thought very likely
-#'    to occur currently" are excluded (i.e. filtering based on
-#'    `presence == 1`).
+#' \item Places where the species' presence is not extant or probably extant
+#'    are excluded
+#'    (i.e. filtering based on `presence == 1` or `presence == 2`).
 #'
-#' \item Places where the species' presence is not "native to the area" or
-#'    "reintroduced within its known historical range" are excluded
-#'    (i.e. filtering based on `origin == 1` or `origin == 2`).
+#' \item Places where the species' origin is not native, reintroduced,
+#'    or the result of assisted colonization
+#'    (i.e. filtering based on `origin == 1`, `origin == 2`, or `origin == 6`).
 #'
 #' \item Places where the species' seasonal occurrence is uncertain are excluded
 #'    (i.e. filtering based on `seasonal != 5`).
@@ -66,8 +66,8 @@ NULL
 #'
 #' \item Fix any potential geometry issues (using [sf::st_make_valid()]).
 #'
-#' \item Data are spatially dissolved so that each taxon is represented by
-#'   a separate geometry.
+#' \item Data are spatially dissolved so that each seasonal distribution for
+#'   each taxon is represented by a separate geometry.
 #'
 #' \item Fix any potential geometry issues (i.e. using [sf::st_make_valid()]).
 #'
@@ -105,7 +105,7 @@ NULL
 #' ## because they don't have any issues
 #' plot(spp_cleaned_range_data)
 #' }
-#' @export
+#' @noRd
 clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
                                  snap_tolerance = 1,
                                  geometry_precision = 1500) {
@@ -149,10 +149,10 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   if (assertthat::has_name(x, "order_")) {
     x <- dplyr::rename(x, order = "order_")
   }
-  # step 2: exclude uncertain presence
-  x <- x[which(x$presence == 1), , drop = FALSE]
-  # step 3: exclude non-native origin
-  x <- x[which(x$origin == 1 | x$origin == 2), , drop = FALSE]
+  # step 2: exclude polygons based on presence code
+  x <- x[which(x$presence == 1 | x$presence == 2), , drop = FALSE]
+  # step 3: exclude polygons based on origin code
+  x <- x[which(x$origin == 1 | x$origin == 2 | x$origin == 6), , drop = FALSE]
   # step 4: exclude uncertain seasonality
   x <- x[which(x$seasonal != 5), , drop = FALSE]
   # step 5: exclude non-terrestrial distributions

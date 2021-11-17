@@ -22,16 +22,10 @@
     <loc>/reference/aoh.html</loc>
   </url>
   <url>
-    <loc>/reference/clean_spp_range_data.html</loc>
-  </url>
-  <url>
     <loc>/reference/create_spp_aoh_data.html</loc>
   </url>
   <url>
     <loc>/reference/create_template_rast.html</loc>
-  </url>
-  <url>
-    <loc>/reference/default_omit_iucn_habitat_codes.html</loc>
   </url>
   <url>
     <loc>/reference/gdal_datatype.html</loc>
@@ -65,6 +59,21 @@
   </url>
   <url>
     <loc>/reference/is_gdal_calc_available.html</loc>
+  </url>
+  <url>
+    <loc>/reference/iucn_habitat_codes_artificial.html</loc>
+  </url>
+  <url>
+    <loc>/reference/iucn_habitat_codes_introduced.html</loc>
+  </url>
+  <url>
+    <loc>/reference/iucn_habitat_codes_marine.html</loc>
+  </url>
+  <url>
+    <loc>/reference/iucn_habitat_codes_misc.html</loc>
+  </url>
+  <url>
+    <loc>/reference/iucn_habitat_codes_terrestrial.html</loc>
   </url>
   <url>
     <loc>/reference/plot_spp_aoh_data.html</loc>

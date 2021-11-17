@@ -41,7 +41,9 @@
 
 <meta property="og:title" content="Create Area of Habitat data — create_spp_aoh_data" />
 <meta property="og:description" content="Create Area of Habitat (AOH) data for species based on their altitudinal and
-habitat preferences (Brooks et al. 2019)." />
+habitat preferences (Brooks et al. 2019).
+Please note that these procedures are designed for terrestrial species
+and will not apply to marine or freshwater species." />
 
 
 
@@ -124,7 +126,9 @@ habitat preferences (Brooks et al. 2019)." />
 
     <div class="ref-description">
     <p>Create Area of Habitat (AOH) data for species based on their altitudinal and
-habitat preferences (Brooks <em>et al.</em> 2019).</p>
+habitat preferences (Brooks <em>et al.</em> 2019).
+Please note that these procedures are designed for terrestrial species
+and will not apply to marine or freshwater species.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>create_spp_aoh_data</span><span class='op'>(</span>
@@ -142,7 +146,7 @@ habitat preferences (Brooks <em>et al.</em> 2019).</p>
   force <span class='op'>=</span> <span class='cn'>FALSE</span>,
   n_threads <span class='op'>=</span> <span class='fl'>1</span>,
   use_gdal <span class='op'>=</span> <span class='fu'><a href='is_gdal_available.html'>is_gdal_available</a></span><span class='op'>(</span><span class='op'>)</span>,
-  omit_habitat_codes <span class='op'>=</span> <span class='fu'><a href='default_omit_iucn_habitat_codes.html'>default_omit_iucn_habitat_codes</a></span><span class='op'>(</span><span class='op'>)</span>,
+  omit_habitat_codes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -289,13 +293,18 @@ Defaults to <code>TRUE</code> if GDAL is available (per <code><a href='is_gdal_a
     <tr>
       <th>omit_habitat_codes</th>
       <td><p><code>character</code> Habitat classification codes
-to omit from resulting Area of Habitat data. If the aim is to identify
-places that contain natural, suitable habitats, then processing should
-exclude (i) anthropogenically modified habitat classifications and (ii)
-unknown habitat classification types. Defaults to all artificial,
-introduced vegetation, and unknown habitat classifications on
-the <a href='https://www.iucnredlist.org/resources/habitat-classification-scheme'>IUCN Red List Habitat Classification Scheme</a>
-(see <code><a href='default_omit_iucn_habitat_codes.html'>default_omit_iucn_habitat_codes()</a></code>,</p></td>
+to omit from resulting Area of Habitat data.
+Please see the <a href='https://www.iucnredlist.org/resources/habitat-classification-scheme'>IUCN Red List Habitat Classification Scheme</a>
+for the full range of habitat classification codes.
+For example,
+if the aim is to identify natural places that contain suitable conditions,
+then areas classified as anthropogenically modified
+(<code><a href='iucn_habitat_codes_artificial.html'>iucn_habitat_codes_artificial()</a></code>),
+introduced vegetation (<code><a href='iucn_habitat_codes_introduced.html'>iucn_habitat_codes_introduced()</a></code>,
+or unknown habitat (<code><a href='iucn_habitat_codes_misc.html'>iucn_habitat_codes_misc()</a></code>) should
+be excluded.
+Defaults to <code><a href='iucn_habitat_codes_marine.html'>iucn_habitat_codes_marine()</a></code>, such that marine
+habitats are excluded.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -306,12 +315,11 @@ Defaults to <code>TRUE</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::st_sf()</a></code> object containing range maps for the species distributions
-used to generate the Area of Habitat data and additional columns describing
-the Area of Habitat data.
+    <p>A <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::st_sf()</a></code> object containing range maps for the species
+distributions used to generate the Area of Habitat data and additional
+columns describing the Area of Habitat data.
 These range maps were produced by cleaning those supplied as an argument
-to <code>x</code> so they can be used to generate the Area of Habitat data
-(see <code><a href='clean_spp_range_data.html'>clean_spp_range_data()</a></code> for data cleaning procedures).
+to <code>x</code> so they can be used to generate the Area of Habitat data.
 Specifically, the object contains the following columns:</p><dl>
 <dt>id_no</dt><dd><p><code>numeric</code> species' taxon identifier on the IUCN Red List.</p></dd>
 <dt>binomial</dt><dd><p><code>character</code> species name.</p></dd>
@@ -350,7 +358,7 @@ species' seasonal distribution.
 Thus a grid cell with a value of 0 has 0% of its spatial extent covered by
 suitable habitat, a value of 1 has 100% of its spatial extent covered by
 suitable habitat, and a missing (<code>NA</code>) value
-means that the cell is located outside of the species seasonal
+means that the cell is located outside of the species'
 distribution (per the geographic range data).
 File paths that are denoted with missing (<code>NA</code>) values correspond to
 species distributions that were not processed (e.g. due to lack of habitat
@@ -358,26 +366,6 @@ data).</p></dd>
 
 </dl>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The Area of Habitat data are produced by
-(i) cleaning the range data to prepare them for subsequent analysis
-(see <code><a href='clean_spp_range_data.html'>clean_spp_range_data()</a></code> for details);
-(ii) automatically downloading global elevation and habitat classification
-data (if needed);
-(iii) automatically downloading information on the
-altitudinal limits and habitat preferences of the species from the IUCN Red
-List (per the taxon identifiers in the <code>id_no</code> column) (if needed);
-and (iv) cross-referencing this information to identify suitable habitat
-located within the altitudinal limits and geographic range of each species
-(following Brooks <em>et al.</em> 2019).
-To account for migratory species, the spatial distribution of species'
-seasonal distributions (e.g. breeding, non-breeding, and passage
-distributions) are processed separately.
-Thus a separate Area of Habitat dataset is produced for each seasonal
-distribution of each species.
-Please note that these procedures are designed for terrestrial species
-and will not apply to marine species.</p>
     <h2 class="hasAnchor" id="species-range-data-format"><a class="anchor" href="#species-range-data-format"></a>Species range data format</h2>
 
     
@@ -416,6 +404,106 @@ values.)</p></dd>
 
 
 </dl>
+
+    <h2 class="hasAnchor" id="data-processing"><a class="anchor" href="#data-processing"></a>Data processing</h2>
+
+    
+
+<p>The Area of Habitat data are produced using the following procedures.</p>
+<ol>
+<li><p>Global elevation and habitat classification are imported if needed.
+(see <code>get_elevation_data()</code> and <code>get_habitat_data()</code> for details).
+If these data are not available in the cache directory
+(i.e. argument to <code>cache_dir</code>), then they are automatically downloaded
+to the cache directory.
+For convenience, preprocessed versions of these datasets are downloaded
+to reduce processing time.
+Note that if elevation and habitat data are manually supplied
+(i.e. as arguments to <code>elevation_data</code> and <code>habitat_data</code>), then
+these datasets are used to generate Area of Habitat data.</p></li>
+<li><p>Species' altitudinal limit and habitat affiliation data are
+imported if needed
+(see <code><a href='get_spp_summary_data.html'>get_spp_summary_data()</a></code> and <code><a href='get_spp_habitat_data.html'>get_spp_habitat_data()</a></code> for details).
+If these data are not available in the cache directory
+(i.e. argument to <code>cache_dir</code>), then they are automatically downloaded
+to the cache directory
+Note that if species' altitudinal limit and habitat affiliation
+data are manually supplied (i.e. as arguments to <code>spp_summary_data</code> and
+<code>spp_habitat_data</code>), then these datasets are used to generate
+Area of Habitat data.</p></li>
+<li><p>Species range data cleaned to prepare them for subsequent
+analysis. Briefly, this process involves excluding places where the
+(i) species' presence is not <em>extant</em> or
+<em>probably extant</em>
+(i.e. filtering based on <code>presence == 1</code> or <code>presence == 2</code>);
+(ii) species' origin is not <em>native</em>,
+<em>reintroduced</em>, or the result of <em>assisted colonization</em>
+(i.e. filtering based on <code>origin == 1</code>, <code>origin == 2</code>, or <code>origin == 6</code>);
+(iii) available information on which species' seasonal distribution
+is <em>uncertain</em>
+(i.e. filtering based on <code>seasonal != 5</code>); and
+(iv) species' distribution is not terrestrial
+(i.e. filtering based on where <code>terrestrial == "true"</code>).
+Additionally, the species' range data spatially dissolved so that each
+seasonal distribution for each taxon is represented by a separate geometry.
+Finally, geoprocessing routines are used to detect and repair
+any invalid geometries.</p></li>
+<li><p>The species data are collated into a single dataset containing
+their geographic ranges, altitudinal limits, and habitat affiliations.
+Specifically, taxon identifiers (per the <code>id_no</code> columns)
+are used merge the datasets together.
+When merging the habitat affiliation data, habitat affiliations are only
+included in the collated dataset if they are classified as <em>suitable</em> for a
+given species.
+Additionally, if a habitat affiliation is defined for a specific seasonal
+distribution of a particular species, that habitat affiliation
+is only assigned to that specific seasonal distribution for the species.
+If a habitat affiliation is not defined for a specific
+seasonal distribution, then the habitat is assigned to all seasonal
+distributions.
+Furthermore, if a species is missing lower or upper altitudinal limits,
+then limits of 0 and 9,000 m are assumed respectively
+(following Lumbierres <em>et al.</em> 2021).</p></li>
+<li><p>Preliminary geoprocessing routines are used to prepare the habitat and
+elevation data for subsequent processing. These routines involve
+(i) cropping the template data based on the maximum
+extent of the species' ranges;
+(ii) aligning the habitat data to conform to the same spatial
+properties as the template data; and
+(iii) aligning the elevation data to conform to the same spatial
+properties as the template data.
+Specifically, data alignment procedures involve reprojecting the
+the data to same coordinate reference system as the template data
+(if needed), and cropping their spatial extent to match
+that of the template data (if needed).</p></li>
+<li><p>The Area of Habitat data are then generated for each seasonal
+distribution of each species. For a given species' distribution,
+the data are generated by
+(i) selecting layers from the habitat data that correspond to
+the suitable habitats for the species' distribution;
+(ii) cropping these layers to the extent of the species'
+seasonal distribution;
+(iii) summing the layers together to produce a new layer;
+(iv) creating a mask based on the altitudinal limits of the species
+and the elevation data, and then using the mask to set values
+in the new layer to zero if they are outside of the species' altitudinal
+limits;
+(v) creating a mask by rasterizing the species' seasonal
+distribution, and then using the mask to set values in the new
+layer to missing (<code>NA</code>) values if they are outside the species'
+distribution;
+(vi) clamping the new layer such that values range between
+0 and 1,000 (because percent coverage values in the habitat data range
+between 0 and 1,000);
+(vii) rescaling the new layer to range between 0 and 1; and
+(viii) saving the resulting as the Area of Habitat data
+for the species' distribution.
+Note that species' distributions that already have Area of Habitat data
+available in the output directory are skipped.</p></li>
+<li><p>Post-processing routines are used to prepare the returned object.
+These routines involve updating the collated species data to include
+file names and spatial metadata for the Area of Habitat data.</p></li>
+</ol>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -467,45 +555,45 @@ Available at <a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> initializing</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required namespace: gdalUtils</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[821ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[772ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global elevation data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[38ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[26ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[15.1s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[14.2s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species summary data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species summary data <span style='color: #B2B2B2;'>[1.2s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species summary data <span style='color: #B2B2B2;'>[1.3s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species habitat data <span style='color: #B2B2B2;'>[328ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species habitat data <span style='color: #B2B2B2;'>[327ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cleaning species range data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[89ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[130ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> collating species data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> argument to "habitat_data" is missing layers for the following 2 habitat classification codes: "7.1", "7.2"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> argument to "habitat_data" is missing layers for the following 4 habitat classification codes: "15.2", "15.3", "7.1", "7.2"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> collating species data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> collating species data <span style='color: #B2B2B2;'>[80ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> collating species data <span style='color: #B2B2B2;'>[79ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preliminary geoprocessing</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preliminary geoprocessing <span style='color: #B2B2B2;'>[162ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preliminary geoprocessing <span style='color: #B2B2B2;'>[192ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preparing habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing habitat data <span style='color: #B2B2B2;'>[1m 23.3s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing habitat data <span style='color: #B2B2B2;'>[1m 26s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> preparing elevation data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing elevation data <span style='color: #B2B2B2;'>[17.2s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> preparing elevation data <span style='color: #B2B2B2;'>[39.2s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> standardizing data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> standardizing data <span style='color: #B2B2B2;'>[1.1s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> standardizing data <span style='color: #B2B2B2;'>[1.7s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> generating Area of Habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> generating Area of Habitat data <span style='color: #B2B2B2;'>[1.2s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> generating Area of Habitat data <span style='color: #B2B2B2;'>[2.3s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> post-processing results</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing results <span style='color: #B2B2B2;'>[13ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing results <span style='color: #B2B2B2;'>[20ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> finished</span>
 <span class='r-in'><span class='co'># }</span></span>
