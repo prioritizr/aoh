@@ -1,6 +1,6 @@
 context("format_spp_data")
 
-test_that("correct format", {
+test_that("general case", {
   # skip if needed
   skip_on_cran()
   # specify file path
@@ -20,7 +20,7 @@ test_that("correct format", {
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
-    verbose = FALSE
+    verbose = interactive()
   )
   # tests
   expect_is(x, "sf")
@@ -43,7 +43,7 @@ test_that("correct format", {
   expect_true(assertthat::noNA(x$elevation_upper))
 })
 
-test_that("correct handling of NA season values in spp_habitat_data", {
+test_that("NA season values in spp_habitat_data", {
   # skip if needed
   skip_on_cran()
   # specify file path
@@ -69,13 +69,13 @@ test_that("correct handling of NA season values in spp_habitat_data", {
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
-    verbose = FALSE
+    verbose = interactive()
   )
   x2 <- format_spp_data(
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3_alt,
-    verbose = FALSE
+    verbose = interactive()
   )
   # tests
   expect_is(x1, "sf")
@@ -84,8 +84,7 @@ test_that("correct handling of NA season values in spp_habitat_data", {
   expect_equal(x1$habitat_code, list(as.character(d3$code)))
 })
 
-
-test_that("correct handling of NA code values in spp_habitat_data", {
+test_that("NA code values in spp_habitat_data", {
   # skip if needed
   skip_on_cran()
   # specify file path
@@ -114,13 +113,13 @@ test_that("correct handling of NA code values in spp_habitat_data", {
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
-    verbose = FALSE
+    verbose = interactive()
   )
   x2 <- format_spp_data(
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3_alt,
-    verbose = FALSE
+    verbose = interactive()
   )
   # tests
   expect_is(x1, "sf")
@@ -132,5 +131,66 @@ test_that("correct handling of NA code values in spp_habitat_data", {
   expect_identical(
     x2$habitat_code[x2$id_no %in% spp_id],
     list(character(0))
+  )
+})
+
+test_that("resident distributions of migratory birds lacking habitats", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f1 <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  f2 <- system.file("testdata", "sim_spp_summary_data.csv", package = "aoh")
+  f3 <- system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh")
+  # load data
+  d1 <- read_spp_range_data(f1)
+  d2 <- utils::read.table(
+    f2, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
+  d3 <- utils::read.table(
+    f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
+  )
+  # coerce all species to birds
+  d1_birds <- d1
+  d1_birds$class <- "AVES"
+  # select a migratory species
+  mig_id <- which(
+    d1$id_no %in% d1$id_no[which(d1$seasonal == 1)] &
+    d1$id_no %in% d1$id_no[which(d1$seasonal == 2)] &
+    d1$id_no %in% d1$id_no[which(d1$seasonal == 3)]
+  )
+  mig_id <- sample(d1$id_no[mig_id], 1)
+  # remove habitat information for this species' resident distribution
+  idx <- which(!(d3$id_no == mig_id & d3$season == "Resident"))
+  d3 <- d3[idx, , drop = FALSE]
+  # create objects
+  x1 <- format_spp_data(
+    x = clean_spp_range_data(d1_birds),
+    spp_summary_data = d2,
+    spp_habitat_data = d3,
+    verbose = interactive()
+  )
+  x2 <- format_spp_data(
+    x = clean_spp_range_data(d1),
+    spp_summary_data = d2,
+    spp_habitat_data = d3,
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
+  expect_equal(
+    x1[which(!(x1$id_no == mig_id & x1$seasonal == 1)), ],
+    dplyr::mutate(
+      x2[which(!(x2$id_no == mig_id & x2$seasonal == 1)), ],
+      class = "AVES"
+    )
+  )
+  expect_equal(
+    x1$habitat_code[which(x1$id_no == mig_id & x1$seasonal == 1)],
+    x1$habitat_code[which(x1$id_no == mig_id & x1$seasonal == 2)]
+  )
+  expect_equal(
+    list(character(0)),
+    x2$habitat_code[which(x2$id_no == mig_id & x2$seasonal == 1)]
   )
 })

@@ -10,7 +10,7 @@ test_that("single core", {
   )
   terra::values(x) <- seq_len(terra::ncell(x))
   # create object
-  z1 <- terra_gdal_disaggregate(x, fact = 10, verbose = FALSE)
+  z1 <- terra_gdal_disaggregate(x, fact = 10, verbose = interactive())
   z2 <- terra::disagg(x, fact = 10)
   # tests
   expect_is(z1, "SpatRaster")
@@ -29,7 +29,7 @@ test_that("parallel processing", {
   terra::values(x) <- seq_len(terra::ncell(x))
   # create object
   z1 <- terra_gdal_disaggregate(
-    x, fact = 10, verbose = FALSE, n_threads = 2
+    x, fact = 10, verbose = interactive(), n_threads = 2
   )
   z2 <- terra::disagg(x, fact = 10)
   # tests

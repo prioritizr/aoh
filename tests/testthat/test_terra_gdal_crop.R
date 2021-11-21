@@ -11,7 +11,7 @@ test_that("single core", {
   terra::values(x) <- seq_len(terra::ncell(x))
   y <- terra::ext(x) - c(5, 2.5, 1, 1.5)
   # create object
-  z1 <- terra_gdal_crop(x, y, verbose = FALSE)
+  z1 <- terra_gdal_crop(x, y, verbose = interactive())
   z2 <- terra::crop(x, y, snap = "out")
   # tests
   expect_is(z1, "SpatRaster")
@@ -31,7 +31,7 @@ test_that("parallel processing", {
   terra::values(x) <- seq_len(terra::ncell(x))
   y <- terra::ext(x) - c(5, 2.5, 1, 1.5)
   # create object
-  z1 <- terra_gdal_crop(x, y, verbose = FALSE, n_threads = 2)
+  z1 <- terra_gdal_crop(x, y, verbose = interactive(), n_threads = 2)
   z2 <- terra::crop(x, y, snap = "out")
   # tests
   expect_is(z1, "SpatRaster")

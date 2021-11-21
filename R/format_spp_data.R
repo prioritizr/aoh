@@ -39,8 +39,7 @@ format_spp_data <- function(x,
                             iucn_version = "latest",
                             key = NULL,
                             force = FALSE,
-                            omit_habitat_codes =
-                              default_omit_iucn_habitat_codes(),
+                            omit_habitat_codes = iucn_habitat_codes_marine(),
                             verbose = TRUE) {
   # assert arguments are valid
   ## initial checks
@@ -50,6 +49,7 @@ format_spp_data <- function(x,
     nrow(x) > 0,
     assertthat::has_name(x, "id_no"),
     assertthat::has_name(x, "seasonal"),
+    assertthat::has_name(x, "class"),
     ## spp_summary_data
     inherits(spp_summary_data, "data.frame"),
     assertthat::has_name(spp_summary_data, "id_no"),
@@ -119,15 +119,38 @@ format_spp_data <- function(x,
   ## remove rows for taxa not present in x
   idx <- spp_habitat_data$id_no %in% x$id_no
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
-  ## remove rows for habitat preferences that are not Suitable
-  idx <- which(
-    tolower(spp_habitat_data$suitability) %in% c("major", "suitable")
-  )
-  spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## convert season descriptions to codes
   spp_habitat_data$seasonal <- convert_to_seasonal_id(
     spp_habitat_data$season
   )
+  ## for bird species that are missing data for "resident" distributions,
+  ## we will assume that the habitat codes for their "resident"
+  ## distributions are the same as their "breeding" distributions
+  idx <- which(
+    (!x$id_no %in%
+      spp_habitat_data$id_no[which(spp_habitat_data$seasonal == 1)]
+    ) &
+    (x$id_no %in% x$id_no[which(x$seasonal == 1)]) &
+    (x$class == "AVES")
+  )
+  missing_bird_ids <- unique(x$id_no[idx])
+  if (length(missing_bird_ids > 0)) {
+    idx <- which(
+      (spp_habitat_data$id_no %in% missing_bird_ids) &
+      (spp_habitat_data$seasonal == 2)
+    )
+    missing_bird_spp_habitat <- spp_habitat_data[idx, , drop = FALSE]
+    missing_bird_spp_habitat$seasonal <- 1
+    spp_habitat_data <- dplyr::bind_rows(
+      spp_habitat_data,
+      missing_bird_spp_habitat
+    )
+  }
+  ## remove rows for habitat preferences that are not suitable
+  idx <- which(
+    tolower(spp_habitat_data$suitability) %in% c("major", "suitable")
+  )
+  spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## coerce code column to character for subsequent joins with habitat_data
   spp_habitat_data$habitat_code <- as.character(spp_habitat_data$code)
   ## remove omit habitat codes
@@ -166,9 +189,13 @@ format_spp_data <- function(x,
     by = c("id_no", "seasonal")
   )
 
-  ## replace NULLs with empty character vectors
+  ## standardize values in habitat code column
+  ## i.e. replace NULLs with an empty character vector, and
+  ## lexicographically sort habitat codes
   x$habitat_code <- lapply(x$habitat_code, function(x) {
-    if (is.character(x)) return(x)
+    if (is.character(x)) {
+      return(stringi::stri_sort(x, numeric = TRUE))
+    }
     character(0)
   })
 

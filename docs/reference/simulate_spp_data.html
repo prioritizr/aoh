@@ -139,7 +139,7 @@ species geographic ranges, summary information, and habitat preferences.</p>
   cache_dir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
   habitat_version <span class='op'>=</span> <span class='st'>"latest"</span>,
   force <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  omit_habitat_codes <span class='op'>=</span> <span class='fu'>default_omit_iucn_habitat_codes</span><span class='op'>(</span><span class='op'>)</span>,
+  omit_habitat_codes <span class='op'>=</span> <span class='fu'><a href='iucn_habitat_codes_marine.html'>iucn_habitat_codes_marine</a></span><span class='op'>(</span><span class='op'>)</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -299,19 +299,110 @@ data for real or simulated species.</p></div>
 <span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_spp_data</span><span class='op'>(</span></span>
 <span class='r-in'>  n <span class='op'>=</span> <span class='fl'>5</span>, boundary_data <span class='op'>=</span> <span class='va'>boundary_data</span>, cache_dir <span class='op'>=</span> <span class='va'>download_dir</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in default_omit_iucn_habitat_codes()</span> could not find function "default_omit_iucn_habitat_codes"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global elevation data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[8ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global habitat data</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Set 'RFoptions(seed=NA)' to make the seed arbitrary.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[31.9s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview species range data</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>$</span><span class='va'>spp_range_data</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(x$spp_range_data)</span> object 'x' not found</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 17 features and 26 fields</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: GEOMETRY</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Bounding box:  xmin: -84.32377 ymin: 33.88216 xmax: -75.45658 ymax: 36.58977</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> First 10 features:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    id_no seasonal presence origin                       geometry</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    799        1        1      1 MULTIPOLYGON (((-82.58512 3...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    799        1        5      5 MULTIPOLYGON (((-76.01663 3...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    799        1        5      6 MULTIPOLYGON (((-75.49082 3...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    799        1        3      6 MULTIPOLYGON (((-76.54392 3...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   2102        1        1      1 POLYGON ((-81.70791 35.1978...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6   2102        1        5      6 POLYGON ((-76.54392 34.5879...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7   2102        1        4      2 POLYGON ((-84.14209 35.2421...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8   2102        1        1      4 POLYGON ((-83.81421 35.5276...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9   4082        1        1      1 POLYGON ((-81.95042 35.4429...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  4082        1        6      5 POLYGON ((-77.88471 34.1149...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             binomial   compiler yrcompiled citation subspecies subpop source</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1   Simulus spp. 799 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   Simulus spp. 799 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   Simulus spp. 799 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4   Simulus spp. 799 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    island tax_comm dist_comm generalisd legend kingdom phylum class order_</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    family   genus category marine terrestial freshwater</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9    &lt;NA&gt; Simulus       NT  false       true      false</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   &lt;NA&gt; Simulus       NT  false       true      false</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview species habitat affiliation data</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>$</span><span class='va'>spp_habitat_data</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(x$spp_habitat_data)</span> object 'x' not found</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 15 × 6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    id_no code  habitat                        suitability season majorimportance</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>   799 14.5  Urban Areas                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>   799 5.13  Wetlands (inland) - Permanent… Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>   799 14.1  Arable Land                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>  <span style='text-decoration: underline;'>2</span>102 14.5  Urban Areas                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>  <span style='text-decoration: underline;'>2</span>102 14.3  Plantations                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>  <span style='text-decoration: underline;'>2</span>102 1.8   Forest - Subtropical/tropical… Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>  <span style='text-decoration: underline;'>4</span>082 14.5  Urban Areas                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>  <span style='text-decoration: underline;'>4</span>082 14.2  Pastureland                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>  <span style='text-decoration: underline;'>4</span>082 14.3  Plantations                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>  <span style='text-decoration: underline;'>5</span>167 14.5  Urban Areas                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>  <span style='text-decoration: underline;'>5</span>167 1.8   Forest - Subtropical/tropical… Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span>  <span style='text-decoration: underline;'>5</span>167 6     Rocky Areas (e.g., inland cli… Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span>  <span style='text-decoration: underline;'>5</span>479 14.5  Urban Areas                    Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span>  <span style='text-decoration: underline;'>5</span>479 12.6  Tidepools                      Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span>  <span style='text-decoration: underline;'>5</span>479 5.1   Wetlands (inland) - Permanent… Suitable    Resid… <span style='color: #BB0000;'>NA</span>             </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview species summary data</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>$</span><span class='va'>spp_summary_data</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in print(x$spp_summary_data)</span> object 'x' not found</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 5 × 31</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   id_no taxonid scientific_name  kingdom phylum class order family genus  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>   799     799 Simulus spp. 799 <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     Simulus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>  <span style='text-decoration: underline;'>2</span>102    <span style='text-decoration: underline;'>2</span>102 Simulus spp. 799 <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     Simulus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>  <span style='text-decoration: underline;'>4</span>082    <span style='text-decoration: underline;'>4</span>082 Simulus spp. 799 <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     Simulus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>  <span style='text-decoration: underline;'>5</span>167    <span style='text-decoration: underline;'>5</span>167 Simulus spp. 799 <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     Simulus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span>  <span style='text-decoration: underline;'>5</span>479    <span style='text-decoration: underline;'>5</span>479 Simulus spp. 799 <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     Simulus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more variables: main_common_name &lt;chr&gt;, authority &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   published_year &lt;chr&gt;, assessment_date &lt;chr&gt;, category &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   criteria &lt;chr&gt;, population_trend &lt;chr&gt;, marine_system &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   freshwater_system &lt;chr&gt;, terrestrial_system &lt;chr&gt;, assessor &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   reviewer &lt;chr&gt;, aoo_km2 &lt;chr&gt;, eoo_km2 &lt;chr&gt;, elevation_upper &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   elevation_lower &lt;dbl&gt;, depth_upper &lt;dbl&gt;, depth_lower &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   errata_flag &lt;chr&gt;, errata_reason &lt;chr&gt;, amended_flag &lt;chr&gt;, …</span></span>
 <span class='r-in'><span class='co'># }</span></span>
 </code></pre></div>
   </div>

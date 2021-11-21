@@ -137,13 +137,14 @@ NULL
 #' for the IUCN Red List (see [IUCN Red List
 #' documentation](https://www.iucnredlist.org/resources/mappingstandards) for
 #' details). Specifically, the argument to `x` must an
-#' [sf::st_sf()] object with the following columns: `id_no`, `presence`,
+#' [sf::st_sf()] object with the following columns: `id_no` (or `SISID`),
+#' `presence`,
 #' `origin`, `seasonal`, `terrestrial` (or `terrestial`), `freshwater` and
 #' `marine`. Below we provide a brief description of each column:
 #'
 #' \describe{
 #'
-#' \item{`id_no`}{`numeric` taxon identifier on the IUCN Red List.}
+#' \item{`id_no` (or `SISID`)}{`numeric` taxon identifier on the IUCN Red List.}
 #'
 #' \item{`presence`}{`numeric` identifier describing information about
 #'   the presence of the taxon in the range data.}
@@ -185,17 +186,6 @@ NULL
 #'   (i.e. as arguments to `elevation_data` and `habitat_data`), then
 #'   these datasets are used to generate Area of Habitat data.
 #'
-#' \item Species' altitudinal limit and habitat affiliation data are
-#'   imported if needed
-#'   (see [get_spp_summary_data()] and [get_spp_habitat_data()] for details).
-#'   If these data are not available in the cache directory
-#'   (i.e. argument to `cache_dir`), then they are automatically downloaded
-#'   to the cache directory
-#'   Note that if species' altitudinal limit and habitat affiliation
-#'   data are manually supplied (i.e. as arguments to `spp_summary_data` and
-#'   `spp_habitat_data`), then these datasets are used to generate
-#'   Area of Habitat data.
-#'
 #' \item Species range data cleaned to prepare them for subsequent
 #'   analysis. Briefly, this process involves excluding places where the
 #'   (i) species' presence is not _extant_ or
@@ -214,22 +204,40 @@ NULL
 #'   Finally, geoprocessing routines are used to detect and repair
 #'   any invalid geometries.
 #'
+#' \item Species' altitudinal limit and habitat affiliation data are
+#'   imported if needed
+#'   (see [get_spp_summary_data()] and [get_spp_habitat_data()] for details).
+#'   If these data are not available in the cache directory
+#'   (i.e. argument to `cache_dir`), then they are automatically downloaded
+#'   to the cache directory
+#'   Note that if species' altitudinal limit and habitat affiliation
+#'   data are manually supplied (i.e. as arguments to `spp_summary_data` and
+#'   `spp_habitat_data`), then these datasets are used to generate
+#'   Area of Habitat data.
+#'
 #' \item The species data are collated into a single dataset containing
 #'   their geographic ranges, altitudinal limits, and habitat affiliations.
-#'   Specifically, taxon identifiers (per the `id_no` columns)
+#'   Specifically, taxon identifiers (per the `id_no`/`SISID` columns)
 #'   are used merge the datasets together.
-#'   When merging the habitat affiliation data, habitat affiliations are only
-#'   included in the collated dataset if they are classified as *suitable* for a
-#'   given species.
-#'   Additionally, if a habitat affiliation is defined for a specific seasonal
-#'   distribution of a particular species, that habitat affiliation
-#'   is only assigned to that specific seasonal distribution for the species.
-#'   If a habitat affiliation is not defined for a specific
-#'   seasonal distribution, then the habitat is assigned to all seasonal
-#'   distributions.
-#'   Furthermore, if a species is missing lower or upper altitudinal limits,
+#'   If a species lacks lower or upper altitudinal limits,
 #'   then limits of 0 and 9,000 m are assumed respectively
 #'   (following Lumbierres *et al.* 2021).
+#'   Additionally, the following rules are used to assign
+#'   habitat affiliations for species' distributions.
+#'   First, habitat affiliations are only
+#'   included in the collated dataset if they are classified as *suitable*
+#'   or *major*.
+#'   Second, if a habitat affiliation is defined for a specific seasonal
+#'   distribution of a particular species (e.g. *non-breeding*), then that
+#'   habitat affiliation is only assigned to that specific seasonal
+#'   distribution for the species.
+#'   Third, if a habitat affiliation is not defined for a specific
+#'   seasonal distribution, then the habitat is assigned to all seasonal
+#'   distributions associated with the species.
+#'   Fourth, because the *resident* distributions of some bird species
+#'   lack specific habitat affiliation data, the habitat affiliation data
+#'   for these *resident* distributions are assigned based on habitat
+#'   affiliations for the species' *breeding* distribution.
 #'
 #' \item Preliminary geoprocessing routines are used to prepare the habitat and
 #'   elevation data for subsequent processing. These routines involve
@@ -436,10 +444,24 @@ create_spp_aoh_data <- function(x,
     assertthat::noNA(verbose),
     inherits(template_data, "SpatRaster")
   )
+  assertthat::assert_that(
+    assertthat::has_name(x, "id_no") ||
+      assertthat::has_name(x, "SISID"),
+    msg = paste0(
+      "argument to \"x\" does not have a column named \"id_no\" or \"SISID\""
+    )
+  )
   if (isTRUE(use_gdal)) {
     assertthat::assert_that(
       is_gdal_available(),
       msg = "can't use GDAL because it's not available."
+    )
+  }
+  # verify access to IUCN Red List API
+  if (is.null(spp_summary_data) && is.null(spp_habitat_data)) {
+    assertthat::assert_that(
+      is_iucn_rl_api_available(),
+      msg = "can't access the IUCN Red List API, see ?aoh"
     )
   }
 
@@ -513,6 +535,26 @@ create_spp_aoh_data <- function(x,
   ## clean up
   rm(rng_cells)
 
+  # clean species range data
+  ## display message
+  if (verbose) {
+    cli::cli_progress_step("cleaning species range data")
+  }
+  ## processing
+  x <- clean_spp_range_data(x = x, crs = terra_st_crs(template_data))
+  ## addition data validation
+  assertthat::assert_that(
+    nrow(x) > 0,
+    msg = "argument to x does not contain any terrestrial species"
+  )
+  assertthat::assert_that(
+    identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
+    msg = paste(
+      "failed to combine multiple geometries for a species'",
+      "seasonal distribution"
+    )
+  )
+
   ## spp_summary_data
   ### import data
   if (is.null(spp_summary_data)) {
@@ -539,26 +581,6 @@ create_spp_aoh_data <- function(x,
       force = force, verbose = verbose
     )
   }
-
-  # clean species range data
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("cleaning species range data")
-  }
-  ## processing
-  x <- clean_spp_range_data(x = x, crs = terra_st_crs(template_data))
-  ## addition data validation
-  assertthat::assert_that(
-    nrow(x) > 0,
-    msg = "argument to x does not contain any terrestrial species"
-  )
-  assertthat::assert_that(
-    identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
-    msg = paste(
-      "failed to combine multiple geometries for a species'",
-      "seasonal distribution"
-    )
-  )
 
   # format species data
   ## display message

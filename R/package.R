@@ -42,12 +42,11 @@
 #'
 #' Please restart your R session. You should now be able to access the IUCN Red
 #' List API. To verify this, please try running the following _R_ code and --
-#' assuming everything works correctly -- you should see the current version of
-#' the IUCN Red List:
+#' assuming everything works correctly -- you should see `TRUE` as the output:
 #'
 #' ```
 #' # verify access to IUCN Red List API
-#' rredlist::rl_version()
+#' is_iucn_rl_available()
 #' ```
 #'
 #' If these instructions did not work, please consult the documentation for the

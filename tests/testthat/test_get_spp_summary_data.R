@@ -8,9 +8,9 @@ test_that("single taxon identifier", {
   # set parameters
   id_no <- c(18)
   # create objects
-  x1 <- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
+  x1 <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
   Sys.sleep(2)
-  x2 <- get_spp_summary_data(id_no, force = FALSE, verbose = FALSE)
+  x2 <- get_spp_summary_data(id_no, force = FALSE, verbose = interactive())
   # tests
   expect_is(x1, "data.frame")
   expect_is(x2, "data.frame")
@@ -41,9 +41,9 @@ test_that("multiple taxon identifiers", {
   # tests
   id_no <- c(18, 137, 138, 139)
   # create objects
-  x1 <- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
+  x1 <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
   Sys.sleep(2)
-  x2 <- get_spp_summary_data(id_no, force = FALSE, verbose = FALSE)
+  x2 <- get_spp_summary_data(id_no, force = FALSE, verbose = interactive())
   # tests
   expect_is(x1, "data.frame")
   expect_is(x2, "data.frame")
@@ -74,8 +74,8 @@ test_that("some taxon missing summary data", {
   # set parameters
   id_no <- c(18, -100)
   # create objects
-  x1 <- get_spp_summary_data(id_no[1], force = TRUE, verbose = FALSE)
-  x2 <- get_spp_summary_data(id_no, force = TRUE, verbose = FALSE)
+  x1 <- get_spp_summary_data(id_no[1], force = TRUE, verbose = interactive())
+  x2 <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
   # tests
   ## x1
   expect_is(x1, "data.frame")

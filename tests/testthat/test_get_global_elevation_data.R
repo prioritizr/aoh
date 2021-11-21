@@ -6,7 +6,7 @@ test_that("raw data (from online)", {
   skip_if_offline()
   # create object
   x <- get_global_elevation_data(
-    preprocessed = FALSE, force = TRUE, verbose = FALSE
+    preprocessed = FALSE, force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -23,7 +23,7 @@ test_that("raw data (from cache)", {
   skip_if_offline()
   # create object
   x <- get_global_elevation_data(
-    preprocessed = FALSE, force = FALSE, verbose = FALSE
+    preprocessed = FALSE, force = FALSE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -42,7 +42,7 @@ test_that("preprocessed data (from online)", {
   d <- get_world_behrmann_1km_rast()
   # create object
   x <- get_global_elevation_data(
-    preprocessed = TRUE, force = TRUE, verbose = FALSE
+    preprocessed = TRUE, force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -58,7 +58,7 @@ test_that("preprocessed data (from cache)", {
   d <- get_world_behrmann_1km_rast()
   # create object
   x <- get_global_elevation_data(
-    preprocessed = TRUE, force = FALSE, verbose = FALSE
+    preprocessed = TRUE, force = FALSE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")

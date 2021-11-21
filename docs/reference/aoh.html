@@ -187,9 +187,8 @@ the token) and save the file:</p><pre class='sourceCode r'><code><span class='va
 
 <p>Please restart your R session. You should now be able to access the IUCN Red
 List API. To verify this, please try running the following <em>R</em> code and --
-assuming everything works correctly -- you should see the current version of
-the IUCN Red List:</p><pre class='sourceCode r'><code><span class='co'># verify access to IUCN Red List API</span>
-<span class='fu'>rredlist</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/rredlist/reference/rl_version.html'>rl_version</a></span><span class='op'>(</span><span class='op'>)</span>
+assuming everything works correctly -- you should see <code>TRUE</code> as the output:</p><pre class='sourceCode r'><code><span class='co'># verify access to IUCN Red List API</span>
+<span class='fu'>is_iucn_rl_available</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 
 <p>If these instructions did not work, please consult the documentation for the

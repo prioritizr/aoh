@@ -14,7 +14,7 @@ test_that("works", {
   )
   terra::values(x) <- seq_len(terra::ncell(x))
   # create object
-  z1 <- terra_gdal_calc(x, "(X<=20)*1", verbose = FALSE)
+  z1 <- terra_gdal_calc(x, "(X<=20)*1", verbose = interactive())
   z2 <- (x <= 20 + 1)
   # tests
   expect_is(z1, "SpatRaster")

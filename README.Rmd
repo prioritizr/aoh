@@ -47,11 +47,11 @@ After installing the _aoh R_ package, you will need to obtain a token for the [I
 IUCN_REDLIST_KEY="your_actual_token_not_this_string"
 ```
 
-Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following _R_ code and -- assuming everything works correctly -- you should see the current version of the IUCN Red List.
+Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following _R_ code and -- assuming everything works correctly -- you should the same output below.
 
 ```{r, eval = FALSE}
 # verify access to IUCN Red List API
-rredlist::rl_version()
+is_iucn_rl_api_available()
 ```
 
 If these instructions did not work, please consult the documentation for the [_rredlist_](https://CRAN.R-project.org/package=rredlist) _R_ package for further details.

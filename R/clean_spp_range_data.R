@@ -33,7 +33,9 @@ NULL
 #' \enumerate{
 #'
 #' \item Column names are standardized. This involves converting them to lower
-#'   case characters and fixing any spelling mistakes.
+#'   case characters and fixing any spelling mistakes. Additionally,
+#'   if taxon identifiers are specified in the `SISID` column, then
+#'   this column is renamed to `id_no` for consistency with the IUCN Red List
 #'
 #' \item Places where the species' presence is not extant or probably extant
 #'    are excluded
@@ -113,24 +115,161 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   ## initial checks
   assertthat::assert_that(
     inherits(x, "sf"),
+    assertthat::has_name(x, "binomial"),
     nrow(x) > 0,
-    has_iucn_format_column_names(x),
     inherits(crs, "crs")
   )
-  ## rename "terrestrial" column if needed
+
+
+  # step 1: format all column names
+  ## re-order columns so that geometry is last
+  ### N.B. this is needed to avoid sf internal errors related to agr
+  ### when renaming columns or adding in new columns
+  x <- dplyr::select(x, -.data$geometry, dplyr::everything())
+
+  ## convert column names to lower case
+  x <- dplyr::rename_all(x, tolower)
+
+  # step 1a: rename and format columns
+  ## "terrestrial" column
   if (assertthat::has_name(x, "terrestial")) {
     x <- dplyr::rename(x, terrestrial = "terrestial")
   }
+  ## "order_" column
+  if (assertthat::has_name(x, "order_")) {
+    x <- dplyr::rename(x, order = "order_")
+  }
+
+  # step 1b: rename and format columns for BirdLife data
+  ## "SISID" column
+  if (assertthat::has_name(x, "sisid")) {
+    x <- dplyr::rename(x, id_no = "sisid")
+  }
+  ## "RedListCategory_*" column
+  if (any(grepl("redlistcategory_", names(x), fixed = TRUE))) {
+    idx <- which(grepl("redlistcategory_", names(x), fixed = TRUE))[[1]]
+    names(x)[idx] <- "category"
+  }
+  ## "familyname" column is present
+  ## N.B. BirdLife use the "FamilyName" column to store the Latin name for
+  ## bird families and the "Family" column to store the English common name for
+  ## bird families, so we need to overwrite the "family" column with values
+  ## in the "familyname" column
+  ## (since we previously converted all column names to lower case)
+  if (assertthat::has_name(x, "familyname")) {
+    x <- dplyr::mutate(x, family = familyname)
+  }
+  ## "genus" column is missing
+  if (!assertthat::has_name(x, "genus")) {
+    x <- dplyr::mutate(x, genus = vapply(
+      strsplit(x$binomial, " "), `[[`, character(1), 1
+    ))
+  }
+  ## "kingdom" column is missing
+  if (!assertthat::has_name(x, "kingdom")) {
+    if (any(grepl("birdlife", tolower(names(x))))) {
+      x$kingdom <- "ANIMALIA"
+    } else {
+      x$kingdom <- NA_character_
+    }
+  }
+  ## "phylum" column is missing
+  if (!assertthat::has_name(x, "phylum")) {
+    if (any(grepl("birdlife", tolower(names(x))))) {
+      x$phylum <- "CHORDATA"
+    } else {
+      x$phylum <- NA_character_
+    }
+  }
+  ## "class" column is missing
+  if (!assertthat::has_name(x, "class")) {
+    if (any(grepl("birdlife", tolower(names(x))))) {
+      x$class <- "AVES"
+    } else {
+      x$class <- NA_character_
+    }
+  }
+  ## "subspecies" column is missing
+  if (!assertthat::has_name(x, "subspecies")) {
+    x$subspecies <- NA_character_
+  }
+  ## "marine_system" column
+  if (!assertthat::has_name(x, "marine")) {
+    x$marine <- "false"
+    if (!any(grepl("birdlife", tolower(names(x))))) {
+      cli::cli_alert_warning(
+        paste(
+          "argument to \"x\" is missing the \"marine\" column,",
+          "assuming none of the species are marine-based"
+        )
+      )
+    }
+  }
+  ## "freshwater_system" column
+  if (!assertthat::has_name(x, "freshwater")) {
+    x$freshwater <- "false"
+    if (!any(grepl("birdlife", tolower(names(x))))) {
+      cli::cli_alert_warning(
+        paste(
+          "argument to \"x\" is missing the \"freshwater\" column,",
+          "assuming none of the species are freshwater-based"
+        )
+      )
+    }
+  }
+  ## "terrestrial" column
+  if (!assertthat::has_name(x, "terrestrial")) {
+    x$terrestrial <- "true"
+    if (!any(grepl("birdlife", tolower(names(x))))) {
+      cli::cli_alert_warning(
+        paste(
+          "argument to \"x\" is missing the \"terrestrial\" column,",
+          "assuming all species are terrestrial"
+        )
+      )
+    }
+  }
+  ## re-order columns so that geometry is last
+  ## N.B. this is needed to avoid sf internal errors related to agr
+  ## when renaming columns or adding in new columns
+  x <- dplyr::select(x, -.data$geometry, dplyr::everything())
+
+  # validate data
+  ## check column names
+  assertthat::assert_that(
+    assertthat::has_name(x, "id_no"),
+    assertthat::has_name(x, "presence"),
+    assertthat::has_name(x, "origin"),
+    assertthat::has_name(x, "seasonal"),
+    assertthat::has_name(x, "freshwater"),
+    assertthat::has_name(x, "marine"),
+    assertthat::has_name(x, "terrestrial"),
+    assertthat::has_name(x, "category"),
+    assertthat::has_name(x, "binomial"),
+    assertthat::has_name(x, "subspecies"),
+    assertthat::has_name(x, "kingdom"),
+    assertthat::has_name(x, "phylum"),
+    assertthat::has_name(x, "class"),
+    assertthat::has_name(x, "genus")
+  )
   ## check types
   assertthat::assert_that(
     is.numeric(x$id_no),
     is.numeric(x$presence),
     is.numeric(x$origin),
     is.numeric(x$seasonal),
-    is.character(x$terrestrial),
+    is.character(x$marine),
     is.character(x$freshwater),
-    is.character(x$marine)
+    is.character(x$terrestrial),
+    is.character(x$category),
+    is.character(x$binomial),
+    is.character(x$subspecies),
+    is.character(x$kingdom),
+    is.character(x$phylum),
+    is.character(x$class),
+    is.character(x$genus)
   )
+  ## check values
   assertthat::assert_that(
     all(x$freshwater[!is.na(x$freshwater)] %in% c("true", "false")),
     msg = "freshwater column should contain \"true\" or \"false\" values"
@@ -144,20 +283,19 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
     msg = "terrestrial column should contain \"true\" or \"false\" values"
   )
 
-  # step 1: format column names
-  x <- dplyr::rename_all(x, tolower)
-  if (assertthat::has_name(x, "order_")) {
-    x <- dplyr::rename(x, order = "order_")
-  }
   # step 2: exclude polygons based on presence code
   x <- x[which(x$presence == 1 | x$presence == 2), , drop = FALSE]
+
   # step 3: exclude polygons based on origin code
   x <- x[which(x$origin == 1 | x$origin == 2 | x$origin == 6), , drop = FALSE]
+
   # step 4: exclude uncertain seasonality
   x <- x[which(x$seasonal != 5), , drop = FALSE]
+
   # step 5: exclude non-terrestrial distributions
   idx <- which(x$terrestrial == "true")
   x <- x[idx, , drop = FALSE]
+
   # step 6: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
@@ -167,29 +305,35 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   x <- sf::st_set_precision(x, geometry_precision)
   x <- suppressWarnings(sf::st_wrap_dateline(x,
     options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
+
   # step 8: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+
   # step 9: reproject data
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_transform(x, crs)
+
   # step 10: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+
   # step 11: snap geometries to grid
   if (snap_tolerance > 0) {
     x <- sf::st_set_precision(x, geometry_precision)
     x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
   }
+
   # step 12: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+
   # step 13: dissolve geometries by species, subspecies, seasonal
   ## create id
   if (is.character(x$seasonal)) {
@@ -217,11 +361,18 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
       genus = dplyr::first(.data$genus)
     ) %>%
     dplyr::ungroup()
+
   # step 14: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+
+  # re-order columns so that geometry is last
+  ## N.B. this is needed to avoid sf internal errors related to agr
+  ## when renaming columns or adding in new columns
+  x <- dplyr::select(x, -.data$geometry, dplyr::everything())
+
   # return result
   x
 }

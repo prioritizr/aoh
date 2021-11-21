@@ -14,7 +14,7 @@ simulate_spp_data(
   cache_dir = tempdir(),
   habitat_version = "latest",
   force = FALSE,
-  omit_habitat_codes = default_omit_iucn_habitat_codes(),
+  omit_habitat_codes = iucn_habitat_codes_marine(),
   verbose = TRUE
 )
 }

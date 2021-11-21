@@ -102,10 +102,10 @@
 <a href="#accessing-the-iucn-red-list-api" class="anchor" aria-hidden="true"></a>Accessing the IUCN Red List API</h4>
 <p>After installing the <em>aoh R</em> package, you will need to obtain a token for the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one already). To do so, please visit the IUCN website (see <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link uri">https://apiv3.iucnredlist.org/api/v3/token</a>) and fill out the form to apply for a token. You should then receive a token shortly after completing the form (but not immediately). After receiving a token, please open the <code>.Renviron</code> file on your computer (e.g. using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file, using your token in place of the string below.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>IUCN_REDLIST_KEY<span class="ot">=</span><span class="st">"your_actual_token_not_this_string"</span></span></code></pre></div>
-<p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should see the current version of the IUCN Red List.</p>
+<p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should the same output below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># verify access to IUCN Red List API</span>
-<span class="fu">rredlist</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rredlist/reference/rl_version.html" class="external-link">rl_version</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="reference/is_iucn_rl_api_available.html">is_iucn_rl_api_available</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If these instructions did not work, please consult the documentation for the <a href="https://CRAN.R-project.org/package=rredlist" class="external-link"><em>rredlist</em></a> <em>R</em> package for further details.</p>
 </div>
 <div id="optional-system-libraries" class="section level4">
@@ -278,32 +278,38 @@
 <a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h3>
 <p><strong>Please note that the package is still in the early stages of development and not ready for general use. It is not yet suitable for use in scientific publications or related work.</strong></p>
 <p>Please cite the <em>aoh R</em> package and the underlying datasets used to produce Area of Habitat data.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>To cite the aoh package and the underlying datasets used to create the</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Area of Habitat data, please use<span class="sc">:</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2021</span>) aoh<span class="sc">:</span> Create Area of Habitat Data. R package version</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">99999.</span> Available at https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>jeffreyhanson<span class="sc">/</span>aoh.</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  IUCN [insert year]. IUCN Red List of Threatened Species. Version</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at www.iucnredlist.org.</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  Amatulli G, Domisch S, Tuanmu M<span class="sc">-</span>N, Parmentier B, Ranipeta A, Malczyk</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  J, and Jetz <span class="fu">W</span> (<span class="dv">2018</span>) A suite of global, cross<span class="sc">-</span>scale topographic</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  variables <span class="cf">for</span> environmental and biodiversity modeling. Scientific</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  Data, <span class="dv">5</span><span class="sc">:</span><span class="fl">180040.</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020a) A global map of terrestrial</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  habitat types. Scientific data, <span class="dv">7</span><span class="sc">:</span><span class="dv">1</span><span class="sc">--</span><span class="fl">8.</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020b) A global map of terrestrial</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  habitat <span class="fu">types</span> (insert version) [Data set]. Zenodo. Available at</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4058819.</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>To see these entries <span class="cf">in</span> BibTeX format, use <span class="st">'print(&lt;citation&gt;,</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="st">bibtex=TRUE)'</span>, <span class="st">'toBibtex(.)'</span>, or set</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="st">'options(citation.bibtex.max=999)'</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Area of Habitat data created using a range of different datasets.</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Depending on which datasets are used, please cite the aoh package and</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>the relevant datasets using<span class="sc">:</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2021</span>) aoh<span class="sc">:</span> Create Area of Habitat Data. R package version</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">99999.</span> Available at https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>jeffreyhanson<span class="sc">/</span>aoh.</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  IUCN [insert year] IUCN Red List of Threatened Species. Version</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at www.iucnredlist.org.</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  BirdLife International and Handbook of the Birds of the World</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  ([insert year]) Bird species distribution maps of the world. Version</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  http<span class="sc">:</span><span class="er">//</span>datazone.birdlife.org<span class="sc">/</span>species<span class="sc">/</span>requestdis.</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  Amatulli G, Domisch S, Tuanmu M<span class="sc">-</span>N, Parmentier B, Ranipeta A, Malczyk</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  J, and Jetz <span class="fu">W</span> (<span class="dv">2018</span>) A suite of global, cross<span class="sc">-</span>scale topographic</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  variables <span class="cf">for</span> environmental and biodiversity modeling. Scientific</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  Data, <span class="dv">5</span><span class="sc">:</span><span class="fl">180040.</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020a) A global map of terrestrial</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  habitat types. Scientific data, <span class="dv">7</span><span class="sc">:</span><span class="dv">1</span><span class="sc">--</span><span class="fl">8.</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020b) A global map of terrestrial</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  habitat <span class="fu">types</span> (insert version) [Data set]. Zenodo. Available at</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4058819.</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>To see these entries <span class="cf">in</span> BibTeX format, use <span class="st">'print(&lt;citation&gt;,</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="st">bibtex=TRUE)'</span>, <span class="st">'toBibtex(.)'</span>, or set</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="st">'options(citation.bibtex.max=999)'</span>.</span></code></pre></div>
 </div>
 </div>
 <div id="getting-help" class="section level2">

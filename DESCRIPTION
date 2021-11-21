@@ -48,7 +48,8 @@ Suggests:
     smoothr (>= 0.2.2),
     rnaturalearth (>= 0.1.0),
     rgdal (>= 1.5.27),
-    gdalUtils (>= 2.0.3.2)
+    gdalUtils (>= 2.0.3.2),
+    archive (>= 1.1.2)
 Depends:
     R (>= 4.1.0),
     sf (>= 1.0-2),
@@ -63,7 +64,6 @@ VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Collate:
     'internal.R'
-    'assertions.R'
     'clean_spp_range_data.R'
     'convert_filename_to_habitat_code.R'
     'convert_jung_code_to_iucn_code.R'
@@ -80,6 +80,7 @@ Collate:
     'get_raw_global_habitat_data.R'
     'get_spp_api_data.R'
     'get_world_behrmann_1km_rast.R'
+    'is_available.R'
     'iucn_habitat_codes.R'
     'misc_gdal.R'
     'misc_randomfields.R'

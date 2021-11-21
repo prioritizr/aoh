@@ -9,7 +9,7 @@ if (ndots == 3) {
   cite_url <- "https://CRAN.R-project.org/package=aoh"
 }
 
-citHeader("To cite the aoh package and the underlying datasets used to create the Area of Habitat data, please use:")
+citHeader("Area of Habitat data created using a range of different datasets. Depending on which datasets are used, please cite the aoh package and the relevant datasets using:")
 
 citEntry(
   entry = "Manual",
@@ -33,8 +33,23 @@ citEntry(
   note = "Version [insert version]",
   url = "www.iucnredlist.org",
   textVersion = paste(
-    "IUCN [insert year]. IUCN Red List of Threatened Species. Version",
+    "IUCN [insert year] IUCN Red List of Threatened Species. Version",
     "[insert version]. Available at www.iucnredlist.org."
+  )
+)
+
+citEntry(
+  entry = "Manual",
+  author = "BirdLife International and Handbook of the Birds of the World",
+  title = "Bird species distribution maps of the world",
+  year = "[insert year]",
+  note = "Version [insert version]",
+  url = "http://datazone.birdlife.org/species/requestdis",
+  textVersion = paste(
+    "BirdLife International and Handbook of the Birds of the World",
+    "([insert year]) Bird species distribution maps of the world.",
+    "Version [insert version].",
+    "Available at http://datazone.birdlife.org/species/requestdis."
   )
 )
 

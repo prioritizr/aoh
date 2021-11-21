@@ -19,7 +19,7 @@ create_spp_aoh_data(
   force = FALSE,
   n_threads = 1,
   use_gdal = is_gdal_available(),
-  omit_habitat_codes = character(0),
+  omit_habitat_codes = iucn_habitat_codes_marine(),
   verbose = TRUE
 )
 }
@@ -213,13 +213,14 @@ and will not apply to marine or freshwater species.
 Species range data are expected to follow the data format conventions
 for the IUCN Red List (see \href{https://www.iucnredlist.org/resources/mappingstandards}{IUCN Red List documentation} for
 details). Specifically, the argument to \code{x} must an
-\code{\link[sf:sf]{sf::st_sf()}} object with the following columns: \code{id_no}, \code{presence},
+\code{\link[sf:sf]{sf::st_sf()}} object with the following columns: \code{id_no} (or \code{SISID}),
+\code{presence},
 \code{origin}, \code{seasonal}, \code{terrestrial} (or \code{terrestial}), \code{freshwater} and
 \code{marine}. Below we provide a brief description of each column:
 
 \describe{
 
-\item{\code{id_no}}{\code{numeric} taxon identifier on the IUCN Red List.}
+\item{\code{id_no} (or \code{SISID})}{\code{numeric} taxon identifier on the IUCN Red List.}
 
 \item{\code{presence}}{\code{numeric} identifier describing information about
 the presence of the taxon in the range data.}
@@ -263,17 +264,6 @@ Note that if elevation and habitat data are manually supplied
 (i.e. as arguments to \code{elevation_data} and \code{habitat_data}), then
 these datasets are used to generate Area of Habitat data.
 
-\item Species' altitudinal limit and habitat affiliation data are
-imported if needed
-(see \code{\link[=get_spp_summary_data]{get_spp_summary_data()}} and \code{\link[=get_spp_habitat_data]{get_spp_habitat_data()}} for details).
-If these data are not available in the cache directory
-(i.e. argument to \code{cache_dir}), then they are automatically downloaded
-to the cache directory
-Note that if species' altitudinal limit and habitat affiliation
-data are manually supplied (i.e. as arguments to \code{spp_summary_data} and
-\code{spp_habitat_data}), then these datasets are used to generate
-Area of Habitat data.
-
 \item Species range data cleaned to prepare them for subsequent
 analysis. Briefly, this process involves excluding places where the
 (i) species' presence is not \emph{extant} or
@@ -292,22 +282,40 @@ seasonal distribution for each taxon is represented by a separate geometry.
 Finally, geoprocessing routines are used to detect and repair
 any invalid geometries.
 
+\item Species' altitudinal limit and habitat affiliation data are
+imported if needed
+(see \code{\link[=get_spp_summary_data]{get_spp_summary_data()}} and \code{\link[=get_spp_habitat_data]{get_spp_habitat_data()}} for details).
+If these data are not available in the cache directory
+(i.e. argument to \code{cache_dir}), then they are automatically downloaded
+to the cache directory
+Note that if species' altitudinal limit and habitat affiliation
+data are manually supplied (i.e. as arguments to \code{spp_summary_data} and
+\code{spp_habitat_data}), then these datasets are used to generate
+Area of Habitat data.
+
 \item The species data are collated into a single dataset containing
 their geographic ranges, altitudinal limits, and habitat affiliations.
-Specifically, taxon identifiers (per the \code{id_no} columns)
+Specifically, taxon identifiers (per the \code{id_no}/\code{SISID} columns)
 are used merge the datasets together.
-When merging the habitat affiliation data, habitat affiliations are only
-included in the collated dataset if they are classified as \emph{suitable} for a
-given species.
-Additionally, if a habitat affiliation is defined for a specific seasonal
-distribution of a particular species, that habitat affiliation
-is only assigned to that specific seasonal distribution for the species.
-If a habitat affiliation is not defined for a specific
-seasonal distribution, then the habitat is assigned to all seasonal
-distributions.
-Furthermore, if a species is missing lower or upper altitudinal limits,
+If a species lacks lower or upper altitudinal limits,
 then limits of 0 and 9,000 m are assumed respectively
 (following Lumbierres \emph{et al.} 2021).
+Additionally, the following rules are used to assign
+habitat affiliations for species' distributions.
+First, habitat affiliations are only
+included in the collated dataset if they are classified as \emph{suitable}
+or \emph{major}.
+Second, if a habitat affiliation is defined for a specific seasonal
+distribution of a particular species (e.g. \emph{non-breeding}), then that
+habitat affiliation is only assigned to that specific seasonal
+distribution for the species.
+Third, if a habitat affiliation is not defined for a specific
+seasonal distribution, then the habitat is assigned to all seasonal
+distributions associated with the species.
+Fourth, because the \emph{resident} distributions of some bird species
+lack specific habitat affiliation data, the habitat affiliation data
+for these \emph{resident} distributions are assigned based on habitat
+affiliations for the species' \emph{breeding} distribution.
 
 \item Preliminary geoprocessing routines are used to prepare the habitat and
 elevation data for subsequent processing. These routines involve

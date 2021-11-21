@@ -7,7 +7,7 @@ test_that("latest version (raw)", {
   skip_if_local_and_slow_internet()
   # create object
   x <- get_global_habitat_data(
-    version = "latest", preprocessed = FALSE, force = TRUE, verbose = FALSE
+    version = "latest", preprocessed = FALSE, force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -30,7 +30,7 @@ test_that("latest version (preprocessed)", {
   code_data <- habitat_code_data()
   iucn_codes <- names(
     get_global_habitat_data(
-      version = "latest", preprocessed = FALSE, force = FALSE, verbose = FALSE
+      version = "latest", preprocessed = FALSE, force = FALSE, verbose = interactive()
     )
   )
   iucn_codes <- intersect(
@@ -38,7 +38,7 @@ test_that("latest version (preprocessed)", {
   )
   # create object
   x <- get_global_habitat_data(
-    version = "latest", preprocessed = TRUE, force = TRUE, verbose = FALSE
+    version = "latest", preprocessed = TRUE, force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -55,7 +55,7 @@ test_that("manually specified version (raw from online)", {
   # create object
   x <- get_global_habitat_data(
     version = "10.5281/zenodo.4058819", preprocessed = FALSE,
-    force = TRUE, verbose = FALSE
+    force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -78,7 +78,7 @@ test_that("manually specified version (preprocessed from online)", {
   code_data <- habitat_code_data()
   iucn_codes <- names(
     get_global_habitat_data(
-      version = "latest", preprocessed = FALSE, force = FALSE, verbose = FALSE
+      version = "latest", preprocessed = FALSE, force = FALSE, verbose = interactive()
     )
   )
   iucn_codes <- intersect(
@@ -87,7 +87,7 @@ test_that("manually specified version (preprocessed from online)", {
   # create object
   x <- get_global_habitat_data(
     version = "10.5281/zenodo.4058819", preprocessed = TRUE,
-    force = TRUE, verbose = FALSE
+    force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -104,7 +104,7 @@ test_that("manually specified version (raw from cache)", {
   # create object
   x <- get_global_habitat_data(
     version = "10.5281/zenodo.4058819", preprocessed = FALSE,
-    force = FALSE, verbose = FALSE
+    force = FALSE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -136,7 +136,7 @@ test_that("manually specified version (preprocessed from cache)", {
   # create object
   x <- get_global_habitat_data(
     version = "10.5281/zenodo.4058819", preprocessed = TRUE,
-    force = FALSE, verbose = FALSE
+    force = FALSE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")

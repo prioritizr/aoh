@@ -100,8 +100,7 @@ simulate_spp_data <- function(n,
                               cache_dir = tempdir(),
                               habitat_version = "latest",
                               force = FALSE,
-                              omit_habitat_codes =
-                                default_omit_iucn_habitat_codes(),
+                              omit_habitat_codes = iucn_habitat_codes_marine(),
                               verbose = TRUE) {
   # assert dependencies available
   if (!requireNamespace("RandomFields", quietly = TRUE))
@@ -209,13 +208,17 @@ simulate_spp_data <- function(n,
     }
     rownames(x) <- NULL
     # determine if species has seasonal distributions or not
-    if (isTRUE(stats::runif(1) > 0.7) && (nrow(x) >= 3)) {
+    if (isTRUE(stats::runif(1) > 0.7) && (nrow(x) >= 4)) {
       # migratory
       migrant <- TRUE
-      dist_idx <- sample(order(sf::st_area(x), decreasing = TRUE)[seq_len(3)])
+      s <- seq(ifelse(runif(1) > 0.5, 1, 2), 4)
+      dist_idx <- sample(order(sf::st_area(x), decreasing = TRUE)[seq_along(s)])
       d1 <- x[dist_idx, , drop = FALSE]
       # add in seasonal metadata
-      d1$seasonal <- seq(2, 4)
+      ## simulate some migratory species with only
+      ## (i) breeding/non-breeding/passage, and others with
+      ## (ii) resident/breeding/non-breeding/passage
+      d1$seasonal <- s
       d1$presence <- 1
       d1$origin <- 1
     } else {
@@ -231,7 +234,7 @@ simulate_spp_data <- function(n,
     # simulate additional data
     extra_idx <- setdiff(seq_len(nrow(x)), dist_idx)
     if (length(extra_idx) > 0) {
-      ## simulate additional distriubtions
+      ## simulate additional distributions
       extra_idx <- sample(x = extra_idx, size = min(length(extra_idx), 3))
       d2 <- x[extra_idx, , drop = FALSE]
       d2$presence <- sample(
@@ -337,7 +340,6 @@ simulate_spp_data <- function(n,
   )
 }
 
-
 simulate_summary_data <- function(x, elevation_data) {
   # assert that arguments are valid
   assertthat::assert_that(
@@ -370,7 +372,7 @@ simulate_summary_data <- function(x, elevation_data) {
     ## find elevation ranges
     elev_range <- stats::quantile(
       terra::values(terra::mask(x = elevation_data, mask = terra::vect(xi))),
-      probs = c(0.2, 0.8),
+      probs = c(0.05, 0.8),
       na.rm = TRUE,
       names = FALSE
     )
@@ -478,11 +480,20 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
     xi_suitable_habitat_data <- xi_habitat_data[idx, , drop = FALSE]
 
     ## sample suitable codes
-    suitable_codes <- sample(
+    ## ensure a dominant habitat class selected
+    n_dom <- min(nrow(xi_suitable_habitat_data), 5)
+    dom_suitable_codes <- sample(
+      rownames(xi_suitable_habitat_data)[n_dom],
+      size = 1
+    )
+    ## add in some non-dominant classes
+    nondom_suitable_codes <- sample(
       x = rownames(xi_suitable_habitat_data),
-      size = min(nrow(xi_suitable_habitat_data), 3),
+      size = min(nrow(xi_suitable_habitat_data), 2),
       replace = FALSE
     )
+    ## ensure classes are unique
+    suitable_codes <- unique(c(dom_suitable_codes, nondom_suitable_codes))
 
     ## sample marginal codes
     if (

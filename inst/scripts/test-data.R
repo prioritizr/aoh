@@ -1,6 +1,6 @@
 # Initialization
 ## define variables
-n_spp <- 30
+n_spp <- 10
 country_names <- c("spain", "portugal")
 habitat_version <- "10.5281/zenodo.4058819"
 cache_dir <- rappdirs::user_data_dir("aoh")
@@ -12,7 +12,7 @@ library(dplyr)
 library(terra)
 
 # set rng state
-set.seed(500)
+set.seed(501)
 
 # Preliminary processing
 ## install dependencies if needed
@@ -81,6 +81,12 @@ sim_data <- simulate_spp_data(
   boundary_data = sim_boundary_data,
   habitat_data = sim_habitat_data,
   elevation_data = sim_elevation_data
+)
+
+## verify migratory species present
+assertthat::assert_that(
+  sum(sim_data$spp_range_data$seasonal == 2) > 0,
+  msg = "simulated data does not contain any migratory species"
 )
 
 # Exports

@@ -34,15 +34,8 @@ test_that("simulated data", {
   )
   # tests
   expect_is(x, "sf")
+  expect_named(x, aoh_names)
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
-  expect_named(
-    x,
-    c(
-      "id_no", "binomial", "seasonal", "full_habitat_code", "habitat_code",
-      "elevation_lower", "elevation_upper", "xmin", "xmax", "ymin", "ymax",
-      "path", "geometry"
-     )
-  )
   expect_is(x$id_no, "integer")
   expect_is(x$binomial, "character")
   expect_is(x$seasonal, "integer")
@@ -55,6 +48,24 @@ test_that("simulated data", {
   expect_is(x$elevation_upper, "numeric")
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
@@ -104,7 +115,7 @@ test_that("some species missing habitat data", {
     spp_summary_data = spp_summary_data,
     use_gdal = FALSE,
     force = TRUE,
-    verbose = FALSE
+    verbose = interactive()
   )
   x2 <- create_spp_aoh_data(
     x = d,
@@ -115,9 +126,13 @@ test_that("some species missing habitat data", {
     spp_summary_data = spp_summary_data,
     use_gdal = FALSE,
     force = TRUE,
-    verbose = FALSE
+    verbose = interactive()
   )
   # tests
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
+  expect_named(x1, aoh_names)
+  expect_named(x2, aoh_names)
   expect_equal(
     dplyr::select(x1[x1$id_no != spp_id, ], -path),
     dplyr::select(x2[x2$id_no != spp_id, ], -path)
@@ -179,7 +194,7 @@ test_that("species with reversed elevation limits", {
     spp_summary_data = spp_summary_data,
     use_gdal = FALSE,
     force = TRUE,
-    verbose = FALSE
+    verbose = interactive()
   )
   x2 <- create_spp_aoh_data(
     x = d,
@@ -190,9 +205,13 @@ test_that("species with reversed elevation limits", {
     spp_summary_data = spp_summary_data_alt,
     use_gdal = FALSE,
     force = TRUE,
-    verbose = FALSE
+    verbose = interactive()
   )
   # tests
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
+  expect_named(x1, aoh_names)
+  expect_named(x2, aoh_names)
   expect_equal(
     dplyr::select(x1, -path),
     dplyr::select(x2, -path)
@@ -212,7 +231,7 @@ test_that("species with reversed elevation limits", {
   unlink(output_dir2, recursive = TRUE)
 })
 
-test_that("GDAL (single core)", {
+test_that("GDAL processing", {
   # skip if needed
   skip_on_cran()
   skip_if_gdal_not_available()
@@ -235,8 +254,10 @@ test_that("GDAL (single core)", {
   # create output dirs
   output_dir1 <- tempfile()
   output_dir2 <- tempfile()
+  output_dir3 <- tempfile()
   dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
   dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
+  dir.create(output_dir3, showWarnings = FALSE, recursive = TRUE)
   # load data
   d <- read_spp_range_data(f)
   # create objects
@@ -248,7 +269,7 @@ test_that("GDAL (single core)", {
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     use_gdal = FALSE,
-    verbose = FALSE
+    verbose = interactive()
   )
   x2 <- create_spp_aoh_data(
     x = d,
@@ -258,85 +279,34 @@ test_that("GDAL (single core)", {
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     use_gdal = TRUE,
-    verbose = FALSE
+    n_threads = 1,
+    verbose = interactive()
   )
-  # tests
-  expect_is(x1, "sf")
-  expect_is(x2, "sf")
-  expect_equal(
-    dplyr::select(x1, -path),
-    dplyr::select(x2, -path)
-  )
-  expect_equal(
-    lapply(
-      x1$path,
-      function(x) terra::values(terra::rast(x))
-    ),
-    lapply(
-      x2$path,
-      function(x) terra::values(terra::rast(x))
-    )
-  )
-  # clean up
-  unlink(output_dir1, recursive = TRUE)
-  unlink(output_dir2, recursive = TRUE)
-})
-
-test_that("GDAL (parallel processing)", {
-  # skip if needed
-  skip_on_cran()
-  skip_if_gdal_not_available()
-  # specify file path
-  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  elevation_data <- terra::rast(
-    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
-  )
-  habitat_data <- terra::rast(
-    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
-  )
-  spp_habitat_data <- read.csv(
-    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  spp_summary_data <- read.csv(
-    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  # create output dirs
-  output_dir1 <- tempfile()
-  output_dir2 <- tempfile()
-  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
-  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
-  # load data
-  d <- read_spp_range_data(f)
-  # create objects
-  x1 <- create_spp_aoh_data(
+  x3 <- create_spp_aoh_data(
     x = d,
-    output_dir = output_dir1,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    use_gdal = FALSE,
-    verbose = FALSE
-  )
-  x2 <- create_spp_aoh_data(
-    x = d,
-    output_dir = output_dir2,
+    output_dir = output_dir3,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     use_gdal = TRUE,
     n_threads = 2,
-    verbose = FALSE
+    verbose = interactive()
   )
   # tests
   expect_is(x1, "sf")
   expect_is(x2, "sf")
+  expect_is(x3, "sf")
+  expect_named(x1, aoh_names)
+  expect_named(x2, aoh_names)
+  expect_named(x3, aoh_names)
   expect_equal(
     dplyr::select(x1, -path),
     dplyr::select(x2, -path)
+  )
+  expect_equal(
+    dplyr::select(x1, -path),
+    dplyr::select(x3, -path)
   )
   expect_equal(
     lapply(
@@ -348,9 +318,20 @@ test_that("GDAL (parallel processing)", {
       function(x) terra::values(terra::rast(x))
     )
   )
+  expect_equal(
+    lapply(
+      x1$path,
+      function(x) terra::values(terra::rast(x))
+    ),
+    lapply(
+      x3$path,
+      function(x) terra::values(terra::rast(x))
+    )
+  )
   # clean up
   unlink(output_dir1, recursive = TRUE)
   unlink(output_dir2, recursive = TRUE)
+  unlink(output_dir3, recursive = TRUE)
 })
 
 test_that("preprocessed data", {
@@ -374,11 +355,14 @@ test_that("preprocessed data", {
     output_dir = tempdir(),
     habitat_data = NULL,
     elevation_data = NULL,
+    use_gdal = FALSE,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = TRUE
   )
   # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
   expect_is(x$id_no, "integer")
   expect_is(x$binomial, "character")
   expect_is(x$seasonal, "integer")
@@ -391,6 +375,24 @@ test_that("preprocessed data", {
   expect_is(x$elevation_upper, "numeric")
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
@@ -413,15 +415,34 @@ test_that("example data", {
       output_dir = tempdir(),
       cache_dir = cd,
       habitat_version = hv,
-      n_threads = 2,
-      verbose = FALSE
+      use_gdal = FALSE,
+      verbose = interactive()
     )
   )
   # tests
   expect_is(x, "sf")
+  expect_named(x, aoh_names)
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
@@ -429,7 +450,6 @@ test_that("example data", {
 test_that("amphibian data", {
   # skip if needed
   skip_on_cran()
-  skip_on_local()
   skip_if_offline()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
@@ -441,16 +461,42 @@ test_that("amphibian data", {
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
   # load data
-  d <- read_spp_range_data(f, n = 10)
+  d <- read_spp_range_data(f, n = 100)
+  # subset data for testing (i.e. some Asian taxa)
+  d <- d[d$family == "RANIDAE" & d$genus != "Glandirana", , drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
-    d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
+    x = d,
+    output_dir = tempdir(),
+    habitat_version = hv,
+    use_gdal = FALSE,
+    cache_dir = cd,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "sf")
+  expect_named(x, aoh_names)
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
@@ -458,7 +504,6 @@ test_that("amphibian data", {
 test_that("reptile data", {
   # skip if needed
   skip_on_cran()
-  skip_on_local()
   skip_if_offline()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
@@ -470,15 +515,45 @@ test_that("reptile data", {
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
   # load data
-  d <- read_spp_range_data(f, n = 10)
+  d <- read_spp_range_data(f, n = 50)
+  # subset data for testing (i.e. some Australian taxa)
+  d <- d[grepl("Tingley", d$compiler, fixed = TRUE), , drop = FALSE]
+  # exclude species that that has zero AOH because insufficient data
+  # available for rocky habitats in Australia
+  d <- d[d$genus != "Pseudothecadactylus", , drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
-    d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
+    x = d,
+    output_dir = tempdir(),
+    cache_dir = cd,
+    habitat_version = hv,
+    use_gdal = FALSE,
+    verbose = interactive()
   )
   # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
@@ -486,7 +561,6 @@ test_that("reptile data", {
 test_that("terrestrial mammal data", {
   # skip if needed
   skip_on_cran()
-  skip_on_local()
   skip_if_offline()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
@@ -498,15 +572,153 @@ test_that("terrestrial mammal data", {
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
   # load data
-  d <- read_spp_range_data(f, n = 10)
+  d <- read_spp_range_data(f, n = 50)
+  # subset data for testing (i.e. some Oceanic taxa)
+  d <- d[d$family == "PTEROPODIDAE", , drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
-    d, tempdir(), habitat_version = hv, cache_dir = cd, verbose = FALSE
+    x = d,
+    output_dir = tempdir(),
+    cache_dir = cd,
+    habitat_version = hv,
+    use_gdal = FALSE,
+    verbose = interactive()
   )
   # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  # clean up
+  unlink(x$path[!is.na(x$path)])
+})
+
+test_that("bird data", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
+  skip_if_iucn_red_list_data_not_available("BOTW.7z")
+  # specify parameters for processing
+  f <- file.path(
+    rappdirs::user_data_dir("iucn-red-list-data"),
+    "BOTW.7z"
+  )
+  cd <- rappdirs::user_data_dir("aoh")
+  hv <- "10.5281/zenodo.4058819"
+  # load data
+  d <- suppressWarnings(read_spp_range_data(f, n = 200))
+  # subset data (i.e. some Oceanic species)
+  d <- d[which(d$Subfamily == "Raphinae"), , drop = FALSE]
+  # exclude species that occurs on islands that are missing from habitat data
+  d <- d[d$SISID != 22691024, , drop = FALSE]
+  # create objects
+  x <- create_spp_aoh_data(
+    x = d,
+    output_dir = tempdir(),
+    cache_dir = cd,
+    habitat_version = hv,
+    use_gdal = FALSE,
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  # clean up
+  unlink(x$path[!is.na(x$path)])
+})
+
+test_that("bird data (migratory)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
+  skip_if_iucn_red_list_data_not_available("BOTW.7z")
+  # specify parameters for processing
+  f <- file.path(
+    rappdirs::user_data_dir("iucn-red-list-data"),
+    "BOTW.7z"
+  )
+  cd <- rappdirs::user_data_dir("aoh")
+  hv <- "10.5281/zenodo.4058819"
+  # load data
+  d <- read_spp_range_data(f, n = 50)
+  # subset data (geographically restricted genus)
+  d <- d[startsWith(d$binomial, "Gorsachius"), drop = FALSE]
+  d <- d[d$seasonal != 4, drop = FALSE]
+  # create objects
+  x <- create_spp_aoh_data(
+    x = d,
+    output_dir = tempdir(),
+    cache_dir = cd,
+    habitat_version = hv,
+    use_gdal = FALSE,
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
   # clean up
   unlink(x$path[!is.na(x$path)])
 })

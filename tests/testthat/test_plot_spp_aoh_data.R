@@ -27,7 +27,7 @@ test_that("no base map", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    verbose = FALSE
+    verbose = interactive()
   )
   # create object
   p <- plot_spp_aoh_data(x, zoom = NULL, maptype = NULL)
@@ -64,7 +64,7 @@ test_that("base map", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    verbose = FALSE
+    verbose = interactive()
   )
   # create object
   p <- plot_spp_aoh_data(x, zoom = 3, maptype = "toner")
@@ -100,7 +100,7 @@ test_that("customized", {
     elevation_data = elevation_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    verbose = FALSE
+    verbose = interactive()
   )
   # create object
   p <-

@@ -81,12 +81,12 @@ token in place of the string below.
 
 Please restart your R session. You should now be able to access the IUCN
 Red List API. To verify this, please try running the following *R* code
-and – assuming everything works correctly – you should see the current
-version of the IUCN Red List.
+and – assuming everything works correctly – you should the same output
+below.
 
 ``` r
 # verify access to IUCN Red List API
-rredlist::rl_version()
+is_iucn_rl_api_available()
 ```
 
 If these instructions did not work, please consult the documentation for
@@ -312,14 +312,20 @@ Please cite the *aoh R* package and the underlying datasets used to
 produce Area of Habitat data.
 
 
-    To cite the aoh package and the underlying datasets used to create the
-    Area of Habitat data, please use:
+    Area of Habitat data created using a range of different datasets.
+    Depending on which datasets are used, please cite the aoh package and
+    the relevant datasets using:
 
       Hanson JO (2021) aoh: Create Area of Habitat Data. R package version
       0.0.0.99999. Available at https://github.com/jeffreyhanson/aoh.
 
-      IUCN [insert year]. IUCN Red List of Threatened Species. Version
+      IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.
+
+      BirdLife International and Handbook of the Birds of the World
+      ([insert year]) Bird species distribution maps of the world. Version
+      [insert version]. Available at
+      http://datazone.birdlife.org/species/requestdis.
 
       Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk
       J, and Jetz W (2018) A suite of global, cross-scale topographic

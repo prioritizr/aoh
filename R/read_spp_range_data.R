@@ -43,23 +43,85 @@ read_spp_range_data <- function(path, n = NULL) {
   assertthat::assert_that(
     assertthat::is.string(path),
     assertthat::noNA(path),
-    assertthat::is.readable(path),
-    assertthat::has_extension(path, "zip")
+    assertthat::is.readable(path)
   )
-  # unzip data to temporary directory
+  assertthat::assert_that(
+    isTRUE(
+      assertthat::has_extension(path, "zip") ||
+      assertthat::has_extension(path, "7z")
+    ),
+    msg = "argument to \"path\" should have a \".zip\" or \"7z\" extension"
+  )
+
+  # crea temporary directory
   temp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
   dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
-  utils::unzip(path, exdir = temp_dir)
-  # find shapefile with data
-  input_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE, recursive = TRUE)
-  input_path <- gsub("\\", "/", input_path, fixed = TRUE)
-  if (length(input_path) != 1L) {
+
+  # unzip data to temporary directory
+  if (endsWith(path, ".zip")) {
+    utils::unzip(path, exdir = temp_dir)
+  } else{
+    if (!requireNamespace("archive", quietly = TRUE)) {
+      stop("please install the \"archive\" package to read data from 7z files")
+    }
+    archive::archive_extract(archive = path, dir = temp_dir)
+  }
+
+  # find extracted data
+  shp_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE, recursive = TRUE)
+  shp_path <- gsub("\\", "/", shp_path, fixed = TRUE)
+  gdb_path <- dir(
+    temp_dir, "^.*\\.gdb$", include.dirs = TRUE, full.names = TRUE,
+    recursive = TRUE
+  )
+  gdb_path <- gsub("\\", "/", gdb_path, fixed = TRUE)
+
+  # import data
+  if (length(shp_path) == 1) {
+    out <- read_sf_n(shp_path, n = n)
+  } else if (length(gdb_path) == 1) {
+    ## inspect geodatabase
+    gdb_dir <- sf::st_layers(gdb_path)
+    ## find index for spatial data
+    sp_idx <- which(
+      grepl("species", tolower(gdb_dir$name), fixed = TRUE) &
+      vapply(gdb_dir$geomtype, FUN.VALUE = logical(1), function(x) {
+        grepl("polygon", tolower(x), fixed = TRUE)
+      })
+    )
+    assertthat::assert_that(
+      length(sp_idx) == 1,
+      msg = "argument to \"path\" does not contain species range data"
+    )
+    ## find index for tabular data
+    tbl_idx <- which(
+      grepl("checklist", tolower(gdb_dir$name), fixed = TRUE) &
+      vapply(gdb_dir$geomtype, FUN.VALUE = logical(1), function(x) {
+        any(is.na(x))
+      })
+    )
+    assertthat::assert_that(
+      length(tbl_idx) == 1,
+      msg = "argument to \"path\" does not contain species metadata"
+    )
+    ## import data
+    out <- read_sf_n(gdb_path, gdb_dir$name[sp_idx], n = n)
+    md <- sf::read_sf(gdb_path, gdb_dir$name[tbl_idx])
+    ## ad columns for metadata
+    md <- dplyr::rename(md, SISID = "SISRecID")
+    out <- dplyr::left_join(
+      out,
+      md[, c(setdiff(names(md), names(out)), "SISID"), ],
+      by = "SISID"
+    )
+    out <- dplyr::select(out, -.data$geometry, dplyr::everything())
+  } else {
     stop("argument to \"path\" does not contain spatial data")
   }
-  # import data
-  out <- read_sf_n(input_path, n = n)
+
   # clean up
   unlink(temp_dir, recursive = TRUE, force = TRUE)
+
   # return result
   out
 }

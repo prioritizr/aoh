@@ -44,9 +44,8 @@ the token) and save the file:\preformatted{IUCN_REDLIST_KEY="your_actual_token_n
 
 Please restart your R session. You should now be able to access the IUCN Red
 List API. To verify this, please try running the following \emph{R} code and --
-assuming everything works correctly -- you should see the current version of
-the IUCN Red List:\preformatted{# verify access to IUCN Red List API
-rredlist::rl_version()
+assuming everything works correctly -- you should see \code{TRUE} as the output:\preformatted{# verify access to IUCN Red List API
+is_iucn_rl_available()
 }
 
 If these instructions did not work, please consult the documentation for the
