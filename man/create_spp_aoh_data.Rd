@@ -212,11 +212,12 @@ and will not apply to marine or freshwater species.
 
 Species range data are expected to follow the data format conventions
 for the IUCN Red List (see \href{https://www.iucnredlist.org/resources/mappingstandards}{IUCN Red List documentation} for
-details). Specifically, the argument to \code{x} must an
+details). Specifically, the argument to \code{x} should be an
 \code{\link[sf:sf]{sf::st_sf()}} object with the following columns: \code{id_no} (or \code{SISID}),
-\code{presence},
-\code{origin}, \code{seasonal}, \code{terrestrial} (or \code{terrestial}), \code{freshwater} and
-\code{marine}. Below we provide a brief description of each column:
+\code{presence}, \code{origin}, and \code{seasonal}.
+It can also contain the following optional columns: \code{terrestrial}
+(or \code{terrestial}), \code{freshwater}, and \code{marine}.
+Below we provide a brief description of each column:
 
 \describe{
 
@@ -254,7 +255,8 @@ The Area of Habitat data are produced using the following procedures.
 \enumerate{
 
 \item Global elevation and habitat classification are imported if needed.
-(see \code{\link[=get_elevation_data]{get_elevation_data()}} and \code{\link[=get_habitat_data]{get_habitat_data()}} for details).
+(see \code{\link[=get_global_elevation_data]{get_global_elevation_data()}} and \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}
+for details).
 If these data are not available in the cache directory
 (i.e. argument to \code{cache_dir}), then they are automatically downloaded
 to the cache directory.

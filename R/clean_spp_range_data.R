@@ -157,7 +157,7 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   ## in the "familyname" column
   ## (since we previously converted all column names to lower case)
   if (assertthat::has_name(x, "familyname")) {
-    x <- dplyr::mutate(x, family = familyname)
+    x <- dplyr::mutate(x, family = .data$familyname)
   }
   ## "genus" column is missing
   if (!assertthat::has_name(x, "genus")) {

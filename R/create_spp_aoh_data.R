@@ -136,11 +136,12 @@ NULL
 #' Species range data are expected to follow the data format conventions
 #' for the IUCN Red List (see [IUCN Red List
 #' documentation](https://www.iucnredlist.org/resources/mappingstandards) for
-#' details). Specifically, the argument to `x` must an
+#' details). Specifically, the argument to `x` should be an
 #' [sf::st_sf()] object with the following columns: `id_no` (or `SISID`),
-#' `presence`,
-#' `origin`, `seasonal`, `terrestrial` (or `terrestial`), `freshwater` and
-#' `marine`. Below we provide a brief description of each column:
+#' `presence`, `origin`, and `seasonal`.
+#' It can also contain the following optional columns: `terrestrial`
+#' (or `terrestial`), `freshwater`, and `marine`.
+#' Below we provide a brief description of each column:
 #'
 #' \describe{
 #'
@@ -176,7 +177,8 @@ NULL
 #' \enumerate{
 #'
 #' \item Global elevation and habitat classification are imported if needed.
-#'   (see [get_elevation_data()] and [get_habitat_data()] for details).
+#'   (see [get_global_elevation_data()] and [get_global_habitat_data()]
+#'   for details).
 #'   If these data are not available in the cache directory
 #'   (i.e. argument to `cache_dir`), then they are automatically downloaded
 #'   to the cache directory.

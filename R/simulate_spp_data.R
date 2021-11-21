@@ -211,7 +211,7 @@ simulate_spp_data <- function(n,
     if (isTRUE(stats::runif(1) > 0.7) && (nrow(x) >= 4)) {
       # migratory
       migrant <- TRUE
-      s <- seq(ifelse(runif(1) > 0.5, 1, 2), 4)
+      s <- seq(ifelse(stats::runif(1) > 0.5, 1, 2), 4)
       dist_idx <- sample(order(sf::st_area(x), decreasing = TRUE)[seq_along(s)])
       d1 <- x[dist_idx, , drop = FALSE]
       # add in seasonal metadata
