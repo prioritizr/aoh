@@ -14,7 +14,7 @@ library(rappdirs)
 ## define available datasets
 input_file_options <- c(
   "amphibians" = "AMPHIBIANS.zip",
-  "birds" = "BOTW.zip",
+  "birds" = "BOTW.7z",
   "mammals" = "MAMMALS_TERRESTRIAL_ONLY.zip",
   "reptiles" = "REPTILES.zip"
 )
