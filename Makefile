@@ -14,7 +14,7 @@ clean:
 	rm -rf inst/doc/*
 
 # create built-in data
-data: inst/extdata/world_behrmann_1km_rast.tif inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip
+data: inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip
 
 inst/extdata/world_behrmann_1km_rast.tif: inst/scripts/world-behrmann-1km-rast.R
 	R --slave -e "source('inst/scripts/world-behrmann-1km-rast.R')"
@@ -31,6 +31,9 @@ prep_habitat_data: inst/scripts/preprocess-habitat-data.R
 
 prep_elevation_data: inst/scripts/preprocess-elevation-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/preprocess-elevation-data.R
+
+prep_template_data: inst/scripts/preprocess-world-behrmann-100m.R
+	R CMD BATCH --no-restore --no-save inst/scripts/preprocess-world-behrmann-100m.R
 
 # process aoh data
 aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles

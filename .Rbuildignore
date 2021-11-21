@@ -26,6 +26,7 @@ inst/WORDLIST
 aoh-data.Rout
 preprocess-habitat-data.Rout
 preprocess-elevation-data.Rout
+preprocess-world-behrmann-100m.Rout
 aoh-data-amphibians.Rout
 aoh-data-birds.Rout
 aoh-data-mammals.Rout
