@@ -50,7 +50,13 @@ test_that("terra_fasterize() (small dataset)", {
   # load data
   nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf"))
   nc <- sf::st_transform(nc, sf::st_crs("ESRI:54017"))
-  r <- get_world_behrmann_1km_rast()
+  # create template
+  r <- terra::rast(
+    xmin = -17367531, xmax = 17367569,
+    ymin = -6005523, ymax = 7287077,
+    res = c(10000, 10000),
+    crs = as.character(sf::st_crs("ESRI:54017"))[[2]]
+  )
   # create objects
   x <- terra_fasterize(nc, r)
   y <- terra::rasterize(terra::vect(nc), r)
@@ -73,7 +79,13 @@ test_that("terra_fasterize() (large dataset)", {
   d <- sf::st_union(d)
   d <- sf::st_make_valid(d)
   d <- sf::st_as_sf(d, idx = 1)
-  r <- get_world_behrmann_1km_rast()
+  # create template
+  r <- terra::rast(
+    xmin = -17367531, xmax = 17367569,
+    ymin = -6005523, ymax = 7287077,
+    res = c(10000, 10000),
+    crs = as.character(sf::st_crs("ESRI:54017"))[[2]]
+  )
   # create objects
   x <- terra_fasterize(d, r)
   y <- terra::rasterize(terra::vect(d), r)

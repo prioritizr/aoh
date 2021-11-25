@@ -29,6 +29,7 @@ aoh-data-amphibians.Rout
 aoh-data-birds.Rout
 aoh-data-mammals.Rout
 aoh-data-reptiles.Rout
+builtin-data.Rout
 
 # system files
 .directory

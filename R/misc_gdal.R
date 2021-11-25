@@ -30,6 +30,13 @@ NULL
 #' @param tiled `logical` Value indicating if GeoTIFF files should be tiled.
 #'  Defaults to `FALSE`.
 #'
+#' @param bigtiff `logical` Value indicating the data should be stored in
+#'  BIGTIFF format.
+#'  Defaults to `FALSE`.
+#'
+#' @param compress `character` Value indicating compression format.
+#'  Defaults to `"LZW"`.
+#'
 #' @param ... Arguments passed to [terra::writeRaster()].
 #'
 #' @param verbose `logical` should information be displayed during processing?
@@ -69,6 +76,8 @@ terra_gdal_project <- function(x, y,
                                datatype = "FLT4S",
                                cache_limit = 200,
                                tiled = FALSE,
+                               bigtiff = FALSE,
+                               compress = "LZW",
                                verbose = TRUE,
                                ...) {
   # assert arguments are valid
@@ -76,12 +85,17 @@ terra_gdal_project <- function(x, y,
     inherits(x, "SpatRaster"),
     inherits(y, "SpatRaster"),
     assertthat::is.string(method),
+    assertthat::noNA(method),
     assertthat::is.string(filename),
     assertthat::noNA(filename),
+    assertthat::is.string(compress),
+    assertthat::noNA(compress),
     assertthat::is.string(datatype),
     assertthat::noNA(datatype),
     assertthat::is.flag(tiled),
     assertthat::noNA(tiled),
+    assertthat::is.flag(bigtiff),
+    assertthat::noNA(bigtiff),
     assertthat::is.count(n_threads),
     assertthat::noNA(n_threads),
     assertthat::is.count(cache_limit),
@@ -106,11 +120,14 @@ terra_gdal_project <- function(x, y,
   writeLines(terra::crs(y), f3)
   # compile co
   co <- c(
-    "COMPRESS=LZW",
+    paste0("COMPRESS=", compress),
     paste0("NUM_THREADS=", n_threads)
   )
-  if (tiled) {
+  if (isTRUE(tiled)) {
     co <- c(co, "TILED=YES")
+  }
+  if (isTRUE(bigtiff)) {
+    co <- c(co, "BIGTIFF=YES")
   }
   # main processing
   args <- list(

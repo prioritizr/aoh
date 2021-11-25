@@ -1,4 +1,4 @@
-#' @include internal.R  misc_terra.R misc_sf.R
+#' @include internal.R misc_terra.R misc_sf.R
 NULL
 
 #' Process species Area of Habitat data locally
@@ -15,18 +15,13 @@ NULL
 #'   `"habitat_code"`, `"elevation_lower"`, `"elevation_upper"`,
 #'   `"xmin"`, `"xmax"`, `"ymin"`, `"ymax"`, `"path"`.
 #'
-#' @param elevation_data [terra::rast()] Raster data delineating the
-#'   elevation data.
-#'
-#' @param habitat_data [terra::rast()] Multi-layer raster data delineating the
-#'   coverage of different habitat classes.
-#'
 #' @param ... arguments passed to [terra::writeRaster()] for processing.
 #'
 #' @noRd
 process_spp_aoh_data_on_local <- function(x,
                                           habitat_data,
                                           elevation_data,
+                                          crosswalk_data,
                                           cache_dir = tempdir(),
                                           force = FALSE,
                                           verbose = TRUE,
@@ -81,7 +76,11 @@ process_spp_aoh_data_on_local <- function(x,
     idx <- which(!is.na(x$path))
   }
 
+  # combine habitat and elevation data into a single object
+  raster_data <- terra::rast(list(habitat_data, elevation_data))
+
   # create custom progress bar
+  verbose <- FALSE
   if (isTRUE(verbose)) {
     pb <- cli::cli_progress_bar(
       clear = FALSE,
@@ -107,83 +106,66 @@ process_spp_aoh_data_on_local <- function(x,
       curr_spp_lower_elevation <- x$elevation_lower[i]
       curr_spp_upper_elevation <- x$elevation_upper[i]
       curr_spp_extent <- aoh::sf_terra_ext(x[i, , drop = FALSE])
+      curr_spp_habitat_values <- crosswalk_data$value[
+        which(crosswalk_data$code %in% curr_spp_habitat_codes)
+      ]
 
       ## create temporary directory for species
       curr_spp_tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
       dir.create(curr_spp_tmp_dir, showWarnings = FALSE, recursive = TRUE)
       terra::terraOptions(progress = 0, tempdir = curr_spp_tmp_dir)
 
-      ## calculate total sum of habitat based on codes
-      curr_spp_habitat_data <- terra::app(
+      ## crop data to species range extent
+      cli::cli_progress_step("cropping extent")
+      curr_spp_habitat_data <- terra::crop(
+        x = raster_data,
+        y = curr_spp_extent,
+        snap = "out",
+        wopt = wopt
+      )
+
+      ## convert to presence/absence of suitable habitat
+      cli::cli_progress_step("converting to presence/absence")
+      curr_spp_habitat_data <- terra::lapp(
         terra::crop(
-          x = habitat_data[[curr_spp_habitat_codes]],
+          x = raster_data,
           y = curr_spp_extent,
           snap = "out",
           wopt = wopt
         ),
-        "sum",
-        na.rm = TRUE,
+        function(x, y) {
+          1 * ((x %in% curr_spp_habitat_values) &
+          (y >= curr_spp_lower_elevation) &
+          (y <= curr_spp_upper_elevation))
+        },
         wopt = wopt
       )
-      ## apply altitudinal limits (if needed)
-      if (is.finite(curr_spp_lower_elevation) ||
-          is.finite(curr_spp_upper_elevation)) {
-        ### create altitudinal mask
-        curr_elev_mask <- terra::crop(
-          x = elevation_data,
-          y = terra::ext(curr_spp_habitat_data),
-          snap = "out"
-        )
-        curr_elev_mask <- terra::clamp(
-          x = curr_elev_mask,
-          lower = curr_spp_lower_elevation,
-          upper = curr_spp_upper_elevation,
-          values = FALSE,
-          wopt = wopt
-        )
-        ### apply altitudinal mask
-        curr_spp_habitat_data <- terra::mask(
-          x = curr_spp_habitat_data,
-          mask = curr_elev_mask,
-          maskvalue = NA_integer_,
-          updatevalue = 0,
-          wopt = wopt
-        )
-      }
 
-      ## apply mask
+      ## create mask for species range
+      cli::cli_progress_step("creating mask")
+      curr_spp_mask <- terra_fasterize(
+        sf = x[i, ], raster = curr_spp_habitat_data
+      )
+
+      ## mask data by species range
+      cli::cli_progress_step("masking to range")
       curr_spp_habitat_data <- terra::mask(
         x = curr_spp_habitat_data,
-        mask = terra_fasterize(sf = x[i, ], raster = curr_spp_habitat_data),
+        mask = curr_spp_mask,
         updatevalue = NA_integer_,
-        wopt = wopt
-      )
-
-      ## clamp data
-      curr_spp_habitat_data <- terra::clamp(
-        x = curr_spp_habitat_data,
-        lower = 0, upper = 1000, values = TRUE,
-        wopt = wopt
-      )
-
-      ## rescale data to proportion
-      curr_spp_habitat_data <- terra::app(
-        x = curr_spp_habitat_data,
-        fun = function(x) x / 1000,
-        wopt = list(datatype = "FLT4S")
-      )
-
-      ## save data
-      terra::writeRaster(
-        x = curr_spp_habitat_data,
         filename = curr_spp_path,
-        overwrite = TRUE
+        wopt = wopt
       )
-      file.exists(curr_spp_path)
+
+      ## verify success
+      assertthat::assert_that(
+        file.exists(curr_spp_path),
+        msg = paste("failed to save raster:", curr_spp_path)
+      )
 
       ## clean up
       unlink(curr_spp_tmp_dir, force = TRUE, recursive = TRUE)
-      suppressWarnings(rm(curr_spp_habitat_data, curr_elev_mask))
+      suppressWarnings(rm(curr_spp_habitat_data))
       gc()
 
       ## update progress bar if needed

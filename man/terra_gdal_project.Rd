@@ -13,6 +13,8 @@ terra_gdal_project(
   datatype = "FLT4S",
   cache_limit = 200,
   tiled = FALSE,
+  bigtiff = FALSE,
+  compress = "LZW",
   verbose = TRUE,
   ...
 )
@@ -42,6 +44,13 @@ Defaults to 200.}
 
 \item{tiled}{\code{logical} Value indicating if GeoTIFF files should be tiled.
 Defaults to \code{FALSE}.}
+
+\item{bigtiff}{\code{logical} Value indicating the data should be stored in
+BIGTIFF format.
+Defaults to \code{FALSE}.}
+
+\item{compress}{\code{character} Value indicating compression format.
+Defaults to \code{"LZW"}.}
 
 \item{verbose}{\code{logical} should information be displayed during processing?
 Defaults to \code{TRUE}.}

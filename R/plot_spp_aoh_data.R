@@ -101,8 +101,10 @@ NULL
 #'   ## create customized map with basemap
 #'   p3 <-
 #'     plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "toner") +
-#'     scale_fill_viridis_c() +
-#'     scale_color_manual(values = c("range" = "blue")) +
+#'     scale_fill_manual(
+#'       values = c("suitable" = "blue", "not suitable" = "transparent")
+#'     ) +
+#'     scale_color_manual(values = c("range" = "red")) +
 #'     scale_size_manual(values = c("range" = 10)) +
 #'     theme(
 #'       strip.text = ggplot2::element_text(color = "white"),
@@ -183,6 +185,7 @@ plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
     d <- terra::as.data.frame(r[[1]], xy = TRUE, na.rm = TRUE)
     names(d) <- c("x", "y", "value")
     d <- d[is.finite(d$value), , drop = FALSE]
+    d$value <- dplyr::if_else(d$value > 0.5, "suitable", "not suitable")
     d$binomial <- x$binomial[[i]]
     d$filename <- x$filename[[i]]
     ## return list with data

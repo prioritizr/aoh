@@ -11,10 +11,11 @@ create_spp_aoh_data(
   spp_habitat_data = NULL,
   elevation_data = NULL,
   habitat_data = NULL,
-  template_data = get_world_behrmann_1km_rast(),
+  crosswalk_data = NULL,
   cache_dir = tempdir(),
   iucn_version = "latest",
   habitat_version = "latest",
+  elevation_version = "latest",
   key = NULL,
   force = FALSE,
   n_threads = 1,
@@ -58,34 +59,29 @@ Defaults to \code{NULL} such that data are automatically obtained from the
 latest version of the \href{https://www.iucnredlist.org}{IUCN Red List}.}
 
 \item{elevation_data}{\code{\link[terra:rast]{terra::rast()}} Raster data delineating the
-worldwide elevation data (e.g. Amatulli \emph{et al.} 2018).
+worldwide elevation data (e.g. Robinson \emph{et al.} 2014).
 Defaults to \code{NULL} such that data
 are automatically obtained (using \code{\link[=get_global_elevation_data]{get_global_elevation_data()}}).
 If the data are obtained automatically, then a preprocessed version
 of the habitat data will be used to reduce processing time.}
 
-\item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Multi-layer raster data delineating the
-coverage of different habitat classes across world
+\item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Raster data indicating the
+presence of different habitat classes across world
 (e.g. Jung \emph{et al.} 2020a,b).
-Each layer should correspond to a different habitat class,
-and the name of each layer should contain a unique code used to identify
-which places contain suitable habitat for a given species
-(per the \code{"code"} column in the the argument to \code{spp_habitat_data}).
-For each layer, pixel values should indicate the percentage of available
-an available habitat class.
-\strong{Critically, a value of 1000 should indicate 100\%, and a value of 0
-should indicate 0\%.}
-Defaults to \code{NULL} such that data
-are automatically obtained (using \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).
-If the data are obtained automatically, then a preprocessed version
-of the habitat data will be used to reduce processing time.}
+Each pixel should contain an \code{integer} value that specifies which
+habitat class is present within the pixel
+(based on the argument to \code{crosswalk_data}).
+Defaults to \code{NULL} such that data are automatically obtained (using
+\code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).}
 
-\item{template_data}{\code{\link[terra:rast]{terra::rast()}} Template raster specifying the
-resolution, coordinate reference system, and dimensionality for the
-output raster files.
-Defaults to \code{\link[=get_world_behrmann_1km_rast]{get_world_behrmann_1km_rast()}} which is a global 1 km
-resolution raster under the World Behrmann coordinate reference system
-(ESRI:54017).}
+\item{crosswalk_data}{\code{\link[=data.frame]{data.frame()}} Table containing data that indicate
+which pixel values in the argument to \code{habitat_data} correspond to which
+IUCN habitat classification codes. The argument should contain
+a \code{code} column that specifies a set of IUCN habitat classification
+codes (see \code{\link[=iucn_habitat_data]{iucn_habitat_data()}}, and a \code{value} column that specifies
+different values in the argument to \code{habitat_data}.
+Defaults to \code{NULL} such that the crosswalk for the default habitat
+data are used (i.e. \code{\link[=crosswalk_jung_data]{crosswalk_jung_data()}}).}
 
 \item{cache_dir}{\code{character} folder path for downloading and caching data.
 By default, a temporary directory is used (i.e. \code{tempdir()}).
@@ -105,6 +101,15 @@ the \code{version} parameter in the \code{\link[=get_global_habitat_data]{get_gl
 for further details.
 This parameter is only used if habitat data are obtained
 automatically (i.e. the argument to \code{habitat_data} is \code{NULL}).
+Defaults to \code{"latest"} such that the most recent version of the dataset is
+used if data need to be obtained.}
+
+\item{elevation_version}{\code{character} Version of the
+elevation dataset that should be used. See documentation for the
+the \code{version} parameter in the \code{\link[=get_global_elevation_data]{get_global_elevation_data()}} function
+for further details.
+This parameter is only used if elevation data are obtained
+automatically (i.e. the argument to \code{elevation_data} is \code{NULL}).
 Defaults to \code{"latest"} such that the most recent version of the dataset is
 used if data need to be obtained.}
 
@@ -189,17 +194,13 @@ the Area of Habitat data.}
 the Area of Habitat data.}
 \item{path}{\code{character} file paths for Area of Habitat data
 (in GeoTIFF format).
-The Area of Habitat datasets denote the proportion of land
-inside different grid cells that contain suitable habitat for
+The Area of Habitat datasets denote the presence (using a value of 1)
+and absence (using a value of 0) inside grid cells within
 species' seasonal distribution.
-Thus a grid cell with a value of 0 has 0\% of its spatial extent covered by
-suitable habitat, a value of 1 has 100\% of its spatial extent covered by
-suitable habitat, and a missing (\code{NA}) value
-means that the cell is located outside of the species'
-distribution (per the geographic range data).
+Grid cells that are located outside of a species' distribution
+are assigned a missing (\code{NA}) value.
 File paths that are denoted with missing (\code{NA}) values correspond to
-species distributions that were not processed (e.g. due to lack of habitat
-data).}
+species distributions that were not processed (e.g. due to lack of data).}
 }
 }
 \description{
@@ -319,19 +320,6 @@ lack specific habitat affiliation data, the habitat affiliation data
 for these \emph{resident} distributions are assigned based on habitat
 affiliations for the species' \emph{breeding} distribution.
 
-\item Preliminary geoprocessing routines are used to prepare the habitat and
-elevation data for subsequent processing. These routines involve
-(i) cropping the template data based on the maximum
-extent of the species' ranges;
-(ii) aligning the habitat data to conform to the same spatial
-properties as the template data; and
-(iii) aligning the elevation data to conform to the same spatial
-properties as the template data.
-Specifically, data alignment procedures involve reprojecting the
-the data to same coordinate reference system as the template data
-(if needed), and cropping their spatial extent to match
-that of the template data (if needed).
-
 \item The Area of Habitat data are then generated for each seasonal
 distribution of each species. For a given species' distribution,
 the data are generated by
@@ -357,7 +345,7 @@ for the species' distribution.
 Note that species' distributions that already have Area of Habitat data
 available in the output directory are skipped.
 
-\item Post-processing routines are used to prepare the returned object.
+\item Post-processing routines are used to prepare the results.
 These routines involve updating the collated species data to include
 file names and spatial metadata for the Area of Habitat data.
 
@@ -411,11 +399,6 @@ plot_spp_aoh_data(spp_aoh_data)
 }
 }
 \references{
-Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
-Jetz W (2018) A suite of global, cross-scale topographic variables for
-environmental and biodiversity modeling. \emph{Scientific Data}, 5:180040.
-Available at \url{https://doi.org/10.1038/sdata.2018.40}.
-
 Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
@@ -432,4 +415,10 @@ Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
 \emph{Zenodo Digital Repository}.
 Available at \url{https://doi.org/10.5281/zenodo.4058819}.
+
+Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
+global, void-free, multi-scale smoothed, 90m digital elevation model from
+fused ASTER and SRTM data.
+\emph{ISPRS Journal of Photogrammetry and Remote Sensing}, 87:57--67.
+Available at \url{https://doi.org/10.1016/j.isprsjprs.2013.11.002}
 }

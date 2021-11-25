@@ -23,6 +23,7 @@ inst/WORDLIST
 ^_pkgdown\.yml$
 ^\.github$
 .covrignore
+data-raw/*.csv
 aoh-data.Rout
 preprocess-habitat-data.Rout
 preprocess-elevation-data.Rout
@@ -31,3 +32,4 @@ aoh-data-amphibians.Rout
 aoh-data-birds.Rout
 aoh-data-mammals.Rout
 aoh-data-reptiles.Rout
+builtin-data.Rout

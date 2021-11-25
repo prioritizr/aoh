@@ -24,8 +24,14 @@ reference:
       - read_spp_range_data
       - starts_with("get_")
 
-  - title: IUCN habitat codes
-    desc: Functions for IUCN habitat codes given certain criteria
+  - title: IUCN habitat data
+    desc: Data for IUCN habitat classification codes
+    contents:
+      - iucn_habitat_data
+      - starts_with("crosswalk")
+
+  - title: IUCN habitat code
+    desc: Functions to extract IUCN habitat classification codes
     contents:
       - starts_with("iucn_habitat_codes")
 

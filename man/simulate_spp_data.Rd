@@ -24,24 +24,17 @@ simulate_spp_data(
 \item{boundary_data}{\code{\link[sf:sf]{sf::st_sf()}} Spatial object delineating the
 spatial extent and boundary for simulating species ranges.}
 
-\item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Multi-layer raster data delineating the
-coverage of different habitat classes across world
+\item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Raster data indicating the
+presence of different habitat classes across world
 (e.g. Jung \emph{et al.} 2020a,b).
-Each layer should correspond to a different habitat class,
-and the name of each layer should contain a unique code used to identify
-which places contain suitable habitat for a given species
-(per the \code{"code"} column in the the argument to \code{spp_habitat_data}).
-For each layer, pixel values should indicate the percentage of available
-an available habitat class.
-\strong{Critically, a value of 1000 should indicate 100\%, and a value of 0
-should indicate 0\%.}
-Defaults to \code{NULL} such that data
-are automatically obtained (using \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).
-If the data are obtained automatically, then a preprocessed version
-of the habitat data will be used to reduce processing time.}
+Each pixel should contain an \code{integer} value that specifies which
+habitat class is present within the pixel
+(based on the argument to \code{crosswalk_data}).
+Defaults to \code{NULL} such that data are automatically obtained (using
+\code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).}
 
 \item{elevation_data}{\code{\link[terra:rast]{terra::rast()}} Raster data delineating the
-worldwide elevation data (e.g. Amatulli \emph{et al.} 2018).
+worldwide elevation data (e.g. Robinson \emph{et al.} 2014).
 Defaults to \code{NULL} such that data
 are automatically obtained (using \code{\link[=get_global_elevation_data]{get_global_elevation_data()}}).
 If the data are obtained automatically, then a preprocessed version

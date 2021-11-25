@@ -7,7 +7,6 @@
 get_global_habitat_data(
   dir = tempdir(),
   version = "latest",
-  preprocessed = TRUE,
   force = FALSE,
   verbose = TRUE
 )
@@ -25,14 +24,6 @@ Digital Object Identifier of the specific version required (e.g.
 Defaults to \code{"latest"} such that the latest
 release of the dataset with available habitat data is used.}
 
-\item{preprocessed}{\code{logical} Should a pre-processed version of the
-dataset be downloaded?
-If so, the data are downloaded
-from a GitHub repository
-(\url{https://github.com/prioritizr/aoh/releases/tag/data}).
-Otherwise, data are downloaded from original
-Zenodo Digital Repository (Jung \emph{et al.} 2020b).}
-
 \item{force}{\code{logical} should the data be downloaded even if the
 the data are already available?
 Defaults to \code{FALSE}.}
@@ -42,30 +33,21 @@ data?
 Defaults to \code{TRUE}.}
 }
 \value{
-A \code{\link[terra:rast]{terra::rast()}} object containing the level 2 habitat
-fractional coverage data.
-These data are available at the 1 km \eqn{\times} 1 km resolution.
-Each layer corresponds to a different habitat type, and each pixel
-denotes the fraction of the pixel that contains a given habitat type.
-\strong{Note that pixel values are scaled to between 0 and 1000, such that
-a value of 0 indicates 0\% coverage of a habitat type, and a value of
-1000 indicates 100\% coverage of a habitat type.}
+A \code{\link[terra:rast]{terra::rast()}} object containing the habitat data
+(100 m resolution). Pixel values indicate the habitat classification codes.
 }
 \description{
-Import habitat classification data produced by Jung \emph{et al.} (2020a).
+Import habitat classification data derived from Jung \emph{et al.} (2020a).
 If data are not available locally, they are downloaded from
 an online repository.
 }
 \details{
-The preprocessed version of the habitat data was produced by
-version was produced by projecting the data to conform
-with the default template raster for processing Area of Habitat data
-(see \code{\link[=get_world_behrmann_1km_rast]{get_world_behrmann_1km_rast()}}).
-Additionally, data were clamped to ensure values range between
-valid values (i.e. from 0 to 1000).
-The preprocessed version of the habitat data can be help
-run time when creating the Area of Habitat data with
-the default template raster.
+The data were produced by obtaining the level 2 habitat
+classification data from the
+\href{https://github.com/10.5281/zenodo.3666245}{Zenodo repository}
+(Jung \emph{et al.} 2020b), and resampling the data (using nearest neighbor
+interpolation) to the World Behrmannn coordinate reference
+systems (ESRI:54017).
 }
 \examples{
 \dontrun{
@@ -98,4 +80,8 @@ Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
 \emph{Zenodo Digital Repository}.
 Available at \url{https://doi.org/10.5281/zenodo.4058819}.
+}
+\seealso{
+See \code{\link[=jung_crosswalk]{jung_crosswalk()}} for details on which pixel values correspond
+to which habitat classification codes.
 }

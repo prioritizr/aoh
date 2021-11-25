@@ -3,6 +3,7 @@
 n_spp <- 10
 country_names <- c("spain", "portugal")
 habitat_version <- "10.5281/zenodo.4058819"
+elevation_version <- "10.5281/zenodo.5719984"
 cache_dir <- rappdirs::user_data_dir("aoh")
 
 ## load packages
@@ -22,9 +23,11 @@ if (!require(rnaturalearthhires)) {
 
 ## import data
 global_habitat_data <- get_global_habitat_data(
-  version = habitat_version, dir = cache_dir
+  dir = cache_dir, version = habitat_version,
 )
-global_elevation_data <- get_global_elevation_data(dir = cache_dir)
+global_elevation_data <- get_global_elevation_data(
+  dir = cache_dir, version = elevation_version
+)
 
 # Main processing
 ## simulate spatial boundary based on Portugal and Spain borders
@@ -50,6 +53,7 @@ sim_habitat_data <-
     snap = "out",
     y = {
       sim_boundary_data %>%
+      sf::st_buffer(10000) %>%
       sf::st_bbox() %>%
       sf::st_as_sfc() %>%
       sf::st_transform(terra_st_crs(global_habitat_data)) %>%
@@ -57,8 +61,6 @@ sim_habitat_data <-
       sf_terra_ext()
     }
   )
-idx <- terra::global(sim_habitat_data, "max", na.rm = TRUE)[[1]]
-sim_habitat_data <- sim_habitat_data[[which(is.finite(idx))]]
 
 ## create elevation data based on spatial boundary
 sim_elevation_data <-
@@ -67,6 +69,7 @@ sim_elevation_data <-
     snap = "out",
     y = {
       sim_boundary_data %>%
+      sf::st_buffer(10000) %>%
       sf::st_bbox() %>%
       sf::st_as_sfc() %>%
       sf::st_transform(terra_st_crs(global_elevation_data)) %>%
@@ -75,12 +78,21 @@ sim_elevation_data <-
     }
   )
 
+## aggregate data to 1 x 1 km
+sim_habitat_data <- terra::aggregate(
+  sim_habitat_data, fact = 10, fun = "modal"
+)
+sim_elevation_data <- terra::aggregate(
+  sim_elevation_data, fact = 10, fun = "mean"
+)
+
 ## simulate data
 sim_data <- simulate_spp_data(
   n = n_spp,
   boundary_data = sim_boundary_data,
   habitat_data = sim_habitat_data,
-  elevation_data = sim_elevation_data
+  elevation_data = sim_elevation_data,
+  crosswalk_data = crosswalk_jung_data
 )
 
 ## verify migratory species present
@@ -92,18 +104,20 @@ assertthat::assert_that(
 # Exports
 ## save boundary data
 sf::write_sf(
-  sim_boundary_data, "inst/testdata/sim_boundary_data.gpkg", overwrite = TRUE
+  sim_boundary_data, "inst/testdata/sim_boundary_data.gpkg",
+  overwrite = TRUE
 )
 
 ## save habitat data
 terra::writeRaster(
-  sim_elevation_data, "inst/testdata/sim_elevation_data.tif", overwrite = TRUE
+  sim_elevation_data, "inst/testdata/sim_elevation_data.tif",
+   overwrite = TRUE,  datatype = "INT2S"
 )
 
 ## save elevation data
 terra::writeRaster(
   sim_habitat_data, "inst/testdata/sim_habitat_data.tif",
-  names = names(sim_habitat_data), overwrite = TRUE, datatype = "INT2U"
+  overwrite = TRUE, datatype = "INT2U"
 )
 
 ## save range data
