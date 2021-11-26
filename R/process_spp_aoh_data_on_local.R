@@ -23,6 +23,8 @@ process_spp_aoh_data_on_local <- function(x,
                                           elevation_data,
                                           crosswalk_data,
                                           cache_dir = tempdir(),
+                                          engine = "terra",
+                                          n_threads = 1,
                                           force = FALSE,
                                           verbose = TRUE,
                                           ...) {
@@ -49,6 +51,9 @@ process_spp_aoh_data_on_local <- function(x,
     terra::compareGeom(habitat_data[[1]], elevation_data, stopOnError = FALSE),
     assertthat::is.string(cache_dir),
     assertthat::noNA(cache_dir),
+    assertthat::is.string(engine),
+    assertthat::noNA(engine),
+    engine %in% c("terra", "gdal", "grass"),
     assertthat::is.writeable(cache_dir),
     assertthat::is.flag(force),
     assertthat::noNA(force),
@@ -76,11 +81,7 @@ process_spp_aoh_data_on_local <- function(x,
     idx <- which(!is.na(x$path))
   }
 
-  # combine habitat and elevation data into a single object
-  raster_data <- terra::rast(list(habitat_data, elevation_data))
-
   # create custom progress bar
-  verbose <- FALSE
   if (isTRUE(verbose)) {
     pb <- cli::cli_progress_bar(
       clear = FALSE,
@@ -102,71 +103,62 @@ process_spp_aoh_data_on_local <- function(x,
 
       ## extract data for current iteration
       curr_spp_path <- x$path[i]
-      curr_spp_habitat_codes <- x$habitat_code[[i]]
       curr_spp_lower_elevation <- x$elevation_lower[i]
       curr_spp_upper_elevation <- x$elevation_upper[i]
-      curr_spp_extent <- aoh::sf_terra_ext(x[i, , drop = FALSE])
+      curr_spp_extent <- terra::ext(c(
+        xmin = x$xmin[i], xmax = x$xmax[i],
+        ymin = x$ymin[i], ymax = x$ymax[i]
+      ))
       curr_spp_habitat_values <- crosswalk_data$value[
-        which(crosswalk_data$code %in% curr_spp_habitat_codes)
+        which(crosswalk_data$code %in% x$habitat_code[[i]])
       ]
 
-      ## create temporary directory for species
-      curr_spp_tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
-      dir.create(curr_spp_tmp_dir, showWarnings = FALSE, recursive = TRUE)
-      terra::terraOptions(progress = 0, tempdir = curr_spp_tmp_dir)
-
-      ## crop data to species range extent
-      cli::cli_progress_step("cropping extent")
-      curr_spp_habitat_data <- terra::crop(
-        x = raster_data,
-        y = curr_spp_extent,
-        snap = "out",
-        wopt = wopt
-      )
-
-      ## convert to presence/absence of suitable habitat
-      cli::cli_progress_step("converting to presence/absence")
-      curr_spp_habitat_data <- terra::lapp(
-        terra::crop(
-          x = raster_data,
-          y = curr_spp_extent,
-          snap = "out",
+      ## process data using engine
+      if (identical(engine, "terra")) {
+        engine_spp_aoh_terra(
+          range_data = x[i, ],
+          habitat_data = habitat_data,
+          elevation_data = elevation_data,
+          habitat_values = curr_spp_habitat_values,
+          lower_elevation = curr_spp_lower_elevation,
+          upper_elevation = curr_spp_upper_elevation,
+          extent = curr_spp_extent,
+          path = curr_spp_path,
           wopt = wopt
-        ),
-        function(x, y) {
-          1 * ((x %in% curr_spp_habitat_values) &
-          (y >= curr_spp_lower_elevation) &
-          (y <= curr_spp_upper_elevation))
-        },
-        wopt = wopt
-      )
-
-      ## create mask for species range
-      cli::cli_progress_step("creating mask")
-      curr_spp_mask <- terra_fasterize(
-        sf = x[i, ], raster = curr_spp_habitat_data
-      )
-
-      ## mask data by species range
-      cli::cli_progress_step("masking to range")
-      curr_spp_habitat_data <- terra::mask(
-        x = curr_spp_habitat_data,
-        mask = curr_spp_mask,
-        updatevalue = NA_integer_,
-        filename = curr_spp_path,
-        wopt = wopt
-      )
+        )
+      } else if (identical(engine, "gdal")) {
+        engine_spp_aoh_gdal(
+          range_data = x[i, ],
+          habitat_data = habitat_data,
+          elevation_data = elevation_data,
+          habitat_values = curr_spp_habitat_values,
+          lower_elevation = curr_spp_lower_elevation,
+          upper_elevation = curr_spp_upper_elevation,
+          extent = curr_spp_extent,
+          path = curr_spp_path,
+          wopt = wopt,
+          n_threads = n_threads
+        )
+      }  else if (identical(engine, "grass")) {
+        engine_spp_aoh_grass(
+          range_data = x[i, ],
+          habitat_data = habitat_data,
+          elevation_data = elevation_data,
+          habitat_values = curr_spp_habitat_values,
+          lower_elevation = curr_spp_lower_elevation,
+          upper_elevation = curr_spp_upper_elevation,
+          extent = curr_spp_extent,
+          path = curr_spp_path,
+          wopt = wopt,
+          n_threads = n_threads
+        )
+      }
 
       ## verify success
       assertthat::assert_that(
         file.exists(curr_spp_path),
         msg = paste("failed to save raster:", curr_spp_path)
       )
-
-      ## clean up
-      unlink(curr_spp_tmp_dir, force = TRUE, recursive = TRUE)
-      suppressWarnings(rm(curr_spp_habitat_data))
-      gc()
 
       ## update progress bar if needed
       if (isTRUE(verbose)) {

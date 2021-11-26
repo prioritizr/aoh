@@ -9,6 +9,7 @@ simulate_spp_data(
   boundary_data,
   habitat_data = NULL,
   elevation_data = NULL,
+  crosswalk_data = NULL,
   rf_model_scale_min = 1e+05,
   rf_model_scale_max = 2e+05,
   cache_dir = tempdir(),
@@ -39,6 +40,15 @@ Defaults to \code{NULL} such that data
 are automatically obtained (using \code{\link[=get_global_elevation_data]{get_global_elevation_data()}}).
 If the data are obtained automatically, then a preprocessed version
 of the habitat data will be used to reduce processing time.}
+
+\item{crosswalk_data}{\code{\link[=data.frame]{data.frame()}} Table containing data that indicate
+which pixel values in the argument to \code{habitat_data} correspond to which
+IUCN habitat classification codes. The argument should contain
+a \code{code} column that specifies a set of IUCN habitat classification
+codes (see \code{\link[=iucn_habitat_data]{iucn_habitat_data()}}, and a \code{value} column that specifies
+different values in the argument to \code{habitat_data}.
+Defaults to \code{NULL} such that the crosswalk for the default habitat
+data are used (i.e. \code{\link[=crosswalk_jung_data]{crosswalk_jung_data()}}).}
 
 \item{rf_model_scale_min}{\code{numeric} Minimum scaling parameter used
 to control the smallest possible size of simulated species ranges.

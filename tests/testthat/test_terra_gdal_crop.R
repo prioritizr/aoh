@@ -1,4 +1,4 @@
-context("terra_gdal_disaggregate()")
+context("terra_gdal_crop()")
 
 test_that("single core", {
   skip_on_cran()

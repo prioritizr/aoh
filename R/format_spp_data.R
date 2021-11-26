@@ -223,7 +223,9 @@ format_spp_data <- function(x,
       ) {
         ex <- terra::ext(
           terra::crop(
-            x = empty_template, y = sf_terra_ext(x[i, ]), snap = "out"
+            x = empty_template,
+            y = sf_terra_ext(x[i, ]),
+            snap = "out"
           )
         )
       } else {

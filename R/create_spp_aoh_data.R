@@ -127,11 +127,10 @@ NULL
 #'   Defaults to [iucn_habitat_codes_marine()], such that marine
 #'   habitats are excluded.
 #'
-#' @param use_gdal `logical` indicating if GDAL should be used for
-#'   projecting and cropping raster data?
-#'   If GDAL is installed on the system and the \pkg{gdalUtils} package
-#'   is installed, this can dramatically reduce run time.
-#'   Defaults to `TRUE` if GDAL is available (per [is_gdal_available()]).
+#' @param engine `character` value indicating the name of the software
+#'   to use for data processing.
+#'   Available options include `"terra"`, `"gdal"`, or `"grass"`.
+#'   Defaults to `"terra"`.
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
@@ -408,7 +407,7 @@ create_spp_aoh_data <- function(x,
                                 key = NULL,
                                 force = FALSE,
                                 n_threads = 1,
-                                use_gdal = is_gdal_available(),
+                                engine = "terra",
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
@@ -426,6 +425,9 @@ create_spp_aoh_data <- function(x,
     assertthat::noNA(n_threads),
     assertthat::is.flag(force),
     assertthat::noNA(force),
+    assertthat::is.string(engine),
+    assertthat::noNA(engine),
+    engine %in% c("terra", "gdal", "grass"),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
@@ -436,10 +438,16 @@ create_spp_aoh_data <- function(x,
       "argument to \"x\" does not have a column named \"id_no\" or \"SISID\""
     )
   )
-  if (isTRUE(use_gdal)) {
+  if (identical(engine, "gdal")) {
     assertthat::assert_that(
       is_gdal_available(),
-      msg = "can't use GDAL because it's not available."
+      msg = "can't use GDAL for processing because it's not available."
+    )
+  }
+  if (identical(engine, "grass")) {
+    assertthat::assert_that(
+      is_grass_available(),
+      msg = "can't use GRASS for processing because it's not available."
     )
   }
   # verify access to IUCN Red List API
@@ -499,7 +507,8 @@ create_spp_aoh_data <- function(x,
   ## verify rasters match
   assertthat::assert_that(
     terra::compareGeom(
-      elevation_data, habitat_data, res = TRUE, stopiffalse = FALSE
+      elevation_data, habitat_data,
+      res = TRUE, stopiffalse = FALSE
     ),
     msg = paste(
       "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
@@ -679,6 +688,7 @@ create_spp_aoh_data <- function(x,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_data,
     cache_dir = cache_dir,
+    engine = engine,
     force = force,
     verbose = verbose,
     datatype = "INT1U"

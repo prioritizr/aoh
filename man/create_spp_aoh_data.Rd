@@ -19,7 +19,7 @@ create_spp_aoh_data(
   key = NULL,
   force = FALSE,
   n_threads = 1,
-  use_gdal = is_gdal_available(),
+  engine = "terra",
   omit_habitat_codes = iucn_habitat_codes_marine(),
   verbose = TRUE
 )
@@ -132,11 +132,10 @@ As such, this parameter will have no influence when using preprocessed
 datasets.
 Defaults to 1.}
 
-\item{use_gdal}{\code{logical} indicating if GDAL should be used for
-projecting and cropping raster data?
-If GDAL is installed on the system and the \pkg{gdalUtils} package
-is installed, this can dramatically reduce run time.
-Defaults to \code{TRUE} if GDAL is available (per \code{\link[=is_gdal_available]{is_gdal_available()}}).}
+\item{engine}{\code{character} value indicating the name of the software
+to use for data processing.
+Available options include \code{"terra"}, \code{"gdal"}, or \code{"grass"}.
+Defaults to \code{"terra"}.}
 
 \item{omit_habitat_codes}{\code{character} Habitat classification codes
 to omit from resulting Area of Habitat data.

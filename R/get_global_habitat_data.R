@@ -39,7 +39,7 @@ NULL
 #'  (100 m resolution). Pixel values indicate the habitat classification codes.
 #'
 #' @seealso
-#' See [jung_crosswalk()] for details on which pixel values correspond
+#' See [crosswalk_jung_data()] for details on which grid values correspond
 #' to which habitat classification codes.
 #'
 #' @references

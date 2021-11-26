@@ -94,3 +94,22 @@ is_gdal_calc_available <- function() {
   if (inherits(v, "try-error")) return(FALSE)
   TRUE
 }
+
+#' Is GRASS available?
+#'
+#' Check if GRASS is available for processing data.
+#'
+#' @details
+#' The function verifies that GRASS can be executed from the command line
+#' (i.e. via `system("grass --version")`).
+#
+#' @return A `logical` indicating if GRASS is available or not.
+#'
+#' @examples
+#' # check if GRASS is available?
+#' print(is_grass_available())
+#'
+#' @export
+is_grass_available <- function() {
+  !inherits(system("grass --version", intern = TRUE), "try-error")
+}

@@ -82,6 +82,6 @@ terrestrial habitat types (insert version) [Data set].
 Available at \url{https://doi.org/10.5281/zenodo.4058819}.
 }
 \seealso{
-See \code{\link[=jung_crosswalk]{jung_crosswalk()}} for details on which pixel values correspond
+See \code{\link[=crosswalk_jung_data]{crosswalk_jung_data()}} for details on which grid values correspond
 to which habitat classification codes.
 }
