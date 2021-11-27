@@ -19,6 +19,9 @@ input_file_options <- c(
   "reptiles" = "REPTILES.zip"
 )
 
+## define processing options
+engine <- "gdal"
+
 ### parse command-line arguments
 cmd_args <- commandArgs(trailingOnly = TRUE)
 assertthat::assert_that(
@@ -69,8 +72,10 @@ spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 
 ## create data
 result_data <- create_spp_aoh_data(
-  x = spp_data, output_dir = output_dir, cache_dir = cache_dir,
-  use_gdal = FALSE
+  x = spp_data,
+  output_dir = output_dir,
+  cache_dir = cache_dir,
+  engine = "terra"
 )
 
 # Exports
