@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2021-11-27</h4>
+            <h4 data-toc-skip class="date">2021-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/master/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -178,10 +178,10 @@
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1  4657        1 /tmp/Rtmp6wDAMT/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-## 2 58622        1 /tmp/Rtmp6wDAMT/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-## 3 59448        1 /tmp/Rtmp6wDAMT/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-## 4   979        1 /tmp/Rtmp6wDAMT/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
+## 1  4657        1 /tmp/Rtmp5J1JBW/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+## 2 58622        1 /tmp/Rtmp5J1JBW/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+## 3 59448        1 /tmp/Rtmp5J1JBW/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+## 4   979        1 /tmp/Rtmp5J1JBW/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -251,9 +251,9 @@
 ## resolution  : 100, 100  (x, y)
 ## extent      : -914731, 318769, 4364277, 5066877  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## sources     : spat_PNFJRBtPfOje9M2.tif  
-##               spat_Z05IFBznlt2hjnE.tif  
-##               spat_wkOyEgApD3FYHU2.tif  
+## sources     : memory  
+##               memory  
+##               memory  
 ##               ... and 1 more source(s)
 ## names       : AOH_4657_1, AOH_58622_1, AOH_59448_1, AOH_979_1 
 ## min values  :          0,           0,           0,         0 
@@ -322,7 +322,7 @@
 </li>
 <li>
 <p><strong>It’s taking too long to generate Area of Habitat data, how can I speed it up?</strong></p>
-<p>The <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> function can use different software engines for data processing (specified via the <code>engine</code> parameter). Although each engine produces the same results, some engines are more computationally efficient than others. The default <code>"terra"</code> engine uses the <em>terra</em> package for processing. Although this engine is easy to install and fast for small datasets, it does not scale well for larger datasets. It is generally recommended to use the <code>"gdal"</code> engine for both small and moderately sized datasets. Additionally, the <code>"grass"</code> engine is recomended when processing data for many species across very large spatial extents. For instructions on installing dependencies for the <code>"gdal"</code> and <code>"grass"</code> engines, please see the README file.</p>
+<p>The <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> function can use different software engines for data processing (specified via the <code>engine</code> parameter). Although each engine produces the same results, some engines are more computationally efficient than others. The default <code>"terra"</code> engine uses the <em>terra</em> package for processing. Although this engine is easy to install and fast for small datasets, it does not scale well for larger datasets. It is generally recommended to use the <code>"gdal"</code> engine for both small and moderately sized datasets. Additionally, the <code>"grass"</code> engine is recommended when processing data for many species across very large spatial extents. For instructions on installing dependencies for the <code>"gdal"</code> and <code>"grass"</code> engines, please see the README file.</p>
 </li>
 <li>
 <p><strong>The output Area of Habitat data have different spatial extents, how can I combine them together?</strong></p>

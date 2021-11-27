@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>IUCN habitat classification codes — iucn_habitat_data • aoh</title>
+<title>Crosswalk data for Jung et al 2020 — crosswalk_jung_data • aoh</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,16 @@
 
 
 
-<meta property="og:title" content="IUCN habitat classification codes — iucn_habitat_data" />
+<meta property="og:title" content="Crosswalk data for Jung et al 2020 — crosswalk_jung_data" />
 <meta property="og:description" content="The International Union for Conservation of Nature (IUCN) Red List of Threatened Species
 provides a
 habitat classification scheme
-for different habitat types worldwide.
-This dataset provides details on the different IUCN habitat classes." />
+for different habitat types.
+To map the spatial location of each of these habitat classes,
+Jung et al. (2020a) developed a global raster dataset by combining
+a range of different land use and land cover data (Jung et al. 2020b).
+This dataset provides a crosswalk table to associate the values in the
+raster dataset with IUCN habitat classes." />
 
 
 
@@ -120,66 +124,77 @@ This dataset provides details on the different IUCN habitat classes." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>IUCN habitat classification codes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/iucn_habitat_data.R'><code>R/iucn_habitat_data.R</code></a></small>
-    <div class="hidden name"><code>iucn_habitat_data.Rd</code></div>
+    <h1>Crosswalk data for Jung <em>et al</em> 2020</h1>
+    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/crosswalk_jung_data.R'><code>R/crosswalk_jung_data.R</code></a></small>
+    <div class="hidden name"><code>crosswalk_jung_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>The <a href='https://www.iucnredlist.org/'>International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>
 provides a
 <a href='https://www.iucnredlist.org/resources/habitat-classification-scheme'>habitat classification scheme</a>
-for different habitat types worldwide.
-This dataset provides details on the different IUCN habitat classes.</p>
+for different habitat types.
+To map the spatial location of each of these habitat classes,
+Jung <em>et al.</em> (2020a) developed a global raster dataset by combining
+a range of different land use and land cover data (Jung <em>et al.</em> 2020b).
+This dataset provides a crosswalk table to associate the values in the
+raster dataset with IUCN habitat classes.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>iucn_habitat_data</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>crosswalk_jung_data</span><span class='op'>)</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 126 rows and 2 columns.
-Each row corresponds to a different habitat class, and each
-column contains information about a given habitat class.
-It contains columns with the following values for each habitat class.</p><dl>
-<dt>code</dt><dd><p>A <code>character</code> value indicating the code of a class.</p></dd>
-<dt>name</dt><dd><p>A <code>character</code> value indicating the name of a class.</p></dd>
-<dt>is_terrestrial</dt><dd><p>A <code>logical</code> value indicating if the class
-occurs within the terrestrial environmental.</p></dd>
-<dt>is_marine</dt><dd><p>A <code>logical</code> value indicating if the class
-occurs within the marine environmental.</p></dd>
-<dt>is_artificial</dt><dd><p>A <code>logical</code> value indicating if the class
-is artificial (e.g. anthropogenically human modified).</p></dd>
-<dt>is_misc</dt><dd><p>A <code>logical</code> value indicating if the class
-does not correspond to a specific land cover.</p></dd>
-<dt>is_introduced</dt><dd><p>A <code>logical</code> value indicating if the class
-corresponds to introduced vegetation.</p></dd>
+    <p>A data frame (<code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble::tibble()</a></code>) object with 126 rows and 2 columns.
+Each row corresponds to a different IUCN habitat class.
+It has the following columns:</p><dl>
+<dt>code</dt><dd><p>The <code>character</code> code for a given IUCN habitat class.</p></dd>
+<dt>value</dt><dd><p>The <code>numeric</code> value assigned to grid cells in the
+raster data that contain the IUCN habitat class
+(see <code><a href='get_global_habitat_data.html'>get_global_habitat_data()</a></code>).</p></dd>
 
 </dl>
 
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>The data were obtained from <a href='https://www.iucnredlist.org/resources/habitat-classification-scheme'>https://www.iucnredlist.org/resources/habitat-classification-scheme</a>.</p>
+    <p>The data were obtained from <a href='https://doi.org/10.5281/zenodo.3666245'>https://doi.org/10.5281/zenodo.3666245</a>
+(Jung <em>et al.</em> 2020b).</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
+Rondinini C, and Visconti P (2020a) A global map of
+terrestrial habitat types. <em>Scientific Data</em>, 7:1--8.
+Available at <a href='https://doi.org/10.1038/s41597-020-00599-8'>https://doi.org/10.1038/s41597-020-00599-8</a>.</p>
+<p>Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
+Rondinini C, and Visconti P (2020b) A global map of
+terrestrial habitat types (insert version) [Data set].
+<em>Zenodo Digital Repository</em>.
+Available at <a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10.5281/zenodo.4058819</a>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>A preprocessed version of the habitat classification data can be imported
+using <code><a href='get_global_habitat_data.html'>get_global_habitat_data()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># load data</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>iucn_habitat_data</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>crosswalk_jung_data</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># print data</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>iucn_habitat_data</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 126 × 7</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    code  name       is_terrestrial is_marine is_artificial is_misc is_introduced</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 1     Forest     TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 1.1   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 1.2   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 1.3   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 1.4   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 1.5   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 1.6   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 1.7   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 1.8   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 1.9   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>crosswalk_jung_data</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 126 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    code  value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 1       100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 1.1     101</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 1.2     102</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 1.3     103</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 1.4     104</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 1.5     105</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 1.6     106</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 1.7     107</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 1.8     108</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 1.9     109</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 116 more rows</span></span>
 </code></pre></div>
   </div>

@@ -224,7 +224,7 @@ a <code>code</code> column that specifies a set of IUCN habitat classification
 codes (see <code><a href='iucn_habitat_data.html'>iucn_habitat_data()</a></code>, and a <code>value</code> column that specifies
 different values in the argument to <code>habitat_data</code>.
 Defaults to <code>NULL</code> such that the crosswalk for the default habitat
-data are used (i.e. <code><a href='crosswalk_jung.html'>crosswalk_jung_data()</a></code>).</p></td>
+data are used (i.e. <code><a href='crosswalk_jung_data.html'>crosswalk_jung_data()</a></code>).</p></td>
     </tr>
     <tr>
       <th>cache_dir</th>
@@ -293,7 +293,8 @@ Defaults to 1.</p></td>
       <th>engine</th>
       <td><p><code>character</code> value indicating the name of the software
 to use for data processing.
-Available options include <code>"terra"</code>, <code>"gdal"</code>, or <code>"grass"</code>.
+Available options include <code>"terra"</code>, <code>"gdal"</code>, or <code>"grass"</code>
+(see below for details).
 Defaults to <code>"terra"</code>.</p></td>
     </tr>
     <tr>
@@ -409,23 +410,37 @@ values.)</p></dd>
 
 </dl>
 
+    <h2 class="hasAnchor" id="engines"><a class="anchor" href="#engines"></a>Engines</h2>
+
+    
+
+<p>This function can use different software engines for data processing
+(specified via argument to <code>engine</code>). Although each engine produces the
+same results, some engines are more computationally efficient than others.
+The default <code>"terra"</code> engine uses the <span class="pkg">terra</span> package for processing.
+Although this engine is easy to install and fast for small datasets, it does
+not scale well for larger datasets. It is generally recommended to use the
+<code>"gdal"</code> engine for both small and moderately sized datasets.
+Additionally, the <code>"grass"</code> engine is recommended when processing data for
+many species across very large spatial extents.
+For instructions on installing dependencies for the <code>"gdal"</code> and <code>"grass"</code>
+engines, please see the README file.</p>
     <h2 class="hasAnchor" id="data-processing"><a class="anchor" href="#data-processing"></a>Data processing</h2>
 
     
 
 <p>The Area of Habitat data are produced using the following procedures.</p>
 <ol>
-<li><p>Global elevation and habitat classification are imported if needed.
-(see <code><a href='get_global_elevation_data.html'>get_global_elevation_data()</a></code> and <code><a href='get_global_habitat_data.html'>get_global_habitat_data()</a></code>
+<li><p>Global elevation and habitat classification are imported
+(if needed,
+see <code><a href='get_global_elevation_data.html'>get_global_elevation_data()</a></code> and <code><a href='get_global_habitat_data.html'>get_global_habitat_data()</a></code>
 for details).
 If these data are not available in the cache directory
 (i.e. argument to <code>cache_dir</code>), then they are automatically downloaded
 to the cache directory.
-For convenience, preprocessed versions of these datasets are downloaded
-to reduce processing time.
-Note that if elevation and habitat data are manually supplied
+Note that if elevation and habitat data are supplied
 (i.e. as arguments to <code>elevation_data</code> and <code>habitat_data</code>), then
-these datasets are used to generate Area of Habitat data.</p></li>
+the user-supplied datasets are used to generate Area of Habitat data.</p></li>
 <li><p>Species range data cleaned to prepare them for subsequent
 analysis. Briefly, this process involves excluding places where the
 (i) species' presence is not <em>extant</em> or
@@ -439,19 +454,20 @@ is <em>uncertain</em>
 (i.e. filtering based on <code>seasonal != 5</code>); and
 (iv) species' distribution is not terrestrial
 (i.e. filtering based on where <code>terrestrial == "true"</code>).
-Additionally, the species' range data spatially dissolved so that each
+Additionally, the species' range data are spatially dissolved so that each
 seasonal distribution for each taxon is represented by a separate geometry.
 Finally, geoprocessing routines are used to detect and repair
 any invalid geometries.</p></li>
 <li><p>Species' altitudinal limit and habitat affiliation data are
-imported if needed
-(see <code><a href='get_spp_summary_data.html'>get_spp_summary_data()</a></code> and <code><a href='get_spp_habitat_data.html'>get_spp_habitat_data()</a></code> for details).
+imported
+(if needed,
+see <code><a href='get_spp_summary_data.html'>get_spp_summary_data()</a></code> and <code><a href='get_spp_habitat_data.html'>get_spp_habitat_data()</a></code> for details).
 If these data are not available in the cache directory
 (i.e. argument to <code>cache_dir</code>), then they are automatically downloaded
 to the cache directory
 Note that if species' altitudinal limit and habitat affiliation
-data are manually supplied (i.e. as arguments to <code>spp_summary_data</code> and
-<code>spp_habitat_data</code>), then these datasets are used to generate
+data are supplied (i.e. as arguments to <code>spp_summary_data</code> and
+<code>spp_habitat_data</code>), then the user-supplied datasets are used to generate
 Area of Habitat data.</p></li>
 <li><p>The species data are collated into a single dataset containing
 their geographic ranges, altitudinal limits, and habitat affiliations.
@@ -479,27 +495,24 @@ affiliations for the species' <em>breeding</em> distribution.</p></li>
 <li><p>The Area of Habitat data are then generated for each seasonal
 distribution of each species. For a given species' distribution,
 the data are generated by
-(i) selecting layers from the habitat data that correspond to
-the suitable habitats for the species' distribution;
-(ii) cropping these layers to the extent of the species'
-seasonal distribution;
-(iii) summing the layers together to produce a new layer;
-(iv) creating a mask based on the altitudinal limits of the species
+(i) cropping the habitat classification and elevation data to the spatial
+extent  of the species' seasonal distribution;
+(ii) converting the habitat classification data to a binary layer
+denoting suitable habitat for the species' distribution
+(using the habitat affiliation data for the species' distribution);
+(iii) creating a mask based on the species' altitudinal limits
 and the elevation data, and then using the mask to set values
-in the new layer to zero if they are outside of the species' altitudinal
+in the binary layer to zero if they are outside of the species'
 limits;
-(v) creating a mask by rasterizing the species' seasonal
-distribution, and then using the mask to set values in the new
+(iv) creating a mask by rasterizing the species' seasonal
+distribution, and then using the mask to set values in the binary
 layer to missing (<code>NA</code>) values if they are outside the species'
 distribution;
-(vi) clamping the new layer such that values range between
-0 and 1,000 (because percent coverage values in the habitat data range
-between 0 and 1,000);
-(vii) rescaling the new layer to range between 0 and 1; and
-(viii) saving the resulting as the Area of Habitat data
+(v) saving the binary layer as the Area of Habitat data
 for the species' distribution.
 Note that species' distributions that already have Area of Habitat data
-available in the output directory are skipped.</p></li>
+available in the output directory are skipped
+(unless the argument to <code>force</code> is <code>TRUE</code>).</p></li>
 <li><p>Post-processing routines are used to prepare the results.
 These routines involve updating the collated species data to include
 file names and spatial metadata for the Area of Habitat data.</p></li>
@@ -555,36 +568,37 @@ Available at <a href='https://doi.org/10.1016/j.isprsjprs.2013.11.002'>https://d
 <span class='r-in'>  cache_dir <span class='op'>=</span> <span class='va'>cache_dir</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> initializing</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[1.4s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[1.6s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global elevation data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[11.1s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[10.7s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[8.8s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[9.8s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cleaning species range data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[148ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[135ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species summary data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species summary data <span style='color: #B2B2B2;'>[451ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species summary data <span style='color: #B2B2B2;'>[464ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species habitat data <span style='color: #B2B2B2;'>[316ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species habitat data <span style='color: #B2B2B2;'>[356ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> collating species data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> collating species data <span style='color: #B2B2B2;'>[112ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> collating species data <span style='color: #B2B2B2;'>[96ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> generating Area of Habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> creating AOH <span style='color: #00BB00;'>■■■■■■■■■                       </span> [ 25% | ETA: 21s]</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> creating AOH <span style='color: #00BB00;'>■■■■■■■■■■■■■■■■                </span> [ 50% | ETA: 14s]</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> creating AOH [18.3s]</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> creating AOH <span style='color: #00BB00;'>■■■■■■■■■                       </span> [ 25% | ETA: 18s]</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> creating AOH <span style='color: #00BB00;'>■■■■■■■■■■■■■■■■                </span> [ 50% | ETA: 12s]</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> creating AOH <span style='color: #00BB00;'>■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  5s]</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> creating AOH [16.1s]</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> generating Area of Habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> generating Area of Habitat data <span style='color: #B2B2B2;'>[18.4s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> generating Area of Habitat data <span style='color: #B2B2B2;'>[16.1s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> post-processing results</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing results <span style='color: #B2B2B2;'>[14ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> post-processing results <span style='color: #B2B2B2;'>[13ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> finished</span>
 <span class='r-in'><span class='co'># }</span></span>

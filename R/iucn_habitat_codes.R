@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Artificial IUCN Red List habitat codes
+#' IUCN Red List codes for artificial habitats
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a
@@ -23,7 +23,7 @@ iucn_habitat_codes_artificial <- function() {
   as.character(iucn_habitat_data$code[iucn_habitat_data$is_artificial])
 }
 
-#' Miscellaneous IUCN Red List habitat codes
+#' IUCN Red List codes for miscellaneous habitats
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a
@@ -45,7 +45,7 @@ iucn_habitat_codes_misc <- function() {
   as.character(iucn_habitat_data$code[iucn_habitat_data$is_misc])
 }
 
-#' Introduced IUCN Red List habitat codes
+#' IUCN Red List codes for introduced habitats
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a
@@ -67,7 +67,7 @@ iucn_habitat_codes_introduced <- function() {
   as.character(iucn_habitat_data$code[iucn_habitat_data$is_introduced])
 }
 
-#' Terrestrial IUCN Red List habitat codes
+#' IUCN Red List codes for terrestrial habitats
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a
@@ -88,7 +88,7 @@ iucn_habitat_codes_terrestrial <- function() {
   as.character(iucn_habitat_data$code[iucn_habitat_data$is_terrestrial])
 }
 
-#' Marine IUCN Red List habitat codes
+#' IUCN Red List codes for marine habitats
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a

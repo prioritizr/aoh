@@ -24,16 +24,17 @@ reference:
       - read_spp_range_data
       - starts_with("get_")
 
-  - title: IUCN habitat data
-    desc: Data for IUCN habitat classification codes
+  - title: IUCN habitat classification
+    desc: Data and functions for IUCN habitat classification codes
     contents:
       - iucn_habitat_data
       - starts_with("crosswalk")
-
-  - title: IUCN habitat code
-    desc: Functions to extract IUCN habitat classification codes
-    contents:
       - starts_with("iucn_habitat_codes")
+
+  - title: Is available?
+    desc: Functions to check if external software or services are available
+    contents:
+      - ends_with("available")
 
   - title: Simulating data
     desc: Functions for simulating data
@@ -44,9 +45,11 @@ reference:
     desc: Functions for processing data with GDAL
     contents:
       - matches("gdal")
+      - -is_gdal_available
+      - -is_gdal_calc_available
 
-  - title: Miscellaneous raster processing
-    desc: Functions for processing raster data
+  - title: Raster data processing
+    desc: Miscellaneous functions for processing raster data
     contents:
       - create_template_rast
       - intersecting_ext
@@ -55,9 +58,10 @@ reference:
       - terra_fasterize
       - terra_combine
       - terra_on_disk
+      - terra_force_disk
 
-  - title: Miscellaneous vector processing
-    desc: Functions for processing vector data
+  - title: Vector data processing
+    desc: Miscellaneous functions for processing vector data
     contents:
       - starts_with("sf_")
       - read_sf_n

@@ -131,6 +131,7 @@
   expand <span class='op'>=</span> <span class='fl'>0.05</span>,
   zoom <span class='op'>=</span> <span class='cn'>NULL</span>,
   maptype <span class='op'>=</span> <span class='cn'>NULL</span>,
+  maxcell <span class='op'>=</span> <span class='fl'>50000</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -170,6 +171,11 @@ See documentation for the <code>maptype</code> parameter in the
 <code><a href='https://rdrr.io/pkg/ggmap/man/get_stamenmap.html'>ggmap::get_stamenmap()</a></code>
 function for details.
 Defaults to <code>NULL</code> such that no basemap is shown.</p></td>
+    </tr>
+    <tr>
+      <th>maxcell</th>
+      <td><p><code>integer</code> Maximum number of grid cells for mapping.
+Defaults to 50000.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -216,25 +222,25 @@ underlying dataset.</p>
 <span class='r-in'>  cache_dir <span class='op'>=</span> <span class='va'>cache_dir</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> initializing</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[316ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> initializing <span style='color: #B2B2B2;'>[346ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global elevation data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[10.1s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global elevation data <span style='color: #B2B2B2;'>[11.2s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing global habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[8.8s]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing global habitat data <span style='color: #B2B2B2;'>[11s]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> cleaning species range data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[95ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> cleaning species range data <span style='color: #B2B2B2;'>[98ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species summary data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species summary data <span style='color: #B2B2B2;'>[336ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species summary data <span style='color: #B2B2B2;'>[357ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> importing species habitat data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species habitat data <span style='color: #B2B2B2;'>[330ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> importing species habitat data <span style='color: #B2B2B2;'>[341ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> collating species data</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> collating species data <span style='color: #B2B2B2;'>[74ms]</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> collating species data <span style='color: #B2B2B2;'>[82ms]</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> generating Area of Habitat data</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>     skipping 4 species distributions already processed</span>

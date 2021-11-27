@@ -10,6 +10,7 @@ plot_spp_aoh_data(
   expand = 0.05,
   zoom = NULL,
   maptype = NULL,
+  maxcell = 50000,
   ...
 )
 }
@@ -37,6 +38,9 @@ See documentation for the \code{maptype} parameter in the
 \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}
 function for details.
 Defaults to \code{NULL} such that no basemap is shown.}
+
+\item{maxcell}{\code{integer} Maximum number of grid cells for mapping.
+Defaults to 50000.}
 
 \item{...}{Additional arguments passed to \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}.}
 }
