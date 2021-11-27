@@ -88,6 +88,7 @@ process_spp_aoh_data_on_local <- function(x,
         "{.alert-success creating AOH [{cli::pb_elapsed}]}"
       )
     )
+    cli::cli_progress_update(id = pb, set = 0)
   }
 
   # initialize GRASS session if needed
