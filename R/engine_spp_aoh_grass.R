@@ -6,6 +6,8 @@ NULL
 #' Generate Area of Habitat data for a single species' distribution using the
 #' GRASS software for processing.
 #'
+#' @param idx `integer` index corresponding to species for processing.
+#'
 #' @inheritParams engine_spp_aoh_terra
 #' @inheritParams create_spp_aoh_data
 #'
@@ -53,14 +55,6 @@ engine_spp_aoh_grass <- function(range_data,
   range_data$x <- 1
   sf::write_sf(range_data[, "x", drop = FALSE], spp_path, overwrite = TRUE)
 
-  # set up GRASS connection
-  link2GI::initProj(projRootDir = tmp_dir, projFolders = "aoh/")
-  link2GI::linkGRASS7(
-    x = range_data[, "x", drop = FALSE],
-    gisdbase = tmp_dir,
-    location = "project1"
-  )
-
   # generate string to apply habitat mask
   habitat_intervals <- R.utils::seqToIntervals(habitat_values)
   habitat_mask <- vapply(
@@ -92,6 +86,8 @@ engine_spp_aoh_grass <- function(range_data,
   # import vector data
   rgrass7::execGRASS(
     "v.import",
+    redirect = TRUE, legacyExec = TRUE,
+    flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
     parameters = list(
       input = spp_path,
       output = "range",
@@ -102,6 +98,8 @@ engine_spp_aoh_grass <- function(range_data,
   # rasterize vector data
   rgrass7::execGRASS(
     "v.to.rast",
+    redirect = TRUE, legacyExec = TRUE,
+    flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
     parameters = list(
       input = "range",
       type = "area",
@@ -113,23 +111,16 @@ engine_spp_aoh_grass <- function(range_data,
   )
 
   # set mask based on range data
-  rgrass7::execGRASS("r.mask", parameters = list(raster = "mask"))
-
-  # import habitat data
   rgrass7::execGRASS(
-    "r.import",
-    parameters = list(
-      input = terra::sources(habitat_data)$source[[1]],
-      output = "habitat",
-      extent = "region",
-      resolution = "region",
-      memory = memory
-    )
+    "r.mask", redirect = TRUE, legacyExec = TRUE,
+    flags = c("overwrite"), parameters = list(raster = "mask")
   )
 
   # reclassify habitat data
   rgrass7::execGRASS(
     "r.reclass",
+    flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
+    redirect = TRUE, legacyExec = TRUE,
     parameters = list(
       input = "habitat",
       output = "suitable",
@@ -137,21 +128,11 @@ engine_spp_aoh_grass <- function(range_data,
     )
   )
 
-  # import elevation data
-  rgrass7::execGRASS(
-    "r.import",
-    parameters = list(
-      input = terra::sources(elevation_data)$source[[1]],
-      output = "elev",
-      extent = "region",
-      resolution = "region",
-      memory = memory
-    )
-  )
-
   # calculate Area of Habitat
   rgrass7::execGRASS(
     "r.mapcalc",
+    flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
+    redirect = TRUE, legacyExec = TRUE,
     parameters = list(
       expression = paste0(
         "aoh = int(suitable * ",
@@ -163,13 +144,26 @@ engine_spp_aoh_grass <- function(range_data,
   # save data
   rgrass7::execGRASS(
     "r.out.gdal",
+    redirect = TRUE, legacyExec = TRUE,
+    flags = c("overwrite", "c", ifelse(verbose, "verbose", "quiet")),
     parameters = list(
       input = "aoh",
       output = path,
       format = "GTiff",
       type = "Byte",
       nodata = 255,
-      createopt = "BIGTIFF=YES,COMPRESS=LZW,NUM_THREADS=$n_threads"
+      createopt = paste0("BIGTIFF=YES,COMPRESS=LZW,NUM_THREADS=", n_threads)
+    )
+  )
+
+  # remove mask
+  rgrass7::execGRASS(
+    "g.remove",
+    redirect = TRUE, legacyExec = TRUE,
+    flags = "f",
+    parameters = list(
+      type = "raster",
+      name = "mask"
     )
   )
 

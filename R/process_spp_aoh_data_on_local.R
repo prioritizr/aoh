@@ -15,8 +15,6 @@ NULL
 #'   `"habitat_code"`, `"elevation_lower"`, `"elevation_upper"`,
 #'   `"xmin"`, `"xmax"`, `"ymin"`, `"ymax"`, `"path"`.
 #'
-#' @param ... arguments passed to [terra::writeRaster()] for processing.
-#'
 #' @noRd
 process_spp_aoh_data_on_local <- function(x,
                                           habitat_data,
@@ -92,6 +90,58 @@ process_spp_aoh_data_on_local <- function(x,
     )
   }
 
+  # initialize GRASS session if needed
+  if (identical(engine, "grass")) {
+    ## create temporary directory for processing
+    grass_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+    dir.create(grass_dir, showWarnings = FALSE, recursive = TRUE)
+    data_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+    dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
+
+    ## set up GRASS connection
+    link2GI::initProj(projRootDir = grass_dir, projFolders = "aoh/")
+    link2GI::linkGRASS7(
+      x = x[1, "xmin", drop = FALSE],
+      gisdbase = grass_dir,
+      location = "aoh"
+    )
+
+    ## force habitat to disk
+    h_on_disk <- terra_on_disk(habitat_data)
+    habitat_data <- terra_force_disk(
+      habitat_data, overwrite = TRUE, datatype = "INT2U",
+      gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
+    )
+
+    ## force elevation data to disk
+    e_on_disk <- terra_on_disk(elevation_data)
+    elevation_data <- terra_force_disk(
+      elevation_data, overwrite = TRUE, datatype = "INT2S",
+      gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
+    )
+
+    ## import habitat data
+    rgrass7::execGRASS(
+      "r.external",
+      redirect = TRUE, legacyExec = TRUE,
+      parameters = list(
+        input = terra::sources(habitat_data)$source[[1]],
+        output = "habitat"
+      )
+    )
+
+    ## import habitat data
+    rgrass7::execGRASS(
+      "r.external",
+      redirect = TRUE, legacyExec = TRUE,
+      parameters = list(
+        input = terra::sources(elevation_data)$source[[1]],
+        output = "elev"
+      )
+    )
+
+  }
+
   # main processing
   result <- suppressWarnings(plyr::llply(
     .data = idx,
@@ -134,18 +184,6 @@ process_spp_aoh_data_on_local <- function(x,
           n_threads = n_threads
         )
       }  else if (identical(engine, "grass")) {
-        ### force habitat and elevation data to be file backed
-        h_on_disk <- terra_on_disk(habitat_data)
-        habitat_data <- terra_force_disk(
-          habitat_data, overwrite = TRUE, datatype = "INT2U",
-          gdal = c("COMPRESS=LZW",  "BIGTIFF=YES")
-        )
-        e_on_disk <- terra_on_disk(elevation_data)
-        elevation_data <- terra_force_disk(
-          elevation_data, overwrite = TRUE, datatype = "INT2S",
-          gdal = c("COMPRESS=LZW",  "BIGTIFF=YES")
-        )
-        ### main processing
         engine_spp_aoh_grass(
           range_data = x[i, ],
           habitat_data = habitat_data,
@@ -157,17 +195,6 @@ process_spp_aoh_data_on_local <- function(x,
           path = curr_spp_path,
           verbose = FALSE
         )
-        ### clean up
-        if (!h_on_disk) {
-          f <- terra::sources(habitat_data)$source[[1]]
-          rm(habitat_data)
-          unlink(f, force = TRUE)
-        }
-        if (!e_on_disk) {
-          f <- terra::sources(elevation_data)$source[[1]]
-          rm(elevation_data)
-          unlink(f, force = TRUE)
-        }
       }
 
       ## verify success
@@ -184,6 +211,22 @@ process_spp_aoh_data_on_local <- function(x,
       ## return success
       TRUE
   }))
+
+
+  # clean up GRASS
+  if (identical(engine, "grass")) {
+    if (!h_on_disk) {
+      f <- terra::sources(habitat_data)$source[[1]]
+      rm(habitat_data)
+      unlink(f, force = TRUE)
+    }
+    if (!e_on_disk) {
+      f <- terra::sources(elevation_data)$source[[1]]
+      rm(elevation_data)
+      unlink(f, force = TRUE)
+    }
+    unlink(grass_dir, force = TRUE, recursive = TRUE)
+  }
 
   # close progress bar if needed
   if (isTRUE(verbose)) {
