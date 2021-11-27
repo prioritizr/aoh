@@ -28,7 +28,8 @@ is_iucn_rl_api_available <- function(key = NULL) {
 
 #' Is GDAL available?
 #'
-#' Check if GDAL is available for processing data.
+#' Check if the Geospatial Data Abstraction Library (GDAL) is available for
+#' processing data.
 #'
 #' @details
 #' The function verifies that (1) the \pkg{gdalUtils} package in installed,
@@ -44,7 +45,7 @@ is_iucn_rl_api_available <- function(key = NULL) {
 #'
 #' @export
 is_gdal_available <- function() {
-  if (!requireNamespace("gdalUtils")) return(FALSE)
+  if (!requireNamespace("gdalUtils", quietly = TRUE)) return(FALSE)
   v <- gdal_version()
   if (is.na(v)) return(FALSE)
   isTRUE(as.package_version(v) >= as.package_version("3.0.2"))
@@ -52,7 +53,8 @@ is_gdal_available <- function() {
 
 #' GDAL version
 #'
-#' Find the version of GDAL installed.
+#' Find the version of the Geospatial Data Abstraction Library (GDAL)
+#' that is currently installed.
 #'
 #' @return A `character` value describing the version of GDAL installed.
 #' If GDAL is not installed, then a missing (`NA`) value is returned.
@@ -97,11 +99,16 @@ is_gdal_calc_available <- function() {
 
 #' Is GRASS available?
 #'
-#' Check if GRASS is available for processing data.
+#' Check if the Geographic Resources Analysis Support System (GRASS)
+#' is available for processing data.
 #'
 #' @details
-#' The function verifies that GRASS can be executed from the command line
-#' (i.e. via `system("grass --version")`).
+#' The function verifies that
+#' (1) the \pkg{rgrass7} package in installed,
+#' (2) the \pkg{link2GI} package in installed,
+#' (3) GRASS is installed (i.e. via [link2GI::findGRASS]), and
+#' (4) the version of GDAL installed is at least 7.8.5.
+#' If any of these checks fail, then GRASS is not considered available.
 #
 #' @return A `logical` indicating if GRASS is available or not.
 #'
@@ -111,5 +118,9 @@ is_gdal_calc_available <- function() {
 #'
 #' @export
 is_grass_available <- function() {
-  !inherits(system("grass --version", intern = TRUE), "try-error")
+  if (!requireNamespace("rgrass7", quietly = TRUE)) return(FALSE)
+  if (!requireNamespace("link2GI", quietly = TRUE)) return(FALSE)
+  x <- link2GI::findGRASS()
+  if (!inherits(x, "data.frame")) return(FALSE)
+  isTRUE(as.package_version(x$version) >= as.package_version("7.8.5"))
 }

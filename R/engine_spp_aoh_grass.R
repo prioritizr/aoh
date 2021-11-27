@@ -20,6 +20,7 @@ engine_spp_aoh_grass <- function(range_data,
                                  upper_elevation,
                                  extent,
                                  path,
+                                 memory = 4000,
                                  n_threads = 1,
                                  verbose = TRUE) {
   # validate arguments
@@ -45,12 +46,20 @@ engine_spp_aoh_grass <- function(range_data,
 
   # create temporary directory for processing
   tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
-  dir.create(paste0(tmp_dir, "/MAPSET"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
 
   # save species range data to disk
   spp_path <- tempfile(tmpdir = tmp_dir, fileext = ".gpkg")
   range_data$x <- 1
   sf::write_sf(range_data[, "x", drop = FALSE], spp_path, overwrite = TRUE)
+
+  # set up GRASS connection
+  link2GI::initProj(projRootDir = tmp_dir, projFolders = "aoh/")
+  link2GI::linkGRASS7(
+    x = range_data[, "x", drop = FALSE],
+    gisdbase = tmp_dir,
+    location = "project1"
+  )
 
   # generate string to apply habitat mask
   habitat_intervals <- R.utils::seqToIntervals(habitat_values)
@@ -67,36 +76,102 @@ engine_spp_aoh_grass <- function(range_data,
   reclass_path <- tempfile(tmpdir = tmp_dir, fileext = ".txt")
   writeLines(reclass_data, reclass_path)
 
-  # build command for GRASS script
-  cmd <- paste0(
-    "grass ",
-    "--tmp-location \"", spp_path, "\" ",
-    "--exec sh \"",
-    system.file("scripts", "grass-script.sh", package = "aoh"),
-    "\""
+  # initialize region
+  rgrass7::execGRASS(
+    "g.region",
+    parameters = list(
+      n = as.character(extent$ymax),
+      s = as.character(extent$ymin),
+      e = as.character(extent$xmax),
+      w = as.character(extent$xmin),
+      ewres = as.character(terra::xres(habitat_data)),
+      nsres = as.character(terra::yres(habitat_data))
+    )
   )
 
-  # compile variables
-  envvar <- list(
-    xmin = extent$xmin,
-    xmax = extent$xmax,
-    ymin = extent$ymin,
-    ymax = extent$ymax,
-    xres = terra::xres(habitat_data),
-    yres = terra::yres(elevation_data),
-    habitat_data = terra::sources(habitat_data)$source[[1]],
-    elevation_data = terra::sources(elevation_data)$source[[1]],
-    range_data = spp_path,
-    reclass_data = reclass_path,
-    elevation_upper = upper_elevation,
-    elevation_lower = lower_elevation,
-    path = path,
-    verbosity = ifelse(isTRUE(verbose), "verbose", "quiet"),
-    n_threads = n_threads
+  # import vector data
+  rgrass7::execGRASS(
+    "v.import",
+    parameters = list(
+      input = spp_path,
+      output = "range",
+      extent = "region"
+    )
   )
 
-  # run command
-  invisible(capture.output(withr::with_envvar(envvar, system(cmd))))
+  # rasterize vector data
+  rgrass7::execGRASS(
+    "v.to.rast",
+    parameters = list(
+      input = "range",
+      type = "area",
+      use = "val",
+      value = 1,
+      output = "mask",
+      memory = memory
+    )
+  )
+
+  # set mask based on range data
+  rgrass7::execGRASS("r.mask", parameters = list(raster = "mask"))
+
+  # import habitat data
+  rgrass7::execGRASS(
+    "r.import",
+    parameters = list(
+      input = terra::sources(habitat_data)$source[[1]],
+      output = "habitat",
+      extent = "region",
+      resolution = "region",
+      memory = memory
+    )
+  )
+
+  # reclassify habitat data
+  rgrass7::execGRASS(
+    "r.reclass",
+    parameters = list(
+      input = "habitat",
+      output = "suitable",
+      rules = reclass_path
+    )
+  )
+
+  # import elevation data
+  rgrass7::execGRASS(
+    "r.import",
+    parameters = list(
+      input = terra::sources(elevation_data)$source[[1]],
+      output = "elev",
+      extent = "region",
+      resolution = "region",
+      memory = memory
+    )
+  )
+
+  # calculate Area of Habitat
+  rgrass7::execGRASS(
+    "r.mapcalc",
+    parameters = list(
+      expression = paste0(
+        "aoh = int(suitable * ",
+        "((elev >= ", lower_elevation, ") & (elev <= ", upper_elevation, ")))"
+      )
+    )
+  )
+
+  # save data
+  rgrass7::execGRASS(
+    "r.out.gdal",
+    parameters = list(
+      input = "aoh",
+      output = path,
+      format = "GTiff",
+      type = "Byte",
+      nodata = 255,
+      createopt = "BIGTIFF=YES,COMPRESS=LZW,NUM_THREADS=$n_threads"
+    )
+  )
 
   # clean up
   unlink(tmp_dir, force = TRUE, recursive = TRUE)
