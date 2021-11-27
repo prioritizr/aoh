@@ -105,7 +105,6 @@ engine_spp_aoh_gdal <- function(range_data,
     "(Y >= ", lower_elevation, ") & (Y <= ", upper_elevation, ")) * 1"
   )
 
-
   ## apply processing
   terra_gdal_calc(
     x = f2,
@@ -116,6 +115,7 @@ engine_spp_aoh_gdal <- function(range_data,
     datatype = "INT1U",
     n_threads = n_threads,
     bigtiff = TRUE,
+    compress = "DEFLATE",
     output_raster = FALSE,
     verbose = FALSE
   )

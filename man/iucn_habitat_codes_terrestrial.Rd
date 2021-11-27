@@ -2,7 +2,7 @@
 % Please edit documentation in R/iucn_habitat_codes.R
 \name{iucn_habitat_codes_terrestrial}
 \alias{iucn_habitat_codes_terrestrial}
-\title{Terrestrial IUCN Red List habitat codes}
+\title{IUCN Red List codes for terrestrial habitats}
 \usage{
 iucn_habitat_codes_terrestrial()
 }

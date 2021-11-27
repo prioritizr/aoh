@@ -12,8 +12,9 @@ terra_gdal_crop(
   datatype = "FLT4S",
   tiled = FALSE,
   bigtiff = FALSE,
-  output_raster = TRUE,
-  verbose = TRUE
+  compress = "LZW",
+  verbose = TRUE,
+  output_raster = TRUE
 )
 }
 \arguments{
@@ -40,12 +41,15 @@ Defaults to \code{FALSE}.}
 BIGTIFF format.
 Defaults to \code{FALSE}.}
 
+\item{compress}{\code{character} Value indicating compression format.
+Defaults to \code{"LZW"}.}
+
+\item{verbose}{\code{logical} Should information be displayed during processing?
+Defaults to \code{TRUE}.}
+
 \item{output_raster}{\code{logical} Should a raster (\code{\link[terra:rast]{terra::rast()}})
 object be returned?
 If \code{FALSE} then the file path for the resulting file is returned.
-Defaults to \code{TRUE}.}
-
-\item{verbose}{\code{logical} Should information be displayed during processing?
 Defaults to \code{TRUE}.}
 }
 \value{

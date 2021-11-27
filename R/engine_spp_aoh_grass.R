@@ -152,7 +152,7 @@ engine_spp_aoh_grass <- function(range_data,
       format = "GTiff",
       type = "Byte",
       nodata = 255,
-      createopt = paste0("BIGTIFF=YES,COMPRESS=LZW,NUM_THREADS=", n_threads)
+      createopt = paste0("BIGTIFF=YES,COMPRESS=DEFLATE,NUM_THREADS=", n_threads)
     )
   )
 

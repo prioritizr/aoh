@@ -85,7 +85,7 @@ engine_spp_aoh_terra <- function(range_data,
     ),
     updatevalue = NA_integer_,
     filename = path,
-    wopt = list(datatype = "INT1U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
+    wopt = list(datatype = "INT1U", gdal = c("COMPRESS=DEFLATE", "BIGTIFF=YES"))
   )
 
   # return result

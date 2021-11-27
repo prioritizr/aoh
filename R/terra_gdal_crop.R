@@ -38,8 +38,9 @@ terra_gdal_crop <- function(x, ext,
                             datatype = "FLT4S",
                             tiled = FALSE,
                             bigtiff = FALSE,
-                            output_raster = TRUE,
-                            verbose = TRUE) {
+                            compress = "LZW",
+                            verbose = TRUE,
+                            output_raster = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
     inherits(x, c("character", "SpatRaster")),
@@ -52,6 +53,9 @@ terra_gdal_crop <- function(x, ext,
     assertthat::noNA(tiled),
     assertthat::is.flag(bigtiff),
     assertthat::noNA(bigtiff),
+    assertthat::is.string(compress),
+    assertthat::noNA(compress),
+    compress %in% c("LZW", "DEFLATE"),
     assertthat::is.flag(output_raster),
     assertthat::noNA(output_raster),
     assertthat::is.count(n_threads),
@@ -62,7 +66,7 @@ terra_gdal_crop <- function(x, ext,
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
   if (endsWith(filename, ".tif")) {
-    co <- c(co, "COMPRESS=LZW")
+    co <- c(co, paste0("COMPRESS=", compress))
     if (tiled) {
       co <- c(co, "TILED=YES")
     }

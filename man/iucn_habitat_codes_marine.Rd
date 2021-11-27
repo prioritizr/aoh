@@ -2,7 +2,7 @@
 % Please edit documentation in R/iucn_habitat_codes.R
 \name{iucn_habitat_codes_marine}
 \alias{iucn_habitat_codes_marine}
-\title{Marine IUCN Red List habitat codes}
+\title{IUCN Red List codes for marine habitats}
 \usage{
 iucn_habitat_codes_marine()
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/iucn_habitat_codes.R
 \name{iucn_habitat_codes_misc}
 \alias{iucn_habitat_codes_misc}
-\title{Miscellaneous IUCN Red List habitat codes}
+\title{IUCN Red List codes for miscellaneous habitats}
 \usage{
 iucn_habitat_codes_misc()
 }

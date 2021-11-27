@@ -2,7 +2,7 @@
 % Please edit documentation in R/iucn_habitat_codes.R
 \name{iucn_habitat_codes_artificial}
 \alias{iucn_habitat_codes_artificial}
-\title{Artificial IUCN Red List habitat codes}
+\title{IUCN Red List codes for artificial habitats}
 \usage{
 iucn_habitat_codes_artificial()
 }

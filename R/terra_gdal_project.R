@@ -35,6 +35,7 @@ NULL
 #'  Defaults to `FALSE`.
 #'
 #' @param compress `character` Value indicating compression format.
+#'  Available options include `"LZW"` and `"DEFLATE"`.
 #'  Defaults to `"LZW"`.
 #'
 #' @param NAflag `numeric` Value for representing missing (`NA`) values.
@@ -98,6 +99,7 @@ terra_gdal_project <- function(x, y,
     assertthat::noNA(filename),
     assertthat::is.string(compress),
     assertthat::noNA(compress),
+    compress %in% c("LZW", "DEFLATE"),
     assertthat::is.string(datatype),
     assertthat::noNA(datatype),
     assertthat::is.flag(tiled),
@@ -121,7 +123,7 @@ terra_gdal_project <- function(x, y,
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
   if (endsWith(filename, ".tif")) {
-    co <- c(co, "COMPRESS=LZW")
+    co <- c(co, paste0("COMPRESS=", compress))
     if (tiled) {
       co <- c(co, "TILED=YES")
     }

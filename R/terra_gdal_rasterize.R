@@ -66,6 +66,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
     assertthat::noNA(sf_filename),
     assertthat::is.string(compress),
     assertthat::noNA(compress),
+    compress %in% c("LZW", "DEFLATE"),
     assertthat::is.string(datatype),
     assertthat::noNA(datatype),
     assertthat::is.flag(tiled),
@@ -82,7 +83,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
   if (endsWith(filename, ".tif")) {
-    co <- c(co, "COMPRESS=LZW")
+    co <- c(co, paste0("COMPRESS=", compress))
     if (tiled) {
       co <- c(co, "TILED=YES")
     }
