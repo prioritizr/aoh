@@ -20,7 +20,7 @@ input_file_options <- c(
 )
 
 ## define processing options
-engine <- "gdal"
+engine <- "terra"
 
 ### parse command-line arguments
 cmd_args <- commandArgs(trailingOnly = TRUE)
@@ -75,7 +75,7 @@ result_data <- create_spp_aoh_data(
   x = spp_data,
   output_dir = output_dir,
   cache_dir = cache_dir,
-  engine = "terra"
+  engine = engine
 )
 
 # Exports
