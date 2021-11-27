@@ -9,8 +9,10 @@ terra_gdal_rasterize(
   sf,
   burn = 1,
   invert = FALSE,
+  update = FALSE,
   n_threads = 1,
   filename = tempfile(fileext = ".tif"),
+  sf_filename = tempfile(fileext = ".gpkg"),
   datatype = "FLT4S",
   tiled = FALSE,
   bigtiff = FALSE,
@@ -22,10 +24,19 @@ terra_gdal_rasterize(
 \arguments{
 \item{x}{\code{\link[terra:rast]{terra::rast()}} Raster object with source data.}
 
+\item{sf}{\code{\link[sf:sf]{sf::st_sf()}} Spatial object to rasterize.}
+
 \item{burn}{\code{numeric} Value for encoding the vector data.
 Defaults to 1.}
 
 \item{invert}{\code{logical} Should the burn process be inverted?
+Defaults to \code{FALSE}.}
+
+\item{update}{\code{logical} Should the result by producing by updating
+the argument to \code{x}?
+If \code{FALSE} then the argument to \code{x} is only used to specify the
+spatial properties of the resulting raster
+(i.e. values have on the result),
 Defaults to \code{FALSE}.}
 
 \item{n_threads}{\code{integer} Number of computational threads to use
@@ -36,6 +47,10 @@ Defaults to 1.}
 
 \item{filename}{\code{character} Filename for output raster.
 Defaults to \code{tempfile(fileext = ".tif")}.}
+
+\item{sf_filename}{\code{character} File name to temporarily save argument
+to \code{sf}.
+Defaults to a temporary (geopackage) file.}
 
 \item{datatype}{\code{character} Value indicating the data type for saving data.
 Defaults to \code{"FLT4S"}.}
@@ -50,7 +65,12 @@ Defaults to \code{FALSE}.}
 \item{compress}{\code{character} Value indicating compression format.
 Defaults to \code{"LZW"}.}
 
-\item{verbose}{\code{logical} should information be displayed during processing?
+\item{verbose}{\code{logical} Should information be displayed during processing?
+Defaults to \code{TRUE}.}
+
+\item{output_raster}{\code{logical} Should a raster (\code{\link[terra:rast]{terra::rast()}})
+object be returned?
+If \code{FALSE} then the file path for the resulting file is returned.
 Defaults to \code{TRUE}.}
 }
 \value{

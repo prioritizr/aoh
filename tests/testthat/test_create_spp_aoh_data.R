@@ -278,14 +278,31 @@ test_that("different engines", {
     engine = "gdal",
     verbose = interactive()
   )
+  x3 <- create_spp_aoh_data(
+    x = d,
+    output_dir = output_dir3,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    engine = "grass",
+    verbose = interactive()
+  )
   # tests
   expect_is(x1, "sf")
   expect_is(x2, "sf")
+  expect_is(x3, "sf")
   expect_named(x1, aoh_names)
   expect_named(x2, aoh_names)
+  expect_named(x3, aoh_names)
   expect_equal(
     dplyr::select(x1, -path),
     dplyr::select(x2, -path)
+  )
+  expect_equal(
+    dplyr::select(x1, -path),
+    dplyr::select(x3, -path)
   )
   expect_equivalent(
     lapply(
@@ -294,6 +311,16 @@ test_that("different engines", {
     ),
     lapply(
       x2$path,
+      function(x) terra::values(terra::rast(x))
+    )
+  )
+  expect_equivalent(
+    lapply(
+      x1$path,
+      function(x) terra::values(terra::rast(x))
+    ),
+    lapply(
+      x3$path,
       function(x) terra::values(terra::rast(x))
     )
   )

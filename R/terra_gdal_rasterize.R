@@ -10,10 +10,19 @@ NULL
 #'
 #' @inheritParams terra_gdal_project
 #'
+#' @param sf [sf::st_sf()] Spatial object to rasterize.
+#'
 #' @param burn `numeric` Value for encoding the vector data.
 #'   Defaults to 1.
 #'
 #' @param invert `logical` Should the burn process be inverted?
+#'   Defaults to `FALSE`.
+#'
+#' @param update `logical` Should the result by producing by updating
+#'   the argument to `x`?
+#'   If `FALSE` then the argument to `x` is only used to specify the
+#'   spatial properties of the resulting raster
+#'   (i.e. values have on the result),
 #'   Defaults to `FALSE`.
 #'
 #' @param sf_filename `character` File name to temporarily save argument
@@ -85,20 +94,15 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
   # save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
-    if (!x_on_disk) {
-      f1 <- tempfile(fileext = ".tif")
-      terra::writeRaster(
-        x, f1, overwrite = TRUE, datatype = datatype, gdal = co
-      )
-    } else {
-      f1 <- terra::sources(x)$source[[1]]
-    }
+    x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
+    f1 <- terra::sources(x)$source[[1]]
   } else {
     x_on_disk <- TRUE
     f1 <- x
   }
 
   # copy raster if needed
+  nms <- names(x)
   if (isTRUE(update)) {
     filename <- f1
     rm(x)
@@ -123,6 +127,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
     args <- append(
       args,
       list(
+        of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
         co = co,
         tr = c(terra::xres(x), terra::yres(x)),
         a_srs = f3,
@@ -134,6 +139,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
 
   # clean up
   if ((!x_on_disk) && (!update)) {
+    rm(x)
     unlink(f1, force = TRUE)
   }
   unlink(sf_filename, force = TRUE)
@@ -143,7 +149,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
 
   # return result
   if (output_raster) {
-    return(stats::setNames(terra::rast(filename), names(x)))
+    return(stats::setNames(terra::rast(filename), nms))
   } else {
     return(filename)
   }

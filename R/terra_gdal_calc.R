@@ -84,31 +84,16 @@ terra_gdal_calc <- function(x, expr,
   # save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
-    if (!x_on_disk) {
-      f1 <- tempfile(fileext = ".tif")
-      terra::writeRaster(
-        x, f1, overwrite = TRUE, datatype = datatype, gdal = co
-      )
-    } else {
-      f1 <- terra::sources(x)$source[[1]]
-    }
+    x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
+    f1 <- terra::sources(x)$source[[1]]
   } else {
     x_on_disk <- TRUE
     f1 <- x
   }
-  if (inherits(y, "character")) {
-    y_on_disk <- TRUE
-    f2 <- y
-  } else if (inherits(y, "SpatRaster")) {
+  if (inherits(y, "SpatRaster")) {
     y_on_disk <- terra_on_disk(y)
-    if (!y_on_disk) {
-      f2 <- tempfile(fileext = ".tif")
-      terra::writeRaster(
-        y, f2, overwrite = TRUE, datatype = datatype, gdal = co
-      )
-    } else {
-      f2 <- terra::sources(y)$source[[1]]
-    }
+    y <- terra_force_disk(y, overwrite = TRUE, datatype = datatype, gdal = co)
+    f2 <- terra::sources(y)$source[[1]]
   } else {
     y_on_disk <- TRUE
     f2 <- y
@@ -137,16 +122,19 @@ terra_gdal_calc <- function(x, expr,
   system(cmd, intern = !verbose)
 
   # clean up
+  nms <- names(x)
   if (!x_on_disk) {
+    rm(x)
     unlink(f1, force = TRUE)
   }
   if (!y_on_disk) {
+    rm(y)
     unlink(f2, force = TRUE)
   }
 
   # return result
   if (output_raster) {
-    return(stats::setNames(terra::rast(filename), names(x)))
+    return(stats::setNames(terra::rast(filename), nms))
   } else {
     return(filename)
   }

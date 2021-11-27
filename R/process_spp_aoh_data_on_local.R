@@ -26,8 +26,7 @@ process_spp_aoh_data_on_local <- function(x,
                                           engine = "terra",
                                           n_threads = 1,
                                           force = FALSE,
-                                          verbose = TRUE,
-                                          ...) {
+                                          verbose = TRUE) {
   # assert that arguments are valid
   ## initial validation
   assertthat::assert_that(
@@ -61,9 +60,6 @@ process_spp_aoh_data_on_local <- function(x,
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
-
-  # prepare prepare variables for data processing
-  wopt <- list(...)
 
   # determine which species need processing
   if (!force & any(file.exists(x$path))) {
@@ -123,8 +119,7 @@ process_spp_aoh_data_on_local <- function(x,
           lower_elevation = curr_spp_lower_elevation,
           upper_elevation = curr_spp_upper_elevation,
           extent = curr_spp_extent,
-          path = curr_spp_path,
-          wopt = wopt
+          path = curr_spp_path
         )
       } else if (identical(engine, "gdal")) {
         engine_spp_aoh_gdal(
@@ -136,10 +131,21 @@ process_spp_aoh_data_on_local <- function(x,
           upper_elevation = curr_spp_upper_elevation,
           extent = curr_spp_extent,
           path = curr_spp_path,
-          wopt = wopt,
           n_threads = n_threads
         )
       }  else if (identical(engine, "grass")) {
+        ### force habitat and elevation data to be file backed
+        h_on_disk <- terra_on_disk(habitat_data)
+        habitat_data <- terra_force_disk(
+          habitat_data, overwrite = TRUE, datatype = "INT2U",
+          gdal = c("COMPRESS=LZW",  "BIGTIFF=YES")
+        )
+        e_on_disk <- terra_on_disk(elevation_data)
+        elevation_data <- terra_force_disk(
+          elevation_data, overwrite = TRUE, datatype = "INT2S",
+          gdal = c("COMPRESS=LZW",  "BIGTIFF=YES")
+        )
+        ### main processing
         engine_spp_aoh_grass(
           range_data = x[i, ],
           habitat_data = habitat_data,
@@ -149,9 +155,19 @@ process_spp_aoh_data_on_local <- function(x,
           upper_elevation = curr_spp_upper_elevation,
           extent = curr_spp_extent,
           path = curr_spp_path,
-          wopt = wopt,
-          n_threads = n_threads
+          verbose = TRUE
         )
+        ### clean up
+        if (!h_on_disk) {
+          f <- terra::sources(habitat_data)$source[[1]]
+          rm(habitat_data)
+          unlink(f, force = TRUE)
+        }
+        if (!e_on_disk) {
+          f <- terra::sources(elevation_data)$source[[1]]
+          rm(elevation_data)
+          unlink(f, force = TRUE)
+        }
       }
 
       ## verify success

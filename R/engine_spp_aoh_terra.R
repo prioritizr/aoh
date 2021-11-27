@@ -26,10 +26,6 @@ NULL
 #'
 #' @param path `character` File path to save resulting Area of Habitat data.
 #'
-#' @param wopt `list` Object specifying parameters for saving raster
-#'  data to disk.
-#'  Defaults to `list()`.
-#'
 #' @return An invisible `TRUE` indicating success.
 #'
 #' @noRd
@@ -40,8 +36,7 @@ engine_spp_aoh_terra <- function(range_data,
                                  lower_elevation,
                                  upper_elevation,
                                  extent,
-                                 path,
-                                 wopt = list()) {
+                                 path) {
   # validate arguments
   assertthat::assert_that(
     inherits(range_data, "sf"),
@@ -56,8 +51,7 @@ engine_spp_aoh_terra <- function(range_data,
     assertthat::noNA(upper_elevation),
     inherits(extent, "SpatExtent"),
     assertthat::is.string(path),
-    assertthat::noNA(path),
-    is.list(wopt)
+    assertthat::noNA(path)
   )
 
   # create temporary directory for processing
@@ -72,15 +66,14 @@ engine_spp_aoh_terra <- function(range_data,
   spp_habitat_data <- terra::lapp(
     x = terra::crop(
       x = raster_data,
-      y = extent,
-      wopt = wopt
+      y = extent
     ),
     function(x, y) {
       1 * ((x %in% habitat_values) &
       (y >= lower_elevation) &
       (y <= upper_elevation))
     },
-    wopt = wopt
+    wopt = list(datatype = "INT1U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
   )
 
   # mask data by species range
@@ -91,7 +84,7 @@ engine_spp_aoh_terra <- function(range_data,
     ),
     updatevalue = NA_integer_,
     filename = path,
-    wopt = wopt
+    wopt = list(datatype = "INT1U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
   )
 
   # return result

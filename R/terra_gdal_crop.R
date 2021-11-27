@@ -56,7 +56,8 @@ terra_gdal_crop <- function(x, ext,
     assertthat::noNA(output_raster),
     assertthat::is.count(n_threads),
     assertthat::noNA(n_threads),
-    is_gdal_available()
+    is_gdal_available(),
+    any(endsWith(filename, c(".tif", ".vrt")))
   )
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
@@ -73,14 +74,8 @@ terra_gdal_crop <- function(x, ext,
   # save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
-    if (!x_on_disk) {
-      f1 <- tempfile(fileext = ".tif")
-      terra::writeRaster(
-        x, f1, overwrite = TRUE, datatype = datatype, gdal = co
-      )
-    } else {
-      f1 <- terra::sources(x)$source[[1]]
-    }
+    x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
+    f1 <- terra::sources(x)$source[[1]]
   } else {
     x_on_disk <- TRUE
     f1 <- x
@@ -99,6 +94,7 @@ terra_gdal_crop <- function(x, ext,
       terra::xmin(ext), terra::ymax(ext), terra::xmax(ext), terra::ymin(ext)
     ),
     projwin_srs = f2,
+    of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
     co = co,
     ot = gdal_datatype(datatype),
     wo = paste0("NUM_THREADS=", n_threads),
@@ -111,13 +107,15 @@ terra_gdal_crop <- function(x, ext,
   do.call(gdalUtils::gdal_translate, args)
 
   # clean up
+  nms <- names(x)
   if (!x_on_disk) {
+    rm(x)
     unlink(f1, force = TRUE)
   }
 
   # return result
   if (output_raster) {
-    return(stats::setNames(terra::rast(filename), names(x)))
+    return(stats::setNames(terra::rast(filename), nms))
   } else {
     return(filename)
   }

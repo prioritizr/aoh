@@ -19,8 +19,7 @@ engine_spp_aoh_gdal <- function(range_data,
                                 upper_elevation,
                                 extent,
                                 path,
-                                n_threads = 1,
-                                wopt = list()) {
+                                n_threads = 1) {
   # validate arguments
   assertthat::assert_that(
     inherits(range_data, "sf"),
@@ -36,7 +35,6 @@ engine_spp_aoh_gdal <- function(range_data,
     inherits(extent, "SpatExtent"),
     assertthat::is.string(path),
     assertthat::noNA(path),
-    is.list(wopt),
     assertthat::noNA(n_threads),
     assertthat::is.number(n_threads)
   )
@@ -48,8 +46,7 @@ engine_spp_aoh_gdal <- function(range_data,
   # create temporary files
   f1 <- tempfile(tmpdir = tmp_dir, fileext = ".gpkg")
   f2 <- tempfile(tmpdir = tmp_dir, fileext = ".tif")
-  f3 <- tempfile(tmpdir = tmp_dir, fileext = ".tif")
-  f4 <- tempfile(tmpdir = tmp_dir, fileext = ".tif")
+  f3 <- tempfile(tmpdir = tmp_dir, fileext = ".vrt")
 
   # crop habitat data
   terra_gdal_crop(
@@ -84,7 +81,7 @@ engine_spp_aoh_gdal <- function(range_data,
   terra_gdal_crop(
     x = elevation_data,
     ext = extent,
-    filename = f4,
+    filename = f3,
     tiled = FALSE,
     datatype = "INT2S",
     bigtiff = TRUE,
@@ -108,10 +105,11 @@ engine_spp_aoh_gdal <- function(range_data,
     "(Y >= ", lower_elevation, ") & (Y <= ", upper_elevation, ")) * 1"
   )
 
+
   ## apply processing
   terra_gdal_calc(
     x = f2,
-    y = f4,
+    y = f3,
     expr = calc_expr,
     filename = path,
     tiled = FALSE,

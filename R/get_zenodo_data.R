@@ -99,12 +99,6 @@ get_zenodo_data <- function(x, file, dir = tempdir(),
     assertthat::assert_that(is.function(file))
   }
 
-  # create Zenodo manager object
-  z <- zen4R::ZenodoManager$new(logger = NULL)
-
-  # find all files in record
-  f <- z$getRecordByDOI(x)$listFiles()
-
   # process file path
   dir <- file.path(
     gsub("\\", "/", dir, fixed = TRUE),
@@ -113,6 +107,19 @@ get_zenodo_data <- function(x, file, dir = tempdir(),
   if (!file.exists(dir)) {
     dir.create(dir, showWarnings = FALSE, recursive = TRUE)
   }
+
+  # exit if file already exists
+  if (is.character(file)) {
+    if (!isTRUE(force) && file.exists(file.path(dir, file))) {
+      return(file.path(dir, file))
+    }
+  }
+
+  # create Zenodo manager object
+  z <- zen4R::ZenodoManager$new(logger = NULL)
+
+  # find all files in record
+  f <- z$getRecordByDOI(x)$listFiles()
 
   # find file to download
   if (inherits(file, "function")) {

@@ -40,7 +40,12 @@ Defaults to \code{FALSE}.}
 BIGTIFF format.
 Defaults to \code{FALSE}.}
 
-\item{verbose}{\code{logical} should information be displayed during processing?
+\item{output_raster}{\code{logical} Should a raster (\code{\link[terra:rast]{terra::rast()}})
+object be returned?
+If \code{FALSE} then the file path for the resulting file is returned.
+Defaults to \code{TRUE}.}
+
+\item{verbose}{\code{logical} Should information be displayed during processing?
 Defaults to \code{TRUE}.}
 }
 \value{

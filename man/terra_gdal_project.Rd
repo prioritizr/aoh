@@ -53,12 +53,17 @@ Defaults to \code{FALSE}.}
 \item{compress}{\code{character} Value indicating compression format.
 Defaults to \code{"LZW"}.}
 
-\item{verbose}{\code{logical} should information be displayed during processing?
+\item{verbose}{\code{logical} Should information be displayed during processing?
 Defaults to \code{TRUE}.}
 
 \item{NAflag}{\code{numeric} Value for representing missing (\code{NA}) values.
 Defaults to \code{NULL} such that the value is determined automatically
 by \code{\link[terra:writeRaster]{terra::writeRaster()}}.}
+
+\item{output_raster}{\code{logical} Should a raster (\code{\link[terra:rast]{terra::rast()}})
+object be returned?
+If \code{FALSE} then the file path for the resulting file is returned.
+Defaults to \code{TRUE}.}
 }
 \value{
 A \code{\link[terra:rast]{terra::rast()}} raster object.

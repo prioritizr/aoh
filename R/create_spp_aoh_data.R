@@ -690,8 +690,7 @@ create_spp_aoh_data <- function(x,
     cache_dir = cache_dir,
     engine = engine,
     force = force,
-    verbose = verbose,
-    datatype = "INT1U"
+    verbose = verbose
   )
 
   # prepare table with metadata

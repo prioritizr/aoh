@@ -41,7 +41,12 @@ NULL
 #'  Defaults to `NULL` such that the value is determined automatically
 #'  by [terra::writeRaster()].
 #'
-#' @param verbose `logical` should information be displayed during processing?
+#' @param verbose `logical` Should information be displayed during processing?
+#'  Defaults to `TRUE`.
+#'
+#' @param output_raster `logical` Should a raster ([terra::rast()])
+#'  object be returned?
+#'  If `FALSE` then the file path for the resulting file is returned.
 #'  Defaults to `TRUE`.
 #'
 #' @return A [terra::rast()] raster object.
@@ -105,7 +110,8 @@ terra_gdal_project <- function(x, y,
     assertthat::noNA(output_raster),
     assertthat::is.count(cache_limit),
     assertthat::noNA(cache_limit),
-    is_gdal_available()
+    is_gdal_available(),
+    any(endsWith(filename, c(".tif", ".vrt")))
   )
 
   # create temporary files
@@ -127,14 +133,8 @@ terra_gdal_project <- function(x, y,
   # save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
-    if (!x_on_disk) {
-      f1 <- tempfile(fileext = ".tif")
-      terra::writeRaster(
-        x, f1, overwrite = TRUE, datatype = datatype, gdal = co
-      )
-    } else {
-      f1 <- terra::sources(x)$source[[1]]
-    }
+    x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
+    f1 <- terra::sources(x)$source[[1]]
   } else {
     x_on_disk <- TRUE
     f1 <- x
@@ -154,7 +154,7 @@ terra_gdal_project <- function(x, y,
     te_srs = f3,
     tr = terra::res(y),
     r = method,
-    of = "GTiff",
+    of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
     co = co,
     wm = as.character(cache_limit),
     multi = isTRUE(n_threads >= 2),
@@ -173,14 +173,16 @@ terra_gdal_project <- function(x, y,
   do.call(gdalUtils::gdalwarp, args)
 
   # clean up
+  nms <- names(x)
   if (!x_on_disk) {
+    rm(x)
     unlink(f1, force = TRUE)
   }
   unlink(f2, force = TRUE)
 
   # return result
   if (output_raster) {
-    return(stats::setNames(terra::rast(filename), names(x)))
+    return(stats::setNames(terra::rast(filename), nms))
   } else {
     return(filename)
   }
