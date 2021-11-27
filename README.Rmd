@@ -153,7 +153,7 @@ print(spp_aoh_rasters)
 
 Finally, let's create some maps to compare the range data with the Area of habitat data.
 
-```{r, message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(knitr::is_html_output(excludes = c("markdown"))), "60%", "90%")}
+```{r "map", message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(knitr::is_html_output(excludes = c("markdown"))), "60%", "90%")}
 # create maps
 map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +

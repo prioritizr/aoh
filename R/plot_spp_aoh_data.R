@@ -29,6 +29,9 @@ NULL
 #'   function for details.
 #'   Defaults to `NULL` such that no basemap is shown.
 #'
+#' @param maxcell `integer` Maximum number of grid cells for mapping.
+#'   Defaults to 50000.
+#'
 #' @param ... Additional arguments passed to [ggmap::get_stamenmap()].
 #'
 #' @details
@@ -119,7 +122,8 @@ NULL
 #' }
 #' @export
 plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
-                              zoom = NULL, maptype = NULL, ...) {
+                              zoom = NULL, maptype = NULL, maxcell = 50000,
+                              ...) {
   # assert argument is valid
   assertthat::assert_that(
     inherits(x, "sf"),
@@ -182,18 +186,21 @@ plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
       r <- terra::project(r, "epsg:4326")
     }
     ## extract data
-    d <- terra::as.data.frame(r[[1]], xy = TRUE, na.rm = TRUE)
+    d <- terra::spatSample(
+      r[[1]], size = maxcell, method = "regular", xy = TRUE, warn = FALSE
+    )
     names(d) <- c("x", "y", "value")
     d <- d[is.finite(d$value), , drop = FALSE]
     d$value <- dplyr::if_else(d$value > 0.5, "suitable", "not suitable")
     d$binomial <- x$binomial[[i]]
     d$filename <- x$filename[[i]]
+    # determine resolution for plotting
+    rxres <- abs(diff(d$x))
+    rxres <- min(rxres[rxres > 0], na.rm = TRUE)
+    ryres <- abs(diff(d$y))
+    ryres <- min(ryres[ryres > 0], na.rm = TRUE)
     ## return list with data
-    list(
-      data = d,
-      width = terra::xres(r),
-      height = terra::yres(r)
-    )
+    list(data = d, width = rxres, height = ryres)
   })
 
   # prepare base plot
