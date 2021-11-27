@@ -20,7 +20,7 @@ input_file_options <- c(
 )
 
 ## define processing options
-engine <- "terra"
+engine <- "gdal"
 
 ### parse command-line arguments
 cmd_args <- commandArgs(trailingOnly = TRUE)
