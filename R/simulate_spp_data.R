@@ -533,7 +533,9 @@ simulate_habitat_data <- function(x, habitat_data, crosswalk_data,
     ]
 
     ## sort by frequency
-    xi_habitat_freq <- dplyr::arrange(xi_habitat_freq,  dplyr::desc(count))
+    xi_habitat_freq <- dplyr::arrange(
+      xi_habitat_freq,  dplyr::desc(.data$count)
+    )
 
     ## sample suitable codes
     ## ensure a dominant habitat class selected

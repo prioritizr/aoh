@@ -6,11 +6,42 @@
 \title{IUCN habitat classification codes}
 \format{
 A data frame with 126 rows and 2 columns.
+Each row corresponds to a different habitat class, and each
+column contains information about a given habitat class.
+It contains columns with the following values for each habitat class.
+\describe{
+\item{code}{A \code{character} value indicating the code of a class.}
+\item{name}{A \code{character} value indicating the name of a class.}
+\item{is_terrestrial}{A \code{logical} value indicating if the class
+occurs within the terrestrial environmental.}
+\item{is_marine}{A \code{logical} value indicating if the class
+occurs within the marine environmental.}
+\item{is_artificial}{A \code{logical} value indicating if the class
+is artificial (e.g. anthropogenically human modified).}
+\item{is_misc}{A \code{logical} value indicating if the class
+does not correspond to a specific land cover.}
+\item{is_introduced}{A \code{logical} value indicating if the class
+corresponds to introduced vegetation.}
+}
+}
+\source{
+The data were obtained from \url{https://www.iucnredlist.org/resources/habitat-classification-scheme}.
 }
 \usage{
 data(iucn_habitat_data)
 }
 \description{
-TODO
+The \href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}
+provides a
+\href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{habitat classification scheme}
+for different habitat types worldwide.
+This dataset provides details on the different IUCN habitat classes.
+}
+\examples{
+# load data
+data(iucn_habitat_data)
+
+# print data
+print(iucn_habitat_data)
 }
 \keyword{datasets}

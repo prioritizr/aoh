@@ -28,5 +28,5 @@ crosswalk_jung_data <- readr::read_csv(
 )
 
 # Exports
-save(iucn_habitat_data, file = "data/iucn-habitat-data.rda", compress = "xz")
-save(crosswalk_jung_data, file = "data/crosswalk-jung-data.rda", compress = "xz")
+usethis::use_data(iucn_habitat_data, overwrite = TRUE)
+usethis::use_data(crosswalk_jung_data, overwrite = TRUE)
