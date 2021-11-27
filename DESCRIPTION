@@ -21,6 +21,7 @@ Imports:
     parallel,
     assertthat (>= 0.2.0),
     rlang (>= 0.4.11),
+    R.utils (>= 2.11.0),
     readr (>= 2.0.2),
     stringi (>= 1.7.5),
     dplyr (>= 1.0.7),
@@ -49,7 +50,9 @@ Suggests:
     rnaturalearth (>= 0.1.0),
     rgdal (>= 1.5.27),
     gdalUtils (>= 2.0.3.2),
-    archive (>= 1.1.2)
+    archive (>= 1.1.2),
+    link2GI (>= 0.4.7),
+    rgrass7 (>= 0.2.6)
 Depends:
     R (>= 4.1.0),
     sf (>= 1.0-2),
@@ -57,6 +60,7 @@ Depends:
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
+LazyData: true
 SystemRequirements: GDAL (>= 3.0.2)
 URL: https://prioritizr.github.io/aoh/, https://github.com/prioritizr/aoh
 BugReports: https://github.com/prioritizr/aoh/issues
@@ -65,8 +69,6 @@ RoxygenNote: 7.1.2
 Collate:
     'internal.R'
     'clean_spp_range_data.R'
-    'convert_filename_to_habitat_code.R'
-    'convert_jung_code_to_iucn_code.R'
     'convert_seasonal.R'
     'misc_sf.R'
     'misc_terra.R'
@@ -75,21 +77,30 @@ Collate:
     'get_global_habitat_data.R'
     'get_global_elevation_data.R'
     'create_spp_aoh_data.R'
+    'create_template_rast.R'
+    'crosswalk_jung_data.R'
+    'engine_spp_aoh_gdal.R'
+    'engine_spp_aoh_grass.R'
+    'engine_spp_aoh_terra.R'
     'format_spp_data.R'
-    'get_prep_global_habitat_data.R'
-    'get_raw_global_habitat_data.R'
     'get_spp_api_data.R'
-    'get_world_behrmann_1km_rast.R'
+    'get_zenodo_data.R'
+    'intersecting_ext.R'
     'is_available.R'
     'iucn_habitat_codes.R'
+    'iucn_habitat_data.R'
     'misc_gdal.R'
     'misc_randomfields.R'
     'package.R'
     'plot_spp_aoh_data.R'
     'process_spp_aoh_data_on_local.R'
-    'project_habitat_data.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
+    'terra_gdal_calc.R'
+    'terra_gdal_crop.R'
+    'terra_gdal_project.R'
+    'terra_gdal_rasterize.R'
+    'zzz.R'
 Roxygen: list(markdown = TRUE)
 Remotes:
   rspatial/terra

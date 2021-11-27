@@ -34,7 +34,7 @@ NULL
 format_spp_data <- function(x,
                             spp_summary_data,
                             spp_habitat_data,
-                            template_data = get_world_behrmann_1km_rast(),
+                            template_data,
                             cache_dir = tempdir(),
                             iucn_version = "latest",
                             key = NULL,
@@ -223,7 +223,9 @@ format_spp_data <- function(x,
       ) {
         ex <- terra::ext(
           terra::crop(
-            x = empty_template, y = sf_terra_ext(x[i, ]), snap = "out"
+            x = empty_template,
+            y = sf_terra_ext(x[i, ]),
+            snap = "out"
           )
         )
       } else {

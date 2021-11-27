@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Get global habitat classification data — get_global_habitat_data" />
-<meta property="og:description" content="Import habitat classification data produced by Jung et al. (2020a).
+<meta property="og:description" content="Import habitat classification data derived from Jung et al. (2020a).
 If data are not available locally, they are downloaded from
 an online repository." />
 
@@ -124,7 +124,7 @@ an online repository." />
     </div>
 
     <div class="ref-description">
-    <p>Import habitat classification data produced by Jung <em>et al.</em> (2020a).
+    <p>Import habitat classification data derived from Jung <em>et al.</em> (2020a).
 If data are not available locally, they are downloaded from
 an online repository.</p>
     </div>
@@ -132,7 +132,6 @@ an online repository.</p>
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_global_habitat_data</span><span class='op'>(</span>
   dir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
   version <span class='op'>=</span> <span class='st'>"latest"</span>,
-  preprocessed <span class='op'>=</span> <span class='cn'>TRUE</span>,
   force <span class='op'>=</span> <span class='cn'>FALSE</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
@@ -157,16 +156,6 @@ Defaults to <code>"latest"</code> such that the latest
 release of the dataset with available habitat data is used.</p></td>
     </tr>
     <tr>
-      <th>preprocessed</th>
-      <td><p><code>logical</code> Should a pre-processed version of the
-dataset be downloaded?
-If so, the data are downloaded
-from a GitHub repository
-(<a href='https://github.com/prioritizr/aoh/releases/tag/data'>https://github.com/prioritizr/aoh/releases/tag/data</a>).
-Otherwise, data are downloaded from original
-Zenodo Digital Repository (Jung <em>et al.</em> 2020b).</p></td>
-    </tr>
-    <tr>
       <th>force</th>
       <td><p><code>logical</code> should the data be downloaded even if the
 the data are already available?
@@ -182,25 +171,16 @@ Defaults to <code>TRUE</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> object containing the level 2 habitat
-fractional coverage data.
-These data are available at the 1 km \(\times\) 1 km resolution.
-Each layer corresponds to a different habitat type, and each pixel
-denotes the fraction of the pixel that contains a given habitat type.
-<strong>Note that pixel values are scaled to between 0 and 1000, such that
-a value of 0 indicates 0% coverage of a habitat type, and a value of
-1000 indicates 100% coverage of a habitat type.</strong></p>
+    <p>A <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> object containing the habitat data
+(100 m resolution). Pixel values indicate the habitat classification codes.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The preprocessed version of the habitat data was produced by
-version was produced by projecting the data to conform
-with the default template raster for processing Area of Habitat data
-(see <code><a href='get_world_behrmann_1km_rast.html'>get_world_behrmann_1km_rast()</a></code>).
-Additionally, data were clamped to ensure values range between
-valid values (i.e. from 0 to 1000).
-The preprocessed version of the habitat data can be help
-run time when creating the Area of Habitat data with
-the default template raster.</p>
+    <p>The data were produced by obtaining the level 2 habitat
+classification data from the
+<a href='https://github.com/10.5281/zenodo.3666245'>Zenodo repository</a>
+(Jung <em>et al.</em> 2020b), and resampling the data (using nearest neighbor
+interpolation) to the World Behrmannn coordinate reference
+systems (ESRI:54017).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
@@ -212,6 +192,10 @@ Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
 <em>Zenodo Digital Repository</em>.
 Available at <a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10.5281/zenodo.4058819</a>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>See <code><a href='crosswalk_jung.html'>crosswalk_jung_data()</a></code> for details on which grid values correspond
+to which habitat classification codes.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontrun{</span></span>
@@ -229,17 +213,12 @@ Available at <a href='https://doi.org/10.5281/zenodo.4058819'>https://doi.org/10
 <span class='r-in'><span class='co'># preview data</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>habitat_data</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> class       : SpatRaster </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 14685, 34736, 62  (nrow, ncol, nlyr)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 1000, 1000  (x, y)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -17367531, 17368469, -7342231, 7342769  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions  : 132926, 347351, 1  (nrow, ncol, nlyr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 100, 100  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -17367531, 17367569, -6005523, 7287077  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : World_Behrmann </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> sources     : 100.tif  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>               101.tif  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>               102.tif  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>               ... and 59 more source(s)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> names       :    1,  1.1,  1.2,  1.3,  1.4,  1.5, ... </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> min values  :    0,    0,    0,    0,    0,    0, ... </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> max values  : 1000, 1000,  160, 1000, 1000, 1000, ... </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : habitat-10-5281_zenodo-4058819.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> name        : habitat-10-5281_zenodo-4058819 </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># plot data</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/terra/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>habitat_data</span><span class='op'>)</span></span>

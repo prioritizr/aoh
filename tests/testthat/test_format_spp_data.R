@@ -15,11 +15,19 @@ test_that("general case", {
   d3 <- utils::read.table(
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
-  # create objects
+  # create template raster
+  template_data <- terra::rast(
+    xmin = -17367531, xmax = 17367569,
+    ymin = -6005523, ymax = 7287077,
+    res = c(100, 100),
+    crs = as.character(sf::st_crs("ESRI:54017"))[[2]]
+  )
+  # create object
   x <- format_spp_data(
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
+    template_data = template_data,
     verbose = interactive()
   )
   # tests
@@ -58,6 +66,13 @@ test_that("NA season values in spp_habitat_data", {
   d3 <- utils::read.table(
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
+  # create template raster
+  template_data <- terra::rast(
+    xmin = -17367531, xmax = 17367569,
+    ymin = -6005523, ymax = 7287077,
+    res = c(100, 100),
+    crs = as.character(sf::st_crs("ESRI:54017"))[[2]]
+  )
   # prepare data
   d1 <- d1[1, , drop = FALSE]
   d2 <- d2[d2$id_no %in% d1$id_no, , drop = FALSE]
@@ -69,19 +84,24 @@ test_that("NA season values in spp_habitat_data", {
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
+    template_data = template_data,
     verbose = interactive()
   )
   x2 <- format_spp_data(
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3_alt,
+    template_data = template_data,
     verbose = interactive()
   )
   # tests
   expect_is(x1, "sf")
   expect_is(x2, "sf")
   expect_equal(x1, x2)
-  expect_equal(x1$habitat_code, list(as.character(d3$code)))
+  expect_equal(
+    x1$habitat_code,
+    list(stringi::stri_sort(d3$code, numeric = TRUE))
+  )
 })
 
 test_that("NA code values in spp_habitat_data", {
@@ -99,6 +119,13 @@ test_that("NA code values in spp_habitat_data", {
   d3 <- utils::read.table(
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
+  # create template raster
+  template_data <- terra::rast(
+    xmin = -17367531, xmax = 17367569,
+    ymin = -6005523, ymax = 7287077,
+    res = c(100, 100),
+    crs = as.character(sf::st_crs("ESRI:54017"))[[2]]
+  )
   # prepare data by replacing NA to code column for one species
   spp_id <- unique(d3$id_no)[2]
   d3_alt <- dplyr::bind_rows(
@@ -113,12 +140,14 @@ test_that("NA code values in spp_habitat_data", {
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
+    template_data = template_data,
     verbose = interactive()
   )
   x2 <- format_spp_data(
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3_alt,
+    template_data = template_data,
     verbose = interactive()
   )
   # tests
@@ -149,6 +178,13 @@ test_that("resident distributions of migratory birds lacking habitats", {
   d3 <- utils::read.table(
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
+  # create template raster
+  template_data <- terra::rast(
+    xmin = -17367531, xmax = 17367569,
+    ymin = -6005523, ymax = 7287077,
+    res = c(100, 100),
+    crs = as.character(sf::st_crs("ESRI:54017"))[[2]]
+  )
   # coerce all species to birds
   d1_birds <- d1
   d1_birds$class <- "AVES"
@@ -167,12 +203,14 @@ test_that("resident distributions of migratory birds lacking habitats", {
     x = clean_spp_range_data(d1_birds),
     spp_summary_data = d2,
     spp_habitat_data = d3,
+    template_data = template_data,
     verbose = interactive()
   )
   x2 <- format_spp_data(
     x = clean_spp_range_data(d1),
     spp_summary_data = d2,
     spp_habitat_data = d3,
+    template_data = template_data,
     verbose = interactive()
   )
   # tests

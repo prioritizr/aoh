@@ -114,8 +114,10 @@ if (require(ggmap)) {
   ## create customized map with basemap
   p3 <-
     plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "toner") +
-    scale_fill_viridis_c() +
-    scale_color_manual(values = c("range" = "blue")) +
+    scale_fill_manual(
+      values = c("suitable" = "blue", "not suitable" = "transparent")
+    ) +
+    scale_color_manual(values = c("range" = "red")) +
     scale_size_manual(values = c("range" = 10)) +
     theme(
       strip.text = ggplot2::element_text(color = "white"),

@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2021-11-21</h4>
+            <h4 data-toc-skip class="date">2021-11-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/master/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -83,7 +83,7 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h2>
-<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions <span class="citation">(Tracewski <em>et al.</em> 2016; Rondinini <em>et al.</em> 2005; Durán <em>et al.</em> 2020)</span>. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import them (using <code><a href="../reference/read_spp_range_data.html">read_spp_range_data()</a></code>) and then use them to create Area of Habitat data (using <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data <span class="citation">(Amatulli <em>et al.</em> 2018; Jung <em>et al.</em> 2020)</span> are automatically downloaded, and data on species’ habitat preferences and altitudinal limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see below for details).</p>
+<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions <span class="citation">(Tracewski <em>et al.</em> 2016; Rondinini <em>et al.</em> 2005; Durán <em>et al.</em> 2020)</span>. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import them (using <code><a href="../reference/read_spp_range_data.html">read_spp_range_data()</a></code>) and then use them to create Area of Habitat data (using <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data <span class="citation">(Robinson <em>et al.</em> 2014; Jung <em>et al.</em> 2020)</span> are automatically downloaded, and data on species’ habitat preferences and altitudinal limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see below for details).</p>
 </div>
 <div id="tutorial" class="section level2">
 <h2 class="hasAnchor">
@@ -122,7 +122,7 @@
 ## #   legend &lt;chr&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;,
 ## #   family &lt;chr&gt;, genus &lt;chr&gt;, category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;,
 ## #   freshwater &lt;chr&gt;, geometry &lt;POLYGON [°]&gt;</code></pre>
-<p>Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data <span class="citation">(derived from Amatulli <em>et al.</em> 2018; Jung <em>et al.</em> 2020)</span>, (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in the <code>id_no</code> column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species <span class="citation">(following Brooks <em>et al.</em> 2019)</span>. We also specify a folder to cache the downloaded datasets so that we won’t need to re-download again during subsequent runs.</p>
+<p>Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data <span class="citation">(derived from Robinson <em>et al.</em> 2014; Jung <em>et al.</em> 2020)</span>, (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in the <code>id_no</code> column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species <span class="citation">(following Brooks <em>et al.</em> 2019)</span>. We also specify a folder to cache the downloaded datasets so that we won’t need to re-download again during subsequent runs.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># specify cache directory</span>
 <span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>
@@ -178,10 +178,10 @@
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1  4657        1 /tmp/RtmpJOwlEH/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-## 2 58622        1 /tmp/RtmpJOwlEH/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-## 3 59448        1 /tmp/RtmpJOwlEH/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-## 4   979        1 /tmp/RtmpJOwlEH/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
+## 1  4657        1 /tmp/Rtmp6wDAMT/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+## 2 58622        1 /tmp/Rtmp6wDAMT/AOH_58622_1.tif ((-849079 4613824, -835314 460…
+## 3 59448        1 /tmp/Rtmp6wDAMT/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+## 4   979        1 /tmp/Rtmp6wDAMT/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -193,47 +193,47 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ## class       : SpatRaster 
-## dimensions  : 516, 537, 1  (nrow, ncol, nlyr)
-## resolution  : 1000, 1000  (x, y)
-## extent      : -915531, -378531, 4551769, 5067769  (xmin, xmax, ymin, ymax)
+## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)
+## resolution  : 100, 100  (x, y)
+## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
 ## source      : AOH_4657_1.tif 
-## name        : lyr.1 
-## min value   :     0 
-## max value   :     1 
+## name        : lyr1 
+## min value   :    0 
+## max value   :    1 
 ## 
 ## [[2]]
 ## class       : SpatRaster 
-## dimensions  : 499, 752, 1  (nrow, ncol, nlyr)
-## resolution  : 1000, 1000  (x, y)
-## extent      : -904531, -152531, 4568769, 5067769  (xmin, xmax, ymin, ymax)
+## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)
+## resolution  : 100, 100  (x, y)
+## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
 ## source      : AOH_58622_1.tif 
-## name        : lyr.1 
-## min value   :     0 
-## max value   :     1 
+## name        : lyr1 
+## min value   :    0 
+## max value   :    1 
 ## 
 ## [[3]]
 ## class       : SpatRaster 
-## dimensions  : 228, 568, 1  (nrow, ncol, nlyr)
-## resolution  : 1000, 1000  (x, y)
-## extent      : -248531, 319469, 4837769, 5065769  (xmin, xmax, ymin, ymax)
+## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)
+## resolution  : 100, 100  (x, y)
+## extent      : -248331, 318769, 4838377, 5064977  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
 ## source      : AOH_59448_1.tif 
-## name        : lyr.1 
-## min value   :     0 
-## max value   :     1 
+## name        : lyr1 
+## min value   :    0 
+## max value   :    1 
 ## 
 ## [[4]]
 ## class       : SpatRaster 
-## dimensions  : 260, 371, 1  (nrow, ncol, nlyr)
-## resolution  : 1000, 1000  (x, y)
-## extent      : -468531, -97531, 4363769, 4623769  (xmin, xmax, ymin, ymax)
+## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
+## resolution  : 100, 100  (x, y)
+## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
 ## source      : AOH_979_1.tif 
-## name        : lyr.1 
-## min value   :     0 
-## max value   :     1</code></pre>
+## name        : lyr1 
+## min value   :    0 
+## max value   :    1</code></pre>
 <p>We can see that the Area of Habitat data for each species are stored in separate spatial (raster) datasets with different extents. Although this is useful because it drastically reduces the total size of the data for each species, it can make it difficult to work with data for multiple species. To address this, we can use the <code><a href="../reference/terra_combine.html">terra_combine()</a></code> function to automatically align and combine the spatial data for all species’ distributions into a single spatial dataset.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># combine raster data</span>
@@ -247,13 +247,13 @@
 <span class="co"># preview raster data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
 <pre><code>## class       : SpatRaster 
-## dimensions  : 704, 1235, 4  (nrow, ncol, nlyr)
-## resolution  : 1000, 1000  (x, y)
-## extent      : -915531, 319469, 4363769, 5067769  (xmin, xmax, ymin, ymax)
+## dimensions  : 7026, 12335, 4  (nrow, ncol, nlyr)
+## resolution  : 100, 100  (x, y)
+## extent      : -914731, 318769, 4364277, 5066877  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## sources     : memory  
-##               memory  
-##               memory  
+## sources     : spat_PNFJRBtPfOje9M2.tif  
+##               spat_Z05IFBznlt2hjnE.tif  
+##               spat_wkOyEgApD3FYHU2.tif  
 ##               ... and 1 more source(s)
 ## names       : AOH_4657_1, AOH_58622_1, AOH_59448_1, AOH_979_1 
 ## min values  :          0,           0,           0,         0 
@@ -263,7 +263,7 @@
 <code class="sourceCode R"><span class="co"># create maps</span>
 <span class="va">map</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/plot_spp_aoh_data.html">plot_spp_aoh_data</a></span><span class="op">(</span><span class="va">spp_aoh_data</span>, zoom <span class="op">=</span> <span class="fl">6</span>, maptype <span class="op">=</span> <span class="st">"toner-background"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"range"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_size_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"range"</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>
@@ -321,8 +321,12 @@
 <p>Yes, the package can generate Area of Habitat data for species globally. To accomplish this, you will need a system with at least 32 Gb RAM and 65 Gb disk space. Additionally, the processing will likely take multiple days to complete. This is because it can take several days to obtain data from the IUCN Red List API, and it can also take several days to complete the subsequent spatial data processing.</p>
 </li>
 <li>
+<p><strong>It’s taking too long to generate Area of Habitat data, how can I speed it up?</strong></p>
+<p>The <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> function can use different software engines for data processing (specified via the <code>engine</code> parameter). Although each engine produces the same results, some engines are more computationally efficient than others. The default <code>"terra"</code> engine uses the <em>terra</em> package for processing. Although this engine is easy to install and fast for small datasets, it does not scale well for larger datasets. It is generally recommended to use the <code>"gdal"</code> engine for both small and moderately sized datasets. Additionally, the <code>"grass"</code> engine is recomended when processing data for many species across very large spatial extents. For instructions on installing dependencies for the <code>"gdal"</code> and <code>"grass"</code> engines, please see the README file.</p>
+</li>
+<li>
 <p><strong>The output Area of Habitat data have different spatial extents, how can I combine them together?</strong></p>
-<p>The <code><a href="../reference/terra_combine.html">terra_combine()</a></code> can be used to align and combine a <code>list</code> of raster <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> objects into a single object. Note that this procedure is only recommended when all species occur in the same geographic region. Please see the tutorial above for an example of using this function to combine Area of Habitat data for multiple species into a single object.</p>
+<p>The <code><a href="../reference/terra_combine.html">terra_combine()</a></code> function can be used to align and combine a <code>list</code> of raster <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> objects into a single object. Note that this procedure is only recommended when all species occur in the same geographic region. Please see the tutorial above for an example of using this function to combine Area of Habitat data for multiple species into a single object.</p>
 </li>
 </ul>
 </div>
@@ -335,9 +339,6 @@
 <h2 class="hasAnchor">
 <a href="#references" class="anchor" aria-hidden="true"></a>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-r4" class="csl-entry">
-Amatulli, G., Domisch, S., Tuanmu, M.-N., Parmentier, B., Ranipeta, A., Malczyk, J. &amp; Jetz, W. (2018). A suite of global, cross-scale topographic variables for environmental and biodiversity modeling. <em>Scientific Data</em>, <em>5</em>, 180040.
-</div>
 <div id="ref-r1" class="csl-entry">
 Brooks, T.M., Pimm, S.L., Akçakaya, H.R., Buchanan, G.M., Butchart, S.H.M., Foden, W., Hilton-Taylor, C., Hoffmann, M., Jenkins, C.N., Joppa, L., Li, B.V., Menon, V., Ocampo-Peñuela, N. &amp; Rondinini, C. (2019). Measuring terrestrial area of habitat (<span>AOH</span>) and its utility for the <span>IUCN</span> red list. <em>Trends in Ecology and Evolution</em>, <em>34</em>, 977–986.
 </div>
@@ -355,6 +356,9 @@ Lumbierres, M., Dahal, P.R., Marco, M.D., Butchart, S.H.M., Donald, P.F. &amp; R
 </div>
 <div id="ref-r8" class="csl-entry">
 Palacio, R.D., Negret, P.J., Velásquez-Tibatá, J. &amp; Jacobson, A.P. (2021). A data-driven geospatial workflow to map species distributions for conservation assessments. <em>Diversity and Distributions</em>.
+</div>
+<div id="ref-r4" class="csl-entry">
+Robinson, N., Regetz, J. &amp; Guralnick, R.P. (2014). <span>EarthEnv</span>-<span>DEM</span>90: A nearly-global, void-free, multi-scale smoothed, 90m digital elevation model from fused <span>ASTER</span> and <span>SRTM</span> data. <em><span>ISPRS</span> Journal of Photogrammetry and Remote Sensing</em>, <em>87</em>, 57–67.
 </div>
 <div id="ref-r3" class="csl-entry">
 Rondinini, C., Stuart, S. &amp; Boitani, L. (2005). <span class="nocase">Habitat suitability models and the shortfall in conservation planning for African vertebrates</span>. <em>Conservation Biology</em>, <em>19</em>, 1488–1497.

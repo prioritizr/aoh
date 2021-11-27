@@ -53,3 +53,7 @@ skip_if_iucn_red_list_data_not_available <- function(x) {
 skip_if_gdal_not_available <- function() {
   skip_if_not(is_gdal_available(), message = "GDAL not available")
 }
+
+skip_if_gdal_calc_not_available <- function() {
+  skip_if_not(is_gdal_calc_available(), message = "gdal_calc.py not available")
+}

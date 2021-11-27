@@ -95,6 +95,7 @@ simulate_spp_data <- function(n,
                               boundary_data,
                               habitat_data = NULL,
                               elevation_data = NULL,
+                              crosswalk_data = NULL,
                               rf_model_scale_min = 1e+5,
                               rf_model_scale_max = 2e+5,
                               cache_dir = tempdir(),
@@ -142,10 +143,57 @@ simulate_spp_data <- function(n,
       dir = cache_dir, version = habitat_version, force = force,
       verbose = verbose
     )
+    ### get crosswalk data if needed
+    if (is.null(crosswalk_data)) {
+      crosswalk_data <- crosswalk_jung_data
+    }
+  } else {
+    assertthat::assert_that(
+      inherits(crosswalk_data, "data.frame"),
+      msg = paste(
+        "argument to \"crosswalk_data\" must be supplied when not using",
+        "default habitat data"
+      )
+    )
   }
   assertthat::assert_that(
     inherits(habitat_data, "SpatRaster"),
+    terra::nlyr(habitat_data) == 1,
     all(terra::hasValues(habitat_data))
+  )
+  ## verify rasters match
+  assertthat::assert_that(
+    terra::compareGeom(
+      elevation_data, habitat_data, res = TRUE, stopiffalse = FALSE
+    ),
+    msg = paste(
+      "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
+      "same spatial properties (e.g. coordinate system, extent, resolution)"
+    )
+  )
+  ## crosswalk_data
+  assertthat::assert_that(
+    inherits(crosswalk_data, "data.frame"),
+    assertthat::has_name(crosswalk_data, c("code", "value")),
+    assertthat::noNA(crosswalk_data$code),
+    assertthat::noNA(crosswalk_data$value),
+    is.character(crosswalk_data$code),
+    is.numeric(crosswalk_data$value)
+  )
+  assertthat::assert_that(
+    all(crosswalk_data$code %in% iucn_habitat_data$code),
+    msg = paste(
+      "argument to \"crosswalk_data\" contains the following codes that",
+      "are not valid IUCN habitat codes:",
+      paste(
+        paste0(
+          "\"",
+          setdiff(crosswalk_data$code, iucn_habitat_data$code),
+          "\""
+        ),
+        collapse = ","
+      )
+    )
   )
 
   # simulate species ids
@@ -155,23 +203,31 @@ simulate_spp_data <- function(n,
   boundary_data_proj <- sf::st_transform(
     boundary_data, sf::st_crs("ESRI:54017")
   )
-  bb <- sf::st_bbox(boundary_data_proj)
-  res <- min(bb$xmax - bb$xmin, bb$ymax - bb$ymin) / 500
-  res <- max(1000, round(res / 1000) * 1000)
+  bb <- sf_terra_ext(boundary_data_proj)
 
-  # create spatial grid for simulations
-  sim_rast <- create_template_rast(
-    xres = res, yres = res,
-    crs = sf::st_crs(boundary_data_proj),
-    bbox = bb
+  # crop rasters to extent
+  habitat_data <- terra::crop(
+    x = habitat_data,
+    y = bb,
+    snap = "out"
   )
-  boundary_data_proj_vect <- terra::vect(boundary_data_proj)
-  terra::crs(boundary_data_proj_vect) <- sf_terra_crs(
-    sf::st_crs(boundary_data_proj)
+  elevation_data <- terra::crop(
+    x = elevation_data,
+    y = bb,
+    snap = "out"
   )
-  sim_rast <- terra::mask(
-    x = terra::init(sim_rast, 1),
-    mask = boundary_data_proj_vect
+
+  # aggregate rasters to reduce run time
+  bb <- as.list(bb)
+  res <- min(bb$xmax - bb$xmin, bb$ymax - bb$ymin) / 250
+  res <- max(1000, round(res / 1000) * 1000)
+  fact <- floor(res / terra::res(habitat_data))
+  fact <- pmax(fact, 1)
+  habitat_data <- terra::aggregate(
+    habitat_data, fact = fact, fun = "modal"
+  )
+  elevation_data <- terra::aggregate(
+    elevation_data, fact = fact, fun = "median"
   )
 
   # simulate species range maps
@@ -179,13 +235,14 @@ simulate_spp_data <- function(n,
     stats::runif(n, min = rf_model_scale_min, max = rf_model_scale_max),
     function(x) {
       simulate_rf_data(
-        x = sim_rast,
+        x = elevation_data,
         model = RandomFields::RMgauss(scale = x),
         transform = function(x) round(stats::plogis(x)),
         n = 1
       )
     }
   )
+
   sim_range_data <- lapply(seq_len(n), function(i) {
     x <- sim_eoo[[i]]
     x[x < 0.5] <- NA_real_
@@ -316,20 +373,15 @@ simulate_spp_data <- function(n,
   # simulate habitat preference data
   sim_habitat_data <- simulate_habitat_data(
     x = sim_range_data,
-    habitat_data = terra::project(
-      x = habitat_data,
-      y = sim_rast,
-    ),
+    habitat_data = habitat_data,
+    crosswalk_data = crosswalk_data,
     omit_habitat_codes = omit_habitat_codes
   )
 
   # simulate summary data
   sim_summary_data <- simulate_summary_data(
     x = sim_range_data,
-    elevation_data = terra::project(
-      x = elevation_data,
-      y = sim_rast
-    )
+    elevation_data = elevation_data
   )
 
   # return result
@@ -417,12 +469,14 @@ simulate_summary_data <- function(x, elevation_data) {
   tibble::as_tibble(result)
 }
 
-simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
+simulate_habitat_data <- function(x, habitat_data, crosswalk_data,
+                                  omit_habitat_codes) {
   # assert that arguments are valid
   assertthat::assert_that(
     inherits(x, "sf"),
     assertthat::has_name(x, "id_no"),
     inherits(habitat_data, "SpatRaster"),
+    inherits(crosswalk_data, "data.frame"),
     is.character(omit_habitat_codes),
     assertthat::noNA(omit_habitat_codes)
   )
@@ -435,16 +489,6 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
   )
   x_distinct <- x_distinct[x_distinct$seasonal <= 4, , drop = FALSE]
   x_distinct$seasonal_name <- convert_to_seasonal_name(x_distinct$seasonal)
-
-  ## convert habitat codes to names
-  code_data <- habitat_code_data()
-  if (all(names(habitat_data) %in% code_data$iucn_code)) {
-    habitat_names <- code_data$name
-    names(habitat_names) <- code_data$iucn_code
-  } else {
-    habitat_names <- paste0("code ", names(habitat_data))
-    names(habitat_names) <- names(habitat_data)
-  }
 
   # create habitat data
   result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
@@ -462,34 +506,48 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
     )
     xi <- x[idx, , drop = FALSE]
 
-    ## find available habitat
-    xi_habitat_data <- terra::global(
-      x = terra::mask(
-        x = habitat_data,
-        mask = terra::vect(xi)
-      ),
-      fun = "sum",
-      na.rm = TRUE
+    ## calculate frequency of different habitat classes inside species' range
+    xi_habitat_freq <- tibble::as_tibble(
+      terra::freq(
+        terra::mask(
+          x = habitat_data,
+          mask = terra::vect(xi)
+        )
+      )
     )
-    idx <- which(xi_habitat_data$sum > 0)
-    xi_habitat_data <- xi_habitat_data[idx, , drop = FALSE]
-    xi_habitat_data <- dplyr::arrange(xi_habitat_data,  dplyr::desc(sum))
 
-    ## extract suitable habitat
-    idx <- !rownames(xi_habitat_data) %in% omit_habitat_codes
-    xi_suitable_habitat_data <- xi_habitat_data[idx, , drop = FALSE]
+    ## add in IUCN codes
+    xi_habitat_freq$iucn_code <- crosswalk_data$code[
+      match(xi_habitat_freq$value, crosswalk_data$value)
+    ]
+
+    ## extract suitable habitats
+    xi_habitat_freq <- xi_habitat_freq[
+      !is.na(xi_habitat_freq$value), , drop = FALSE
+    ]
+    xi_habitat_freq <- xi_habitat_freq[
+      !is.na(xi_habitat_freq$iucn_code), , drop = FALSE
+    ]
+    xi_habitat_freq <- xi_habitat_freq[
+      !xi_habitat_freq$iucn_code %in% omit_habitat_codes, , drop = FALSE
+    ]
+
+    ## sort by frequency
+    xi_habitat_freq <- dplyr::arrange(
+      xi_habitat_freq,  dplyr::desc(.data$count)
+    )
 
     ## sample suitable codes
     ## ensure a dominant habitat class selected
-    n_dom <- min(nrow(xi_suitable_habitat_data), 5)
+    n_dom <- min(nrow(xi_habitat_freq), 5)
     dom_suitable_codes <- sample(
-      rownames(xi_suitable_habitat_data)[n_dom],
+      xi_habitat_freq$iucn_code[n_dom],
       size = 1
     )
     ## add in some non-dominant classes
     nondom_suitable_codes <- sample(
-      x = rownames(xi_suitable_habitat_data),
-      size = min(nrow(xi_suitable_habitat_data), 2),
+      x = xi_habitat_freq$iucn_code,
+      size = min(nrow(xi_habitat_freq), 2),
       replace = FALSE
     )
     ## ensure classes are unique
@@ -498,9 +556,9 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
     ## sample marginal codes
     if (
       (stats::runif(1) > 0.8) &&
-      (length(suitable_codes) < nrow(xi_habitat_data))
+      (length(suitable_codes) < nrow(xi_habitat_freq))
     ) {
-      potential_codes <- setdiff(suitable_codes, rownames(xi_habitat_data))
+      potential_codes <- setdiff(suitable_codes, xi_habitat_freq$iucn_code)
       marginal_codes <- sample(
         x = potential_codes,
         size = min(length(potential_codes), 2)
@@ -509,11 +567,17 @@ simulate_habitat_data <- function(x, habitat_data, omit_habitat_codes) {
       marginal_codes <- c()
     }
 
+    ## extract habitat names
+    all_codes <- c(suitable_codes, marginal_codes)
+    habitat_names <- iucn_habitat_data$name[
+      match(all_codes, iucn_habitat_data$code)
+    ]
+
     ## return data for species' seasonal distribution
     tibble::tibble(
       id_no = curr_id_no,
-      code = c(suitable_codes, marginal_codes),
-      habitat = unname(habitat_names[c(suitable_codes, marginal_codes)]),
+      code = all_codes,
+      habitat = habitat_names,
       suitability = c(
         rep("Suitable", length(suitable_codes)),
         rep("Marginal", length(marginal_codes))

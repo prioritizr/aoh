@@ -1,0 +1,127 @@
+code,name,is_terrestrial,is_marine,is_artificial,is_misc,is_introduced
+1,Forest,TRUE,FALSE,FALSE,FALSE,FALSE
+1.1,Forest - Boreal,TRUE,FALSE,FALSE,FALSE,FALSE
+1.2,Forest - Subarctic,TRUE,FALSE,FALSE,FALSE,FALSE
+1.3,Forest - Subantarctic,TRUE,FALSE,FALSE,FALSE,FALSE
+1.4,Forest - Temperate,TRUE,FALSE,FALSE,FALSE,FALSE
+1.5,Forest - Subtropical/tropical dry,TRUE,FALSE,FALSE,FALSE,FALSE
+1.6,Forest - Subtropical/tropical moist lowland,TRUE,FALSE,FALSE,FALSE,FALSE
+1.7,Forest - Subtropical/tropical mangrove vegetation above high tide level,TRUE,FALSE,FALSE,FALSE,FALSE
+1.8,Forest - Subtropical/tropical swamp,TRUE,FALSE,FALSE,FALSE,FALSE
+1.9,Forest - Subtropical/tropical moist montane,TRUE,FALSE,FALSE,FALSE,FALSE
+2,Savanna,TRUE,FALSE,FALSE,FALSE,FALSE
+2.1,Savanna - Dry,TRUE,FALSE,FALSE,FALSE,FALSE
+2.2,Savanna - Moist,TRUE,FALSE,FALSE,FALSE,FALSE
+3,Shrubland,TRUE,FALSE,FALSE,FALSE,FALSE
+3.1,Shrubland - Subarctic,TRUE,FALSE,FALSE,FALSE,FALSE
+3.2,Shrubland - Subantarctic,TRUE,FALSE,FALSE,FALSE,FALSE
+3.3,Shrubland - Boreal,TRUE,FALSE,FALSE,FALSE,FALSE
+3.4,Shrubland - Temperate,TRUE,FALSE,FALSE,FALSE,FALSE
+3.5,Shrubland - Subtropical/tropical dry,TRUE,FALSE,FALSE,FALSE,FALSE
+3.6,Shrubland - Subtropical/tropical moist,TRUE,FALSE,FALSE,FALSE,FALSE
+3.7,Shrubland - Subtropical/tropical high altitude,TRUE,FALSE,FALSE,FALSE,FALSE
+3.8,Shrubland - Mediterranean-type shrubby vegetation,TRUE,FALSE,FALSE,FALSE,FALSE
+4,Grassland,TRUE,FALSE,FALSE,FALSE,FALSE
+4.1,Grassland - Tundra,TRUE,FALSE,FALSE,FALSE,FALSE
+4.2,Grassland - Subarctic,TRUE,FALSE,FALSE,FALSE,FALSE
+4.3,Grassland - Subantarctic,TRUE,FALSE,FALSE,FALSE,FALSE
+4.4,Grassland - Temperate,TRUE,FALSE,FALSE,FALSE,FALSE
+4.5,Grassland - Subtropical/tropical dry,TRUE,FALSE,FALSE,FALSE,FALSE
+4.6,Grassland - Subtropical/tropical seasonally wet/flooded,TRUE,FALSE,FALSE,FALSE,FALSE
+4.7,Grassland - Subtropical/tropical high altitude,TRUE,FALSE,FALSE,FALSE,FALSE
+5,Wetlands (inland),TRUE,FALSE,FALSE,FALSE,FALSE
+5.1,Wetlands (inland) - Permanent rivers/streams/creeks (includes waterfalls),TRUE,FALSE,FALSE,FALSE,FALSE
+5.2,Wetlands (inland) - Seasonal/intermittent/irregular rivers/streams/creeks,TRUE,FALSE,FALSE,FALSE,FALSE
+5.3,Wetlands (inland) - Shrub dominated wetlands,TRUE,FALSE,FALSE,FALSE,FALSE
+5.4,"Wetlands (inland) - Bogs, marshes, swamps, fens, peatlands",TRUE,FALSE,FALSE,FALSE,FALSE
+5.5,Wetlands (inland) - Permanent freshwater lakes (over 8 ha),TRUE,FALSE,FALSE,FALSE,FALSE
+5.6,Wetlands (inland) - Seasonal/intermittent freshwater lakes (over 8 ha),TRUE,FALSE,FALSE,FALSE,FALSE
+5.7,Wetlands (inland) - Permanent freshwater marshes/pools (under 8 ha),TRUE,FALSE,FALSE,FALSE,FALSE
+5.8,Wetlands (inland) - Seasonal/intermittent freshwater marshes/pools (under 8 ha),TRUE,FALSE,FALSE,FALSE,FALSE
+5.9,Wetlands (inland) - Freshwater springs and oases,TRUE,FALSE,FALSE,FALSE,FALSE
+5.1,Wetlands (inland) - Tundra wetlands (inc. pools and temporary waters from snowmelt),TRUE,FALSE,FALSE,FALSE,FALSE
+5.11,Wetlands (inland) - Alpine wetlands (inc. temporary waters from snowmelt),TRUE,FALSE,FALSE,FALSE,FALSE
+5.12,Wetlands (inland) - Geothermal wetlands,TRUE,FALSE,FALSE,FALSE,FALSE
+5.13,Wetlands (inland) - Permanent inland deltas,TRUE,FALSE,FALSE,FALSE,FALSE
+5.14,"Wetlands (inland) - Permanent saline, brackish or alkaline lakes",TRUE,FALSE,FALSE,FALSE,FALSE
+5.15,"Wetlands (inland) - Seasonal/intermittent saline, brackish or alkaline lakes and flats",TRUE,FALSE,FALSE,FALSE,FALSE
+5.16,"Wetlands (inland) - Permanent saline, brackish or alkaline marshes/pools",TRUE,FALSE,FALSE,FALSE,FALSE
+5.17,"Wetlands (inland) - Seasonal/intermittent saline, brackish or alkaline marshes/pools",TRUE,FALSE,FALSE,FALSE,FALSE
+5.18,Wetlands (inland) - Karst and other subterranean hydrological systems (inland),TRUE,FALSE,FALSE,FALSE,FALSE
+6,"Rocky Areas (e.g., inland cliffs, mountain peaks)",TRUE,FALSE,FALSE,FALSE,FALSE
+7,Caves & Subterranean Habitats (non-aquatic),TRUE,FALSE,FALSE,FALSE,FALSE
+7.1,Caves and Subterranean Habitats (non-aquatic) - Caves,TRUE,FALSE,FALSE,FALSE,FALSE
+7.2,Caves and Subterranean Habitats (non-aquatic) - Other subterranean habitats,TRUE,FALSE,FALSE,FALSE,FALSE
+8,Desert,TRUE,FALSE,FALSE,FALSE,FALSE
+8.1,Desert - Hot,TRUE,FALSE,FALSE,FALSE,FALSE
+8.2,Desert - Temperate,TRUE,FALSE,FALSE,FALSE,FALSE
+8.3,Desert - Cold,TRUE,FALSE,FALSE,FALSE,FALSE
+9,Marine Neritic,FALSE,TRUE,FALSE,FALSE,FALSE
+9.1,Marine Neritic - Pelagic,FALSE,TRUE,FALSE,FALSE,FALSE
+9.2,Marine Neritic - Subtidal rock and rocky reefs,FALSE,TRUE,FALSE,FALSE,FALSE
+9.3,Marine Neritic - Subtidal loose rock/pebble/gravel,FALSE,TRUE,FALSE,FALSE,FALSE
+9.4,Marine Neritic - Subtidal sandy,FALSE,TRUE,FALSE,FALSE,FALSE
+9.5,Marine Neritic - Subtidal sandy-mud,FALSE,TRUE,FALSE,FALSE,FALSE
+9.6,Marine Neritic - Subtidal muddy,FALSE,TRUE,FALSE,FALSE,FALSE
+9.7,Marine Neritic - Macroalgal/kelp,FALSE,TRUE,FALSE,FALSE,FALSE
+9.8,Marine Neritic - Coral Reef,FALSE,TRUE,FALSE,FALSE,FALSE
+9.8.1,Outer reef channel,FALSE,TRUE,FALSE,FALSE,FALSE
+9.8.2,Back slope,FALSE,TRUE,FALSE,FALSE,FALSE
+9.8.3,Foreslope (outer reef slope),FALSE,TRUE,FALSE,FALSE,FALSE
+9.8.4,Lagoon,FALSE,TRUE,FALSE,FALSE,FALSE
+9.8.5,Inter-reef soft substrate,FALSE,TRUE,FALSE,FALSE,FALSE
+9.8.6,Inter-reef rubble substrate,FALSE,TRUE,FALSE,FALSE,FALSE
+9.9,Seagrass (Submerged),FALSE,TRUE,FALSE,FALSE,FALSE
+9.1,Estuaries,FALSE,TRUE,FALSE,FALSE,FALSE
+10,Marine Oceanic,FALSE,TRUE,FALSE,FALSE,FALSE
+10.1,Epipelagic (0-200 m),FALSE,TRUE,FALSE,FALSE,FALSE
+10.2,"Mesopelagic (200-1,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
+10.3,"Bathypelagic (1,000-4,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
+10.4,"Abyssopelagic (4,000-6,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
+11,Marine Deep Ocean Floor (Benthic and Demersal),FALSE,TRUE,FALSE,FALSE,FALSE
+11.1,"Continental Slope/Bathyl Zone (200-4,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
+11.1.1,Hard Substrate,FALSE,TRUE,FALSE,FALSE,FALSE
+11.2,"Abyssal Plain (4,000-6,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
+11.1.2,Soft Substrate,FALSE,TRUE,FALSE,FALSE,FALSE
+11.3,"Abyssal Mountain/Hills (4,000-6,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
+11.4,"Hadal/Deep Sea Trench (>6,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
+11.5,Seamount,FALSE,TRUE,FALSE,FALSE,FALSE
+11.6,Deep Sea Vents (Rifts/Seeps),FALSE,TRUE,FALSE,FALSE,FALSE
+12,Marine Intertidal,TRUE,FALSE,FALSE,FALSE,FALSE
+12.1,Rocky Shoreline,TRUE,FALSE,FALSE,FALSE,FALSE
+12.2,"Sandy Shoreline and/or Beaches, Sand Bars, Spits, etc.",TRUE,FALSE,FALSE,FALSE,FALSE
+12.3,Shingle and/or Pebble Shoreline and/or Beaches,TRUE,FALSE,FALSE,FALSE,FALSE
+12.4,Mud Shoreline and Intertidal Mud Flats,TRUE,FALSE,FALSE,FALSE,FALSE
+12.5,Salt Marshes (Emergent Grasses),TRUE,FALSE,FALSE,FALSE,FALSE
+12.7,Mangrove Submerged Roots,TRUE,FALSE,FALSE,FALSE,FALSE
+12.6,Tidepools,TRUE,FALSE,FALSE,FALSE,FALSE
+13,Marine Coastal/Supratidal,TRUE,FALSE,FALSE,FALSE,FALSE
+13.1,Sea Cliffs and Rocky Offshore Islands,TRUE,FALSE,FALSE,FALSE,FALSE
+13.2,Coastal Caves/Karst,TRUE,FALSE,FALSE,FALSE,FALSE
+13.3,Coastal Sand Dunes,TRUE,FALSE,FALSE,FALSE,FALSE
+13.4,Coastal Brackish/Saline Lagoons/Marine Lakes,TRUE,FALSE,FALSE,FALSE,FALSE
+13.5,Coastal Freshwater Lakes,TRUE,FALSE,FALSE,FALSE,FALSE
+14,Artificial - Terrestrial,TRUE,FALSE,TRUE,FALSE,FALSE
+14.1,Arable Land,TRUE,FALSE,TRUE,FALSE,FALSE
+14.2,Pastureland,TRUE,FALSE,TRUE,FALSE,FALSE
+14.3,Plantations,TRUE,FALSE,TRUE,FALSE,FALSE
+14.4,Rural Gardens,TRUE,FALSE,TRUE,FALSE,FALSE
+14.5,Urban Areas,TRUE,FALSE,TRUE,FALSE,FALSE
+14.6,Subtropical/Tropical Heavily Degraded Former Forest,TRUE,FALSE,TRUE,FALSE,FALSE
+15,Artificial - Aquatic,TRUE,FALSE,TRUE,FALSE,FALSE
+15.1,Water Storage Areas [over 8 ha],TRUE,FALSE,TRUE,FALSE,FALSE
+15.2,Ponds [below 8 ha],TRUE,FALSE,TRUE,FALSE,FALSE
+15.3,Aquaculture Ponds,TRUE,FALSE,TRUE,FALSE,FALSE
+15.4,Salt Exploitation Sites,TRUE,FALSE,TRUE,FALSE,FALSE
+15.5,Excavations (open),TRUE,FALSE,TRUE,FALSE,FALSE
+15.6,Wastewater Treatment Areas,TRUE,FALSE,TRUE,FALSE,FALSE
+15.7,Irrigated Land [includes irrigation channels],TRUE,FALSE,TRUE,FALSE,FALSE
+15.8,Seasonally Flooded Agricultural Land,TRUE,FALSE,TRUE,FALSE,FALSE
+15.9,"Canals and Drainage Channels, Ditches",TRUE,FALSE,TRUE,FALSE,FALSE
+15.1,Karst and Other Subterranean Hydrological Systems [human-made],TRUE,FALSE,TRUE,FALSE,FALSE
+15.11,Marine Anthropogenic Structures,FALSE,TRUE,TRUE,FALSE,FALSE
+15.12,Mariculture Cages,FALSE,TRUE,TRUE,FALSE,FALSE
+15.13,Mari/Brackish-culture Ponds,TRUE,FALSE,TRUE,FALSE,FALSE
+16,Introduced Vegetation,TRUE,FALSE,FALSE,FALSE,TRUE
+17,Other,TRUE,FALSE,FALSE,TRUE,FALSE
+18,Unknown,TRUE,FALSE,FALSE,TRUE,FALSE

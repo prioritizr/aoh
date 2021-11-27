@@ -117,7 +117,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Crop a raster using GDAL</h1>
-    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/misc_gdal.R'><code>R/misc_gdal.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/terra_gdal_crop.R'><code>R/terra_gdal_crop.R</code></a></small>
     <div class="hidden name"><code>terra_gdal_crop.Rd</code></div>
     </div>
 
@@ -132,8 +132,9 @@
   filename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".tif"</span><span class='op'>)</span>,
   datatype <span class='op'>=</span> <span class='st'>"FLT4S"</span>,
   tiled <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
+  bigtiff <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  output_raster <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -171,13 +172,22 @@ Defaults to <code>"FLT4S"</code>.</p></td>
 Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p><code>logical</code> should information be displayed during processing?
+      <th>bigtiff</th>
+      <td><p><code>logical</code> Value indicating the data should be stored in
+BIGTIFF format.
+Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>output_raster</th>
+      <td><p><code>logical</code> Should a raster (<code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code>)
+object be returned?
+If <code>FALSE</code> then the file path for the resulting file is returned.
 Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments passed to <code><a href='https://rdrr.io/pkg/terra/man/writeRaster.html'>terra::writeRaster()</a></code>.</p></td>
+      <th>verbose</th>
+      <td><p><code>logical</code> Should information be displayed during processing?
+Defaults to <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
@@ -202,8 +212,10 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-in'><span class='co'># crop data</span></span>
 <span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>terra_gdal_crop</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking gdal_installation...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Scanning for GDAL installations...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking Sys.which...</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL version 3.2.2</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL command being used: "/usr/bin/gdal_translate" -tr 0.5 0.5 -projwin -105 58.5 -92.5 41 -ot "Float32" -of "GTiff" -projwin_srs "/tmp/RtmpcITbiC/file117a8f15848f8d.wkt" -co "COMPRESS=LZW" -co "NUM_THREADS=1" -oo "NUM_THREADS=1" "/tmp/RtmpcITbiC/file117a8f1ec30496.tif" "/tmp/RtmpcITbiC/file117a8f667c5fad.tif"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> GDAL command being used: "/usr/bin/gdal_translate" -tr 0.5 0.5 -projwin -105 58.5 -92.5 41 -ot "Float32" -of "GTiff" -projwin_srs "/tmp/Rtmp82enwh/file391a41e54c2ca.wkt" -co "NUM_THREADS=1" -co "COMPRESS=LZW" -oo "NUM_THREADS=1" "/tmp/Rtmp82enwh/file391a4516fa2ac.tif" "/tmp/Rtmp82enwh/file391a4228e261c.tif"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Input file size is 40, 400...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview result</span></span>
@@ -213,7 +225,7 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 0.5, 0.5  (x, y)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -105, -92.5, 41, 58.5  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326) </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file117a8f667c5fad.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file391a4228e261c.tif </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> name        : lyr.1 </span>
 </code></pre></div>
   </div>

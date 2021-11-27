@@ -117,7 +117,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>GDAL calculate</h1>
-    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/misc_gdal.R'><code>R/misc_gdal.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/prioritizr/aoh/blob/master/R/terra_gdal_calc.R'><code>R/terra_gdal_calc.R</code></a></small>
     <div class="hidden name"><code>terra_gdal_calc.Rd</code></div>
     </div>
 
@@ -128,12 +128,14 @@
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>terra_gdal_calc</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>expr</span>,
+  y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  n_threads <span class='op'>=</span> <span class='fl'>1</span>,
   filename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".tif"</span><span class='op'>)</span>,
   datatype <span class='op'>=</span> <span class='st'>"FLT4S"</span>,
-  n_threads <span class='op'>=</span> <span class='fl'>1</span>,
   tiled <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
+  bigtiff <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  output_raster <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,13 +150,8 @@
       <td><p><code>character</code> Value containing expression.</p></td>
     </tr>
     <tr>
-      <th>filename</th>
-      <td><p><code>character</code> Filename for output raster.
-Defaults to <code>tempfile(fileext = ".tif")</code>.</p></td>
-    </tr>
-    <tr>
-      <th>datatype</th>
-      <td><p><code>character</code> Data type for output raster.</p></td>
+      <th>y</th>
+      <td><p><code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code> Optional raster for calculations.</p></td>
     </tr>
     <tr>
       <th>n_threads</th>
@@ -165,18 +162,37 @@ parameter based on available resources (see Examples section below).
 Defaults to 1.</p></td>
     </tr>
     <tr>
+      <th>filename</th>
+      <td><p><code>character</code> Filename for output raster.
+Defaults to <code>tempfile(fileext = ".tif")</code>.</p></td>
+    </tr>
+    <tr>
+      <th>datatype</th>
+      <td><p><code>character</code> Value indicating the data type for saving data.
+Defaults to <code>"FLT4S"</code>.</p></td>
+    </tr>
+    <tr>
       <th>tiled</th>
       <td><p><code>logical</code> Value indicating if GeoTIFF files should be tiled.
 Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p><code>logical</code> should information be displayed during processing?
+      <th>bigtiff</th>
+      <td><p><code>logical</code> Value indicating the data should be stored in
+BIGTIFF format.
+Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>output_raster</th>
+      <td><p><code>logical</code> Should a raster (<code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code>)
+object be returned?
+If <code>FALSE</code> then the file path for the resulting file is returned.
 Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments passed to <code><a href='https://rdrr.io/pkg/terra/man/writeRaster.html'>terra::writeRaster()</a></code>.</p></td>
+      <th>verbose</th>
+      <td><p><code>logical</code> Should information be displayed during processing?
+Defaults to <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
@@ -197,6 +213,7 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># run calculation</span></span>
 <span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>terra_gdal_calc</span><span class='op'>(</span><span class='va'>x</span>, <span class='st'>"(X &lt; 20) * 1"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> System command: gdal_calc.py -X "/tmp/Rtmp82enwh/file391a47bb51a26.tif" --outfile="/tmp/Rtmp82enwh/file391a425687441.tif" --calc="(X &lt; 20) * 1" --type="Float32" --co="NUM_THREADS=1" --co="COMPRESS=LZW"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># preview result</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span></span>
@@ -205,7 +222,7 @@ Defaults to <code>TRUE</code>.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> resolution  : 0.5, 0.5  (x, y)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> extent      : -110, -90, 40, 60  (xmin, xmax, ymin, ymax)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326) </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file117a8f5c82485c.tif </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source      : file391a425687441.tif </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> name        : lyr.1 </span>
 </code></pre></div>
   </div>

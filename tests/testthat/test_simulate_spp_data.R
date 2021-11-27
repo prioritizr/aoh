@@ -19,7 +19,9 @@ test_that("single species", {
     system.file("testdata", "sim_elevation_data.tif", package = "aoh")
   )
   # create object
-  x <- simulate_spp_data(n, boundary_data, habitat_data, elevation_data)
+  x <- simulate_spp_data(
+    n, boundary_data, habitat_data, elevation_data, crosswalk_jung_data
+  )
   # tests
   expect_is(x, "list")
   expect_named(x, c("spp_range_data", "spp_habitat_data", "spp_summary_data"))
@@ -33,7 +35,7 @@ test_that("multiple species", {
   skip_if_not_installed("smoothr")
   skip_if_not_installed("RandomFields")
   # set parameters
-  n <- 5
+  n <- 3
   set.seed(500)
   RandomFields::RFoptions(seed = 500)
   # load data
@@ -47,7 +49,9 @@ test_that("multiple species", {
     system.file("testdata", "sim_elevation_data.tif", package = "aoh")
   )
   # create object
-  x <- simulate_spp_data(n, boundary_data, habitat_data, elevation_data)
+  x <- simulate_spp_data(
+    n, boundary_data, habitat_data, elevation_data, crosswalk_jung_data
+  )
   # tests
   expect_is(x, "list")
   expect_named(x, c("spp_range_data", "spp_habitat_data", "spp_summary_data"))
@@ -63,7 +67,7 @@ test_that("global elevation and habitat data", {
   # set parameters
   set.seed(500)
   RandomFields::RFoptions(seed = 500)
-  n <- 5
+  n <- 3
   hv <- "10.5281/zenodo.4058819"
   cd <- rappdirs::user_data_dir("aoh")
   # create data

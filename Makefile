@@ -14,23 +14,25 @@ clean:
 	rm -rf inst/doc/*
 
 # create built-in data
-data: inst/extdata/world_behrmann_1km_rast.tif inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip
-
-inst/extdata/world_behrmann_1km_rast.tif: inst/scripts/world-behrmann-1km-rast.R
-	R --slave -e "source('inst/scripts/world-behrmann-1km-rast.R')"
+data: inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip data/data/iucn_habitat_data.rda data/data/crosswalk_jung.rda
 
 inst/testdata/SIMULATED_SPECIES.zip: inst/scripts/test-data.R
 	R --slave -e "source('inst/scripts/test-data.R')"
+	rm -f builtin-data.Rout
 
-inst/extdata/EXAMPLE_SPECIES.zip: inst/scripts/range-data.R
-	R --slave -e "source('inst/scripts/range-data.R')"
+inst/extdata/EXAMPLE_SPECIES.zip: inst/scripts/example-data.R
+	R --slave -e "source('inst/scripts/example-data.R')"
+	rm -f builtin-data.Rout
+
+data/iucn-habitat-data.rda: inst/scripts/builtin-data.R data-raw/iucn-habitat-data.csv
+	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
+
+data/crosswalk-jung-data.rda: inst/scripts/builtin-data.R data-raw/crosswalk-jung-data.rda
+	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
 
 # preprocess datasets
 prep_habitat_data: inst/scripts/preprocess-habitat-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/preprocess-habitat-data.R
-
-prep_elevation_data: inst/scripts/preprocess-elevation-data.R
-	R CMD BATCH --no-restore --no-save inst/scripts/preprocess-elevation-data.R
 
 # process aoh data
 aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles

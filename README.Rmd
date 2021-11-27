@@ -58,32 +58,34 @@ If these instructions did not work, please consult the documentation for the [_r
 
 #### Optional system libraries
 
-The package can leverage the [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/) to help reduce processing time. Although use of GDAL is optional, it can help improve computational performance when not using the preprocessed habitat classification and elevation data. Below we provide platform-specific instructions to install GDAL.
+The package can leverage the [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/) and [Geographic Resources Analysis Support System (GRASS)](https://grass.osgeo.org/) to help reduce processing time. Although use of these software is optional, they can help improve computational performance when processing data across large spatial extents. Below we provide platform-specific instructions to install them.
 
 ##### _Windows_
 
-The easiest way to install GDAL is through [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/), select the "Express Install" option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the _gdalUtils R_ package cannot find GDAL, you may also need to update the `PATH` environmental variable so that it contains the folder path for GDAL (default folder path is `C:\OSGeo4W\bin`),
+The easiest way to install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/), select the "Express Install" option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the _gdalUtils R_ package cannot find GDAL, you may also need to update the `PATH` environmental variable so that it contains the folder path for GDAL (default folder path is `C:\OSGeo4W\bin`),
 
 ##### _Ubuntu_
 
-The GDAL binary library will need to be installed when using Ubuntu. For recent versions of Ubuntu (18.04 and later), this library is available through official repositories. It can be installed using the following system commands.
+For recent versions of Ubuntu (18.04 and later), the libraries are available through official repositories. They can be installed using the following system commands.
 
 ```
 apt-get -y update
-apt-get install -y gdal-bin
+apt-get install -y gdal-bin grass
 ```
 
 ##### _Linux_
 
-For Unix-alikes, `gdal` (>= 3.0.2) are required.
+For Unix-alikes, `gdal` (>= 3.0.2) and `grass` (>= 7.8.5) are required.
 
 ##### _MacOS_
 
-The easiest way to install the `gdal` library is using [HomeBrew](https://brew.sh/). After installing HomeBrew, the library can be installed using the following system commands.
+The easiest way to install the libraries is using [HomeBrew](https://brew.sh/). After installing HomeBrew, the libraries can be installed using the following system commands.
 
 ```
+brew tap osgeo/osgeo4mac
 brew install pkg-config
 brew install gdal
+brew install osgeo-grass
 ```
 
 ### Usage
@@ -151,11 +153,11 @@ print(spp_aoh_rasters)
 
 Finally, let's create some maps to compare the range data with the Area of habitat data.
 
-```{r, message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(knitr::is_html_output(excludes = c("markdown"))), "60%", "90%")}
+```{r "map", message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(knitr::is_html_output(excludes = c("markdown"))), "60%", "90%")}
 # create maps
 map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
-  scale_fill_viridis_c() +
+  scale_fill_viridis_d() +
   scale_color_manual(values = c("range" = "red")) +
   scale_size_manual(values = c("range" = 0.5)) +
   theme(

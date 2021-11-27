@@ -20,10 +20,7 @@ NULL
 #'
 #' @export
 iucn_habitat_codes_artificial <- function() {
-  # import codes conversion table
-  code_data <- habitat_code_data()
-  # return codes
-  as.character(code_data$iucn_code[code_data$is_artificial])
+  as.character(iucn_habitat_data$code[iucn_habitat_data$is_artificial])
 }
 
 #' Miscellaneous IUCN Red List habitat codes
@@ -45,10 +42,7 @@ iucn_habitat_codes_artificial <- function() {
 #'
 #' @export
 iucn_habitat_codes_misc <- function() {
-  # import codes conversion table
-  code_data <- habitat_code_data()
-  # return codes
-  as.character(code_data$iucn_code[code_data$is_misc])
+  as.character(iucn_habitat_data$code[iucn_habitat_data$is_misc])
 }
 
 #' Introduced IUCN Red List habitat codes
@@ -70,10 +64,7 @@ iucn_habitat_codes_misc <- function() {
 #'
 #' @export
 iucn_habitat_codes_introduced <- function() {
-  # import codes conversion table
-  code_data <- habitat_code_data()
-  # return codes
-  as.character(code_data$iucn_code[code_data$is_introduced])
+  as.character(iucn_habitat_data$code[iucn_habitat_data$is_introduced])
 }
 
 #' Terrestrial IUCN Red List habitat codes
@@ -94,10 +85,7 @@ iucn_habitat_codes_introduced <- function() {
 #'
 #' @export
 iucn_habitat_codes_terrestrial <- function() {
-  # import codes conversion table
-  code_data <- habitat_code_data()
-  # return codes
-  as.character(code_data$iucn_code[code_data$is_terrestrial])
+  as.character(iucn_habitat_data$code[iucn_habitat_data$is_terrestrial])
 }
 
 #' Marine IUCN Red List habitat codes
@@ -118,8 +106,5 @@ iucn_habitat_codes_terrestrial <- function() {
 #'
 #' @export
 iucn_habitat_codes_marine <- function() {
-  # import codes conversion table
-  code_data <- habitat_code_data()
-  # return codes
-  as.character(code_data$iucn_code[code_data$is_marine])
+  as.character(iucn_habitat_data$code[iucn_habitat_data$is_marine])
 }

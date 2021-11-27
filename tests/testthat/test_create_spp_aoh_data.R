@@ -27,9 +27,9 @@ test_that("simulated data", {
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    use_gdal = FALSE,
     verbose = TRUE
   )
   # tests
@@ -111,10 +111,9 @@ test_that("some species missing habitat data", {
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    use_gdal = FALSE,
-    force = TRUE,
     verbose = interactive()
   )
   x2 <- create_spp_aoh_data(
@@ -122,10 +121,9 @@ test_that("some species missing habitat data", {
     output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data_alt,
     spp_summary_data = spp_summary_data,
-    use_gdal = FALSE,
-    force = TRUE,
     verbose = interactive()
   )
   # tests
@@ -190,10 +188,9 @@ test_that("species with reversed elevation limits", {
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    use_gdal = FALSE,
-    force = TRUE,
     verbose = interactive()
   )
   x2 <- create_spp_aoh_data(
@@ -201,10 +198,9 @@ test_that("species with reversed elevation limits", {
     output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data_alt,
-    use_gdal = FALSE,
-    force = TRUE,
     verbose = interactive()
   )
   # tests
@@ -231,10 +227,9 @@ test_that("species with reversed elevation limits", {
   unlink(output_dir2, recursive = TRUE)
 })
 
-test_that("GDAL processing", {
+test_that("engines produce same results", {
   # skip if needed
   skip_on_cran()
-  skip_if_gdal_not_available()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -251,6 +246,8 @@ test_that("GDAL processing", {
     system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
     sep = ",", header = TRUE
   )
+  # load data
+  d <- read_spp_range_data(f)
   # create output dirs
   output_dir1 <- tempfile()
   output_dir2 <- tempfile()
@@ -258,17 +255,16 @@ test_that("GDAL processing", {
   dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
   dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
   dir.create(output_dir3, showWarnings = FALSE, recursive = TRUE)
-  # load data
-  d <- read_spp_range_data(f)
   # create objects
   x1 <- create_spp_aoh_data(
     x = d,
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    use_gdal = FALSE,
+    engine = "terra",
     verbose = interactive()
   )
   x2 <- create_spp_aoh_data(
@@ -276,10 +272,10 @@ test_that("GDAL processing", {
     output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    use_gdal = TRUE,
-    n_threads = 1,
+    engine = "gdal",
     verbose = interactive()
   )
   x3 <- create_spp_aoh_data(
@@ -287,10 +283,10 @@ test_that("GDAL processing", {
     output_dir = output_dir3,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
-    use_gdal = TRUE,
-    n_threads = 2,
+    engine = "grass",
     verbose = interactive()
   )
   # tests
@@ -308,7 +304,7 @@ test_that("GDAL processing", {
     dplyr::select(x1, -path),
     dplyr::select(x3, -path)
   )
-  expect_equal(
+  expect_equivalent(
     lapply(
       x1$path,
       function(x) terra::values(terra::rast(x))
@@ -318,7 +314,7 @@ test_that("GDAL processing", {
       function(x) terra::values(terra::rast(x))
     )
   )
-  expect_equal(
+  expect_equivalent(
     lapply(
       x1$path,
       function(x) terra::values(terra::rast(x))
@@ -334,69 +330,6 @@ test_that("GDAL processing", {
   unlink(output_dir3, recursive = TRUE)
 })
 
-test_that("preprocessed data", {
-  # skip if needed
-  skip_on_cran()
-  # specify file path
-  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  spp_habitat_data <- read.csv(
-    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  spp_summary_data <- read.csv(
-    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  # load data
-  d <- read_spp_range_data(f)
-  # create objects
-  x <- create_spp_aoh_data(
-    x = d,
-    output_dir = tempdir(),
-    habitat_data = NULL,
-    elevation_data = NULL,
-    use_gdal = FALSE,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    verbose = TRUE
-  )
-  # tests
-  expect_is(x, "sf")
-  expect_named(x, aoh_names)
-  expect_is(x$id_no, "integer")
-  expect_is(x$binomial, "character")
-  expect_is(x$seasonal, "integer")
-  expect_is(x$habitat_code, "character")
-  expect_is(x$elevation_lower, "numeric")
-  expect_is(x$elevation_upper, "numeric")
-  expect_is(x$elevation_upper, "numeric")
-  expect_is(x$elevation_upper, "numeric")
-  expect_is(x$elevation_upper, "numeric")
-  expect_is(x$elevation_upper, "numeric")
-  expect_is(x$path, "character")
-  expect_equal(sum(is.na(x$path)), 0)
-  expect_gte(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
-    })),
-    0
-  )
-  expect_lte(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
-    })),
-    1
-  )
-  expect_gt(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
-    })),
-    0
-  )
-  # clean up
-  unlink(x$path[!is.na(x$path)])
-})
-
 test_that("example data", {
   # skip if needed
   skip_on_cran()
@@ -406,6 +339,7 @@ test_that("example data", {
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
+  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f)
   # create objects
@@ -415,7 +349,7 @@ test_that("example data", {
       output_dir = tempdir(),
       cache_dir = cd,
       habitat_version = hv,
-      use_gdal = FALSE,
+      elevation_version = ev,
       verbose = interactive()
     )
   )
@@ -451,6 +385,7 @@ test_that("amphibian data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_gdal_calc_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
   # specify parameters for processing
@@ -460,6 +395,7 @@ test_that("amphibian data", {
   )
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
+  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 100)
   # subset data for testing (i.e. some Asian taxa)
@@ -469,8 +405,9 @@ test_that("amphibian data", {
     x = d,
     output_dir = tempdir(),
     habitat_version = hv,
-    use_gdal = FALSE,
+    elevation_version = ev,
     cache_dir = cd,
+    engine = "gdal",
     verbose = interactive()
   )
   # tests
@@ -505,6 +442,7 @@ test_that("reptile data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_gdal_calc_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
   # specify parameters for processing
@@ -514,6 +452,7 @@ test_that("reptile data", {
   )
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
+  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data for testing (i.e. some Australian taxa)
@@ -527,7 +466,8 @@ test_that("reptile data", {
     output_dir = tempdir(),
     cache_dir = cd,
     habitat_version = hv,
-    use_gdal = FALSE,
+    elevation_version = ev,
+    engine = "gdal",
     verbose = interactive()
   )
   # tests
@@ -562,6 +502,7 @@ test_that("terrestrial mammal data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_gdal_calc_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
   # specify parameters for processing
@@ -571,6 +512,7 @@ test_that("terrestrial mammal data", {
   )
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
+  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data for testing (i.e. some Oceanic taxa)
@@ -581,7 +523,8 @@ test_that("terrestrial mammal data", {
     output_dir = tempdir(),
     cache_dir = cd,
     habitat_version = hv,
-    use_gdal = FALSE,
+    elevation_version = ev,
+    engine = "gdal",
     verbose = interactive()
   )
   # tests
@@ -616,6 +559,7 @@ test_that("bird data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_gdal_calc_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   # specify parameters for processing
@@ -625,6 +569,7 @@ test_that("bird data", {
   )
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
+  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- suppressWarnings(read_spp_range_data(f, n = 200))
   # subset data (i.e. some Oceanic species)
@@ -637,7 +582,8 @@ test_that("bird data", {
     output_dir = tempdir(),
     cache_dir = cd,
     habitat_version = hv,
-    use_gdal = FALSE,
+    elevation_version = ev,
+    engine = "gdal",
     verbose = interactive()
   )
   # tests
@@ -672,6 +618,7 @@ test_that("bird data (migratory)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
+  skip_if_gdal_calc_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   # specify parameters for processing
@@ -681,6 +628,7 @@ test_that("bird data (migratory)", {
   )
   cd <- rappdirs::user_data_dir("aoh")
   hv <- "10.5281/zenodo.4058819"
+  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data (geographically restricted genus)
@@ -692,7 +640,8 @@ test_that("bird data (migratory)", {
     output_dir = tempdir(),
     cache_dir = cd,
     habitat_version = hv,
-    use_gdal = FALSE,
+    elevation_version = ev,
+    engine = "gdal",
     verbose = interactive()
   )
   # tests

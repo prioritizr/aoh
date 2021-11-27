@@ -1,146 +1,80 @@
 context("get_global_habitat_data()")
 
-test_that("latest version (raw)", {
+test_that("latest version (from online)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
   x <- get_global_habitat_data(
-    version = "latest", preprocessed = FALSE, force = TRUE, verbose = interactive()
+    version = "latest", force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
-  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
-  expect_lte(terra::xmin(x), -180)
-  expect_gte(terra::xmax(x), 180)
-  expect_lte(terra::xmin(x), -89)
-  expect_gte(terra::ymax(x), 89)
-  expect_equal(terra::nlyr(x), 79)
+  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs("ESRI:54017"))
+  expect_lte(terra::xmin(x), -17367531)
+  expect_gte(terra::xmax(x), 17367569)
+  expect_lte(terra::xmin(x), -6005523)
+  expect_gte(terra::ymax(x), 7287077)
+  expect_equal(terra::nlyr(x), 1)
 })
 
-test_that("latest version (preprocessed)", {
+test_that("latest version (from cache)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  skip_if_local_and_slow_internet()
-  # get data
-  d <- get_world_behrmann_1km_rast()
-  # determine valid codes
-  code_data <- habitat_code_data()
-  iucn_codes <- names(
-    get_global_habitat_data(
-      version = "latest", preprocessed = FALSE, force = FALSE, verbose = interactive()
-    )
-  )
-  iucn_codes <- intersect(
-    iucn_codes, code_data$iucn_code[code_data$terrestrial]
-  )
+  skip_if_not_installed("rappdirs")
   # create object
   x <- get_global_habitat_data(
-    version = "latest", preprocessed = TRUE, force = TRUE, verbose = interactive()
+    dir = rappdirs::user_data_dir("aoh"),
+    version = "latest", force = FALSE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
-  expect_true(terra::compareGeom(x, d, res = TRUE, stopOnError = FALSE))
-  expect_equal(terra::nlyr(x), 63)
-  expect_equal(sort(iucn_codes), sort(names(x)))
+  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs("ESRI:54017"))
+  expect_lte(terra::xmin(x), -17367531)
+  expect_gte(terra::xmax(x), 17367569)
+  expect_lte(terra::xmin(x), -6005523)
+  expect_gte(terra::ymax(x), 7287077)
+  expect_equal(terra::nlyr(x), 1)
 })
 
-test_that("manually specified version (raw from online)", {
+test_that("specified version (from online)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
   x <- get_global_habitat_data(
-    version = "10.5281/zenodo.4058819", preprocessed = FALSE,
-    force = TRUE, verbose = interactive()
+    version = "10.5281/zenodo.4058819", force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
-  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
-  expect_lte(terra::xmin(x), -180)
-  expect_gte(terra::xmax(x), 180)
-  expect_lte(terra::xmin(x), -89)
-  expect_gte(terra::ymax(x), 89)
-  expect_equal(terra::nlyr(x), 79)
+  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs("ESRI:54017"))
+  expect_lte(terra::xmin(x), -17367531)
+  expect_gte(terra::xmax(x), 17367569)
+  expect_lte(terra::xmin(x), -6005523)
+  expect_gte(terra::ymax(x), 7287077)
+  expect_equal(terra::nlyr(x), 1)
 })
 
-test_that("manually specified version (preprocessed from online)", {
+test_that("specified version (from cache)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  skip_if_local_and_slow_internet()
-  # get data
-  d <- get_world_behrmann_1km_rast()
-  # determine valid codes
-  code_data <- habitat_code_data()
-  iucn_codes <- names(
-    get_global_habitat_data(
-      version = "latest", preprocessed = FALSE, force = FALSE, verbose = interactive()
-    )
-  )
-  iucn_codes <- intersect(
-    iucn_codes, code_data$iucn_code[code_data$terrestrial]
-  )
+  skip_if_not_installed("rappdirs")
   # create object
   x <- get_global_habitat_data(
-    version = "10.5281/zenodo.4058819", preprocessed = TRUE,
-    force = TRUE, verbose = interactive()
+    dir = rappdirs::user_data_dir("aoh"),
+    version = "10.5281/zenodo.4058819", force = FALSE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
-  expect_true(terra::compareGeom(x, d, res = TRUE, stopOnError = FALSE))
-  expect_equal(terra::nlyr(x), 63)
-  expect_equal(sort(iucn_codes), sort(names(x)))
-})
+  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs("ESRI:54017"))
+  expect_lte(terra::xmin(x), -17367531)
+  expect_gte(terra::xmax(x), 17367569)
+  expect_lte(terra::xmin(x), -6005523)
+  expect_gte(terra::ymax(x), 7287077)
+  expect_equal(terra::nlyr(x), 1)
 
-test_that("manually specified version (raw from cache)", {
-  # skip if needed
-  skip_on_cran()
-  skip_if_offline()
-  skip_if_local_and_slow_internet()
-  # create object
-  x <- get_global_habitat_data(
-    version = "10.5281/zenodo.4058819", preprocessed = FALSE,
-    force = FALSE, verbose = interactive()
-  )
-  # tests
-  expect_is(x, "SpatRaster")
-  expect_true(sf::st_crs(terra::crs(x)) == sf::st_crs(4326))
-  expect_lte(terra::xmin(x), -180)
-  expect_gte(terra::xmax(x), 180)
-  expect_lte(terra::xmin(x), -89)
-  expect_gte(terra::ymax(x), 89)
-  expect_equal(terra::nlyr(x), 79)
-})
-
-test_that("manually specified version (preprocessed from cache)", {
-  # skip if needed
-  skip_on_cran()
-  skip_if_offline()
-  skip_if_local_and_slow_internet()
-  # get data
-  d <- get_world_behrmann_1km_rast()
-  # determine valid codes
-  code_data <- habitat_code_data()
-  iucn_codes <- names(
-    get_global_habitat_data(
-      version = "10.5281/zenodo.4058819", preprocessed = FALSE, verbose = TRUE
-    )
-  )
-  iucn_codes <- intersect(
-    iucn_codes, code_data$iucn_code[code_data$terrestrial]
-  )
-  # create object
-  x <- get_global_habitat_data(
-    version = "10.5281/zenodo.4058819", preprocessed = TRUE,
-    force = FALSE, verbose = interactive()
-  )
-  # tests
-  expect_is(x, "SpatRaster")
-  expect_true(terra::compareGeom(x, d, res = TRUE, stopOnError = FALSE))
-  expect_equal(terra::nlyr(x), 63)
-  expect_equal(sort(iucn_codes), sort(names(x)))
 })

@@ -53,27 +53,29 @@ NULL
 #'   latest version of the [IUCN Red List](https://www.iucnredlist.org).
 #'
 #' @param elevation_data [terra::rast()] Raster data delineating the
-#'   worldwide elevation data (e.g. Amatulli *et al.* 2018).
+#'   worldwide elevation data (e.g. Robinson *et al.* 2014).
 #'   Defaults to `NULL` such that data
 #'   are automatically obtained (using [get_global_elevation_data()]).
 #'   If the data are obtained automatically, then a preprocessed version
 #'   of the habitat data will be used to reduce processing time.
 #'
-#' @param habitat_data [terra::rast()] Multi-layer raster data delineating the
-#'   coverage of different habitat classes across world
+#' @param habitat_data [terra::rast()] Raster data indicating the
+#'   presence of different habitat classes across world
 #'   (e.g. Jung *et al.* 2020a,b).
-#'   Each layer should correspond to a different habitat class,
-#'   and the name of each layer should contain a unique code used to identify
-#'   which places contain suitable habitat for a given species
-#'   (per the `"code"` column in the the argument to `spp_habitat_data`).
-#'   For each layer, pixel values should indicate the percentage of available
-#'   an available habitat class.
-#'   **Critically, a value of 1000 should indicate 100%, and a value of 0
-#'   should indicate 0%.**
-#'   Defaults to `NULL` such that data
-#'   are automatically obtained (using [get_global_habitat_data()]).
-#'   If the data are obtained automatically, then a preprocessed version
-#'   of the habitat data will be used to reduce processing time.
+#'   Each pixel should contain an `integer` value that specifies which
+#'   habitat class is present within the pixel
+#'   (based on the argument to `crosswalk_data`).
+#'   Defaults to `NULL` such that data are automatically obtained (using
+#'   [get_global_habitat_data()]).
+#'
+#' @param crosswalk_data [data.frame()] Table containing data that indicate
+#'   which pixel values in the argument to `habitat_data` correspond to which
+#'   IUCN habitat classification codes. The argument should contain
+#'   a `code` column that specifies a set of IUCN habitat classification
+#'   codes (see [iucn_habitat_data()], and a `value` column that specifies
+#'   different values in the argument to `habitat_data`.
+#'   Defaults to `NULL` such that the crosswalk for the default habitat
+#'   data are used (i.e. [crosswalk_jung_data()]).
 #'
 #' @param iucn_version  `character` Version of the
 #'  IUCN Red List dataset that should be used. See documentation for the
@@ -91,12 +93,14 @@ NULL
 #'   Defaults to `"latest"` such that the most recent version of the dataset is
 #'   used if data need to be obtained.
 #'
-#' @param template_data [terra::rast()] Template raster specifying the
-#'  resolution, coordinate reference system, and dimensionality for the
-#'  output raster files.
-#'  Defaults to [get_world_behrmann_1km_rast()] which is a global 1 km
-#'  resolution raster under the World Behrmann coordinate reference system
-#'  (ESRI:54017).
+#' @param elevation_version `character` Version of the
+#'   elevation dataset that should be used. See documentation for the
+#'   the `version` parameter in the [get_global_elevation_data()] function
+#'   for further details.
+#'   This parameter is only used if elevation data are obtained
+#'   automatically (i.e. the argument to `elevation_data` is `NULL`).
+#'   Defaults to `"latest"` such that the most recent version of the dataset is
+#'   used if data need to be obtained.
 #'
 #' @param n_threads `integer` Number of computational threads to use
 #'   for data processing.
@@ -123,11 +127,10 @@ NULL
 #'   Defaults to [iucn_habitat_codes_marine()], such that marine
 #'   habitats are excluded.
 #'
-#' @param use_gdal `logical` indicating if GDAL should be used for
-#'   projecting and cropping raster data?
-#'   If GDAL is installed on the system and the \pkg{gdalUtils} package
-#'   is installed, this can dramatically reduce run time.
-#'   Defaults to `TRUE` if GDAL is available (per [is_gdal_available()]).
+#' @param engine `character` value indicating the name of the software
+#'   to use for data processing.
+#'   Available options include `"terra"`, `"gdal"`, or `"grass"`.
+#'   Defaults to `"terra"`.
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
@@ -241,19 +244,6 @@ NULL
 #'   for these *resident* distributions are assigned based on habitat
 #'   affiliations for the species' *breeding* distribution.
 #'
-#' \item Preliminary geoprocessing routines are used to prepare the habitat and
-#'   elevation data for subsequent processing. These routines involve
-#'   (i) cropping the template data based on the maximum
-#'   extent of the species' ranges;
-#'   (ii) aligning the habitat data to conform to the same spatial
-#'   properties as the template data; and
-#'   (iii) aligning the elevation data to conform to the same spatial
-#'   properties as the template data.
-#'   Specifically, data alignment procedures involve reprojecting the
-#'   the data to same coordinate reference system as the template data
-#'   (if needed), and cropping their spatial extent to match
-#'   that of the template data (if needed).
-#'
 #' \item The Area of Habitat data are then generated for each seasonal
 #'   distribution of each species. For a given species' distribution,
 #'   the data are generated by
@@ -279,7 +269,7 @@ NULL
 #'   Note that species' distributions that already have Area of Habitat data
 #'   available in the output directory are skipped.
 #'
-#' \item Post-processing routines are used to prepare the returned object.
+#' \item Post-processing routines are used to prepare the results.
 #'   These routines involve updating the collated species data to include
 #'   file names and spatial metadata for the Area of Habitat data.
 #'
@@ -323,25 +313,16 @@ NULL
 #'   the Area of Habitat data.}
 #' \item{path}{`character` file paths for Area of Habitat data
 #'   (in GeoTIFF format).
-#'   The Area of Habitat datasets denote the proportion of land
-#'   inside different grid cells that contain suitable habitat for
+#'   The Area of Habitat datasets denote the presence (using a value of 1)
+#'   and absence (using a value of 0) inside grid cells within
 #'   species' seasonal distribution.
-#'   Thus a grid cell with a value of 0 has 0% of its spatial extent covered by
-#'   suitable habitat, a value of 1 has 100% of its spatial extent covered by
-#'   suitable habitat, and a missing (`NA`) value
-#'   means that the cell is located outside of the species'
-#'   distribution (per the geographic range data).
+#'   Grid cells that are located outside of a species' distribution
+#'   are assigned a missing (`NA`) value.
 #'   File paths that are denoted with missing (`NA`) values correspond to
-#'   species distributions that were not processed (e.g. due to lack of habitat
-#'   data).}
+#'   species distributions that were not processed (e.g. due to lack of data).}
 #' }
 #'
 #' @references
-#' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
-#' Jetz W (2018) A suite of global, cross-scale topographic variables for
-#' environmental and biodiversity modeling. *Scientific Data*, 5:180040.
-#' Available at <https://doi.org/10.1038/sdata.2018.40>.
-#'
 #' Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
@@ -358,6 +339,12 @@ NULL
 #' terrestrial habitat types (insert version) \[Data set\].
 #' *Zenodo Digital Repository*.
 #' Available at <https://doi.org/10.5281/zenodo.4058819>.
+#'
+#' Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
+#' global, void-free, multi-scale smoothed, 90m digital elevation model from
+#' fused ASTER and SRTM data.
+#' *ISPRS Journal of Photogrammetry and Remote Sensing*, 87:57--67.
+#' Available at <https://doi.org/10.1016/j.isprsjprs.2013.11.002>
 #'
 #' @examples
 #' \dontrun{
@@ -412,14 +399,15 @@ create_spp_aoh_data <- function(x,
                                 spp_habitat_data = NULL,
                                 elevation_data = NULL,
                                 habitat_data = NULL,
-                                template_data = get_world_behrmann_1km_rast(),
+                                crosswalk_data = NULL,
                                 cache_dir = tempdir(),
                                 iucn_version = "latest",
                                 habitat_version = "latest",
+                                elevation_version = "latest",
                                 key = NULL,
                                 force = FALSE,
                                 n_threads = 1,
-                                use_gdal = is_gdal_available(),
+                                engine = "terra",
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
@@ -428,11 +416,6 @@ create_spp_aoh_data <- function(x,
   if (verbose) {
     cli::cli_progress_step("initializing")
   }
-  ## customize terra options
-  tmp_rast_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
-  dir.create(tmp_rast_dir, showWarnings = FALSE, recursive = TRUE)
-  terra::terraOptions(progress = 0, tempdir = tmp_rast_dir)
-  on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()), add = TRUE)
   ## initial validation
   assertthat::assert_that(
     inherits(x, "sf"),
@@ -440,11 +423,13 @@ create_spp_aoh_data <- function(x,
     assertthat::is.writeable(cache_dir),
     assertthat::is.count(n_threads),
     assertthat::noNA(n_threads),
-    assertthat::is.flag(verbose),
-    assertthat::noNA(force),
     assertthat::is.flag(force),
-    assertthat::noNA(verbose),
-    inherits(template_data, "SpatRaster")
+    assertthat::noNA(force),
+    assertthat::is.string(engine),
+    assertthat::noNA(engine),
+    engine %in% c("terra", "gdal", "grass"),
+    assertthat::is.flag(verbose),
+    assertthat::noNA(verbose)
   )
   assertthat::assert_that(
     assertthat::has_name(x, "id_no") ||
@@ -453,10 +438,16 @@ create_spp_aoh_data <- function(x,
       "argument to \"x\" does not have a column named \"id_no\" or \"SISID\""
     )
   )
-  if (isTRUE(use_gdal)) {
+  if (identical(engine, "gdal")) {
     assertthat::assert_that(
       is_gdal_available(),
-      msg = "can't use GDAL because it's not available."
+      msg = "can't use GDAL for processing because it's not available."
+    )
+  }
+  if (identical(engine, "grass")) {
+    assertthat::assert_that(
+      is_grass_available(),
+      msg = "can't use GRASS for processing because it's not available."
     )
   }
   # verify access to IUCN Red List API
@@ -475,7 +466,8 @@ create_spp_aoh_data <- function(x,
     }
     ### processing
     elevation_data <- get_global_elevation_data(
-      dir = cache_dir, force = force, verbose = verbose
+      dir = cache_dir, version = elevation_version,
+      force = force, verbose = verbose
     )
   }
   assertthat::assert_that(
@@ -491,51 +483,62 @@ create_spp_aoh_data <- function(x,
     }
     ### processing
     habitat_data <- get_global_habitat_data(
-      dir = cache_dir, version = habitat_version, force = force,
-      preprocessed = TRUE, verbose = verbose
+      dir = cache_dir, version = habitat_version,
+      force = force, verbose = verbose
+    )
+    ### get crosswalk data if needed
+    if (is.null(crosswalk_data)) {
+      crosswalk_data <- crosswalk_jung_data
+    }
+  } else {
+    assertthat::assert_that(
+      inherits(crosswalk_data, "data.frame"),
+      msg = paste(
+        "argument to \"crosswalk_data\" must be supplied when not using",
+        "default habitat data"
+      )
     )
   }
   assertthat::assert_that(
     inherits(habitat_data, "SpatRaster"),
+    terra::nlyr(habitat_data) == 1,
     all(terra::hasValues(habitat_data))
   )
-  ## additional data validation
-  rng_cells <- as.matrix(terra::spatSample(
-    habitat_data, size = 10000, method = "regular",
-    replace = FALSE, as.df = TRUE,
-    warn = FALSE
-  ))
-  if (mean(rowSums(is.finite(rng_cells)) > 0) > 0.01) {
-    assertthat::assert_that(
-      min(rng_cells, na.rm = TRUE) >= 0,
-      max(rng_cells, na.rm = TRUE) <= 1000,
-      msg = paste(
-        "argument to \"habitat_data\" does not have values ranging between 0",
-        "and 1000 (i.e. indicating 0% and 100% coverage, respectively)"
-      )
+  ## verify rasters match
+  assertthat::assert_that(
+    terra::compareGeom(
+      elevation_data, habitat_data,
+      res = TRUE, stopiffalse = FALSE
+    ),
+    msg = paste(
+      "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
+      "same spatial properties (e.g. coordinate system, extent, resolution)"
     )
-    if (max(rng_cells, na.rm = TRUE) < 500) {
-      warning(
-        paste(
-          "argument to \"habitat_data\" may not have values ranging from 0",
-          "to 1000 indicating 0% to 100% coverage of different habitat classes"
-        ),
-        immediate. = FALSE
-      )
-    }
-  } else {
-    warning(
+  )
+  ## crosswalk_data
+  assertthat::assert_that(
+    inherits(crosswalk_data, "data.frame"),
+    assertthat::has_name(crosswalk_data, c("code", "value")),
+    assertthat::noNA(crosswalk_data$code),
+    assertthat::noNA(crosswalk_data$value),
+    is.character(crosswalk_data$code),
+    is.numeric(crosswalk_data$value)
+  )
+  assertthat::assert_that(
+    all(crosswalk_data$code %in% iucn_habitat_data$code),
+    msg = paste(
+      "argument to \"crosswalk_data\" contains the following codes that",
+      "are not valid IUCN habitat codes:",
       paste(
-        "unable to verify that that argument to \"habitat_data\" contains",
-        "valid data, please ensure that it contains values ranging from 0",
-        "to 1000 that indicate 0% to 100% coverage (respectively)",
-        "of different habitat classes"
-      ),
-      immediate. = FALSE
+        paste0(
+          "\"",
+          setdiff(crosswalk_data$code, iucn_habitat_data$code),
+          "\""
+        ),
+        collapse = ","
+      )
     )
-  }
-  ## clean up
-  rm(rng_cells)
+  )
 
   # clean species range data
   ## display message
@@ -543,7 +546,7 @@ create_spp_aoh_data <- function(x,
     cli::cli_progress_step("cleaning species range data")
   }
   ## processing
-  x <- clean_spp_range_data(x = x, crs = terra_st_crs(template_data))
+  x <- clean_spp_range_data(x = x, crs = terra_st_crs(elevation_data))
   ## addition data validation
   assertthat::assert_that(
     nrow(x) > 0,
@@ -592,7 +595,7 @@ create_spp_aoh_data <- function(x,
   ## main processing
   x <- format_spp_data(
     x = x,
-    template_data = template_data,
+    template_data = habitat_data,
     spp_summary_data = spp_summary_data,
     spp_habitat_data = spp_habitat_data,
     cache_dir = cache_dir,
@@ -606,11 +609,11 @@ create_spp_aoh_data <- function(x,
   ## additional data validation
   ### check that habitat_data has all codes in spp_habitat_data
   habitat_codes <- unique(unlist(x$habitat_code, use.names = FALSE))
-  missing_codes <- !habitat_codes %in% names(habitat_data)
+  missing_codes <- !habitat_codes %in% crosswalk_data$code
   if (any(missing_codes)) {
     cli::cli_alert_warning(
       paste(
-        "argument to \"habitat_data\" is missing layers for the following",
+        "argument to \"crosswalk_data\" is missing the following",
         sum(missing_codes),
         "habitat classification codes:",
         paste(
@@ -625,11 +628,10 @@ create_spp_aoh_data <- function(x,
     )
   }
   assertthat::assert_that(
-    any(habitat_codes %in% names(habitat_data)),
+    any(habitat_codes %in% crosswalk_data$code),
     msg = paste(
-      "argument to \"habitat_data\" does not have any layer names that",
-      "match the habitat classification codes - did you forget to specify",
-      "layer names for \"habitat_data\"?"
+      "argument to \"crosswalk_data\" does not contain",
+      "IUCN habitat classification codes that are suitable for any species"
     )
   )
   assertthat::assert_that(
@@ -658,200 +660,20 @@ create_spp_aoh_data <- function(x,
   ##   none of their habitat layers are available
   x$path[is.na(x$xmin)] <- NA_character_
   x$path[vapply(x$habitat_code, length, integer(1)) == 0] <- NA_character_
-
-  # preliminary GIS data processing
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("preliminary geoprocessing")
-  }
-  ## remove unused habitat layers
-  habitat_data <- habitat_data[[habitat_codes]]
-  ## crop data to template
-  ## N.B. we don't use GDAL here because it doesn't support snapping,
-  ## which means that it might drop rows/columns inside the target extent
-  template_data <- terra::crop(
-    x = template_data,
-    y = sf_terra_ext(
-      sf::st_bbox(
-        sf::st_intersection(
-          sf::st_as_sfc(sf::st_bbox(x, crs = sf::st_crs(x))),
-          sf::st_as_sfc(terra_st_bbox(template_data))
-        )
-      )
-    ),
-    snap = "out"
-  )
-
-  # habitat processing
-  if (
-    identical(terra::crs(habitat_data), terra::crs(template_data)) &&
-    terra::compareGeom(
-      x = terra::crop(
-        habitat_data[[1]], template_data, snap = "out", datatype = "INT2U"
-      ),
-      y = template_data, res = TRUE, stopOnError = FALSE
-    )
-  ) {
-    ## display message
-    if (verbose) {
-      cli::cli_progress_step("preparing habitat data")
-    }
-    ## crop data
-    if (use_gdal) {
-      habitat_data <- terra_gdal_crop(
-        x = habitat_data,
-        ext = terra::ext(template_data),
-        n_threads = n_threads,
-        datatype = "INT2U",
-        verbose = FALSE
-      )
-    } else {
-      habitat_data <- terra::rast(
-        plyr::llply(terra::as.list(habitat_data), function(x) {
-          terra::crop(
-            x = x,
-            y = template_data,
-            snap = "out",
-            datatype = "INT2U"
-          )
-        })
-      )
-    }
-  } else {
-    ## project habitat data
-    habitat_data <- project_habitat_data(
-      x = habitat_data,
-      template_data = template_data,
-      n_threads = n_threads,
-      use_gdal = use_gdal,
-      temp_dir = tmp_rast_dir,
-      verbose = verbose
-    )
-
-    ## verify that habitat data encompasses that species range data
-    assertthat::assert_that(
-      sf::st_contains(
-        sf::st_as_sfc(terra_st_bbox(habitat_data)),
-        sf::st_as_sfc(sf::st_bbox(x)),
-        sparse = FALSE
-      )[[1]],
-      msg = paste(
-        "argument to \"habitat_data\" has a spatial extent that does not",
-        "fully contain species range data in the argument to \"x\""
+  ## verify that habitat data encompasses that species range data
+  not_contained <- sf::st_contains(
+    sf::st_as_sfc(terra_st_bbox(habitat_data)),
+    sf::st_as_sfc(sf::st_bbox(x)),
+    sparse = FALSE
+  )[[1]]
+  if (!isTRUE(not_contained)) {
+    cli::cli_alert_warning(
+      paste(
+        "arguments to \"habitat_data\" and \"elevation_data\" do not fully",
+        "contain the ranges for all the species"
       )
     )
   }
-
-  # prepare elevation data
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("preparing elevation data")
-  }
-  ## convert NA values to zeros
-  elevation_data <- terra::app(
-    elevation_data,
-    function(x) replace(x, is.na(x), 0)
-  )
-  ## align elevation data with template
-  if (
-    identical(terra::crs(elevation_data), terra::crs(template_data)) &&
-    terra::compareGeom(
-      x = terra::crop(elevation_data, template_data, snap = "out"),
-      y = template_data, res = TRUE, stopOnError = FALSE
-    )
-  ) {
-    ### crop data
-    if (use_gdal) {
-      elevation_data <- terra_gdal_crop(
-        x = elevation_data,
-        ext = terra::ext(template_data),
-        n_threads = n_threads,
-        datatype = "FLT4S",
-        verbose = FALSE
-      )
-    } else {
-      elevation_data <- terra::crop(
-        x = elevation_data,
-        y = template_data,
-        snap = "out"
-      )
-    }
-  } else {
-    ### project data
-    if (use_gdal) {
-      #### use GDAL for processing if possible
-      elevation_data <- terra_gdal_project(
-        x = elevation_data,
-        y = template_data,
-        n_threads = n_threads,
-        filename = tempfile(tmpdir = tmp_rast_dir, fileext = ".tif"),
-        verbose = FALSE,
-        datatype = "FLT4S"
-      )
-    } else {
-      #### otherwise use default processing
-      elevation_data <- terra::project(
-        x = elevation_data,
-        y = template_data
-      )
-    }
-  }
-  ## verify that elevation data encompasses that species range data
-  assertthat::assert_that(
-    sf::st_contains(
-      sf::st_as_sfc(terra_st_bbox(elevation_data)),
-      sf::st_as_sfc(sf::st_bbox(x)),
-      sparse = FALSE
-    )[[1]],
-    msg = paste(
-      "argument to \"elevation_data\" has a spatial extent that does not",
-      "fully contain species range data in the argument to \"x\""
-    )
-  )
-
-  # manual raster clean up
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("standardizing data")
-  }
-  ## save habitat data to disk
-  ### create path
-  habitat_path <- replicate(
-    n = terra::nlyr(habitat_data),
-    tempfile(fileext = ".tif")
-  )
-  ### store names
-  habitat_names <- names(habitat_data)
-  ### save data
-  terra::writeRaster(
-    x = habitat_data,
-    filename = habitat_path,
-    verbose = FALSE,
-    datatype = "INT2U"
-  )
-  ### clear memory
-  rm(habitat_data)
-  invisible(gc())
-  ### re-import data
-  habitat_data <- terra::rast(habitat_path)
-  names(habitat_data) <- habitat_names
-  ## save elevation data to disk
-  ### create path
-  elevation_path <- tempfile(fileext = ".tif")
-  ### save data
-  terra::writeRaster(
-    x = elevation_data,
-    filename = elevation_path,
-    datatype = "FLT4S"
-  )
-  ### clear memory
-  rm(elevation_data)
-  invisible(gc())
-  ### re-import data
-  elevation_data <- terra::rast(elevation_path)
-  ## remove old terra files and reset terra options
-  unlink(tmp_rast_dir, force = TRUE, recursive = TRUE)
-  terra::terraOptions(progress = 0, tempdir = tempdir())
 
   # main processing
   ## display message
@@ -864,10 +686,11 @@ create_spp_aoh_data <- function(x,
     x = x,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_data,
     cache_dir = cache_dir,
+    engine = engine,
     force = force,
-    verbose = verbose,
-    datatype = "INT2U"
+    verbose = verbose
   )
 
   # prepare table with metadata
