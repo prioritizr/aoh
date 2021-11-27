@@ -227,7 +227,7 @@ test_that("species with reversed elevation limits", {
   unlink(output_dir2, recursive = TRUE)
 })
 
-test_that("different engines", {
+test_that("engines produce same results", {
   # skip if needed
   skip_on_cran()
   # specify file path
