@@ -149,7 +149,7 @@ Finally, let's create some maps to compare the range data with the Area of habit
 # create maps
 map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
-  scale_fill_viridis_c() +
+  scale_fill_viridis_d() +
   scale_color_manual(values = c("range" = "red")) +
   scale_size_manual(values = c("range" = 0.5)) +
   theme(
@@ -216,9 +216,13 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
     Yes, the package can generate Area of Habitat data for species globally. To accomplish this, you will need a system with at least 32 Gb RAM and 65 Gb disk space. Additionally, the processing will likely take multiple days to complete. This is because it can take several days to obtain data from the IUCN Red List API, and it can also take several days to complete the subsequent spatial data processing.
 
+* **It's taking too long to generate Area of Habitat data, how can I speed it up?**
+
+    The `create_spp_aoh_data()` function can use different software engines for data processing (specified via the `engine` parameter). Although each engine produces the same results, some engines are more computationally efficient than others. The default `"terra"` engine uses the _terra_ package for processing. Although this engine is easy to install and fast for small datasets, it does not scale well for larger datasets. It is generally recommended to use the `"gdal"` engine for both small and moderately sized datasets. Additionally, the `"grass"` engine is recomended when processing data for many species across very large spatial extents. For instructions on installing dependencies for the `"gdal"` and `"grass"` engines, please see the README file.
+
 * **The output Area of Habitat data have different spatial extents, how can I combine them together?**
 
-    The `terra_combine()` can be used to align and combine a `list` of raster `terra::rast()` objects into a single object. Note that this procedure is only recommended when all species occur in the same geographic region. Please see the tutorial above for an example of using this function to combine Area of Habitat data for multiple species into a single object.
+    The `terra_combine()` function can be used to align and combine a `list` of raster `terra::rast()` objects into a single object. Note that this procedure is only recommended when all species occur in the same geographic region. Please see the tutorial above for an example of using this function to combine Area of Habitat data for multiple species into a single object.
 
 ## Conclusion
 

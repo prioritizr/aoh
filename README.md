@@ -96,14 +96,16 @@ package for further details.
 #### Optional system libraries
 
 The package can leverage the [Geospatial Data Abstraction Library
-(GDAL)](https://gdal.org/) to help reduce processing time. Although use
-of GDAL is optional, it can help improve computational performance when
-not using the preprocessed habitat classification and elevation data.
-Below we provide platform-specific instructions to install GDAL.
+(GDAL)](https://gdal.org/) and [Geographic Resources Analysis Support
+System (GRASS)](https://grass.osgeo.org/) to help reduce processing
+time. Although use of these software is optional, they can help improve
+computational performance when processing data across large spatial
+extents. Below we provide platform-specific instructions to install
+them.
 
 ##### *Windows*
 
-The easiest way to install GDAL is through
+The easiest way to install GDAL and GRASS is through
 [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W
 installer](https://trac.osgeo.org/osgeo4w/), select the “Express
 Install” option, and then follow the prompts to complete the
@@ -115,26 +117,28 @@ contains the folder path for GDAL (default folder path is
 
 ##### *Ubuntu*
 
-The GDAL binary library will need to be installed when using Ubuntu. For
-recent versions of Ubuntu (18.04 and later), this library is available
-through official repositories. It can be installed using the following
-system commands.
+For recent versions of Ubuntu (18.04 and later), the libraries are
+available through official repositories. They can be installed using the
+following system commands.
 
     apt-get -y update
-    apt-get install -y gdal-bin
+    apt-get install -y gdal-bin grass
 
 ##### *Linux*
 
-For Unix-alikes, `gdal` (&gt;= 3.0.2) are required.
+For Unix-alikes, `gdal` (&gt;= 3.0.2) and `grass` (&gt;= 7.8.5) are
+required.
 
 ##### *MacOS*
 
-The easiest way to install the `gdal` library is using
-[HomeBrew](https://brew.sh/). After installing HomeBrew, the library can
-be installed using the following system commands.
+The easiest way to install the libraries is using
+[HomeBrew](https://brew.sh/). After installing HomeBrew, the libraries
+can be installed using the following system commands.
 
+    brew tap osgeo/osgeo4mac
     brew install pkg-config
     brew install gdal
+    brew install osgeo-grass
 
 ### Usage
 
@@ -237,47 +241,47 @@ print(spp_aoh_rasters)
 
     ## [[1]]
     ## class       : SpatRaster 
-    ## dimensions  : 516, 537, 1  (nrow, ncol, nlyr)
-    ## resolution  : 1000, 1000  (x, y)
-    ## extent      : -915531, -378531, 4551769, 5067769  (xmin, xmax, ymin, ymax)
+    ## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)
+    ## resolution  : 100, 100  (x, y)
+    ## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_4657_1.tif 
-    ## name        : lyr.1 
-    ## min value   :     0 
-    ## max value   :     1 
+    ## name        : lyr1 
+    ## min value   :    0 
+    ## max value   :    1 
     ## 
     ## [[2]]
     ## class       : SpatRaster 
-    ## dimensions  : 499, 752, 1  (nrow, ncol, nlyr)
-    ## resolution  : 1000, 1000  (x, y)
-    ## extent      : -904531, -152531, 4568769, 5067769  (xmin, xmax, ymin, ymax)
+    ## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)
+    ## resolution  : 100, 100  (x, y)
+    ## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_58622_1.tif 
-    ## name        : lyr.1 
-    ## min value   :     0 
-    ## max value   :     1 
+    ## name        : lyr1 
+    ## min value   :    0 
+    ## max value   :    1 
     ## 
     ## [[3]]
     ## class       : SpatRaster 
-    ## dimensions  : 228, 568, 1  (nrow, ncol, nlyr)
-    ## resolution  : 1000, 1000  (x, y)
-    ## extent      : -248531, 319469, 4837769, 5065769  (xmin, xmax, ymin, ymax)
+    ## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)
+    ## resolution  : 100, 100  (x, y)
+    ## extent      : -248331, 318769, 4838377, 5064977  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_59448_1.tif 
-    ## name        : lyr.1 
-    ## min value   :     0 
-    ## max value   :     1 
+    ## name        : lyr1 
+    ## min value   :    0 
+    ## max value   :    1 
     ## 
     ## [[4]]
     ## class       : SpatRaster 
-    ## dimensions  : 260, 371, 1  (nrow, ncol, nlyr)
-    ## resolution  : 1000, 1000  (x, y)
-    ## extent      : -468531, -97531, 4363769, 4623769  (xmin, xmax, ymin, ymax)
+    ## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
+    ## resolution  : 100, 100  (x, y)
+    ## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_979_1.tif 
-    ## name        : lyr.1 
-    ## min value   :     0 
-    ## max value   :     1
+    ## name        : lyr1 
+    ## min value   :    0 
+    ## max value   :    1
 
 Finally, let’s create some maps to compare the range data with the Area
 of habitat data.
@@ -286,7 +290,7 @@ of habitat data.
 # create maps
 map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
-  scale_fill_viridis_c() +
+  scale_fill_viridis_d() +
   scale_color_manual(values = c("range" = "red")) +
   scale_size_manual(values = c("range" = 0.5)) +
   theme(
@@ -312,9 +316,9 @@ Please cite the *aoh R* package and the underlying datasets used to
 produce Area of Habitat data.
 
 
-    Area of Habitat data created using a range of different datasets.
+    Area of Habitat data are created using a range of different datasets.
     Depending on which datasets are used, please cite the aoh package and
-    the relevant datasets using:
+    relevant data using:
 
       Hanson JO (2021) aoh: Create Area of Habitat Data. R package version
       0.0.0.99999. Available at https://github.com/jeffreyhanson/aoh.
@@ -327,11 +331,6 @@ produce Area of Habitat data.
       [insert version]. Available at
       http://datazone.birdlife.org/species/requestdis.
 
-      Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk
-      J, and Jetz W (2018) A suite of global, cross-scale topographic
-      variables for environmental and biodiversity modeling. Scientific
-      Data, 5:180040.
-
       Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos
       V, Rondinini C, and Visconti P (2020a) A global map of terrestrial
       habitat types. Scientific data, 7:1--8.
@@ -340,6 +339,11 @@ produce Area of Habitat data.
       V, Rondinini C, and Visconti P (2020b) A global map of terrestrial
       habitat types (insert version) [Data set]. Zenodo. Available at
       https://doi.org/10.5281/zenodo.4058819.
+
+      Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A
+      nearly-global, void-free, multi-scale smoothed, 90m digital elevation
+      model from fused ASTER and SRTM data. ISPRS Journal of Photogrammetry
+      and Remote Sensing, 87:57--67.
 
     To see these entries in BibTeX format, use 'print(<citation>,
     bibtex=TRUE)', 'toBibtex(.)', or set

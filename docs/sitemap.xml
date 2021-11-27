@@ -28,6 +28,9 @@
     <loc>/reference/create_template_rast.html</loc>
   </url>
   <url>
+    <loc>/reference/crosswalk_jung.html</loc>
+  </url>
+  <url>
     <loc>/reference/gdal_datatype.html</loc>
   </url>
   <url>
@@ -46,9 +49,6 @@
     <loc>/reference/get_spp_summary_data.html</loc>
   </url>
   <url>
-    <loc>/reference/get_world_behrmann_1km_rast.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -59,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/is_gdal_calc_available.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_grass_available.html</loc>
   </url>
   <url>
     <loc>/reference/is_iucn_rl_api_available.html</loc>
@@ -77,6 +80,9 @@
   </url>
   <url>
     <loc>/reference/iucn_habitat_codes_terrestrial.html</loc>
+  </url>
+  <url>
+    <loc>/reference/iucn_habitat_data.html</loc>
   </url>
   <url>
     <loc>/reference/plot_spp_aoh_data.html</loc>
@@ -103,16 +109,19 @@
     <loc>/reference/terra_fasterize.html</loc>
   </url>
   <url>
+    <loc>/reference/terra_force_disk.html</loc>
+  </url>
+  <url>
     <loc>/reference/terra_gdal_calc.html</loc>
   </url>
   <url>
     <loc>/reference/terra_gdal_crop.html</loc>
   </url>
   <url>
-    <loc>/reference/terra_gdal_disaggregate.html</loc>
+    <loc>/reference/terra_gdal_project.html</loc>
   </url>
   <url>
-    <loc>/reference/terra_gdal_project.html</loc>
+    <loc>/reference/terra_gdal_rasterize.html</loc>
   </url>
   <url>
     <loc>/reference/terra_on_disk.html</loc>

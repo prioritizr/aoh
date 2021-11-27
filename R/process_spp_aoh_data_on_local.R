@@ -155,7 +155,7 @@ process_spp_aoh_data_on_local <- function(x,
           upper_elevation = curr_spp_upper_elevation,
           extent = curr_spp_extent,
           path = curr_spp_path,
-          verbose = TRUE
+          verbose = FALSE
         )
         ### clean up
         if (!h_on_disk) {

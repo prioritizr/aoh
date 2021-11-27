@@ -25,6 +25,7 @@ test_that("no base map", {
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -62,6 +63,7 @@ test_that("base map", {
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -98,6 +100,7 @@ test_that("customized", {
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -105,7 +108,7 @@ test_that("customized", {
   # create object
   p <-
     plot_spp_aoh_data(x, zoom = NULL, maptype = NULL) +
-    ggplot2::scale_fill_viridis_c() +
+    ggplot2::scale_fill_viridis_d() +
     ggplot2::scale_color_manual(values = c("range" = "blue")) +
     ggplot2::scale_size_manual(values = c("range" = 10)) +
     ggplot2::theme(
