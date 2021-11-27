@@ -66,7 +66,8 @@ engine_spp_aoh_terra <- function(range_data,
   spp_habitat_data <- terra::lapp(
     x = terra::crop(
       x = raster_data,
-      y = extent
+      y = extent,
+      wopt = list(datatype = "INT2U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
     ),
     function(x, y) {
       1 * ((x %in% habitat_values) &
