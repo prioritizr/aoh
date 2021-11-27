@@ -10,11 +10,16 @@ is_grass_available()
 A \code{logical} indicating if GRASS is available or not.
 }
 \description{
-Check if GRASS is available for processing data.
+Check if the Geographic Resources Analysis Support System (GRASS)
+is available for processing data.
 }
 \details{
-The function verifies that GRASS can be executed from the command line
-(i.e. via \code{system("grass --version")}).
+The function verifies that
+(1) the \pkg{rgrass7} package in installed,
+(2) the \pkg{link2GI} package in installed,
+(3) GRASS is installed (i.e. via \link[link2GI:findGRASS]{link2GI::findGRASS}), and
+(4) the version of GDAL installed is at least 7.8.5.
+If any of these checks fail, then GRASS is not considered available.
 }
 \examples{
 # check if GRASS is available?

@@ -11,7 +11,8 @@ A \code{character} value describing the version of GDAL installed.
 If GDAL is not installed, then a missing (\code{NA}) value is returned.
 }
 \description{
-Find the version of GDAL installed.
+Find the version of the Geospatial Data Abstraction Library (GDAL)
+that is currently installed.
 }
 \examples{
 # show version of GDAL installed

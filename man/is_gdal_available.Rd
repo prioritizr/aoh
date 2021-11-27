@@ -10,7 +10,8 @@ is_gdal_available()
 A \code{logical} indicating if GDAL is available or not.
 }
 \description{
-Check if GDAL is available for processing data.
+Check if the Geospatial Data Abstraction Library (GDAL) is available for
+processing data.
 }
 \details{
 The function verifies that (1) the \pkg{gdalUtils} package in installed,
