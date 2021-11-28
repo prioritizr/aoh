@@ -19,6 +19,9 @@ input_file_options <- c(
   "reptiles" = "REPTILES.zip"
 )
 
+## define number of threads
+n_threads <- max(parallel::detectCores() - 2, 1)
+
 ## define processing options
 engine <- "gdal"
 
@@ -75,7 +78,8 @@ result_data <- create_spp_aoh_data(
   x = spp_data,
   output_dir = output_dir,
   cache_dir = cache_dir,
-  engine = engine
+  engine = engine,
+  n_threads = n_threads
 )
 
 # Exports
