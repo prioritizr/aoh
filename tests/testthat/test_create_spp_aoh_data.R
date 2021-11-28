@@ -357,6 +357,7 @@ test_that("example data", {
   expect_is(x, "sf")
   expect_named(x, aoh_names)
   expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_equal(d$id_no, x$id_no)
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
   expect_gte(

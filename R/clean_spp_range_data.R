@@ -120,7 +120,6 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
     inherits(crs, "crs")
   )
 
-
   # step 1: format all column names
   ## re-order columns so that geometry is last
   ### N.B. this is needed to avoid sf internal errors related to agr
@@ -344,6 +343,7 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
     list(scipen = 1000),
     paste0("AOH_", x$id_no, "_", x$seasonal)
   )
+  old_ids <- unique(x$aoh_id)
   ## geoprocessing
   x <-
     x %>%
@@ -361,6 +361,12 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
       genus = dplyr::first(.data$genus)
     ) %>%
     dplyr::ungroup()
+  ## ensure correct order
+  assertthat::assert_that(
+    setequal(old_ids, x$aoh_id),
+    msg = "failed to dissolve data"
+  )
+  x <- x[na.omit(match(old_ids, x$aoh_id)), , drop = FALSE]
 
   # step 14: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
