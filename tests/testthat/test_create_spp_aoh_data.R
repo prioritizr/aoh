@@ -265,6 +265,7 @@ test_that("engines produce same results", {
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     engine = "terra",
+    n_threads = 2,
     verbose = interactive()
   )
   x2 <- create_spp_aoh_data(
@@ -276,6 +277,7 @@ test_that("engines produce same results", {
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     engine = "gdal",
+    n_threads = 2,
     verbose = interactive()
   )
   x3 <- create_spp_aoh_data(
@@ -287,6 +289,7 @@ test_that("engines produce same results", {
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     engine = "grass",
+    n_threads = 2,
     verbose = interactive()
   )
   # tests
