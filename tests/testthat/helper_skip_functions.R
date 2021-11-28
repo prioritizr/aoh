@@ -57,3 +57,13 @@ skip_if_gdal_not_available <- function() {
 skip_if_gdal_calc_not_available <- function() {
   skip_if_not(is_gdal_calc_available(), message = "gdal_calc.py not available")
 }
+
+skip_if_historical_RandomFields <- function() {
+  skip_if_not(
+    (utils::packageVersion("RandomFields") >=
+      as.package_version("3.3.13")) &&
+    (utils::packageVersion("RandomFieldsUtils") >=
+      as.package_version("1.0.11")),
+    message = "RandomFields or RandomFieldsUtils packages out of date"
+  )
+}

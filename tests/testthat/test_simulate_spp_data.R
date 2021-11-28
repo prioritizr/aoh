@@ -4,6 +4,7 @@ test_that("single species", {
   # skip if needed
   skip_if_not_installed("smoothr")
   skip_if_not_installed("RandomFields")
+  skip_if_historical_RandomFields()
   # set parameters
   n <- 1
   set.seed(500)
@@ -34,6 +35,7 @@ test_that("multiple species", {
   # skip if needed
   skip_if_not_installed("smoothr")
   skip_if_not_installed("RandomFields")
+  skip_if_historical_RandomFields()
   # set parameters
   n <- 3
   set.seed(500)
@@ -64,6 +66,7 @@ test_that("global elevation and habitat data", {
   # skip if needed
   skip_if_not_installed("smoothr")
   skip_if_not_installed("RandomFields")
+  skip_if_historical_RandomFields()
   # set parameters
   set.seed(500)
   RandomFields::RFoptions(seed = 500)

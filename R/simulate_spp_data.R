@@ -108,6 +108,21 @@ simulate_spp_data <- function(n,
     stop("the \"RandomFields\" package must be installed to simulate data")
   if (!requireNamespace("smoothr", quietly = TRUE))
     stop("the \"smoothr\" package must be installed to simulate data")
+  if (
+    utils::packageVersion("RandomFields") >= as.package_version("3.3.13")
+  ) {
+    assertthat::assert_that(
+      utils::packageVersion("RandomFieldsUtils") >=
+        as.package_version("1.0.11"),
+      msg = paste(
+        "the \"RandomFields\" package (version 3.3.13+) needs to be",
+        "compiled with the \"RandomFieldsUtils\" package",
+        "(version 1.0.11+), please re-install the \"RandomFieldsUtils\"",
+        "package and then the \"RandomFields\" package"
+      )
+    )
+  }
+
 
   # assert that arguments are valid
   ## initial validation
