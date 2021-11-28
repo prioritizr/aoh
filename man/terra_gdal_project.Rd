@@ -51,6 +51,7 @@ BIGTIFF format.
 Defaults to \code{FALSE}.}
 
 \item{compress}{\code{character} Value indicating compression format.
+Available options include \code{"LZW"} and \code{"DEFLATE"}.
 Defaults to \code{"LZW"}.}
 
 \item{verbose}{\code{logical} Should information be displayed during processing?
