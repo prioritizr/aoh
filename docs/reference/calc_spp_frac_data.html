@@ -64,16 +64,16 @@
 This object should be produced using the <code><a href="create_spp_aoh_data.html">create_spp_aoh_data()</a></code>
 function.</p></dd>
 <dt>res</dt>
-<dd><p><code>numeric</code> resolution for computing fractional coverage.
+<dd><p><code>numeric</code> Resolution for computing fractional coverage.
 Note that the argument to <code>res</code> must be a factor of the
 the resolution of the underlying Area of Habitat data.
 For example, a value of 5000 would be a valid argument
 if the underlying data had a resolution of 100 m.</p></dd>
 <dt>output_dir</dt>
-<dd><p><code>character</code> <code>character</code> folder path to save raster files
+<dd><p><code>character</code> <code>character</code> Folder path to save raster files
 (GeoTIFF format) containing the aggregated Area of Habitat data.</p></dd>
 <dt>force</dt>
-<dd><p><code>logical</code> should the data be downloaded even if the
+<dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
 Defaults to <code>FALSE</code>.</p></dd>
 <dt>verbose</dt>
@@ -128,34 +128,34 @@ factor to express values as fractional coverage.</p>
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[2.3s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[2s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[11.2s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[12.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[9.4s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[10.4s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[147ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[140ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[682ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[562ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[505ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[2.5s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[106ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[100ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■                       </span> [ 25% | ETA: 10s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  7s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  6s]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  4s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> creating AOH [19.6s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> creating AOH [19.1s]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[19.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[19.1s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[12ms]</span></span>
@@ -170,7 +170,7 @@ factor to express values as fractional coverage.</p>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># plot the data to visualize the range maps and aggregated AOH data</span></span>
-<span class="r-in"><span class="va">p1</span><span class="op">&lt;-</span> <span class="fu"><a href="plot_spp_aoh_data.html">plot_spp_aoh_data</a></span><span class="op">(</span><span class="va">spp_aoh_frac_data</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">p1</span><span class="op">&lt;-</span> <span class="fu"><a href="plot_spp_frac_data.html">plot_spp_frac_data</a></span><span class="op">(</span><span class="va">spp_aoh_frac_data</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p1</span><span class="op">)</span></span>
 <span class="r-plt"><img src="calc_spp_frac_data-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="co"># }</span></span>

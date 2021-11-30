@@ -11,16 +11,16 @@ calc_spp_frac_data(x, res, output_dir, force = FALSE, verbose = TRUE)
 This object should be produced using the \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}
 function.}
 
-\item{res}{\code{numeric} resolution for computing fractional coverage.
+\item{res}{\code{numeric} Resolution for computing fractional coverage.
 Note that the argument to \code{res} must be a factor of the
 the resolution of the underlying Area of Habitat data.
 For example, a value of 5000 would be a valid argument
 if the underlying data had a resolution of 100 m.}
 
-\item{output_dir}{\code{character} \code{character} folder path to save raster files
+\item{output_dir}{\code{character} \code{character} Folder path to save raster files
 (GeoTIFF format) containing the aggregated Area of Habitat data.}
 
-\item{force}{\code{logical} should the data be downloaded even if the
+\item{force}{\code{logical} Should the data be downloaded even if the
 the data are already available?
 Defaults to \code{FALSE}.}
 
@@ -82,7 +82,7 @@ spp_aoh_frac_data <- calc_spp_frac_data(
 )
 
 # plot the data to visualize the range maps and aggregated AOH data
-p1<- plot_spp_aoh_data(spp_aoh_frac_data)
+p1<- plot_spp_frac_data(spp_aoh_frac_data)
 print(p1)
 }
 }

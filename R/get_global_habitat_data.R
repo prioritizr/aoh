@@ -7,23 +7,24 @@ NULL
 #' If data are not available locally, they are downloaded from
 #' an online repository.
 #'
-#' @param dir `character` folder path for downloading and caching data.
+#' @param dir `character` Folder path for downloading and caching data.
 #'  By default, data are downloaded to a temporary directory (i.e. `tempdir()`).
 #'  **To avoid downloading the same data multiple times, it is strongly
 #'  recommended to specify a persistent storage location (see Examples below).**
 #'
-#' @param version `character` indicating the specific version of the dataset
+#' @param version `character` Value indicating the specific version of the
+#'  dataset
 #'  that should be downloaded. The version should be indicated using the
 #'  Digital Object Identifier of the specific version required (e.g.
 #'  `"10.5281/zenodo.3673586"`).
 #'  Defaults to `"latest"` such that the latest
 #'  release of the dataset with available habitat data is used.
 #'
-#' @param force `logical` should the data be downloaded even if the
+#' @param force `logical` Should the data be downloaded even if the
 #'  the data are already available?
 #'  Defaults to `FALSE`.
 #'
-#' @param verbose `logical` should progress be displayed while downloading
+#' @param verbose `logical` Should progress be displayed while downloading
 #'  data?
 #'  Defaults to `TRUE`.
 #'

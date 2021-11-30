@@ -8,13 +8,13 @@ NULL
 #' @inheritParams plot_spp_aoh_data
 #' @inheritParams create_spp_aoh_data
 #'
-#' @param res `numeric` resolution for computing fractional coverage.
+#' @param res `numeric` Resolution for computing fractional coverage.
 #'   Note that the argument to `res` must be a factor of the
 #'   the resolution of the underlying Area of Habitat data.
 #'   For example, a value of 5000 would be a valid argument
 #'   if the underlying data had a resolution of 100 m.
 #'
-#' @param output_dir `character` `character` folder path to save raster files
+#' @param output_dir `character` `character` Folder path to save raster files
 #'   (GeoTIFF format) containing the aggregated Area of Habitat data.
 #'
 #' @details
@@ -68,7 +68,7 @@ NULL
 #' )
 #'
 #' # plot the data to visualize the range maps and aggregated AOH data
-#' p1<- plot_spp_aoh_data(spp_aoh_frac_data)
+#' p1<- plot_spp_frac_data(spp_aoh_frac_data)
 #' print(p1)
 #'}
 #' @export

@@ -12,23 +12,24 @@ get_global_elevation_data(
 )
 }
 \arguments{
-\item{dir}{\code{character} folder path for downloading and caching data.
+\item{dir}{\code{character} Folder path for downloading and caching data.
 By default, data are downloaded to a temporary directory (i.e. \code{tempdir()}).
 \strong{To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).}}
 
-\item{version}{\code{character} indicating the specific version of the dataset
+\item{version}{\code{character} Value indicating the specific version of the
+dataset
 that should be downloaded. The version should be indicated using the
 Digital Object Identifier of the specific version required (e.g.
 \code{"10.5281/zenodo.3673586"}).
 Defaults to \code{"latest"} such that the latest
 release of the dataset with available habitat data is used.}
 
-\item{force}{\code{logical} should the data be downloaded even if the
+\item{force}{\code{logical} Should the data be downloaded even if the
 the data are already available?
 Defaults to \code{FALSE}.}
 
-\item{verbose}{\code{logical} should progress be displayed while downloading
+\item{verbose}{\code{logical} Should progress be displayed while downloading
 data?
 Defaults to \code{TRUE}.}
 }

@@ -88,7 +88,7 @@ and will not apply to marine or freshwater species.</p>
 obtained from the <a href="https://www.iucnredlist.org/" class="external-link">IUCN Red List</a>.
 See below for details.</p></dd>
 <dt>output_dir</dt>
-<dd><p><code>character</code> folder path to save raster files
+<dd><p><code>character</code> Folder path to save raster files
 (GeoTIFF format) containing the Area of Habitat data.</p></dd>
 <dt>spp_summary_data</dt>
 <dd><p><code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> Table containing summary
@@ -142,7 +142,7 @@ different values in the argument to <code>habitat_data</code>.
 Defaults to <code>NULL</code> such that the crosswalk for the default habitat
 data are used (i.e. <code><a href="crosswalk_jung_data.html">crosswalk_jung_data()</a></code>).</p></dd>
 <dt>cache_dir</dt>
-<dd><p><code>character</code> folder path for downloading and caching data.
+<dd><p><code>character</code> Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e. <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong></p></dd>
@@ -177,7 +177,7 @@ Defaults to <code>NULL</code> such that the token
 accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 (which can be specified in the .Renviron file).</p></dd>
 <dt>force</dt>
-<dd><p><code>logical</code> should the data be downloaded even if the
+<dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
 Defaults to <code>FALSE</code>.</p></dd>
 <dt>n_threads</dt>
@@ -191,7 +191,7 @@ As such, this parameter will have no influence when using preprocessed
 datasets.
 Defaults to 1.</p></dd>
 <dt>engine</dt>
-<dd><p><code>character</code> value indicating the name of the software
+<dd><p><code>character</code> Value indicating the name of the software
 to use for data processing.
 Available options include <code>"terra"</code>, <code>"gdal"</code>, or <code>"grass"</code>
 (see below for details).
@@ -496,25 +496,25 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[650ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[345ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[10s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[12.2s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[8.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[10s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[93ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[90ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[514ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[774ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[423ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[386ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[88ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[87ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     skipping 4 species distributions already processed</span>

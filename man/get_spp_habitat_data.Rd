@@ -40,16 +40,16 @@ Defaults to \code{NULL} such that the token
 accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
 (which can be specified in the .Renviron file).}
 
-\item{delay}{\code{integer} number of seconds to wait between subsequent calls
+\item{delay}{\code{integer} Number of seconds to wait between subsequent calls
 to the IUCN Red List API. Defaults to 2 seconds (as recommended by the
 \pkg{rredlist} package;
 \url{https://docs.ropensci.org/rredlist/articles/rredlist.html}).}
 
-\item{force}{\code{logical} should the data be downloaded even if the
+\item{force}{\code{logical} Should the data be downloaded even if the
 the data are already available?
 Defaults to \code{FALSE}.}
 
-\item{verbose}{\code{logical} should progress be displayed while downloading
+\item{verbose}{\code{logical} Should progress be displayed while downloading
 data?
 Defaults to \code{TRUE}.}
 }

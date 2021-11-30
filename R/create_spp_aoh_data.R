@@ -18,10 +18,10 @@ NULL
 #'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
 #'   See below for details.
 #'
-#' @param output_dir `character` folder path to save raster files
+#' @param output_dir `character` Folder path to save raster files
 #'   (GeoTIFF format) containing the Area of Habitat data.
 #'
-#' @param cache_dir `character` folder path for downloading and caching data.
+#' @param cache_dir `character` Folder path for downloading and caching data.
 #'  By default, a temporary directory is used (i.e. `tempdir()`).
 #'  **To avoid downloading the same data multiple times, it is strongly
 #'  recommended to specify a persistent storage location (see Examples below).**
@@ -127,7 +127,7 @@ NULL
 #'   Defaults to [iucn_habitat_codes_marine()], such that marine
 #'   habitats are excluded.
 #'
-#' @param engine `character` value indicating the name of the software
+#' @param engine `character` Value indicating the name of the software
 #'   to use for data processing.
 #'   Available options include `"terra"`, `"gdal"`, or `"grass"`
 #'   (see below for details).

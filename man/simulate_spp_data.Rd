@@ -62,7 +62,7 @@ See the documentation for the \code{scale} parameter in
 \code{RandomFields::RMgauss()} for more information.
 Defaults to \code{2e+5}.}
 
-\item{cache_dir}{\code{character} folder path for downloading and caching data.
+\item{cache_dir}{\code{character} Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e. \code{tempdir()}).
 \strong{To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).}}
@@ -76,7 +76,7 @@ automatically (i.e. the argument to \code{habitat_data} is \code{NULL}).
 Defaults to \code{"latest"} such that the most recent version of the dataset is
 used if data need to be obtained.}
 
-\item{force}{\code{logical} should the data be downloaded even if the
+\item{force}{\code{logical} Should the data be downloaded even if the
 the data are already available?
 Defaults to \code{FALSE}.}
 

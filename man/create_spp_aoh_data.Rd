@@ -29,7 +29,7 @@ create_spp_aoh_data(
 obtained from the \href{https://www.iucnredlist.org/}{IUCN Red List}.
 See below for details.}
 
-\item{output_dir}{\code{character} folder path to save raster files
+\item{output_dir}{\code{character} Folder path to save raster files
 (GeoTIFF format) containing the Area of Habitat data.}
 
 \item{spp_summary_data}{\code{\link[tibble:tibble]{tibble::tibble()}} Table containing summary
@@ -83,7 +83,7 @@ different values in the argument to \code{habitat_data}.
 Defaults to \code{NULL} such that the crosswalk for the default habitat
 data are used (i.e. \code{\link[=crosswalk_jung_data]{crosswalk_jung_data()}}).}
 
-\item{cache_dir}{\code{character} folder path for downloading and caching data.
+\item{cache_dir}{\code{character} Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e. \code{tempdir()}).
 \strong{To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).}}
@@ -118,7 +118,7 @@ Defaults to \code{NULL} such that the token
 accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
 (which can be specified in the .Renviron file).}
 
-\item{force}{\code{logical} should the data be downloaded even if the
+\item{force}{\code{logical} Should the data be downloaded even if the
 the data are already available?
 Defaults to \code{FALSE}.}
 
@@ -132,7 +132,7 @@ As such, this parameter will have no influence when using preprocessed
 datasets.
 Defaults to 1.}
 
-\item{engine}{\code{character} value indicating the name of the software
+\item{engine}{\code{character} Value indicating the name of the software
 to use for data processing.
 Available options include \code{"terra"}, \code{"gdal"}, or \code{"grass"}
 (see below for details).

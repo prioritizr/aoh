@@ -69,23 +69,24 @@ a <a href="https://doi.org/10.5281/zenodo.5719982" class="external-link">Zenodo 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dir</dt>
-<dd><p><code>character</code> folder path for downloading and caching data.
+<dd><p><code>character</code> Folder path for downloading and caching data.
 By default, data are downloaded to a temporary directory (i.e. <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong></p></dd>
 <dt>version</dt>
-<dd><p><code>character</code> indicating the specific version of the dataset
+<dd><p><code>character</code> Value indicating the specific version of the
+dataset
 that should be downloaded. The version should be indicated using the
 Digital Object Identifier of the specific version required (e.g.
 <code>"10.5281/zenodo.3673586"</code>).
 Defaults to <code>"latest"</code> such that the latest
 release of the dataset with available habitat data is used.</p></dd>
 <dt>force</dt>
-<dd><p><code>logical</code> should the data be downloaded even if the
+<dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
 Defaults to <code>FALSE</code>.</p></dd>
 <dt>verbose</dt>
-<dd><p><code>logical</code> should progress be displayed while downloading
+<dd><p><code>logical</code> Should progress be displayed while downloading
 data?
 Defaults to <code>TRUE</code>.</p></dd>
 </dl></div>

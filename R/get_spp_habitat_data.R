@@ -35,7 +35,7 @@ NULL
 #'   accessed from  the `"IUCN_REDLIST_KEY"` environmental variable
 #'   (which can be specified in the .Renviron file).
 #
-#' @param delay `integer` number of seconds to wait between subsequent calls
+#' @param delay `integer` Number of seconds to wait between subsequent calls
 #'   to the IUCN Red List API. Defaults to 2 seconds (as recommended by the
 #'   \pkg{rredlist} package;
 #'   <https://docs.ropensci.org/rredlist/articles/rredlist.html>).
