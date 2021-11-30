@@ -101,7 +101,6 @@ frac_data <- calc_spp_frac_data(
 
 # Exports
 ## save Area of Habitat data object
-output_path <-
 saveRDS(
   object = aoh_data,
   file = file.path(
