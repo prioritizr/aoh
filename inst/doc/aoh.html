@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2021-11-28" />
+<meta name="date" content="2021-11-30" />
 
 <title>aoh: Create Area of Habitat Data</title>
 
@@ -161,7 +161,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">aoh: Create Area of Habitat Data</h1>
-<h4 class="date">2021-11-28</h4>
+<h4 class="date">2021-11-30</h4>
 
 
 <div id="TOC">
@@ -266,10 +266,10 @@ div.csl-indent {
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1  4657        1 /tmp/RtmpAcrWMe/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
-## 2 58622        1 /tmp/RtmpAcrWMe/AOH_58622_1.tif ((-849079 4613824, -835314 460…
-## 3 59448        1 /tmp/RtmpAcrWMe/AOH_59448_1.tif ((-244432 5022110, -248291 500…
-## 4   979        1 /tmp/RtmpAcrWMe/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</code></pre>
+## 1   979        1 /tmp/Rtmp4QJ6Lw/AOH_979_1.tif   ((-102404 4469056, -97966 4483…
+## 2 59448        1 /tmp/Rtmp4QJ6Lw/AOH_59448_1.tif ((-244432 5022110, -248291 500…
+## 3  4657        1 /tmp/Rtmp4QJ6Lw/AOH_4657_1.tif  ((-855061 4559107, -854997 455…
+## 4 58622        1 /tmp/Rtmp4QJ6Lw/AOH_58622_1.tif ((-849079 4613824, -835314 460…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the Area of Habitat data</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## since the data for each species have a different spatial extent</span></span>
@@ -280,27 +280,16 @@ div.csl-indent {
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(spp_aoh_rasters)</span></code></pre></div>
 <pre><code>## [[1]]
 ## class       : SpatRaster 
-## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)
+## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
 ## resolution  : 100, 100  (x, y)
-## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)
+## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## source      : AOH_4657_1.tif 
+## source      : AOH_979_1.tif 
 ## name        : lyr1 
 ## min value   :    0 
 ## max value   :    1 
 ## 
 ## [[2]]
-## class       : SpatRaster 
-## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)
-## resolution  : 100, 100  (x, y)
-## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)
-## coord. ref. : World_Behrmann 
-## source      : AOH_58622_1.tif 
-## name        : lyr1 
-## min value   :    0 
-## max value   :    1 
-## 
-## [[3]]
 ## class       : SpatRaster 
 ## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)
 ## resolution  : 100, 100  (x, y)
@@ -311,13 +300,24 @@ div.csl-indent {
 ## min value   :    0 
 ## max value   :    1 
 ## 
+## [[3]]
+## class       : SpatRaster 
+## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)
+## resolution  : 100, 100  (x, y)
+## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)
+## coord. ref. : World_Behrmann 
+## source      : AOH_4657_1.tif 
+## name        : lyr1 
+## min value   :    0 
+## max value   :    1 
+## 
 ## [[4]]
 ## class       : SpatRaster 
-## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
+## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)
 ## resolution  : 100, 100  (x, y)
-## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
+## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## source      : AOH_979_1.tif 
+## source      : AOH_58622_1.tif 
 ## name        : lyr1 
 ## min value   :    0 
 ## max value   :    1</code></pre>
@@ -338,12 +338,12 @@ div.csl-indent {
 ## extent      : -914731, 318769, 4364277, 5066877  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
 ## sources     : memory  
-##               memory  
-##               memory  
+##               spat_fUqUbUp9mxrgDOB.tif  
+##               spat_vZTmiOzDRqPIoXc.tif  
 ##               ... and 1 more source(s)
-## names       : AOH_4657_1, AOH_58622_1, AOH_59448_1, AOH_979_1 
-## min values  :          0,           0,           0,         0 
-## max values  :          1,           1,           1,         1</code></pre>
+## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 
+## min values  :         0,           0,          0,           0 
+## max values  :         1,           1,          1,           1</code></pre>
 <p>Finally, let’s create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g. using the <a href="https://CRAN.R-project.org/package=ggplot2"><em>ggplot2</em></a> <em>R</em> package), we will use a plotting function distributed with the <em>aoh R</em> package for convenience.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create maps</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>map <span class="ot">&lt;-</span></span>
@@ -397,7 +397,7 @@ div.csl-indent {
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>Hopefully, this vignette has provided a useful introduction to the package. If you encounter any issues when running the code in this tutorial – or when adapting the code for your own work – please see the following section. Additionally, If you have any questions about using the package or suggestions for improving it, please <a href="https://github.com/prioritizr/aoh/issues">file an issue at the package’s online code repository</a>.</p>
+<p>Hopefully, this vignette has provided a useful introduction to the package. If you encounter any issues when running the code in this tutorial – or when adapting the code for your own work – please see the following section. Additionally, if you have any questions about using the package or suggestions for improving it, please <a href="https://github.com/prioritizr/aoh/issues">file an issue at the package’s online code repository</a>.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="unnumbered">References</h2>

@@ -9,7 +9,7 @@ NULL
 #'
 #' @return A `character` containing the converted data type.
 #'
-#' @export
+#' @noRd
 gdal_datatype <- function(x) {
   assertthat::assert_that(
     assertthat::is.string(x),

@@ -76,7 +76,7 @@ NULL
 #'
 #' # preview result
 #' print(z)
-#' @export
+#' @noRd
 terra_gdal_project <- function(x, y,
                                method = "bilinear",
                                n_threads = 1,

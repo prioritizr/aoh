@@ -36,10 +36,20 @@ NULL
 #' # GDAL system binaries are installed to run this example
 #'
 #' @examplesIf is_gdal_available()
+#' # import vector data
+#' f <- system.file("ex/lux.shp", package = "terra")
+#' sf <- read_sf(f)
 #'
-#' # TODO
+#' # create template raster
+#' x <- rast(vect(sf), ncols = 75, nrows = 100)
+#' x <- terra::setValues(x, runif(terra::ncell(x)))
 #'
-#' @export
+#' # rasterize vector data
+#' z <- terra_gdal_rasterize(x, sf, burn = 5)
+#'
+#' # plot result
+#' plot(z)
+#' @noRd
 terra_gdal_rasterize <- function(x, sf, burn = 1,
                                  invert = FALSE,
                                  update = FALSE,

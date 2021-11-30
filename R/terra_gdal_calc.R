@@ -30,7 +30,7 @@ NULL
 #'
 #' # preview result
 #' print(y)
-#' @export
+#' @noRd
 terra_gdal_calc <- function(x, expr,
                             y = NULL,
                             n_threads = 1,

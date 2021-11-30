@@ -24,6 +24,7 @@ n_threads <- max(parallel::detectCores() - 2, 1)
 
 ## define processing options
 engine <- "gdal"
+fraction_coverage_resolution <- 5000
 
 ### parse command-line arguments
 cmd_args <- commandArgs(trailingOnly = TRUE)
@@ -64,28 +65,58 @@ output_dir <- file.path(
   path.expand(output_dir), tools::file_path_sans_ext(basename(input_file))
 )
 
-## create output directory
-if (!file.exists(output_dir)) {
-  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+## create output directories for AOH and fractional coverage data
+aoh_output_dir <-  file.path(output_dir, "aoh")
+frc_output_dir <-  file.path(output_dir, "frc")
+
+## create output directories
+if (!file.exists(aoh_output_dir)) {
+  dir.create(aoh_output_dir, showWarnings = FALSE, recursive = TRUE)
+}
+if (!file.exists(frc_output_dir)) {
+  dir.create(frc_output_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
 # Main processing
 ## import data
-spp_data <- read_spp_range_data(file.path(input_dir, input_file))
+spp_data <- read_spp_range_data(file.path(input_dir, input_file), n = 10)
 
-## create data
-result_data <- create_spp_aoh_data(
+## create Area of Habitat data
+aoh_data <- create_spp_aoh_data(
   x = spp_data,
-  output_dir = output_dir,
+  output_dir = aoh_output_dir,
   cache_dir = cache_dir,
   engine = engine,
   n_threads = n_threads
 )
 
-# Exports
-## save table
-output_path <- file.path(
-  output_dir,
-  paste0(tools::file_path_sans_ext(basename(input_file)), ".rds")
+## clean up
+rm(spp_data)
+gc()
+
+## calculate fractional coverage
+frac_data <- calc_spp_frac_data(
+  x = aoh_data, res = fraction_coverage_resolution, output_dir = frc_output_dir
 )
-saveRDS(result_data, output_path, compress = "xz")
+
+# Exports
+## save Area of Habitat data object
+output_path <-
+saveRDS(
+  object = aoh_data,
+  file = file.path(
+    output_dir,
+    paste0(tools::file_path_sans_ext(basename(input_file)), "_AOH.rds")
+  ),
+  compress = "xz"
+)
+
+## save fractional coverage data object
+saveRDS(
+  object = frac_data,
+  file = file.path(
+    output_dir,
+    paste0(tools::file_path_sans_ext(basename(input_file)), "_FRC.rds")
+  ),
+  compress = "xz"
+)

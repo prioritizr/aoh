@@ -29,7 +29,7 @@ NULL
 #'
 #' @family geoprocessing
 #'
-#' @export
+#' @noRd
 read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   # validate arguments
   assertthat::assert_that(assertthat::is.string(dsn),
@@ -85,10 +85,10 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
 #'
 #' @family geoprocessing
 #'
-#' @export
+#' @noRd
 sf_terra_ext <- function(x) {
-  assertthat::assert_that(inherits(x, c("sf", "bbox")))
-  if (inherits(x, "sf")) {
+  assertthat::assert_that(inherits(x, c("sf", "sfc", "bbox")))
+  if (inherits(x, c("sfc", "sf"))) {
     x <- sf::st_bbox(x)
   }
   terra::ext(c(x$xmin, x$xmax, x$ymin, x$ymax))
@@ -112,7 +112,7 @@ sf_terra_ext <- function(x) {
 #'
 #' @family geoprocessing
 #'
-#' @export
+#' @noRd
 sf_terra_crs <- function(x) {
   assertthat::assert_that(inherits(x, c("sf", "crs")))
   if (!inherits(x, "crs")) {

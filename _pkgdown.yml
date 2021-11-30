@@ -13,10 +13,12 @@ reference:
       - aoh
 
   - title: Area of Habitat
-    desc: Functions for creating and visualizing Area of Habitat data
+    desc: Functions for working with Area of Habitat data
     contents:
       - create_spp_aoh_data
       - plot_spp_aoh_data
+      - calc_spp_frac_data
+      - plot_spp_frac_data
 
   - title: Importing data
     desc: Functions for downloading and importing data
@@ -31,37 +33,18 @@ reference:
       - starts_with("crosswalk")
       - starts_with("iucn_habitat_codes")
 
-  - title: Is available?
-    desc: Functions to check if external software or services are available
-    contents:
-      - ends_with("available")
-
   - title: Simulating data
     desc: Functions for simulating data
     contents:
       - simulate_spp_data
 
-  - title: GDAL processing
-    desc: Functions for processing data with GDAL
+  - title: External software
+    desc: Functions to check if external software or services are available
     contents:
-      - matches("gdal")
-      - -is_gdal_available
-      - -is_gdal_calc_available
+      - ends_with("available")
+      - gdal_version
 
-  - title: Raster data processing
-    desc: Miscellaneous functions for processing raster data
+  - title: Miscellaneous functions
+    desc: Assorted functions with various uses
     contents:
-      - create_template_rast
-      - intersecting_ext
-      - terra_st_crs
-      - terra_st_bbox
-      - terra_fasterize
       - terra_combine
-      - terra_on_disk
-      - terra_force_disk
-
-  - title: Vector data processing
-    desc: Miscellaneous functions for processing vector data
-    contents:
-      - starts_with("sf_")
-      - read_sf_n

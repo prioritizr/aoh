@@ -31,7 +31,7 @@ NULL
 #'
 #' # preview result
 #' print(z)
-#' @export
+#' @noRd
 terra_gdal_crop <- function(x, ext,
                             n_threads = 1,
                             filename = tempfile(fileext = ".tif"),

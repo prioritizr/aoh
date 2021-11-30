@@ -35,7 +35,7 @@ NULL
 #' @param ... Additional arguments passed to [ggmap::get_stamenmap()].
 #'
 #' @details
-#' Note that the Area of Habitat data are automatically projected to a
+#' Note that data are automatically projected to a
 #' geographic coordinate system (EPSG:4326) when they are plotted with
 #' a base map. This means that the Area of Habitat data shown in
 #' maps that contain a base map might look slightly different from
@@ -83,7 +83,7 @@ NULL
 #' ## customize plot
 #' p2 <-
 #'  p +
-#'  scale_fill_viridis_c() +
+#'  scale_fill_viridis_d() +
 #'  scale_color_manual(values = c("range" = "blue")) +
 #'  scale_size_manual(values = c("range" = 10)) +
 #'  theme(
@@ -124,19 +124,50 @@ NULL
 plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
                               zoom = NULL, maptype = NULL, maxcell = 50000,
                               ...) {
+  plot_spp_data(
+    x = x, max_plot = max_plot, expand = expand, zoom = zoom,
+    maptype = maptype, maxcell = maxcell, binary = TRUE, ...
+  )
+}
+
+#' Plot species range and raster data
+#'
+#' Create a map to compare species geographic range and raster data.
+#'
+#' @param x [sf::st_sf()] Object containing the species data.
+#'   This object should be produced using the [create_spp_aoh_data()]
+#'    or [calc_spp_frac_data()] functions.
+#'
+#' @param binary `logical` Value indicating if the data sohuld be
+#'   converted to binary values or not.
+#'   Defaults to `FALSE`.
+#'
+#' @inheritParams plot_spp_aoh_data
+#'
+#' @inherit plot_spp_data details return
+#'
+#' @noRd
+plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
+                          zoom = NULL, maptype = NULL, maxcell = 50000,
+                          binary = FALSE, ...) {
   # assert argument is valid
   assertthat::assert_that(
     inherits(x, "sf"),
     assertthat::has_name(x, "id_no"),
     assertthat::has_name(x, "binomial"),
-    assertthat::has_name(x, "path"),
-    msg = "argument to \"x\" should be the output from create_aoh_data()"
+    assertthat::has_name(x, "xmin"),
+    assertthat::has_name(x, "xmax"),
+    assertthat::has_name(x, "ymin"),
+    assertthat::has_name(x, "ymax"),
+    msg = "argument to \"x\" should be the output from create_spp_aoh_data()"
   )
   assertthat::assert_that(
     assertthat::is.count(max_plot),
     assertthat::noNA(max_plot),
     assertthat::is.number(expand),
     assertthat::noNA(expand),
+    assertthat::is.flag(binary),
+    assertthat::noNA(binary),
     isTRUE(expand >= 0)
   )
   if (!is.null(maptype)) {
@@ -186,12 +217,20 @@ plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
       r <- terra::project(r, "epsg:4326")
     }
     ## extract data
-    d <- terra::spatSample(
-      r[[1]], size = maxcell, method = "regular", xy = TRUE, warn = FALSE
-    )
+    if (terra::ncell(r) > maxcell) {
+      d <- terra::spatSample(
+        r[[1]], size = maxcell, method = "regular", xy = TRUE, warn = FALSE
+      )
+    } else {
+      d <- terra::as.data.frame(r, xy = TRUE)
+    }
     names(d) <- c("x", "y", "value")
     d <- d[is.finite(d$value), , drop = FALSE]
-    d$value <- dplyr::if_else(d$value > 0.5, "suitable", "not suitable")
+    if (isTRUE(binary)) {
+      d$value <- dplyr::if_else(d$value > 0.5, "suitable", "not suitable")
+    } else {
+      d$value <- d$value * 100
+    }
     d$binomial <- x$binomial[[i]]
     d$filename <- x$filename[[i]]
     # determine resolution for plotting
@@ -210,6 +249,13 @@ plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
     g <- ggmap::ggmap(
       get_ggmap_basemap(x, expand = expand, zoom = zoom, maptype = maptype, ...)
     )
+  }
+
+  # assign labels
+  if (isTRUE(binary)) {
+    lab <- "Area of Habitat"
+  } else {
+    lab <- "Area of Habitat (%)"
   }
 
   # create plot
@@ -235,7 +281,7 @@ plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
     ggplot2::facet_wrap(~ binomial + filename) +
     ggplot2::labs(
       colour = "Geographic range",
-      fill = "Area of Habitat",
+      fill = lab,
     ) +
     ggplot2::guides(size = "none")
 

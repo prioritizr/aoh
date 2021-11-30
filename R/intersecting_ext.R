@@ -39,7 +39,7 @@ NULL
 #'
 #' @family geoprocessing
 #'
-#' @export
+#' @noRd
 intersecting_ext <- function(x, y, buffer = 0) {
   # assert arguments are valid
   assertthat::assert_that(

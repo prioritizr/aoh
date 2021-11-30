@@ -22,6 +22,9 @@
     <loc>/reference/aoh.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_spp_frac_data.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_spp_aoh_data.html</loc>
   </url>
   <url>
@@ -29,9 +32,6 @@
   </url>
   <url>
     <loc>/reference/crosswalk_jung_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gdal_datatype.html</loc>
   </url>
   <url>
     <loc>/reference/gdal_version.html</loc>
@@ -88,13 +88,10 @@
     <loc>/reference/plot_spp_aoh_data.html</loc>
   </url>
   <url>
-    <loc>/reference/read_sf_n.html</loc>
+    <loc>/reference/plot_spp_frac_data.html</loc>
   </url>
   <url>
     <loc>/reference/read_spp_range_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sf_terra_crs.html</loc>
   </url>
   <url>
     <loc>/reference/sf_terra_ext.html</loc>
@@ -104,32 +101,5 @@
   </url>
   <url>
     <loc>/reference/terra_combine.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_fasterize.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_force_disk.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_gdal_calc.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_gdal_crop.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_gdal_project.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_gdal_rasterize.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_on_disk.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_st_bbox.html</loc>
-  </url>
-  <url>
-    <loc>/reference/terra_st_crs.html</loc>
   </url>
 </urlset>

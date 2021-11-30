@@ -68,6 +68,7 @@ VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Collate:
     'internal.R'
+    'calc_spp_frac_data.R'
     'clean_spp_range_data.R'
     'convert_seasonal.R'
     'misc_sf.R'
@@ -93,9 +94,11 @@ Collate:
     'misc_randomfields.R'
     'package.R'
     'plot_spp_aoh_data.R'
+    'plot_spp_frac_data.R'
     'process_spp_aoh_data_on_local.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
+    'terra_combine.R'
     'terra_gdal_calc.R'
     'terra_gdal_crop.R'
     'terra_gdal_project.R'

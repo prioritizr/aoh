@@ -226,6 +226,6 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
 ## Conclusion
 
-Hopefully, this vignette has provided a useful introduction to the package. If you encounter any issues when running the code in this tutorial -- or when adapting the code for your own work -- please see the following section. Additionally, If you have any questions about using the package or suggestions for improving it, please [file an issue at the package's online code repository](https://github.com/prioritizr/aoh/issues).
+Hopefully, this vignette has provided a useful introduction to the package. If you encounter any issues when running the code in this tutorial -- or when adapting the code for your own work -- please see the following section. Additionally, if you have any questions about using the package or suggestions for improving it, please [file an issue at the package's online code repository](https://github.com/prioritizr/aoh/issues).
 
 ## References

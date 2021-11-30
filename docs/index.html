@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.99999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.99999</span>
       </span>
     </div>
 
@@ -59,7 +59,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/prioritizr/aoh/">
+  <a href="https://github.com/prioritizr/aoh/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -77,29 +77,29 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="aoh-create-area-of-habitat-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#aoh-create-area-of-habitat-data" class="anchor" aria-hidden="true"></a>aoh: Create Area of Habitat Data</h2>
+<div class="section level2">
+<h2 id="aoh-create-area-of-habitat-data">aoh: Create Area of Habitat Data<a class="anchor" aria-label="anchor" href="#aoh-create-area-of-habitat-data"></a>
+</h2>
 
-<div id="overview" class="section level3">
-<h3 class="hasAnchor">
-<a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h3>
+<div class="section level3">
+<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h3>
 <p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species (<a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">Brooks <em>et al.</em> 2019</a>). They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions (e.g. <a href="https://doi.org/10.1111/j.1523-1739.2005.00204.x" class="external-link">Rondinini <em>et al.</em> 2005</a>; <a href="https://doi.org/10.1111/cobi.12715" class="external-link">Tracewski <em>et al.</em> 2016</a>; <a href="https://doi.org/10.1111/2041-210X.13427" class="external-link">Durán <em>et al.</em> 2021</a>). These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species (<a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">Brooks <em>et al.</em> 2019</a>). To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import these data (using <code><a href="reference/read_spp_range_data.html">read_spp_range_data()</a></code>) and then use them to create Area of Habitat data (using <code><a href="reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data (<a href="https://doi.org/10.1038/sdata.2018.40" class="external-link">Amatulli <em>et al.</em> 2018</a>; <a href="https://doi.org/10.1038/s41597-020-00599-8" class="external-link">Jung <em>et al.</em> 2020</a>) are automatically downloaded, and data on species’ habitat preferences and altitudinal limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see installation instructions below for details).</p>
 </div>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h3>
-<div id="package-installation" class="section level4">
-<h4 class="hasAnchor">
-<a href="#package-installation" class="anchor" aria-hidden="true"></a>Package installation</h4>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<div class="section level4">
+<h4 id="package-installation">Package installation<a class="anchor" aria-label="anchor" href="#package-installation"></a>
+</h4>
 <p>The <a href="https://github.com/prioritizr/aoh" class="external-link">latest developmental version of the <em>aoh R</em> package</a> can be installed using the following <em>R</em> code. Please note that it requires the <a href="https://CRAN.R-project.org/package=sf" class="external-link"><em>sf</em></a>, <a href="https://CRAN.R-project.org/package=terra" class="external-link"><em>terra</em></a>, and <a href="https://CRAN.R-project.org/package=zen4R" class="external-link"><em>zen4R</em></a> <em>R</em> packages, which may require additional software to be installed. If you encounter problems installing these dependencies, please consult their installation instructions.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"prioritizr/aoh"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="accessing-the-iucn-red-list-api" class="section level4">
-<h4 class="hasAnchor">
-<a href="#accessing-the-iucn-red-list-api" class="anchor" aria-hidden="true"></a>Accessing the IUCN Red List API</h4>
+<div class="section level4">
+<h4 id="accessing-the-iucn-red-list-api">Accessing the IUCN Red List API<a class="anchor" aria-label="anchor" href="#accessing-the-iucn-red-list-api"></a>
+</h4>
 <p>After installing the <em>aoh R</em> package, you will need to obtain a token for the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one already). To do so, please visit the IUCN website (see <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link uri">https://apiv3.iucnredlist.org/api/v3/token</a>) and fill out the form to apply for a token. You should then receive a token shortly after completing the form (but not immediately). After receiving a token, please open the <code>.Renviron</code> file on your computer (e.g. using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file, using your token in place of the string below.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>IUCN_REDLIST_KEY<span class="ot">=</span><span class="st">"your_actual_token_not_this_string"</span></span></code></pre></div>
 <p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should the same output below.</p>
@@ -108,33 +108,33 @@
 <span class="fu"><a href="reference/is_iucn_rl_api_available.html">is_iucn_rl_api_available</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If these instructions did not work, please consult the documentation for the <a href="https://CRAN.R-project.org/package=rredlist" class="external-link"><em>rredlist</em></a> <em>R</em> package for further details.</p>
 </div>
-<div id="optional-system-libraries" class="section level4">
-<h4 class="hasAnchor">
-<a href="#optional-system-libraries" class="anchor" aria-hidden="true"></a>Optional system libraries</h4>
+<div class="section level4">
+<h4 id="optional-system-libraries">Optional system libraries<a class="anchor" aria-label="anchor" href="#optional-system-libraries"></a>
+</h4>
 <p>The package can leverage the <a href="https://gdal.org/" class="external-link">Geospatial Data Abstraction Library (GDAL)</a> and <a href="https://grass.osgeo.org/" class="external-link">Geographic Resources Analysis Support System (GRASS)</a> to help reduce processing time. Although use of these software is optional, they can help improve computational performance when processing data across large spatial extents. Below we provide platform-specific instructions to install them.</p>
-<div id="windows" class="section level5">
-<h5 class="hasAnchor">
-<a href="#windows" class="anchor" aria-hidden="true"></a><em>Windows</em>
+<div class="section level5">
+<h5 id="windows">
+<em>Windows</em><a class="anchor" aria-label="anchor" href="#windows"></a>
 </h5>
 <p>The easiest way to install GDAL and GRASS is through <a href="https://www.osgeo.org/" class="external-link">OSGeo4W</a>. <a href="https://trac.osgeo.org/osgeo4w/" class="external-link">Download the OSGeo4W installer</a>, select the “Express Install” option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the <em>gdalUtils R</em> package cannot find GDAL, you may also need to update the <code>PATH</code> environmental variable so that it contains the folder path for GDAL (default folder path is <code>C:\OSGeo4W\bin</code>),</p>
 </div>
-<div id="ubuntu" class="section level5">
-<h5 class="hasAnchor">
-<a href="#ubuntu" class="anchor" aria-hidden="true"></a><em>Ubuntu</em>
+<div class="section level5">
+<h5 id="ubuntu">
+<em>Ubuntu</em><a class="anchor" aria-label="anchor" href="#ubuntu"></a>
 </h5>
 <p>For recent versions of Ubuntu (18.04 and later), the libraries are available through official repositories. They can be installed using the following system commands.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>apt<span class="sc">-</span>get <span class="sc">-</span>y update</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>apt<span class="sc">-</span>get install <span class="sc">-</span>y gdal<span class="sc">-</span>bin grass</span></code></pre></div>
 </div>
-<div id="linux" class="section level5">
-<h5 class="hasAnchor">
-<a href="#linux" class="anchor" aria-hidden="true"></a><em>Linux</em>
+<div class="section level5">
+<h5 id="linux">
+<em>Linux</em><a class="anchor" aria-label="anchor" href="#linux"></a>
 </h5>
 <p>For Unix-alikes, <code>gdal</code> (&gt;= 3.0.2) and <code>grass</code> (&gt;= 7.8.5) are required.</p>
 </div>
-<div id="macos" class="section level5">
-<h5 class="hasAnchor">
-<a href="#macos" class="anchor" aria-hidden="true"></a><em>MacOS</em>
+<div class="section level5">
+<h5 id="macos">
+<em>MacOS</em><a class="anchor" aria-label="anchor" href="#macos"></a>
 </h5>
 <p>The easiest way to install the libraries is using <a href="https://brew.sh/" class="external-link">HomeBrew</a>. After installing HomeBrew, the libraries can be installed using the following system commands.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>brew tap osgeo<span class="sc">/</span>osgeo4mac</span>
@@ -144,9 +144,9 @@
 </div>
 </div>
 </div>
-<div id="usage" class="section level3">
-<h3 class="hasAnchor">
-<a href="#usage" class="anchor" aria-hidden="true"></a>Usage</h3>
+<div class="section level3">
+<h3 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h3>
 <p>Here we provide a short example for using the <em>aoh R</em> package. In this example, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (<em>Calotriton asper</em>), Iberian frog (<em>Rana iberica</em>), western spadefoot toad (<em>Pelobates cultripes</em>), and golden striped salamnader (<em>Chioglossa lusitanica</em>). Please note that this example is an abridged version of the tutorial provided in the <a href="https://prioritizr.github.io/aoh/articles/aoh.html" class="external-link">package vignette</a>, so please consult the package vignette for a more detailed tutorial on using the package. To start off, we will load the package and several other packages to help with data processing and visualization.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load packages</span>
@@ -215,44 +215,44 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [[1]]</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_4657_1.tif </span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_979_1.tif </span></span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [[2]]</span></span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)</span></span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -248331, 318769, 4838377, 5064977  (xmin, xmax, ymin, ymax)</span></span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_58622_1.tif </span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_59448_1.tif </span></span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [[3]]</span></span>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)</span></span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -248331, 318769, 4838377, 5064977  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)</span></span>
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_59448_1.tif </span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_4657_1.tif </span></span>
 <span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
 <span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
 <span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
 <span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [[4]]</span></span>
 <span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)</span></span>
 <span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)</span></span>
 <span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_979_1.tif </span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_58622_1.tif </span></span>
 <span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
 <span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
 <span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1</span></span></code></pre></div>
@@ -275,9 +275,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-map-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
-<div id="citation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h3>
+<div class="section level3">
+<h3 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h3>
 <p><strong>Please note that the package is still in the early stages of development and not ready for general use. It is not yet suitable for use in scientific publications or related work.</strong></p>
 <p>Please cite the <em>aoh R</em> package and the underlying datasets used to produce Area of Habitat data.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Area of Habitat data are created using a range of different datasets.</span>
@@ -314,9 +314,9 @@
 <span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="st">'options(citation.bibtex.max=999)'</span>.</span></code></pre></div>
 </div>
 </div>
-<div id="getting-help" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-help" class="anchor" aria-hidden="true"></a>Getting help</h2>
+<div class="section level2">
+<h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
 <p>Please refer to the <a href="https://prioritizr.github.io/aoh" class="external-link">package website</a> for more information. If you have any questions about using the package or suggestions for improving it, please <a href="https://github.com/prioritizr/aoh/issues" class="external-link">file an issue at the package’s online code repository</a>.</p>
 </div>
 
@@ -326,17 +326,15 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/prioritizr/aoh/">https://​github.com/​prioritizr/​aoh/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/prioritizr/aoh/issues">https://​github.com/​prioritizr/​aoh/​issues</a>
-</li>
+<li><a href="https://github.com/prioritizr/aoh/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/prioritizr/aoh/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
 
@@ -344,7 +342,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing aoh</a></li>
+<li><a href="authors.html#citation">Citing aoh</a></li>
 </ul>
 </div>
 
@@ -352,7 +350,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="http://jeffrey-hanson.com">Jeffrey O Hanson</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4716-6134" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="http://jeffrey-hanson.com" class="external-link">Jeffrey O Hanson</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4716-6134" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -379,7 +377,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

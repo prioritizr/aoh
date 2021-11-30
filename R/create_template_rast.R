@@ -34,7 +34,7 @@ NULL
 #'
 #' @family geoprocessing
 #'
-#' @export
+#' @noRd
 create_template_rast <- function(xres, yres, crs, bbox) {
   # assert arguments are valid
   assertthat::assert_that(

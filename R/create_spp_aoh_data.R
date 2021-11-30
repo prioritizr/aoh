@@ -286,7 +286,8 @@ NULL
 #'
 #' }
 #'
-#' @return A [sf::st_sf()] object containing range maps for the species
+#' @return
+#' A [sf::st_sf()] object containing range maps for the species
 #' distributions used to generate the Area of Habitat data and additional
 #' columns describing the Area of Habitat data.
 #' These range maps were produced by cleaning those supplied as an argument

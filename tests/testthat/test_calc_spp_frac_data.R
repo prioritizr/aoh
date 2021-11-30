@@ -1,0 +1,128 @@
+context("calc_spp_fac_data")
+
+test_that("simulated data", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # prepare data
+  d <- create_spp_aoh_data(
+    x = read_spp_range_data(f),
+    output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = interactive()
+  )
+  # compute fractional coverage
+  x1 <- calc_spp_frac_data(
+    x = d,
+    res = 5000,
+    output_dir = tempdir(),
+    verbose = interactive()
+  )
+  x2 <- calc_spp_frac_data(
+    x = d,
+    res = 5000,
+    output_dir = tempdir(),
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x1, "sf")
+  expect_equal(nrow(d), nrow(x1))
+  expect_is(x1$path, "character")
+  expect_equal(sum(is.na(x1$path)), 0)
+  expect_equal(x1, x2)
+  expect_gte(
+    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  # clean up
+  unlink(x1$path[!is.na(x1$path)])
+})
+
+test_that("example data", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
+  # specify file path
+  f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
+  cd <- rappdirs::user_data_dir("aoh")
+  hv <- "10.5281/zenodo.4058819"
+  ev <- "10.5281/zenodo.5719984"
+  # prepare data
+  d <- suppressWarnings(
+    create_spp_aoh_data(
+      x = read_spp_range_data(f),
+      output_dir = tempdir(),
+      cache_dir = cd,
+      habitat_version = hv,
+      elevation_version = ev,
+      verbose = interactive()
+    )
+  )
+  x <- calc_spp_frac_data(
+    x = d,
+    res = 5000,
+    output_dir = tempdir(),
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_equal(d$id_no, x$id_no)
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  # clean up
+  unlink(x$path[!is.na(x$path)])
+})

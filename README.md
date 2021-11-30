@@ -241,27 +241,16 @@ print(spp_aoh_rasters)
 
     ## [[1]]
     ## class       : SpatRaster 
-    ## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)
+    ## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
-    ## source      : AOH_4657_1.tif 
+    ## source      : AOH_979_1.tif 
     ## name        : lyr1 
     ## min value   :    0 
     ## max value   :    1 
     ## 
     ## [[2]]
-    ## class       : SpatRaster 
-    ## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)
-    ## resolution  : 100, 100  (x, y)
-    ## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : World_Behrmann 
-    ## source      : AOH_58622_1.tif 
-    ## name        : lyr1 
-    ## min value   :    0 
-    ## max value   :    1 
-    ## 
-    ## [[3]]
     ## class       : SpatRaster 
     ## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
@@ -272,13 +261,24 @@ print(spp_aoh_rasters)
     ## min value   :    0 
     ## max value   :    1 
     ## 
+    ## [[3]]
+    ## class       : SpatRaster 
+    ## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)
+    ## resolution  : 100, 100  (x, y)
+    ## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)
+    ## coord. ref. : World_Behrmann 
+    ## source      : AOH_4657_1.tif 
+    ## name        : lyr1 
+    ## min value   :    0 
+    ## max value   :    1 
+    ## 
     ## [[4]]
     ## class       : SpatRaster 
-    ## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
+    ## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
-    ## source      : AOH_979_1.tif 
+    ## source      : AOH_58622_1.tif 
     ## name        : lyr1 
     ## min value   :    0 
     ## max value   :    1
