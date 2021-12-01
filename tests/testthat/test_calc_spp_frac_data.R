@@ -34,12 +34,14 @@ test_that("simulated data", {
   x1 <- calc_spp_frac_data(
     x = d,
     res = 5000,
+    template_data = elevation_data,
     output_dir = tempdir(),
     verbose = interactive()
   )
   x2 <- calc_spp_frac_data(
     x = d,
     res = 5000,
+    template_data = elevation_data,
     output_dir = tempdir(),
     verbose = interactive()
   )
@@ -71,6 +73,88 @@ test_that("simulated data", {
   unlink(x1$path[!is.na(x1$path)])
 })
 
+test_that("different engines produce same result", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # create output dirs
+  output_dir1 <- tempfile()
+  output_dir2 <- tempfile()
+  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
+  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
+  # prepare data
+  d <- create_spp_aoh_data(
+    x = read_spp_range_data(f),
+    output_dir = output_dir1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = interactive()
+  )
+  # compute fractional coverage
+  x1 <- calc_spp_frac_data(
+    x = d,
+    res = 5000,
+    template_data = elevation_data,
+    engine = "terra",
+    output_dir = output_dir2,
+    verbose = interactive()
+  )
+  x2 <- calc_spp_frac_data(
+    x = d,
+    res = 5000,
+    template_data = elevation_data,
+    engine = "gdal",
+    output_dir = tempdir(),
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x1, "sf")
+  expect_equal(nrow(d), nrow(x1))
+  expect_equal(
+    dplyr::select(x1, -path),
+    dplyr::select(x2, -path)
+  )
+  expect_gte(
+    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  # clean up
+  unlink(output_dir1, force = TRUE, recursive = TRUE)
+  unlink(output_dir2, force = TRUE, recursive = TRUE)
+})
+
 test_that("example data", {
   # skip if needed
   skip_on_cran()
@@ -95,6 +179,8 @@ test_that("example data", {
   x <- calc_spp_frac_data(
     x = d,
     res = 5000,
+    cache_dir = cd,
+    version = hv,
     output_dir = tempdir(),
     verbose = interactive()
   )

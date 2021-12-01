@@ -396,7 +396,7 @@ spp_aoh_data <- create_spp_aoh_data(
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
 # preview data
-print(result)
+print(spp_aoh_data)
 }
 \dontshow{\}) # examplesIf}
 \dontrun{

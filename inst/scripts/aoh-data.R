@@ -79,7 +79,7 @@ if (!file.exists(frc_output_dir)) {
 
 # Main processing
 ## import data
-spp_data <- read_spp_range_data(file.path(input_dir, input_file))
+spp_data <- read_spp_range_data(file.path(input_dir, input_file), n= 10)
 
 ## create Area of Habitat data
 aoh_data <- create_spp_aoh_data(
@@ -96,7 +96,12 @@ gc()
 
 ## calculate fractional coverage
 frac_data <- calc_spp_frac_data(
-  x = aoh_data, res = fraction_coverage_resolution, output_dir = frc_output_dir
+  x = aoh_data,
+  res = fraction_coverage_resolution,
+  output_dir = frc_output_dir,
+  cache_dir = cache_dir,
+  engine = "gdal",
+  n_threads = n_threads
 )
 
 # Exports

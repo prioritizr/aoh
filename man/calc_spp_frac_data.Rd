@@ -4,7 +4,18 @@
 \alias{calc_spp_frac_data}
 \title{Calculate fractional coverage data}
 \usage{
-calc_spp_frac_data(x, res, output_dir, force = FALSE, verbose = TRUE)
+calc_spp_frac_data(
+  x,
+  res,
+  output_dir,
+  template_data = NULL,
+  cache_dir = tempdir(),
+  force = FALSE,
+  n_threads = 1,
+  engine = "terra",
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{\link[sf:sf]{sf::st_sf()}} Object containing the species data.
@@ -20,12 +31,42 @@ if the underlying data had a resolution of 100 m.}
 \item{output_dir}{\code{character} \code{character} Folder path to save raster files
 (GeoTIFF format) containing the aggregated Area of Habitat data.}
 
+\item{template_data}{\code{\link[terra:rast]{terra::rast()}} Raster data to use as a template
+for computing fractional coverage.
+Note that the argument should have the same spatial properties
+as the elevation and habitat data used to generate the
+Area of Habitat data.
+Defaults to \code{NULL} such that template data are automatically imported
+as the default global habitat dataset (using \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).}
+
+\item{cache_dir}{\code{character} Folder path for downloading and caching data.
+By default, a temporary directory is used (i.e. \code{tempdir()}).
+\strong{To avoid downloading the same data multiple times, it is strongly
+recommended to specify a persistent storage location (see Examples below).}}
+
 \item{force}{\code{logical} Should the data be downloaded even if the
 the data are already available?
 Defaults to \code{FALSE}.}
 
+\item{n_threads}{\code{integer} Number of computational threads to use
+for data processing.
+To reduce run time, it is strongly recommended to set this
+parameter based on available resources (see Examples section below).
+Note that parallel processing is only used for processing the
+habitat classification and elevation data.
+As such, this parameter will have no influence when using preprocessed
+datasets.
+Defaults to 1.}
+
+\item{engine}{\code{character} Value indicating the name of the software
+to use for data processing.
+Available options include \code{"terra"} or \code{"gdal"}.
+Defaults to \code{"terra"}.}
+
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}
+
+\item{...}{Arguments passed to \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}.}
 }
 \value{
 An updated version of the argument to \code{x} with updated values
@@ -78,11 +119,19 @@ spp_aoh_data <- create_spp_aoh_data(
 spp_aoh_frac_data <- calc_spp_frac_data(
   x = spp_aoh_data,
   output_dir = output_dir,
-  res = 5000
+  res = 5000,
+  cache_dir = cache_dir
 )
+}
 
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
+# preview data
+print(spp_aoh_frac_data)
+}
+\dontshow{\}) # examplesIf}
+\dontrun{
 # plot the data to visualize the range maps and aggregated AOH data
-p1<- plot_spp_frac_data(spp_aoh_frac_data)
-print(p1)
+plot_spp_frac_data(spp_aoh_frac_data)
 }
 }

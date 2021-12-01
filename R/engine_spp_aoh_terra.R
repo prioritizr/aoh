@@ -59,6 +59,9 @@ engine_spp_aoh_terra <- function(range_data,
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
   terra::terraOptions(progress = 0, tempdir = tmp_dir)
 
+  # reset terra options on exit
+  on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
+
   # combine habitat and elevation data into a single object
   raster_data <- terra::rast(list(habitat_data, elevation_data))
 

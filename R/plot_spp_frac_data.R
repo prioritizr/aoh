@@ -62,7 +62,7 @@ NULL
 #'  p +
 #'  scale_fill_viridis_c() +
 #'  scale_color_manual(values = c("range" = "blue")) +
-#'  scale_size_manual(values = c("range" = 10)) +
+#'  scale_size_manual(values = c("range" = 1.5)) +
 #'  theme(
 #'    strip.text = ggplot2::element_text(color = "white"),
 #'    strip.background = ggplot2::element_rect(
@@ -83,7 +83,7 @@ NULL
 #'     plot_spp_frac_data(spp_frac_data, zoom = 7, maptype = "toner") +
 #'     scale_fill_viridis_c() +
 #'     scale_color_manual(values = c("range" = "red")) +
-#'     scale_size_manual(values = c("range" = 10)) +
+#'     scale_size_manual(values = c("range" = 1.5)) +
 #'     theme(
 #'       strip.text = ggplot2::element_text(color = "white"),
 #'       strip.background = ggplot2::element_rect(

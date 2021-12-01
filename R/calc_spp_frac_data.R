@@ -14,8 +14,23 @@ NULL
 #'   For example, a value of 5000 would be a valid argument
 #'   if the underlying data had a resolution of 100 m.
 #'
+#' @param template_data [terra::rast()] Raster data to use as a template
+#'   for computing fractional coverage.
+#'   Note that the argument should have the same spatial properties
+#'   as the elevation and habitat data used to generate the
+#'   Area of Habitat data.
+#'   Defaults to `NULL` such that template data are automatically imported
+#'   as the default global habitat dataset (using [get_global_habitat_data()]).
+#'
+#' @param engine `character` Value indicating the name of the software
+#'   to use for data processing.
+#'   Available options include `"terra"` or `"gdal"`.
+#'   Defaults to `"terra"`.
+#'
 #' @param output_dir `character` `character` Folder path to save raster files
 #'   (GeoTIFF format) containing the aggregated Area of Habitat data.
+#'
+#' @param ... Arguments passed to [get_global_habitat_data()].
 #'
 #' @details
 #' This function works by
@@ -64,17 +79,35 @@ NULL
 #' spp_aoh_frac_data <- calc_spp_frac_data(
 #'   x = spp_aoh_data,
 #'   output_dir = output_dir,
-#'   res = 5000
+#'   res = 5000,
+#'   cache_dir = cache_dir
 #' )
+#' }
 #'
+#' @examplesIf interactive()
+#' \dontrun{
+#' # preview data
+#' print(spp_aoh_frac_data)
+#' }
+#'
+#' @examples
+#' \dontrun{
 #' # plot the data to visualize the range maps and aggregated AOH data
-#' p1<- plot_spp_frac_data(spp_aoh_frac_data)
-#' print(p1)
+#' plot_spp_frac_data(spp_aoh_frac_data)
 #'}
 #' @export
-calc_spp_frac_data <- function(x, res, output_dir,
-                               force = FALSE, verbose = TRUE) {
+calc_spp_frac_data <- function(x,
+                               res,
+                               output_dir,
+                               template_data = NULL,
+                               cache_dir = tempdir(),
+                               force = FALSE,
+                               n_threads = 1,
+                               engine = "terra",
+                               verbose = TRUE,
+                               ...) {
   # assert arguments are valid
+  ## initial validation
   assertthat::assert_that(
     inherits(x, "sf"),
     assertthat::has_name(x, "id_no"),
@@ -89,37 +122,71 @@ calc_spp_frac_data <- function(x, res, output_dir,
     assertthat::is.string(output_dir),
     assertthat::noNA(output_dir),
     assertthat::is.writeable(output_dir),
+    assertthat::is.string(cache_dir),
+    assertthat::noNA(cache_dir),
+    assertthat::is.writeable(cache_dir),
     assertthat::is.number(res),
-    assertthat::noNA(res)
+    assertthat::noNA(res),
+    assertthat::is.flag(force),
+    assertthat::noNA(force),
+    assertthat::is.count(n_threads),
+    assertthat::noNA(n_threads),
+    assertthat::is.string(engine),
+    assertthat::noNA(engine),
+    engine %in% c("terra", "gdal")
+  )
+  if (isTRUE(identical(engine, "gdal"))) {
+    assertthat::assert_that(
+      is_gdal_available(),
+      msg = "can't use GDAL for processing because it's not available."
+    )
+  }
+  ## template data
+  if (is.null(template_data)) {
+    ### display message
+    if (verbose) {
+      cli::cli_progress_step("importing global habitat data")
+    }
+    ### processing
+    template_data <- get_global_habitat_data(
+      dir = cache_dir, force = force, verbose = verbose, ...
+    )
+  }
+  assertthat::assert_that(
+    inherits(template_data, "SpatRaster"),
+    terra::nlyr(template_data) == 1
   )
 
   # sanitize directory path
   output_dir <- gsub("\\", "/", output_dir, fixed = TRUE)
 
-  # create spatial grid representing original spatial properties for analysis
-  grid_raw <- terra::rast(x$path[which(!is.na(x$path))[[1]]])
-  grid_raw <- terra::rast(
-    xmin = min(x$xmin, na.rm = TRUE),
-    xmax = max(x$xmax, na.rm = TRUE),
-    ymin = min(x$ymin, na.rm = TRUE),
-    ymax = max(x$ymax, na.rm = TRUE),
-    res = c(terra::res(grid_raw)),
-    crs = terra::crs(grid_raw)
-  )
-
   # compute aggregation factor
-  fact <- unique(res / terra::res(grid_raw))
+  assertthat::assert_that(
+    terra::xres(template_data) == terra::yres(template_data),
+    msg = "argument to \"template_data\" must have square cells"
+  )
+  fact <- res / terra::xres(template_data)
   assertthat::assert_that(
     assertthat::is.count(fact),
     assertthat::noNA(fact),
     msg = paste(
-      "argument to \"res\" is not a factor of the Area of Habitat data",
-      "resolution"
+      "argument to \"res\" does not correspond to a valid aggregation factor",
+      "for the argument to \"template_data\""
     )
   )
 
   # create spatial grid representing aggregated spatial properties
-  grid <- terra::aggregate(x = grid_raw, fact = fact)
+  template_data <- terra::aggregate(
+    x = terra::rast(
+      xmin = terra::xmin(template_data),
+      xmax = terra::xmax(template_data),
+      ymin = terra::ymin(template_data),
+      ymax = terra::ymax(template_data),
+      res = terra::res(template_data),
+      crs = terra::crs(template_data)
+    ),
+    fact = fact
+  )
 
   # prepare output paths
   aoh_path <- x$path
@@ -184,29 +251,45 @@ calc_spp_frac_data <- function(x, res, output_dir,
 
       ## compute extent for output
       curr_grid <- terra::crop(
-        x = grid, y = terra::ext(r), snap = "out"
+        x = template_data, y = terra::ext(r), snap = "out"
       )
 
-      ## aggregate raster
-      r <- terra::aggregate(
-        terra::extend(
+      # extend raster using using specified engine
+      if (identical(engine, "terra")) {
+        r <- terra::extend(
           x = r,
           y = curr_grid,
           datatype = "INT1U",
           gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
-        ),
-        fact = fact,
-        fun = "sum",
-        na.rm = TRUE,
-        wopt = list(
-          datatype = "INT2U",
-          gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
         )
-      )
+      } else {
+        r <- terra_gdal_crop(
+          x = r,
+          ext = terra::ext(curr_grid),
+          datatype = "INT1U",
+          bigtiff = TRUE,
+          compress = "LZW",
+          n_threads = n_threads,
+          verbose = FALSE
+        )
+      }
 
-      ## convert raster from sum of suitable pixels to fractional coverage
+      # aggregate raster and compute fractional coverage
+      ## note that we don't use GDAL for this because
+      ## (i) gdal_translate doesn't provide a "sum" method, and
+      ## (ii) gdal_warp sets grid cells values as NA if they are predominantly
+      ## covered by missing values
       r <- terra::app(
-        x = r,
+        x = terra::aggregate(
+          x = r,
+          fact = fact,
+          fun = "sum",
+          na.rm = TRUE,
+          wopt = list(
+            datatype = "INT2U",
+            gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
+          )
+        ),
         fun = `/`,
         e2 = fact ^ 2,
         filename = x$path[i],

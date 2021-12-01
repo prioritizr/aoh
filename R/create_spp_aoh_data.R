@@ -390,7 +390,7 @@ NULL
 #' @examplesIf interactive()
 #' \dontrun{
 #' # preview data
-#' print(result)
+#' print(spp_aoh_data)
 #' }
 #'
 #' @examples
@@ -469,7 +469,6 @@ create_spp_aoh_data <- function(x,
       msg = "can't access the IUCN Red List API, see ?aoh"
     )
   }
-
   ## elevation data
   if (is.null(elevation_data)) {
     ### display message

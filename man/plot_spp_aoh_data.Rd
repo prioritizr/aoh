@@ -99,7 +99,7 @@ p2 <-
  p +
  scale_fill_viridis_d() +
  scale_color_manual(values = c("range" = "blue")) +
- scale_size_manual(values = c("range" = 10)) +
+ scale_size_manual(values = c("range" = 1.5)) +
  theme(
    strip.text = ggplot2::element_text(color = "white"),
    strip.background = ggplot2::element_rect(
@@ -122,7 +122,7 @@ if (require(ggmap)) {
       values = c("suitable" = "blue", "not suitable" = "transparent")
     ) +
     scale_color_manual(values = c("range" = "red")) +
-    scale_size_manual(values = c("range" = 10)) +
+    scale_size_manual(values = c("range" = 2)) +
     theme(
       strip.text = ggplot2::element_text(color = "white"),
       strip.background = ggplot2::element_rect(

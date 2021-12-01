@@ -1,7 +1,7 @@
 pandoc: '2.13'
-pkgdown: 1.9000.9000.9000
-pkgdown_sha: 38fca24beac66f50d8fa3f35d710b5cc358a8010
+pkgdown: 2.0.0.9000
+pkgdown_sha: e3b71d822a6e741b97c68006f1bf99689ec2dc48
 articles:
   aoh: aoh.html
-last_built: 2021-11-30T08:36Z
+last_built: 2021-12-01T07:24Z
 

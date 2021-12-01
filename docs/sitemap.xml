@@ -28,9 +28,6 @@
     <loc>/reference/create_spp_aoh_data.html</loc>
   </url>
   <url>
-    <loc>/reference/create_template_rast.html</loc>
-  </url>
-  <url>
     <loc>/reference/crosswalk_jung_data.html</loc>
   </url>
   <url>
@@ -50,9 +47,6 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/intersecting_ext.html</loc>
   </url>
   <url>
     <loc>/reference/is_gdal_available.html</loc>
@@ -92,9 +86,6 @@
   </url>
   <url>
     <loc>/reference/read_spp_range_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sf_terra_ext.html</loc>
   </url>
   <url>
     <loc>/reference/simulate_spp_data.html</loc>
