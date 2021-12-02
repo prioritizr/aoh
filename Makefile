@@ -18,21 +18,25 @@ data: inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip data/
 
 inst/testdata/SIMULATED_SPECIES.zip: inst/scripts/test-data.R
 	R --slave -e "source('inst/scripts/test-data.R')"
-	rm -f builtin-data.Rout
 
 inst/extdata/EXAMPLE_SPECIES.zip: inst/scripts/example-data.R
 	R --slave -e "source('inst/scripts/example-data.R')"
-	rm -f builtin-data.Rout
 
-data/iucn-habitat-data.rda: inst/scripts/builtin-data.R data-raw/iucn-habitat-data.csv
+data/iucn_habitat_data.rda: inst/scripts/builtin-data.R data-raw/iucn-habitat-data.csv
 	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
 
-data/crosswalk-jung-data.rda: inst/scripts/builtin-data.R data-raw/crosswalk-jung-data.rda
+data/crosswalk_jung_data.rda: inst/scripts/builtin-data.R data-raw/crosswalk-jung-data.csv
+	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
+
+data/crosswalk_lumbierres_data.rda: inst/scripts/builtin-data.R data-raw/crosswalk-lumbierres-data.csv
 	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
 
 # preprocess datasets
-prep_habitat_data: inst/scripts/preprocess-habitat-data.R
-	R CMD BATCH --no-restore --no-save inst/scripts/preprocess-habitat-data.R
+prep_jung_habitat_data: inst/scripts/jung-habitat-data.R inst/scripts/lumbierres-habitat-data.R
+	R CMD BATCH --no-restore --no-save inst/scripts/jung-habitat-data.R
+
+prep_lumbierres_habitat_data: inst/scripts/jung-lumbierres-data.R inst/scripts/lumbierres-habitat-data.R
+	R CMD BATCH --no-restore --no-save inst/scripts/lumbierres-habitat-data.R
 
 # process aoh data
 aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles

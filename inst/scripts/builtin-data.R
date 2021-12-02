@@ -27,6 +27,17 @@ crosswalk_jung_data <- readr::read_csv(
   )
 )
 
+crosswalk_lumbierres_data <- readr::read_csv(
+  "data-raw/crosswalk-lumbierres-data.csv",
+  show_col_types = FALSE,
+  progress = FALSE,
+  col_types = readr::cols(
+    code = readr::col_character(),
+    value = readr::col_integer()
+  )
+)
+
 # Exports
 usethis::use_data(iucn_habitat_data, overwrite = TRUE)
 usethis::use_data(crosswalk_jung_data, overwrite = TRUE)
+usethis::use_data(crosswalk_lumbierres_data, overwrite = TRUE)

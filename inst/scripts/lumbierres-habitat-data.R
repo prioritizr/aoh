@@ -1,5 +1,5 @@
 # System command to execute:
-# R CMD BATCH --no-restore --no-save preprocess-habitat-data.R
+# R CMD BATCH --no-restore --no-save lumbierres-habitat-data.R
 
 # Initialization
 ## load packages
@@ -20,15 +20,18 @@ n_threads <- max(1, parallel::detectCores() - 2)
 output_dir <-  tempdir()
 
 ### set version to process
-version <- latest_zenodo_version(
-  x = "10.5281/zenodo.4058356",
-  file = function(x) {
-    any(
-      startsWith(x, "iucn_habitatclassification_composite_lvl2") &
-      endsWith(x, ".zip")
-    )
-  }
+### note that latest_zenodo_version() fails for Zenodo archives that only have
+## one version, so here we manually specify the first version if it fails
+version <- try(
+  latest_zenodo_version(
+    x = "10.5281/zenodo.5146072",
+    file = "habitat_CGLS.tiff"
+  ),
+  silent = TRUE
 )
+if (inherits(version, "try-error")) {
+ version <- "10.5281/zenodo.5146073"
+}
 
 # Preliminary processing
 ## print version
@@ -50,33 +53,18 @@ if (!file.exists(output_dir)) {
 }
 
 ## download data
-archive_path <- get_zenodo_data(
+raw_path <- get_zenodo_data(
   x = version,
   dir = cache_dir,
   force = FALSE,
-  file = function(x) {
-    any(
-      startsWith(x, "iucn_habitatclassification_composite_lvl2") &
-      endsWith(x, ".zip")
-    )
-  }
-)
-
-## unzip path
-temp_dir <- tempfile()
-dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
-utils::unzip(archive_path, exdir = temp_dir)
-raw_path <- dir(temp_dir, "^.*\\.tif$", full.names = TRUE, recursive = TRUE)
-assertthat::assert_that(
-  length(raw_path) == 1,
-  msg = "failed to find 100 m resolution composite layer"
+  file = "habitat_CGLS.tiff"
 )
 
 ## construct output path
 output_path <- gsub(
   ".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE
 )
-output_path <- file.path(temp_dir, paste0("habitat-", output_path, ".tif"))
+output_path <- file.path(temp_dir, paste0("lumbierres-", output_path, ".tif"))
 output_path <- gsub("\\", "/", output_path, fixed = TRUE)
 
 # Main processing
@@ -98,7 +86,7 @@ habitat_data <- terra_gdal_project(
   filename = output_path,
   method = "near",
   n_threads = n_threads,
-  datatype = "INT2U",
+  datatype = "INT1U",
   cache_limit = 5000,
   tiled = TRUE,
   bigtiff = TRUE,

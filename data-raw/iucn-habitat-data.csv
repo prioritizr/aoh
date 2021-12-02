@@ -39,7 +39,7 @@ code,name,is_terrestrial,is_marine,is_artificial,is_misc,is_introduced
 5.7,Wetlands (inland) - Permanent freshwater marshes/pools (under 8 ha),TRUE,FALSE,FALSE,FALSE,FALSE
 5.8,Wetlands (inland) - Seasonal/intermittent freshwater marshes/pools (under 8 ha),TRUE,FALSE,FALSE,FALSE,FALSE
 5.9,Wetlands (inland) - Freshwater springs and oases,TRUE,FALSE,FALSE,FALSE,FALSE
-5.1,Wetlands (inland) - Tundra wetlands (inc. pools and temporary waters from snowmelt),TRUE,FALSE,FALSE,FALSE,FALSE
+5.10,Wetlands (inland) - Tundra wetlands (inc. pools and temporary waters from snowmelt),TRUE,FALSE,FALSE,FALSE,FALSE
 5.11,Wetlands (inland) - Alpine wetlands (inc. temporary waters from snowmelt),TRUE,FALSE,FALSE,FALSE,FALSE
 5.12,Wetlands (inland) - Geothermal wetlands,TRUE,FALSE,FALSE,FALSE,FALSE
 5.13,Wetlands (inland) - Permanent inland deltas,TRUE,FALSE,FALSE,FALSE,FALSE
@@ -72,7 +72,7 @@ code,name,is_terrestrial,is_marine,is_artificial,is_misc,is_introduced
 9.8.5,Inter-reef soft substrate,FALSE,TRUE,FALSE,FALSE,FALSE
 9.8.6,Inter-reef rubble substrate,FALSE,TRUE,FALSE,FALSE,FALSE
 9.9,Seagrass (Submerged),FALSE,TRUE,FALSE,FALSE,FALSE
-9.1,Estuaries,FALSE,TRUE,FALSE,FALSE,FALSE
+9.10,Estuaries,FALSE,TRUE,FALSE,FALSE,FALSE
 10,Marine Oceanic,FALSE,TRUE,FALSE,FALSE,FALSE
 10.1,Epipelagic (0-200 m),FALSE,TRUE,FALSE,FALSE,FALSE
 10.2,"Mesopelagic (200-1,000 m)",FALSE,TRUE,FALSE,FALSE,FALSE
@@ -118,7 +118,7 @@ code,name,is_terrestrial,is_marine,is_artificial,is_misc,is_introduced
 15.7,Irrigated Land [includes irrigation channels],TRUE,FALSE,TRUE,FALSE,FALSE
 15.8,Seasonally Flooded Agricultural Land,TRUE,FALSE,TRUE,FALSE,FALSE
 15.9,"Canals and Drainage Channels, Ditches",TRUE,FALSE,TRUE,FALSE,FALSE
-15.1,Karst and Other Subterranean Hydrological Systems [human-made],TRUE,FALSE,TRUE,FALSE,FALSE
+15.10,Karst and Other Subterranean Hydrological Systems [human-made],TRUE,FALSE,TRUE,FALSE,FALSE
 15.11,Marine Anthropogenic Structures,FALSE,TRUE,TRUE,FALSE,FALSE
 15.12,Mariculture Cages,FALSE,TRUE,TRUE,FALSE,FALSE
 15.13,Mari/Brackish-culture Ponds,TRUE,FALSE,TRUE,FALSE,FALSE

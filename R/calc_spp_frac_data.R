@@ -20,7 +20,8 @@ NULL
 #'   as the elevation and habitat data used to generate the
 #'   Area of Habitat data.
 #'   Defaults to `NULL` such that template data are automatically imported
-#'   as the default global habitat dataset (using [get_global_habitat_data()]).
+#'   as the default global habitat dataset (using
+#'   [get_lumbierres_habitat_data()]).
 #'
 #' @param engine `character` Value indicating the name of the software
 #'   to use for data processing.
@@ -30,7 +31,7 @@ NULL
 #' @param output_dir `character` `character` Folder path to save raster files
 #'   (GeoTIFF format) containing the aggregated Area of Habitat data.
 #'
-#' @param ... Arguments passed to [get_global_habitat_data()].
+#' @param ... Arguments passed to [get_lumbierres_habitat_data()].
 #'
 #' @details
 #' This function works by
@@ -148,7 +149,7 @@ calc_spp_frac_data <- function(x,
       cli::cli_progress_step("importing global habitat data")
     }
     ### processing
-    template_data <- get_global_habitat_data(
+    template_data <- get_lumbierres_habitat_data(
       dir = cache_dir, force = force, verbose = verbose, ...
     )
   }

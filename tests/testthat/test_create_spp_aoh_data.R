@@ -333,6 +333,72 @@ test_that("engines produce same results", {
   unlink(output_dir3, recursive = TRUE)
 })
 
+test_that("habitat data produce similar results", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
+  # specify file path
+  f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
+  cd <- rappdirs::user_data_dir("aoh")
+  # load data
+  d <- read_spp_range_data(f)
+  # create output dirs
+  output_dir1 <- tempfile()
+  output_dir2 <- tempfile()
+  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
+  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
+  # create objects
+  x1 <- suppressWarnings(
+    create_spp_aoh_data(
+      x = d,
+      output_dir = output_dir1,
+      habitat_data = get_jung_habitat_data(
+        dir = cd, version = latest_jung_version
+      ),
+      crosswalk_data = crosswalk_jung_data,
+      cache_dir = cd,
+      elevation_version = latest_elevation_version,
+      verbose = interactive()
+    )
+  )
+  x2 <- suppressWarnings(
+    create_spp_aoh_data(
+      x = d,
+      output_dir = output_dir2,
+      habitat_data = get_lumbierres_habitat_data(
+        dir = cd, version = latest_lumbierres_version
+      ),
+      crosswalk_data = crosswalk_lumbierres_data,
+      cache_dir = cd,
+      elevation_version = latest_elevation_version,
+      verbose = interactive()
+    )
+  )
+  # tests
+  expect_is(x1, "sf")
+  expect_is(x2, "sf")
+  expect_named(x1, aoh_names)
+  expect_named(x2, aoh_names)
+  expect_equal(
+    dplyr::select(x1, -path, -habitat_code),
+    dplyr::select(x2, -path, -habitat_code)
+  )
+  expect_gt(
+    vapply(seq_len(nrow(x1)), FUN.VALUE = numeric(1), function(i) {
+      terra::global(
+        x = terra::rast(x1$path[i]) == terra::rast(x2$path[i]),
+        fun = "mean",
+        na.rm = TRUE
+      )[[1]]
+    }),
+    0.35
+  )
+  # clean up
+  unlink(output_dir1, recursive = TRUE)
+  unlink(output_dir2, recursive = TRUE)
+})
+
 test_that("example data", {
   # skip if needed
   skip_on_cran()
@@ -341,8 +407,6 @@ test_that("example data", {
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.4058819"
-  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f)
   # create objects
@@ -351,8 +415,8 @@ test_that("example data", {
       x = d,
       output_dir = tempdir(),
       cache_dir = cd,
-      habitat_version = hv,
-      elevation_version = ev,
+      habitat_version = latest_lumbierres_version,
+      elevation_version = latest_elevation_version,
       verbose = interactive()
     )
   )
@@ -398,8 +462,6 @@ test_that("amphibian data", {
     "AMPHIBIANS.zip"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.4058819"
-  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 100)
   # subset data for testing (i.e. some Asian taxa)
@@ -408,8 +470,8 @@ test_that("amphibian data", {
   x <- create_spp_aoh_data(
     x = d,
     output_dir = tempdir(),
-    habitat_version = hv,
-    elevation_version = ev,
+    habitat_version = latest_lumbierres_version,
+    elevation_version = latest_elevation_version,
     cache_dir = cd,
     engine = "gdal",
     verbose = interactive()
@@ -455,8 +517,6 @@ test_that("reptile data", {
     "REPTILES.zip"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.4058819"
-  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data for testing (i.e. some Australian taxa)
@@ -469,8 +529,8 @@ test_that("reptile data", {
     x = d,
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = hv,
-    elevation_version = ev,
+    habitat_version = latest_lumbierres_version,
+    elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()
   )
@@ -515,8 +575,6 @@ test_that("terrestrial mammal data", {
     "MAMMALS_TERRESTRIAL_ONLY.zip"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.4058819"
-  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data for testing (i.e. some Oceanic taxa)
@@ -526,8 +584,8 @@ test_that("terrestrial mammal data", {
     x = d,
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = hv,
-    elevation_version = ev,
+    habitat_version = latest_lumbierres_version,
+    elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()
   )
@@ -572,8 +630,6 @@ test_that("bird data", {
     "BOTW.7z"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.4058819"
-  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- suppressWarnings(read_spp_range_data(f, n = 200))
   # subset data (i.e. some Oceanic species)
@@ -585,8 +641,8 @@ test_that("bird data", {
     x = d,
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = hv,
-    elevation_version = ev,
+    habitat_version = latest_lumbierres_version,
+    elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()
   )
@@ -631,8 +687,6 @@ test_that("bird data (migratory)", {
     "BOTW.7z"
   )
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.4058819"
-  ev <- "10.5281/zenodo.5719984"
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data (geographically restricted genus)
@@ -643,8 +697,8 @@ test_that("bird data (migratory)", {
     x = d,
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = hv,
-    elevation_version = ev,
+    habitat_version = latest_lumbierres_version,
+    elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()
   )

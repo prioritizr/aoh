@@ -26,3 +26,9 @@ aoh_names <- c(
   "elevation_lower", "elevation_upper", "xmin", "xmax", "ymin", "ymax",
   "path", "geometry"
 )
+
+latest_jung_version <- "10.5281/zenodo.4058819"
+
+latest_lumbierres_version <- "10.5281/zenodo.5146073"
+
+latest_elevation_version <- "10.5281/zenodo.5719984"

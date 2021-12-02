@@ -74,7 +74,7 @@ latest_zenodo_version <- function(x, file) {
 #'
 #' @inheritParams latest_zenodo_version
 #'
-#' @inheritParams get_global_habitat_data
+#' @inheritParams get_jung_habitat_data
 #'
 #' @return A `character` file path for the downloaded data.
 #'

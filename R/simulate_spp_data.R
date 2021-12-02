@@ -154,7 +154,7 @@ simulate_spp_data <- function(n,
       cli::cli_progress_step("importing global habitat data")
     }
     ### processing
-    habitat_data <- get_global_habitat_data(
+    habitat_data <- get_jung_habitat_data(
       dir = cache_dir, version = habitat_version, force = force,
       verbose = verbose
     )

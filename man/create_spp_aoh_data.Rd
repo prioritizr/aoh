@@ -67,12 +67,12 @@ of the habitat data will be used to reduce processing time.}
 
 \item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Raster data indicating the
 presence of different habitat classes across world
-(e.g. Jung \emph{et al.} 2020a,b).
+(e.g. Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres \emph{et al.} 2021).
 Each pixel should contain an \code{integer} value that specifies which
 habitat class is present within the pixel
 (based on the argument to \code{crosswalk_data}).
 Defaults to \code{NULL} such that data are automatically obtained (using
-\code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).}
+\code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}).}
 
 \item{crosswalk_data}{\code{\link[=data.frame]{data.frame()}} Table containing data that indicate
 which pixel values in the argument to \code{habitat_data} correspond to which
@@ -81,7 +81,7 @@ a \code{code} column that specifies a set of IUCN habitat classification
 codes (see \code{\link[=iucn_habitat_data]{iucn_habitat_data()}}, and a \code{value} column that specifies
 different values in the argument to \code{habitat_data}.
 Defaults to \code{NULL} such that the crosswalk for the default habitat
-data are used (i.e. \code{\link[=crosswalk_jung_data]{crosswalk_jung_data()}}).}
+data are used (i.e. \code{\link[=crosswalk_lumbierres_data]{crosswalk_lumbierres_data()}}).}
 
 \item{cache_dir}{\code{character} Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e. \code{tempdir()}).
@@ -97,7 +97,7 @@ used.}
 
 \item{habitat_version}{\code{character} Version of the
 habitat dataset that should be used. See documentation for the
-the \code{version} parameter in the \code{\link[=get_global_habitat_data]{get_global_habitat_data()}} function
+the \code{version} parameter in the \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}} function
 for further details.
 This parameter is only used if habitat data are obtained
 automatically (i.e. the argument to \code{habitat_data} is \code{NULL}).
@@ -256,12 +256,10 @@ This function can use different software engines for data processing
 same results, some engines are more computationally efficient than others.
 The default \code{"terra"} engine uses the \pkg{terra} package for processing.
 Although this engine is easy to install and fast for small datasets, it does
-not scale well for larger datasets. It is generally recommended to use the
-\code{"gdal"} engine for both small and moderately sized datasets.
-Additionally, the \code{"grass"} engine is recommended when processing data for
-many species across very large spatial extents.
-For instructions on installing dependencies for the \code{"gdal"} and \code{"grass"}
-engines, please see the README file.
+not scale well for larger datasets. It is generally recommended to use
+either the \code{"gdal"} or \code{"grass"} engines for large datasets.
+For instructions on installing dependencies for these engines,
+please see the README file.
 }
 
 \section{Data processing}{
@@ -272,7 +270,7 @@ The Area of Habitat data are produced using the following procedures.
 
 \item Global elevation and habitat classification are imported
 (if needed,
-see \code{\link[=get_global_elevation_data]{get_global_elevation_data()}} and \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}
+see \code{\link[=get_global_elevation_data]{get_global_elevation_data()}} and \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}
 for details).
 If these data are not available in the cache directory
 (i.e. argument to \code{cache_dir}), then they are automatically downloaded
@@ -427,6 +425,16 @@ Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
 \emph{Zenodo Digital Repository}.
 Available at \url{https://doi.org/10.5281/zenodo.4058819}.
+
+Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
+Habitat.\emph{Zenodo Digital Repository}.
+Available at \url{https://doi.org/10.5281/zenodo.5146072}.
+
+Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
+Rondinini C (2021) Translating habitat class to land cover to map area of
+habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press,
+DOI:10.1111/cobi.13851
+Available at \url{https://doi.org/10.1111/cobi.13851}.
 
 Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
 global, void-free, multi-scale smoothed, 90m digital elevation model from

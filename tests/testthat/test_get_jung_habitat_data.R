@@ -1,4 +1,4 @@
-context("get_global_elevation_data()")
+context("get_jung_habitat_data()")
 
 test_that("latest version (from online)", {
   # skip if needed
@@ -6,10 +6,8 @@ test_that("latest version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_global_elevation_data(
-    version = "latest",
-    force = TRUE,
-    verbose = interactive()
+  x <- get_jung_habitat_data(
+    version = "latest", force = TRUE, verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -27,7 +25,7 @@ test_that("latest version (from cache)", {
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   # create object
-  x <- get_global_elevation_data(
+  x <- get_jung_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
     version = "latest",
     force = FALSE,
@@ -49,8 +47,8 @@ test_that("specified version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_global_elevation_data(
-    version = latest_elevation_version,
+  x <- get_jung_habitat_data(
+    version = latest_jung_version,
     force = TRUE,
     verbose = interactive()
   )
@@ -70,9 +68,9 @@ test_that("specified version (from cache)", {
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   # create object
-  x <- get_global_elevation_data(
+  x <- get_jung_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
-    version = latest_elevation_version,
+    version = latest_jung_version,
     force = FALSE,
     verbose = interactive()
   )

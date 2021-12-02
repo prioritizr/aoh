@@ -156,9 +156,9 @@ process_spp_aoh_data_on_local <- function(x,
         xmin = x$xmin[i], xmax = x$xmax[i],
         ymin = x$ymin[i], ymax = x$ymax[i]
       ))
-      curr_spp_habitat_values <- crosswalk_data$value[
+      curr_spp_habitat_values <- sort(unique(crosswalk_data$value[
         which(crosswalk_data$code %in% x$habitat_code[[i]])
-      ]
+      ]))
 
       ## process data using engine
       if (identical(engine, "terra")) {

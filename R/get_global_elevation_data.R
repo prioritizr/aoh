@@ -7,7 +7,7 @@ NULL
 #' If data are not available locally, they are downloaded from
 #' a [Zenodo repository](https://doi.org/10.5281/zenodo.5719982).
 #'
-#' @inheritParams get_global_habitat_data
+#' @inheritParams get_jung_habitat_data
 #'
 #' @details
 #' The data were produced by (i) obtaining raw elevation data from

@@ -27,12 +27,12 @@ spatial extent and boundary for simulating species ranges.}
 
 \item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Raster data indicating the
 presence of different habitat classes across world
-(e.g. Jung \emph{et al.} 2020a,b).
+(e.g. Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres \emph{et al.} 2021).
 Each pixel should contain an \code{integer} value that specifies which
 habitat class is present within the pixel
 (based on the argument to \code{crosswalk_data}).
 Defaults to \code{NULL} such that data are automatically obtained (using
-\code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).}
+\code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}).}
 
 \item{elevation_data}{\code{\link[terra:rast]{terra::rast()}} Raster data delineating the
 worldwide elevation data (e.g. Robinson \emph{et al.} 2014).
@@ -48,7 +48,7 @@ a \code{code} column that specifies a set of IUCN habitat classification
 codes (see \code{\link[=iucn_habitat_data]{iucn_habitat_data()}}, and a \code{value} column that specifies
 different values in the argument to \code{habitat_data}.
 Defaults to \code{NULL} such that the crosswalk for the default habitat
-data are used (i.e. \code{\link[=crosswalk_jung_data]{crosswalk_jung_data()}}).}
+data are used (i.e. \code{\link[=crosswalk_lumbierres_data]{crosswalk_lumbierres_data()}}).}
 
 \item{rf_model_scale_min}{\code{numeric} Minimum scaling parameter used
 to control the smallest possible size of simulated species ranges.
@@ -69,7 +69,7 @@ recommended to specify a persistent storage location (see Examples below).}}
 
 \item{habitat_version}{\code{character} Version of the
 habitat dataset that should be used. See documentation for the
-the \code{version} parameter in the \code{\link[=get_global_habitat_data]{get_global_habitat_data()}} function
+the \code{version} parameter in the \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}} function
 for further details.
 This parameter is only used if habitat data are obtained
 automatically (i.e. the argument to \code{habitat_data} is \code{NULL}).
