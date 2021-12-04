@@ -7,7 +7,9 @@ test_that("latest version (from online)", {
   skip_if_local_and_slow_internet()
   # create object
   x <- get_global_elevation_data(
-    version = "latest", force = TRUE, verbose = interactive()
+    version = "latest",
+    force = TRUE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -27,7 +29,9 @@ test_that("latest version (from cache)", {
   # create object
   x <- get_global_elevation_data(
     dir = rappdirs::user_data_dir("aoh"),
-    version = "latest", force = FALSE, verbose = interactive()
+    version = "latest",
+    force = FALSE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -46,7 +50,9 @@ test_that("specified version (from online)", {
   skip_if_local_and_slow_internet()
   # create object
   x <- get_global_elevation_data(
-    version = "10.5281/zenodo.5719984", force = TRUE, verbose = interactive()
+    version = latest_elevation_version,
+    force = TRUE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -66,7 +72,9 @@ test_that("specified version (from cache)", {
   # create object
   x <- get_global_elevation_data(
     dir = rappdirs::user_data_dir("aoh"),
-    version = "10.5281/zenodo.5719984", force = FALSE, verbose = interactive()
+    version = latest_elevation_version,
+    force = FALSE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")

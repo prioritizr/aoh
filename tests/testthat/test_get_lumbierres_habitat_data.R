@@ -1,4 +1,4 @@
-context("get_global_habitat_data()")
+context("get_lumbierres_habitat_data()")
 
 test_that("latest version (from online)", {
   # skip if needed
@@ -6,8 +6,10 @@ test_that("latest version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_global_habitat_data(
-    version = "latest", force = TRUE, verbose = interactive()
+  x <- get_lumbierres_habitat_data(
+    version = "latest",
+    force = TRUE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -25,9 +27,11 @@ test_that("latest version (from cache)", {
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   # create object
-  x <- get_global_habitat_data(
+  x <- get_lumbierres_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
-    version = "latest", force = FALSE, verbose = interactive()
+    version = "latest",
+    force = FALSE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -45,8 +49,10 @@ test_that("specified version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_global_habitat_data(
-    version = "10.5281/zenodo.4058819", force = TRUE, verbose = interactive()
+  x <- get_lumbierres_habitat_data(
+    version = latest_lumbierres_version,
+    force = TRUE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -64,9 +70,11 @@ test_that("specified version (from cache)", {
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   # create object
-  x <- get_global_habitat_data(
+  x <- get_lumbierres_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
-    version = "10.5281/zenodo.4058819", force = FALSE, verbose = interactive()
+    version = latest_lumbierres_version,
+    force = FALSE,
+    verbose = interactive()
   )
   # tests
   expect_is(x, "SpatRaster")
@@ -76,5 +84,4 @@ test_that("specified version (from cache)", {
   expect_lte(terra::xmin(x), -6005523)
   expect_gte(terra::ymax(x), 7287077)
   expect_equal(terra::nlyr(x), 1)
-
 })

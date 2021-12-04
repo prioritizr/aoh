@@ -121,8 +121,8 @@ terra_gdal_project <- function(x, y,
   f3 <- tempfile(fileext = ".wkt")
 
   # compress options
-  co <- paste0("NUM_THREADS=", n_threads)
   if (endsWith(filename, ".tif")) {
+    co <- paste0("NUM_THREADS=", n_threads)
     co <- c(co, paste0("COMPRESS=", compress))
     if (tiled) {
       co <- c(co, "TILED=YES")
@@ -130,6 +130,8 @@ terra_gdal_project <- function(x, y,
     if (isTRUE(bigtiff)) {
       co <- c(co, "BIGTIFF=YES")
     }
+  } else {
+    co <- c()
   }
 
   # save raster if needed
@@ -160,9 +162,6 @@ terra_gdal_project <- function(x, y,
     co = co,
     wm = as.character(cache_limit),
     multi = isTRUE(n_threads >= 2),
-    wo = paste0("NUM_THREADS=", n_threads),
-    oo = paste0("NUM_THREADS=", n_threads),
-    doo = paste0("NUM_THREADS=", n_threads),
     ot = gdal_datatype(datatype),
     overwrite = TRUE,
     output_Raster = FALSE,
@@ -171,6 +170,11 @@ terra_gdal_project <- function(x, y,
   )
   if (!is.null(NAflag)) {
     args$dstnodata <- NAflag
+  }
+  if (endsWith(filename, ".tif")) {
+    args$wo <- paste0("NUM_THREADS=", n_threads)
+    args$oo <- paste0("NUM_THREADS=", n_threads)
+    args$doo <- paste0("NUM_THREADS=", n_threads)
   }
   do.call(gdalUtils::gdalwarp, args)
 

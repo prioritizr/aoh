@@ -31,13 +31,19 @@
     <loc>/reference/crosswalk_jung_data.html</loc>
   </url>
   <url>
+    <loc>/reference/crosswalk_lumbierres_data.html</loc>
+  </url>
+  <url>
     <loc>/reference/gdal_version.html</loc>
   </url>
   <url>
     <loc>/reference/get_global_elevation_data.html</loc>
   </url>
   <url>
-    <loc>/reference/get_global_habitat_data.html</loc>
+    <loc>/reference/get_jung_habitat_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_lumbierres_habitat_data.html</loc>
   </url>
   <url>
     <loc>/reference/get_spp_habitat_data.html</loc>
@@ -52,7 +58,7 @@
     <loc>/reference/is_gdal_available.html</loc>
   </url>
   <url>
-    <loc>/reference/is_gdal_calc_available.html</loc>
+    <loc>/reference/is_gdal_python_available.html</loc>
   </url>
   <url>
     <loc>/reference/is_grass_available.html</loc>

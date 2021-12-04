@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Crosswalk data for Jung *et al* 2020
+#' Crosswalk data for Jung *et al.* (2020)
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a
@@ -29,7 +29,7 @@ NULL
 #' \item{code}{The `character` code for a given IUCN habitat class.}
 #' \item{value}{The `numeric` value assigned to grid cells in the
 #'  raster data that contain the IUCN habitat class
-#'  (see [get_global_habitat_data()]).}
+#'  (see [get_jung_habitat_data()]).}
 #' }
 #'
 #' @source
@@ -38,9 +38,9 @@ NULL
 #'
 #' @seealso
 #' A preprocessed version of the habitat classification data can be imported
-#' using [get_global_habitat_data()].
+#' using [get_jung_habitat_data()].
 #'
-#' @inherit get_global_habitat_data references
+#' @inherit get_jung_habitat_data references
 #'
 #' @aliases crosswalk_jung_data
 #'

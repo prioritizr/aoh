@@ -36,9 +36,10 @@ users can import these data (using `read_spp_range_data()`) and then use
 them to create Area of Habitat data (using `create_spp_aoh_data()`).
 Global elevation and habitat classification data ([Amatulli *et al.*
 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.*
-2020](https://doi.org/10.1038/s41597-020-00599-8)) are automatically
-downloaded, and data on species’ habitat preferences and altitudinal
-limits are obtained automatically using the [IUCN Red List
+2020](https://doi.org/10.1038/s41597-020-00599-8); [Lumbierres *et al.*
+2021](https://doi.org/10.1111/cobi.13851)) are automatically downloaded,
+and data on species’ habitat preferences and altitudinal limits are
+obtained automatically using the [IUCN Red List
 API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List
 requires a token, users may need to [obtain a
 token](https://apiv3.iucnredlist.org/api/v3/token) and update their *R*

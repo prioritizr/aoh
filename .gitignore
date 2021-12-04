@@ -22,9 +22,9 @@ spell.log
 gp.log
 examples.log
 aoh-data.Rout
-preprocess-habitat-data.Rout
+jung-habitat-data.Rout
+lumbierres-habitat-data.Rout
 preprocess-elevation-data.Rout
-preprocess-world-behrmann-100m.Rout
 aoh-data-amphibians.Rout
 aoh-data-birds.Rout
 aoh-data-mammals.Rout

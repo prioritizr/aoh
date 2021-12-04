@@ -21,7 +21,11 @@ test_that("single species", {
   )
   # create object
   x <- simulate_spp_data(
-    n, boundary_data, habitat_data, elevation_data, crosswalk_jung_data
+    n = n,
+    boundary_data = boundary_data,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
   )
   # tests
   expect_is(x, "list")
@@ -52,7 +56,11 @@ test_that("multiple species", {
   )
   # create object
   x <- simulate_spp_data(
-    n, boundary_data, habitat_data, elevation_data, crosswalk_jung_data
+    n = n,
+    boundary_data = boundary_data,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
   )
   # tests
   expect_is(x, "list")
@@ -71,14 +79,18 @@ test_that("global elevation and habitat data", {
   set.seed(500)
   RandomFields::RFoptions(seed = 500)
   n <- 3
-  hv <- "10.5281/zenodo.4058819"
   cd <- rappdirs::user_data_dir("aoh")
   # create data
   boundary_data <- sf::read_sf(
     system.file("testdata", "sim_boundary_data.gpkg", package = "aoh")
   )
   # create object
-  x <- simulate_spp_data(n, boundary_data, habitat_version = hv, cache_dir = cd)
+  x <- simulate_spp_data(
+    n = n,
+    boundary_data = boundary_data,
+    habitat_version = latest_jung_version,
+    cache_dir = cd
+  )
   # tests
   expect_is(x, "list")
   expect_named(x, c("spp_range_data", "spp_habitat_data", "spp_summary_data"))

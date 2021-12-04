@@ -1,5 +1,5 @@
 #' @include internal.R clean_spp_range_data.R
-#' @include get_global_elevation_data.R get_global_habitat_data.R
+#' @include get_global_elevation_data.R get_lumbierres_habitat_data.R
 #' @include get_spp_habitat_data.R get_spp_summary_data.R
 #' @include misc_terra.R misc_sf.R
 NULL
@@ -11,7 +11,7 @@ NULL
 #' Please note that these procedures are designed for terrestrial species
 #' and will not apply to marine or freshwater species.
 #'
-#' @inheritParams get_global_habitat_data
+#' @inheritParams get_lumbierres_habitat_data
 #' @inheritParams get_spp_summary_data
 #'
 #' @param x [sf::sf()] Spatial data delineating species geographic ranges
@@ -61,21 +61,21 @@ NULL
 #'
 #' @param habitat_data [terra::rast()] Raster data indicating the
 #'   presence of different habitat classes across world
-#'   (e.g. Jung *et al.* 2020a,b).
-#'   Each pixel should contain an `integer` value that specifies which
-#'   habitat class is present within the pixel
+#'   (e.g. Jung *et al.* 2020a,b; Lumbierres 2021; Lumbierres *et al.* 2021).
+#'   Each grid cell should contain an `integer` value that specifies which
+#'   habitat class is present within the cell
 #'   (based on the argument to `crosswalk_data`).
 #'   Defaults to `NULL` such that data are automatically obtained (using
-#'   [get_global_habitat_data()]).
+#'   [get_lumbierres_habitat_data()]).
 #'
 #' @param crosswalk_data [data.frame()] Table containing data that indicate
-#'   which pixel values in the argument to `habitat_data` correspond to which
-#'   IUCN habitat classification codes. The argument should contain
+#'   which grid cell values in the argument to `habitat_data` correspond to
+#'   which IUCN habitat classification codes. The argument should contain
 #'   a `code` column that specifies a set of IUCN habitat classification
 #'   codes (see [iucn_habitat_data()], and a `value` column that specifies
 #'   different values in the argument to `habitat_data`.
 #'   Defaults to `NULL` such that the crosswalk for the default habitat
-#'   data are used (i.e. [crosswalk_jung_data()]).
+#'   data are used (i.e. [crosswalk_lumbierres_data()]).
 #'
 #' @param iucn_version  `character` Version of the
 #'  IUCN Red List dataset that should be used. See documentation for the
@@ -86,7 +86,7 @@ NULL
 #'
 #' @param habitat_version `character` Version of the
 #'   habitat dataset that should be used. See documentation for the
-#'   the `version` parameter in the [get_global_habitat_data()] function
+#'   the `version` parameter in the [get_lumbierres_habitat_data()] function
 #'   for further details.
 #'   This parameter is only used if habitat data are obtained
 #'   automatically (i.e. the argument to `habitat_data` is `NULL`).
@@ -181,12 +181,10 @@ NULL
 #' same results, some engines are more computationally efficient than others.
 #' The default `"terra"` engine uses the \pkg{terra} package for processing.
 #' Although this engine is easy to install and fast for small datasets, it does
-#' not scale well for larger datasets. It is generally recommended to use the
-#' `"gdal"` engine for both small and moderately sized datasets.
-#' Additionally, the `"grass"` engine is recommended when processing data for
-#' many species across very large spatial extents.
-#' For instructions on installing dependencies for the `"gdal"` and `"grass"`
-#' engines, please see the README file.
+#' not scale well for larger datasets. It is generally recommended to use
+#' either the `"gdal"` or `"grass"` engines for large datasets.
+#' For instructions on installing dependencies for these engines,
+#' please see the README file.
 #'
 #' @section Data processing:
 #' The Area of Habitat data are produced using the following procedures.
@@ -195,7 +193,7 @@ NULL
 #'
 #' \item Global elevation and habitat classification are imported
 #'   (if needed,
-#'   see [get_global_elevation_data()] and [get_global_habitat_data()]
+#'   see [get_global_elevation_data()] and [get_lumbierres_habitat_data()]
 #'   for details).
 #'   If these data are not available in the cache directory
 #'   (i.e. argument to `cache_dir`), then they are automatically downloaded
@@ -352,6 +350,16 @@ NULL
 #' *Zenodo Digital Repository*.
 #' Available at <https://doi.org/10.5281/zenodo.4058819>.
 #'
+#' Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
+#' Habitat.*Zenodo Digital Repository*.
+#' Available at <https://doi.org/10.5281/zenodo.5146072>.
+#'
+#' Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
+#' Rondinini C (2021) Translating habitat class to land cover to map area of
+#' habitat of terrestrial vertebrates. *Conservation Biology*, In press,
+#' DOI:10.1111/cobi.13851
+#' Available at <https://doi.org/10.1111/cobi.13851>.
+#'
 #' Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
 #' global, void-free, multi-scale smoothed, 90m digital elevation model from
 #' fused ASTER and SRTM data.
@@ -493,13 +501,13 @@ create_spp_aoh_data <- function(x,
       cli::cli_progress_step("importing global habitat data")
     }
     ### processing
-    habitat_data <- get_global_habitat_data(
+    habitat_data <- get_lumbierres_habitat_data(
       dir = cache_dir, version = habitat_version,
       force = force, verbose = verbose
     )
     ### get crosswalk data if needed
     if (is.null(crosswalk_data)) {
-      crosswalk_data <- crosswalk_jung_data
+      crosswalk_data <- crosswalk_lumbierres_data
     }
   } else {
     assertthat::assert_that(

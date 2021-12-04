@@ -3,7 +3,7 @@
 \docType{data}
 \name{crosswalk_jung_data}
 \alias{crosswalk_jung_data}
-\title{Crosswalk data for Jung \emph{et al} 2020}
+\title{Crosswalk data for Jung \emph{et al.} (2020)}
 \format{
 A data frame (\code{\link[tibble:tibble]{tibble::tibble()}}) object with 126 rows and 2 columns.
 Each row corresponds to a different IUCN habitat class.
@@ -12,7 +12,7 @@ It has the following columns:
 \item{code}{The \code{character} code for a given IUCN habitat class.}
 \item{value}{The \code{numeric} value assigned to grid cells in the
 raster data that contain the IUCN habitat class
-(see \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}).}
+(see \code{\link[=get_jung_habitat_data]{get_jung_habitat_data()}}).}
 }
 }
 \source{
@@ -54,6 +54,6 @@ Available at \url{https://doi.org/10.5281/zenodo.4058819}.
 }
 \seealso{
 A preprocessed version of the habitat classification data can be imported
-using \code{\link[=get_global_habitat_data]{get_global_habitat_data()}}.
+using \code{\link[=get_jung_habitat_data]{get_jung_habitat_data()}}.
 }
 \keyword{datasets}

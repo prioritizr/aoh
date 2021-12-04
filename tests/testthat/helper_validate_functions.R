@@ -65,3 +65,65 @@ validate_summary_data <- function(x, n = 1) {
   expect_gte(min(x$elevation_lower), 0)
   expect_true(all(x$elevation_lower <= x$elevation_upper))
 }
+
+validate_aoh_data <- function(x, elevation_data, habitat_data, crosswalk_data) {
+  # assert valid arguments
+  assertthat::assert_that(
+    inherits(x, "sf"),
+    inherits(elevation_data, "SpatRaster"),
+    inherits(habitat_data, "SpatRaster"),
+    inherits(crosswalk_data, "data.frame")
+  )
+  # set terra options
+  on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
+  # compute results
+  result <- vapply(seq_len(nrow(x)), FUN.VALUE = logical(1), function(i) {
+    ## skip check if NA
+    if (is.na(x$path[[i]])) {
+      expect_equal(x$habitat_code[[i]], "")
+      return(TRUE)
+    }
+    ## create temporary directory for processing
+    tmp_dir <- tempfile()
+    dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
+    terra::terraOptions(progress = 0, tempdir = tmp_dir)
+    ## import aoh
+    curr_aoh <- terra::rast(x$path[[i]])
+    ## prepare data
+    curr_elev <- terra::crop(elevation_data, curr_aoh)
+    curr_habitat <- terra::crop(habitat_data, curr_aoh)
+    ## extract raster values
+    curr_spp_codes <- strsplit(x$habitat_code[[i]], "|", fixed = TRUE)[[1]]
+    curr_spp_values <- crosswalk_data[
+      crosswalk_data$code %in% curr_spp_codes, , drop = FALSE
+    ]
+    curr_spp_values <- unique(curr_spp_values$value)
+    ## initialize aoh
+    correct_aoh <- terra::app(curr_habitat, function(x) {
+      as.numeric(x %in% curr_spp_values)
+    })
+    ## set places outside elevation limits to 0
+    correct_aoh <-
+      correct_aoh *
+      ((curr_elev <= x$elevation_upper[[i]]) &
+      (curr_elev >= x$elevation_lower[[i]]))
+    ## create mask
+    v <- x[i, , drop = FALSE]
+    v$idx <- 1
+    curr_mask <- terra::rasterize(
+      x = terra::vect(v[, "idx", drop = FALSE]),
+      y = curr_aoh,
+      field = 1
+    )
+    ## mask by species range
+    correct_aoh <- terra::mask(correct_aoh, curr_mask)
+    ## tests
+    expect_equivalent(terra::values(correct_aoh), terra::values(curr_aoh))
+    ## clean up
+    unlink(tmp_dir, recursive = TRUE, force = TRUE)
+    ## return success
+    TRUE
+  })
+  # return result
+  all(result)
+}

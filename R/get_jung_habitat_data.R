@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Get global habitat classification data
+#' Get Jung *et al.* (2020) habitat classification data
 #'
 #' Import habitat classification data derived from Jung *et al.* (2020a).
 #' If data are not available locally, they are downloaded from
@@ -31,7 +31,7 @@ NULL
 #' @details
 #' The data were produced by obtaining the level 2 habitat
 #' classification data from the
-#' [Zenodo repository](https://github.com/10.5281/zenodo.3666245)
+#' [Zenodo repository](https://zenodo.org/10.5281/zenodo.3666245)
 #' (Jung *et al.* 2020b), and resampling the data (using nearest neighbor
 #' interpolation) to the World Behrmannn coordinate reference
 #' systems (ESRI:54017).
@@ -66,7 +66,7 @@ NULL
 #' }
 #'
 #' # download and import habitat data
-#' habitat_data <- get_global_habitat_data(download_dir, version = "latest")
+#' habitat_data <- get_jung_habitat_data(download_dir, version = "latest")
 #'
 #' # preview data
 #' print(habitat_data)
@@ -75,10 +75,10 @@ NULL
 #' plot(habitat_data)
 #' }
 #' @export
-get_global_habitat_data <- function(dir = tempdir(),
-                                    version = "latest",
-                                    force = FALSE,
-                                    verbose = TRUE) {
+get_jung_habitat_data <- function(dir = tempdir(),
+                                  version = "latest",
+                                  force = FALSE,
+                                  verbose = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
     assertthat::is.string(dir),
@@ -113,7 +113,7 @@ get_global_habitat_data <- function(dir = tempdir(),
 
   # process file path
   path <- gsub(".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE)
-  path <- file.path(dir, paste0("habitat-", path, ".tif"))
+  path <- file.path(dir, paste0("jung-", path, ".tif"))
   path <- gsub("\\", "/", path, fixed = TRUE)
 
   # fetch data if needed

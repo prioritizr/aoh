@@ -54,8 +54,14 @@ skip_if_gdal_not_available <- function() {
   skip_if_not(is_gdal_available(), message = "GDAL not available")
 }
 
-skip_if_gdal_calc_not_available <- function() {
-  skip_if_not(is_gdal_calc_available(), message = "gdal_calc.py not available")
+skip_if_gdal_python_not_available <- function() {
+  skip_if_not(is_gdal_python_available(),
+  message = "GDAL Python scripts not available")
+}
+
+skip_if_grass_not_available <- function() {
+  skip_if_not(is_grass_available(),
+  message = "GRASS not available")
 }
 
 skip_if_historical_RandomFields <- function() {

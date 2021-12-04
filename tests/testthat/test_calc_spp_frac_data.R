@@ -163,16 +163,14 @@ test_that("example data", {
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
-  hv <- "10.5281/zenodo.4058819"
-  ev <- "10.5281/zenodo.5719984"
   # prepare data
   d <- suppressWarnings(
     create_spp_aoh_data(
       x = read_spp_range_data(f),
       output_dir = tempdir(),
       cache_dir = cd,
-      habitat_version = hv,
-      elevation_version = ev,
+      habitat_version = latest_lumbierres_version,
+      elevation_version = latest_elevation_version,
       verbose = interactive()
     )
   )
@@ -180,7 +178,7 @@ test_that("example data", {
     x = d,
     res = 5000,
     cache_dir = cd,
-    version = hv,
+    version = latest_lumbierres_version,
     output_dir = tempdir(),
     verbose = interactive()
   )
