@@ -111,6 +111,50 @@ citEntry(
 )
 
 citEntry(
+  entry = "Manual",
+  author = personList(
+    person(c("Maria"), "Lumbierres")
+  ),
+  title = "Map of habitat classes (Level 1) from the IUCN Habitat",
+  year = "2021",
+  note = "Zenodo",
+  doi = "https://doi.org/10.5281/zenodo.5146072",
+  textVersion = paste(
+    "Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN",
+    "Habitat. Zenodo Digital Repository.",
+    "Available at <https://doi.org/10.5281/zenodo.5146072>."
+  )
+)
+
+citEntry(
+  entry = "Manual",
+  author = personList(
+    person(c("Maria"), "Lumbierres"),
+    person(c("Prabhat", "Raj"), "Dahal"),
+    person(c("Moreno"), "Di Marco"),
+    person(c("Stuart", "H.", "M."), "Butchart"),
+    person(c("Paul", "F."), "Donald"),
+    person(c("Carlo"), "Rondinini")
+  ),
+  title = paste(
+    "Translating habitat class to land cover to map area of",
+    "habitat of terrestrial vertebrates"
+  ),
+  year = "2021",
+  journal = "Conservation Biology",
+  volume = "In press",
+  doi = "https://doi.org/10.1111/cobi.13851",
+  textVersion = paste(
+    "Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and",
+    "Rondinini C (2021)",
+    "Translating habitat class to land cover to map area of",
+    "habitat of terrestrial vertebrates. Conservation Biology,",
+    "In press: DOI:10.1111/cobi.13851.",
+    "Available at <https://doi.org/10.1111/cobi.13851>."
+  )
+)
+
+citEntry(
   entry = "Article",
   author = personList(
     person(c("Natalie"), "Robinson"),
