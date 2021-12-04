@@ -64,7 +64,7 @@ raw_path <- get_zenodo_data(
 output_path <- gsub(
   ".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE
 )
-output_path <- file.path(temp_dir, paste0("lumbierres-", output_path, ".tif"))
+output_path <- file.path(tempdir(), paste0("lumbierres-", output_path, ".tif"))
 output_path <- gsub("\\", "/", output_path, fixed = TRUE)
 
 # Main processing
@@ -91,6 +91,7 @@ habitat_data <- terra_gdal_project(
   tiled = TRUE,
   bigtiff = TRUE,
   compress = "DEFLATE",
+  NAflag = 0,
   verbose = TRUE
 )
 

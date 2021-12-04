@@ -3,7 +3,7 @@ context("terra_gdal_calc()")
 test_that("single layer", {
   skip_on_cran()
   skip_if_gdal_not_available()
-  skip_if_gdal_calc_not_available()
+  skip_if_gdal_python_not_available()
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -23,7 +23,7 @@ test_that("two layers", {
   skip_on_cran()
   skip_if_gdal_not_available()
   skip_if_not(
-    is_gdal_calc_available(),
+    is_gdal_python_available(),
     message = "gdal_calc.py not available"
   )
   # create data

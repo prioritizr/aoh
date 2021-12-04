@@ -26,11 +26,15 @@ reference:
       - read_spp_range_data
       - starts_with("get_")
 
-  - title: IUCN habitat classification
-    desc: Data and functions for IUCN habitat classification codes
+  - title: Crosswalk data
+    desc: Crosswalks for IUCN habitat classification codes
+    contents:
+      - starts_with("crosswalk_")
+
+  - title: IUCN habitat classification codes
+    desc: Data and functions for querying habitat classification codes
     contents:
       - iucn_habitat_data
-      - starts_with("crosswalk")
       - starts_with("iucn_habitat_codes")
 
   - title: Simulating data

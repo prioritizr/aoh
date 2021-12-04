@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Crosswalk data for Lumbierres *et al* 2021
+#' Crosswalk data for Lumbierres *et al.* (2021)
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a

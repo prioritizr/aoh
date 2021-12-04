@@ -32,10 +32,10 @@ data/crosswalk_lumbierres_data.rda: inst/scripts/builtin-data.R data-raw/crosswa
 	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
 
 # preprocess datasets
-prep_jung_habitat_data: inst/scripts/jung-habitat-data.R inst/scripts/lumbierres-habitat-data.R
+prep_jung_habitat_data: inst/scripts/jung-habitat-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/jung-habitat-data.R
 
-prep_lumbierres_habitat_data: inst/scripts/jung-lumbierres-data.R inst/scripts/lumbierres-habitat-data.R
+prep_lumbierres_habitat_data: inst/scripts/lumbierres-habitat-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/lumbierres-habitat-data.R
 
 # process aoh data

@@ -64,8 +64,8 @@ terra_gdal_crop <- function(x, ext,
     any(endsWith(filename, c(".tif", ".vrt")))
   )
   # compress options
-  co <- paste0("NUM_THREADS=", n_threads)
   if (endsWith(filename, ".tif")) {
+    co <- paste0("NUM_THREADS=", n_threads)
     co <- c(co, paste0("COMPRESS=", compress))
     if (tiled) {
       co <- c(co, "TILED=YES")
@@ -73,6 +73,8 @@ terra_gdal_crop <- function(x, ext,
     if (isTRUE(bigtiff)) {
       co <- c(co, "BIGTIFF=YES")
     }
+  } else {
+    co <- c()
   }
 
   # save raster if needed

@@ -28,8 +28,8 @@ spatial extent and boundary for simulating species ranges.}
 \item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Raster data indicating the
 presence of different habitat classes across world
 (e.g. Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres \emph{et al.} 2021).
-Each pixel should contain an \code{integer} value that specifies which
-habitat class is present within the pixel
+Each grid cell should contain an \code{integer} value that specifies which
+habitat class is present within the cell
 (based on the argument to \code{crosswalk_data}).
 Defaults to \code{NULL} such that data are automatically obtained (using
 \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}).}
@@ -42,8 +42,8 @@ If the data are obtained automatically, then a preprocessed version
 of the habitat data will be used to reduce processing time.}
 
 \item{crosswalk_data}{\code{\link[=data.frame]{data.frame()}} Table containing data that indicate
-which pixel values in the argument to \code{habitat_data} correspond to which
-IUCN habitat classification codes. The argument should contain
+which grid cell values in the argument to \code{habitat_data} correspond to
+which IUCN habitat classification codes. The argument should contain
 a \code{code} column that specifies a set of IUCN habitat classification
 codes (see \code{\link[=iucn_habitat_data]{iucn_habitat_data()}}, and a \code{value} column that specifies
 different values in the argument to \code{habitat_data}.

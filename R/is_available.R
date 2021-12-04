@@ -77,18 +77,18 @@ gdal_version <- function() {
   v
 }
 
-#' Is gdal_calc available?
+#' Is GDAL Python interface available?
 #'
-#' Check if `gdal_calc.py` is available.
+#' Check if GDAL Python scripts are available.
 #'
 #' @return A `logical` value indicating if it is available.
 #'
 #' @examples
-#' # see if gdal_calc is available
-#' print(is_gdal_calc_available())
+#' # see if GDAL python scripts are available
+#' print(is_gdal_python_available())
 #'
 #' @export
-is_gdal_calc_available <- function() {
+is_gdal_python_available <- function() {
   v <- try(
     system("gdal_calc.py --help", intern = TRUE),
     silent = TRUE

@@ -62,15 +62,15 @@ NULL
 #' @param habitat_data [terra::rast()] Raster data indicating the
 #'   presence of different habitat classes across world
 #'   (e.g. Jung *et al.* 2020a,b; Lumbierres 2021; Lumbierres *et al.* 2021).
-#'   Each pixel should contain an `integer` value that specifies which
-#'   habitat class is present within the pixel
+#'   Each grid cell should contain an `integer` value that specifies which
+#'   habitat class is present within the cell
 #'   (based on the argument to `crosswalk_data`).
 #'   Defaults to `NULL` such that data are automatically obtained (using
 #'   [get_lumbierres_habitat_data()]).
 #'
 #' @param crosswalk_data [data.frame()] Table containing data that indicate
-#'   which pixel values in the argument to `habitat_data` correspond to which
-#'   IUCN habitat classification codes. The argument should contain
+#'   which grid cell values in the argument to `habitat_data` correspond to
+#'   which IUCN habitat classification codes. The argument should contain
 #'   a `code` column that specifies a set of IUCN habitat classification
 #'   codes (see [iucn_habitat_data()], and a `value` column that specifies
 #'   different values in the argument to `habitat_data`.
@@ -507,7 +507,7 @@ create_spp_aoh_data <- function(x,
     )
     ### get crosswalk data if needed
     if (is.null(crosswalk_data)) {
-      crosswalk_data <- crosswalk_jung_data
+      crosswalk_data <- crosswalk_lumbierres_data
     }
   } else {
     assertthat::assert_that(

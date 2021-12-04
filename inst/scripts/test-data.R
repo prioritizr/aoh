@@ -22,7 +22,7 @@ if (!require(rnaturalearthhires)) {
 }
 
 ## import data
-global_habitat_data <- get_global_habitat_data(
+global_habitat_data <- get_jung_habitat_data(
   dir = cache_dir, version = habitat_version,
 )
 global_elevation_data <- get_global_elevation_data(
@@ -86,13 +86,23 @@ sim_elevation_data <- terra::aggregate(
   sim_elevation_data, fact = 10, fun = "mean"
 )
 
+## identify codes to use for test data
+## these are codes present in both the Jung and Lumbierres crosswalks
+include_codes <- intersect(
+  crosswalk_jung_data$code,
+  crosswalk_lumbierres_data$code
+)
+omit_codes <- setdiff(iucn_habitat_data$code, include_codes)
+omit_codes <- unique(c(omit_codes, iucn_habitat_codes_marine()))
+
 ## simulate data
 sim_data <- simulate_spp_data(
   n = n_spp,
   boundary_data = sim_boundary_data,
   habitat_data = sim_habitat_data,
   elevation_data = sim_elevation_data,
-  crosswalk_data = crosswalk_jung_data
+  crosswalk_data = crosswalk_jung_data,
+  omit_habitat_codes = omit_codes
 )
 
 ## verify migratory species present

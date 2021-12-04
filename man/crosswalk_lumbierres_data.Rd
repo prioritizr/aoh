@@ -3,7 +3,7 @@
 \docType{data}
 \name{crosswalk_lumbierres_data}
 \alias{crosswalk_lumbierres_data}
-\title{Crosswalk data for Lumbierres \emph{et al} 2021}
+\title{Crosswalk data for Lumbierres \emph{et al.} (2021)}
 \format{
 A data frame (\code{\link[tibble:tibble]{tibble::tibble()}}) object with
 159 rows and
@@ -51,7 +51,7 @@ Available at \url{https://doi.org/10.5281/zenodo.5146072}.
 Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 Rondinini C (2021) Translating habitat class to land cover to map area of
 habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press,
-DOI:10.1111/cobi.13851
+DOI:10.1111/cobi.13851.
 Available at \url{https://doi.org/10.1111/cobi.13851}.
 }
 \seealso{

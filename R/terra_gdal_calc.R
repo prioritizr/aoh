@@ -17,7 +17,7 @@ NULL
 #' # please ensure that the gdalUtils package is installed and
 #' # GDAL system binaries are installed to run this example
 #'
-#' @examplesIf is_gdal_available() && is_gdal_calc_available()
+#' @examplesIf is_gdal_available() && is_gdal_python_available()
 #' # create raster with data
 #' x <- rast(
 #'   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
@@ -40,6 +40,7 @@ terra_gdal_calc <- function(x, expr,
                             bigtiff = FALSE,
                             compress = "LZW",
                             verbose = TRUE,
+                            NAflag = NULL,
                             output_raster = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
@@ -60,7 +61,7 @@ terra_gdal_calc <- function(x, expr,
     assertthat::is.string(datatype),
     assertthat::noNA(datatype),
     is_gdal_available(),
-    is_gdal_calc_available()
+    is_gdal_python_available()
   )
   if (inherits(x, "SpatRaster")) {
     assertthat::assert_that(
@@ -117,6 +118,13 @@ terra_gdal_calc <- function(x, expr,
     "--type=\"", gdal_datatype(datatype), "\" ",
     paste(paste0("--co=\"", co, "\""), collapse = " ")
   )
+  if (!is.null(NAflag)) {
+    assertthat::assert_that(
+      assertthat::is.number(NAflag),
+      assertthat::noNA(NAflag)
+    )
+    cmd <- paste(cmd, "--NoDataValue=\"", NAflag, "\"")
+  }
   if (!verbose) {
     cmd <- paste(cmd, "--quiet")
   }

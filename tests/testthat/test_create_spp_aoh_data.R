@@ -66,6 +66,10 @@ test_that("simulated data", {
     })),
     0
   )
+  validate_aoh_data(
+    x = x, elevation_data = elevation_data,
+    habitat_data = habitat_data, crosswalk_data = crosswalk_jung_data
+  )
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
@@ -131,6 +135,18 @@ test_that("some species missing habitat data", {
   expect_is(x2, "sf")
   expect_named(x1, aoh_names)
   expect_named(x2, aoh_names)
+  validate_aoh_data(
+    x = x1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
+  )
+  validate_aoh_data(
+    x = x2,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
+  )
   expect_equal(
     dplyr::select(x1[x1$id_no != spp_id, ], -path),
     dplyr::select(x2[x2$id_no != spp_id, ], -path)
@@ -208,6 +224,18 @@ test_that("species with reversed elevation limits", {
   expect_is(x2, "sf")
   expect_named(x1, aoh_names)
   expect_named(x2, aoh_names)
+  validate_aoh_data(
+    x = x1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
+  )
+  validate_aoh_data(
+    x = x2,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
+  )
   expect_equal(
     dplyr::select(x1, -path),
     dplyr::select(x2, -path)
@@ -230,6 +258,9 @@ test_that("species with reversed elevation limits", {
 test_that("engines produce same results", {
   # skip if needed
   skip_on_cran()
+  skip_if_gdal_not_available()
+  skip_if_gdal_python_not_available()
+  skip_if_grass_not_available()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -296,6 +327,24 @@ test_that("engines produce same results", {
   expect_is(x1, "sf")
   expect_is(x2, "sf")
   expect_is(x3, "sf")
+  validate_aoh_data(
+    x = x1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
+  )
+  validate_aoh_data(
+    x = x2,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
+  )
+  validate_aoh_data(
+    x = x3,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_data
+  )
   expect_named(x1, aoh_names)
   expect_named(x2, aoh_names)
   expect_named(x3, aoh_names)
@@ -333,71 +382,100 @@ test_that("engines produce same results", {
   unlink(output_dir3, recursive = TRUE)
 })
 
-test_that("habitat data produce similar results", {
-  # skip if needed
-  skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  # specify file path
-  f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
-  cd <- rappdirs::user_data_dir("aoh")
-  # load data
-  d <- read_spp_range_data(f)
-  # create output dirs
-  output_dir1 <- tempfile()
-  output_dir2 <- tempfile()
-  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
-  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
-  # create objects
-  x1 <- suppressWarnings(
-    create_spp_aoh_data(
-      x = d,
-      output_dir = output_dir1,
+for (engine in c("terra", "gdal")) {
+  test_that(
+    paste0("habitat data produce similar results (", engine, " engine)"), {
+    # skip if needed
+    skip_on_cran()
+    skip_if_offline()
+    skip_if_iucn_key_missing()
+    if (identical(engine, "gdal")) {
+      skip_if_gdal_not_available()
+      skip_if_gdal_python_not_available()
+    }
+    # specify file path
+    f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
+    cd <- rappdirs::user_data_dir("aoh")
+    # load data
+    d <- read_spp_range_data(f)
+    # create output dirs
+    output_dir1 <- tempfile()
+    output_dir2 <- tempfile()
+    dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
+    dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
+    # create objects
+    x1 <- suppressWarnings(
+      create_spp_aoh_data(
+        x = d,
+        output_dir = output_dir1,
+        habitat_data = get_jung_habitat_data(
+          dir = cd, version = latest_jung_version
+        ),
+        crosswalk_data = crosswalk_jung_data,
+        cache_dir = cd,
+        elevation_version = latest_elevation_version,
+        engine = engine,
+        verbose = interactive()
+      )
+    )
+    x2 <- suppressWarnings(
+      create_spp_aoh_data(
+        x = d,
+        output_dir = output_dir2,
+        habitat_data = get_lumbierres_habitat_data(
+          dir = cd, version = latest_lumbierres_version
+        ),
+        crosswalk_data = crosswalk_lumbierres_data,
+        cache_dir = cd,
+        elevation_version = latest_elevation_version,
+        engine = engine,
+        verbose = interactive()
+      )
+    )
+    # tests
+    expect_is(x1, "sf")
+    expect_is(x2, "sf")
+    expect_named(x1, aoh_names)
+    expect_named(x2, aoh_names)
+    validate_aoh_data(
+      x = x1,
       habitat_data = get_jung_habitat_data(
         dir = cd, version = latest_jung_version
       ),
-      crosswalk_data = crosswalk_jung_data,
-      cache_dir = cd,
-      elevation_version = latest_elevation_version,
-      verbose = interactive()
+      elevation_data = get_global_elevation_data(
+        dir = cd, version = latest_elevation_version
+      ),
+      crosswalk_data = crosswalk_jung_data
     )
-  )
-  x2 <- suppressWarnings(
-    create_spp_aoh_data(
-      x = d,
-      output_dir = output_dir2,
+    validate_aoh_data(
+      x = x2,
       habitat_data = get_lumbierres_habitat_data(
         dir = cd, version = latest_lumbierres_version
       ),
-      crosswalk_data = crosswalk_lumbierres_data,
-      cache_dir = cd,
-      elevation_version = latest_elevation_version,
-      verbose = interactive()
+      elevation_data = get_global_elevation_data(
+        dir = cd, version = latest_elevation_version
+      ),
+      crosswalk_data = crosswalk_lumbierres_data
     )
-  )
-  # tests
-  expect_is(x1, "sf")
-  expect_is(x2, "sf")
-  expect_named(x1, aoh_names)
-  expect_named(x2, aoh_names)
-  expect_equal(
-    dplyr::select(x1, -path, -habitat_code),
-    dplyr::select(x2, -path, -habitat_code)
-  )
-  expect_gt(
-    vapply(seq_len(nrow(x1)), FUN.VALUE = numeric(1), function(i) {
-      terra::global(
-        x = terra::rast(x1$path[i]) == terra::rast(x2$path[i]),
-        fun = "mean",
-        na.rm = TRUE
-      )[[1]]
-    }),
-    0.35
-  )
-  # clean up
-  unlink(output_dir1, recursive = TRUE)
-  unlink(output_dir2, recursive = TRUE)
-})
+    expect_equal(
+      dplyr::select(x1, -path, -habitat_code),
+      dplyr::select(x2, -path, -habitat_code)
+    )
+    expect_gt(
+      min(vapply(seq_len(nrow(x1)), FUN.VALUE = numeric(1), function(i) {
+        terra::global(
+          x = terra::rast(x1$path[i]) == terra::rast(x2$path[i]),
+          fun = "mean",
+          na.rm = TRUE
+        )[[1]]
+      })),
+      0.35
+    )
+    # clean up
+    unlink(output_dir1, recursive = TRUE)
+    unlink(output_dir2, recursive = TRUE)
+  })
+}
 
 test_that("example data", {
   # skip if needed
@@ -427,6 +505,16 @@ test_that("example data", {
   expect_equal(d$id_no, x$id_no)
   expect_is(x$path, "character")
   expect_equal(sum(is.na(x$path)), 0)
+  validate_aoh_data(
+    x = x,
+    habitat_data = get_lumbierres_habitat_data(
+      dir = cd, version = latest_lumbierres_version
+    ),
+    elevation_data = get_global_elevation_data(
+      dir = cd, version = latest_elevation_version
+    ),
+    crosswalk_data = crosswalk_lumbierres_data
+  )
   expect_gte(
     min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
       terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
@@ -453,7 +541,7 @@ test_that("amphibian data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  skip_if_gdal_calc_not_available()
+  skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
   # specify parameters for processing
@@ -508,7 +596,7 @@ test_that("reptile data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  skip_if_gdal_calc_not_available()
+  skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
   # specify parameters for processing
@@ -566,7 +654,7 @@ test_that("terrestrial mammal data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  skip_if_gdal_calc_not_available()
+  skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
   # specify parameters for processing
@@ -621,7 +709,7 @@ test_that("bird data", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  skip_if_gdal_calc_not_available()
+  skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   # specify parameters for processing
@@ -678,7 +766,7 @@ test_that("bird data (migratory)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
-  skip_if_gdal_calc_not_available()
+  skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   # specify parameters for processing

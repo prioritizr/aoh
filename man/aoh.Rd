@@ -20,7 +20,8 @@ species range data from the
 users can import them (using \code{\link[=read_spp_range_data]{read_spp_range_data()}}) and then use them to
 create Area of Habitat data (using \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}).
 Global elevation and habitat classification data (Amatulli \emph{et al.} 2018;
-Jung \emph{et al.} 2020a,b) are automatically downloaded, and data on species'
+Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres *et al. 2021)
+are automatically downloaded, and data on species'
 habitat preferences and altitudinal limits are obtained automatically using
 the \href{https://apiv3.iucnredlist.org/}{IUCN Red List API}.
 Since accessing the IUCN Red List API requires a token, users may need to
@@ -74,6 +75,16 @@ Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
 \emph{Zenodo Digital Repository}.
 Available at \url{https://doi.org/10.5281/zenodo.4058819}.
+
+Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
+Habitat.\emph{Zenodo Digital Repository}.
+Available at \url{https://doi.org/10.5281/zenodo.5146072}.
+
+Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
+Rondinini C (2021) Translating habitat class to land cover to map area of
+habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press,
+DOI:10.1111/cobi.13851.
+Available at \url{https://doi.org/10.1111/cobi.13851}.
 
 Rondinini C, Stuart S, Boitani L (2005) Habitat suitability models and the
 shortfall in conservation planning for African vertebrates.
