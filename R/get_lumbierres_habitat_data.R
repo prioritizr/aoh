@@ -3,7 +3,7 @@ NULL
 
 #' Get Lumbierres *et al.* (2021) habitat classification data
 #'
-#' Import habitat classification data derived Lumbierres Jung *et al.* (2021).
+#' Import habitat classification data derived Lumbierres *et al.* (2021).
 #' If data are not available locally, they are downloaded from
 #' an online repository.
 #'

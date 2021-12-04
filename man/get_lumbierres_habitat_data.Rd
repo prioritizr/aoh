@@ -38,7 +38,7 @@ A \code{\link[terra:rast]{terra::rast()}} object containing the habitat data
 (100 m resolution). Pixel values indicate the habitat classification codes.
 }
 \description{
-Import habitat classification data derived Lumbierres Jung \emph{et al.} (2021).
+Import habitat classification data derived Lumbierres \emph{et al.} (2021).
 If data are not available locally, they are downloaded from
 an online repository.
 }

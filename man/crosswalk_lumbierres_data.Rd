@@ -32,7 +32,7 @@ for different habitat types.
 To map the spatial location of each of these habitat classes,
 Lumbierres \emph{et al.} (2021) developed a global habitat classification dataset
 using the Copernicus Global Land Service Land Cover
-(CGLS-LC100) dataset (Buchhorn \emph{et al.}, 2020; Buchhorn \emph{et al.}, 2019).
+(CGLS-LC100) dataset (Buchhorn \emph{et al.}, 2019; Buchhorn \emph{et al.}, 20200).
 This dataset provides a crosswalk table to associate the values in the
 raster dataset with IUCN habitat classes.
 }
@@ -44,6 +44,16 @@ data(crosswalk_lumbierres_data)
 print(crosswalk_lumbierres_data)
 }
 \references{
+Buchhorn M, Smets B, Bertels L, Lesiv M, Tsendbazar N-E, Herold M, and Fritz
+SA (2019) Copernicus Global Land Service: Land Cover 100m:
+Epoch 2015: Globe. \emph{Dataset of the global component of the Copernicus Land
+Monitoring Service}.
+Available at \url{https://doi.org/10.5281/zenodo.3243508}.
+
+Buchhorn M, Smets B, Bertels L, de Roo B, Lesiv M, Tsendbazar N-E, Linlin
+L, and Tarko A (2020) \emph{Copernicus Global Land Service: Land Cover
+100m: Version 3 Globe 2015–2019: Product User Manual}. Geneve: Zenodo
+
 Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
 Habitat.\emph{Zenodo Digital Repository}.
 Available at \url{https://doi.org/10.5281/zenodo.5146072}.
