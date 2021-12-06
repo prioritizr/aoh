@@ -27,6 +27,7 @@ inst/WORDLIST
 aoh-data.Rout
 jung-habitat-data.Rout
 lumbierres-habitat-data.Rout
+preprocess-elevation-data.Rout
 aoh-data-amphibians.Rout
 aoh-data-birds.Rout
 aoh-data-mammals.Rout
