@@ -39,8 +39,8 @@ NULL
 #'  Defaults to `"LZW"`.
 #'
 #' @param NAflag `numeric` Value for representing missing (`NA`) values.
-#'  Defaults to `NULL` such that the value is determined automatically
-#'  by [terra::writeRaster()].
+#'  A `"none"` value can also be used to indicate that no flag should be set.
+#'  Defaults to `NULL` such that the value is determined automatically.
 #'
 #' @param verbose `logical` Should information be displayed during processing?
 #'  Defaults to `TRUE`.
@@ -169,6 +169,14 @@ terra_gdal_project <- function(x, y,
     q = !isTRUE(verbose)
   )
   if (!is.null(NAflag)) {
+    if (!identical(NAflag, "none")) {
+      assertthat::assert_that(
+        assertthat::is.number(NAflag),
+        assertthat::noNA(NAflag)
+      )
+    } else {
+      NAflag <- "None"
+    }
     args$dstnodata <- NAflag
   }
   if (endsWith(filename, ".tif")) {

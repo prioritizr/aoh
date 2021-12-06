@@ -40,6 +40,7 @@ terra_gdal_crop <- function(x, ext,
                             bigtiff = FALSE,
                             compress = "LZW",
                             verbose = TRUE,
+                            NAflag = NULL,
                             output_raster = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
@@ -110,6 +111,15 @@ terra_gdal_crop <- function(x, ext,
     verbose = isTRUE(verbose),
     q = !isTRUE(verbose)
   )
+  if (!is.null(NAflag)) {
+    if (!identical(NAflag, "none")) {
+      assertthat::assert_that(
+        assertthat::is.number(NAflag),
+        assertthat::noNA(NAflag)
+      )
+    }
+    args$a_nodata <- NAflag
+  }
   do.call(gdalUtils::gdal_translate, args)
 
   # clean up

@@ -11,6 +11,12 @@ NULL
 #'
 #' @param y `terra::rast()` Optional raster for calculations.
 #'
+#' @param z `terra::rast()` Optional raster for calculations.
+#'
+#' @param nbits `inetger` Number of bits for output data.
+#'  Defaults to `NULL` such that the number of bits is automatically
+#'  determined.
+#'
 #' @inherit terra_gdal_project return
 #'
 #' @examples
@@ -33,12 +39,14 @@ NULL
 #' @noRd
 terra_gdal_calc <- function(x, expr,
                             y = NULL,
+                            z = NULL,
                             n_threads = 1,
                             filename = tempfile(fileext = ".tif"),
                             datatype = "FLT4S",
                             tiled = FALSE,
                             bigtiff = FALSE,
                             compress = "LZW",
+                            nbits = NULL,
                             verbose = TRUE,
                             NAflag = NULL,
                             output_raster = TRUE) {
@@ -46,6 +54,7 @@ terra_gdal_calc <- function(x, expr,
   assertthat::assert_that(
     inherits(x, c("character", "SpatRaster")),
     inherits(y, c("NULL", "character", "SpatRaster")),
+    inherits(z, c("NULL", "character", "SpatRaster")),
     assertthat::is.string(expr),
     assertthat::is.string(filename),
     assertthat::noNA(filename),
@@ -73,6 +82,11 @@ terra_gdal_calc <- function(x, expr,
       terra::nlyr(y) == 1
     )
   }
+  if (inherits(z, "SpatRaster")) {
+    assertthat::assert_that(
+      terra::nlyr(z) == 1
+    )
+  }
 
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
@@ -83,6 +97,9 @@ terra_gdal_calc <- function(x, expr,
     }
     if (isTRUE(bigtiff)) {
       co <- c(co, "BIGTIFF=YES")
+    }
+    if (!is.null(nbits)) {
+      co <- c(co, paste0("NBITS=", nbits))
     }
   }
 
@@ -103,13 +120,23 @@ terra_gdal_calc <- function(x, expr,
     y_on_disk <- TRUE
     f2 <- y
   }
+  if (inherits(z, "SpatRaster")) {
+    z_on_disk <- terra_on_disk(y)
+    z <- terra_force_disk(z, overwrite = TRUE, datatype = datatype, gdal = co)
+    f3 <- terra::sources(z)$source[[1]]
+  } else {
+    z_on_disk <- TRUE
+    f3 <- z
+  }
 
   # build cmd processing
   cmd <- "gdal_calc.py "
-  if (is.null(y)) {
-    cmd <- paste0(cmd, "-X \"", f1, "\" ")
-  } else {
-    cmd <- paste0(cmd, "-X \"", f1, "\" -Y \"", f2, "\" ")
+  cmd <- paste0(cmd, "-X \"", f1, "\" ")
+  if (!is.null(y)) {
+    cmd <- paste0(cmd, "-Y \"", f2, "\" ")
+  }
+  if (!is.null(z)) {
+    cmd <- paste0(cmd, "-Z \"", f3, "\" ")
   }
   cmd <- paste0(
     cmd,
@@ -119,11 +146,13 @@ terra_gdal_calc <- function(x, expr,
     paste(paste0("--co=\"", co, "\""), collapse = " ")
   )
   if (!is.null(NAflag)) {
-    assertthat::assert_that(
-      assertthat::is.number(NAflag),
-      assertthat::noNA(NAflag)
-    )
-    cmd <- paste(cmd, "--NoDataValue=\"", NAflag, "\"")
+    if (!identical(NAflag, "none")) {
+      assertthat::assert_that(
+        assertthat::is.number(NAflag),
+        assertthat::noNA(NAflag)
+      )
+    }
+    cmd <- paste0(cmd, " --NoDataValue=\"", NAflag, "\"")
   }
   if (!verbose) {
     cmd <- paste(cmd, "--quiet")
@@ -142,6 +171,10 @@ terra_gdal_calc <- function(x, expr,
   if (!y_on_disk) {
     rm(y)
     unlink(f2, force = TRUE)
+  }
+  if (!z_on_disk) {
+    rm(z)
+    unlink(f3, force = TRUE)
   }
 
   # return result
