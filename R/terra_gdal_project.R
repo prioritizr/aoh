@@ -193,6 +193,7 @@ terra_gdal_project <- function(x, y,
     unlink(f1, force = TRUE)
   }
   unlink(f2, force = TRUE)
+  unlink(f3, force = TRUE)
 
   # return result
   if (output_raster) {

@@ -128,6 +128,7 @@ terra_gdal_crop <- function(x, ext,
     rm(x)
     unlink(f1, force = TRUE)
   }
+  unlink(f2, force = TRUE)
 
   # return result
   if (output_raster) {
