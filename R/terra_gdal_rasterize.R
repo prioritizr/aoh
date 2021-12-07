@@ -8,7 +8,7 @@ NULL
 #'
 #' This function is a wrapper for [gdalUtils::gdal_rasterize()].
 #'
-#' @inheritParams terra_gdal_project
+#' @inheritParams terra_gdal_calc
 #'
 #' @param sf [sf::st_sf()] Spatial object to rasterize.
 #'
@@ -59,6 +59,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
                                  datatype = "FLT4S",
                                  tiled = FALSE,
                                  bigtiff = FALSE,
+                                 nbits = NULL,
                                  compress = "LZW",
                                  verbose = TRUE,
                                  output_raster = TRUE) {
@@ -100,6 +101,9 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
     if (isTRUE(bigtiff)) {
       co <- c(co, "BIGTIFF=YES")
     }
+    if (!is.null(nbits)) {
+      co <- c(co, paste0("NBITS=", nbits))
+    }
   }
 
   # save raster if needed
@@ -139,6 +143,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
       args,
       list(
         of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
+        ot = gdal_datatype(datatype),
         co = co,
         tr = c(terra::xres(x), terra::yres(x)),
         a_srs = f3,
