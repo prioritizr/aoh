@@ -93,6 +93,8 @@ engine_spp_aoh_gdal <- function(range_data,
     n_threads = n_threads,
     compress = "LZW",
     bigtiff = TRUE,
+    tiled = TRUE,
+    nbits = 1,
     output_raster = FALSE,
     verbose = FALSE
   )
