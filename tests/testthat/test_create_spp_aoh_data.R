@@ -553,7 +553,8 @@ test_that("amphibian data", {
   # load data
   d <- read_spp_range_data(f, n = 100)
   # subset data for testing (i.e. some Asian taxa)
-  d <- d[d$family == "RANIDAE" & d$genus != "Glandirana", , drop = FALSE]
+  ids <- c(58648, 58556)
+  d <- d[which(d$id_no %in%ids), , drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
     x = d,
@@ -608,10 +609,8 @@ test_that("reptile data", {
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data for testing (i.e. some Australian taxa)
-  d <- d[grepl("Tingley", d$compiler, fixed = TRUE), , drop = FALSE]
-  # exclude species that that has zero AOH because insufficient data
-  # available for rocky habitats in Australia
-  d <- d[d$genus != "Pseudothecadactylus", , drop = FALSE]
+  ids <- c(42495889, 10246, 102795062)
+  d <- d[which(d$id_no %in%ids), , drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
     x = d,
@@ -666,7 +665,8 @@ test_that("terrestrial mammal data", {
   # load data
   d <- read_spp_range_data(f, n = 50)
   # subset data for testing (i.e. some Oceanic taxa)
-  d <- d[d$family == "PTEROPODIDAE", , drop = FALSE]
+  ids <- c(137, 138, 139)
+  d <- d[which(d$id_no %in%ids), , drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
     x = d,
@@ -721,65 +721,8 @@ test_that("bird data", {
   # load data
   d <- suppressWarnings(read_spp_range_data(f, n = 200))
   # subset data (i.e. some Oceanic species)
-  d <- d[which(d$Subfamily == "Raphinae"), , drop = FALSE]
-  # exclude species that occurs on islands that are missing from habitat data
-  d <- d[d$SISID != 22691024, , drop = FALSE]
-  # create objects
-  x <- create_spp_aoh_data(
-    x = d,
-    output_dir = tempdir(),
-    cache_dir = cd,
-    habitat_version = latest_lumbierres_version,
-    elevation_version = latest_elevation_version,
-    engine = "gdal",
-    verbose = interactive()
-  )
-  # tests
-  expect_is(x, "sf")
-  expect_named(x, aoh_names)
-  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
-  expect_is(x$path, "character")
-  expect_equal(sum(is.na(x$path)), 0)
-  expect_gte(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
-    })),
-    0
-  )
-  expect_lte(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
-    })),
-    1
-  )
-  expect_gt(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
-    })),
-    0
-  )
-  # clean up
-  unlink(x$path[!is.na(x$path)])
-})
-
-test_that("bird data (migratory)", {
-  # skip if needed
-  skip_on_cran()
-  skip_if_offline()
-  skip_if_gdal_python_not_available()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_red_list_data_not_available("BOTW.7z")
-  # specify parameters for processing
-  f <- file.path(
-    rappdirs::user_data_dir("iucn-red-list-data"),
-    "BOTW.7z"
-  )
-  cd <- rappdirs::user_data_dir("aoh")
-  # load data
-  d <- read_spp_range_data(f, n = 50)
-  # subset data (geographically restricted genus)
-  d <- d[startsWith(d$binomial, "Gorsachius"), drop = FALSE]
-  d <- d[d$seasonal != 4, drop = FALSE]
+  ids <- c(22691663, 22691663, 22691663, 22709717)
+  d <- d[which(d$SISID %in% ids), drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
     x = d,
