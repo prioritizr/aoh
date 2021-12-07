@@ -552,7 +552,7 @@ test_that("amphibian data", {
   cd <- rappdirs::user_data_dir("aoh")
   # load data
   d <- read_spp_range_data(f, n = 100)
-  # subset data for testing (i.e. some Asian taxa)
+  # subset data (i.e. some range restricted species)
   ids <- c(58648, 58556)
   d <- d[which(d$id_no %in%ids), , drop = FALSE]
   # create objects
@@ -608,7 +608,7 @@ test_that("reptile data", {
   cd <- rappdirs::user_data_dir("aoh")
   # load data
   d <- read_spp_range_data(f, n = 50)
-  # subset data for testing (i.e. some Australian taxa)
+  # subset data (i.e. some range restricted species)
   ids <- c(42495889, 10246, 102795062)
   d <- d[which(d$id_no %in%ids), , drop = FALSE]
   # create objects
@@ -664,7 +664,7 @@ test_that("terrestrial mammal data", {
   cd <- rappdirs::user_data_dir("aoh")
   # load data
   d <- read_spp_range_data(f, n = 50)
-  # subset data for testing (i.e. some Oceanic taxa)
+  # subset data (i.e. some range restricted species)
   ids <- c(137, 138, 139)
   d <- d[which(d$id_no %in%ids), , drop = FALSE]
   # create objects
@@ -720,9 +720,12 @@ test_that("bird data", {
   cd <- rappdirs::user_data_dir("aoh")
   # load data
   d <- suppressWarnings(read_spp_range_data(f, n = 200))
-  # subset data (i.e. some Oceanic species)
-  ids <- c(22691663, 22691663, 22691663, 22709717)
+  # subset data (i.e. some range restricted  species)
+  ids <- c(22691663, 22709717)
+  # exclude nonbreeding distribution Calliope obscura because the
+  # lower altitudinal limit is too high
   d <- d[which(d$SISID %in% ids), drop = FALSE]
+  d <- d[-which(d$SISID == 22709717 & d$seasonal == 3), , drop = FALSE]
   # create objects
   x <- create_spp_aoh_data(
     x = d,
