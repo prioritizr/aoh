@@ -13,9 +13,13 @@ NULL
 #'
 #' @param z `terra::rast()` Optional raster for calculations.
 #'
-#' @param nbits `inetger` Number of bits for output data.
+#' @param nbits `integer` Number of bits for output data.
 #'  Defaults to `NULL` such that the number of bits is automatically
 #'  determined.
+#'
+#' @param predictor `integer` Predictor for GeoTIFF compression
+#'  (see [GDAL documentation](https://gdal.org/drivers/raster/gtiff.html)).
+#'  Defaults to 1 such that no predictor is used for compression.
 #'
 #' @inherit terra_gdal_project return
 #'
@@ -46,6 +50,7 @@ terra_gdal_calc <- function(x, expr,
                             tiled = FALSE,
                             bigtiff = FALSE,
                             compress = "LZW",
+                            predictor = 1,
                             nbits = NULL,
                             verbose = TRUE,
                             NAflag = NULL,
@@ -62,6 +67,9 @@ terra_gdal_calc <- function(x, expr,
     assertthat::noNA(tiled),
     assertthat::is.flag(bigtiff),
     assertthat::noNA(bigtiff),
+    assertthat::is.count(predictor),
+    assertthat::noNA(predictor),
+    isTRUE(predictor <= 3),
     assertthat::is.string(compress),
     assertthat::noNA(compress),
     compress %in% c("LZW", "DEFLATE"),
@@ -91,7 +99,10 @@ terra_gdal_calc <- function(x, expr,
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
   if (endsWith(filename, ".tif")) {
-    co <- c(co, paste0("COMPRESS=", compress))
+    co <- c(co,
+      paste0("COMPRESS=", compress),
+      paste0("PREDICTOR=", predictor)
+    )
     if (tiled) {
       co <- c(co, "TILED=YES")
     }
