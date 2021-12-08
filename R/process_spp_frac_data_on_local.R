@@ -101,7 +101,7 @@ process_spp_frac_data_on_local <- function(aoh_path,
       NAflag = -1,
       datatype = "FLT4S",
       gdal = c(
-        "COMPRESS=LZW", "BIGTIFF=YES",
+        "COMPRESS=DEFLATE", "BIGTIFF=YES",
         "TILED=YES", paste0("NUM_THREADS=", n_threads)
       )
     )
