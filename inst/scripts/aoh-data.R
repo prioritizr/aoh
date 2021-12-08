@@ -24,7 +24,7 @@ n_threads <- max(parallel::detectCores() - 2, 1)
 
 ## define processing options
 engine <- "gdal"
-fraction_coverage_resolution <- 5000
+fraction_coverage_resolution <- 1000
 
 ### parse command-line arguments
 cmd_args <- commandArgs(trailingOnly = TRUE)
@@ -64,57 +64,29 @@ if (!file.exists(cache_dir)) {
 output_dir <- file.path(
   path.expand(output_dir), tools::file_path_sans_ext(basename(input_file))
 )
-
-## create output directories for AOH and fractional coverage data
-aoh_output_dir <-  file.path(output_dir, "aoh")
-frc_output_dir <-  file.path(output_dir, "frc")
-
-## create output directories
-if (!file.exists(aoh_output_dir)) {
-  dir.create(aoh_output_dir, showWarnings = FALSE, recursive = TRUE)
-}
-if (!file.exists(frc_output_dir)) {
-  dir.create(frc_output_dir, showWarnings = FALSE, recursive = TRUE)
+if (!file.exists(output_dir)) {
+  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
 # Main processing
 ## import data
 spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 
-## create Area of Habitat data
-aoh_data <- create_spp_aoh_data(
+## create fractional coverage of Area of Habitat data
+frac_data <- create_spp_aoh_data(
   x = spp_data,
-  output_dir = aoh_output_dir,
+  output_dir = output_dir,
   cache_dir = cache_dir,
   engine = engine,
-  n_threads = n_threads
+  n_threads = n_threads,
+  frac_res = fraction_coverage_resolution
 )
 
 ## clean up
 rm(spp_data)
 gc()
 
-## calculate fractional coverage
-frac_data <- calc_spp_frac_data(
-  x = aoh_data,
-  res = fraction_coverage_resolution,
-  output_dir = frc_output_dir,
-  cache_dir = cache_dir,
-  engine = "gdal",
-  n_threads = n_threads
-)
-
 # Exports
-## save Area of Habitat data object
-saveRDS(
-  object = aoh_data,
-  file = file.path(
-    output_dir,
-    paste0(tools::file_path_sans_ext(basename(input_file)), "_AOH.rds")
-  ),
-  compress = "xz"
-)
-
 ## save fractional coverage data object
 saveRDS(
   object = frac_data,
