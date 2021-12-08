@@ -54,7 +54,10 @@ process_spp_frac_data_on_local <- function(aoh_path,
       x = r,
       y = curr_grid,
       datatype = "INT1U",
-      gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
+      gdal = c(
+        "COMPRESS=LZW", "BIGTIFF=YES",
+        paste0("NUM_THREADS=", n_threads)
+      )
     )
   } else {
     r <- terra_gdal_crop(
@@ -62,6 +65,7 @@ process_spp_frac_data_on_local <- function(aoh_path,
       ext = terra::ext(curr_grid),
       datatype = "INT1U",
       bigtiff = TRUE,
+      tiled = TRUE,
       compress = "LZW",
       n_threads = n_threads,
       verbose = FALSE
@@ -81,14 +85,24 @@ process_spp_frac_data_on_local <- function(aoh_path,
       na.rm = TRUE,
       wopt = list(
         datatype = "INT2U",
-        gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
+        gdal = c(
+          "COMPRESS=LZW", "BIGTIFF=YES",
+          "TILED=YES", paste0("NUM_THREADS=", n_threads)
+        )
       )
     ),
     fun = `/`,
     e2 = fact ^ 2,
     filename = path,
     overwrite = TRUE,
-    wopt = list(datatype = "FLT4S", gdal = c("COMPRESS=DEFLATE", "BIGTIFF=YES"))
+    wopt = list(
+      NAflag = -1,
+      datatype = "FLT4S",
+      gdal = c(
+        "COMPRESS=LZW", "BIGTIFF=YES",
+        "TILED=YES", paste0("NUM_THREADS=", n_threads)
+      )
+    )
   )
 
   # clean up
