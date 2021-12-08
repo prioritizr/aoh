@@ -27,7 +27,9 @@ process_spp_frac_data_on_local <- function(aoh_path,
     assertthat::noNA(engine),
     engine %in% c("terra", "gdal"),
     assertthat::is.string(path),
-    assertthat::noNA(path)
+    assertthat::noNA(path),
+    assertthat::is.count(n_threads),
+    assertthat::noNA(n_threads)
   )
 
   # reset terra options on exit
