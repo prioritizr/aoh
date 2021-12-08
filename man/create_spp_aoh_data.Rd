@@ -18,6 +18,7 @@ create_spp_aoh_data(
   elevation_version = "latest",
   key = NULL,
   force = FALSE,
+  frac_res = NULL,
   n_threads = 1,
   engine = "terra",
   omit_habitat_codes = iucn_habitat_codes_marine(),
@@ -122,6 +123,17 @@ accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
 the data are already available?
 Defaults to \code{FALSE}.}
 
+\item{frac_res}{\code{numeric} Resolution for computing fractional coverage.
+If specified, then output data correspond to fractional coverage
+of Area of Habitat data.
+The argument to \code{frac_res} must be a factor of the
+the resolution of the habitat and elevation data.
+For example, a value of 5000 would be a valid argument
+if the underlying data had a resolution of 100 m.
+Defaults to \code{NULL} such that fractional coverage data are not
+computed and the output data correspond to
+Area of Habitat data.}
+
 \item{n_threads}{\code{integer} Number of computational threads to use
 for data processing.
 To reduce run time, it is strongly recommended to set this
@@ -192,11 +204,14 @@ the Area of Habitat data.}
 the Area of Habitat data.}
 \item{ymax}{\code{numeric} value describing the spatial extent of
 the Area of Habitat data.}
-\item{path}{\code{character} file paths for Area of Habitat data
+\item{path}{\code{character} file paths for output data
 (in GeoTIFF format).
 The Area of Habitat datasets denote the presence (using a value of 1)
 and absence (using a value of 0) inside grid cells within
 species' seasonal distribution.
+Fractional coverage data (if \code{frac_res} was specified)
+denote factional coverage values, wherein 0 corresponds to 0\% coverage,
+0.5 to 50\% coverage, 1 to 100\% coverage.
 Grid cells that are located outside of a species' distribution
 are assigned a missing (\code{NA}) value.
 File paths that are denoted with missing (\code{NA}) values correspond to
@@ -354,6 +369,9 @@ for the species' distribution.
 Note that species' distributions that already have Area of Habitat data
 available in the output directory are skipped
 (unless the argument to \code{force} is \code{TRUE}).
+
+\item If specified (per the \code{frac_res} parameter), the Area of Habitat data
+are then used to compute fractional coverage data.
 
 \item Post-processing routines are used to prepare the results.
 These routines involve updating the collated species data to include

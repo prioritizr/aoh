@@ -91,6 +91,9 @@ engine_spp_aoh_terra <- function(range_data,
     wopt = list(datatype = "INT1U", gdal = c("COMPRESS=DEFLATE", "BIGTIFF=YES"))
   )
 
+  # clean up
+  unlink(tmp_dir, force = TRUE, recursive = TRUE)
+
   # return result
   invisible(TRUE)
 }

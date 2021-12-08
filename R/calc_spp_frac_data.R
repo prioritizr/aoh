@@ -176,6 +176,9 @@ calc_spp_frac_data <- function(x,
     )
   )
 
+  # reset terra options on exit
+  on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
+
   # create spatial grid representing aggregated spatial properties
   template_data <- terra::aggregate(
     x = terra::rast(
@@ -217,7 +220,7 @@ calc_spp_frac_data <- function(x,
   if (isTRUE(verbose)) {
     pb <- cli::cli_progress_bar(
       clear = FALSE,
-      total = length(idx),
+      total = sum(!idx2),
       format = paste0(
         "{.alert-info processing } ",
         "{cli::pb_bar} [{cli::pb_percent} | {cli::pb_eta_str}]"
@@ -229,102 +232,35 @@ calc_spp_frac_data <- function(x,
     cli::cli_progress_update(id = pb, set = 0)
   }
 
-  # reset terra options on exit
-  on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
-
   # main processing
-  result <- lapply(idx, function(i) {
-
-    # configure terra for processing
-    tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
-    dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
-    terra::terraOptions(progress = 0, tempdir = tmp_dir)
-
-    # processing
-    if (!isTRUE(force) & file.exists(x$path[i])) {
-      ## if just skipping the file then...
-      ## just import the processed data
-      r <- terra::rast(x$path[i])
-    } else {
-      ## if processing the file then...
-      ## import raw raster
-      r <- terra::rast(aoh_path[i])
-
-      ## compute extent for output
-      curr_grid <- terra::crop(
-        x = template_data, y = terra::ext(r), snap = "out"
-      )
-
-      # extend raster using using specified engine
-      if (identical(engine, "terra")) {
-        r <- terra::extend(
-          x = r,
-          y = curr_grid,
-          datatype = "INT1U",
-          gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
-        )
-      } else {
-        r <- terra_gdal_crop(
-          x = r,
-          ext = terra::ext(curr_grid),
-          datatype = "INT1U",
-          bigtiff = TRUE,
-          compress = "LZW",
-          n_threads = n_threads,
-          verbose = FALSE
-        )
-      }
-
-      # aggregate raster and compute fractional coverage
-      ## note that we don't use GDAL for this because
-      ## (i) gdal_translate doesn't provide a "sum" method, and
-      ## (ii) gdal_warp sets grid cells values as NA if they are predominantly
-      ## covered by missing values
-      r <- terra::app(
-        x = terra::aggregate(
-          x = r,
-          fact = fact,
-          fun = "sum",
-          na.rm = TRUE,
-          wopt = list(
-            datatype = "INT2U",
-            gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
-          )
-        ),
-        fun = `/`,
-        e2 = fact ^ 2,
-        filename = x$path[i],
-        overwrite = TRUE,
-        wopt = list(datatype = "FLT4S", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
-      )
-    }
-
-    # prepare restores
-    out <- list(
-      xmin = terra::xmin(r),
-      xmax = terra::xmax(r),
-      ymin = terra::ymin(r),
-      ymax = terra::ymax(r)
+  result <- lapply(idx[!idx2], function(i) {
+    ## processing fractional coverage data
+    process_spp_frac_data_on_local(
+      aoh_path = aoh_path[i],
+      template_data = template_data,
+      path = x$path[i],
+      engine = engine,
+      n_threads = n_threads
     )
-
-    # clean up
-    rm(r)
-    unlink(tmp_dir, force = TRUE, recursive = TRUE)
-
-    # update progress bar if needed
+    ## update progress bar if needed
     if (isTRUE(verbose)) {
       cli::cli_progress_update(id = pb)
     }
-
-    # return result
-    out
   })
 
   # prepare results
-  x$xmin[idx] <- vapply(result, `[[`, numeric(1), "xmin")
-  x$xmax[idx] <- vapply(result, `[[`, numeric(1), "xmax")
-  x$ymin[idx] <- vapply(result, `[[`, numeric(1), "ymin")
-  x$ymax[idx] <- vapply(result, `[[`, numeric(1), "ymax")
+  exts <- vapply(
+    x$path[idx], FUN.VALUE = numeric(4), USE.NAMES = FALSE, function(p) {
+      unlist(
+        as.list(terra::ext(terra::rast(p))),
+        recursive = FALSE, use.names = FALSE
+      )
+    }
+  )
+  x$xmin[idx] <- exts[1, ]
+  x$xmax[idx] <- exts[2, ]
+  x$ymin[idx] <- exts[3, ]
+  x$ymax[idx] <- exts[4, ]
 
   # return result
   x

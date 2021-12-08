@@ -98,6 +98,7 @@ Collate:
     'plot_spp_aoh_data.R'
     'plot_spp_frac_data.R'
     'process_spp_aoh_data_on_local.R'
+    'process_spp_frac_data_on_local.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
     'terra_combine.R'

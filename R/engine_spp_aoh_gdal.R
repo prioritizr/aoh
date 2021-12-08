@@ -43,13 +43,11 @@ engine_spp_aoh_gdal <- function(range_data,
   tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
 
-
   # create temporary files
   f1 <- tempfile(tmpdir = tmp_dir, fileext = ".gpkg")
   f2 <- tempfile(tmpdir = tmp_dir, fileext = ".vrt")
   f3 <- tempfile(tmpdir = tmp_dir, fileext = ".vrt")
   f4 <- tempfile(tmpdir = tmp_dir, fileext = ".tif")
-  f5 <- tempfile(tmpdir = tmp_dir, fileext = ".tif")
 
   # crop habitat data
   terra_gdal_crop(

@@ -76,6 +76,7 @@ and will not apply to marine or freshwater species.</p>
   elevation_version <span class="op">=</span> <span class="st">"latest"</span>,
   key <span class="op">=</span> <span class="cn">NULL</span>,
   force <span class="op">=</span> <span class="cn">FALSE</span>,
+  frac_res <span class="op">=</span> <span class="cn">NULL</span>,
   n_threads <span class="op">=</span> <span class="fl">1</span>,
   engine <span class="op">=</span> <span class="st">"terra"</span>,
   omit_habitat_codes <span class="op">=</span> <span class="fu"><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine</a></span><span class="op">(</span><span class="op">)</span>,
@@ -182,6 +183,17 @@ accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 <dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
 Defaults to <code>FALSE</code>.</p></dd>
+<dt>frac_res</dt>
+<dd><p><code>numeric</code> Resolution for computing fractional coverage.
+If specified, then output data correspond to fractional coverage
+of Area of Habitat data.
+The argument to <code>frac_res</code> must be a factor of the
+the resolution of the habitat and elevation data.
+For example, a value of 5000 would be a valid argument
+if the underlying data had a resolution of 100 m.
+Defaults to <code>NULL</code> such that fractional coverage data are not
+computed and the output data correspond to
+Area of Habitat data.</p></dd>
 <dt>n_threads</dt>
 <dd><p><code>integer</code> Number of computational threads to use
 for data processing.
@@ -275,11 +287,14 @@ the Area of Habitat data.</p></dd>
 the Area of Habitat data.</p></dd>
 
 <dt>path</dt>
-<dd><p><code>character</code> file paths for Area of Habitat data
+<dd><p><code>character</code> file paths for output data
 (in GeoTIFF format).
 The Area of Habitat datasets denote the presence (using a value of 1)
 and absence (using a value of 0) inside grid cells within
 species' seasonal distribution.
+Fractional coverage data (if <code>frac_res</code> was specified)
+denote factional coverage values, wherein 0 corresponds to 0% coverage,
+0.5 to 50% coverage, 1 to 100% coverage.
 Grid cells that are located outside of a species' distribution
 are assigned a missing (<code>NA</code>) value.
 File paths that are denoted with missing (<code>NA</code>) values correspond to
@@ -440,6 +455,8 @@ for the species' distribution.
 Note that species' distributions that already have Area of Habitat data
 available in the output directory are skipped
 (unless the argument to <code>force</code> is <code>TRUE</code>).</p></li>
+<li><p>If specified (per the <code>frac_res</code> parameter), the Area of Habitat data
+are then used to compute fractional coverage data.</p></li>
 <li><p>Post-processing routines are used to prepare the results.
 These routines involve updating the collated species data to include
 file names and spatial metadata for the Area of Habitat data.</p></li>
@@ -504,39 +521,39 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[2.8s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[4s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[9.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[10.6s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[3.5s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[3.8s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[165ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[145ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[545ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[560ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[363ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[389ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[168ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[146ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■                       </span> [ 25% | ETA: 11s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  7s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  5s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> creating AOH [20.6s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■                       </span> [ 25% | ETA: 10s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  6s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> creating AOH <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  4s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> creating AOH [19.1s]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[20.7s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[19.2s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[13ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[12ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span class="co"># }</span></span>

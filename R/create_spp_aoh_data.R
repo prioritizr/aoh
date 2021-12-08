@@ -133,6 +133,17 @@ NULL
 #'   (see below for details).
 #'   Defaults to `"terra"`.
 #'
+#' @param frac_res `numeric` Resolution for computing fractional coverage.
+#'   If specified, then output data correspond to fractional coverage
+#'   of Area of Habitat data.
+#'   The argument to `frac_res` must be a factor of the
+#'   the resolution of the habitat and elevation data.
+#'   For example, a value of 5000 would be a valid argument
+#'   if the underlying data had a resolution of 100 m.
+#'   Defaults to `NULL` such that fractional coverage data are not
+#'   computed and the output data correspond to
+#'   Area of Habitat data.
+#'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
 #'
@@ -278,6 +289,9 @@ NULL
 #'   available in the output directory are skipped
 #'   (unless the argument to `force` is `TRUE`).
 #'
+#' \item If specified (per the `frac_res` parameter), the Area of Habitat data
+#'   are then used to compute fractional coverage data.
+#'
 #' \item Post-processing routines are used to prepare the results.
 #'   These routines involve updating the collated species data to include
 #'   file names and spatial metadata for the Area of Habitat data.
@@ -321,11 +335,14 @@ NULL
 #'   the Area of Habitat data.}
 #' \item{ymax}{`numeric` value describing the spatial extent of
 #'   the Area of Habitat data.}
-#' \item{path}{`character` file paths for Area of Habitat data
+#' \item{path}{`character` file paths for output data
 #'   (in GeoTIFF format).
 #'   The Area of Habitat datasets denote the presence (using a value of 1)
 #'   and absence (using a value of 0) inside grid cells within
 #'   species' seasonal distribution.
+#'   Fractional coverage data (if `frac_res` was specified)
+#'   denote factional coverage values, wherein 0 corresponds to 0% coverage,
+#'   0.5 to 50% coverage, 1 to 100% coverage.
 #'   Grid cells that are located outside of a species' distribution
 #'   are assigned a missing (`NA`) value.
 #'   File paths that are denoted with missing (`NA`) values correspond to
@@ -426,6 +443,7 @@ create_spp_aoh_data <- function(x,
                                 elevation_version = "latest",
                                 key = NULL,
                                 force = FALSE,
+                                frac_res = NULL,
                                 n_threads = 1,
                                 engine = "terra",
                                 omit_habitat_codes =
@@ -468,6 +486,12 @@ create_spp_aoh_data <- function(x,
     assertthat::assert_that(
       is_grass_available(),
       msg = "can't use GRASS for processing because it's not available."
+    )
+  }
+  if (!is.null(frac_res)) {
+    assertthat::assert_that(
+      assertthat::is.number(frac_res),
+      assertthat::noNA(frac_res)
     )
   }
   # verify access to IUCN Red List API
@@ -592,7 +616,6 @@ create_spp_aoh_data <- function(x,
       force = force, verbose = verbose
     )
   }
-
   ## spp_habitat_data
   if (is.null(spp_habitat_data)) {
     #### display message
@@ -604,6 +627,38 @@ create_spp_aoh_data <- function(x,
       unique(x$id_no), dir = cache_dir, version = iucn_version, key = key,
       force = force, verbose = verbose
     )
+  }
+
+  # calculations for fractional coverage
+  if (!is.null(frac_res)) {
+    ## compute aggregation factor
+    assertthat::assert_that(
+      terra::xres(habitat_data) == terra::yres(habitat_data),
+      msg = "argument to \"habitat_data\" must have square cells"
+    )
+    fact <- frac_res / terra::xres(habitat_data)
+    assertthat::assert_that(
+      assertthat::is.count(fact),
+      assertthat::noNA(fact),
+      msg = paste(
+        "argument to \"res\" does not correspond to a valid aggregation factor",
+        "for the arguments to \"habitat_data\" and \"elevation_data\""
+      )
+    )
+    ## create spatial grid representing aggregated spatial properties
+    frac_template <- terra::aggregate(
+      x = terra::rast(
+        xmin = terra::xmin(habitat_data),
+        xmax = terra::xmax(habitat_data),
+        ymin = terra::ymin(habitat_data),
+        ymax = terra::ymax(habitat_data),
+        res = terra::res(habitat_data),
+        crs = terra::crs(habitat_data)
+      ),
+      fact = fact
+    )
+  } else {
+    frac_template <- NULL
   }
 
   # format species data
@@ -665,7 +720,13 @@ create_spp_aoh_data <- function(x,
   ## remove missing codes
   habitat_codes <- habitat_codes[!missing_codes]
   ## add column with output file paths
-  x$path <- file.path(output_dir, paste0(x$aoh_id, ".tif"))
+  if (is.null(frac_res)) {
+    x$path <- file.path(output_dir, paste0(x$aoh_id, ".tif"))
+  } else {
+    x$path <- file.path(
+      output_dir, paste0("FRC_", x$id_no, "_", x$seasonal, ".tif")
+    )
+  }
   ## copy all habitat codes to full_habitat_code
   x$full_habitat_code <- x$habitat_code
   ## subset habitat codes to those that are available
@@ -709,6 +770,7 @@ create_spp_aoh_data <- function(x,
     cache_dir = cache_dir,
     engine = engine,
     force = force,
+    frac_template_data = frac_template,
     verbose = verbose
   )
 
@@ -732,6 +794,22 @@ create_spp_aoh_data <- function(x,
   x$full_habitat_code <- vapply(
     x$full_habitat_code, paste, character(1), collapse = "|"
   )
+  ## overwrite spatial extent data if fractional coverage computed
+  if (!is.null(frac_res)) {
+    idx <- !is.na(x$path)
+    exts <- vapply(
+      x$path[idx], FUN.VALUE = numeric(4), USE.NAMES = FALSE, function(p) {
+        unlist(
+          as.list(terra::ext(terra::rast(p))),
+          recursive = FALSE, use.names = FALSE
+        )
+      }
+    )
+    x$xmin[idx] <- exts[1, ]
+    x$xmax[idx] <- exts[2, ]
+    x$ymin[idx] <- exts[3, ]
+    x$ymax[idx] <- exts[4, ]
+  }
 
   # return result
   ## display message

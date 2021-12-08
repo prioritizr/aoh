@@ -8,6 +8,9 @@ NULL
 #'
 #' @inheritParams create_spp_aoh_data
 #'
+#' @param frac_template_data [terra::rast()] Raster data to serve as
+#'  template for computing fractional coverage data.
+#'
 #' @param x [sf::sf()] Spatial data delineating species geographic ranges
 #'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
 #'   These data should have previously been cleaned (via
@@ -20,6 +23,7 @@ process_spp_aoh_data_on_local <- function(x,
                                           habitat_data,
                                           elevation_data,
                                           crosswalk_data,
+                                          frac_template_data = NULL,
                                           cache_dir = tempdir(),
                                           engine = "terra",
                                           n_threads = 1,
@@ -45,6 +49,7 @@ process_spp_aoh_data_on_local <- function(x,
     assertthat::noNA(x$habitat_code),
     inherits(habitat_data, "SpatRaster"),
     inherits(elevation_data, "SpatRaster"),
+    inherits(frac_template_data, c("NULL", "SpatRaster")),
     terra::compareGeom(habitat_data[[1]], elevation_data, stopOnError = FALSE),
     assertthat::is.string(cache_dir),
     assertthat::noNA(cache_dir),
@@ -150,6 +155,11 @@ process_spp_aoh_data_on_local <- function(x,
 
       ## extract data for current iteration
       curr_spp_path <- x$path[i]
+      if (is.null(frac_template_data)) {
+        curr_aoh_path <- curr_spp_path
+      } else {
+        curr_aoh_path <- tempfile(fileext = ".tif")
+      }
       curr_spp_lower_elevation <- x$elevation_lower[i]
       curr_spp_upper_elevation <- x$elevation_upper[i]
       curr_spp_extent <- terra::ext(c(
@@ -170,7 +180,7 @@ process_spp_aoh_data_on_local <- function(x,
           lower_elevation = curr_spp_lower_elevation,
           upper_elevation = curr_spp_upper_elevation,
           extent = curr_spp_extent,
-          path = curr_spp_path
+          path = curr_aoh_path
         )
       } else if (identical(engine, "gdal")) {
         engine_spp_aoh_gdal(
@@ -181,7 +191,7 @@ process_spp_aoh_data_on_local <- function(x,
           lower_elevation = curr_spp_lower_elevation,
           upper_elevation = curr_spp_upper_elevation,
           extent = curr_spp_extent,
-          path = curr_spp_path,
+          path = curr_aoh_path,
           n_threads = n_threads
         )
       }  else if (identical(engine, "grass")) {
@@ -193,16 +203,35 @@ process_spp_aoh_data_on_local <- function(x,
           lower_elevation = curr_spp_lower_elevation,
           upper_elevation = curr_spp_upper_elevation,
           extent = curr_spp_extent,
-          path = curr_spp_path,
+          path = curr_aoh_path,
           verbose = FALSE
         )
       }
 
       ## verify success
       assertthat::assert_that(
-        file.exists(curr_spp_path),
-        msg = paste("failed to save raster:", curr_spp_path)
+        file.exists(curr_aoh_path),
+        msg = paste("failed to save AOH data:", curr_aoh_path)
       )
+
+      ## compute fractional coverage data if needed
+      if (!is.null(frac_template_data)) {
+        ### processing
+        process_spp_frac_data_on_local(
+          aoh_path = curr_aoh_path,
+          template_data = frac_template_data,
+          path = curr_spp_path,
+          engine = engine,
+          n_threads = n_threads
+        )
+        ### clean up
+        unlink(curr_aoh_path, force = TRUE)
+        ### verify success
+        assertthat::assert_that(
+          file.exists(curr_spp_path),
+          msg = paste("failed to save fractional coverage data:", curr_spp_path)
+        )
+      }
 
       ## update progress bar if needed
       if (isTRUE(verbose)) {
