@@ -1,4 +1,4 @@
-context("plot_spp_frac_data()")
+context("plot_spp_frc_data()")
 
 test_that("no base map", {
   # skip if needed
@@ -20,7 +20,7 @@ test_that("no base map", {
     sep = ",", header = TRUE
   )
   # prepare data
-  x <- calc_spp_frac_data(
+  x <- calc_spp_frc_data(
     x = create_spp_aoh_data(
       x = read_spp_range_data(f, n = 4),
       output_dir = tempdir(),
@@ -36,7 +36,7 @@ test_that("no base map", {
     verbose = interactive()
   )
   # create object
-  p <- plot_spp_frac_data(x, zoom = NULL, maptype = NULL)
+  p <- plot_spp_frc_data(x, zoom = NULL, maptype = NULL)
   # tests
   expect_is(p, "gg")
   expect_is(suppressWarnings(print(p)), "gg")
@@ -63,7 +63,7 @@ test_that("base map", {
     sep = ",", header = TRUE
   )
   # prepare data
-  x <- calc_spp_frac_data(
+  x <- calc_spp_frc_data(
     x = create_spp_aoh_data(
       x = read_spp_range_data(f, n = 4),
       output_dir = tempdir(),
@@ -79,7 +79,7 @@ test_that("base map", {
     verbose = interactive()
   )
   # create object
-  p <- plot_spp_frac_data(x, zoom = 3, maptype = "toner")
+  p <- plot_spp_frc_data(x, zoom = 3, maptype = "toner")
   # tests
   expect_is(p, "gg")
   expect_is(suppressWarnings(print(p)), "gg")
@@ -105,7 +105,7 @@ test_that("customized", {
     sep = ",", header = TRUE
   )
   # prepare data
-  x <- calc_spp_frac_data(
+  x <- calc_spp_frc_data(
     x = create_spp_aoh_data(
       x = read_spp_range_data(f, n = 4),
       output_dir = tempdir(),
@@ -122,7 +122,7 @@ test_that("customized", {
   )
   # create object
   p <-
-    plot_spp_frac_data(x, zoom = NULL, maptype = NULL) +
+    plot_spp_frc_data(x, zoom = NULL, maptype = NULL) +
     ggplot2::scale_fill_viridis_c() +
     ggplot2::scale_color_manual(values = c("range" = "blue")) +
     ggplot2::scale_size_manual(values = c("range" = 10)) +

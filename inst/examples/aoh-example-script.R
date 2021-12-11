@@ -10,6 +10,9 @@ library(rappdirs)
 ### set number of threads
 n_threads <- 1
 
+### set amount of memory for caching spatial calculations
+cache_limit <- 1000
+
 ### change this to the zip file downloaded from the IUCN Red List
 input_file <- "AMPHIBIANS.zip"
 
@@ -45,8 +48,11 @@ spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 
 ## create data
 result_data <- create_spp_aoh_data(
-  x = spp_data, output_dir = output_dir, cache_dir = cache_dir,
-  n_threads = n_threads
+  x = spp_data,
+  output_dir = output_dir,
+  cache_dir = cache_dir,
+  n_threads = n_threads,
+  cache_limit = cache_limit
 )
 
 # Exports

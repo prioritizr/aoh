@@ -20,6 +20,7 @@ input_file_options <- c(
 engine <- "gdal"
 n_threads <- max(parallel::detectCores() - 2, 1)
 cache_limit <- 5000
+res <- 1000
 
 ### parse command-line arguments
 cmd_args <- commandArgs(trailingOnly = TRUE)
@@ -43,7 +44,7 @@ cli::cli_alert_info(paste0("processing file: ", input_file))
 input_dir <- rappdirs::user_data_dir("iucn-red-list-data")
 
 ### change this to where you want to save the outputs
-output_dir <- "~/aoh-data"
+output_dir <- "~/frc-data"
 
 # Preliminary processing
 ## specify cache directory
@@ -65,11 +66,12 @@ if (!file.exists(output_dir)) {
 
 # Main processing
 ## import data
-spp_data <- read_spp_range_data(file.path(input_dir, input_file), n= 10)
+spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 
 ## create Area of Habitat data
-result_data <- create_spp_aoh_data(
+result_data <- create_spp_frc_data(
   x = spp_data,
+  res = res,
   output_dir = output_dir,
   cache_dir = cache_dir,
   engine = engine,
@@ -87,7 +89,7 @@ saveRDS(
   object = result_data,
   file = file.path(
     dirname(output_dir),
-    paste0("AOH_", tools::file_path_sans_ext(basename(input_file)), ".rds")
+    paste0("FRC_", tools::file_path_sans_ext(basename(input_file)), ".rds")
   ),
   compress = "xz"
 )

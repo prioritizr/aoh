@@ -135,8 +135,8 @@ plot_spp_aoh_data <- function(x, max_plot = 9, expand = 0.05,
 #' Create a map to compare species geographic range and raster data.
 #'
 #' @param x [sf::st_sf()] Object containing the species data.
-#'   This object should be produced using the [create_spp_aoh_data()]
-#'    or [calc_spp_frac_data()] functions.
+#'   This object should be produced using the [create_spp_aoh_data()],
+#'   [create_spp_frc_data()], or [calc_spp_frc_data()] functions.
 #'
 #' @param binary `logical` Value indicating if the data sohuld be
 #'   converted to binary values or not.
