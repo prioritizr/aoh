@@ -101,3 +101,31 @@ test_that("some taxon missing summary data", {
   expect_equal(x1, x2[1, ])
   expect_true(all(vapply(x2[2, -1], FUN.VALUE = logical(1), is.na)))
 })
+
+test_that("taxon with multiple records", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
+  # set parameters
+  id_no <- c(178652, 177906)
+  # create objects
+  x <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
+  # tests
+  expect_is(x, "data.frame")
+  expect_equal(nrow(x), 2)
+  expect_named(
+    x,
+    c(
+      "id_no", "taxonid", "scientific_name", "kingdom", "phylum", "class",
+       "order", "family", "genus", "main_common_name", "authority",
+       "published_year", "assessment_date", "category", "criteria",
+       "population_trend", "marine_system", "freshwater_system",
+       "terrestrial_system",
+       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
+       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
+       "errata_reason", "amended_flag", "amended_reason"
+     )
+  )
+  expect_equal(anyDuplicated(x$id_no), 0L)
+})
