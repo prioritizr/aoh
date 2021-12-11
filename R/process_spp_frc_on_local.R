@@ -10,14 +10,16 @@ NULL
 #
 #' @param path `character` File path for output fractional coverage data.
 #'
-#' @inheritParams calc_spp_frac_data
+#' @inheritParams calc_spp_frc_data
+#'
+#' @inherit process_spp_aoh_data_on_local return
 #'
 #' @noRd
-process_spp_frac_data_on_local <- function(aoh_path,
-                                           template_data,
-                                           path,
-                                           engine = "terra",
-                                           n_threads = 1) {
+process_spp_frc_on_local <- function(aoh_path,
+                                     template_data,
+                                     path,
+                                     engine = "terra",
+                                     n_threads = 1) {
   # assert that arguments are valid
   assertthat::assert_that(
     assertthat::is.string(aoh_path),
@@ -110,6 +112,12 @@ process_spp_frac_data_on_local <- function(aoh_path,
   # clean up
   rm(r)
   unlink(tmp_dir, force = TRUE, recursive = TRUE)
+
+  # verify success
+  assertthat::assert_that(
+    file.exists(path),
+    msg = paste("failed to save fractional coverage data:", path)
+  )
 
   # return TRUE
   invisible(TRUE)

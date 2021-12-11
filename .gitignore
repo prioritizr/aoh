@@ -25,11 +25,15 @@ aoh-data.Rout
 jung-habitat-data.Rout
 lumbierres-habitat-data.Rout
 preprocess-elevation-data.Rout
+builtin-data.Rout
 aoh-data-amphibians.Rout
 aoh-data-birds.Rout
 aoh-data-mammals.Rout
 aoh-data-reptiles.Rout
-builtin-data.Rout
+frc-data-amphibians.Rout
+frc-data-birds.Rout
+frc-data-mammals.Rout
+frc-data-reptiles.Rout
 
 # system files
 .directory

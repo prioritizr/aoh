@@ -477,88 +477,6 @@ for (engine in c("terra", "gdal")) {
   })
 }
 
-test_that("fractional coverage", {
-  # skip if needed
-  skip_on_cran()
-  # specify file path
-  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  elevation_data <- terra::rast(
-    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
-  )
-  habitat_data <- terra::rast(
-    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
-  )
-  spp_habitat_data <- read.csv(
-    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  spp_summary_data <- read.csv(
-    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  # create output dirs
-  output_dir1 <- tempfile()
-  output_dir2 <- tempfile()
-  output_dir3 <- tempfile()
-  dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
-  dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
-  dir.create(output_dir3, showWarnings = FALSE, recursive = TRUE)
-  # load data
-  d <- read_spp_range_data(f)
-  aoh <- create_spp_aoh_data(
-    x = d,
-    output_dir = output_dir1,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    verbose = interactive()
-  )
-  # create objects
-  x1 <- create_spp_aoh_data(
-    x = d,
-    output_dir = output_dir2,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    frac_res = 5000,
-    verbose = interactive()
-  )
-  x2 <- calc_spp_frac_data(
-    x = aoh,
-    res = 5000,
-    output_dir = output_dir3,
-    template_data = elevation_data,
-    verbose = interactive()
-  )
-  # tests
-  expect_is(x1, "sf")
-  expect_is(x2, "sf")
-  expect_true(all(startsWith(basename(x1$path), "FRC")))
-  expect_true(all(startsWith(basename(x2$path), "FRC")))
-  expect_equal(
-    dplyr::select(x1, -path),
-    dplyr::select(x2, -path)
-  )
-  expect_equivalent(
-    lapply(
-      x1$path,
-      function(x) terra::values(terra::rast(x))
-    ),
-    lapply(
-      x2$path,
-      function(x) terra::values(terra::rast(x))
-    )
-  )
-  # clean up
-  unlink(output_dir1, force = TRUE, recursive = TRUE)
-  unlink(output_dir2, force = TRUE, recursive = TRUE)
-  unlink(output_dir3, force = TRUE, recursive = TRUE)
-})
-
 test_that("example data", {
   # skip if needed
   skip_on_cran()
@@ -633,10 +551,11 @@ test_that("amphibian data", {
   )
   cd <- rappdirs::user_data_dir("aoh")
   # load data
-  d <- read_spp_range_data(f, n = 100)
+  d <- read_spp_range_data(f, n = 50)
   # subset data (i.e. some range restricted species)
-  ids <- c(58648, 58556)
+  ids <- c(58648, 57930)
   d <- d[which(d$id_no %in%ids), , drop = FALSE]
+  assertthat::assert_that(all(ids %in% d$id_no))
   # create objects
   x <- create_spp_aoh_data(
     x = d,
@@ -693,6 +612,7 @@ test_that("reptile data", {
   # subset data (i.e. some range restricted species)
   ids <- c(42495889, 10246, 102795062)
   d <- d[which(d$id_no %in%ids), , drop = FALSE]
+  assertthat::assert_that(all(ids %in% d$id_no))
   # create objects
   x <- create_spp_aoh_data(
     x = d,
@@ -745,10 +665,11 @@ test_that("terrestrial mammal data", {
   )
   cd <- rappdirs::user_data_dir("aoh")
   # load data
-  d <- read_spp_range_data(f, n = 50)
+  d <- read_spp_range_data(f, n = 100)
   # subset data (i.e. some range restricted species)
-  ids <- c(137, 138, 139)
+  ids <- c(40555, 136264)
   d <- d[which(d$id_no %in%ids), , drop = FALSE]
+  assertthat::assert_that(all(ids %in% d$id_no))
   # create objects
   x <- create_spp_aoh_data(
     x = d,
@@ -804,10 +725,9 @@ test_that("bird data", {
   d <- suppressWarnings(read_spp_range_data(f, n = 200))
   # subset data (i.e. some range restricted  species)
   ids <- c(22691663, 22709717)
-  # exclude nonbreeding distribution Calliope obscura because the
-  # lower altitudinal limit is too high
   d <- d[which(d$SISID %in% ids), drop = FALSE]
   d <- d[-which(d$SISID == 22709717 & d$seasonal == 3), , drop = FALSE]
+  assertthat::assert_that(all(ids %in% d$SISID))
   # create objects
   x <- create_spp_aoh_data(
     x = d,

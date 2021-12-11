@@ -6,13 +6,7 @@ NULL
 #' Calculate fractional coverage of species' Area of Habitat.
 #'
 #' @inheritParams plot_spp_aoh_data
-#' @inheritParams create_spp_aoh_data
-#'
-#' @param res `numeric` Resolution for computing fractional coverage.
-#'   Note that the argument to `res` must be a factor of the
-#'   the resolution of the underlying Area of Habitat data.
-#'   For example, a value of 5000 would be a valid argument
-#'   if the underlying data had a resolution of 100 m.
+#' @inheritParams create_spp_frc_data
 #'
 #' @param template_data [terra::rast()] Raster data to use as a template
 #'   for computing fractional coverage.
@@ -28,8 +22,8 @@ NULL
 #'   Available options include `"terra"` or `"gdal"`.
 #'   Defaults to `"terra"`.
 #'
-#' @param output_dir `character` `character` Folder path to save raster files
-#'   (GeoTIFF format) containing the aggregated Area of Habitat data.
+#' @param output_dir `character` `character` Folder path to save raster
+#'   (GeoTIFF) files containing the fractional coverage data.
 #'
 #' @param ... Arguments passed to [get_lumbierres_habitat_data()].
 #'
@@ -41,12 +35,18 @@ NULL
 #' (iii) dividing the aggregated values based on the aggregation
 #' factor to express values as fractional coverage.
 #'
+#' @inheritSection create_spp_frc_data Output file format
+#'
 #' @return An updated version of the argument to `x` with updated values
 #' for the `path`, `xmin`, `xmax`, `ymin`, and `ymax` columns.
-#' The raster (GeoTIFF) files specified in the `path` column now
-#' contain factional coverage values.
-#' Here, a value 0 corresponds to 0% coverage, 0.5 to 50% coverage, 1 to 100%
-#' coverage.
+#' The
+#'
+#' @seealso
+#' This function is useful for creating fractional coverage data when
+#' you have previously generated species' Area of Habitat data.
+#' If you have not previously generated species' Area of Habitat data,
+#' you can use the [create_spp_frc_data()] to create fractional coverage
+#' data directly.
 #'
 #' @examples
 #' \dontrun{
@@ -77,7 +77,7 @@ NULL
 #' )
 #'
 #' # compute fractional coverage across a 5 x 5 km spatial grid
-#' spp_aoh_frac_data <- calc_spp_frac_data(
+#' spp_aoh_frc_data <- calc_spp_frc_data(
 #'   x = spp_aoh_data,
 #'   output_dir = output_dir,
 #'   res = 5000,
@@ -88,16 +88,16 @@ NULL
 #' @examplesIf interactive()
 #' \dontrun{
 #' # preview data
-#' print(spp_aoh_frac_data)
+#' print(spp_aoh_frc_data)
 #' }
 #'
 #' @examples
 #' \dontrun{
-#' # plot the data to visualize the range maps and aggregated AOH data
-#' plot_spp_frac_data(spp_aoh_frac_data)
+#' # plot the data to visualize the range maps and fractional coverage data
+#' plot_spp_frc_data(spp_aoh_frc_data)
 #'}
 #' @export
-calc_spp_frac_data <- function(x,
+calc_spp_frc_data <- function(x,
                                res,
                                output_dir,
                                template_data = NULL,
@@ -105,6 +105,7 @@ calc_spp_frac_data <- function(x,
                                force = FALSE,
                                n_threads = 1,
                                engine = "terra",
+                               cache_limit = 1000,
                                verbose = TRUE,
                                ...) {
   # assert arguments are valid
@@ -128,6 +129,8 @@ calc_spp_frac_data <- function(x,
     assertthat::is.writeable(cache_dir),
     assertthat::is.number(res),
     assertthat::noNA(res),
+    assertthat::is.number(cache_limit),
+    assertthat::noNA(cache_limit),
     assertthat::is.flag(force),
     assertthat::noNA(force),
     assertthat::is.count(n_threads),
@@ -135,6 +138,10 @@ calc_spp_frac_data <- function(x,
     assertthat::is.string(engine),
     assertthat::noNA(engine),
     engine %in% c("terra", "gdal")
+  )
+  assertthat::assert_that(
+    cache_limit <= 9999,
+    msg = "argument to \"cache_limit\" cannot exceed 9999"
   )
   if (isTRUE(identical(engine, "gdal"))) {
     assertthat::assert_that(
@@ -235,12 +242,18 @@ calc_spp_frac_data <- function(x,
   # main processing
   result <- lapply(idx[!idx2], function(i) {
     ## processing fractional coverage data
-    process_spp_frac_data_on_local(
-      aoh_path = aoh_path[i],
-      template_data = template_data,
-      path = x$path[i],
-      engine = engine,
-      n_threads = n_threads
+    withr::with_envvar(
+      c(
+        "GDAL_CACHEMAX" = as.integer(cache_limit),
+        "GDAL_DISABLE_READDIR_ON_OPEN" = "TRUE"
+      ),
+      process_spp_frc_on_local(
+        aoh_path = aoh_path[i],
+        template_data = template_data,
+        path = x$path[i],
+        engine = engine,
+        n_threads = n_threads
+      )
     )
     ## update progress bar if needed
     if (isTRUE(verbose)) {

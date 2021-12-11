@@ -22,7 +22,7 @@ engine_spp_aoh_grass <- function(range_data,
                                  upper_elevation,
                                  extent,
                                  path,
-                                 memory = 4000,
+                                 memory = 1000,
                                  n_threads = 1,
                                  verbose = TRUE) {
   # validate arguments

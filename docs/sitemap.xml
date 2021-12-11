@@ -22,10 +22,13 @@
     <loc>/reference/aoh.html</loc>
   </url>
   <url>
-    <loc>/reference/calc_spp_frac_data.html</loc>
+    <loc>/reference/calc_spp_frc_data.html</loc>
   </url>
   <url>
     <loc>/reference/create_spp_aoh_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_spp_frc_data.html</loc>
   </url>
   <url>
     <loc>/reference/crosswalk_jung_data.html</loc>
@@ -88,7 +91,7 @@
     <loc>/reference/plot_spp_aoh_data.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_spp_frac_data.html</loc>
+    <loc>/reference/plot_spp_frc_data.html</loc>
   </url>
   <url>
     <loc>/reference/read_spp_range_data.html</loc>

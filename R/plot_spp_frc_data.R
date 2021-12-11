@@ -7,7 +7,7 @@ NULL
 #' coverage data.
 #'
 #' @param x [sf::st_sf()] Object containing the species data.
-#'   This object should be produced using the [calc_spp_frac_data()]
+#'   This object should be produced using the [calc_spp_frc_data()]
 #'   function.
 #'
 #' @inheritParams plot_spp_aoh_data
@@ -34,22 +34,24 @@ NULL
 #'   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 #' }
 #'
-#' # create Area of Habitat data for species
-#' spp_aoh_data <- create_spp_aoh_data(
+#' # create fractional coverage data for species
+#' spp_aoh_data <- create_spp_frc_data(
 #'   x = spp_range_data,
+#'   res = 5000,
 #'   output_dir = output_dir,
 #'   n_threads = n_threads,
 #'   cache_dir = cache_dir
 #' )
 #'
 #' # create fraction coverage dat for species
-#' spp_frac_data <- calc_spp_frac_data(
+#' spp_frc_data <- calc_spp_frc_data(
 #'   x = spp_aoh_data,
 #'   res = 5000,
-#'   output_dir = output_dir
+#'   output_dir = output_dir,
+#'   cache_dir = cache_dir
 #' )
 #' # plot the data to visualize the range maps and fractional coverage data
-#' p <- plot_spp_frac_data(spp_frac_data)
+#' p <- plot_spp_frc_data(spp_frc_data)
 #' print(p)
 #'
 #' # this plot can be customized using ggplot2 functions
@@ -80,7 +82,7 @@ NULL
 #' if (require(ggmap)) {
 #'   ## create customized map with basemap
 #'   p3 <-
-#'     plot_spp_frac_data(spp_frac_data, zoom = 7, maptype = "toner") +
+#'     plot_spp_frc_data(spp_frc_data, zoom = 7, maptype = "toner") +
 #'     scale_fill_viridis_c() +
 #'     scale_color_manual(values = c("range" = "red")) +
 #'     scale_size_manual(values = c("range" = 1.5)) +
@@ -96,7 +98,7 @@ NULL
 #' }
 #' }
 #' @export
-plot_spp_frac_data <- function(x, max_plot = 9, expand = 0.05,
+plot_spp_frc_data <- function(x, max_plot = 9, expand = 0.05,
                                zoom = NULL, maptype = NULL, maxcell = 50000,
                                ...) {
   plot_spp_data(

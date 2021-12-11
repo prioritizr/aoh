@@ -1,4 +1,4 @@
-context("calc_spp_fac_data")
+context("calc_spp_frc_data")
 
 test_that("simulated data", {
   # skip if needed
@@ -31,14 +31,14 @@ test_that("simulated data", {
     verbose = interactive()
   )
   # compute fractional coverage
-  x1 <- calc_spp_frac_data(
+  x1 <- calc_spp_frc_data(
     x = d,
     res = 5000,
     template_data = elevation_data,
     output_dir = tempdir(),
     verbose = interactive()
   )
-  x2 <- calc_spp_frac_data(
+  x2 <- calc_spp_frc_data(
     x = d,
     res = 5000,
     template_data = elevation_data,
@@ -76,6 +76,8 @@ test_that("simulated data", {
 test_that("different engines produce same result", {
   # skip if needed
   skip_on_cran()
+  skip_if_gdal_not_available()
+  skip_if_gdal_python_not_available()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -109,7 +111,7 @@ test_that("different engines produce same result", {
     verbose = interactive()
   )
   # compute fractional coverage
-  x1 <- calc_spp_frac_data(
+  x1 <- calc_spp_frc_data(
     x = d,
     res = 5000,
     template_data = elevation_data,
@@ -117,7 +119,7 @@ test_that("different engines produce same result", {
     output_dir = output_dir2,
     verbose = interactive()
   )
-  x2 <- calc_spp_frac_data(
+  x2 <- calc_spp_frc_data(
     x = d,
     res = 5000,
     template_data = elevation_data,
@@ -132,23 +134,15 @@ test_that("different engines produce same result", {
     dplyr::select(x1, -path),
     dplyr::select(x2, -path)
   )
-  expect_gte(
-    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
-    })),
-    0
-  )
-  expect_lte(
-    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
-    })),
-    1
-  )
-  expect_gt(
-    min(vapply(x1$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
-    })),
-    0
+  expect_equivalent(
+    lapply(
+      x1$path,
+      function(x) terra::values(terra::rast(x))
+    ),
+    lapply(
+      x2$path,
+      function(x) terra::values(terra::rast(x))
+    )
   )
   # clean up
   unlink(output_dir1, force = TRUE, recursive = TRUE)
@@ -174,7 +168,7 @@ test_that("example data", {
       verbose = interactive()
     )
   )
-  x <- calc_spp_frac_data(
+  x <- calc_spp_frc_data(
     x = d,
     res = 5000,
     cache_dir = cd,

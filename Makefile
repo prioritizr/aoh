@@ -9,7 +9,6 @@ install:
 	R --slave -e "remotes::install_local('.', upgrade = 'never', force = TRUE)"
 
 clean:
-	rm -rf man/*
 	rm -rf docs/*
 	rm -rf inst/doc/*
 
@@ -39,7 +38,7 @@ prep_lumbierres_habitat_data: inst/scripts/lumbierres-habitat-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/lumbierres-habitat-data.R
 
 # process aoh data
-aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles
+aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles aoh_birds
 
 aoh_amphibians:
 	R CMD BATCH --no-restore --no-save '--args amphibians' inst/scripts/aoh-data.R aoh-data-amphibians.Rout
@@ -52,6 +51,21 @@ aoh_mammals:
 
 aoh_reptiles:
 	R CMD BATCH --no-restore --no-save '--args reptiles' inst/scripts/aoh-data.R aoh-data-reptiles.Rout
+
+# process fraction coverage data
+frc_global_data: frc_amphibians frc_mammals frc_reptiles frc_birds
+
+frc_amphibians:
+	R CMD BATCH --no-restore --no-save '--args amphibians' inst/scripts/frc-data.R frc-data-amphibians.Rout
+
+frc_birds:
+	R CMD BATCH --no-restore --no-save '--args birds' inst/scripts/frc-data.R frc-data-birds.Rout
+
+frc_mammals:
+	R CMD BATCH --no-restore --no-save '--args mammals' inst/scripts/frc-data.R frc-data-mammals.Rout
+
+frc_reptiles:
+	R CMD BATCH --no-restore --no-save '--args reptiles' inst/scripts/frc-data.R frc-data-reptiles.Rout
 
 # documentation
 docs: man readme vigns site
@@ -103,4 +117,4 @@ examples:
 	R --slave -e "devtools::run_examples(test = TRUE, run = TRUE);warnings()"  >> examples.log
 	rm -f Rplots.pdf
 
-.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples prep_habitat_data prep_elevation_data aoh_reptiles aoh_mammals aoh_birds aoh_amphibians aoh_global_data
+.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples prep_habitat_data prep_elevation_data aoh_reptiles aoh_mammals aoh_birds aoh_amphibians aoh_global_data frc_reptiles frc_mammals frc_birds frc_amphibians frc_global_data

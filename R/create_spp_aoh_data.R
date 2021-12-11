@@ -8,7 +8,10 @@ NULL
 #'
 #' Create Area of Habitat (AOH) data for species based on their altitudinal and
 #' habitat preferences (Brooks *et al.* 2019).
-#' Please note that these procedures are designed for terrestrial species
+#' Briefly, this function creates Area of Habitat data for each
+#' seasonal distribution of each species and then stores the results
+#' as raster files on disk.
+#' Please note that these procedures are designed for terrestrial species,
 #' and will not apply to marine or freshwater species.
 #'
 #' @inheritParams get_lumbierres_habitat_data
@@ -18,8 +21,8 @@ NULL
 #'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
 #'   See below for details.
 #'
-#' @param output_dir `character` Folder path to save raster files
-#'   (GeoTIFF format) containing the Area of Habitat data.
+#' @param output_dir `character` Folder path to save raster (GeoTIFF) files
+#'   containing the Area of Habitat data.
 #'
 #' @param cache_dir `character` Folder path for downloading and caching data.
 #'  By default, a temporary directory is used (i.e. `tempdir()`).
@@ -112,6 +115,15 @@ NULL
 #'   datasets.
 #'   Defaults to 1.
 #'
+#' @param cache_limit `integer` Amount of memory (Mb) for caching
+#'  when processing spatial data with the
+#'  Geospatial Data Abstraction Library (GDAL).
+#'  This parameter is only used when using the `"gdal"` engine.
+#'  If possible, it is recommended to set this as parameter to
+#'  at 5000 (assuming there is at least 8Gb memory available
+#'  on the system).
+#'  Defaults to 1000.
+#'
 #' @param omit_habitat_codes `character` Habitat classification codes
 #'   to omit from resulting Area of Habitat data.
 #'   Please see the [IUCN Red List Habitat Classification Scheme](
@@ -132,17 +144,6 @@ NULL
 #'   Available options include `"terra"`, `"gdal"`, or `"grass"`
 #'   (see below for details).
 #'   Defaults to `"terra"`.
-#'
-#' @param frac_res `numeric` Resolution for computing fractional coverage.
-#'   If specified, then output data correspond to fractional coverage
-#'   of Area of Habitat data.
-#'   The argument to `frac_res` must be a factor of the
-#'   the resolution of the habitat and elevation data.
-#'   For example, a value of 5000 would be a valid argument
-#'   if the underlying data had a resolution of 100 m.
-#'   Defaults to `NULL` such that fractional coverage data are not
-#'   computed and the output data correspond to
-#'   Area of Habitat data.
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
@@ -199,98 +200,12 @@ NULL
 #'
 #' @section Data processing:
 #' The Area of Habitat data are produced using the following procedures.
+#' After these data are generated, they stored as files on disk
+#' (see Output file format section for details).
 #'
 #' \enumerate{
 #'
-#' \item Global elevation and habitat classification are imported
-#'   (if needed,
-#'   see [get_global_elevation_data()] and [get_lumbierres_habitat_data()]
-#'   for details).
-#'   If these data are not available in the cache directory
-#'   (i.e. argument to `cache_dir`), then they are automatically downloaded
-#'   to the cache directory.
-#'   Note that if elevation and habitat data are supplied
-#'   (i.e. as arguments to `elevation_data` and `habitat_data`), then
-#'   the user-supplied datasets are used to generate Area of Habitat data.
-#'
-#' \item Species range data cleaned to prepare them for subsequent
-#'   analysis. Briefly, this process involves excluding places where the
-#'   (i) species' presence is not _extant_ or
-#'    _probably extant_
-#'    (i.e. filtering based on `presence == 1` or `presence == 2`);
-#'   (ii) species' origin is not _native_,
-#'   _reintroduced_, or the result of _assisted colonization_
-#'    (i.e. filtering based on `origin == 1`, `origin == 2`, or `origin == 6`);
-#'   (iii) available information on which species' seasonal distribution
-#'   is _uncertain_
-#'   (i.e. filtering based on `seasonal != 5`); and
-#'   (iv) species' distribution is not terrestrial
-#'   (i.e. filtering based on where `terrestrial == "true"`).
-#'   Additionally, the species' range data are spatially dissolved so that each
-#'   seasonal distribution for each taxon is represented by a separate geometry.
-#'   Finally, geoprocessing routines are used to detect and repair
-#'   any invalid geometries.
-#'
-#' \item Species' altitudinal limit and habitat affiliation data are
-#'   imported
-#'   (if needed,
-#'   see [get_spp_summary_data()] and [get_spp_habitat_data()] for details).
-#'   If these data are not available in the cache directory
-#'   (i.e. argument to `cache_dir`), then they are automatically downloaded
-#'   to the cache directory
-#'   Note that if species' altitudinal limit and habitat affiliation
-#'   data are supplied (i.e. as arguments to `spp_summary_data` and
-#'   `spp_habitat_data`), then the user-supplied datasets are used to generate
-#'   Area of Habitat data.
-#'
-#' \item The species data are collated into a single dataset containing
-#'   their geographic ranges, altitudinal limits, and habitat affiliations.
-#'   Specifically, taxon identifiers (per the `id_no`/`SISID` columns)
-#'   are used merge the datasets together.
-#'   If a species lacks lower or upper altitudinal limits,
-#'   then limits of 0 and 9,000 m are assumed respectively
-#'   (following Lumbierres *et al.* 2021).
-#'   Additionally, the following rules are used to assign
-#'   habitat affiliations for species' distributions.
-#'   First, habitat affiliations are only
-#'   included in the collated dataset if they are classified as *suitable*
-#'   or *major*.
-#'   Second, if a habitat affiliation is defined for a specific seasonal
-#'   distribution of a particular species (e.g. *non-breeding*), then that
-#'   habitat affiliation is only assigned to that specific seasonal
-#'   distribution for the species.
-#'   Third, if a habitat affiliation is not defined for a specific
-#'   seasonal distribution, then the habitat is assigned to all seasonal
-#'   distributions associated with the species.
-#'   Fourth, because the *resident* distributions of some bird species
-#'   lack specific habitat affiliation data, the habitat affiliation data
-#'   for these *resident* distributions are assigned based on habitat
-#'   affiliations for the species' *breeding* distribution.
-#'
-#' \item The Area of Habitat data are then generated for each seasonal
-#'   distribution of each species. For a given species' distribution,
-#'   the data are generated by
-#'   (i) cropping the habitat classification and elevation data to the spatial
-#'   extent  of the species' seasonal distribution;
-#'   (ii) converting the habitat classification data to a binary layer
-#'   denoting suitable habitat for the species' distribution
-#'    (using the habitat affiliation data for the species' distribution);
-#'   (iii) creating a mask based on the species' altitudinal limits
-#'   and the elevation data, and then using the mask to set values
-#'   in the binary layer to zero if they are outside of the species'
-#'   limits;
-#'   (iv) creating a mask by rasterizing the species' seasonal
-#'   distribution, and then using the mask to set values in the binary
-#'   layer to missing (`NA`) values if they are outside the species'
-#'   distribution;
-#'   (v) saving the binary layer as the Area of Habitat data
-#'   for the species' distribution.
-#'   Note that species' distributions that already have Area of Habitat data
-#'   available in the output directory are skipped
-#'   (unless the argument to `force` is `TRUE`).
-#'
-#' \item If specified (per the `frac_res` parameter), the Area of Habitat data
-#'   are then used to compute fractional coverage data.
+#' `r readLines("man/fragments/aoh-steps.Rd")`
 #'
 #' \item Post-processing routines are used to prepare the results.
 #'   These routines involve updating the collated species data to include
@@ -298,12 +213,23 @@ NULL
 #'
 #' }
 #'
+#' @section Output file format:
+#' Area of Habitat data are stored in a separate raster (GeoTIFF) file for each
+#' seasonal distribution of each species. Each raster file is assigned a file
+#' name based on a prefix and a combination of the species' taxon identifier
+#' (per `id_no`/`SISID` in `x`) and the identifier for the seasonal
+#' distribution (per `seasonality` in `x`)
+#' (i.e., file names are named according to `AOH_{$id_no}_${seasonality}.tif`).
+#' For a given raster file, grid cell values denote the presence
+#' (using a value  of 1) and absence (using a value of 0) of suitable habitat
+#' inside a given species' distribution.
+#' Missing (`NA`) values correspond to
+#' grid cells that are located outside of the species' distribution.
+#'
 #' @return
-#' A [sf::st_sf()] object containing range maps for the species
-#' distributions used to generate the Area of Habitat data and additional
-#' columns describing the Area of Habitat data.
-#' These range maps were produced by cleaning those supplied as an argument
-#' to `x` so they can be used to generate the Area of Habitat data.
+#' A [sf::st_sf()] object containing cleaned versions of the species' range maps
+#' used to generate Area of Habitat data, and additional
+#' columns describing the output raster files.
 #' Specifically, the object contains the following columns:
 #' \describe{
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
@@ -327,26 +253,18 @@ NULL
 #'   the species' Area of Habitat data.}
 #' \item{elevation_upper}{`numeric` upper elevation threshold used to create
 #'   the species' Area of Habitat data.}
+#' \item{elevation_upper}{`numeric` upper elevation threshold used to create
+#'   the species' Area of Habitat data.}
 #' \item{xmin}{`numeric` value describing the spatial extent of
-#'   the Area of Habitat data.}
+#'   the output raster file.}
 #' \item{xmax}{`numeric` value describing the spatial extent of
-#'   the Area of Habitat data.}
+#'   the output raster file.}
 #' \item{ymin}{`numeric` value describing the spatial extent of
-#'   the Area of Habitat data.}
+#'   the output raster file.}
 #' \item{ymax}{`numeric` value describing the spatial extent of
-#'   the Area of Habitat data.}
-#' \item{path}{`character` file paths for output data
-#'   (in GeoTIFF format).
-#'   The Area of Habitat datasets denote the presence (using a value of 1)
-#'   and absence (using a value of 0) inside grid cells within
-#'   species' seasonal distribution.
-#'   Fractional coverage data (if `frac_res` was specified)
-#'   denote factional coverage values, wherein 0 corresponds to 0% coverage,
-#'   0.5 to 50% coverage, 1 to 100% coverage.
-#'   Grid cells that are located outside of a species' distribution
-#'   are assigned a missing (`NA`) value.
-#'   File paths that are denoted with missing (`NA`) values correspond to
-#'   species distributions that were not processed (e.g. due to lack of data).}
+#'   the output raster file.}
+#' \item{path}{`character` file paths for the output raster files
+#'   (see Output file format section for details).}
 #' }
 #'
 #' @references
@@ -443,380 +361,31 @@ create_spp_aoh_data <- function(x,
                                 elevation_version = "latest",
                                 key = NULL,
                                 force = FALSE,
-                                frac_res = NULL,
                                 n_threads = 1,
+                                cache_limit = 1000,
                                 engine = "terra",
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
-  # initialization
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("initializing")
-  }
-  ## initial validation
-  assertthat::assert_that(
-    inherits(x, "sf"),
-    assertthat::is.writeable(output_dir),
-    assertthat::is.writeable(cache_dir),
-    assertthat::is.count(n_threads),
-    assertthat::noNA(n_threads),
-    assertthat::is.flag(force),
-    assertthat::noNA(force),
-    assertthat::is.string(engine),
-    assertthat::noNA(engine),
-    engine %in% c("terra", "gdal", "grass"),
-    assertthat::is.flag(verbose),
-    assertthat::noNA(verbose)
-  )
-  assertthat::assert_that(
-    assertthat::has_name(x, "id_no") ||
-      assertthat::has_name(x, "SISID"),
-    msg = paste0(
-      "argument to \"x\" does not have a column named \"id_no\" or \"SISID\""
-    )
-  )
-  if (identical(engine, "gdal")) {
-    assertthat::assert_that(
-      is_gdal_available(),
-      msg = "can't use GDAL for processing because it's not available."
-    )
-  }
-  if (identical(engine, "grass")) {
-    assertthat::assert_that(
-      is_grass_available(),
-      msg = "can't use GRASS for processing because it's not available."
-    )
-  }
-  if (!is.null(frac_res)) {
-    assertthat::assert_that(
-      assertthat::is.number(frac_res),
-      assertthat::noNA(frac_res)
-    )
-  }
-  # verify access to IUCN Red List API
-  if (is.null(spp_summary_data) && is.null(spp_habitat_data)) {
-    assertthat::assert_that(
-      is_iucn_rl_api_available(),
-      msg = "can't access the IUCN Red List API, see ?aoh"
-    )
-  }
-  ## elevation data
-  if (is.null(elevation_data)) {
-    ### display message
-    if (verbose) {
-      cli::cli_progress_step("importing global elevation data")
-    }
-    ### processing
-    elevation_data <- get_global_elevation_data(
-      dir = cache_dir, version = elevation_version,
-      force = force, verbose = verbose
-    )
-  }
-  assertthat::assert_that(
-    inherits(elevation_data, "SpatRaster"),
-    terra::nlyr(elevation_data) == 1,
-    all(terra::hasValues(elevation_data))
-  )
-  ## habitat_data
-  if (is.null(habitat_data)) {
-    ### display message
-    if (verbose) {
-      cli::cli_progress_step("importing global habitat data")
-    }
-    ### processing
-    habitat_data <- get_lumbierres_habitat_data(
-      dir = cache_dir, version = habitat_version,
-      force = force, verbose = verbose
-    )
-    ### get crosswalk data if needed
-    if (is.null(crosswalk_data)) {
-      crosswalk_data <- crosswalk_lumbierres_data
-    }
-  } else {
-    assertthat::assert_that(
-      inherits(crosswalk_data, "data.frame"),
-      msg = paste(
-        "argument to \"crosswalk_data\" must be supplied when not using",
-        "default habitat data"
-      )
-    )
-  }
-  assertthat::assert_that(
-    inherits(habitat_data, "SpatRaster"),
-    terra::nlyr(habitat_data) == 1,
-    all(terra::hasValues(habitat_data))
-  )
-  ## verify rasters match
-  assertthat::assert_that(
-    terra::compareGeom(
-      elevation_data, habitat_data,
-      res = TRUE, stopiffalse = FALSE
-    ),
-    msg = paste(
-      "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
-      "same spatial properties (e.g. coordinate system, extent, resolution)"
-    )
-  )
-  ## crosswalk_data
-  assertthat::assert_that(
-    inherits(crosswalk_data, "data.frame"),
-    assertthat::has_name(crosswalk_data, c("code", "value")),
-    assertthat::noNA(crosswalk_data$code),
-    assertthat::noNA(crosswalk_data$value),
-    is.character(crosswalk_data$code),
-    is.numeric(crosswalk_data$value)
-  )
-  assertthat::assert_that(
-    all(crosswalk_data$code %in% iucn_habitat_data$code),
-    msg = paste(
-      "argument to \"crosswalk_data\" contains the following codes that",
-      "are not valid IUCN habitat codes:",
-      paste(
-        paste0(
-          "\"",
-          setdiff(crosswalk_data$code, iucn_habitat_data$code),
-          "\""
-        ),
-        collapse = ","
-      )
-    )
-  )
-
-  # clean species range data
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("cleaning species range data")
-  }
-  ## processing
-  x <- clean_spp_range_data(x = x, crs = terra_st_crs(elevation_data))
-  ## addition data validation
-  assertthat::assert_that(
-    nrow(x) > 0,
-    msg = "argument to x does not contain any terrestrial species"
-  )
-  assertthat::assert_that(
-    identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
-    msg = paste(
-      "failed to combine multiple geometries for a species'",
-      "seasonal distribution"
-    )
-  )
-
-  ## spp_summary_data
-  ### import data
-  if (is.null(spp_summary_data)) {
-    #### display message
-    if (verbose) {
-      cli::cli_progress_step("importing species summary data")
-    }
-    #### processing
-    spp_summary_data <- get_spp_summary_data(
-      x$id_no, dir = cache_dir, version = iucn_version, key = key,
-      force = force, verbose = verbose
-    )
-  }
-  ## spp_habitat_data
-  if (is.null(spp_habitat_data)) {
-    #### display message
-    if (verbose) {
-      cli::cli_progress_step("importing species habitat data")
-    }
-    #### processing
-    spp_habitat_data <- get_spp_habitat_data(
-      unique(x$id_no), dir = cache_dir, version = iucn_version, key = key,
-      force = force, verbose = verbose
-    )
-  }
-
-  # calculations for fractional coverage
-  if (!is.null(frac_res)) {
-    ## compute aggregation factor
-    assertthat::assert_that(
-      terra::xres(habitat_data) == terra::yres(habitat_data),
-      msg = "argument to \"habitat_data\" must have square cells"
-    )
-    fact <- frac_res / terra::xres(habitat_data)
-    assertthat::assert_that(
-      assertthat::is.count(fact),
-      assertthat::noNA(fact),
-      msg = paste(
-        "argument to \"res\" does not correspond to a valid aggregation factor",
-        "for the arguments to \"habitat_data\" and \"elevation_data\""
-      )
-    )
-    ## create spatial grid representing aggregated spatial properties
-    frac_template <- terra::aggregate(
-      x = terra::rast(
-        xmin = terra::xmin(habitat_data),
-        xmax = terra::xmax(habitat_data),
-        ymin = terra::ymin(habitat_data),
-        ymax = terra::ymax(habitat_data),
-        res = terra::res(habitat_data),
-        crs = terra::crs(habitat_data)
-      ),
-      fact = fact
-    )
-  } else {
-    frac_template <- NULL
-  }
-
-  # format species data
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("collating species data")
-  }
-  ## main processing
-  x <- format_spp_data(
+  create_spp_data(
     x = x,
-    template_data = habitat_data,
+    res = NULL, ## N.B. this is to produce AOH data
+    output_dir = output_dir,
     spp_summary_data = spp_summary_data,
     spp_habitat_data = spp_habitat_data,
+    elevation_data = elevation_data,
+    habitat_data = habitat_data,
+    crosswalk_data = crosswalk_data,
     cache_dir = cache_dir,
     iucn_version = iucn_version,
+    habitat_version = habitat_version,
+    elevation_version = elevation_version,
     key = key,
     force = force,
+    n_threads = n_threads,
+    cache_limit = cache_limit,
+    engine = engine,
     omit_habitat_codes = omit_habitat_codes,
     verbose = verbose
   )
-
-  ## additional data validation
-  ### check that habitat_data has all codes in spp_habitat_data
-  habitat_codes <- unique(unlist(x$habitat_code, use.names = FALSE))
-  missing_codes <- !habitat_codes %in% crosswalk_data$code
-  if (any(missing_codes)) {
-    cli::cli_alert_warning(
-      paste(
-        "argument to \"crosswalk_data\" is missing the following",
-        sum(missing_codes),
-        "habitat classification codes:",
-        paste(
-          paste0(
-            "\"",
-            stringi::stri_sort(habitat_codes[missing_codes], numeric = TRUE),
-            "\""
-          ),
-          collapse = ", "
-        )
-      )
-    )
-  }
-  assertthat::assert_that(
-    any(habitat_codes %in% crosswalk_data$code),
-    msg = paste(
-      "argument to \"crosswalk_data\" does not contain",
-      "IUCN habitat classification codes that are suitable for any species"
-    )
-  )
-  assertthat::assert_that(
-    length(habitat_codes) >= 1,
-    msg = paste(
-      "none of the species have any suitable habitat classes -",
-      "perhaps the argument to \"spp_habitat_data\" is missing",
-      "some information or the argument to \"omit_habitat_codes\"",
-      "contains codes that should not be omitted?"
-    )
-  )
-  ## remove missing codes
-  habitat_codes <- habitat_codes[!missing_codes]
-  ## add column with output file paths
-  if (is.null(frac_res)) {
-    x$path <- file.path(output_dir, paste0(x$aoh_id, ".tif"))
-  } else {
-    x$path <- file.path(
-      output_dir, paste0("FRC_", x$id_no, "_", x$seasonal, ".tif")
-    )
-  }
-  ## copy all habitat codes to full_habitat_code
-  x$full_habitat_code <- x$habitat_code
-  ## subset habitat codes to those that are available
-  x$habitat_code <- lapply(x$full_habitat_code, function(x) {
-    base::intersect(x, habitat_codes)
-  })
-  ## set paths to NA if the species won't be processed
-  ## species won't be processed if:
-  ##   they don't overlap with the template,
-  ##   they have no habitat layers at all,
-  ##   none of their habitat layers are available
-  x$path[is.na(x$xmin)] <- NA_character_
-  x$path[vapply(x$habitat_code, length, integer(1)) == 0] <- NA_character_
-  ## verify that habitat data encompasses that species range data
-  not_contained <- sf::st_contains(
-    sf::st_as_sfc(terra_st_bbox(habitat_data)),
-    sf::st_as_sfc(sf::st_bbox(x)),
-    sparse = FALSE
-  )[[1]]
-  if (!isTRUE(not_contained)) {
-    cli::cli_alert_warning(
-      paste(
-        "arguments to \"habitat_data\" and \"elevation_data\" do not fully",
-        "contain the ranges for all the species"
-      )
-    )
-  }
-
-  # main processing
-  ## display message
-  if (verbose && (n_threads > 1)) {
-    cli::cli_progress_step("generating Area of Habitat data")
-  }
-  ## processing
-  ## use local host for processing
-  result <- process_spp_aoh_data_on_local(
-    x = x,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_data,
-    cache_dir = cache_dir,
-    engine = engine,
-    force = force,
-    frac_template_data = frac_template,
-    verbose = verbose
-  )
-
-  # prepare table with metadata
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("post-processing results")
-  }
-  ## processing
-  x <- dplyr::select(
-    x, .data$id_no, .data$binomial, .data$seasonal,
-    .data$full_habitat_code, .data$habitat_code,
-    .data$elevation_lower, .data$elevation_upper,
-    .data$xmin, .data$xmax, .data$ymin, .data$ymax,
-    .data$path
-  )
-  ## convert list-column to "|" delimited character-column
-  x$habitat_code <- vapply(
-    x$habitat_code, paste, character(1), collapse = "|"
-  )
-  x$full_habitat_code <- vapply(
-    x$full_habitat_code, paste, character(1), collapse = "|"
-  )
-  ## overwrite spatial extent data if fractional coverage computed
-  if (!is.null(frac_res)) {
-    idx <- !is.na(x$path)
-    exts <- vapply(
-      x$path[idx], FUN.VALUE = numeric(4), USE.NAMES = FALSE, function(p) {
-        unlist(
-          as.list(terra::ext(terra::rast(p))),
-          recursive = FALSE, use.names = FALSE
-        )
-      }
-    )
-    x$xmin[idx] <- exts[1, ]
-    x$xmax[idx] <- exts[2, ]
-    x$ymin[idx] <- exts[3, ]
-    x$ymax[idx] <- exts[4, ]
-  }
-
-  # return result
-  ## display message
-  if (verbose) {
-    cli::cli_progress_done()
-    cli::cli_alert_success("finished")
-  }
-  ## return
-  x
 }
