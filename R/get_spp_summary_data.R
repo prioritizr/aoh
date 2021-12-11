@@ -49,7 +49,17 @@ get_spp_summary_data <- function(x, dir = tempdir(), version = "latest",
                                  verbose = TRUE) {
   get_spp_api_data(
     x = x,
-    api_function = rredlist::rl_search,
+    api_function = function(...) {
+      x <- rredlist::rl_search(...)
+      if (inherits(x, "list")) {
+        if (inherits(x$result, "data.frame")) {
+          if (nrow(x$result) >= 2) {
+            x$result <- x$result[nrow(x$result), , drop = FALSE]
+          }
+        }
+      }
+      x
+    },
     data_template = tibble::tibble(
       taxonid = integer(0),
       scientific_name = character(0),
