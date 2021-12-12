@@ -376,7 +376,7 @@ simulate_spp_data <- function(n,
     `order_` = NA_character_,
     family = NA_character_,
     genus = "Simulus",
-    category = sample(c("LC", "NT", "VU", "EN"), 1),
+    category = NA_character_,
     marine = "false",
     terrestial = "true",
     freshwater = "false"
@@ -384,6 +384,17 @@ simulate_spp_data <- function(n,
   if ("id" %in% names(sim_range_data)) {
     sim_range_data <- dplyr::select(sim_range_data, -.data$id)
   }
+
+  # assign IUCN categories
+  spp_category <- sample(
+    x = c("LC", "NT", "VU", "EN"),
+    size = length(spp_id_no),
+    replace = TRUE
+  )
+  sim_range_data$category <- rep(
+    x = spp_category,
+    times = rle(sim_range_data$binomial)$lengths
+  )
 
   # simulate habitat preference data
   sim_habitat_data <- simulate_habitat_data(
@@ -448,23 +459,23 @@ simulate_summary_data <- function(x, elevation_data) {
     tibble::tibble(
       id_no = curr_id_no,
       taxonid = curr_id_no,
-      scientific_name = x$binomial[[1]],
+      scientific_name = x_distinct$binomial[[i]],
       kingdom = NA_character_,
       phylum = NA_character_,
       class = NA_character_,
       order = NA_character_,
       family = NA_character_,
-      genus = x$genus[[1]],
+      genus = x_distinct$genus[[i]],
       main_common_name = NA_character_,
       authority = NA_character_,
       published_year = NA_character_,
       assessment_date = NA_character_,
-      category = x$category[[1]],
+      category = x_distinct$category[[i]],
       criteria = NA_character_,
       population_trend = NA_character_,
-      marine_system = x$marine[[1]],
-      freshwater_system = x$freshwater[[1]],
-      terrestrial_system = x$terrestial[[1]],
+      marine_system = x_distinct$marine[[i]],
+      freshwater_system = x_distinct$freshwater[[i]],
+      terrestrial_system = x_distinct$terrestial[[i]],
       assessor = NA_character_,
       reviewer = NA_character_,
       aoo_km2 = NA_character_,
