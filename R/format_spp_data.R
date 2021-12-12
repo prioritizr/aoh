@@ -55,6 +55,7 @@ format_spp_data <- function(x,
     assertthat::has_name(spp_summary_data, "id_no"),
     assertthat::has_name(spp_summary_data, "elevation_upper"),
     assertthat::has_name(spp_summary_data, "elevation_lower"),
+    assertthat::has_name(spp_summary_data, "category"),
     ## spp_habitat_data
     inherits(spp_habitat_data, "data.frame"),
     assertthat::has_name(spp_habitat_data, "id_no"),
@@ -87,6 +88,26 @@ format_spp_data <- function(x,
       immediate. = TRUE
     )
   }
+  assertthat::assert_that(
+    identical(anyDuplicated(spp_summary_data$id_no), 0L),
+    msg = paste(
+      "argument to \"spp_summary_data\" must not contain duplicate",
+      "\"id_no\" values"
+    )
+  )
+
+  # add IUCN Red List category information from summary data
+  ## although the range data do contain IUCN Red List categories,
+  ## we will overwrite the values with those from the summary data.
+  ## this is because the BirdLife dataset does not necessarily provide the
+  ## latest IUCN threat categories (e.g. 2020-1 version of BirdLife data
+  ## provides IUCN threat categories based on 2020 version of Red List)
+  nms <- c("id_no", "category")
+  x <- dplyr::left_join(
+    x = dplyr::select(x, -.data$category),
+    y = spp_summary_data[, nms, drop = FALSE],
+    by = "id_no"
+  )
 
   # add elevation columns
   ## convert NA values to -Inf and Inf for lower and upper thresholds
@@ -106,11 +127,13 @@ format_spp_data <- function(x,
     spp_summary_data$elevation_upper[idx] <- pmax(l, u)
     rm(l, u)
   }
-  ## extract relevant columns
-  nms <- c("id_no", "elevation_lower", "elevation_upper")
-  spp_summary_data <- spp_summary_data[, nms, drop = FALSE]
   ## append columns
-  x <- dplyr::left_join(x, spp_summary_data, by = "id_no")
+  nms <- c("id_no", "elevation_lower", "elevation_upper")
+  x <- dplyr::left_join(
+    x = x,
+    y = spp_summary_data[, nms, drop = FALSE],
+    by = "id_no"
+  )
 
   # add habitat affiliation columns
   ## remove rows for taxa missing habitat information

@@ -22,6 +22,9 @@ test_that("general case", {
     res = c(100, 100),
     crs = as.character(sf::st_crs("ESRI:54017"))[[2]]
   )
+  # force summary data to have different iucn categories to make sure
+  # that iucn categories are assigned correctly
+  d1$category <- sample(letters[1:5], nrow(d1), replace = TRUE)
   # create object
   x <- format_spp_data(
     x = clean_spp_range_data(d1),
@@ -49,6 +52,8 @@ test_that("general case", {
   expect_true(assertthat::has_name(x, "elevation_upper"))
   expect_is(x$elevation_upper, "numeric")
   expect_true(assertthat::noNA(x$elevation_upper))
+  expect_is(x$category, "character")
+  expect_equal(x$category, d2$category[match(x$id_no, d2$id_no)])
 })
 
 test_that("NA season values in spp_habitat_data", {
