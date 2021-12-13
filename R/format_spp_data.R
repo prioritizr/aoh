@@ -39,6 +39,9 @@ format_spp_data <- function(x,
                             iucn_version = "latest",
                             key = NULL,
                             force = FALSE,
+                            keep_iucn_rl_presence = keep_iucn_rl_presence,
+                            keep_iucn_rl_origin = keep_iucn_rl_origin,
+                            keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
                             omit_habitat_codes = iucn_habitat_codes_marine(),
                             verbose = TRUE) {
   # assert arguments are valid

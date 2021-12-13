@@ -22,6 +22,9 @@ create_spp_frc_data(
   n_threads = 1,
   cache_limit = 1000,
   engine = "terra",
+  keep_iucn_rl_presence = c(1, 2),
+  keep_iucn_rl_origin = c(1, 2, 6),
+  keep_iucn_rl_seasonal = c(1, 2, 3, 4),
   omit_habitat_codes = iucn_habitat_codes_marine(),
   verbose = TRUE
 )
@@ -154,6 +157,31 @@ to use for data processing.
 Available options include \code{"terra"}, \code{"gdal"}, or \code{"grass"}
 (see below for details).
 Defaults to \code{"terra"}.}
+
+\item{keep_iucn_rl_presence}{\code{integer} IUCN Red List presence codes
+to retain
+(see IUCN SSC Red List Technical Working Group 2021 for details).
+Species' ranges that are not associated with these codes are
+excluded during data cleaning procedures.
+Defaults to a numeric vector containing \code{1} and \code{2}
+(corresponding to \emph{extant} and \emph{probably extant}).}
+
+\item{keep_iucn_rl_origin}{\code{integer} IUCN Red List origin codes
+to retain
+(see IUCN SSC Red List Technical Working Group 2021 for details).
+Species' ranges that are not associated with these codes are
+excluded during data cleaning procedures.
+Defaults to a numeric vector containing \code{1}, \code{2}, and \code{6}.
+(corresponding to \emph{native}, \emph{reintroduced}, and \emph{assisted colonization}).}
+
+\item{keep_iucn_rl_seasonal}{\code{integer} IUCN Red List seasonal codes
+to retain
+(see IUCN SSC Red List Technical Working Group 2021 for details).
+Species' ranges that are not associated with these codes are
+excluded during data cleaning procedures.
+Defaults to a numeric vector containing \code{1}, \code{2}, \code{3}, and \code{4}.
+(corresponding to \emph{resident}, \emph{breeding season}, \emph{non-breeding season},
+and \emph{passage} distributions).}
 
 \item{omit_habitat_codes}{\code{character} Habitat classification codes
 to omit from resulting Area of Habitat data.

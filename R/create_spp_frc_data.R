@@ -146,6 +146,9 @@ create_spp_frc_data <- function(x,
                                 n_threads = 1,
                                 cache_limit = 1000,
                                 engine = "terra",
+                                keep_iucn_rl_presence = c(1, 2),
+                                keep_iucn_rl_origin = c(1, 2, 6),
+                                keep_iucn_rl_seasonal = c(1, 2, 3, 4),
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
@@ -167,6 +170,9 @@ create_spp_frc_data <- function(x,
     n_threads = n_threads,
     cache_limit = cache_limit,
     engine = engine,
+    keep_iucn_rl_presence = keep_iucn_rl_presence,
+    keep_iucn_rl_origin = keep_iucn_rl_origin,
+    keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
     omit_habitat_codes = omit_habitat_codes,
     verbose = verbose
   )

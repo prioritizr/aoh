@@ -27,6 +27,8 @@ NULL
 #'   finer-scale resolutions, consider using a greater value (e.g.
 #'   10000).
 #'
+#' @inheritParams create_spp_aoh_data
+#'
 #' @details
 #' This function applies the following data cleaning procedures:
 #'
@@ -35,18 +37,12 @@ NULL
 #' \item Column names are standardized. This involves converting them to lower
 #'   case characters and fixing any spelling mistakes. Additionally,
 #'   if taxon identifiers are specified in the `SISID` column, then
-#'   this column is renamed to `id_no` for consistency with the IUCN Red List
+#'   this column is renamed to `id_no` for consistency with the IUCN Red List.
 #'
-#' \item Places where the species' presence is not extant or probably extant
-#'    are excluded
-#'    (i.e. filtering based on `presence == 1` or `presence == 2`).
-#'
-#' \item Places where the species' origin is not native, reintroduced,
-#'    or the result of assisted colonization
-#'    (i.e. filtering based on `origin == 1`, `origin == 2`, or `origin == 6`).
-#'
-#' \item Places where the species' seasonal occurrence is uncertain are excluded
-#'    (i.e. filtering based on `seasonal != 5`).
+#' \item Species ranges are filtered according to criteria specified
+#'   for the `presence`, `origin`, and `seasonal` columns
+#'   (i.e., per arguments to `keep_iucn_rl_presence`,
+#'   `keep_iucn_rl_origin`, and `keep_iucn_rl_seasonal`).
 #'
 #' \item Species that are not terrestrial are excluded (i.e. filtering based on
 #'    where `terrestrial == "true"`).
@@ -108,7 +104,11 @@ NULL
 #' plot(spp_cleaned_range_data)
 #' }
 #' @noRd
-clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
+clean_spp_range_data <- function(x,
+                                 keep_iucn_rl_presence = c(1, 2),
+                                 keep_iucn_rl_origin = c(1, 2, 6),
+                                 keep_iucn_rl_seasonal = c(1, 2, 3, 4),
+                                 crs = sf::st_crs("ESRI:54017"),
                                  snap_tolerance = 1,
                                  geometry_precision = 1500) {
   # assert arguments are valid
@@ -117,7 +117,31 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
     inherits(x, "sf"),
     assertthat::has_name(x, "binomial"),
     nrow(x) > 0,
-    inherits(crs, "crs")
+    inherits(crs, "crs"),
+    is.numeric(keep_iucn_rl_presence),
+    assertthat::noNA(keep_iucn_rl_presence),
+    is.numeric(keep_iucn_rl_origin),
+    assertthat::noNA(keep_iucn_rl_presence),
+    is.numeric(keep_iucn_rl_seasonal),
+    assertthat::noNA(keep_iucn_rl_seasonal)
+  )
+  assertthat::assert_that(
+    all(keep_iucn_rl_presence == round(keep_iucn_rl_presence)),
+    msg = c(
+      "argument to \"keep_iucn_rl_presence\" does not contain integer codes"
+    )
+  )
+  assertthat::assert_that(
+    all(keep_iucn_rl_origin == round(keep_iucn_rl_origin)),
+    msg = c(
+      "argument to \"keep_iucn_rl_origin\" does not contain integer codes"
+    )
+  )
+  assertthat::assert_that(
+    all(keep_iucn_rl_seasonal == round(keep_iucn_rl_seasonal)),
+    msg = c(
+      "argument to \"keep_iucn_rl_seasonal\" does not contain integer codes"
+    )
   )
 
   # step 1: format all column names
@@ -283,13 +307,13 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   )
 
   # step 2: exclude polygons based on presence code
-  x <- x[which(x$presence == 1 | x$presence == 2), , drop = FALSE]
+  x <- x[which(x$presence %in% keep_iucn_rl_presence), , drop = FALSE]
 
   # step 3: exclude polygons based on origin code
-  x <- x[which(x$origin == 1 | x$origin == 2 | x$origin == 6), , drop = FALSE]
+  x <- x[which(x$origin %in% keep_iucn_rl_origin), , drop = FALSE]
 
   # step 4: exclude uncertain seasonality
-  x <- x[which(x$seasonal != 5), , drop = FALSE]
+  x <- x[which(x$seasonal %in% keep_iucn_rl_seasonal), , drop = FALSE]
 
   # step 5: exclude non-terrestrial distributions
   idx <- which(x$terrestrial == "true")

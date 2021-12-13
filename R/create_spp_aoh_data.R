@@ -124,6 +124,31 @@ NULL
 #'  on the system).
 #'  Defaults to 1000.
 #'
+#' @param keep_iucn_rl_presence `integer` IUCN Red List presence codes
+#'  to retain
+#'  (see IUCN SSC Red List Technical Working Group 2021 for details).
+#'  Species' ranges that are not associated with these codes are
+#'  excluded during data cleaning procedures.
+#'  Defaults to a numeric vector containing `1` and `2`
+#'  (corresponding to *extant* and *probably extant*).
+#'
+#' @param keep_iucn_rl_origin `integer` IUCN Red List origin codes
+#'  to retain
+#'  (see IUCN SSC Red List Technical Working Group 2021 for details).
+#'  Species' ranges that are not associated with these codes are
+#'  excluded during data cleaning procedures.
+#'  Defaults to a numeric vector containing `1`, `2`, and `6`.
+#'  (corresponding to *native*, *reintroduced*, and *assisted colonization*).
+#'
+#' @param keep_iucn_rl_seasonal `integer` IUCN Red List seasonal codes
+#'  to retain
+#'  (see IUCN SSC Red List Technical Working Group 2021 for details).
+#'  Species' ranges that are not associated with these codes are
+#'  excluded during data cleaning procedures.
+#'  Defaults to a numeric vector containing `1`, `2`, `3`, and `4`.
+#'  (corresponding to *resident*, *breeding season*, *non-breeding season*,
+#'  and *passage* distributions).
+#'
 #' @param omit_habitat_codes `character` Habitat classification codes
 #'   to omit from resulting Area of Habitat data.
 #'   Please see the [IUCN Red List Habitat Classification Scheme](
@@ -364,6 +389,9 @@ create_spp_aoh_data <- function(x,
                                 n_threads = 1,
                                 cache_limit = 1000,
                                 engine = "terra",
+                                keep_iucn_rl_presence = c(1, 2),
+                                keep_iucn_rl_origin = c(1, 2, 6),
+                                keep_iucn_rl_seasonal = c(1, 2, 3, 4),
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
@@ -385,6 +413,9 @@ create_spp_aoh_data <- function(x,
     n_threads = n_threads,
     cache_limit = cache_limit,
     engine = engine,
+    keep_iucn_rl_presence = keep_iucn_rl_presence,
+    keep_iucn_rl_origin = keep_iucn_rl_origin,
+    keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
     omit_habitat_codes = omit_habitat_codes,
     verbose = verbose
   )

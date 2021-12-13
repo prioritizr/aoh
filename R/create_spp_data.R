@@ -26,6 +26,9 @@ create_spp_data <- function(x,
                             n_threads = 1,
                             cache_limit = 1000,
                             engine = "terra",
+                            keep_iucn_rl_presence = c(1, 2),
+                            keep_iucn_rl_origin = c(1, 2, 6),
+                            keep_iucn_rl_seasonal = c(1, 2, 3, 4),
                             omit_habitat_codes =
                               iucn_habitat_codes_marine(),
                             verbose = TRUE) {
@@ -176,7 +179,13 @@ create_spp_data <- function(x,
     cli::cli_progress_step("cleaning species range data")
   }
   ## processing
-  x <- clean_spp_range_data(x = x, crs = terra_st_crs(elevation_data))
+  x <- clean_spp_range_data(
+    x = x,
+    keep_iucn_rl_presence = keep_iucn_rl_presence,
+    keep_iucn_rl_origin = keep_iucn_rl_origin,
+    keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
+    crs = terra_st_crs(elevation_data)
+  )
   ## addition data validation
   assertthat::assert_that(
     nrow(x) > 0,
