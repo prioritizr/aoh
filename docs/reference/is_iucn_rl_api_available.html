@@ -64,7 +64,7 @@ Please note that a token is required to access the API
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">is_iucn_rl_api_available</span><span class="op">(</span>key <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">is_iucn_rl_api_available</span><span class="op">(</span>key <span class="op">=</span> <span class="cn">NULL</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,6 +74,8 @@ Please note that a token is required to access the API
 Defaults to <code>NULL</code> such that the token
 accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 (which can be specified in the .Renviron file).</p></dd>
+<dt>n</dt>
+<dd><p><code>integer</code> Number of times to attempt to access the API.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

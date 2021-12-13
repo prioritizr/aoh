@@ -92,6 +92,9 @@ and will not apply to marine or freshwater species.</p>
   n_threads <span class="op">=</span> <span class="fl">1</span>,
   cache_limit <span class="op">=</span> <span class="fl">1000</span>,
   engine <span class="op">=</span> <span class="st">"terra"</span>,
+  keep_iucn_rl_presence <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,
+  keep_iucn_rl_origin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span>,
+  keep_iucn_rl_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,
   omit_habitat_codes <span class="op">=</span> <span class="fu"><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine</a></span><span class="op">(</span><span class="op">)</span>,
   verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
@@ -227,6 +230,31 @@ to use for data processing.
 Available options include <code>"terra"</code>, <code>"gdal"</code>, or <code>"grass"</code>
 (see below for details).
 Defaults to <code>"terra"</code>.</p></dd>
+<dt>keep_iucn_rl_presence</dt>
+<dd><p><code>integer</code> IUCN Red List presence codes
+to retain
+(see IUCN SSC Red List Technical Working Group 2021 for details).
+Species' ranges that are not associated with these codes are
+excluded during data cleaning procedures.
+Defaults to a numeric vector containing <code>1</code> and <code>2</code>
+(corresponding to <em>extant</em> and <em>probably extant</em>).</p></dd>
+<dt>keep_iucn_rl_origin</dt>
+<dd><p><code>integer</code> IUCN Red List origin codes
+to retain
+(see IUCN SSC Red List Technical Working Group 2021 for details).
+Species' ranges that are not associated with these codes are
+excluded during data cleaning procedures.
+Defaults to a numeric vector containing <code>1</code>, <code>2</code>, and <code>6</code>.
+(corresponding to <em>native</em>, <em>reintroduced</em>, and <em>assisted colonization</em>).</p></dd>
+<dt>keep_iucn_rl_seasonal</dt>
+<dd><p><code>integer</code> IUCN Red List seasonal codes
+to retain
+(see IUCN SSC Red List Technical Working Group 2021 for details).
+Species' ranges that are not associated with these codes are
+excluded during data cleaning procedures.
+Defaults to a numeric vector containing <code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code>.
+(corresponding to <em>resident</em>, <em>breeding season</em>, <em>non-breeding season</em>,
+and <em>passage</em> distributions).</p></dd>
 <dt>omit_habitat_codes</dt>
 <dd><p><code>character</code> Habitat classification codes
 to omit from resulting Area of Habitat data.
@@ -566,34 +594,38 @@ to calculate the fractional coverage data directly.</p></div>
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[330ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[329ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[8.8s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[9.6s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[3.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[3.9s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[91ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[101ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[345ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[343ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[337ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[343ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[87ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[101ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     skipping 4 species distributions already processed</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[12ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  4s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  3s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> processing [16.8s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[16.9s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[19ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[21ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span class="co"># }</span></span>
