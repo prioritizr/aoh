@@ -75,7 +75,7 @@ if (!file.exists(output_dir)) {
 
 # Main processing
 ## import data
-spp_data <- read_spp_range_data(file.path(input_dir, input_file), n= 10)
+spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 
 ## create Area of Habitat data
 result_data <- create_spp_aoh_data(
