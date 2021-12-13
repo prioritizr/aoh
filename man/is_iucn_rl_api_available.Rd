@@ -4,13 +4,15 @@
 \alias{is_iucn_rl_api_available}
 \title{Is IUCN Red List API available?}
 \usage{
-is_iucn_rl_api_available(key = NULL)
+is_iucn_rl_api_available(key = NULL, n = 5)
 }
 \arguments{
 \item{key}{\code{character} Token for querying the IUCN Red List API.
 Defaults to \code{NULL} such that the token
 accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
 (which can be specified in the .Renviron file).}
+
+\item{n}{\code{integer} Number of times to attempt to access the API.}
 }
 \value{
 A \code{logical} indicating if the IUCN Red List API can be accessed.

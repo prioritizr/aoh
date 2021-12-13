@@ -14,6 +14,8 @@ NULL
 #'
 #' @inheritSection aoh Accessing the IUCN Red List API
 #'
+#' @param n `integer` Number of times to attempt to access the API.
+#'
 #' @return A `logical` indicating if the IUCN Red List API can be accessed.
 #'
 #' @examples
@@ -21,8 +23,16 @@ NULL
 #' is_iucn_rl_api_available()
 #'
 #' @export
-is_iucn_rl_api_available <- function(key = NULL) {
-  x <- try(rredlist::rl_regions(key = key), silent = TRUE)
+is_iucn_rl_api_available <- function(key = NULL, n = 5) {
+  assertthat::assert_that(assertthat::is.count(n), assertthat::noNA(n))
+  for (i in seq_len(n)) {
+    x <- try(rredlist::rl_regions(key = key), silent = TRUE)
+    if (inherits(x, "try-error")) {
+      Sys.sleep(3)
+    } else {
+      break()
+    }
+  }
   !inherits(x, "try-error")
 }
 
