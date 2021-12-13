@@ -295,45 +295,65 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   idx <- which(x$terrestrial == "true")
   x <- x[idx, , drop = FALSE]
 
-  # step 6: fix any potential geometry issues
+  # step 6: convert MULTISURFACE to MULTIPOLYGON
   x <- sf::st_set_precision(x, geometry_precision)
+  idx <- which(vapply(sf::st_geometry(x), inherits, logical(1), "MULTISURFACE"))
+  if (length(idx) > 0) {
+    g <- sf::st_geometry(x)
+    g2 <- lapply(g[idx], sf::st_cast, "MULTIPOLYGON")
+    g2 <- lapply(g2, sf::st_buffer, 0)
+    g2 <- lapply(g2, sf::st_make_valid)
+    for (i in seq_along(idx)) {
+      g[[idx[[i]]]] <- g2[[i]]
+    }
+    x <- sf::st_set_geometry(x, g)
+    rm(g, g2)
+  }
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+
+  # step 7: fix any potential geometry issues
+  x <- sf::st_set_precision(x, geometry_precision)
+  x_crs <- sf::st_crs(x)
+  sf::st_crs(x) <- sf::st_crs(NA)
   x <- sf::st_make_valid(x)
+  sf::st_crs(x) <- x_crs
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  # step 7: wrap geometries to dateline
+
+  # step 8: wrap geometries to dateline
   x <- sf::st_set_precision(x, geometry_precision)
   x <- suppressWarnings(sf::st_wrap_dateline(x,
     options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
 
-  # step 8: fix any potential geometry issues
+  # step 9: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
 
-  # step 9: reproject data
+  # step 10: reproject data
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_transform(x, crs)
 
-  # step 10: fix any potential geometry issues
+  # step 11: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
 
-  # step 11: snap geometries to grid
+  # step 12: snap geometries to grid
   if (snap_tolerance > 0) {
     x <- sf::st_set_precision(x, geometry_precision)
     x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
   }
 
-  # step 12: fix any potential geometry issues
+  # step 13: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
 
-  # step 13: dissolve geometries by species, subspecies, seasonal
+  # step 14: dissolve geometries by species, subspecies, seasonal
   ## create id
   if (is.character(x$seasonal)) {
     x$seasonal <- convert_to_seasonal_id(x$seasonal)
@@ -368,7 +388,7 @@ clean_spp_range_data <- function(x, crs = sf::st_crs("ESRI:54017"),
   )
   x <- x[na.omit(match(old_ids, x$aoh_id)), , drop = FALSE]
 
-  # step 14: fix any potential geometry issues
+  # step 15: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
