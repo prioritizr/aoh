@@ -7,6 +7,16 @@ library(terra)
 library(sf)
 library(rappdirs)
 
+## set options
+options(
+  rlang_backtrace_on_error = "full",
+  error = function() {
+  rlang::entrace()
+  if (!interactive()) {
+    q(status = 1)
+  }
+})
+
 ## set variables
 ## define available datasets
 input_file_options <- c(

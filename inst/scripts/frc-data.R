@@ -7,6 +7,14 @@ library(terra)
 library(sf)
 library(rappdirs)
 
+## set options
+options(error = function() {
+  traceback()
+  if (!interactive()) {
+    q(status = 1)
+  }
+})
+
 ## set variables
 ## define available datasets
 input_file_options <- c(
