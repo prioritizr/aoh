@@ -279,6 +279,10 @@ simulate_spp_data <- function(n,
       stop("failed to simulate data")
     }
     rownames(x) <- NULL
+    # remove overlapping areas
+    x <- x[order(sf::st_area(x)), , drop = FALSE]
+    x <- sf::st_difference(x)
+    x <- x[!sf::st_is_empty(x), , drop = FALSE]
     # determine if species has seasonal distributions or not
     if (isTRUE(stats::runif(1) > 0.7) && (nrow(x) >= 4)) {
       # migratory
