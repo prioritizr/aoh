@@ -308,16 +308,20 @@ clean_spp_range_data <- function(x,
 
   # step 2: exclude polygons based on presence code
   x <- x[which(x$presence %in% keep_iucn_rl_presence), , drop = FALSE]
+  invisible(gc())
 
   # step 3: exclude polygons based on origin code
   x <- x[which(x$origin %in% keep_iucn_rl_origin), , drop = FALSE]
+  invisible(gc())
 
   # step 4: exclude uncertain seasonality
   x <- x[which(x$seasonal %in% keep_iucn_rl_seasonal), , drop = FALSE]
+  invisible(gc())
 
   # step 5: exclude non-terrestrial distributions
   idx <- which(x$terrestrial == "true")
   x <- x[idx, , drop = FALSE]
+  invisible(gc())
 
   # step 6: convert MULTISURFACE to MULTIPOLYGON
   x <- sf::st_set_precision(x, geometry_precision)
@@ -334,6 +338,7 @@ clean_spp_range_data <- function(x,
     rm(g, g2)
   }
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  invisible(gc())
 
   # step 7: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
@@ -343,39 +348,47 @@ clean_spp_range_data <- function(x,
   sf::st_crs(x) <- x_crs
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  invisible(gc())
 
   # step 8: wrap geometries to dateline
   x <- sf::st_set_precision(x, geometry_precision)
   x <- suppressWarnings(sf::st_wrap_dateline(x,
-    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
+    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
+  )
+  invisible(gc())
 
   # step 9: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  invisible(gc())
 
   # step 10: reproject data
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_transform(x, crs)
+  invisible(gc())
 
   # step 11: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  invisible(gc())
 
   # step 12: snap geometries to grid
   if (snap_tolerance > 0) {
     x <- sf::st_set_precision(x, geometry_precision)
     x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
   }
+  invisible(gc())
 
   # step 13: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  invisible(gc())
 
   # step 14: dissolve geometries by species, subspecies, seasonal
   ## create id
@@ -411,17 +424,20 @@ clean_spp_range_data <- function(x,
     msg = "failed to dissolve data"
   )
   x <- x[na.omit(match(old_ids, x$aoh_id)), , drop = FALSE]
+  invisible(gc())
 
   # step 15: fix any potential geometry issues
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_make_valid(x)
   x <- dplyr::filter(x, !sf::st_is_empty(x))
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  invisible(gc())
 
   # re-order columns so that geometry is last
   ## N.B. this is needed to avoid sf internal errors related to agr
   ## when renaming columns or adding in new columns
   x <- dplyr::select(x, -.data$geometry, dplyr::everything())
+  invisible(gc())
 
   # return result
   x
