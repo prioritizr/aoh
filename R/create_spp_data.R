@@ -198,6 +198,8 @@ create_spp_data <- function(x,
       "seasonal distribution"
     )
   )
+  ## clean up
+  invisible(gc())
 
   ## spp_summary_data
   ### import data
@@ -275,6 +277,8 @@ create_spp_data <- function(x,
     omit_habitat_codes = omit_habitat_codes,
     verbose = verbose
   )
+  ## clean up
+  invisible(gc())
 
   ## additional data validation
   ### check that habitat_data has all codes in spp_habitat_data
