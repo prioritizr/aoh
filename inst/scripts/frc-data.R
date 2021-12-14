@@ -7,23 +7,6 @@ library(terra)
 library(sf)
 library(rappdirs)
 
-## set options
-options(error = function() {
-  calls <- sys.calls()
-  if (length(calls) >= 2L) {
-    sink(stderr())
-    on.exit(sink(NULL))
-    cat("Backtrace:\n")
-    calls <- rev(calls[-length(calls)])
-    for (i in seq_along(calls)) {
-      cat(i, ": ", deparse(calls[[i]], nlines = 1L), "\n", sep = "")
-    }
-  }
-  if (!interactive()) {
-    q(status = 1)
-  }
-})
-
 ## set variables
 ## define available datasets
 input_file_options <- c(
@@ -82,12 +65,9 @@ if (!file.exists(output_dir)) {
 }
 
 # Main processing
-## import data
-spp_data <- read_spp_range_data(file.path(input_dir, input_file))
-
-## create Area of Habitat data
+## create fractional coverage data
 result_data <- create_spp_frc_data(
-  x = spp_data,
+  x = read_spp_range_data(file.path(input_dir, input_file)),
   res = res,
   output_dir = output_dir,
   cache_dir = cache_dir,
@@ -95,10 +75,6 @@ result_data <- create_spp_frc_data(
   n_threads = n_threads,
   cache_limit = cache_limit
 )
-
-## clean up
-rm(spp_data)
-gc()
 
 # Exports
 ## save data
