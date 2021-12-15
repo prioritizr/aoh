@@ -12,6 +12,8 @@ library(rappdirs)
 input_file_options <- c(
   "amphibians" = "AMPHIBIANS.zip",
   "birds" = "BOTW.7z",
+  "birds-part-1" = "BOTW.7z",
+  "birds-part-2" = "BOTW.7z",
   "mammals" = "MAMMALS_TERRESTRIAL_ONLY.zip",
   "reptiles" = "REPTILES.zip"
 )
@@ -64,9 +66,23 @@ if (!file.exists(output_dir)) {
 }
 
 # Main processing
+## import data
+x <- read_spp_range_data(file.path(input_dir, input_file))
+if (identical(cmd_args, "birds-part-1")) {
+  out_name <- "BOTW-part-1"
+  x <- x[parallel::splitIndices(nrow(x), 2)[[1]], , drop = FALSE]
+} else if (identical(cmd_args, "birds-part-2")) {
+  out_name <- "BOTW-part-2"
+  x <- x[parallel::splitIndices(nrow(x), 2)[[2]], , drop = FALSE]
+} else {
+  out_name <- tools::file_path_sans_ext(basename(input_file))
+}
+## garbage collection
+gc()
+
 ## create Area of Habitat data
 result_data <- create_spp_aoh_data(
-  x = read_spp_range_data(file.path(input_dir, input_file)),
+  x = x,
   output_dir = output_dir,
   cache_dir = cache_dir,
   engine = engine,
@@ -78,9 +94,6 @@ result_data <- create_spp_aoh_data(
 ## save data
 saveRDS(
   object = result_data,
-  file = file.path(
-    dirname(output_dir),
-    paste0("AOH_", tools::file_path_sans_ext(basename(input_file)), ".rds")
-  ),
+  file = file.path(dirname(output_dir), paste0("AOH_", out_name, ".rds")),
   compress = "xz"
 )
