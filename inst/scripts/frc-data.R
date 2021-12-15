@@ -81,6 +81,18 @@ if (identical(cmd_args, "birds-part-1")) {
 ## garbage collection
 gc()
 
+## exclude species in BirdLife data that are not on the IUCN Red List
+if (identical(input_file, "BOTW.7z")) {
+  ### exclude species
+  exclude_ids <- c(
+    22682860, 22700886, 22724592, 22683873, 61450351, 22735845,
+    22709707, 155257132, 155257123, 22709791, 22723656
+  )
+  x <- x[which(!x$SISID %in% exclude_ids), , drop = FALSE]
+  ### garbage collection
+  gc()
+}
+
 ## create fractional coverage data
 result_data <- create_spp_frc_data(
   x = x,
