@@ -43,6 +43,10 @@ engine_spp_aoh_gdal <- function(range_data,
   tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
 
+  # setup terra processing
+  terra::terraOptions(progress = 0, tempdir = tmp_dir)
+  on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
+
   # create temporary files
   f1 <- tempfile(tmpdir = tmp_dir, fileext = ".gpkg")
   f2 <- tempfile(tmpdir = tmp_dir, fileext = ".vrt")
