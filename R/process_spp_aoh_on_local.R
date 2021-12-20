@@ -48,7 +48,7 @@ process_spp_aoh_on_local <- function(x,
       path = path,
       n_threads = n_threads
     )
-  }  else if (identical(engine, "grass")) {
+  } else if (identical(engine, "grass")) {
     engine_spp_aoh_grass(
       range_data = x,
       habitat_data = habitat_data,

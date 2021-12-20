@@ -176,7 +176,7 @@ process_spp_data_on_local <- function(x,
               which(crosswalk_data$code %in% x$habitat_code[[i]])
             ])),
             lower_elevation = x$elevation_lower[i],
-            upper_elevation =  x$elevation_upper[i],
+            upper_elevation = x$elevation_upper[i],
             extent = terra::ext(c(
               xmin = x$xmin[i], xmax = x$xmax[i],
               ymin = x$ymin[i], ymax = x$ymax[i]
@@ -216,7 +216,6 @@ process_spp_data_on_local <- function(x,
       ## return success
       TRUE
   }))
-
 
   # clean up GRASS
   if (identical(engine, "grass")) {
