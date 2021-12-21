@@ -67,6 +67,7 @@ process_spp_frc_on_local <- function(aoh_path,
     r <- terra_gdal_crop(
       x = r,
       ext = terra::ext(curr_grid),
+      filename = tempfile(tmpdir = tmp_dir, fileext = ".tif"),
       datatype = "INT1U",
       bigtiff = TRUE,
       tiled = TRUE,
