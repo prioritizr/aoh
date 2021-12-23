@@ -31,6 +31,7 @@ test_that("no base map", {
       spp_summary_data = spp_summary_data,
       verbose = interactive()
     ),
+    template_data = habitat_data,
     res = 5000,
     output_dir = tempdir(),
     verbose = interactive()
@@ -74,6 +75,7 @@ test_that("base map", {
       spp_summary_data = spp_summary_data,
       verbose = interactive()
     ),
+    template_data = habitat_data,
     res = 5000,
     output_dir = tempdir(),
     verbose = interactive()
@@ -116,6 +118,7 @@ test_that("customized", {
       spp_summary_data = spp_summary_data,
       verbose = interactive()
     ),
+    template_data = habitat_data,
     res = 5000,
     output_dir = tempdir(),
     verbose = interactive()
