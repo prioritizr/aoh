@@ -110,10 +110,9 @@ validate_aoh_data <- function(x, elevation_data, habitat_data, crosswalk_data) {
     ## create mask
     v <- x[i, , drop = FALSE]
     v$idx <- 1
-    curr_mask <- terra::rasterize(
-      x = terra::vect(v[, "idx", drop = FALSE]),
-      y = curr_aoh,
-      field = 1
+    curr_mask <- terra_fasterize(
+      sf = v[, "idx", drop = FALSE],
+      raster = curr_aoh
     )
     ## mask by species range
     correct_aoh <- terra::mask(correct_aoh, curr_mask)
