@@ -17,7 +17,32 @@ test_that("simulated data (IUCN format)", {
   expect_named(x, cleaned_names)
 })
 
-test_that("simulated data (BirdLife format)", {
+test_that("simulated data (current BirdLife format)", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  # import data
+  d <- read_spp_range_data(f)
+  # rename columns
+  d <- dplyr::rename(d, SISID = "id_no")
+  d <- dplyr::rename(d, SCINAME = "binomial")
+  d <- dplyr::rename(d, PRESENC = "presence")
+  d <- dplyr::rename(d, ORIGIN = "origin")
+  d <- dplyr::rename(d, SEASONA = "seasonal")
+  # remove columns
+  d <- dplyr::select(d, SISID, SCINAME, PRESENC, ORIGIN, SEASONA)
+  # create object
+  x <- clean_spp_range_data(d)
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, cleaned_names)
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
+  expect_equal(anyDuplicated(x$aoh_id), 0L)
+})
+
+test_that("simulated data (old BirdLife format)", {
   # skip if needed
   skip_on_cran()
   # specify file path

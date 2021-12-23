@@ -115,8 +115,8 @@ clean_spp_range_data <- function(x,
   ## initial checks
   assertthat::assert_that(
     inherits(x, "sf"),
-    assertthat::has_name(x, "binomial"),
     nrow(x) > 0,
+    ncol(x) > 0,
     inherits(crs, "crs"),
     is.numeric(keep_iucn_rl_presence),
     assertthat::noNA(keep_iucn_rl_presence),
@@ -124,6 +124,10 @@ clean_spp_range_data <- function(x,
     assertthat::noNA(keep_iucn_rl_presence),
     is.numeric(keep_iucn_rl_seasonal),
     assertthat::noNA(keep_iucn_rl_seasonal)
+  )
+  assertthat::assert_that(
+    assertthat::has_name(x, "binomial") || assertthat::has_name(x, "SCINAME"),
+    msg = "argument to \"x\" must have a \"binomial\" or \"SCINAME\" column"
   )
   assertthat::assert_that(
     all(keep_iucn_rl_presence == round(keep_iucn_rl_presence)),
@@ -163,7 +167,7 @@ clean_spp_range_data <- function(x,
     x <- dplyr::rename(x, order = "order_")
   }
 
-  # step 1b: rename and format columns for BirdLife data
+  # step 1b: rename and format columns for current BirdLife data format
   ## "SISID" column
   if (assertthat::has_name(x, "sisid")) {
     x <- dplyr::rename(x, id_no = "sisid")
@@ -173,6 +177,22 @@ clean_spp_range_data <- function(x,
     idx <- which(grepl("redlistcategory_", names(x), fixed = TRUE))[[1]]
     names(x)[idx] <- "category"
   }
+
+  # step 1c: rename and format columns for old BirdLife data format
+  if (assertthat::has_name(x, "sciname")) {
+    x <- dplyr::rename(x, binomial = "sciname")
+  }
+  if (assertthat::has_name(x, "presenc")) {
+    x <- dplyr::rename(x, presence = "presenc")
+  }
+  if (assertthat::has_name(x, "seasona")) {
+    x <- dplyr::rename(x, seasonal = "seasona")
+  }
+  if (!assertthat::has_name(x, "category")) {
+    x$category <- NA_character_
+  }
+
+  # step 1d: add in any missing columns
   ## "familyname" column is present
   ## N.B. BirdLife use the "FamilyName" column to store the Latin name for
   ## bird families and the "Family" column to store the English common name for
@@ -216,6 +236,10 @@ clean_spp_range_data <- function(x,
   if (!assertthat::has_name(x, "subspecies")) {
     x$subspecies <- NA_character_
   }
+  ## "order" column is missing
+  if (!assertthat::has_name(x, "order")) {
+    x$order <- NA_character_
+  }
   ## "marine_system" column
   if (!assertthat::has_name(x, "marine")) {
     x$marine <- "false"
@@ -252,7 +276,8 @@ clean_spp_range_data <- function(x,
       )
     }
   }
-  ## re-order columns so that geometry is last
+
+  # step 1e: re-order columns so that geometry is last
   ## N.B. this is needed to avoid sf internal errors related to agr
   ## when renaming columns or adding in new columns
   x <- dplyr::select(x, -.data$geometry, dplyr::everything())
@@ -270,6 +295,7 @@ clean_spp_range_data <- function(x,
     assertthat::has_name(x, "category"),
     assertthat::has_name(x, "binomial"),
     assertthat::has_name(x, "subspecies"),
+    assertthat::has_name(x, "order"),
     assertthat::has_name(x, "kingdom"),
     assertthat::has_name(x, "phylum"),
     assertthat::has_name(x, "class"),
