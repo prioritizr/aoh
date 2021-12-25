@@ -46,6 +46,10 @@ aoh_amphibians:
 aoh_birds:
 	R CMD BATCH --no-restore --no-save '--args birds-part-1' inst/scripts/aoh-data.R aoh-data-birds-part-1.Rout
 	R CMD BATCH --no-restore --no-save '--args birds-part-2' inst/scripts/aoh-data.R aoh-data-birds-part-2.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-3' inst/scripts/aoh-data.R aoh-data-birds-part-3.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-4' inst/scripts/aoh-data.R aoh-data-birds-part-4.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-5' inst/scripts/aoh-data.R aoh-data-birds-part-5.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-6' inst/scripts/aoh-data.R aoh-data-birds-part-6.Rout
 
 aoh_mammals:
 	R CMD BATCH --no-restore --no-save '--args mammals' inst/scripts/aoh-data.R aoh-data-mammals.Rout
@@ -62,6 +66,10 @@ frc_amphibians:
 frc_birds:
 	R CMD BATCH --no-restore --no-save '--args birds-part-1' inst/scripts/frc-data.R frc-data-birds-part-1.Rout
 	R CMD BATCH --no-restore --no-save '--args birds-part-2' inst/scripts/frc-data.R frc-data-birds-part-2.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-3' inst/scripts/frc-data.R frc-data-birds-part-3.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-4' inst/scripts/frc-data.R frc-data-birds-part-4.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-5' inst/scripts/frc-data.R frc-data-birds-part-5.Rout
+	R CMD BATCH --no-restore --no-save '--args birds-part-6' inst/scripts/frc-data.R frc-data-birds-part-6.Rout
 
 frc_mammals:
 	R CMD BATCH --no-restore --no-save '--args mammals' inst/scripts/frc-data.R frc-data-mammals.Rout

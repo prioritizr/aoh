@@ -14,6 +14,10 @@ input_file_options <- c(
   "birds" = "BOTW.7z",
   "birds-part-1" = "BOTW.7z",
   "birds-part-2" = "BOTW.7z",
+  "birds-part-3" = "BOTW.7z",
+  "birds-part-4" = "BOTW.7z",
+  "birds-part-5" = "BOTW.7z",
+  "birds-part-6" = "BOTW.7z",
   "mammals" = "MAMMALS_TERRESTRIAL_ONLY.zip",
   "reptiles" = "REPTILES.zip"
 )
@@ -68,13 +72,14 @@ if (!file.exists(output_dir)) {
 # Main processing
 ## import data
 x <- read_spp_range_data(file.path(input_dir, input_file))
-if (identical(cmd_args, "birds-part-1")) {
-  out_name <- "BOTW-part-1"
-  x <- x[parallel::splitIndices(nrow(x), 2)[[1]], , drop = FALSE]
-} else if (identical(cmd_args, "birds-part-2")) {
-  out_name <- "BOTW-part-2"
-  x <- x[parallel::splitIndices(nrow(x), 2)[[2]], , drop = FALSE]
+if (startsWith(cmd_args, "birds-part-")) {
+  ### parse options for partitioned bird run
+  out_name <- gsub("birds-", "BOTW-", cmd_args, fixed = TRUE)
+  i <- as.numeric(gsub("birds-part-", "", cmd_args, fixed = TRUE))
+  n <- sum(grepl("birds-part-", names(input_file_options), fixed = TRUE))
+  x <- x[parallel::splitIndices(nrow(x), n)[[i]], , drop = FALSE]
 } else {
+  ### parse options for other runs
   out_name <- tools::file_path_sans_ext(basename(input_file))
 }
 ## garbage collection
