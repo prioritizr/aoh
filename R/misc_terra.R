@@ -102,7 +102,11 @@ terra_fasterize <- function(sf, raster, ...) {
   )
 
   # convert raster to RasterLayer
-  raster <- methods::as(raster[[1]], "Raster")
+  raster <- withr::with_package(
+    "raster",
+    methods::as(raster[[1]], "Raster"),
+    verbose = FALSE
+  )
 
   # store raster filename
   raster_filename <- raster::filename(raster)
