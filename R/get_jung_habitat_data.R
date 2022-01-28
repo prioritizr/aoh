@@ -29,7 +29,7 @@ NULL
 #'  Defaults to `TRUE`.
 #'
 #' @details
-#' The data were produced by obtaining the level 2 habitat
+#' The data were produced by obtaining the level 1 habitat
 #' classification data from the
 #' [Zenodo repository](https://zenodo.org/10.5281/zenodo.3666245)
 #' (Jung *et al.* 2020b), and resampling the data (using nearest neighbor

@@ -43,7 +43,7 @@ If data are not available locally, they are downloaded from
 an online repository.
 }
 \details{
-The data were produced by obtaining the level 2 habitat
+The data were produced by obtaining the level 1 habitat
 classification data from the
 \href{https://zenodo.org/10.5281/zenodo.3666245}{Zenodo repository}
 (Jung \emph{et al.} 2020b), and resampling the data (using nearest neighbor
