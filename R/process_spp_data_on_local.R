@@ -132,7 +132,7 @@ process_spp_data_on_local <- function(x,
       "r.external",
       redirect = TRUE, legacyExec = TRUE,
       parameters = list(
-        input = terra::sources(habitat_data)$source[[1]],
+        input = terra::sources(habitat_data)[[1]],
         output = "habitat"
       )
     )
@@ -142,7 +142,7 @@ process_spp_data_on_local <- function(x,
       "r.external",
       redirect = TRUE, legacyExec = TRUE,
       parameters = list(
-        input = terra::sources(elevation_data)$source[[1]],
+        input = terra::sources(elevation_data)[[1]],
         output = "elev"
       )
     )
@@ -220,12 +220,12 @@ process_spp_data_on_local <- function(x,
   # clean up GRASS
   if (identical(engine, "grass")) {
     if (!h_on_disk) {
-      f <- terra::sources(habitat_data)$source[[1]]
+      f <- terra::sources(habitat_data)[[1]]
       rm(habitat_data)
       unlink(f, force = TRUE)
     }
     if (!e_on_disk) {
-      f <- terra::sources(elevation_data)$source[[1]]
+      f <- terra::sources(elevation_data)[[1]]
       rm(elevation_data)
       unlink(f, force = TRUE)
     }

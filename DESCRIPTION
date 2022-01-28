@@ -7,9 +7,10 @@ Description: Create Area of Habitat data to characterize species distributions.
     (<doi:10.1016/j.tree.2019.06.009>). Briefly, they are derived using species'
     range maps from the International Union for Conservation of Nature (IUCN)
     Red List of Threatened Species (<https://www.iucnredlist.org/>),
-    habitat classification data (Jung et al. 2020;
-    <doi:10.1038/s41597-020-00599-8>), and
-    elevation data (Amatulli et al. 2018; <doi:10.1038/sdata.2018.40>).
+    habitat classification data (Jung et al. 2020
+    <doi:10.1038/s41597-020-00599-8>;
+    Lumbierres et al. 2021 <doi:10.1111/cobi.13851>), and
+    elevation data (Robinson et al. 2014 <doi:10.1016/j.isprsjprs.2013.11.002>).
     Data processing methods can leverage 'GDAL' to reduce processing time.
 Authors@R:
     c(person(c('Jeffrey', 'O'), 'Hanson',
@@ -36,7 +37,7 @@ Imports:
     plyr (>= 1.8.6),
     ggplot2 (>= 3.1.0),
     fasterize (>= 1.0.3),
-    raster (>= 3.5.2),
+    raster (>= 3.5-15),
     piggyback(>= 0.1.1)
 Suggests:
     testthat (>= 2.0.1),
@@ -56,7 +57,7 @@ Suggests:
 Depends:
     R (>= 4.1.0),
     sf (>= 1.0-2),
-    terra (>= 1.4-22)
+    terra (>= 1.5-12)
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
@@ -88,6 +89,7 @@ Collate:
     'engine_spp_aoh_terra.R'
     'format_spp_data.R'
     'get_jung_habitat_data.R'
+    'get_jung_potential_habitat_data.R'
     'get_spp_api_data.R'
     'get_zenodo_data.R'
     'intersecting_ext.R'

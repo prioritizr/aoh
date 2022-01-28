@@ -82,7 +82,7 @@ terra_gdal_crop <- function(x, ext,
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
-    f1 <- terra::sources(x)$source[[1]]
+    f1 <- terra::sources(x)[[1]]
   } else {
     x_on_disk <- TRUE
     f1 <- x

@@ -139,7 +139,7 @@ terra_fasterize <- function(sf, raster, ...) {
 #' @noRd
 terra_on_disk <- function(x) {
   assertthat::assert_that(inherits(x, "SpatRaster"))
-  s <- terra::sources(x)
+  s <- terra::sources(x, nlyr = TRUE)
   out <-
     (nrow(s) == 1) &&
     all(nchar(s$source) > 0) &&

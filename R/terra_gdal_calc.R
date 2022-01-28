@@ -118,7 +118,7 @@ terra_gdal_calc <- function(x, expr,
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
-    f1 <- terra::sources(x)$source[[1]]
+    f1 <- terra::sources(x)[[1]]
   } else {
     x_on_disk <- TRUE
     f1 <- x
@@ -126,7 +126,7 @@ terra_gdal_calc <- function(x, expr,
   if (inherits(y, "SpatRaster")) {
     y_on_disk <- terra_on_disk(y)
     y <- terra_force_disk(y, overwrite = TRUE, datatype = datatype, gdal = co)
-    f2 <- terra::sources(y)$source[[1]]
+    f2 <- terra::sources(y)[[1]]
   } else {
     y_on_disk <- TRUE
     f2 <- y
@@ -134,7 +134,7 @@ terra_gdal_calc <- function(x, expr,
   if (inherits(z, "SpatRaster")) {
     z_on_disk <- terra_on_disk(y)
     z <- terra_force_disk(z, overwrite = TRUE, datatype = datatype, gdal = co)
-    f3 <- terra::sources(z)$source[[1]]
+    f3 <- terra::sources(z)[[1]]
   } else {
     z_on_disk <- TRUE
     f3 <- z
