@@ -22,17 +22,30 @@ test_that("iucn_habitat_data", {
   expect_is(iucn_habitat_data$is_introduced, "logical")
 })
 
-test_that("crosswalk_jung_data", {
+test_that("crosswalk_jung_lvl1_data", {
   # load data
   data(iucn_habitat_data)
-  data(crosswalk_jung_data)
+  data(crosswalk_jung_lvl1_data)
   # tests
-  expect_is(crosswalk_jung_data, "tbl_df")
-  expect_named(crosswalk_jung_data, c("code", "value"))
-  expect_is(crosswalk_jung_data$code, "character")
+  expect_is(crosswalk_jung_lvl1_data, "tbl_df")
+  expect_named(crosswalk_jung_lvl1_data, c("code", "value"))
+  expect_is(crosswalk_jung_lvl1_data$code, "character")
   expect_equal(anyDuplicated(iucn_habitat_data$code), 0L)
-  expect_true(all(crosswalk_jung_data$code %in% iucn_habitat_data$code))
-  expect_is(crosswalk_jung_data$value, "integer")
+  expect_true(all(crosswalk_jung_lvl1_data$code %in% iucn_habitat_data$code))
+  expect_is(crosswalk_jung_lvl1_data$value, "integer")
+})
+
+test_that("crosswalk_jung_lvl2_data", {
+  # load data
+  data(iucn_habitat_data)
+  data(crosswalk_jung_lvl2_data)
+  # tests
+  expect_is(crosswalk_jung_lvl2_data, "tbl_df")
+  expect_named(crosswalk_jung_lvl2_data, c("code", "value"))
+  expect_is(crosswalk_jung_lvl2_data$code, "character")
+  expect_equal(anyDuplicated(iucn_habitat_data$code), 0L)
+  expect_true(all(crosswalk_jung_lvl2_data$code %in% iucn_habitat_data$code))
+  expect_is(crosswalk_jung_lvl2_data$value, "integer")
 })
 
 test_that("crosswalk_lumbierres_data", {

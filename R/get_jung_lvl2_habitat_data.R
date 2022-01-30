@@ -1,9 +1,10 @@
 #' @include internal.R
 NULL
 
-#' Get Jung *et al.* (2020) habitat classification data
+#' Get Jung *et al.* (2020) habitat classification data (level 2)
 #'
-#' Import habitat classification data derived from Jung *et al.* (2020a).
+#' Import habitat classification data (level 2) derived from Jung *et al.*
+#' (2020a).
 #' If data are not available locally, they are downloaded from
 #' an online repository.
 #'
@@ -29,7 +30,7 @@ NULL
 #'  Defaults to `TRUE`.
 #'
 #' @details
-#' The data were produced by obtaining the level 1 habitat
+#' The data were produced by obtaining the level 2 habitat
 #' classification data from the
 #' [Zenodo repository](https://zenodo.org/10.5281/zenodo.3666245)
 #' (Jung *et al.* 2020b), and resampling the data (using nearest neighbor
@@ -40,7 +41,7 @@ NULL
 #'  (100 m resolution). Pixel values indicate the habitat classification codes.
 #'
 #' @seealso
-#' See [crosswalk_jung_data()] for details on which grid values correspond
+#' See [crosswalk_jung_lvl2_data()] for details on which grid values correspond
 #' to which habitat classification codes.
 #'
 #' @references
@@ -66,7 +67,7 @@ NULL
 #' }
 #'
 #' # download and import habitat data
-#' habitat_data <- get_jung_habitat_data(download_dir, version = "latest")
+#' habitat_data <- get_jung_lvl2_habitat_data(download_dir, version = "latest")
 #'
 #' # preview data
 #' print(habitat_data)
@@ -75,7 +76,7 @@ NULL
 #' plot(habitat_data)
 #' }
 #' @export
-get_jung_habitat_data <- function(dir = tempdir(),
+get_jung_lvl2_habitat_data <- function(dir = tempdir(),
                                   version = "latest",
                                   force = FALSE,
                                   verbose = TRUE) {
@@ -113,7 +114,7 @@ get_jung_habitat_data <- function(dir = tempdir(),
 
   # process file path
   path <- gsub(".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE)
-  path <- file.path(dir, paste0("jung-", path, ".tif"))
+  path <- file.path(dir, paste0("jung-lvl2-", path, ".tif"))
   path <- gsub("\\", "/", path, fixed = TRUE)
 
   # fetch data if needed

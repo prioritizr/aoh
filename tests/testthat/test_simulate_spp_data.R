@@ -25,7 +25,7 @@ test_that("single species", {
     boundary_data = boundary_data,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   # tests
   expect_is(x, "list")
@@ -60,7 +60,7 @@ test_that("multiple species", {
     boundary_data = boundary_data,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   # tests
   expect_is(x, "list")

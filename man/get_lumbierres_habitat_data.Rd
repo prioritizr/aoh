@@ -82,6 +82,6 @@ DOI:10.1111/cobi.13851.
 Available at \url{https://doi.org/10.1111/cobi.13851}.
 }
 \seealso{
-See \code{\link[=crosswalk_jung_data]{crosswalk_jung_data()}} for details on which grid values correspond
+See \code{\link[=crosswalk_lumbierres_data]{crosswalk_lumbierres_data()}} for details on which grid values correspond
 to which habitat classification codes.
 }

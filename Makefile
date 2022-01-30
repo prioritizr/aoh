@@ -13,7 +13,7 @@ clean:
 	rm -rf inst/doc/*
 
 # create built-in data
-data: inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip data/data/iucn_habitat_data.rda data/data/crosswalk_jung.rda
+data: inst/extdata/EXAMPLE_SPECIES.zip inst/testdata/SIMULATED_SPECIES.zip builtin_data
 
 inst/testdata/SIMULATED_SPECIES.zip: inst/scripts/test-data.R
 	R --slave -e "source('inst/scripts/test-data.R')"
@@ -21,18 +21,18 @@ inst/testdata/SIMULATED_SPECIES.zip: inst/scripts/test-data.R
 inst/extdata/EXAMPLE_SPECIES.zip: inst/scripts/example-data.R
 	R --slave -e "source('inst/scripts/example-data.R')"
 
-data/iucn_habitat_data.rda: inst/scripts/builtin-data.R data-raw/iucn-habitat-data.csv
-	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
-
-data/crosswalk_jung_data.rda: inst/scripts/builtin-data.R data-raw/crosswalk-jung-data.csv
-	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
-
-data/crosswalk_lumbierres_data.rda: inst/scripts/builtin-data.R data-raw/crosswalk-lumbierres-data.csv
+builtin_data: inst/scripts/builtin-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/builtin-data.R
 
 # preprocess datasets
-prep_jung_habitat_data: inst/scripts/jung-habitat-data.R
-	R CMD BATCH --no-restore --no-save inst/scripts/jung-habitat-data.R
+prep_jung_lvl1_habitat_data: inst/scripts/jung-lvl1-habitat-data.R
+	R CMD BATCH --no-restore --no-save inst/scripts/jung-lvl1-habitat-data.R
+
+prep_jung_lvl2_habitat_data: inst/scripts/jung-lvl2-habitat-data.R
+	R CMD BATCH --no-restore --no-save inst/scripts/jung-lvl2-habitat-data.R
+
+prep_jung_plvl1_habitat_data: inst/scripts/jung-plvl1-habitat-data.R
+	R CMD BATCH --no-restore --no-save inst/scripts/jung-plvl1-habitat-data.R
 
 prep_lumbierres_habitat_data: inst/scripts/lumbierres-habitat-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/lumbierres-habitat-data.R

@@ -1,7 +1,7 @@
 pandoc: '2.13'
-pkgdown: 2.0.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   aoh: aoh.html
-last_built: 2021-12-13T22:40Z
+last_built: 2022-01-30T09:16Z
 

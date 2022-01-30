@@ -22,7 +22,9 @@ spell.log
 gp.log
 examples.log
 aoh-data.Rout
-jung-habitat-data.Rout
+jung-lvl1-habitat-data.Rout
+jung-lvl1-habitat-data.Rout
+jung-plvl1-habitat-data.Rout
 lumbierres-habitat-data.Rout
 preprocess-elevation-data.Rout
 builtin-data.Rout

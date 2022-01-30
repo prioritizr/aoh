@@ -7,7 +7,7 @@ NULL
 #' If data are not available locally, they are downloaded from
 #' an online repository.
 #'
-#' @inheritParams get_jung_habitat_data
+#' @inheritParams get_jung_lvl2_habitat_data
 #'
 #' @details
 #' The data were produced by obtaining the level 1 habitat
@@ -17,10 +17,10 @@ NULL
 #' interpolation) to the World Behrmannn coordinate reference
 #' systems (ESRI:54017).
 #'
-#' @inherit get_jung_habitat_data return
+#' @inherit get_jung_lvl2_habitat_data return
 #'
 #' @seealso
-#' See [crosswalk_jung_data()] for details on which grid values correspond
+#' See [crosswalk_lumbierres_data()] for details on which grid values correspond
 #' to which habitat classification codes.
 #'
 #' @references

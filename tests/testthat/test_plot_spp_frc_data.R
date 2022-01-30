@@ -26,7 +26,7 @@ test_that("no base map", {
       output_dir = tempdir(),
       habitat_data = habitat_data,
       elevation_data = elevation_data,
-      crosswalk_data = crosswalk_jung_data,
+      crosswalk_data = crosswalk_jung_lvl2_data,
       spp_habitat_data = spp_habitat_data,
       spp_summary_data = spp_summary_data,
       verbose = interactive()
@@ -70,7 +70,7 @@ test_that("base map", {
       output_dir = tempdir(),
       habitat_data = habitat_data,
       elevation_data = elevation_data,
-      crosswalk_data = crosswalk_jung_data,
+      crosswalk_data = crosswalk_jung_lvl2_data,
       spp_habitat_data = spp_habitat_data,
       spp_summary_data = spp_summary_data,
       verbose = interactive()
@@ -113,7 +113,7 @@ test_that("customized", {
       output_dir = tempdir(),
       habitat_data = habitat_data,
       elevation_data = elevation_data,
-      crosswalk_data = crosswalk_jung_data,
+      crosswalk_data = crosswalk_jung_lvl2_data,
       spp_habitat_data = spp_habitat_data,
       spp_summary_data = spp_summary_data,
       verbose = interactive()

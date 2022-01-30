@@ -1,4 +1,4 @@
-context("get_jung_habitat_data()")
+context("get_jung_lvl2_habitat_data()")
 
 test_that("latest version (from online)", {
   # skip if needed
@@ -6,7 +6,7 @@ test_that("latest version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_jung_habitat_data(
+  x <- get_jung_lvl2_habitat_data(
     version = "latest", force = TRUE, verbose = interactive()
   )
   # tests
@@ -25,7 +25,7 @@ test_that("latest version (from cache)", {
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   # create object
-  x <- get_jung_habitat_data(
+  x <- get_jung_lvl2_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
     version = "latest",
     force = FALSE,
@@ -47,7 +47,7 @@ test_that("specified version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_jung_habitat_data(
+  x <- get_jung_lvl2_habitat_data(
     version = latest_jung_version,
     force = TRUE,
     verbose = interactive()
@@ -68,7 +68,7 @@ test_that("specified version (from cache)", {
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   # create object
-  x <- get_jung_habitat_data(
+  x <- get_jung_lvl2_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
     version = latest_jung_version,
     force = FALSE,

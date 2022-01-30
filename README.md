@@ -6,7 +6,7 @@
 [![lifecycle](https://img.shields.io/badge/Lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
 [![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/aoh/Windows/master.svg?label=Windows)](https://github.com/prioritizr/aoh/actions)
-[![R-CMD-check-MacOS](https://img.shields.io/github/workflow/status/prioritizr/aoh/Mac%20OSX/master.svg?label=MacOS)](https://github.com/prioritizr/aoh/actions)
+[![R-CMD-check-macOS](https://img.shields.io/github/workflow/status/prioritizr/aoh/macOS/master.svg?label=macOS)](https://github.com/prioritizr/aoh/actions)
 [![Coverage
 Status](https://codecov.io/github/prioritizr/aoh/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/aoh?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/aoh)](https://CRAN.R-project.org/package=aoh)
@@ -162,6 +162,17 @@ library(rappdirs)
 library(ggplot2)
 ```
 
+    ## 
+    ## Attaching package: 'ggplot2'
+
+    ## The following object is masked from 'package:aoh':
+    ## 
+    ##     arrow
+
+    ## The following object is masked from 'package:terra':
+    ## 
+    ##     arrow
+
 Now we will import range data for the species. Although users would
 typically obtain range data from the [International Union for
 Conservation of Nature (IUCN) Red List of Threatened
@@ -188,12 +199,12 @@ print(spp_range_data)
     ## Bounding box:  xmin: -9.479736 ymin: 36.59422 xmax: 3.302702 ymax: 43.76455
     ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 27
-    ##   id_no binomial       presence origin seasonal compiler     yrcompiled citation
-    ##   <dbl> <chr>             <int>  <int>    <int> <chr>             <dbl> <chr>   
-    ## 1   979 Alytes dickhi…        1      1        1 Derived fro…         NA <NA>    
-    ## 2 59448 Calotriton as…        1      1        1 Derived fro…         NA <NA>    
-    ## 3  4657 Chioglossa lu…        1      1        1 Derived fro…         NA <NA>    
-    ## 4 58622 Rana iberica          1      1        1 Derived fro…         NA <NA>    
+    ##   id_no binomial           presence origin seasonal compiler yrcompiled citation
+    ##   <dbl> <chr>                 <int>  <int>    <int> <chr>         <dbl> <chr>   
+    ## 1   979 Alytes dickhilleni        1      1        1 Derived…         NA <NA>    
+    ## 2 59448 Calotriton asper          1      1        1 Derived…         NA <NA>    
+    ## 3  4657 Chioglossa lusita…        1      1        1 Derived…         NA <NA>    
+    ## 4 58622 Rana iberica              1      1        1 Derived…         NA <NA>    
     ## # … with 19 more variables: subspecies <chr>, subpop <chr>, source <chr>,
     ## #   island <chr>, tax_comm <chr>, dist_comm <chr>, generalisd <int>,
     ## #   legend <chr>, kingdom <chr>, phylum <chr>, class <chr>, order_ <chr>,
@@ -242,9 +253,9 @@ print(spp_aoh_rasters)
 
     ## [[1]]
     ## class       : SpatRaster 
-    ## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 2594, 3699, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -468031, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
+    ## extent      : -467831, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_979_1.tif 
     ## name        : lyr1 
@@ -321,7 +332,7 @@ produce Area of Habitat data.
     Depending on which datasets are used, please cite the aoh package and
     relevant data using:
 
-      Hanson JO (2021) aoh: Create Area of Habitat Data. R package version
+      Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
       0.0.0.99999. Available at https://github.com/jeffreyhanson/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version

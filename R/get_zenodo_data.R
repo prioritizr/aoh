@@ -1,6 +1,6 @@
 #' @include internal.R
 
-#' Latest Zenodo version with  data
+#' Latest Zenodo version with data
 #'
 #' Find the Digital Object Identifier (DOI) for the latest version of
 #' a Zenodo repository that contains a particular file.
@@ -74,7 +74,7 @@ latest_zenodo_version <- function(x, file) {
 #'
 #' @inheritParams latest_zenodo_version
 #'
-#' @inheritParams get_jung_habitat_data
+#' @inheritParams get_jung_lvl2_habitat_data
 #'
 #' @return A `character` file path for the downloaded data.
 #'

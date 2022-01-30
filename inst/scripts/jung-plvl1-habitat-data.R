@@ -1,5 +1,5 @@
 # System command to execute:
-# R CMD BATCH --no-restore --no-save jung-habitat-data.R
+# R CMD BATCH --no-restore --no-save jung1-potential-habitat-data.R
 
 # Initialization
 ## load packages
@@ -21,10 +21,10 @@ output_dir <-  tempdir()
 
 ### set version to process
 version <- latest_zenodo_version(
-  x = "10.5281/zenodo.4058356",
+  x = "10.5281/zenodo.4038749",
   file = function(x) {
     any(
-      startsWith(x, "iucn_habitatclassification_composite_lvl2") &
+      startsWith(x, "pnv_lvl1") &
       endsWith(x, ".zip")
     )
   }
@@ -56,7 +56,7 @@ archive_path <- get_zenodo_data(
   force = FALSE,
   file = function(x) {
     any(
-      startsWith(x, "iucn_habitatclassification_composite_lvl2") &
+      startsWith(x, "pnv_lvl1") &
       endsWith(x, ".zip")
     )
   }
@@ -69,14 +69,16 @@ utils::unzip(archive_path, exdir = temp_dir)
 raw_path <- dir(temp_dir, "^.*\\.tif$", full.names = TRUE, recursive = TRUE)
 assertthat::assert_that(
   length(raw_path) == 1,
-  msg = "failed to find 100 m resolution composite layer"
+  msg = "failed to find composite layer"
 )
 
 ## construct output path
 output_path <- gsub(
   ".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE
 )
-output_path <- file.path(temp_dir, paste0("jung-", output_path, ".tif"))
+output_path <- file.path(
+  temp_dir,paste0("jung-plvl1-", output_path, ".tif")
+)
 output_path <- gsub("\\", "/", output_path, fixed = TRUE)
 
 # Main processing

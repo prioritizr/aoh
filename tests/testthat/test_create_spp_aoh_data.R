@@ -27,7 +27,7 @@ test_that("simulated data", {
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = TRUE
@@ -67,8 +67,10 @@ test_that("simulated data", {
     0
   )
   validate_aoh_data(
-    x = x, elevation_data = elevation_data,
-    habitat_data = habitat_data, crosswalk_data = crosswalk_jung_data
+    x = x,
+    elevation_data = elevation_data,
+    habitat_data = habitat_data,
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   # clean up
   unlink(x$path[!is.na(x$path)])
@@ -115,7 +117,7 @@ test_that("some species missing habitat data", {
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -125,7 +127,7 @@ test_that("some species missing habitat data", {
     output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data_alt,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -139,13 +141,13 @@ test_that("some species missing habitat data", {
     x = x1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   validate_aoh_data(
     x = x2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   expect_equal(
     dplyr::select(x1[x1$id_no != spp_id, ], -path),
@@ -204,7 +206,7 @@ test_that("species with reversed elevation limits", {
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -214,7 +216,7 @@ test_that("species with reversed elevation limits", {
     output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data_alt,
     verbose = interactive()
@@ -228,13 +230,13 @@ test_that("species with reversed elevation limits", {
     x = x1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   validate_aoh_data(
     x = x2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   expect_equal(
     dplyr::select(x1, -path),
@@ -292,7 +294,7 @@ test_that("engines produce same results", {
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     engine = "terra",
@@ -304,7 +306,7 @@ test_that("engines produce same results", {
     output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     engine = "gdal",
@@ -316,7 +318,7 @@ test_that("engines produce same results", {
     output_dir = output_dir3,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     engine = "grass",
@@ -331,19 +333,19 @@ test_that("engines produce same results", {
     x = x1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   validate_aoh_data(
     x = x2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   validate_aoh_data(
     x = x3,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data
+    crosswalk_data = crosswalk_jung_lvl2_data
   )
   expect_named(x1, aoh_names)
   expect_named(x2, aoh_names)
@@ -408,10 +410,10 @@ for (engine in c("terra", "gdal")) {
       create_spp_aoh_data(
         x = d,
         output_dir = output_dir1,
-        habitat_data = get_jung_habitat_data(
+        habitat_data = get_jung_lvl2_habitat_data(
           dir = cd, version = latest_jung_version
         ),
-        crosswalk_data = crosswalk_jung_data,
+        crosswalk_data = crosswalk_jung_lvl2_data,
         cache_dir = cd,
         elevation_version = latest_elevation_version,
         engine = engine,
@@ -439,13 +441,13 @@ for (engine in c("terra", "gdal")) {
     expect_named(x2, aoh_names)
     validate_aoh_data(
       x = x1,
-      habitat_data = get_jung_habitat_data(
+      habitat_data = get_jung_lvl2_habitat_data(
         dir = cd, version = latest_jung_version
       ),
       elevation_data = get_global_elevation_data(
         dir = cd, version = latest_elevation_version
       ),
-      crosswalk_data = crosswalk_jung_data
+      crosswalk_data = crosswalk_jung_lvl2_data
     )
     validate_aoh_data(
       x = x2,

@@ -28,7 +28,7 @@ test_that("simulated data", {
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -95,7 +95,7 @@ test_that("different engines produce same result", {
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()
@@ -107,7 +107,7 @@ test_that("different engines produce same result", {
     output_dir = output_dir2,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = interactive()

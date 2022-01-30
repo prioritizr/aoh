@@ -31,7 +31,10 @@
     <loc>/reference/create_spp_frc_data.html</loc>
   </url>
   <url>
-    <loc>/reference/crosswalk_jung_data.html</loc>
+    <loc>/reference/crosswalk_jung_lvl1_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/crosswalk_jung_lvl2_data.html</loc>
   </url>
   <url>
     <loc>/reference/crosswalk_lumbierres_data.html</loc>
@@ -43,7 +46,13 @@
     <loc>/reference/get_global_elevation_data.html</loc>
   </url>
   <url>
-    <loc>/reference/get_jung_habitat_data.html</loc>
+    <loc>/reference/get_jung_lvl1_habitat_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_jung_lvl2_habitat_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_jung_plvl1_habitat_data.html</loc>
   </url>
   <url>
     <loc>/reference/get_lumbierres_habitat_data.html</loc>

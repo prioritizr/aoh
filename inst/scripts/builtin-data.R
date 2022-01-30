@@ -17,8 +17,18 @@ iucn_habitat_data <- readr::read_csv(
   )
 )
 
-crosswalk_jung_data <- readr::read_csv(
-  "data-raw/crosswalk-jung-data.csv",
+crosswalk_jung_lvl1_data <- readr::read_csv(
+  "data-raw/crosswalk-jung-lvl1-data.csv",
+  show_col_types = FALSE,
+  progress = FALSE,
+  col_types = readr::cols(
+    code = readr::col_character(),
+    value = readr::col_integer()
+  )
+)
+
+crosswalk_jung_lvl2_data <- readr::read_csv(
+  "data-raw/crosswalk-jung-lvl2-data.csv",
   show_col_types = FALSE,
   progress = FALSE,
   col_types = readr::cols(
@@ -39,5 +49,7 @@ crosswalk_lumbierres_data <- readr::read_csv(
 
 # Exports
 usethis::use_data(iucn_habitat_data, overwrite = TRUE)
-usethis::use_data(crosswalk_jung_data, overwrite = TRUE)
+usethis::use_data(crosswalk_jung_lvl1_data, overwrite = TRUE)
+usethis::use_data(crosswalk_jung_lvl2_data, overwrite = TRUE)
+usethis::use_data(crosswalk_jung_plvl1_data, overwrite = TRUE)
 usethis::use_data(crosswalk_lumbierres_data, overwrite = TRUE)
