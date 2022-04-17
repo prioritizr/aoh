@@ -47,27 +47,27 @@ NULL
 #' \item Species that are not terrestrial are excluded (i.e. filtering based on
 #'    where `terrestrial == "true"`).
 #'
-#' \item Fix any potential geometry issues (using [sf::st_make_valid()]).
+#' \item Fix any potential geometry issues (using [st_repair_geometry()]).
 #'
 #' \item Wrap geometries to date line (using [sf::st_wrap_dateline()]).
 #'
-#' \item Fix any potential geometry issues (i.e. using [sf::st_make_valid()]).
+#' \item Fix any potential geometry issues (using [st_repair_geometry()]).
 #'
 #' \item Reproject data to specified coordinate system
-#'    (i.e. using [sf::st_transform()]).
+#'    (using [sf::st_transform()]).
 #'
-#' \item Fix any potential geometry issues (i.e. using [sf::st_make_valid()]).
+#' \item Fix any potential geometry issues (iusing [sf::st_make_valid()]).
 #'
 #' \item Snap geometries to spatial grid (using [lwgeom::st_snap_to_grid()]).
 #'   Note that this step is only performed if the argument to `snap_tolerance`
 #'   is greater than zero.
 #'
-#' \item Fix any potential geometry issues (using [sf::st_make_valid()]).
+#' \item Fix any potential geometry issues (using [st_repair_geometry()]).
 #'
 #' \item Data are spatially dissolved so that each seasonal distribution for
 #'   each taxon is represented by a separate geometry.
 #'
-#' \item Fix any potential geometry issues (i.e. using [sf::st_make_valid()]).
+#' \item Fix any potential geometry issues (using [st_repair_geometry()]).
 #'
 #' }
 #'
@@ -367,13 +367,7 @@ clean_spp_range_data <- function(x,
   invisible(gc())
 
   # step 7: fix any potential geometry issues
-  x <- sf::st_set_precision(x, geometry_precision)
-  x_crs <- sf::st_crs(x)
-  sf::st_crs(x) <- sf::st_crs(NA)
-  x <- sf::st_make_valid(x)
-  sf::st_crs(x) <- x_crs
-  x <- dplyr::filter(x, !sf::st_is_empty(x))
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
 
   # step 8: wrap geometries to dateline
@@ -384,10 +378,7 @@ clean_spp_range_data <- function(x,
   invisible(gc())
 
   # step 9: fix any potential geometry issues
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- dplyr::filter(x, !sf::st_is_empty(x))
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
 
   # step 10: reproject data
@@ -396,10 +387,7 @@ clean_spp_range_data <- function(x,
   invisible(gc())
 
   # step 11: fix any potential geometry issues
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- dplyr::filter(x, !sf::st_is_empty(x))
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
 
   # step 12: snap geometries to grid
@@ -410,10 +398,7 @@ clean_spp_range_data <- function(x,
   invisible(gc())
 
   # step 13: fix any potential geometry issues
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- dplyr::filter(x, !sf::st_is_empty(x))
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
 
   # step 14: dissolve geometries by species, subspecies, seasonal
@@ -453,10 +438,7 @@ clean_spp_range_data <- function(x,
   invisible(gc())
 
   # step 15: fix any potential geometry issues
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- dplyr::filter(x, !sf::st_is_empty(x))
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
 
   # re-order columns so that geometry is last

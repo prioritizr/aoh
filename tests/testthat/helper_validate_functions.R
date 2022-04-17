@@ -107,6 +107,7 @@ validate_aoh_data <- function(x, elevation_data, habitat_data, crosswalk_data) {
       correct_aoh *
       ((curr_elev <= x$elevation_upper[[i]]) &
       (curr_elev >= x$elevation_lower[[i]]))
+    correct_aoh[is.na(correct_aoh)] <- 0
     ## create mask
     v <- x[i, , drop = FALSE]
     v$idx <- 1

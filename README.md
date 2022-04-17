@@ -65,6 +65,76 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("prioritizr/aoh")
 ```
 
+#### Optional dependencies
+
+The *aoh R* package can leverage the *prepr R* package to augment data
+cleaning procedures. Since the *prepr R* package is not available on the
+Comprehensive R Archive Network (CRAN), it is listed as an optional
+dependency. In some cases, the *prepr R* package is required to complete
+the data cleaning procedures (e.g., to fix especially extreme geometry
+issues) and the *aoh R* package will throw an error if the package is
+not available. To install the *prepr R* package, please use the
+following *R* code. Note that the *prepr R* package has system
+dependencies that need to be installed before the package itself can be
+installed (see below for platform-specific instructions).
+
+``` r
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("dickoa/prepr")
+```
+
+The package can also leverage the [Geospatial Data Abstraction Library
+(GDAL)](https://gdal.org/) and [Geographic Resources Analysis Support
+System (GRASS)](https://grass.osgeo.org/) to help reduce processing
+time. Although use of these software is optional, they can help improve
+computational performance when processing data across large spatial
+extents. Below we provide platform-specific instructions to install
+dependencies for the *prepr R* package, GDAL, and GRASS.
+
+##### *Windows*
+
+The [Rtools](https://cran.r-project.org/bin/windows/Rtools/) software
+needs to be installed to install the *prepr R* package package. This
+software provides system requirements from
+[rwinlib](https://github.com/rwinlib/). Additionally, the easiest way to
+install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/).
+[Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/),
+select the “Express Install” option, and then follow the prompts to
+complete the installation. After the installation process has finished,
+please restart your computer. If the *gdalUtils R* package cannot find
+GDAL, you may also need to update the `PATH` environmental variable so
+that it contains the folder path for GDAL (default folder path is
+`C:\OSGeo4W\bin`),
+
+##### *Ubuntu*
+
+For recent versions of Ubuntu (18.04 and later), the libraries are
+available through official repositories. They can be installed using the
+following system commands.
+
+    apt-get -y update
+    apt-get install -y \
+      libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
+      libgmp3-dev libmpfr-dev libudunits2-dev
+
+##### *Linux*
+
+For Unix-alikes, `gdal` (&gt;= 3.0.2), `gmp` (&gt;= 4.2.3), `grass`
+(&gt;= 7.8.5), and `mpfr` (&gt;= 3.0.0) are required.
+
+##### *MacOS*
+
+The easiest way to install the libraries is using
+[HomeBrew](https://brew.sh/). After installing HomeBrew, the libraries
+can be installed using the following system commands.
+
+    brew tap osgeo/osgeo4mac
+    brew install pkg-config
+    brew install gdal
+    brew install osgeo-grass
+    brew install gmp
+    brew install mpfr
+
 #### Accessing the IUCN Red List API
 
 After installing the *aoh R* package, you will need to obtain a token
@@ -94,53 +164,6 @@ If these instructions did not work, please consult the documentation for
 the [*rredlist*](https://CRAN.R-project.org/package=rredlist) *R*
 package for further details.
 
-#### Optional system libraries
-
-The package can leverage the [Geospatial Data Abstraction Library
-(GDAL)](https://gdal.org/) and [Geographic Resources Analysis Support
-System (GRASS)](https://grass.osgeo.org/) to help reduce processing
-time. Although use of these software is optional, they can help improve
-computational performance when processing data across large spatial
-extents. Below we provide platform-specific instructions to install
-them.
-
-##### *Windows*
-
-The easiest way to install GDAL and GRASS is through
-[OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W
-installer](https://trac.osgeo.org/osgeo4w/), select the “Express
-Install” option, and then follow the prompts to complete the
-installation. After the installation process has finished, please
-restart your computer. If the *gdalUtils R* package cannot find GDAL,
-you may also need to update the `PATH` environmental variable so that it
-contains the folder path for GDAL (default folder path is
-`C:\OSGeo4W\bin`),
-
-##### *Ubuntu*
-
-For recent versions of Ubuntu (18.04 and later), the libraries are
-available through official repositories. They can be installed using the
-following system commands.
-
-    apt-get -y update
-    apt-get install -y gdal-bin grass
-
-##### *Linux*
-
-For Unix-alikes, `gdal` (&gt;= 3.0.2) and `grass` (&gt;= 7.8.5) are
-required.
-
-##### *MacOS*
-
-The easiest way to install the libraries is using
-[HomeBrew](https://brew.sh/). After installing HomeBrew, the libraries
-can be installed using the following system commands.
-
-    brew tap osgeo/osgeo4mac
-    brew install pkg-config
-    brew install gdal
-    brew install osgeo-grass
-
 ### Usage
 
 Here we provide a short example for using the *aoh R* package. In this
@@ -161,17 +184,6 @@ library(terra)
 library(rappdirs)
 library(ggplot2)
 ```
-
-    ## 
-    ## Attaching package: 'ggplot2'
-
-    ## The following object is masked from 'package:aoh':
-    ## 
-    ##     arrow
-
-    ## The following object is masked from 'package:terra':
-    ## 
-    ##     arrow
 
 Now we will import range data for the species. Although users would
 typically obtain range data from the [International Union for
@@ -253,9 +265,9 @@ print(spp_aoh_rasters)
 
     ## [[1]]
     ## class       : SpatRaster 
-    ## dimensions  : 2594, 3699, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -467831, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)
+    ## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_979_1.tif 
     ## name        : lyr1 
@@ -264,9 +276,9 @@ print(spp_aoh_rasters)
     ## 
     ## [[2]]
     ## class       : SpatRaster 
-    ## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 2265, 5669, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -248331, 318769, 4838377, 5064977  (xmin, xmax, ymin, ymax)
+    ## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_59448_1.tif 
     ## name        : lyr1 
@@ -275,9 +287,9 @@ print(spp_aoh_rasters)
     ## 
     ## [[3]]
     ## class       : SpatRaster 
-    ## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 5149, 5360, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)
+    ## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_4657_1.tif 
     ## name        : lyr1 
@@ -286,9 +298,9 @@ print(spp_aoh_rasters)
     ## 
     ## [[4]]
     ## class       : SpatRaster 
-    ## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)
+    ## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : AOH_58622_1.tif 
     ## name        : lyr1 

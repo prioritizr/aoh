@@ -388,7 +388,13 @@ same results, some engines are more computationally efficient than others.
 The default <code>"terra"</code> engine uses the <span class="pkg">terra</span> package for processing.
 Although this engine is easy to install and fast for small datasets, it does
 not scale well for larger datasets. It is generally recommended to use
-either the <code>"gdal"</code> or <code>"grass"</code> engines for large datasets.
+the <code>"gdal"</code> engine to perform data processing with the
+<a href="https://gdal.org/" class="external-link">Geospatial Data Abstraction Library (GDAL)</a>
+can be used for data processing. The <code>"grass"</code> engine can also be
+used to perform data processing with the
+<a href="https://grass.osgeo.org/" class="external-link">Geographic Resources Analysis Support System (GRASS)</a>.
+Note that the <code>"grass"</code> engine requires both the GDAL and GRASS software
+to be installed.
 For instructions on installing dependencies for these engines,
 please see the README file.</p>
     </div>
@@ -561,34 +567,34 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[325ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[1.1s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[10.5s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[15.8s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[3.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[6s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[3.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[4.1s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[363ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[784ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[493ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[347ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[297ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[350ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     skipping 4 species distributions already processed</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[14ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[14ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[15ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span class="co"># }</span></span>
@@ -607,9 +613,9 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 2594, 3699, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 100, 100  (x, y)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -467831, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : World_Behrmann </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> source      : AOH_979_1.tif </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr1 </span>
@@ -618,9 +624,9 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 2265, 5669, 1  (nrow, ncol, nlyr)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 100, 100  (x, y)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -248331, 318769, 4838377, 5064977  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : World_Behrmann </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> source      : AOH_59448_1.tif </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr1 </span>
@@ -629,9 +635,9 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 5149, 5360, 1  (nrow, ncol, nlyr)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 100, 100  (x, y)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : World_Behrmann </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> source      : AOH_4657_1.tif </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr1 </span>
@@ -640,9 +646,9 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 100, 100  (x, y)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : World_Behrmann </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> source      : AOH_58622_1.tif </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr1 </span>

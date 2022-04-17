@@ -11,7 +11,11 @@ Description: Create Area of Habitat data to characterize species distributions.
     <doi:10.1038/s41597-020-00599-8>;
     Lumbierres et al. 2021 <doi:10.1111/cobi.13851>), and
     elevation data (Robinson et al. 2014 <doi:10.1016/j.isprsjprs.2013.11.002>).
-    Data processing methods can leverage 'GDAL' to reduce processing time.
+    Data processing methods can leverage 'GDAL' and 'GRASS' to reduce
+    processing time.
+    To augment data cleaning procedures, users can also install the
+    'prepr' R package
+    (available at <https://github.com/dickoa/prepr>).
 Authors@R:
     c(person(c('Jeffrey', 'O'), 'Hanson',
         email='jeffrey.hanson@uqconnect.edu.au', role = c('aut','cre'),
@@ -53,11 +57,12 @@ Suggests:
     gdalUtils (>= 2.0.3.2),
     archive (>= 1.1.2),
     link2GI (>= 0.4.7),
-    rgrass7 (>= 0.2.6)
+    rgrass7 (>= 0.2.6),
+    prepr (>= 0.1.9000),
 Depends:
     R (>= 4.1.0),
     sf (>= 1.0-2),
-    terra (>= 1.5-12)
+    terra (>= 1.5-21)
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
@@ -108,6 +113,7 @@ Collate:
     'process_spp_frc_on_local.R'
     'read_spp_range_data.R'
     'simulate_spp_data.R'
+    'st_repair_geometry.R'
     'terra_combine.R'
     'terra_gdal_calc.R'
     'terra_gdal_crop.R'
@@ -115,3 +121,5 @@ Collate:
     'terra_gdal_rasterize.R'
     'zzz.R'
 Roxygen: list(markdown = TRUE)
+Remotes:
+  dickoa/prepr

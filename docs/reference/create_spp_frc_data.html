@@ -521,7 +521,13 @@ same results, some engines are more computationally efficient than others.
 The default <code>"terra"</code> engine uses the <span class="pkg">terra</span> package for processing.
 Although this engine is easy to install and fast for small datasets, it does
 not scale well for larger datasets. It is generally recommended to use
-either the <code>"gdal"</code> or <code>"grass"</code> engines for large datasets.
+the <code>"gdal"</code> engine to perform data processing with the
+<a href="https://gdal.org/" class="external-link">Geospatial Data Abstraction Library (GDAL)</a>
+can be used for data processing. The <code>"grass"</code> engine can also be
+used to perform data processing with the
+<a href="https://grass.osgeo.org/" class="external-link">Geographic Resources Analysis Support System (GRASS)</a>.
+Note that the <code>"grass"</code> engine requires both the GDAL and GRASS software
+to be installed.
 For instructions on installing dependencies for these engines,
 please see the README file.</p>
     </div>
@@ -594,34 +600,34 @@ to calculate the fractional coverage data directly.</p></div>
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[591ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[361ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[9.5s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[15.4s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[4.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[4.9s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[3.3s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[3.9s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[361ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[385ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[452ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[463ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[300ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[328ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     skipping 4 species distributions already processed</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[13ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[22ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[23ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span class="co"># }</span></span>

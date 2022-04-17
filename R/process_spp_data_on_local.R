@@ -107,10 +107,12 @@ process_spp_data_on_local <- function(x,
 
     ## set up GRASS connection
     link2GI::initProj(projRootDir = grass_dir, projFolders = "aoh/")
-    link2GI::linkGRASS7(
-      x = x[1, "xmin", drop = FALSE],
-      gisdbase = grass_dir,
-      location = "aoh"
+    suppressWarnings(
+      link2GI::linkGRASS7(
+        x = x[1, "xmin", drop = FALSE],
+        gisdbase = grass_dir,
+        location = "aoh"
+      )
     )
 
     ## force habitat to disk
@@ -127,22 +129,60 @@ process_spp_data_on_local <- function(x,
       gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
     )
 
-    ## import habitat data
-    rgrass7::execGRASS(
-      "r.external",
-      redirect = TRUE, legacyExec = TRUE,
-      parameters = list(
-        input = terra::sources(habitat_data)[[1]],
-        output = "habitat"
-      )
+    ## create a VRT containing cropped version of habitat data
+    e_grass_vrt_path <- tempfile(fileext = ".vrt")
+    terra_gdal_crop(
+      x = elevation_data,
+      ext = terra::ext(c(
+        xmin = min(x$xmin), xmax = max(x$xmax),
+        ymin = min(x$ymin), ymax = max(x$ymax)
+      )),
+      filename = e_grass_vrt_path,
+      tiled = FALSE,
+      datatype = "INT2S",
+      bigtiff = TRUE,
+      NAflag = "none",
+      n_threads = n_threads,
+      output_raster = FALSE,
+      verbose = FALSE
+    )
+
+    ## create a VRT containing cropped version of elevation data
+    h_grass_vrt_path <- tempfile(fileext = ".vrt")
+    terra_gdal_crop(
+      x = habitat_data,
+      ext = terra::ext(c(
+        xmin = min(x$xmin), xmax = max(x$xmax),
+        ymin = min(x$ymin), ymax = max(x$ymax)
+      )),
+      filename = h_grass_vrt_path,
+      tiled = FALSE,
+      datatype = "INT2U",
+      bigtiff = TRUE,
+      NAflag = "none",
+      n_threads = n_threads,
+      output_raster = FALSE,
+      verbose = FALSE
     )
 
     ## import habitat data
     rgrass7::execGRASS(
       "r.external",
       redirect = TRUE, legacyExec = TRUE,
+      flags = c("o"),
       parameters = list(
-        input = terra::sources(elevation_data)[[1]],
+        input = h_grass_vrt_path,
+        output = "habitat"
+      )
+    )
+
+    ## import elevation data
+    rgrass7::execGRASS(
+      "r.external",
+      redirect = TRUE, legacyExec = TRUE,
+      flags = c("o"),
+      parameters = list(
+        input = e_grass_vrt_path,
         output = "elev"
       )
     )
@@ -230,6 +270,8 @@ process_spp_data_on_local <- function(x,
       unlink(f, force = TRUE)
     }
     unlink(grass_dir, force = TRUE, recursive = TRUE)
+    unlink(e_grass_vrt_path, force = TRUE, recursive = TRUE)
+    unlink(h_grass_vrt_path, force = TRUE, recursive = TRUE)
   }
 
   # close progress bar if needed

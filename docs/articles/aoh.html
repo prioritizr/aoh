@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2022-01-30</h4>
+            <h4 data-toc-skip class="date">2022-04-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -181,15 +181,15 @@
 <pre><code><span class="co">## Simple feature collection with 4 features and 3 fields</span>
 <span class="co">## Geometry type: POLYGON</span>
 <span class="co">## Dimension:     XY</span>
-<span class="co">## Bounding box:  xmin: -914690 ymin: 4364364 xmax: 318726 ymax: 5066793</span>
+<span class="co">## Bounding box:  xmin: -914690 ymin: 4364364 xmax: 318662 ymax: 5066731</span>
 <span class="co">## Projected CRS: World_Behrmann</span>
 <span class="co">## <span style="color: #949494;"># A tibble: 4 × 4</span></span>
 <span class="co">##   id_no seasonal path                                                   geometry</span>
 <span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                             <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>   979        1 /tmp/RtmpJzAm0d/AOH_979_1.tif   ((-102404 4469056, -97966 4483…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448        1 /tmp/RtmpJzAm0d/AOH_59448_1.tif ((-244432 5022110, -248291 500…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657        1 /tmp/RtmpJzAm0d/AOH_4657_1.tif  ((-854997 4559107, -781346 462…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622        1 /tmp/RtmpJzAm0d/AOH_58622_1.tif ((-849015 4613824, -835314 460…</span></code></pre>
+<span class="co">## <span style="color: #BCBCBC;">1</span>   979        1 /tmp/RtmpTwh3Gm/AOH_979_1.tif   ((-105492 4465129, -106457 446…</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448        1 /tmp/RtmpTwh3Gm/AOH_59448_1.tif ((-238707 5029084, -237742 502…</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657        1 /tmp/RtmpTwh3Gm/AOH_4657_1.tif  ((-859178 4559308, -859307 455…</span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622        1 /tmp/RtmpTwh3Gm/AOH_58622_1.tif ((-849787 4614155, -848114 461…</span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -201,9 +201,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [[1]]</span>
 <span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 2594, 3699, 1  (nrow, ncol, nlyr)</span>
+<span class="co">## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)</span>
 <span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -467831, -97931, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span>
+<span class="co">## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
 <span class="co">## source      : AOH_979_1.tif </span>
 <span class="co">## name        : lyr1 </span>
@@ -212,9 +212,9 @@
 <span class="co">## </span>
 <span class="co">## [[2]]</span>
 <span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 2266, 5671, 1  (nrow, ncol, nlyr)</span>
+<span class="co">## dimensions  : 2265, 5669, 1  (nrow, ncol, nlyr)</span>
 <span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -248331, 318769, 4838377, 5064977  (xmin, xmax, ymin, ymax)</span>
+<span class="co">## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
 <span class="co">## source      : AOH_59448_1.tif </span>
 <span class="co">## name        : lyr1 </span>
@@ -223,9 +223,9 @@
 <span class="co">## </span>
 <span class="co">## [[3]]</span>
 <span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 5150, 5360, 1  (nrow, ncol, nlyr)</span>
+<span class="co">## dimensions  : 5149, 5360, 1  (nrow, ncol, nlyr)</span>
 <span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -914731, -378731, 4551877, 5066877  (xmin, xmax, ymin, ymax)</span>
+<span class="co">## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
 <span class="co">## source      : AOH_4657_1.tif </span>
 <span class="co">## name        : lyr1 </span>
@@ -234,9 +234,9 @@
 <span class="co">## </span>
 <span class="co">## [[4]]</span>
 <span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 4979, 7512, 1  (nrow, ncol, nlyr)</span>
+<span class="co">## dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)</span>
 <span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -904331, -153131, 4568977, 5066877  (xmin, xmax, ymin, ymax)</span>
+<span class="co">## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
 <span class="co">## source      : AOH_58622_1.tif </span>
 <span class="co">## name        : lyr1 </span>
@@ -255,13 +255,13 @@
 <span class="co"># preview raster data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 7026, 12335, 4  (nrow, ncol, nlyr)</span>
+<span class="co">## dimensions  : 7025, 12334, 4  (nrow, ncol, nlyr)</span>
 <span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -914731, 318769, 4364277, 5066877  (xmin, xmax, ymin, ymax)</span>
+<span class="co">## extent      : -914731, 318669, 4364277, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## sources     : memory  </span>
-<span class="co">##               memory  </span>
-<span class="co">##               memory  </span>
+<span class="co">## sources     : spat_7fAqHIDA9y3GL9U_105470.tif  </span>
+<span class="co">##               spat_Lpwl0FN3sM6Vbmu_105470.tif  </span>
+<span class="co">##               spat_4SK2HzcE26bP87e_105470.tif  </span>
 <span class="co">##               ... and 1 more source(s)</span>
 <span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span>
 <span class="co">## min values  :         0,           0,          0,           0 </span>

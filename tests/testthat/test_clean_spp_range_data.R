@@ -110,6 +110,7 @@ test_that("custom presence, origin, and seasonal codes", {
 test_that("amphibian data (IUCN format)", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
   # specify parameters for processing
   f <- file.path(
@@ -128,6 +129,7 @@ test_that("amphibian data (IUCN format)", {
 test_that("reptile data (IUCN format)", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
   # specify parameters for processing
   f <- file.path(
@@ -146,6 +148,7 @@ test_that("reptile data (IUCN format)", {
 test_that("terrestrial mammal data (IUCN format)", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
   # specify parameters for processing
   f <- file.path(
@@ -165,6 +168,7 @@ test_that("bird data (BirdLife format)", {
   # skip if needed
   skip_on_cran()
   skip_if_not_installed("archive")
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   # specify parameters for processing
   f <- file.path(
@@ -178,4 +182,39 @@ test_that("bird data (BirdLife format)", {
   expect_gt(nrow(x), 1)
   expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
   expect_named(x, cleaned_names)
+})
+
+test_that("mammal dateline wrapping issues (IUCN format)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("prepr")
+  skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
+  # specify parameters for processing
+  f <- file.path(
+    rappdirs::user_data_dir("iucn-red-list-data"),
+    "MAMMALS_TERRESTRIAL_ONLY.zip"
+  )
+  # import data
+  ids <- c(951, 4975, 6568, 6569, 13451)
+  d <- read_spp_range_data(f)
+  d <- d[which(d$id_no %in% ids), , drop = FALSE]
+  # create data
+  x <- clean_spp_range_data(d)
+  # create polygon to see if species ranges cross the oceans due to
+  # dateline wrapping issues
+  pl <- structure(c(
+      -35.718741, -35.718741, -19.406233, -19.406233, -35.718741,
+      -53.789148, 85, 85, -53.789148, -53.789148),
+      .Dim = c(5L, 2L))
+  pl <- sf::st_sfc(st_polygon(list(pl)), crs = 4326)
+  pl <- sf::st_transform(pl, st_crs("ESRI:54017"))
+  # tests
+  expect_is(x, "sf")
+  expect_gte(nrow(x), 1)
+  expect_equal(nrow(x), nrow(d))
+  expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
+  expect_named(x, cleaned_names)
+  expect_false(
+    any(c(sf::st_intersects(x, pl, sparse = FALSE)))
+  )
 })

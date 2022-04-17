@@ -84,6 +84,15 @@ create_spp_data <- function(x,
       msg = "can't use GRASS for processing because it's not available."
     )
   }
+  if (identical(engine, "grass")) {
+    assertthat::assert_that(
+      is_gdal_available(),
+      msg = paste(
+        "can't use GRASS for processing because it requires GDAL,",
+        "which is not available."
+      )
+    )
+  }
   # verify access to IUCN Red List API
   if (is.null(spp_summary_data) && is.null(spp_habitat_data)) {
     assertthat::assert_that(
@@ -357,7 +366,7 @@ create_spp_data <- function(x,
 
   # main processing
   ## display message
-  if (verbose && (n_threads > 1)) {
+  if (verbose) {
     cli::cli_progress_step("generating Area of Habitat data")
   }
   ## processing

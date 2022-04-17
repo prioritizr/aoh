@@ -1,6 +1,6 @@
 context("create_spp_aoh_data()")
 
-test_that("simulated data", {
+test_that("simulated data (terra engine)", {
   # skip if needed
   skip_on_cran()
   # specify file path
@@ -71,6 +71,233 @@ test_that("simulated data", {
     elevation_data = elevation_data,
     habitat_data = habitat_data,
     crosswalk_data = crosswalk_jung_lvl2_data
+  )
+  # clean up
+  unlink(x$path[!is.na(x$path)])
+})
+
+test_that("simulated data (GDAL engine)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_gdal_not_available()
+  skip_if_gdal_python_not_available()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # load data
+  d <- read_spp_range_data(f)
+  # create output dirs
+  output_dir <- tempfile()
+  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+  # create objects
+  x <- create_spp_aoh_data(
+    x = d,
+    output_dir = output_dir,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    engine = "gdal",
+    n_threads = 2,
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_is(x$id_no, "integer")
+  expect_is(x$binomial, "character")
+  expect_is(x$seasonal, "integer")
+  expect_is(x$habitat_code, "character")
+  expect_is(x$elevation_lower, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  validate_aoh_data(
+    x = x,
+    elevation_data = elevation_data,
+    habitat_data = habitat_data,
+    crosswalk_data = crosswalk_jung_lvl2_data
+  )
+  # clean up
+  unlink(output_dir, recursive = TRUE)
+})
+
+test_that("simulated data (GRASS engine)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_gdal_not_available()
+  skip_if_grass_not_available()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # load data
+  d <- read_spp_range_data(f)
+  # create output dirs
+  output_dir <- tempfile()
+  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+  # create objects
+  x <- create_spp_aoh_data(
+    x = d,
+    output_dir = output_dir,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    engine = "grass",
+    n_threads = 2,
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_is(x$id_no, "integer")
+  expect_is(x$binomial, "character")
+  expect_is(x$seasonal, "integer")
+  expect_is(x$habitat_code, "character")
+  expect_is(x$elevation_lower, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  validate_aoh_data(
+    x = x,
+    elevation_data = elevation_data,
+    habitat_data = habitat_data,
+    crosswalk_data = crosswalk_jung_lvl2_data
+  )
+  # clean up
+  unlink(output_dir, recursive = TRUE)
+})
+
+
+test_that("example data", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
+  # specify file path
+  f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
+  cd <- rappdirs::user_data_dir("aoh")
+  # load data
+  d <- read_spp_range_data(f)
+  # create objects
+  x <- suppressWarnings(
+    create_spp_aoh_data(
+      x = d,
+      output_dir = tempdir(),
+      cache_dir = cd,
+      habitat_version = latest_lumbierres_version,
+      elevation_version = latest_elevation_version,
+      verbose = interactive()
+    )
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_equal(d$id_no, x$id_no)
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+  validate_aoh_data(
+    x = x,
+    habitat_data = get_lumbierres_habitat_data(
+      dir = cd, version = latest_lumbierres_version
+    ),
+    elevation_data = get_global_elevation_data(
+      dir = cd, version = latest_elevation_version
+    ),
+    crosswalk_data = crosswalk_lumbierres_data
+  )
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
   )
   # clean up
   unlink(x$path[!is.na(x$path)])
@@ -257,28 +484,17 @@ test_that("species with reversed elevation limits", {
   unlink(output_dir2, recursive = TRUE)
 })
 
-test_that("engines produce same results", {
+test_that("different habitat data produce similar results", {
   # skip if needed
   skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
   skip_if_gdal_not_available()
   skip_if_gdal_python_not_available()
   skip_if_grass_not_available()
   # specify file path
-  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
-  elevation_data <- terra::rast(
-    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
-  )
-  habitat_data <- terra::rast(
-    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
-  )
-  spp_habitat_data <- read.csv(
-    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
-  spp_summary_data <- read.csv(
-    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
-    sep = ",", header = TRUE
-  )
+  f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
+  cd <- rappdirs::user_data_dir("aoh")
   # load data
   d <- read_spp_range_data(f)
   # create output dirs
@@ -289,226 +505,69 @@ test_that("engines produce same results", {
   dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
   dir.create(output_dir3, showWarnings = FALSE, recursive = TRUE)
   # create objects
-  x1 <- create_spp_aoh_data(
-    x = d,
-    output_dir = output_dir1,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    engine = "terra",
-    n_threads = 2,
-    verbose = interactive()
+  x1 <- suppressWarnings(
+    create_spp_aoh_data(
+      x = d,
+      output_dir = output_dir1,
+      habitat_data = get_jung_lvl2_habitat_data(
+        dir = cd, version = latest_jung_version
+      ),
+      crosswalk_data = crosswalk_jung_lvl2_data,
+      cache_dir = cd,
+      elevation_version = latest_elevation_version,
+      engine = "terra",
+      verbose = interactive()
+    )
   )
-  x2 <- create_spp_aoh_data(
-    x = d,
-    output_dir = output_dir2,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    engine = "gdal",
-    n_threads = 2,
-    verbose = interactive()
+  x2 <- suppressWarnings(
+    create_spp_aoh_data(
+      x = d,
+      output_dir = output_dir2,
+      habitat_data = get_lumbierres_habitat_data(
+        dir = cd, version = latest_lumbierres_version
+      ),
+      crosswalk_data = crosswalk_lumbierres_data,
+      cache_dir = cd,
+      elevation_version = latest_elevation_version,
+      engine = "gdal",
+      n_threads = 2,
+      verbose = interactive()
+    )
   )
-  x3 <- create_spp_aoh_data(
-    x = d,
-    output_dir = output_dir3,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
-    engine = "grass",
-    n_threads = 2,
-    verbose = interactive()
+  x3 <- suppressWarnings(
+    create_spp_aoh_data(
+      x = d,
+      output_dir = output_dir3,
+      habitat_data = get_lumbierres_habitat_data(
+        dir = cd, version = latest_lumbierres_version
+      ),
+      crosswalk_data = crosswalk_lumbierres_data,
+      cache_dir = cd,
+      elevation_version = latest_elevation_version,
+      engine = "grass",
+      n_threads = 2,
+      verbose = interactive()
+    )
   )
   # tests
   expect_is(x1, "sf")
   expect_is(x2, "sf")
   expect_is(x3, "sf")
+  expect_named(x1, aoh_names)
+  expect_named(x2, aoh_names)
+  expect_named(x3, aoh_names)
   validate_aoh_data(
     x = x1,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
+    habitat_data = get_jung_lvl2_habitat_data(
+      dir = cd, version = latest_jung_version
+    ),
+    elevation_data = get_global_elevation_data(
+      dir = cd, version = latest_elevation_version
+    ),
     crosswalk_data = crosswalk_jung_lvl2_data
   )
   validate_aoh_data(
     x = x2,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_lvl2_data
-  )
-  validate_aoh_data(
-    x = x3,
-    habitat_data = habitat_data,
-    elevation_data = elevation_data,
-    crosswalk_data = crosswalk_jung_lvl2_data
-  )
-  expect_named(x1, aoh_names)
-  expect_named(x2, aoh_names)
-  expect_named(x3, aoh_names)
-  expect_equal(
-    dplyr::select(x1, -path),
-    dplyr::select(x2, -path)
-  )
-  expect_equal(
-    dplyr::select(x1, -path),
-    dplyr::select(x3, -path)
-  )
-  expect_equivalent(
-    lapply(
-      x1$path,
-      function(x) terra::values(terra::rast(x))
-    ),
-    lapply(
-      x2$path,
-      function(x) terra::values(terra::rast(x))
-    )
-  )
-  expect_equivalent(
-    lapply(
-      x1$path,
-      function(x) terra::values(terra::rast(x))
-    ),
-    lapply(
-      x3$path,
-      function(x) terra::values(terra::rast(x))
-    )
-  )
-  # clean up
-  unlink(output_dir1, recursive = TRUE)
-  unlink(output_dir2, recursive = TRUE)
-  unlink(output_dir3, recursive = TRUE)
-})
-
-for (engine in c("terra", "gdal")) {
-  test_that(
-    paste0("habitat data produce similar results (", engine, " engine)"), {
-    # skip if needed
-    skip_on_cran()
-    skip_if_offline()
-    skip_if_iucn_key_missing()
-    if (identical(engine, "gdal")) {
-      skip_if_gdal_not_available()
-      skip_if_gdal_python_not_available()
-    }
-    # specify file path
-    f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
-    cd <- rappdirs::user_data_dir("aoh")
-    # load data
-    d <- read_spp_range_data(f)
-    # create output dirs
-    output_dir1 <- tempfile()
-    output_dir2 <- tempfile()
-    dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
-    dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
-    # create objects
-    x1 <- suppressWarnings(
-      create_spp_aoh_data(
-        x = d,
-        output_dir = output_dir1,
-        habitat_data = get_jung_lvl2_habitat_data(
-          dir = cd, version = latest_jung_version
-        ),
-        crosswalk_data = crosswalk_jung_lvl2_data,
-        cache_dir = cd,
-        elevation_version = latest_elevation_version,
-        engine = engine,
-        verbose = interactive()
-      )
-    )
-    x2 <- suppressWarnings(
-      create_spp_aoh_data(
-        x = d,
-        output_dir = output_dir2,
-        habitat_data = get_lumbierres_habitat_data(
-          dir = cd, version = latest_lumbierres_version
-        ),
-        crosswalk_data = crosswalk_lumbierres_data,
-        cache_dir = cd,
-        elevation_version = latest_elevation_version,
-        engine = engine,
-        verbose = interactive()
-      )
-    )
-    # tests
-    expect_is(x1, "sf")
-    expect_is(x2, "sf")
-    expect_named(x1, aoh_names)
-    expect_named(x2, aoh_names)
-    validate_aoh_data(
-      x = x1,
-      habitat_data = get_jung_lvl2_habitat_data(
-        dir = cd, version = latest_jung_version
-      ),
-      elevation_data = get_global_elevation_data(
-        dir = cd, version = latest_elevation_version
-      ),
-      crosswalk_data = crosswalk_jung_lvl2_data
-    )
-    validate_aoh_data(
-      x = x2,
-      habitat_data = get_lumbierres_habitat_data(
-        dir = cd, version = latest_lumbierres_version
-      ),
-      elevation_data = get_global_elevation_data(
-        dir = cd, version = latest_elevation_version
-      ),
-      crosswalk_data = crosswalk_lumbierres_data
-    )
-    expect_equal(
-      dplyr::select(x1, -path, -habitat_code),
-      dplyr::select(x2, -path, -habitat_code)
-    )
-    expect_gt(
-      min(vapply(seq_len(nrow(x1)), FUN.VALUE = numeric(1), function(i) {
-        terra::global(
-          x = terra::rast(x1$path[i]) == terra::rast(x2$path[i]),
-          fun = "mean",
-          na.rm = TRUE
-        )[[1]]
-      })),
-      0.35
-    )
-    # clean up
-    unlink(output_dir1, recursive = TRUE)
-    unlink(output_dir2, recursive = TRUE)
-  })
-}
-
-test_that("example data", {
-  # skip if needed
-  skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  # specify file path
-  f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
-  cd <- rappdirs::user_data_dir("aoh")
-  # load data
-  d <- read_spp_range_data(f)
-  # create objects
-  x <- suppressWarnings(
-    create_spp_aoh_data(
-      x = d,
-      output_dir = tempdir(),
-      cache_dir = cd,
-      habitat_version = latest_lumbierres_version,
-      elevation_version = latest_elevation_version,
-      verbose = interactive()
-    )
-  )
-  # tests
-  expect_is(x, "sf")
-  expect_named(x, aoh_names)
-  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
-  expect_equal(d$id_no, x$id_no)
-  expect_is(x$path, "character")
-  expect_equal(sum(is.na(x$path)), 0)
-  validate_aoh_data(
-    x = x,
     habitat_data = get_lumbierres_habitat_data(
       dir = cd, version = latest_lumbierres_version
     ),
@@ -517,34 +576,57 @@ test_that("example data", {
     ),
     crosswalk_data = crosswalk_lumbierres_data
   )
-  expect_gte(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
-    })),
-    0
+  validate_aoh_data(
+    x = x3,
+    habitat_data = get_lumbierres_habitat_data(
+      dir = cd, version = latest_lumbierres_version
+    ),
+    elevation_data = get_global_elevation_data(
+      dir = cd, version = latest_elevation_version
+    ),
+    crosswalk_data = crosswalk_lumbierres_data
   )
-  expect_lte(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
-    })),
-    1
+  expect_equal(
+    dplyr::select(x1, -path, -habitat_code),
+    dplyr::select(x2, -path, -habitat_code)
+  )
+  expect_equal(
+    dplyr::select(x1, -path, -habitat_code),
+    dplyr::select(x3, -path, -habitat_code)
   )
   expect_gt(
-    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
-      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    min(vapply(seq_len(nrow(x1)), FUN.VALUE = numeric(1), function(i) {
+      terra::global(
+        x = terra::rast(x1$path[i]) == terra::rast(x2$path[i]),
+        fun = "mean",
+        na.rm = TRUE
+      )[[1]]
     })),
-    0
+    0.35
+  )
+  expect_gt(
+    min(vapply(seq_len(nrow(x1)), FUN.VALUE = numeric(1), function(i) {
+      terra::global(
+        x = terra::rast(x1$path[i]) == terra::rast(x3$path[i]),
+        fun = "mean",
+        na.rm = TRUE
+      )[[1]]
+    })),
+    0.35
   )
   # clean up
-  unlink(x$path[!is.na(x$path)])
+  unlink(output_dir1, recursive = TRUE)
+  unlink(output_dir2, recursive = TRUE)
+  unlink(output_dir3, recursive = TRUE)
 })
 
-test_that("amphibian data", {
+test_that("amphibian data (IUCN format)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
   # specify parameters for processing
   f <- file.path(
@@ -596,12 +678,13 @@ test_that("amphibian data", {
   unlink(x$path[!is.na(x$path)])
 })
 
-test_that("reptile data", {
+test_that("reptile data (IUCN format)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
   # specify parameters for processing
   f <- file.path(
@@ -653,12 +736,13 @@ test_that("reptile data", {
   unlink(x$path[!is.na(x$path)])
 })
 
-test_that("terrestrial mammal data", {
+test_that("terrestrial mammal data (IUCN format)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
   # specify parameters for processing
   f <- file.path(
@@ -710,12 +794,13 @@ test_that("terrestrial mammal data", {
   unlink(x$path[!is.na(x$path)])
 })
 
-test_that("bird data", {
+test_that("bird data (BirdLife format)", {
   # skip if needed
   skip_on_cran()
   skip_if_offline()
   skip_if_gdal_python_not_available()
   skip_if_iucn_key_missing()
+  skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   # specify parameters for processing
   f <- file.path(

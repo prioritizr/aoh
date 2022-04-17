@@ -39,6 +39,49 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("prioritizr/aoh")
 ```
 
+#### Optional dependencies
+
+The _aoh R_ package can leverage the _prepr R_ package to augment data cleaning procedures. Since the _prepr R_ package is not available on the Comprehensive R Archive Network (CRAN), it is listed as an optional dependency. In some cases, the _prepr R_ package is required to complete the data cleaning procedures (e.g., to fix especially extreme geometry issues) and the _aoh R_ package will throw an error if the package is not available. To install the _prepr R_ package, please use the following _R_ code. Note that the _prepr R_ package has system dependencies that need to be installed before the package itself can be installed (see below for platform-specific instructions).
+
+```{r, eval = FALSE}
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("dickoa/prepr")
+```
+
+The package can also leverage the [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/) and [Geographic Resources Analysis Support System (GRASS)](https://grass.osgeo.org/) to help reduce processing time. Although use of these software is optional, they can help improve computational performance when processing data across large spatial extents. Below we provide platform-specific instructions to install dependencies for the _prepr R_ package, GDAL, and GRASS.
+
+##### _Windows_
+
+The [Rtools](https://cran.r-project.org/bin/windows/Rtools/) software needs to be installed to install the _prepr R_ package package. This software provides system requirements from [rwinlib](https://github.com/rwinlib/). Additionally, the easiest way to install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/), select the "Express Install" option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the _gdalUtils R_ package cannot find GDAL, you may also need to update the `PATH` environmental variable so that it contains the folder path for GDAL (default folder path is `C:\OSGeo4W\bin`),
+
+##### _Ubuntu_
+
+For recent versions of Ubuntu (18.04 and later), the libraries are available through official repositories. They can be installed using the following system commands.
+
+```
+apt-get -y update
+apt-get install -y \
+  libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
+  libgmp3-dev libmpfr-dev libudunits2-dev
+```
+
+##### _Linux_
+
+For Unix-alikes, `gdal` (>= 3.0.2), `gmp` (>= 4.2.3), `grass` (>= 7.8.5), and `mpfr` (>= 3.0.0) are required.
+
+##### _MacOS_
+
+The easiest way to install the libraries is using [HomeBrew](https://brew.sh/). After installing HomeBrew, the libraries can be installed using the following system commands.
+
+```
+brew tap osgeo/osgeo4mac
+brew install pkg-config
+brew install gdal
+brew install osgeo-grass
+brew install gmp
+brew install mpfr
+```
+
 #### Accessing the IUCN Red List API
 
 After installing the _aoh R_ package, you will need to obtain a token for the [IUCN Red List API](https://apiv3.iucnredlist.org/) (if you do not have one already). To do so, please visit the IUCN website (see <https://apiv3.iucnredlist.org/api/v3/token>) and fill out the form to apply for a token. You should then receive a token shortly after completing the form (but not immediately). After receiving a token, please open the `.Renviron` file on your computer (e.g. using `usethis::edit_r_environ()`). Next, please add the following text to the file (replacing the string with the token) and save the file, using your token in place of the string below.
@@ -56,43 +99,12 @@ is_iucn_rl_api_available()
 
 If these instructions did not work, please consult the documentation for the [_rredlist_](https://CRAN.R-project.org/package=rredlist) _R_ package for further details.
 
-#### Optional system libraries
-
-The package can leverage the [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/) and [Geographic Resources Analysis Support System (GRASS)](https://grass.osgeo.org/) to help reduce processing time. Although use of these software is optional, they can help improve computational performance when processing data across large spatial extents. Below we provide platform-specific instructions to install them.
-
-##### _Windows_
-
-The easiest way to install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/), select the "Express Install" option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the _gdalUtils R_ package cannot find GDAL, you may also need to update the `PATH` environmental variable so that it contains the folder path for GDAL (default folder path is `C:\OSGeo4W\bin`),
-
-##### _Ubuntu_
-
-For recent versions of Ubuntu (18.04 and later), the libraries are available through official repositories. They can be installed using the following system commands.
-
-```
-apt-get -y update
-apt-get install -y gdal-bin grass
-```
-
-##### _Linux_
-
-For Unix-alikes, `gdal` (>= 3.0.2) and `grass` (>= 7.8.5) are required.
-
-##### _MacOS_
-
-The easiest way to install the libraries is using [HomeBrew](https://brew.sh/). After installing HomeBrew, the libraries can be installed using the following system commands.
-
-```
-brew tap osgeo/osgeo4mac
-brew install pkg-config
-brew install gdal
-brew install osgeo-grass
-```
 
 ### Usage
 
 Here we provide a short example for using the _aoh R_ package. In this example, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (_Calotriton asper_), Iberian frog (_Rana iberica_), western spadefoot toad (_Pelobates cultripes_), and golden striped salamnader (_Chioglossa lusitanica_). Please note that this example is an abridged version of the tutorial provided in the [package vignette](https://prioritizr.github.io/aoh/articles/aoh.html), so please consult the package vignette for a more detailed tutorial on using the package. To start off, we will load the package and several other packages to help with data processing and visualization.
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 # load packages
 library(aoh)
 library(terra)
