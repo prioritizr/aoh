@@ -27,7 +27,7 @@ spatial extent and boundary for simulating species ranges.}
 
 \item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Raster data indicating the
 presence of different habitat classes across world
-(e.g. Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres \emph{et al.} 2021).
+(e.g., Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres \emph{et al.} 2021).
 Each grid cell should contain an \code{integer} value that specifies which
 habitat class is present within the cell
 (based on the argument to \code{crosswalk_data}).
@@ -35,7 +35,7 @@ Defaults to \code{NULL} such that data are automatically obtained (using
 \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}).}
 
 \item{elevation_data}{\code{\link[terra:rast]{terra::rast()}} Raster data delineating the
-worldwide elevation data (e.g. Robinson \emph{et al.} 2014).
+worldwide elevation data (e.g., Robinson \emph{et al.} 2014).
 Defaults to \code{NULL} such that data
 are automatically obtained (using \code{\link[=get_global_elevation_data]{get_global_elevation_data()}}).
 If the data are obtained automatically, then a preprocessed version
@@ -48,7 +48,7 @@ a \code{code} column that specifies a set of IUCN habitat classification
 codes (see \code{\link[=iucn_habitat_data]{iucn_habitat_data()}}, and a \code{value} column that specifies
 different values in the argument to \code{habitat_data}.
 Defaults to \code{NULL} such that the crosswalk for the default habitat
-data are used (i.e. \code{\link[=crosswalk_lumbierres_data]{crosswalk_lumbierres_data()}}).}
+data are used (i.e., \code{\link[=crosswalk_lumbierres_data]{crosswalk_lumbierres_data()}}).}
 
 \item{rf_model_scale_min}{\code{numeric} Minimum scaling parameter used
 to control the smallest possible size of simulated species ranges.
@@ -63,7 +63,7 @@ See the documentation for the \code{scale} parameter in
 Defaults to \code{2e+5}.}
 
 \item{cache_dir}{\code{character} Folder path for downloading and caching data.
-By default, a temporary directory is used (i.e. \code{tempdir()}).
+By default, a temporary directory is used (i.e., \code{tempdir()}).
 \strong{To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).}}
 
@@ -72,7 +72,7 @@ habitat dataset that should be used. See documentation for the
 the \code{version} parameter in the \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}} function
 for further details.
 This parameter is only used if habitat data are obtained
-automatically (i.e. the argument to \code{habitat_data} is \code{NULL}).
+automatically (i.e., the argument to \code{habitat_data} is \code{NULL}).
 Defaults to \code{"latest"} such that the most recent version of the dataset is
 used if data need to be obtained.}
 

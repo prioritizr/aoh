@@ -17,7 +17,7 @@ occurs within the terrestrial environmental.}
 \item{is_marine}{A \code{logical} value indicating if the class
 occurs within the marine environmental.}
 \item{is_artificial}{A \code{logical} value indicating if the class
-is artificial (e.g. anthropogenically human modified).}
+is artificial (e.g., anthropogenically human modified).}
 \item{is_misc}{A \code{logical} value indicating if the class
 does not correspond to a specific land cover.}
 \item{is_introduced}{A \code{logical} value indicating if the class

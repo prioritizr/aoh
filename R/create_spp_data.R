@@ -154,7 +154,7 @@ create_spp_data <- function(x,
     ),
     msg = paste(
       "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
-      "same spatial properties (e.g. coordinate system, extent, resolution)"
+      "same spatial properties (e.g., coordinate system, extent, resolution)"
     )
   )
   ## crosswalk_data

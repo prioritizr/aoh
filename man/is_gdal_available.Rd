@@ -15,7 +15,7 @@ processing data.
 }
 \details{
 The function verifies that (1) the \pkg{gdalUtils} package in installed,
-(2) GDAL is installed (i.e. via \code{system("gdalinfo --version")}), and
+(2) GDAL is installed (i.e., via \code{system("gdalinfo --version")}), and
 (3) the version of GDAL installed is at least 3.0.2.
 If any of these checks fail, then GDAL is not considered available.
 }

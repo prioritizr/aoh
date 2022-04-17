@@ -43,7 +43,7 @@ is_iucn_rl_api_available <- function(key = NULL, n = 5) {
 #'
 #' @details
 #' The function verifies that (1) the \pkg{gdalUtils} package in installed,
-#' (2) GDAL is installed (i.e. via `system("gdalinfo --version")`), and
+#' (2) GDAL is installed (i.e., via `system("gdalinfo --version")`), and
 #' (3) the version of GDAL installed is at least 3.0.2.
 #' If any of these checks fail, then GDAL is not considered available.
 #
@@ -116,7 +116,7 @@ is_gdal_python_available <- function() {
 #' The function verifies that
 #' (1) the \pkg{rgrass7} package in installed,
 #' (2) the \pkg{link2GI} package in installed,
-#' (3) GRASS is installed (i.e. via [link2GI::findGRASS]), and
+#' (3) GRASS is installed (i.e., via [link2GI::findGRASS]), and
 #' (4) the version of GDAL installed is at least 7.8.5.
 #' If any of these checks fail, then GRASS is not considered available.
 #

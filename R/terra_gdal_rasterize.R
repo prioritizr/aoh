@@ -22,7 +22,7 @@ NULL
 #'   the argument to `x`?
 #'   If `FALSE` then the argument to `x` is only used to specify the
 #'   spatial properties of the resulting raster
-#'   (i.e. values have on the result),
+#'   (i.e., values have on the result),
 #'   Defaults to `FALSE`.
 #'
 #' @param sf_filename `character` File name to temporarily save argument

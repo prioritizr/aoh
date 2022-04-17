@@ -25,7 +25,7 @@ NULL
 #'   containing the Area of Habitat data.
 #'
 #' @param cache_dir `character` Folder path for downloading and caching data.
-#'  By default, a temporary directory is used (i.e. `tempdir()`).
+#'  By default, a temporary directory is used (i.e., `tempdir()`).
 #'  **To avoid downloading the same data multiple times, it is strongly
 #'  recommended to specify a persistent storage location (see Examples below).**
 #'
@@ -46,17 +46,17 @@ NULL
 #'   `"code"`, `"suitability"`, `"season"` columns.
 #'   Here, `"id_no"` corresponds to the species' taxon identifier
 #'   (also present in `x`), `"code"` indicates a habitat classification code
-#'   that is suitable for the species (i.e. based on layer names in the
+#'   that is suitable for the species (i.e., based on layer names in the
 #'   argument to habitat_data), `"suitability"` indicates the level suitability
-#'   of the habitat class for a given species (e.g. using values such
+#'   of the habitat class for a given species (e.g., using values such
 #'   as `"Suitable"` or `"Marginal"`), and `"season"` indicates
 #'   if the habitat class is only suitable for a particular seasonal
-#'   distribution (e.g. `"Breeding"`).
+#'   distribution (e.g., `"Breeding"`).
 #'   Defaults to `NULL` such that data are automatically obtained from the
 #'   latest version of the [IUCN Red List](https://www.iucnredlist.org).
 #'
 #' @param elevation_data [terra::rast()] Raster data delineating the
-#'   worldwide elevation data (e.g. Robinson *et al.* 2014).
+#'   worldwide elevation data (e.g., Robinson *et al.* 2014).
 #'   Defaults to `NULL` such that data
 #'   are automatically obtained (using [get_global_elevation_data()]).
 #'   If the data are obtained automatically, then a preprocessed version
@@ -64,7 +64,7 @@ NULL
 #'
 #' @param habitat_data [terra::rast()] Raster data indicating the
 #'   presence of different habitat classes across world
-#'   (e.g. Jung *et al.* 2020a,b; Lumbierres 2021; Lumbierres *et al.* 2021).
+#'   (e.g., Jung *et al.* 2020a,b; Lumbierres 2021; Lumbierres *et al.* 2021).
 #'   Each grid cell should contain an `integer` value that specifies which
 #'   habitat class is present within the cell
 #'   (based on the argument to `crosswalk_data`).
@@ -78,7 +78,7 @@ NULL
 #'   codes (see [iucn_habitat_data()], and a `value` column that specifies
 #'   different values in the argument to `habitat_data`.
 #'   Defaults to `NULL` such that the crosswalk for the default habitat
-#'   data are used (i.e. [crosswalk_lumbierres_data()]).
+#'   data are used (i.e., [crosswalk_lumbierres_data()]).
 #'
 #' @param iucn_version  `character` Version of the
 #'  IUCN Red List dataset that should be used. See documentation for the
@@ -92,7 +92,7 @@ NULL
 #'   the `version` parameter in the [get_lumbierres_habitat_data()] function
 #'   for further details.
 #'   This parameter is only used if habitat data are obtained
-#'   automatically (i.e. the argument to `habitat_data` is `NULL`).
+#'   automatically (i.e., the argument to `habitat_data` is `NULL`).
 #'   Defaults to `"latest"` such that the most recent version of the dataset is
 #'   used if data need to be obtained.
 #'
@@ -101,7 +101,7 @@ NULL
 #'   the `version` parameter in the [get_global_elevation_data()] function
 #'   for further details.
 #'   This parameter is only used if elevation data are obtained
-#'   automatically (i.e. the argument to `elevation_data` is `NULL`).
+#'   automatically (i.e., the argument to `elevation_data` is `NULL`).
 #'   Defaults to `"latest"` such that the most recent version of the dataset is
 #'   used if data need to be obtained.
 #'
@@ -277,7 +277,7 @@ NULL
 #'   codes used to create the species' Area of Habitat data.
 #'   Since the argument to `habitat_data` may not contain habitat
 #'   classes for all suitable habitats for a given species
-#'   (e.g. the default dataset does not contain subterranean cave systems),
+#'   (e.g., the default dataset does not contain subterranean cave systems),
 #'   this column contains the subset of the habitat codes listed in the
 #'   `"full_habitat_code"` column that were used for processing.}
 #' \item{elevation_lower}{`numeric` lower elevation threshold used to create

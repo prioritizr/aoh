@@ -86,7 +86,7 @@ spatial extent and boundary for simulating species ranges.</p></dd>
 <dt>habitat_data</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data indicating the
 presence of different habitat classes across world
-(e.g. Jung <em>et al.</em> 2020a,b; Lumbierres 2021; Lumbierres <em>et al.</em> 2021).
+(e.g., Jung <em>et al.</em> 2020a,b; Lumbierres 2021; Lumbierres <em>et al.</em> 2021).
 Each grid cell should contain an <code>integer</code> value that specifies which
 habitat class is present within the cell
 (based on the argument to <code>crosswalk_data</code>).
@@ -94,7 +94,7 @@ Defaults to <code>NULL</code> such that data are automatically obtained (using
 <code><a href="get_lumbierres_habitat_data.html">get_lumbierres_habitat_data()</a></code>).</p></dd>
 <dt>elevation_data</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data delineating the
-worldwide elevation data (e.g. Robinson <em>et al.</em> 2014).
+worldwide elevation data (e.g., Robinson <em>et al.</em> 2014).
 Defaults to <code>NULL</code> such that data
 are automatically obtained (using <code><a href="get_global_elevation_data.html">get_global_elevation_data()</a></code>).
 If the data are obtained automatically, then a preprocessed version
@@ -107,7 +107,7 @@ a <code>code</code> column that specifies a set of IUCN habitat classification
 codes (see <code><a href="iucn_habitat_data.html">iucn_habitat_data()</a></code>, and a <code>value</code> column that specifies
 different values in the argument to <code>habitat_data</code>.
 Defaults to <code>NULL</code> such that the crosswalk for the default habitat
-data are used (i.e. <code><a href="crosswalk_lumbierres_data.html">crosswalk_lumbierres_data()</a></code>).</p></dd>
+data are used (i.e., <code><a href="crosswalk_lumbierres_data.html">crosswalk_lumbierres_data()</a></code>).</p></dd>
 <dt>rf_model_scale_min</dt>
 <dd><p><code>numeric</code> Minimum scaling parameter used
 to control the smallest possible size of simulated species ranges.
@@ -122,7 +122,7 @@ See the documentation for the <code>scale</code> parameter in
 Defaults to <code>2e+5</code>.</p></dd>
 <dt>cache_dir</dt>
 <dd><p><code>character</code> Folder path for downloading and caching data.
-By default, a temporary directory is used (i.e. <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
+By default, a temporary directory is used (i.e., <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong></p></dd>
 <dt>habitat_version</dt>
@@ -131,7 +131,7 @@ habitat dataset that should be used. See documentation for the
 the <code>version</code> parameter in the <code><a href="get_lumbierres_habitat_data.html">get_lumbierres_habitat_data()</a></code> function
 for further details.
 This parameter is only used if habitat data are obtained
-automatically (i.e. the argument to <code>habitat_data</code> is <code>NULL</code>).
+automatically (i.e., the argument to <code>habitat_data</code> is <code>NULL</code>).
 Defaults to <code>"latest"</code> such that the most recent version of the dataset is
 used if data need to be obtained.</p></dd>
 <dt>force</dt>
@@ -218,7 +218,7 @@ data for real or simulated species.</p></div>
 <span class="r-in">  n <span class="op">=</span> <span class="fl">5</span>, boundary_data <span class="op">=</span> <span class="va">boundary_data</span>, cache_dir <span class="op">=</span> <span class="va">download_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[13.2s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[13.6s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
@@ -227,7 +227,7 @@ data for real or simulated species.</p></div>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[49.4s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[42.1s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># preview species range data</span></span>

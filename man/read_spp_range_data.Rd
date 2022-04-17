@@ -16,7 +16,7 @@ Defaults to \code{NULL} such that all available data is imported.}
 A \code{\link[sf:sf]{sf::sf()}} object containing the dataset.
 }
 \description{
-Import species geographic range (i.e. extent of occurrence) data obtained
+Import species geographic range (i.e., extent of occurrence) data obtained
 from the
 \href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}.
 }

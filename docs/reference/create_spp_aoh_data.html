@@ -120,17 +120,17 @@ Specifically, the argument should contain the following columns: <code>"id_no"</
 <code>"code"</code>, <code>"suitability"</code>, <code>"season"</code> columns.
 Here, <code>"id_no"</code> corresponds to the species' taxon identifier
 (also present in <code>x</code>), <code>"code"</code> indicates a habitat classification code
-that is suitable for the species (i.e. based on layer names in the
+that is suitable for the species (i.e., based on layer names in the
 argument to habitat_data), <code>"suitability"</code> indicates the level suitability
-of the habitat class for a given species (e.g. using values such
+of the habitat class for a given species (e.g., using values such
 as <code>"Suitable"</code> or <code>"Marginal"</code>), and <code>"season"</code> indicates
 if the habitat class is only suitable for a particular seasonal
-distribution (e.g. <code>"Breeding"</code>).
+distribution (e.g., <code>"Breeding"</code>).
 Defaults to <code>NULL</code> such that data are automatically obtained from the
 latest version of the <a href="https://www.iucnredlist.org" class="external-link">IUCN Red List</a>.</p></dd>
 <dt>elevation_data</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data delineating the
-worldwide elevation data (e.g. Robinson <em>et al.</em> 2014).
+worldwide elevation data (e.g., Robinson <em>et al.</em> 2014).
 Defaults to <code>NULL</code> such that data
 are automatically obtained (using <code><a href="get_global_elevation_data.html">get_global_elevation_data()</a></code>).
 If the data are obtained automatically, then a preprocessed version
@@ -138,7 +138,7 @@ of the habitat data will be used to reduce processing time.</p></dd>
 <dt>habitat_data</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data indicating the
 presence of different habitat classes across world
-(e.g. Jung <em>et al.</em> 2020a,b; Lumbierres 2021; Lumbierres <em>et al.</em> 2021).
+(e.g., Jung <em>et al.</em> 2020a,b; Lumbierres 2021; Lumbierres <em>et al.</em> 2021).
 Each grid cell should contain an <code>integer</code> value that specifies which
 habitat class is present within the cell
 (based on the argument to <code>crosswalk_data</code>).
@@ -152,10 +152,10 @@ a <code>code</code> column that specifies a set of IUCN habitat classification
 codes (see <code><a href="iucn_habitat_data.html">iucn_habitat_data()</a></code>, and a <code>value</code> column that specifies
 different values in the argument to <code>habitat_data</code>.
 Defaults to <code>NULL</code> such that the crosswalk for the default habitat
-data are used (i.e. <code><a href="crosswalk_lumbierres_data.html">crosswalk_lumbierres_data()</a></code>).</p></dd>
+data are used (i.e., <code><a href="crosswalk_lumbierres_data.html">crosswalk_lumbierres_data()</a></code>).</p></dd>
 <dt>cache_dir</dt>
 <dd><p><code>character</code> Folder path for downloading and caching data.
-By default, a temporary directory is used (i.e. <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
+By default, a temporary directory is used (i.e., <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong></p></dd>
 <dt>iucn_version</dt>
@@ -171,7 +171,7 @@ habitat dataset that should be used. See documentation for the
 the <code>version</code> parameter in the <code><a href="get_lumbierres_habitat_data.html">get_lumbierres_habitat_data()</a></code> function
 for further details.
 This parameter is only used if habitat data are obtained
-automatically (i.e. the argument to <code>habitat_data</code> is <code>NULL</code>).
+automatically (i.e., the argument to <code>habitat_data</code> is <code>NULL</code>).
 Defaults to <code>"latest"</code> such that the most recent version of the dataset is
 used if data need to be obtained.</p></dd>
 <dt>elevation_version</dt>
@@ -180,7 +180,7 @@ elevation dataset that should be used. See documentation for the
 the <code>version</code> parameter in the <code><a href="get_global_elevation_data.html">get_global_elevation_data()</a></code> function
 for further details.
 This parameter is only used if elevation data are obtained
-automatically (i.e. the argument to <code>elevation_data</code> is <code>NULL</code>).
+automatically (i.e., the argument to <code>elevation_data</code> is <code>NULL</code>).
 Defaults to <code>"latest"</code> such that the most recent version of the dataset is
 used if data need to be obtained.</p></dd>
 <dt>key</dt>
@@ -288,7 +288,7 @@ these codes would be indicated as <code>"1.5|1.9"</code>.</p></dd>
 codes used to create the species' Area of Habitat data.
 Since the argument to <code>habitat_data</code> may not contain habitat
 classes for all suitable habitats for a given species
-(e.g. the default dataset does not contain subterranean cave systems),
+(e.g., the default dataset does not contain subterranean cave systems),
 this column contains the subset of the habitat codes listed in the
 <code>"full_habitat_code"</code> column that were used for processing.</p></dd>
 
@@ -567,34 +567,34 @@ Available at <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="ex
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[1.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[326ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[15.8s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[11.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[5.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[4.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[3.1s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[784ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[372ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[347ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[349ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[350ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[273ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     skipping 4 species distributions already processed</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[14ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[12ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[15ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[13ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span class="co"># }</span></span>

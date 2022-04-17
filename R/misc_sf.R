@@ -80,7 +80,7 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
 #' # import sf object
 #' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
 #'
-#' # create terra extent object (i.e. SpatExtent)
+#' # create terra extent object (i.e., SpatExtent)
 #' sf_terra_ext(nc)
 #'
 #' @family geoprocessing

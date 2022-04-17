@@ -16,14 +16,15 @@ NULL
 #'   *Loxodonta africana* is `181008073`.
 #'
 #' @param dir `character` Folder path where data should be downloaded.
-#'  By default, data are downloaded to a temporary directory (i.e. `tempdir()`).
-#'  **To avoid downloading the same data multiple times, it is strongly
+#'  By default, data are downloaded to a temporary directory
+#'  (i.e., `tempdir()`). **To avoid downloading the same data multiple times,
+#'  it is strongly
 #'  recommended to specify a persistent storage location (see Examples below).**
 #'  If data are already available in folder for the specified version, then the
 #'  data are imported and not re-downloaded from the IUCN Red List.
 #'
 #' @param version `character` Value indicating version of the IUCN Red List for
-#'   obtaining data (e.g. `"2021-2"`).
+#'   obtaining data (e.g., `"2021-2"`).
 #'   Although it is not possible to query past versions
 #'   of the IUCN Red List, this functionality is useful for accessing
 #'   data previously downloaded from the IUCN Red List.

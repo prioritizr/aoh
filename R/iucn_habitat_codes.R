@@ -8,7 +8,7 @@ NULL
 #' [habitat classification scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme)
 #' for different habitat types worldwide.
 #' This function returns codes for habitat types that correspond to *artificial*
-#' areas (e.g. urban areas, pasture lands, canals).
+#' areas (e.g., urban areas, pasture lands, canals).
 #'
 #' @return A `character` vector of codes.
 #'

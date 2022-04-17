@@ -21,14 +21,15 @@ Species. For example, the taxon identifier for the species
 \emph{Loxodonta africana} is \code{181008073}.}
 
 \item{dir}{\code{character} Folder path where data should be downloaded.
-By default, data are downloaded to a temporary directory (i.e. \code{tempdir()}).
-\strong{To avoid downloading the same data multiple times, it is strongly
+By default, data are downloaded to a temporary directory
+(i.e., \code{tempdir()}). \strong{To avoid downloading the same data multiple times,
+it is strongly
 recommended to specify a persistent storage location (see Examples below).}
 If data are already available in folder for the specified version, then the
 data are imported and not re-downloaded from the IUCN Red List.}
 
 \item{version}{\code{character} Value indicating version of the IUCN Red List for
-obtaining data (e.g. \code{"2021-2"}).
+obtaining data (e.g., \code{"2021-2"}).
 Although it is not possible to query past versions
 of the IUCN Red List, this functionality is useful for accessing
 data previously downloaded from the IUCN Red List.
@@ -78,7 +79,7 @@ already). To achieve this, please visit the IUCN website
 (see \url{https://apiv3.iucnredlist.org/api/v3/token}) and fill out the form to
 apply for a token. You should then receive a token shortly after completing
 the form (but not immediately). After receiving a token, please open the
-\code{.Renviron} file on your computer (e.g. using \code{usethis::edit_r_environ()}).
+\code{.Renviron} file on your computer (e.g., using \code{usethis::edit_r_environ()}).
 Next, please add the following text to the file (replacing the string with
 the token) and save the file:\preformatted{IUCN_REDLIST_KEY="your_actual_token_not_this_string"
 }

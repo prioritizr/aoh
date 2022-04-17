@@ -29,7 +29,7 @@ NULL
 #' \item{is_marine}{A `logical` value indicating if the class
 #'  occurs within the marine environmental.}
 #' \item{is_artificial}{A `logical` value indicating if the class
-#'  is artificial (e.g. anthropogenically human modified).}
+#'  is artificial (e.g., anthropogenically human modified).}
 #' \item{is_misc}{A `logical` value indicating if the class
 #'  does not correspond to a specific land cover.}
 #' \item{is_introduced}{A `logical` value indicating if the class

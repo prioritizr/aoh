@@ -42,7 +42,7 @@ as the default global habitat dataset (using
 \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}).}
 
 \item{cache_dir}{\code{character} Folder path for downloading and caching data.
-By default, a temporary directory is used (i.e. \code{tempdir()}).
+By default, a temporary directory is used (i.e., \code{tempdir()}).
 \strong{To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).}}
 

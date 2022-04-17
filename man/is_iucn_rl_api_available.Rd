@@ -33,7 +33,7 @@ already). To achieve this, please visit the IUCN website
 (see \url{https://apiv3.iucnredlist.org/api/v3/token}) and fill out the form to
 apply for a token. You should then receive a token shortly after completing
 the form (but not immediately). After receiving a token, please open the
-\code{.Renviron} file on your computer (e.g. using \code{usethis::edit_r_environ()}).
+\code{.Renviron} file on your computer (e.g., using \code{usethis::edit_r_environ()}).
 Next, please add the following text to the file (replacing the string with
 the token) and save the file:\preformatted{IUCN_REDLIST_KEY="your_actual_token_not_this_string"
 }

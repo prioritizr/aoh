@@ -13,9 +13,10 @@ get_jung_plvl1_habitat_data(
 }
 \arguments{
 \item{dir}{\code{character} Folder path for downloading and caching data.
-By default, data are downloaded to a temporary directory (i.e. \code{tempdir()}).
-\strong{To avoid downloading the same data multiple times, it is strongly
-recommended to specify a persistent storage location (see Examples below).}}
+By default, data are downloaded to a temporary directory (i.e.,
+\code{tempdir()}). \strong{To avoid downloading the same data multiple times, it is
+strongly recommended to specify a persistent storage location (see Examples
+below).}}
 
 \item{version}{\code{character} Value indicating the specific version of the
 dataset

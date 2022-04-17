@@ -78,7 +78,7 @@ format_spp_data <- function(x,
     all(x$id_no %in% spp_summary_data$id_no),
     msg = paste0(
       "argument to x contains species not present in summary data ",
-      "(i.e. based on matching values in the \"id_no\" columns)"
+      "(i.e., based on matching values in the \"id_no\" columns)"
     )
   )
   if (any(!x$id_no %in% spp_habitat_data$id_no)) {
@@ -103,7 +103,7 @@ format_spp_data <- function(x,
   ## although the range data do contain IUCN Red List categories,
   ## we will overwrite the values with those from the summary data.
   ## this is because the BirdLife dataset does not necessarily provide the
-  ## latest IUCN threat categories (e.g. 2020-1 version of BirdLife data
+  ## latest IUCN threat categories (e.g., 2020-1 version of BirdLife data
   ## provides IUCN threat categories based on 2020 version of Red List)
   nms <- c("id_no", "category")
   x <- dplyr::left_join(
@@ -183,7 +183,7 @@ format_spp_data <- function(x,
   idx <- which(!spp_habitat_data$habitat_code %in% omit_habitat_codes)
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## replace rows with NA values "season" in the season column with
-  ## duplicates for every possible seasonal code (i.e. [1, 2, 3, 4, 5])
+  ## duplicates for every possible seasonal code (i.e., [1, 2, 3, 4, 5])
   idx <- is.na(spp_habitat_data$seasonal)
   spp_habitat_data <- dplyr::bind_rows(
     spp_habitat_data[!idx, , drop = FALSE],
@@ -216,7 +216,7 @@ format_spp_data <- function(x,
   )
 
   ## standardize values in habitat code column
-  ## i.e. replace NULLs with an empty character vector, and
+  ## i.e., replace NULLs with an empty character vector, and
   ## lexicographically sort habitat codes
   x$habitat_code <- lapply(x$habitat_code, function(x) {
     if (is.character(x)) {

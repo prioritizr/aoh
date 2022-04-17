@@ -9,9 +9,10 @@ NULL
 #' an online repository.
 #'
 #' @param dir `character` Folder path for downloading and caching data.
-#'  By default, data are downloaded to a temporary directory (i.e. `tempdir()`).
-#'  **To avoid downloading the same data multiple times, it is strongly
-#'  recommended to specify a persistent storage location (see Examples below).**
+#'  By default, data are downloaded to a temporary directory (i.e.,
+#'  `tempdir()`). **To avoid downloading the same data multiple times, it is
+#'  strongly recommended to specify a persistent storage location (see Examples
+#'  below).**
 #'
 #' @param version `character` Value indicating the specific version of the
 #'  dataset

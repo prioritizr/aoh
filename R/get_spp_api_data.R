@@ -15,12 +15,12 @@ NULL
 #'   the IUCN Red List. This function should one of the functions available
 #'   in the \pkg{rredlist} package, and have the `id` parameter available
 #'   for querying data for a specific taxon identifier
-#'   (e.g. [rredlist::rl_habitats()]).
+#'   (e.g., [rredlist::rl_habitats()]).
 #'
 #' @param data_prefix `character` Prefix for saving data to disk for caching.
 #'
 #' @param data_template `data.frame` Table containing the names and correct
-#'   classes (e.g. `numeric`, `character`, `logical`) for each column
+#'   classes (e.g., `numeric`, `character`, `logical`) for each column
 #'   expected from calling the argument to `api_function` (see Examples below).
 #'
 #' @param progress_name `character` Name for progress bar when downloading

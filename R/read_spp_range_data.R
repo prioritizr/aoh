@@ -3,7 +3,7 @@ NULL
 
 #' Read species range data
 #'
-#' Import species geographic range (i.e. extent of occurrence) data obtained
+#' Import species geographic range (i.e., extent of occurrence) data obtained
 #' from the
 #' [International Union for Conservation of Nature (IUCN) Red List of
 #' Threatened Species](https://www.iucnredlist.org/).
