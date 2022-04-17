@@ -73,9 +73,13 @@ engine_spp_aoh_terra <- function(range_data,
       wopt = list(datatype = "INT2U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
     ),
     function(x, y) {
-      1 * ((x %in% habitat_values) &
-      (y >= lower_elevation) &
-      (y <= upper_elevation))
+      1 * (
+        ((x %in% habitat_values) &
+        (y >= lower_elevation) &
+        (y <= upper_elevation)) &
+        (!is.na(x)) &
+        (!is.na(y))
+      )
     },
     wopt = list(datatype = "INT1U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
   )
