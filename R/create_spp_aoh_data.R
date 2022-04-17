@@ -219,7 +219,13 @@ NULL
 #' The default `"terra"` engine uses the \pkg{terra} package for processing.
 #' Although this engine is easy to install and fast for small datasets, it does
 #' not scale well for larger datasets. It is generally recommended to use
-#' either the `"gdal"` or `"grass"` engines for large datasets.
+#' the `"gdal"` engine to perform data processing with the
+#' [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/)
+#' can be used for data processing. The `"grass"` engine can also be
+#' used to perform data processing with the
+#' [Geographic Resources Analysis Support System (GRASS)](https://grass.osgeo.org/).
+#' Note that the `"grass"` engine requires both the GDAL and GRASS software
+#' to be installed.
 #' For instructions on installing dependencies for these engines,
 #' please see the README file.
 #'

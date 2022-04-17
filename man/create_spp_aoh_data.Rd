@@ -291,7 +291,13 @@ same results, some engines are more computationally efficient than others.
 The default \code{"terra"} engine uses the \pkg{terra} package for processing.
 Although this engine is easy to install and fast for small datasets, it does
 not scale well for larger datasets. It is generally recommended to use
-either the \code{"gdal"} or \code{"grass"} engines for large datasets.
+the \code{"gdal"} engine to perform data processing with the
+\href{https://gdal.org/}{Geospatial Data Abstraction Library (GDAL)}
+can be used for data processing. The \code{"grass"} engine can also be
+used to perform data processing with the
+\href{https://grass.osgeo.org/}{Geographic Resources Analysis Support System (GRASS)}.
+Note that the \code{"grass"} engine requires both the GDAL and GRASS software
+to be installed.
 For instructions on installing dependencies for these engines,
 please see the README file.
 }
