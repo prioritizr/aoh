@@ -19,8 +19,8 @@ gdal_datatype <- function(x) {
   switch(
     x,
     "INT1U" = "Byte",
-    "INT2S" = "Int32",
-    "INT4S" = "Int16",
+    "INT2S" = "Int16",
+    "INT4S" = "Int32",
     "FLT8S" = "Float64",
     "INT2U" = "UInt16",
     "INT4U" = "UInt32",
