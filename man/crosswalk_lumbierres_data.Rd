@@ -55,7 +55,7 @@ L, and Tarko A (2020) \emph{Copernicus Global Land Service: Land Cover
 100m: Version 3 Globe 2015–2019: Product User Manual}. Geneve: Zenodo
 
 Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
-Habitat.\emph{Zenodo Digital Repository}.
+Habitat. \emph{Zenodo Digital Repository}.
 Available at \url{https://doi.org/10.5281/zenodo.5146072}.
 
 Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and

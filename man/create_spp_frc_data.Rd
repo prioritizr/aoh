@@ -507,7 +507,7 @@ terrestrial habitat types (insert version) [Data set].
 Available at \url{https://doi.org/10.5281/zenodo.4058819}.
 
 Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
-Habitat.\emph{Zenodo Digital Repository}.
+Habitat. \emph{Zenodo Digital Repository}.
 Available at \url{https://doi.org/10.5281/zenodo.5146072}.
 
 Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
