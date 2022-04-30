@@ -36,6 +36,8 @@ test_that("general case", {
   expect_true(assertthat::has_name(x, "seasonal"))
   expect_is(x$seasonal, "integer")
   expect_true(all(x$seasonal %in% seq_len(5)))
+  expect_true(assertthat::has_name(x, "category"))
+  expect_is(x$category, "character")
   expect_true(assertthat::has_name(x, "full_habitat_code"))
   expect_is(x$full_habitat_code, "character")
   expect_true(assertthat::has_name(x, "elevation_lower"))

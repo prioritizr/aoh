@@ -22,14 +22,18 @@ cleaned_names <- c(
 )
 
 aoh_names <- c(
-  "id_no", "binomial", "seasonal", "full_habitat_code", "habitat_code",
-  "elevation_lower", "elevation_upper", "xmin", "xmax", "ymin", "ymax",
+  "id_no", "binomial", "seasonal", "category",
+  "full_habitat_code", "habitat_code",
+  "elevation_lower", "elevation_upper",
+  "xmin", "xmax", "ymin", "ymax",
   "path", "geometry"
 )
 
 info_names <- c(
-  "id_no", "binomial", "seasonal", "full_habitat_code",
-  "elevation_lower", "elevation_upper", "geometry"
+  "id_no", "binomial", "seasonal", "category",
+  "full_habitat_code",
+  "elevation_lower", "elevation_upper",
+  "geometry"
 )
 
 latest_jung_version <- "10.5281/zenodo.4058819"

@@ -42,7 +42,7 @@ Imports:
     ggplot2 (>= 3.1.0),
     fasterize (>= 1.0.3),
     raster (>= 3.5-15),
-    piggyback(>= 0.1.1)
+    piggyback (>= 0.1.1)
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),

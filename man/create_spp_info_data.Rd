@@ -136,6 +136,7 @@ Specifically, the object contains the following columns:
 \item{id_no}{\code{numeric} species' taxon identifier on the IUCN Red List.}
 \item{binomial}{\code{character} species name.}
 \item{seasonal}{\code{numeric} seasonal distribution code.}
+\item{category}{\code{character} IUCN Red List threat category.}
 \item{full_habitat_code}{\code{character} all habitat classification
 codes that contain suitable habitat for the species.
 If a given species has multiple suitable habitat classes,

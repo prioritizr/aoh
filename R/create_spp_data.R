@@ -346,7 +346,7 @@ create_spp_data <- function(x,
   }
   ## processing
   x <- dplyr::select(
-    x, .data$id_no, .data$binomial, .data$seasonal,
+    x, .data$id_no, .data$binomial, .data$seasonal, .data$category,
     .data$full_habitat_code, .data$habitat_code,
     .data$elevation_lower, .data$elevation_upper,
     .data$xmin, .data$xmax, .data$ymin, .data$ymax,

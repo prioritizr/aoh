@@ -26,7 +26,8 @@ NULL
 #' A [sf::st_sf()] spatial object containing an updated version of the
 #' argument to `x` that has been cleaned and contains the following additional
 #' columns:
-#' `"full_habitat_code"`, `"elevation_lower"`, and `"elevation_upper"`.
+#' `"category"`, `"full_habitat_code"`, `"elevation_lower"`, and
+#' `"elevation_upper"`.
 #'
 #' @noRd
 collate_spp_info_data <- function(x,

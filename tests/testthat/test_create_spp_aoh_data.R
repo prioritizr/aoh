@@ -46,6 +46,7 @@ test_that("simulated data (terra engine)", {
   expect_is(x$id_no, "integer")
   expect_is(x$binomial, "character")
   expect_is(x$seasonal, "integer")
+  expect_is(x$category, "character")
   expect_is(x$full_habitat_code, "character")
   expect_is(x$habitat_code, "character")
   expect_is(x$elevation_lower, "numeric")

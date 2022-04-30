@@ -147,6 +147,7 @@ NULL
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
 #' \item{binomial}{`character` species name.}
 #' \item{seasonal}{`numeric` seasonal distribution code.}
+#' \item{category}{`character` IUCN Red List threat category.}
 #' \item{full_habitat_code}{`character` all habitat classification
 #'   codes that contain suitable habitat for the species.
 #'   If a given species has multiple suitable habitat classes,

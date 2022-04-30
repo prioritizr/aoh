@@ -205,6 +205,7 @@ NULL
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
 #' \item{binomial}{`character` species name.}
 #' \item{seasonal}{`numeric` seasonal distribution code.}
+#' \item{category}{`character` IUCN Red List threat category.}
 #' \item{full_habitat_code}{`character` all habitat classification
 #'   codes that contain suitable habitat for the species.
 #'   If a given species has multiple suitable habitat classes,
@@ -387,7 +388,7 @@ create_spp_info_data <- function(x,
   }
   ## processing
   x <- dplyr::select(
-    x, .data$id_no, .data$binomial, .data$seasonal,
+    x, .data$id_no, .data$binomial, .data$seasonal, .data$category,
     .data$full_habitat_code,
     .data$elevation_lower, .data$elevation_upper,
   )

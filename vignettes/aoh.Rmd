@@ -111,6 +111,7 @@ While running the code, we see that it displayed a message telling us that certa
 ##
 ## - id_no            : IUCN Red List taxon identifier
 ## - seasonal         : integer identifier for seasonal distributions
+## - category         : character IUCN Red List threat category
 ## - full_habitat_code: All IUCN Red List codes for suitable habitat classes
 ##                      (multiple codes are delimited using "|" symbols)
 ## - habitat_code     : IUCN Red List codes for suitable habitat classes
