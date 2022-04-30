@@ -26,7 +26,7 @@ devtools::load_all()
 
 ### Overview
 
-Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions (e.g., [Rondinini *et al.* 2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x); [Tracewski *et al.* 2016](https://doi.org/10.1111/cobi.12715); [Durán *et al.* 2021](https://doi.org/10.1111/2041-210X.13427)). These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import these data (using `read_spp_range_data()`) and then use them to create Area of Habitat data (using `create_spp_aoh_data()`). Global elevation and habitat classification data ([Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8); [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851)) are automatically downloaded, and data on species' habitat preferences and altitudinal limits are obtained automatically using the [IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List requires a token, users may need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see installation instructions below for details).
+Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions (e.g., [Rondinini *et al.* 2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x); [Tracewski *et al.* 2016](https://doi.org/10.1111/cobi.12715); [Durán *et al.* 2021](https://doi.org/10.1111/2041-210X.13427)). These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species ([Brooks *et al.* 2019](https://doi.org/10.1016/j.tree.2019.06.009)). To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import them (using `read_spp_range_data()`), prepare them and collate additional information for subsequent processing (using `create_spp_info_data()`), and then create Area of Habitat data (using `create_spp_aoh_data()`). Global elevation and habitat classification data ([Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8); [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851)) are automatically downloaded, and data on species' habitat preferences and elevational limits are obtained automatically using the [IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List requires a token, users may need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see installation instructions below for details).
 
 ### Installation
 
@@ -125,7 +125,7 @@ spp_range_data <- read_spp_range_data(path)
 print(spp_range_data)
 ```
 
-Next, we will generate Area of Habitat data for the species. We also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+Next, we will prepare all the range data for generating Area of Habitat data. This procedure -- in addition to repairing any geometry issues in the spatial data --  will obtain information on the species' habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won't need to re-download it again during subsequent runs.
 
 ```{r, message = FALSE, results = "hide"}
 # specify cache directory
@@ -135,6 +135,16 @@ cache_dir <- user_data_dir("aoh")
 if (!file.exists(cache_dir)) {
   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 }
+
+# prepare information
+spp_info_data <- create_spp_info_data(spp_range_data, cache_dir = cache_dir)
+```
+
+We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from [Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40) and habitat data derived from [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851). Similar to before, we also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+
+```{r, message = FALSE, results = "hide"}
+# specify cache directory
+cache_dir <- user_data_dir("aoh")
 
 # specify folder to save Area of Habitat data
 ## although we use a temporary directory here to avoid polluting your
@@ -146,7 +156,7 @@ output_dir <- tempdir()
 ## note that this function might take a complete because it will need to
 ## download the global habitat and elevation data that first time you run it.
 spp_aoh_data <- create_spp_aoh_data(
-  spp_range_data, output_dir = output_dir, cache_dir = cache_dir
+  spp_info_data, output_dir = output_dir, cache_dir = cache_dir
 )
 
 # preview results

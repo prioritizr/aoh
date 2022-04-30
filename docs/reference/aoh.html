@@ -5,18 +5,19 @@ understand the impacts of habitat loss on species, and prioritize areas for
 conservation (e.g., Tracewski et al. 2016; Rondinini et al. 2005).
 These maps are generally produced by obtaining geographic range data for a
 species, and then removing areas that do not contain suitable habitat or
-occur outside the known altitudinal limits for the species
+occur outside the known elevational limits for the species
 (Brooks et al. 2019). To help make these maps accessible, the package
 provides routines for automatically creating Area of Habitat data based on
 the International Union for Conservation of Nature (IUCN) Red List of Threatened Species. After manually downloading
 species range data from the
 IUCN Red List,
-users can import them (using read_spp_range_data()) and then use them to
-create Area of Habitat data (using create_spp_aoh_data()).
-Global elevation and habitat classification data (Amatulli et al. 2018;
-Jung et al. 2020a,b; Lumbierres 2021; Lumbierres *et al. 2021)
-are automatically downloaded, and data on species'
-habitat preferences and altitudinal limits are obtained automatically using
+users can import them (using read_spp_range_data()), prepare them and
+collate additional information for subsequent processing (using
+create_spp_info_data()), and then create Area of Habitat data
+(using create_spp_aoh_data()). Global elevation and habitat classification
+data (Amatulli et al. 2018; Jung et al. 2020a,b; Lumbierres 2021;
+Lumbierres *et al. 2021) are automatically downloaded, and data on species'
+habitat preferences and elevational limits are obtained automatically using
 the IUCN Red List API.
 Since accessing the IUCN Red List API requires a token, users may need to
 obtain a token
@@ -80,18 +81,19 @@ understand the impacts of habitat loss on species, and prioritize areas for
 conservation (e.g., Tracewski <em>et al.</em> 2016; Rondinini <em>et al.</em> 2005).
 These maps are generally produced by obtaining geographic range data for a
 species, and then removing areas that do not contain suitable habitat or
-occur outside the known altitudinal limits for the species
+occur outside the known elevational limits for the species
 (Brooks <em>et al.</em> 2019). To help make these maps accessible, the package
 provides routines for automatically creating Area of Habitat data based on
 the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading
 species range data from the
 <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>,
-users can import them (using <code><a href="read_spp_range_data.html">read_spp_range_data()</a></code>) and then use them to
-create Area of Habitat data (using <code><a href="create_spp_aoh_data.html">create_spp_aoh_data()</a></code>).
-Global elevation and habitat classification data (Amatulli <em>et al.</em> 2018;
-Jung <em>et al.</em> 2020a,b; Lumbierres 2021; Lumbierres *et al. 2021)
-are automatically downloaded, and data on species'
-habitat preferences and altitudinal limits are obtained automatically using
+users can import them (using <code><a href="read_spp_range_data.html">read_spp_range_data()</a></code>), prepare them and
+collate additional information for subsequent processing (using
+<code><a href="create_spp_info_data.html">create_spp_info_data()</a></code>), and then create Area of Habitat data
+(using <code><a href="create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification
+data (Amatulli <em>et al.</em> 2018; Jung <em>et al.</em> 2020a,b; Lumbierres 2021;
+Lumbierres *et al. 2021) are automatically downloaded, and data on species'
+habitat preferences and elevational limits are obtained automatically using
 the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>.
 Since accessing the IUCN Red List API requires a token, users may need to
 <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a>

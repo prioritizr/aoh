@@ -28,8 +28,6 @@ NULL
 #' @param output_dir `character` Folder path to save raster (GeoTIFF) files
 #'   containing the fractional coverage data.
 #'
-#' @inheritSection create_spp_aoh_data Species range data format
-#'
 #' @inheritSection create_spp_aoh_data Engines
 #'
 #' @section Data processing:
@@ -61,7 +59,8 @@ NULL
 #' @section Output file format:
 #' Fractional coverage data are stored in a separate raster (GeoTIFF) file for
 #' each seasonal distribution of each species. Each raster file is assigned a
-#' file name based on a prefix and a combination of the species' taxon identifier
+#' file name based on a prefix and a combination of the species' taxon
+#' identifier
 #' (per `id_no`/`SISID` in `x`) and the identifier for the seasonal
 #' distribution (per `seasonality` in `x`)
 #' (i.e., file names are named according to `FRC_{$id_no}_${seasonality}.tif`).
@@ -101,9 +100,15 @@ NULL
 #'   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 #' }
 #'
+#' # create species' information data
+#' spp_info_data <- create_spp_info_data(
+#'   x = spp_range_data,
+#'   cache_dir = cache_dir
+#' )
+#'
 #' # create fractional coverage data
 #' spp_frc_data <- create_spp_frc_data(
-#'   x = spp_range_data,
+#'   x = spp_info_data,
 #'   res = 5000,
 #'   output_dir = output_dir,
 #'   n_threads = n_threads,
@@ -132,48 +137,31 @@ NULL
 create_spp_frc_data <- function(x,
                                 output_dir,
                                 res,
-                                spp_summary_data = NULL,
-                                spp_habitat_data = NULL,
                                 elevation_data = NULL,
                                 habitat_data = NULL,
                                 crosswalk_data = NULL,
                                 cache_dir = tempdir(),
-                                iucn_version = "latest",
                                 habitat_version = "latest",
                                 elevation_version = "latest",
-                                key = NULL,
                                 force = FALSE,
                                 n_threads = 1,
                                 cache_limit = 1000,
                                 engine = "terra",
-                                keep_iucn_rl_presence = c(1, 2),
-                                keep_iucn_rl_origin = c(1, 2, 6),
-                                keep_iucn_rl_seasonal = c(1, 2, 3, 4),
-                                omit_habitat_codes =
-                                  iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
   create_spp_data(
     x = x,
     res = res, ## N.B. this is to produce fractional coverage data
     output_dir = output_dir,
-    spp_summary_data = spp_summary_data,
-    spp_habitat_data = spp_habitat_data,
     elevation_data = elevation_data,
     habitat_data = habitat_data,
     crosswalk_data = crosswalk_data,
     cache_dir = cache_dir,
-    iucn_version = iucn_version,
     habitat_version = habitat_version,
     elevation_version = elevation_version,
-    key = key,
     force = force,
     n_threads = n_threads,
     cache_limit = cache_limit,
     engine = engine,
-    keep_iucn_rl_presence = keep_iucn_rl_presence,
-    keep_iucn_rl_origin = keep_iucn_rl_origin,
-    keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
-    omit_habitat_codes = omit_habitat_codes,
     verbose = verbose
   )
 }

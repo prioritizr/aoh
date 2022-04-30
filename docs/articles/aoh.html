@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2022-04-17</h4>
+            <h4 data-toc-skip class="date">2022-04-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -83,7 +83,7 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions <span class="citation">(Tracewski <em>et al.</em> 2016; Rondinini <em>et al.</em> 2005; Durán <em>et al.</em> 2020)</span>. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import them (using <code><a href="../reference/read_spp_range_data.html">read_spp_range_data()</a></code>) and then use them to create Area of Habitat data (using <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data are automatically downloaded <span class="citation">(Robinson <em>et al.</em> 2014; Jung <em>et al.</em> 2020; Lumbierres <em>et al.</em> 2021)</span>, and data on species’ habitat preferences and altitudinal limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see below for details).</p>
+<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions <span class="citation">(Tracewski <em>et al.</em> 2016; Rondinini <em>et al.</em> 2005; Durán <em>et al.</em> 2020)</span>. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import them (using <code><a href="../reference/read_spp_range_data.html">read_spp_range_data()</a></code>), prepare them and collate additional information for subsequent processing (using <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code>), and then create Area of Habitat data (using <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data are automatically downloaded <span class="citation">(Robinson <em>et al.</em> 2014; Jung <em>et al.</em> 2020; Lumbierres <em>et al.</em> 2021)</span>, and data on species’ habitat preferences and elevational limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see below for details).</p>
 </div>
 <div class="section level2">
 <h2 id="tutorial">Tutorial<a class="anchor" aria-label="anchor" href="#tutorial"></a>
@@ -95,16 +95,8 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rappdirs.r-lib.org" class="external-link">rappdirs</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">## Attaching package: 'ggplot2'</span></code></pre>
-<pre><code><span class="co">## The following object is masked from 'package:aoh':</span>
-<span class="co">## </span>
-<span class="co">##     arrow</span></code></pre>
-<pre><code><span class="co">## The following object is masked from 'package:terra':</span>
-<span class="co">## </span>
-<span class="co">##     arrow</span></code></pre>
 <p>Now we will import range data for the species. Although users would typically obtain range data from the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>, here we will use built-in species range data that distributed with the package for convenience. <strong>Please note that these data were not obtained from the IUCN Red List, and were manually generated using occurrence records from the <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a>.</strong></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># find file path for data</span>
 <span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"EXAMPLE_SPECIES.zip"</span>, package <span class="op">=</span> <span class="st">"aoh"</span><span class="op">)</span>
 
@@ -130,8 +122,8 @@
 <span class="co">## <span style="color: #949494;">#   legend &lt;chr&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;,</span></span>
 <span class="co">## <span style="color: #949494;">#   family &lt;chr&gt;, genus &lt;chr&gt;, category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;,</span></span>
 <span class="co">## <span style="color: #949494;">#   freshwater &lt;chr&gt;, geometry &lt;POLYGON [°]&gt;</span></span></code></pre>
-<p>Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data <span class="citation">(derived from Robinson <em>et al.</em> 2014; Lumbierres <em>et al.</em> 2021)</span>, (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in the <code>id_no</code> column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species <span class="citation">(following Brooks <em>et al.</em> 2019)</span>. We also specify a folder to cache the downloaded datasets so that we won’t need to re-download again during subsequent runs.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Next, we will prepare all the range data for generating Area of Habitat data. This procedure – in addition to repairing any geometry issues in the spatial data – will obtain information on the species’ habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won’t need to re-download it again during subsequent runs.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># specify cache directory</span>
 <span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>
 
@@ -140,8 +132,15 @@
   <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">}</span>
 
+<span class="co"># prepare information</span>
+<span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_spp_info_data.html">create_spp_info_data</a></span><span class="op">(</span><span class="va">spp_range_data</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span><span class="op">)</span></code></pre></div>
+<p>We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from <a href="https://doi.org/10.1038/sdata.2018.40" class="external-link">Amatulli <em>et al.</em> 2018</a> and habitat data derived from <a href="https://doi.org/10.1111/cobi.13851" class="external-link">Lumbierres <em>et al.</em> 2021</a>. Similar to before, we also specify a folder to cache the downloaded datasets so that we won’t need to re-downloaded again during subsequent runs.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># specify cache directory</span>
+<span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>
+
 <span class="co"># specify folder to save Area of Habitat data</span>
-<span class="co">## although we use a temporary directory here to avoid polluting your directory</span>
+<span class="co">## although we use a temporary directory here to avoid polluting your</span>
 <span class="co">## with examples files, you would normally specify the folder</span>
 <span class="co">## on your computer where you want to save data</span>
 <span class="va">output_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
@@ -150,10 +149,13 @@
 <span class="co">## note that this function might take a complete because it will need to</span>
 <span class="co">## download the global habitat and elevation data that first time you run it.</span>
 <span class="va">spp_aoh_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data</a></span><span class="op">(</span>
-  <span class="va">spp_range_data</span>, output_dir <span class="op">=</span> <span class="va">output_dir</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span>
-<span class="op">)</span></code></pre></div>
+  <span class="va">spp_info_data</span>, output_dir <span class="op">=</span> <span class="va">output_dir</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span>
+<span class="op">)</span>
+
+<span class="co"># preview results</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id_no"</span>, <span class="st">"seasonal"</span>, <span class="st">"path"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. <code>"7.1"</code>, <code>"7.2"</code>). <strong>This is fine. It is not an error.</strong> The reason we see this message is because although the global habitat dataset contains the majority of <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN habitat classes</a> for terrestrial environments, it does not contain every single IUCN habitat class <span class="citation">(see Lumbierres <em>et al.</em> 2021 for details)</span>. Upon checking the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN habitat classes</a>, we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species’ non-subterranean habitats is sufficient to describe their spatial distribution <span class="citation">(Ficetola <em>et al.</em> 2014)</span>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># preview results</span>
 <span class="co">## resulting dataset is a simple features (sf) object containing</span>
 <span class="co">## spatial geometries for cleaned versions of the range data</span>
@@ -186,12 +188,12 @@
 <span class="co">## <span style="color: #949494;"># A tibble: 4 × 4</span></span>
 <span class="co">##   id_no seasonal path                                                   geometry</span>
 <span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                             <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>   979        1 /tmp/RtmpTwh3Gm/AOH_979_1.tif   ((-105492 4465129, -106457 446…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448        1 /tmp/RtmpTwh3Gm/AOH_59448_1.tif ((-238707 5029084, -237742 502…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657        1 /tmp/RtmpTwh3Gm/AOH_4657_1.tif  ((-859178 4559308, -859307 455…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622        1 /tmp/RtmpTwh3Gm/AOH_58622_1.tif ((-849787 4614155, -848114 461…</span></code></pre>
+<span class="co">## <span style="color: #BCBCBC;">1</span>   979        1 /tmp/RtmpUIVfi9/979_1.tif   ((-105492 4465129, -106457 4464790…</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448        1 /tmp/RtmpUIVfi9/59448_1.tif ((-238707 5029084, -237742 5028026…</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657        1 /tmp/RtmpUIVfi9/4657_1.tif  ((-859178 4559308, -859307 4559308…</span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622        1 /tmp/RtmpUIVfi9/58622_1.tif ((-849787 4614155, -848114 4615218…</span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
 <span class="co">## since the data for each species have a different spatial extent</span>
 <span class="co">## (to reduce file sizes), we will import each dataset separately in a list</span>
@@ -205,7 +207,7 @@
 <span class="co">## resolution  : 100, 100  (x, y)</span>
 <span class="co">## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : AOH_979_1.tif </span>
+<span class="co">## source      : 979_1.tif </span>
 <span class="co">## name        : lyr1 </span>
 <span class="co">## min value   :    0 </span>
 <span class="co">## max value   :    1 </span>
@@ -216,7 +218,7 @@
 <span class="co">## resolution  : 100, 100  (x, y)</span>
 <span class="co">## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : AOH_59448_1.tif </span>
+<span class="co">## source      : 59448_1.tif </span>
 <span class="co">## name        : lyr1 </span>
 <span class="co">## min value   :    0 </span>
 <span class="co">## max value   :    1 </span>
@@ -227,7 +229,7 @@
 <span class="co">## resolution  : 100, 100  (x, y)</span>
 <span class="co">## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : AOH_4657_1.tif </span>
+<span class="co">## source      : 4657_1.tif </span>
 <span class="co">## name        : lyr1 </span>
 <span class="co">## min value   :    0 </span>
 <span class="co">## max value   :    1 </span>
@@ -238,12 +240,12 @@
 <span class="co">## resolution  : 100, 100  (x, y)</span>
 <span class="co">## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : AOH_58622_1.tif </span>
+<span class="co">## source      : 58622_1.tif </span>
 <span class="co">## name        : lyr1 </span>
 <span class="co">## min value   :    0 </span>
 <span class="co">## max value   :    1</span></code></pre>
 <p>We can see that the Area of Habitat data for each species are stored in separate spatial (raster) datasets with different extents. Although this is useful because it drastically reduces the total size of the data for each species, it can make it difficult to work with data for multiple species. To address this, we can use the <code><a href="../reference/terra_combine.html">terra_combine()</a></code> function to automatically align and combine the spatial data for all species’ distributions into a single spatial dataset.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># combine raster data</span>
 <span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span>
 
@@ -259,15 +261,15 @@
 <span class="co">## resolution  : 100, 100  (x, y)</span>
 <span class="co">## extent      : -914731, 318669, 4364277, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## sources     : spat_7fAqHIDA9y3GL9U_105470.tif  </span>
-<span class="co">##               spat_Lpwl0FN3sM6Vbmu_105470.tif  </span>
-<span class="co">##               spat_4SK2HzcE26bP87e_105470.tif  </span>
+<span class="co">## sources     : spat_ZAvcUJIZKgjJyLK_134493.tif  </span>
+<span class="co">##               spat_yonyrzlTcosKZvW_134493.tif  </span>
+<span class="co">##               spat_EyiicTg2xL9RXD6_134493.tif  </span>
 <span class="co">##               ... and 1 more source(s)</span>
 <span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span>
 <span class="co">## min values  :         0,           0,          0,           0 </span>
 <span class="co">## max values  :         1,           1,          1,           1</span></code></pre>
 <p>Finally, let’s create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g. using the <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link"><em>ggplot2</em></a> <em>R</em> package), we will use a plotting function distributed with the <em>aoh R</em> package for convenience.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create maps</span>
 <span class="va">map</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/plot_spp_aoh_data.html">plot_spp_aoh_data</a></span><span class="op">(</span><span class="va">spp_aoh_data</span>, zoom <span class="op">=</span> <span class="fl">6</span>, maptype <span class="op">=</span> <span class="st">"toner-background"</span><span class="op">)</span> <span class="op">+</span>
@@ -283,7 +285,7 @@
 
 <span class="co"># display maps</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></code></pre></div>
-<p><img src="aoh_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="aoh_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="frequently-asked-questions">Frequently asked questions<a class="anchor" aria-label="anchor" href="#frequently-asked-questions"></a>
@@ -304,7 +306,7 @@
 <p>Please please open the <code>.Renviron</code> file on your computer (e.g. using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file:</p>
 <pre><code><span class="va">IUCN_REDLIST_KEY</span><span class="op">=</span><span class="st">"your_actual_token_not_this_string"</span></code></pre>
 <p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should see the current version of the IUCN Red List:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># verify access to IUCN Red List API</span>
 <span class="fu">rredlist</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rredlist/reference/rl_version.html" class="external-link">rl_version</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If these instructions did not work, please consult the documentation for the <a href="https://CRAN.R-project.org/package=rredlist" class="external-link"><em>rredlist</em></a> <em>R</em> package for further details.</p>
@@ -315,8 +317,8 @@
 </li>
 <li>
 <p><strong>Can I use species range data from other data sources (instead of the IUCN Red List)?</strong></p>
-<p>Yes, species range data do not necessarily need to be obtained from the IUCN Red List. For example, species range data can be obtained from governmental (e.g. data for federally listed species in Canada are available through the <a href="https://open.canada.ca/en/open-data" class="external-link">Government of Canada data portal</a>) and non-governmental organizations (e.g. <a href="https://biendata.org/" class="external-link">Botanical Information and Ecology Network</a> and <a href="https://mol.org/" class="external-link">Map of Life</a>). These data can also be produced using observation records <span class="citation">(e.g. following Palacio <em>et al.</em> 2021)</span> from data repositories (e.g. <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>). After obtaining species range data, please format them so that they follow the same data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details on what values these columns should contain, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> and the <a href="https://www.iucnredlist.org/resources/mappingstandards" class="external-link">IUCN Red List documentation</a>.</p>
-<p>If you wish to use the IUCN Red List for specifying habitat affiliation data, please ensure that the <code>id_no</code> specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (<em>Calotriton asper</em>). To ensure that correct habitat affiliation data were obtained for this species from the the IUCN Red List, the <code>id_no</code> value specified for this species in the species range dataset was <code>59448</code>.</p>
+<p>Yes, species range data do not necessarily need to be obtained from the IUCN Red List. For example, species range data can be obtained from governmental (e.g. data for federally listed species in Canada are available through the <a href="https://open.canada.ca/en/open-data" class="external-link">Government of Canada data portal</a>) and non-governmental organizations (e.g. <a href="https://biendata.org/" class="external-link">Botanical Information and Ecology Network</a> and <a href="https://mol.org/" class="external-link">Map of Life</a>). These data can also be produced using observation records <span class="citation">(e.g. following Palacio <em>et al.</em> 2021)</span> from data repositories (e.g. <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>). After obtaining species range data, please format them so that they follow the same data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details on what values these columns should contain, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code> and the <a href="https://www.iucnredlist.org/resources/mappingstandards" class="external-link">IUCN Red List documentation</a>.</p>
+<p>If you wish to use the IUCN Red List for specifying habitat preference data, please ensure that the <code>id_no</code> specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (<em>Calotriton asper</em>). To ensure that correct habitat preference data were obtained for this species from the the IUCN Red List, the <code>id_no</code> value specified for this species in the species range dataset was <code>59448</code>.</p>
 </li>
 <li>
 <p><strong>Can I use habitat classification data from other data sources?</strong></p>

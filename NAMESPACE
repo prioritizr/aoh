@@ -3,6 +3,7 @@
 export(calc_spp_frc_data)
 export(create_spp_aoh_data)
 export(create_spp_frc_data)
+export(create_spp_info_data)
 export(gdal_version)
 export(get_global_elevation_data)
 export(get_jung_lvl1_habitat_data)

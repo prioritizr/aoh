@@ -23,14 +23,17 @@ test_that("simulated data", {
   d <- read_spp_range_data(f)
   # create object
   x <- create_spp_frc_data(
-    x = d,
+    x = create_spp_info_data(
+      x = d,
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      verbose = interactive()
+    ),
     res = 5000,
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
     verbose = interactive()
   )
   # tests
@@ -86,7 +89,12 @@ test_that("different engines produce same result", {
   dir.create(output_dir1, showWarnings = FALSE, recursive = TRUE)
   dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
   # prepare data
-  d <- read_spp_range_data(f)
+  d <- create_spp_info_data(
+    x = read_spp_range_data(f),
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = interactive()
+  )
   # compute fractional coverage
   x1 <- create_spp_frc_data(
     x = d,
@@ -96,8 +104,6 @@ test_that("different engines produce same result", {
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
     verbose = interactive()
   )
   x2 <- create_spp_frc_data(
@@ -108,8 +114,6 @@ test_that("different engines produce same result", {
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
     verbose = interactive()
   )
   # tests
@@ -144,7 +148,11 @@ test_that("example data", {
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
   # prepare data
-  d <- read_spp_range_data(f)
+  d <- create_spp_info_data(
+    x = read_spp_range_data(f),
+    cache_dir = cd,
+    verbose = interactive()
+  )
   # create object
   x <- suppressWarnings(
     create_spp_frc_data(

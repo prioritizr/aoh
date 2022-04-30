@@ -167,7 +167,7 @@ geographic range data.</p></dd>
 
 <dt>spp_summary_data</dt>
 <dd><p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> object containing summary
-information about the species (including altitudinal limit information.</p></dd>
+information about the species (including elevational limit information.</p></dd>
 
 <dt>spp_habitat_data</dt>
 <dd><p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> object containing habitat
@@ -218,7 +218,7 @@ data for real or simulated species.</p></div>
 <span class="r-in">  n <span class="op">=</span> <span class="fl">5</span>, boundary_data <span class="op">=</span> <span class="va">boundary_data</span>, cache_dir <span class="op">=</span> <span class="va">download_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[13.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[11s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
@@ -227,7 +227,7 @@ data for real or simulated species.</p></div>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[42.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[1m 14.4s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># preview species range data</span></span>
@@ -274,7 +274,7 @@ data for real or simulated species.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7   &lt;NA&gt; Simulus       EN  false       true      false</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8   &lt;NA&gt; Simulus       EN  false       true      false</span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># preview species habitat affiliation data</span></span>
+<span class="r-in"><span class="co"># preview species habitat preference data</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">spp_habitat_data</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id_no code  habitat                        suitability season majorimportance</span>

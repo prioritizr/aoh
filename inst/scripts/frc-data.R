@@ -98,9 +98,15 @@ if (identical(input_file, "BOTW.7z")) {
   gc()
 }
 
+## create information data
+info_data <- create_spp_info_data(
+  x = x,
+  cache_dir = cache_dir,
+)
+
 ## create fractional coverage data
 result_data <- create_spp_frc_data(
-  x = x,
+  x = info_data,
   res = res,
   output_dir = output_dir,
   cache_dir = cache_dir,

@@ -15,7 +15,7 @@ NULL
 #' [Zenodo repository](https://doi.org/10.5281/zenodo.5146072)
 #' (Lumbierres 2021), and resampling the data (using nearest neighbor
 #' interpolation) to the World Behrmannn coordinate reference
-#' systems (ESRI:54017).
+#' system (ESRI:54017).
 #'
 #' @inherit get_jung_lvl2_habitat_data return
 #'

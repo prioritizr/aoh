@@ -6,54 +6,22 @@ NULL
 
 #' Create Area of Habitat data
 #'
-#' Create Area of Habitat (AOH) data for species based on their altitudinal and
-#' habitat preferences (Brooks *et al.* 2019).
+#' Create Area of Habitat (AOH) data for species(Brooks *et al.* 2019).
 #' Briefly, this function creates Area of Habitat data for each
 #' seasonal distribution of each species and then stores the results
 #' as raster files on disk.
 #' Please note that these procedures are designed for terrestrial species,
 #' and will not apply to marine or freshwater species.
 #'
+#' @inheritParams create_spp_info_data
 #' @inheritParams get_lumbierres_habitat_data
-#' @inheritParams get_spp_summary_data
 #'
-#' @param x [sf::sf()] Spatial data delineating species geographic ranges
-#'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
-#'   See below for details.
+#' @param x [sf::sf()] Spatial data delineating species' geographic ranges,
+#'   habitat preferences, and elevational limits. This object should
+#'   be created using the [create_spp_info_data()] function.
 #'
 #' @param output_dir `character` Folder path to save raster (GeoTIFF) files
 #'   containing the Area of Habitat data.
-#'
-#' @param cache_dir `character` Folder path for downloading and caching data.
-#'  By default, a temporary directory is used (i.e., `tempdir()`).
-#'  **To avoid downloading the same data multiple times, it is strongly
-#'  recommended to specify a persistent storage location (see Examples below).**
-#'
-#' @param spp_summary_data [tibble::tibble()] Table containing summary
-#'   information for each species (in the argument to `x`).
-#'   Specifically, the argument should contain the following columns: `"id_no"`,
-#'   `"elevation_lower"`, and `"elevation_upper"` columns.
-#'   Here, `"id_no"` corresponds to the species' taxon identifier
-#'   (also present in `x`), and the `"elevation_lower"` and `"elevation_upper"`
-#'   columns indicate the lowest and highest elevations that contain habitat
-#'   for the species.
-#'   Defaults to `NULL` such that data are automatically obtained from the
-#'   latest version of the [IUCN Red List](https://www.iucnredlist.org).
-#'
-#' @param spp_habitat_data [tibble::tibble()] Table containing habitat
-#'   preference information for each species (in the argument to `x`).
-#'   Specifically, the argument should contain the following columns: `"id_no"`,
-#'   `"code"`, `"suitability"`, `"season"` columns.
-#'   Here, `"id_no"` corresponds to the species' taxon identifier
-#'   (also present in `x`), `"code"` indicates a habitat classification code
-#'   that is suitable for the species (i.e., based on layer names in the
-#'   argument to habitat_data), `"suitability"` indicates the level suitability
-#'   of the habitat class for a given species (e.g., using values such
-#'   as `"Suitable"` or `"Marginal"`), and `"season"` indicates
-#'   if the habitat class is only suitable for a particular seasonal
-#'   distribution (e.g., `"Breeding"`).
-#'   Defaults to `NULL` such that data are automatically obtained from the
-#'   latest version of the [IUCN Red List](https://www.iucnredlist.org).
 #'
 #' @param elevation_data [terra::rast()] Raster data delineating the
 #'   worldwide elevation data (e.g., Robinson *et al.* 2014).
@@ -79,13 +47,6 @@ NULL
 #'   different values in the argument to `habitat_data`.
 #'   Defaults to `NULL` such that the crosswalk for the default habitat
 #'   data are used (i.e., [crosswalk_lumbierres_data()]).
-#'
-#' @param iucn_version  `character` Version of the
-#'  IUCN Red List dataset that should be used. See documentation for the
-#'  the `version` parameter in the [get_spp_summary_data()] function
-#'  for further details.
-#'  Defaults to `"latest"` such that the most recent version of the dataset is
-#'  used.
 #'
 #' @param habitat_version `character` Version of the
 #'   habitat dataset that should be used. See documentation for the
@@ -124,46 +85,6 @@ NULL
 #'  on the system).
 #'  Defaults to 1000.
 #'
-#' @param keep_iucn_rl_presence `integer` IUCN Red List presence codes
-#'  to retain
-#'  (see IUCN SSC Red List Technical Working Group 2021 for details).
-#'  Species' ranges that are not associated with these codes are
-#'  excluded during data cleaning procedures.
-#'  Defaults to a numeric vector containing `1` and `2`
-#'  (corresponding to *extant* and *probably extant*).
-#'
-#' @param keep_iucn_rl_origin `integer` IUCN Red List origin codes
-#'  to retain
-#'  (see IUCN SSC Red List Technical Working Group 2021 for details).
-#'  Species' ranges that are not associated with these codes are
-#'  excluded during data cleaning procedures.
-#'  Defaults to a numeric vector containing `1`, `2`, and `6`.
-#'  (corresponding to *native*, *reintroduced*, and *assisted colonization*).
-#'
-#' @param keep_iucn_rl_seasonal `integer` IUCN Red List seasonal codes
-#'  to retain
-#'  (see IUCN SSC Red List Technical Working Group 2021 for details).
-#'  Species' ranges that are not associated with these codes are
-#'  excluded during data cleaning procedures.
-#'  Defaults to a numeric vector containing `1`, `2`, `3`, and `4`.
-#'  (corresponding to *resident*, *breeding season*, *non-breeding season*,
-#'  and *passage* distributions).
-#'
-#' @param omit_habitat_codes `character` Habitat classification codes
-#'   to omit from resulting Area of Habitat data.
-#'   Please see the [IUCN Red List Habitat Classification Scheme](
-#'   https://www.iucnredlist.org/resources/habitat-classification-scheme)
-#'   for the full range of habitat classification codes.
-#'   For example,
-#'   if the aim is to identify natural places that contain suitable conditions,
-#'   then areas classified as anthropogenically modified
-#'   ([iucn_habitat_codes_artificial()]),
-#'   introduced vegetation ([iucn_habitat_codes_introduced()],
-#'   or unknown habitat ([iucn_habitat_codes_misc()]) should
-#'   be excluded.
-#'   Defaults to [iucn_habitat_codes_marine()], such that marine
-#'   habitats are excluded.
-#'
 #' @param engine `character` Value indicating the name of the software
 #'   to use for data processing.
 #'   Available options include `"terra"`, `"gdal"`, or `"grass"`
@@ -172,45 +93,6 @@ NULL
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
-#'
-#' @section Species range data format:
-#' Species range data are expected to follow the data format conventions
-#' for the IUCN Red List (see [IUCN Red List
-#' documentation](https://www.iucnredlist.org/resources/mappingstandards) for
-#' details). Specifically, the argument to `x` should be an
-#' [sf::st_sf()] object with the following columns: `id_no` (or `SISID`),
-#' `presence`, `origin`, and `seasonal`.
-#' It can also contain the following optional columns: `terrestrial`
-#' (or `terrestial`), `freshwater`, and `marine`.
-#' Below we provide a brief description of each column:
-#'
-#' \describe{
-#'
-#' \item{`id_no` (or `SISID`)}{`numeric` taxon identifier on the IUCN Red List.}
-#'
-#' \item{`presence`}{`numeric` identifier describing information about
-#'   the presence of the taxon in the range data.}
-#'
-#' \item{`origin`}{`numeric`  identifier describing if the species is native
-#'   to the location(s) described by the range data.}
-#'
-#' \item{`seasonality`}{`numeric` identifier describing if the species
-#'  is occupied by the location(s) describe by the range data throughout
-#'  the whole year, of if only during certain seasons.}
-#'
-#' \item{`terrestial`}{`character` value indicating if the range
-#'  data pertain to terrestrial environments (with `"true"` or `"false"`
-#'  values.)}
-#'
-#' \item{`freshwater`}{`character` value indicating if the range
-#'  data pertain to freshwater environments (with `"true"` or `"false"`
-#'  values.)}
-#'
-#' \item{`marine`}{`character` value indicating if the range
-#'  data pertain to marine environments (with `"true"` or `"false"`
-#'  values.)}
-#'
-#' }
 #'
 #' @section Engines:
 #' This function can use different software engines for data processing
@@ -258,10 +140,9 @@ NULL
 #' grid cells that are located outside of the species' distribution.
 #'
 #' @return
-#' A [sf::st_sf()] object containing cleaned versions of the species' range maps
-#' used to generate Area of Habitat data, and additional
-#' columns describing the output raster files.
-#' Specifically, the object contains the following columns:
+#' A [sf::st_sf()] object. This object is an updated version
+#' of the argument to `x`, and contains additional columns describing the
+#' output raster files. Specifically, it contains the following columns:
 #' \describe{
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
 #' \item{binomial}{`character` species name.}
@@ -352,9 +233,15 @@ NULL
 #'   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 #' }
 #'
+#' # create species information data
+#' spp_info_data <- create_spp_info_data(
+#'   x = spp_range_data,
+#'   cache_dir = cache_dir
+#' )
+#'
 #' # create Area of Habitat data for species
 #' spp_aoh_data <- create_spp_aoh_data(
-#'   x = spp_range_data,
+#'   x = spp_info_data,
 #'   output_dir = output_dir,
 #'   n_threads = n_threads,
 #'   cache_dir = cache_dir
@@ -381,48 +268,31 @@ NULL
 #' @export
 create_spp_aoh_data <- function(x,
                                 output_dir,
-                                spp_summary_data = NULL,
-                                spp_habitat_data = NULL,
                                 elevation_data = NULL,
                                 habitat_data = NULL,
                                 crosswalk_data = NULL,
                                 cache_dir = tempdir(),
-                                iucn_version = "latest",
                                 habitat_version = "latest",
                                 elevation_version = "latest",
-                                key = NULL,
                                 force = FALSE,
                                 n_threads = 1,
                                 cache_limit = 1000,
                                 engine = "terra",
-                                keep_iucn_rl_presence = c(1, 2),
-                                keep_iucn_rl_origin = c(1, 2, 6),
-                                keep_iucn_rl_seasonal = c(1, 2, 3, 4),
-                                omit_habitat_codes =
-                                  iucn_habitat_codes_marine(),
                                 verbose = TRUE) {
   create_spp_data(
     x = x,
     res = NULL, ## N.B. this is to produce AOH data
     output_dir = output_dir,
-    spp_summary_data = spp_summary_data,
-    spp_habitat_data = spp_habitat_data,
     elevation_data = elevation_data,
     habitat_data = habitat_data,
     crosswalk_data = crosswalk_data,
     cache_dir = cache_dir,
-    iucn_version = iucn_version,
     habitat_version = habitat_version,
     elevation_version = elevation_version,
-    key = key,
     force = force,
     n_threads = n_threads,
     cache_limit = cache_limit,
     engine = engine,
-    keep_iucn_rl_presence = keep_iucn_rl_presence,
-    keep_iucn_rl_origin = keep_iucn_rl_origin,
-    keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
-    omit_habitat_codes = omit_habitat_codes,
     verbose = verbose
   )
 }

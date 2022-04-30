@@ -89,7 +89,7 @@
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
-<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species (<a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">Brooks <em>et al.</em> 2019</a>). They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions (e.g. <a href="https://doi.org/10.1111/j.1523-1739.2005.00204.x" class="external-link">Rondinini <em>et al.</em> 2005</a>; <a href="https://doi.org/10.1111/cobi.12715" class="external-link">Tracewski <em>et al.</em> 2016</a>; <a href="https://doi.org/10.1111/2041-210X.13427" class="external-link">Durán <em>et al.</em> 2021</a>). These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species (<a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">Brooks <em>et al.</em> 2019</a>). To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import these data (using <code><a href="reference/read_spp_range_data.html">read_spp_range_data()</a></code>) and then use them to create Area of Habitat data (using <code><a href="reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data (<a href="https://doi.org/10.1038/sdata.2018.40" class="external-link">Amatulli <em>et al.</em> 2018</a>; <a href="https://doi.org/10.1038/s41597-020-00599-8" class="external-link">Jung <em>et al.</em> 2020</a>; <a href="https://doi.org/10.1111/cobi.13851" class="external-link">Lumbierres <em>et al.</em> 2021</a>) are automatically downloaded, and data on species’ habitat preferences and altitudinal limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see installation instructions below for details).</p>
+<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species (<a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">Brooks <em>et al.</em> 2019</a>). They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions (e.g., <a href="https://doi.org/10.1111/j.1523-1739.2005.00204.x" class="external-link">Rondinini <em>et al.</em> 2005</a>; <a href="https://doi.org/10.1111/cobi.12715" class="external-link">Tracewski <em>et al.</em> 2016</a>; <a href="https://doi.org/10.1111/2041-210X.13427" class="external-link">Durán <em>et al.</em> 2021</a>). These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species (<a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">Brooks <em>et al.</em> 2019</a>). To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import them (using <code><a href="reference/read_spp_range_data.html">read_spp_range_data()</a></code>), prepare them and collate additional information for subsequent processing (using <code><a href="reference/create_spp_info_data.html">create_spp_info_data()</a></code>), and then create Area of Habitat data (using <code><a href="reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data (<a href="https://doi.org/10.1038/sdata.2018.40" class="external-link">Amatulli <em>et al.</em> 2018</a>; <a href="https://doi.org/10.1038/s41597-020-00599-8" class="external-link">Jung <em>et al.</em> 2020</a>; <a href="https://doi.org/10.1111/cobi.13851" class="external-link">Lumbierres <em>et al.</em> 2021</a>) are automatically downloaded, and data on species’ habitat preferences and elevational limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see installation instructions below for details).</p>
 </div>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -148,7 +148,7 @@
 <div class="section level4">
 <h4 id="accessing-the-iucn-red-list-api">Accessing the IUCN Red List API<a class="anchor" aria-label="anchor" href="#accessing-the-iucn-red-list-api"></a>
 </h4>
-<p>After installing the <em>aoh R</em> package, you will need to obtain a token for the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one already). To do so, please visit the IUCN website (see <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link uri">https://apiv3.iucnredlist.org/api/v3/token</a>) and fill out the form to apply for a token. You should then receive a token shortly after completing the form (but not immediately). After receiving a token, please open the <code>.Renviron</code> file on your computer (e.g. using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file, using your token in place of the string below.</p>
+<p>After installing the <em>aoh R</em> package, you will need to obtain a token for the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one already). To do so, please visit the IUCN website (see <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link uri">https://apiv3.iucnredlist.org/api/v3/token</a>) and fill out the form to apply for a token. You should then receive a token shortly after completing the form (but not immediately). After receiving a token, please open the <code>.Renviron</code> file on your computer (e.g., using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file, using your token in place of the string below.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>IUCN_REDLIST_KEY<span class="ot">=</span><span class="st">"your_actual_token_not_this_string"</span></span></code></pre></div>
 <p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should the same output below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -194,7 +194,7 @@
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">## #   legend &lt;chr&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;,</span></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="do">## #   family &lt;chr&gt;, genus &lt;chr&gt;, category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;,</span></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   freshwater &lt;chr&gt;, geometry &lt;POLYGON [°]&gt;</span></span></code></pre></div>
-<p>Next, we will generate Area of Habitat data for the species. We also specify a folder to cache the downloaded datasets so that we won’t need to re-downloaded again during subsequent runs.</p>
+<p>Next, we will prepare all the range data for generating Area of Habitat data. This procedure – in addition to repairing any geometry issues in the spatial data – will obtain information on the species’ habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won’t need to re-download it again during subsequent runs.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># specify cache directory</span>
 <span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>
@@ -203,6 +203,13 @@
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">cache_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">}</span>
+
+<span class="co"># prepare information</span>
+<span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_spp_info_data.html">create_spp_info_data</a></span><span class="op">(</span><span class="va">spp_range_data</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span><span class="op">)</span></code></pre></div>
+<p>We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from <a href="https://doi.org/10.1038/sdata.2018.40" class="external-link">Amatulli <em>et al.</em> 2018</a> and habitat data derived from <a href="https://doi.org/10.1111/cobi.13851" class="external-link">Lumbierres <em>et al.</em> 2021</a>. Similar to before, we also specify a folder to cache the downloaded datasets so that we won’t need to re-downloaded again during subsequent runs.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># specify cache directory</span>
+<span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>
 
 <span class="co"># specify folder to save Area of Habitat data</span>
 <span class="co">## although we use a temporary directory here to avoid polluting your</span>
@@ -214,63 +221,63 @@
 <span class="co">## note that this function might take a complete because it will need to</span>
 <span class="co">## download the global habitat and elevation data that first time you run it.</span>
 <span class="va">spp_aoh_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_spp_aoh_data.html">create_spp_aoh_data</a></span><span class="op">(</span>
-  <span class="va">spp_range_data</span>, output_dir <span class="op">=</span> <span class="va">output_dir</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span>
+  <span class="va">spp_info_data</span>, output_dir <span class="op">=</span> <span class="va">output_dir</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span>
 <span class="op">)</span>
 
 <span class="co"># preview results</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id_no"</span>, <span class="st">"seasonal"</span>, <span class="st">"path"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>After generating the Area of Habitat data, we can import them.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
 <span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">path</span>, <span class="va">rast</span><span class="op">)</span>
 
 <span class="co"># preview raster data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [[1]]</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_979_1.tif </span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [[2]]</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2265, 5669, 1  (nrow, ncol, nlyr)</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_59448_1.tif </span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [[3]]</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 5149, 5360, 1  (nrow, ncol, nlyr)</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_4657_1.tif </span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [[4]]</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)</span></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)</span></span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : AOH_58622_1.tif </span></span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [[1]]</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : 979_1.tif </span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [[2]]</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 2265, 5669, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : 59448_1.tif </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [[3]]</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 5149, 5360, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : 4657_1.tif </span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1 </span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [[4]]</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatRaster </span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 100, 100  (x, y)</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : World_Behrmann </span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : 58622_1.tif </span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="do">## name        : lyr1 </span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="do">## min value   :    0 </span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="do">## max value   :    1</span></span></code></pre></div>
 <p>Finally, let’s create some maps to compare the range data with the Area of habitat data.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create maps</span>
 <span class="va">map</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="reference/plot_spp_aoh_data.html">plot_spp_aoh_data</a></span><span class="op">(</span><span class="va">spp_aoh_data</span>, zoom <span class="op">=</span> <span class="fl">6</span>, maptype <span class="op">=</span> <span class="st">"toner-background"</span><span class="op">)</span> <span class="op">+</span>
@@ -293,48 +300,48 @@
 </h3>
 <p><strong>Please note that the package is still in the early stages of development and not ready for general use. It is not yet suitable for use in scientific publications or related work.</strong></p>
 <p>Please cite the <em>aoh R</em> package and the underlying datasets used to produce Area of Habitat data.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Area of Habitat data are created using a range of different datasets.</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Depending on which datasets are used, please cite the aoh package and</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>relevant data using<span class="sc">:</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2022</span>) aoh<span class="sc">:</span> Create Area of Habitat Data. R package version</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">99999.</span> Available at https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>jeffreyhanson<span class="sc">/</span>aoh.</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  IUCN [insert year] IUCN Red List of Threatened Species. Version</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at www.iucnredlist.org.</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  BirdLife International and Handbook of the Birds of the World</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  ([insert year]) Bird species distribution maps of the world. Version</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  http<span class="sc">:</span><span class="er">//</span>datazone.birdlife.org<span class="sc">/</span>species<span class="sc">/</span>requestdis.</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020a) A global map of terrestrial</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  habitat types. Scientific data, <span class="dv">7</span><span class="sc">:</span><span class="dv">1</span><span class="sc">--</span><span class="fl">8.</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020b) A global map of terrestrial</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  habitat <span class="fu">types</span> (insert version) [Data set]. Zenodo. Available at</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4058819.</span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  Lumbierres, <span class="fu">M</span> (<span class="dv">2021</span>). Map of habitat <span class="fu">classes</span> (Level <span class="dv">1</span>) from the IUCN</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  Habitat. Zenodo Digital Repository. Available at</span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.5281</span><span class="sc">/</span>zenodo<span class="fl">.5146072</span><span class="sc">&gt;</span>.</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and</span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  Rondinini <span class="fu">C</span> (<span class="dv">2021</span>) Translating habitat class to land cover to map</span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  area of habitat of terrestrial vertebrates. Conservation Biology, In</span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>  press<span class="sc">:</span> DOI<span class="sc">:</span><span class="fl">10.1111</span><span class="sc">/</span>cobi.<span class="fl">13851.</span> Available at</span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.1111</span><span class="sc">/</span>cobi<span class="fl">.13851</span><span class="sc">&gt;</span>.</span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>  Robinson N, Regetz J, and Guralnick <span class="fu">RP</span> (<span class="dv">2014</span>) EarthEnv<span class="sc">-</span>DEM90<span class="sc">:</span> A</span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>  nearly<span class="sc">-</span>global, void<span class="sc">-</span>free, multi<span class="sc">-</span>scale smoothed, 90m digital elevation</span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>  model from fused ASTER and SRTM data. ISPRS Journal of Photogrammetry</span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>  and Remote Sensing, <span class="dv">87</span><span class="sc">:</span><span class="dv">57</span><span class="sc">--</span><span class="fl">67.</span></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>To see these entries <span class="cf">in</span> BibTeX format, use <span class="st">'print(&lt;citation&gt;,</span></span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="st">bibtex=TRUE)'</span>, <span class="st">'toBibtex(.)'</span>, or set</span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="st">'options(citation.bibtex.max=999)'</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Area of Habitat data are created using a range of different datasets.</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Depending on which datasets are used, please cite the aoh package and</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>relevant data using<span class="sc">:</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2022</span>) aoh<span class="sc">:</span> Create Area of Habitat Data. R package version</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">99999.</span> Available at https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>jeffreyhanson<span class="sc">/</span>aoh.</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  IUCN [insert year] IUCN Red List of Threatened Species. Version</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at www.iucnredlist.org.</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  BirdLife International and Handbook of the Birds of the World</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  ([insert year]) Bird species distribution maps of the world. Version</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  http<span class="sc">:</span><span class="er">//</span>datazone.birdlife.org<span class="sc">/</span>species<span class="sc">/</span>requestdis.</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020a) A global map of terrestrial</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  habitat types. Scientific data, <span class="dv">7</span><span class="sc">:</span><span class="dv">1</span><span class="sc">--</span><span class="fl">8.</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  V, Rondinini C, and Visconti <span class="fu">P</span> (2020b) A global map of terrestrial</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  habitat <span class="fu">types</span> (insert version) [Data set]. Zenodo. Available at</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4058819.</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  Lumbierres, <span class="fu">M</span> (<span class="dv">2021</span>). Map of habitat <span class="fu">classes</span> (Level <span class="dv">1</span>) from the IUCN</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  Habitat. Zenodo Digital Repository. Available at</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.5281</span><span class="sc">/</span>zenodo<span class="fl">.5146072</span><span class="sc">&gt;</span>.</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  Rondinini <span class="fu">C</span> (<span class="dv">2021</span>) Translating habitat class to land cover to map</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  area of habitat of terrestrial vertebrates. Conservation Biology, In</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  press<span class="sc">:</span> DOI<span class="sc">:</span><span class="fl">10.1111</span><span class="sc">/</span>cobi.<span class="fl">13851.</span> Available at</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.1111</span><span class="sc">/</span>cobi<span class="fl">.13851</span><span class="sc">&gt;</span>.</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  Robinson N, Regetz J, and Guralnick <span class="fu">RP</span> (<span class="dv">2014</span>) EarthEnv<span class="sc">-</span>DEM90<span class="sc">:</span> A</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>  nearly<span class="sc">-</span>global, void<span class="sc">-</span>free, multi<span class="sc">-</span>scale smoothed, 90m digital elevation</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>  model from fused ASTER and SRTM data. ISPRS Journal of Photogrammetry</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>  and Remote Sensing, <span class="dv">87</span><span class="sc">:</span><span class="dv">57</span><span class="sc">--</span><span class="fl">67.</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>To see these entries <span class="cf">in</span> BibTeX format, use <span class="st">'print(&lt;citation&gt;,</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="st">bibtex=TRUE)'</span>, <span class="st">'toBibtex(.)'</span>, or set</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="st">'options(citation.bibtex.max=999)'</span>.</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

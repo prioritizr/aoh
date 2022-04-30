@@ -99,7 +99,8 @@ factor to express values as fractional coverage.
 
 Fractional coverage data are stored in a separate raster (GeoTIFF) file for
 each seasonal distribution of each species. Each raster file is assigned a
-file name based on a prefix and a combination of the species' taxon identifier
+file name based on a prefix and a combination of the species' taxon
+identifier
 (per \code{id_no}/\code{SISID} in \code{x}) and the identifier for the seasonal
 distribution (per \code{seasonality} in \code{x})
 (i.e., file names are named according to \verb{FRC_\{$id_no\}_$\{seasonality\}.tif}).
@@ -131,9 +132,15 @@ if (!file.exists(cache_dir)) {
   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
+# create species information data
+spp_info_data <- create_spp_info_data(
+  x = spp_range_data,
+  cache_dir = cache_dir
+)
+
 # create Area of Habitat data for species
 spp_aoh_data <- create_spp_aoh_data(
-  x = spp_range_data,
+  x = spp_info_data,
   output_dir = output_dir,
   n_threads = n_threads,
   cache_dir = cache_dir

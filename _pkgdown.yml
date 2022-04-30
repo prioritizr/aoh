@@ -15,6 +15,7 @@ reference:
   - title: Area of Habitat
     desc: Functions for working with Area of Habitat data
     contents:
+      - create_spp_info_data
       - create_spp_aoh_data
       - create_spp_frc_data
       - calc_spp_frc_data

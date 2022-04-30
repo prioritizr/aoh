@@ -6,19 +6,20 @@
 #' conservation (e.g., Tracewski *et al.* 2016; Rondinini *et al.* 2005).
 #' These maps are generally produced by obtaining geographic range data for a
 #' species, and then removing areas that do not contain suitable habitat or
-#' occur outside the known altitudinal limits for the species
+#' occur outside the known elevational limits for the species
 #' (Brooks *et al.* 2019). To help make these maps accessible, the package
 #' provides routines for automatically creating Area of Habitat data based on
 #' the [International Union for Conservation of Nature (IUCN) Red List of
 #' Threatened Species](https://www.iucnredlist.org/). After manually downloading
 #' species range data from the
 #' [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download),
-#' users can import them (using [read_spp_range_data()]) and then use them to
-#' create Area of Habitat data (using [create_spp_aoh_data()]).
-#' Global elevation and habitat classification data (Amatulli *et al.* 2018;
-#' Jung *et al.* 2020a,b; Lumbierres 2021; Lumbierres *et al. 2021)
-#'  are automatically downloaded, and data on species'
-#' habitat preferences and altitudinal limits are obtained automatically using
+#' users can import them (using [read_spp_range_data()]), prepare them and
+#' collate additional information for subsequent processing (using
+#' [create_spp_info_data()]), and then create Area of Habitat data
+#' (using [create_spp_aoh_data()]). Global elevation and habitat classification
+#' data (Amatulli *et al.* 2018; Jung *et al.* 2020a,b; Lumbierres 2021;
+#' Lumbierres *et al. 2021) are automatically downloaded, and data on species'
+#' habitat preferences and elevational limits are obtained automatically using
 #' the [IUCN Red List API](https://apiv3.iucnredlist.org/).
 #' Since accessing the IUCN Red List API requires a token, users may need to
 #' [obtain a token](https://apiv3.iucnredlist.org/api/v3/token)

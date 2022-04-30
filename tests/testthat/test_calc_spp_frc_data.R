@@ -21,13 +21,16 @@ test_that("simulated data", {
   )
   # prepare data
   d <- create_spp_aoh_data(
-    x = read_spp_range_data(f),
+    x = create_spp_info_data(
+      x = read_spp_range_data(f),
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      verbose = interactive()
+    ),
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
     verbose = interactive()
   )
   # compute fractional coverage
@@ -101,13 +104,16 @@ test_that("different engines produce same result", {
   dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
   # prepare data
   d <- create_spp_aoh_data(
-    x = read_spp_range_data(f),
+    x = create_spp_info_data(
+      x = read_spp_range_data(f),
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      verbose = interactive()
+    ),
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
     verbose = interactive()
   )
   # compute fractional coverage
@@ -160,7 +166,11 @@ test_that("example data", {
   # prepare data
   d <- suppressWarnings(
     create_spp_aoh_data(
-      x = read_spp_range_data(f),
+      x = create_spp_info_data(
+        x = read_spp_range_data(f),
+        cache_dir = cd,
+        verbose = interactive()
+      ),
       output_dir = tempdir(),
       cache_dir = cd,
       habitat_version = latest_lumbierres_version,

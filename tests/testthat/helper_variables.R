@@ -27,6 +27,11 @@ aoh_names <- c(
   "path", "geometry"
 )
 
+info_names <- c(
+  "id_no", "binomial", "seasonal", "full_habitat_code",
+  "elevation_lower", "elevation_upper", "geometry"
+)
+
 latest_jung_version <- "10.5281/zenodo.4058819"
 
 latest_jung_potential_version <- "10.5281/zenodo.4038749"
