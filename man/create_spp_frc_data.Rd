@@ -274,7 +274,7 @@ path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 spp_range_data <- read_spp_range_data(path)
 
 # specify settings for data processing
-output_dir <- tempdir()                       # folder to save AOH data
+output_dir <- tempdir()                       # folder to save coverage data
 cache_dir <- rappdirs::user_data_dir("aoh")   # persistent storage location
 n_threads <- parallel::detectCores() - 1      # speed up analysis
 

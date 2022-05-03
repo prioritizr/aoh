@@ -6,7 +6,7 @@ NULL
 
 #' Convert vector data into a raster using GDAL
 #'
-#' This function is a wrapper for [gdalUtils::gdal_rasterize()].
+#' This function is a wrapper for [gdalUtilities::gdal_rasterize()].
 #'
 #' @inheritParams terra_gdal_calc
 #'
@@ -32,10 +32,10 @@ NULL
 #' @inherit terra_gdal_project return
 #'
 #' @examples
-#' # please ensure that the gdalUtils package is installed and
-#' # GDAL system binaries are installed to run this example
-#'
-#' @examplesIf is_gdal_available()
+#' # please ensure that the gdalUtilities package is installed
+#' # to run this example
+#;
+#' @examplesIf requireNamespace("gdalUtilities", quietly = TRUE)
 #' # import vector data
 #' f <- system.file("ex/lux.shp", package = "terra")
 #' sf <- read_sf(f)
@@ -57,6 +57,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
                                  filename = tempfile(fileext = ".tif"),
                                  sf_filename = tempfile(fileext = ".gpkg"),
                                  datatype = "FLT4S",
+                                 cache_limit = 200,
                                  tiled = FALSE,
                                  bigtiff = FALSE,
                                  nbits = NULL,
@@ -64,6 +65,13 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
                                  verbose = TRUE,
                                  output_raster = TRUE) {
   # assert arguments are valid
+  assertthat::assert_that(
+    requireNamespace("gdalUtilities", quietly = TRUE),
+    msg = paste(
+      "the \"gdalUtilities\" package needs to be installed, use",
+      "install.packages(\"gdalUtilities\")"
+    )
+  )
   assertthat::assert_that(
     inherits(x, c("character", "SpatRaster")),
     inherits(sf, "sf"),
@@ -87,8 +95,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
     assertthat::is.count(n_threads),
     assertthat::noNA(n_threads),
     assertthat::is.flag(output_raster),
-    assertthat::noNA(output_raster),
-    is_gdal_available()
+    assertthat::noNA(output_raster)
   )
 
   # compress options
@@ -132,8 +139,6 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
     dst_filename = filename,
     i = isTRUE(invert),
     burn = burn,
-    output_Raster = FALSE,
-    verbose = isTRUE(verbose),
     q = !isTRUE(verbose)
   )
   if (!isTRUE(update)) {
@@ -151,8 +156,14 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
       )
     )
   }
-  do.call(gdalUtils::gdal_rasterize, args)
-
+  withr::with_envvar(
+    c(
+      "NUM_THREADS" = n_threads,
+      "GDAL_CACHEMAX" = as.integer(cache_limit),
+      "GDAL_DISABLE_READDIR_ON_OPEN" = "TRUE"
+    ),
+    do.call(gdalUtilities::gdal_rasterize, args)
+  )
   # clean up
   if ((!x_on_disk) && (!update)) {
     rm(x)

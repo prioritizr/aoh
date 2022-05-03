@@ -3,7 +3,7 @@ NULL
 
 #' Project a raster using GDAL
 #'
-#' This function is a wrapper for [gdalUtils::gdalwarp()].
+#' This function is a wrapper for [gdalUtilities::gdalwarp()].
 #'
 #' @param x [terra::rast()] Raster object with source data.
 #'
@@ -53,10 +53,10 @@ NULL
 #' @return A [terra::rast()] raster object.
 #'
 #' @examples
-#' # please ensure that the gdalUtils package is installed and
-#' # GDAL system binaries are installed to run this example
+#' # please ensure that the gdalUtilities package is installed
+#' # to run this example
 #'
-#' @examplesIf is_gdal_available()
+#' @examplesIf requireNamespace("gdalUtilities", quietly = TRUE)
 #' # create raster with data
 #' x <- rast(
 #'   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
@@ -91,6 +91,13 @@ terra_gdal_project <- function(x, y,
                                output_raster = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
+    requireNamespace("gdalUtilities", quietly = TRUE),
+    msg = paste(
+      "the \"gdalUtilities\" package needs to be installed, use",
+      "install.packages(\"gdalUtilities\")"
+    )
+  )
+  assertthat::assert_that(
     inherits(x, c("character", "SpatRaster")),
     inherits(y, c("character", "SpatRaster")),
     assertthat::is.string(method),
@@ -112,7 +119,6 @@ terra_gdal_project <- function(x, y,
     assertthat::noNA(output_raster),
     assertthat::is.count(cache_limit),
     assertthat::noNA(cache_limit),
-    is_gdal_available(),
     any(endsWith(filename, c(".tif", ".vrt")))
   )
 
@@ -131,7 +137,7 @@ terra_gdal_project <- function(x, y,
       co <- c(co, "BIGTIFF=YES")
     }
   } else {
-    co <- c()
+    co <- NULL
   }
 
   # save raster if needed
@@ -159,15 +165,14 @@ terra_gdal_project <- function(x, y,
     tr = terra::res(y),
     r = method,
     of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
-    co = co,
     wm = as.character(cache_limit),
     multi = isTRUE(n_threads >= 2),
     ot = gdal_datatype(datatype),
-    overwrite = TRUE,
-    output_Raster = FALSE,
-    verbose = isTRUE(verbose),
     q = !isTRUE(verbose)
   )
+  if (!is.null(co)) {
+    args$co <- co
+  }
   if (!is.null(NAflag)) {
     if (!identical(NAflag, "none")) {
       assertthat::assert_that(
@@ -184,8 +189,14 @@ terra_gdal_project <- function(x, y,
     args$oo <- paste0("NUM_THREADS=", n_threads)
     args$doo <- paste0("NUM_THREADS=", n_threads)
   }
-  do.call(gdalUtils::gdalwarp, args)
-
+  withr::with_envvar(
+    c(
+      "NUM_THREADS" = n_threads,
+      "GDAL_CACHEMAX" = as.integer(cache_limit),
+      "GDAL_DISABLE_READDIR_ON_OPEN" = "TRUE"
+    ),
+    do.call(gdalUtilities::gdalwarp, args)
+  )
   # clean up
   nms <- names(x)
   if (!x_on_disk) {

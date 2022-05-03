@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-04-30" />
+<meta name="date" content="2022-05-03" />
 
 <title>aoh: Create Area of Habitat Data</title>
 
@@ -162,7 +162,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">aoh: Create Area of Habitat Data</h1>
-<h4 class="date">2022-04-30</h4>
+<h4 class="date">2022-05-03</h4>
 
 
 <div id="TOC">
@@ -251,23 +251,24 @@ div.csl-indent {
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## - id_no            : IUCN Red List taxon identifier</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## - seasonal         : integer identifier for seasonal distributions</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## - full_habitat_code: All IUCN Red List codes for suitable habitat classes</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">##                      (multiple codes are delimited using &quot;|&quot; symbols)</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">## - habitat_code     : IUCN Red List codes for suitable habitat classes</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##                      used to create AOH maps</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">## - elevation_lower  : lower limit for the species on IUCN Red List</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">## - elevation_upper  : upper limit for the species on IUCN Red List</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## - xmin             : minimum x-coordinate for Area of Habitat data</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## - xmax             : maximum x-coordinate for Area of Habitat data</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## - ymin             : minimum y-coordinate for Area of Habitat data</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## - ymax             : maximum y-coordinate for Area of Habitat data</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## - path             : file path for Area of Habitat data (GeoTIFF format)</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## since data obtained from the IUCN Red List cannot be redistributed,</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## we will not show all the columns in this object</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">## N.B. you can view all columns on your computer with: print(spp_aoh_data)</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(spp_aoh_data[, <span class="fu">c</span>(<span class="st">&quot;id_no&quot;</span>, <span class="st">&quot;seasonal&quot;</span>, <span class="st">&quot;path&quot;</span>)])</span></code></pre></div>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## - category         : character IUCN Red List threat category</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## - full_habitat_code: All IUCN Red List codes for suitable habitat classes</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">##                      (multiple codes are delimited using &quot;|&quot; symbols)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">## - habitat_code     : IUCN Red List codes for suitable habitat classes</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##                      used to create AOH maps</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">## - elevation_lower  : lower limit for the species on IUCN Red List</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## - elevation_upper  : upper limit for the species on IUCN Red List</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## - xmin             : minimum x-coordinate for Area of Habitat data</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## - xmax             : maximum x-coordinate for Area of Habitat data</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## - ymin             : minimum y-coordinate for Area of Habitat data</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## - ymax             : maximum y-coordinate for Area of Habitat data</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## - path             : file path for Area of Habitat data (GeoTIFF format)</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## since data obtained from the IUCN Red List cannot be redistributed,</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">## we will not show all the columns in this object</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="do">## N.B. you can view all columns on your computer with: print(spp_aoh_data)</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(spp_aoh_data[, <span class="fu">c</span>(<span class="st">&quot;id_no&quot;</span>, <span class="st">&quot;seasonal&quot;</span>, <span class="st">&quot;path&quot;</span>)])</span></code></pre></div>
 <pre><code>## Simple feature collection with 4 features and 3 fields
 ## Geometry type: POLYGON
 ## Dimension:     XY
@@ -276,10 +277,10 @@ div.csl-indent {
 ## # A tibble: 4 × 4
 ##   id_no seasonal path                                                   geometry
 ##   &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;                                             &lt;POLYGON [m]&gt;
-## 1   979        1 /tmp/RtmpuCrV1V/979_1.tif   ((-105492 4465129, -106457 4464790…
-## 2 59448        1 /tmp/RtmpuCrV1V/59448_1.tif ((-238707 5029084, -237742 5028026…
-## 3  4657        1 /tmp/RtmpuCrV1V/4657_1.tif  ((-859178 4559308, -859307 4559308…
-## 4 58622        1 /tmp/RtmpuCrV1V/58622_1.tif ((-849787 4614155, -848114 4615218…</code></pre>
+## 1   979        1 /tmp/RtmpDccz3Y/979_1.tif   ((-105492 4465129, -106457 4464790…
+## 2 59448        1 /tmp/RtmpDccz3Y/59448_1.tif ((-238707 5029084, -237742 5028026…
+## 3  4657        1 /tmp/RtmpDccz3Y/4657_1.tif  ((-859178 4559308, -859307 4559308…
+## 4 58622        1 /tmp/RtmpDccz3Y/58622_1.tif ((-849787 4614155, -848114 4615218…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the Area of Habitat data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## since the data for each species have a different spatial extent</span></span>
@@ -347,9 +348,9 @@ div.csl-indent {
 ## resolution  : 100, 100  (x, y)
 ## extent      : -914731, 318669, 4364277, 5066777  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## sources     : spat_uWthb30JDPufyVc_134802.tif  
-##               spat_TdZr6104NwIVtfX_134802.tif  
-##               spat_9NftMiVKsQBaCZV_134802.tif  
+## sources     : spat_bmQty9Jxj3lydAL_264133.tif  
+##               spat_wBMYLa1lkvIWBp9_264133.tif  
+##               spat_TFz2w4lBXHTWUZQ_264133.tif  
 ##               ... and 1 more source(s)
 ## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 
 ## min values  :         0,           0,          0,           0 

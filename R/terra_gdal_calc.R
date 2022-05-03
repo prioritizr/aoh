@@ -24,10 +24,10 @@ NULL
 #' @inherit terra_gdal_project return
 #'
 #' @examples
-#' # please ensure that the gdalUtils package is installed and
-#' # GDAL system binaries are installed to run this example
+#' # please ensure that the Python and the GDAL system binaries are
+#' # installed to run the example
 #'
-#' @examplesIf is_gdal_available() && is_gdal_python_available()
+#' @examplesIf is_gdal_python_available()
 #' # create raster with data
 #' x <- rast(
 #'   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
@@ -77,7 +77,6 @@ terra_gdal_calc <- function(x, expr,
     assertthat::noNA(output_raster),
     assertthat::is.string(datatype),
     assertthat::noNA(datatype),
-    is_gdal_available(),
     is_gdal_python_available()
   )
   if (inherits(x, "SpatRaster")) {

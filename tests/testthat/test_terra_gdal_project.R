@@ -2,7 +2,7 @@ context("terra_gdal_project()")
 
 test_that("single layer (single core)", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # create data
   x <- terra::rast(
     ncols = 40, nrows = 40,
@@ -30,7 +30,7 @@ test_that("single layer (single core)", {
 
 test_that("single layer (parallel processing)", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # create data
   x <- terra::rast(
     ncols = 40, nrows = 40,
@@ -58,7 +58,7 @@ test_that("single layer (parallel processing)", {
 
 test_that("multiple layers (single core)", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # create data
   x <- terra::rast(
     ncols = 40, nrows = 40,
@@ -91,7 +91,7 @@ test_that("multiple layers (single core)", {
 
 test_that("multiple layers (parallel processing)", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # create data
   x <- terra::rast(
     ncols = 40, nrows = 40,

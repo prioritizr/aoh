@@ -71,7 +71,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>aoh: Create Area of Habitat Data</h1>
             
-            <h4 data-toc-skip class="date">2022-04-30</h4>
+            <h4 data-toc-skip class="date">2022-05-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -163,6 +163,7 @@
 <span class="co">##</span>
 <span class="co">## - id_no            : IUCN Red List taxon identifier</span>
 <span class="co">## - seasonal         : integer identifier for seasonal distributions</span>
+<span class="co">## - category         : character IUCN Red List threat category</span>
 <span class="co">## - full_habitat_code: All IUCN Red List codes for suitable habitat classes</span>
 <span class="co">##                      (multiple codes are delimited using "|" symbols)</span>
 <span class="co">## - habitat_code     : IUCN Red List codes for suitable habitat classes</span>
@@ -188,10 +189,10 @@
 <span class="co">## <span style="color: #949494;"># A tibble: 4 × 4</span></span>
 <span class="co">##   id_no seasonal path                                                   geometry</span>
 <span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                             <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>   979        1 /tmp/RtmpUIVfi9/979_1.tif   ((-105492 4465129, -106457 4464790…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448        1 /tmp/RtmpUIVfi9/59448_1.tif ((-238707 5029084, -237742 5028026…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657        1 /tmp/RtmpUIVfi9/4657_1.tif  ((-859178 4559308, -859307 4559308…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622        1 /tmp/RtmpUIVfi9/58622_1.tif ((-849787 4614155, -848114 4615218…</span></code></pre>
+<span class="co">## <span style="color: #BCBCBC;">1</span>   979        1 /tmp/RtmpYttvsJ/979_1.tif   ((-105492 4465129, -106457 4464790…</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448        1 /tmp/RtmpYttvsJ/59448_1.tif ((-238707 5029084, -237742 5028026…</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657        1 /tmp/RtmpYttvsJ/4657_1.tif  ((-859178 4559308, -859307 4559308…</span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622        1 /tmp/RtmpYttvsJ/58622_1.tif ((-849787 4614155, -848114 4615218…</span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -261,9 +262,9 @@
 <span class="co">## resolution  : 100, 100  (x, y)</span>
 <span class="co">## extent      : -914731, 318669, 4364277, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## sources     : spat_ZAvcUJIZKgjJyLK_134493.tif  </span>
-<span class="co">##               spat_yonyrzlTcosKZvW_134493.tif  </span>
-<span class="co">##               spat_EyiicTg2xL9RXD6_134493.tif  </span>
+<span class="co">## sources     : spat_uSszp19kbIL8Kzv_263811.tif  </span>
+<span class="co">##               spat_DvnjLvDTtqnnP0g_263811.tif  </span>
+<span class="co">##               spat_pZWS9dV4hJLM1XY_263811.tif  </span>
 <span class="co">##               ... and 1 more source(s)</span>
 <span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span>
 <span class="co">## min values  :         0,           0,          0,           0 </span>
@@ -395,7 +396,7 @@ Tracewski, Łukasz, Butchart, S.H.M., Marco, M.D., Ficetola, G.F., Rondinini, C.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

@@ -94,10 +94,13 @@ create_spp_data <- function(x,
     )
   )
   if (identical(engine, "gdal")) {
-    assertthat::assert_that(
-      is_gdal_available(),
-      msg = "can't use GDAL for processing because it's not available."
+  assertthat::assert_that(
+    requireNamespace("gdalUtilities", quietly = TRUE),
+    msg = paste(
+      "the \"gdalUtilities\" package needs to be installed, use",
+      "install.packages(\"gdalUtilities\")"
     )
+  )
   }
   if (identical(engine, "grass")) {
     assertthat::assert_that(
@@ -107,7 +110,7 @@ create_spp_data <- function(x,
   }
   if (identical(engine, "grass")) {
     assertthat::assert_that(
-      is_gdal_available(),
+      is_gdal_python_available(),
       msg = paste(
         "can't use GRASS for processing because it requires GDAL,",
         "which is not available."

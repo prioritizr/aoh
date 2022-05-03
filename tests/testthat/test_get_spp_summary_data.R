@@ -5,6 +5,7 @@ test_that("single taxon identifier", {
   skip_on_cran()
   skip_if_offline()
   skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
   # set parameters
   id_no <- c(18)
   # create objects
@@ -38,6 +39,7 @@ test_that("multiple taxon identifiers", {
   skip_on_cran()
   skip_if_offline()
   skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
   # tests
   id_no <- c(18, 137, 138, 139)
   # create objects
@@ -71,6 +73,7 @@ test_that("some taxon missing summary data", {
   skip_on_cran()
   skip_if_offline()
   skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
   # set parameters
   id_no <- c(18, -100)
   # create objects
@@ -107,6 +110,7 @@ test_that("taxon with multiple records", {
   skip_on_cran()
   skip_if_offline()
   skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
   # set parameters
   id_no <- c(178652, 177906)
   # create objects

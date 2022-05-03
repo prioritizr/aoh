@@ -54,7 +54,7 @@ Suggests:
     smoothr (>= 0.2.2),
     rnaturalearth (>= 0.1.0),
     rgdal (>= 1.5.27),
-    gdalUtils (>= 2.0.3.2),
+    gdalUtilities (>= 1.2.1),
     archive (>= 1.1.2),
     link2GI (>= 0.4.7),
     rgrass7 (>= 0.2.6),

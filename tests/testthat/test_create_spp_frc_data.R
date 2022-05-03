@@ -65,7 +65,7 @@ test_that("simulated data", {
 test_that("different engines produce same result", {
   # skip if needed
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   skip_if_gdal_python_not_available()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
@@ -144,6 +144,7 @@ test_that("example data", {
   skip_on_cran()
   skip_if_offline()
   skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")

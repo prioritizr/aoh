@@ -2,7 +2,7 @@ context("terra_gdal_calc()")
 
 test_that("single layer", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   skip_if_gdal_python_not_available()
   # create data
   x <- terra::rast(
@@ -21,7 +21,7 @@ test_that("single layer", {
 
 test_that("two layers", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   skip_if_not(
     is_gdal_python_available(),
     message = "gdal_calc.py not available"

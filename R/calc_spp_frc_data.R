@@ -59,7 +59,8 @@ NULL
 #' spp_range_data <- read_spp_range_data(path)
 #'
 #' # specify settings for data processing
-#' output_dir <- tempdir()                       # folder to save AOH data
+#' output_aoh_dir <- tempdir()                   # folder to save AOH data
+#' output_frc_dir <- tempdir()                   # folder to save coverage data
 #' cache_dir <- rappdirs::user_data_dir("aoh")   # persistent storage location
 #' n_threads <- parallel::detectCores() - 1      # speed up analysis
 #'
@@ -77,7 +78,7 @@ NULL
 #' # create Area of Habitat data for species
 #' spp_aoh_data <- create_spp_aoh_data(
 #'   x = spp_info_data,
-#'   output_dir = output_dir,
+#'   output_dir = output_aoh_dir,
 #'   n_threads = n_threads,
 #'   cache_dir = cache_dir
 #' )
@@ -85,7 +86,7 @@ NULL
 #' # compute fractional coverage across a 5 x 5 km spatial grid
 #' spp_aoh_frc_data <- calc_spp_frc_data(
 #'   x = spp_aoh_data,
-#'   output_dir = output_dir,
+#'   output_dir = output_frc_dir,
 #'   res = 5000,
 #'   cache_dir = cache_dir
 #' )
@@ -151,8 +152,11 @@ calc_spp_frc_data <- function(x,
   )
   if (isTRUE(identical(engine, "gdal"))) {
     assertthat::assert_that(
-      is_gdal_available(),
-      msg = "can't use GDAL for processing because it's not available."
+      requireNamespace("gdalUtilities", quietly = TRUE),
+      msg = paste(
+        "the \"gdalUtilities\" package needs to be installed, use",
+        "install.packages(\"gdalUtilities\")"
+      )
     )
   }
   ## template data
@@ -258,7 +262,8 @@ calc_spp_frc_data <- function(x,
         template_data = template_data,
         path = x$path[i],
         engine = engine,
-        n_threads = n_threads
+        n_threads = n_threads,
+        cache_limit = cache_limit
       )
     )
     ## update progress bar if needed

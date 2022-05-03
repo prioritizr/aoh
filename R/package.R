@@ -109,4 +109,6 @@ NULL
 NULL
 
 # ensure package checks pass
-f <- rappdirs::app_dir
+#' @importFrom rappdirs app_dir
+#' @importFrom parallel detectCores
+NULL
