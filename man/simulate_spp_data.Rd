@@ -106,7 +106,7 @@ It contains the following elements:
 \item{spp_range_data}{A \code{\link[sf:sf]{sf::st_sf()}} object containing the species'
 geographic range data.}
 \item{spp_summary_data}{A \code{\link[tibble:tibble]{tibble::tibble()}} object containing summary
-information about the species (including altitudinal limit information.}
+information about the species (including elevational limit information.}
 \item{spp_habitat_data}{A \code{\link[tibble:tibble]{tibble::tibble()}} object containing habitat
 preferences for the species.}
 }
@@ -148,7 +148,7 @@ x <- simulate_spp_data(
 # preview species range data
 print(x$spp_range_data)
 
-# preview species habitat affiliation data
+# preview species habitat preference data
 print(x$spp_habitat_data)
 
 # preview species summary data

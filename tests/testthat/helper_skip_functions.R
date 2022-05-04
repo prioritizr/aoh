@@ -16,6 +16,13 @@ skip_if_iucn_key_missing <- function() {
   )
 }
 
+skip_if_iucn_api_not_available <- function() {
+  testthat::skip_if_not(
+    is_iucn_rl_api_available(),
+    "IUCN Red List API not available"
+  )
+}
+
 skip_if_local_and_slow_internet <- function(x) {
   testthat::skip_if_not_installed("pingr")
   x <- (mean(pingr::ping("www.google.com", count = 10)) > 10) &&
@@ -48,10 +55,6 @@ skip_if_iucn_red_list_data_not_available <- function(x) {
     return(testthat::skip("Unable to access IUCN Red List data"))
   }
   TRUE
-}
-
-skip_if_gdal_not_available <- function() {
-  skip_if_not(is_gdal_available(), message = "GDAL not available")
 }
 
 skip_if_gdal_python_not_available <- function() {

@@ -11,18 +11,19 @@ understand the impacts of habitat loss on species, and prioritize areas for
 conservation (e.g., Tracewski \emph{et al.} 2016; Rondinini \emph{et al.} 2005).
 These maps are generally produced by obtaining geographic range data for a
 species, and then removing areas that do not contain suitable habitat or
-occur outside the known altitudinal limits for the species
+occur outside the known elevational limits for the species
 (Brooks \emph{et al.} 2019). To help make these maps accessible, the package
 provides routines for automatically creating Area of Habitat data based on
 the \href{https://www.iucnredlist.org/}{International Union for Conservation of Nature (IUCN) Red List of Threatened Species}. After manually downloading
 species range data from the
 \href{https://www.iucnredlist.org/resources/spatial-data-download}{IUCN Red List},
-users can import them (using \code{\link[=read_spp_range_data]{read_spp_range_data()}}) and then use them to
-create Area of Habitat data (using \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}).
-Global elevation and habitat classification data (Amatulli \emph{et al.} 2018;
-Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres *et al. 2021)
-are automatically downloaded, and data on species'
-habitat preferences and altitudinal limits are obtained automatically using
+users can import them (using \code{\link[=read_spp_range_data]{read_spp_range_data()}}), prepare them and
+collate additional information for subsequent processing (using
+\code{\link[=create_spp_info_data]{create_spp_info_data()}}), and then create Area of Habitat data
+(using \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}). Global elevation and habitat classification
+data (Amatulli \emph{et al.} 2018; Jung \emph{et al.} 2020a,b; Lumbierres 2021;
+Lumbierres *et al. 2021) are automatically downloaded, and data on species'
+habitat preferences and elevational limits are obtained automatically using
 the \href{https://apiv3.iucnredlist.org/}{IUCN Red List API}.
 Since accessing the IUCN Red List API requires a token, users may need to
 \href{https://apiv3.iucnredlist.org/api/v3/token}{obtain a token}

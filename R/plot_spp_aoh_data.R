@@ -63,9 +63,15 @@ NULL
 #'   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 #' }
 #'
+#' # create species information data
+#' spp_info_data <- create_spp_info_data(
+#'   x = spp_range_data,
+#'   cache_dir = cache_dir
+#' )
+#'
 #' # create Area of Habitat data for species
 #' spp_aoh_data <- create_spp_aoh_data(
-#'   x = spp_range_data,
+#'   x = spp_info_data,
 #'   output_dir = output_dir,
 #'   n_threads = n_threads,
 #'   cache_dir = cache_dir

@@ -15,10 +15,10 @@ NULL
 #' @param habitat_values `numeric` Vector of values in the argument
 #'   to `habitat_data` with suitable habitat.
 #'
-#' @param lower_elevation `numeric` Value denoting lower altitudinal
+#' @param lower_elevation `numeric` Value denoting lower elevational
 #'   limit for the species.
 #'
-#' @param upper_elevation `numeric` Value denoting lower altitudinal
+#' @param upper_elevation `numeric` Value denoting lower elevational
 #'   limit for the species.
 #'
 #' @param extent `terra::ext()` Object denoting the spatial extent for

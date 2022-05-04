@@ -17,14 +17,14 @@ Area of Habitat (AOH) maps aim to delineate the spatial distribution of
 suitable habitat for a species ([Brooks *et al.*
 2019](https://doi.org/10.1016/j.tree.2019.06.009)). They are used to
 assess performance of protected area systems, measure impacts of threats
-to biodiversity, and identify priorities for conservation actions
-(e.g. [Rondinini *et al.*
+to biodiversity, and identify priorities for conservation actions (e.g.,
+[Rondinini *et al.*
 2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x); [Tracewski *et
 al.* 2016](https://doi.org/10.1111/cobi.12715); [Durán *et al.*
 2021](https://doi.org/10.1111/2041-210X.13427)). These maps are
 generally produced by obtaining geographic range data for a species, and
 then removing areas that do not contain suitable habitat or occur
-outside the known altitudinal limits for the species ([Brooks *et al.*
+outside the known elevational limits for the species ([Brooks *et al.*
 2019](https://doi.org/10.1016/j.tree.2019.06.009)). To help make these
 maps accessible, the *aoh R* package provides routines for automatically
 creating Area of Habitat data based on the [International Union for
@@ -32,14 +32,15 @@ Conservation of Nature (IUCN) Red List of Threatened
 Species](https://www.iucnredlist.org/). After manually downloading
 species range data from the [IUCN Red
 List](https://www.iucnredlist.org/resources/spatial-data-download),
-users can import these data (using `read_spp_range_data()`) and then use
-them to create Area of Habitat data (using `create_spp_aoh_data()`).
-Global elevation and habitat classification data ([Amatulli *et al.*
-2018](https://doi.org/10.1038/sdata.2018.40); [Jung *et al.*
-2020](https://doi.org/10.1038/s41597-020-00599-8); [Lumbierres *et al.*
-2021](https://doi.org/10.1111/cobi.13851)) are automatically downloaded,
-and data on species’ habitat preferences and altitudinal limits are
-obtained automatically using the [IUCN Red List
+users can import them (using `read_spp_range_data()`), prepare them and
+collate additional information for subsequent processing (using
+`create_spp_info_data()`), and then create Area of Habitat data (using
+`create_spp_aoh_data()`). Global elevation and habitat classification
+data ([Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40);
+[Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8);
+[Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851)) are
+automatically downloaded, and data on species’ habitat preferences and
+elevational limits are obtained automatically using the [IUCN Red List
 API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List
 requires a token, users may need to [obtain a
 token](https://apiv3.iucnredlist.org/api/v3/token) and update their *R*
@@ -143,7 +144,7 @@ not have one already). To do so, please visit the IUCN website (see
 <https://apiv3.iucnredlist.org/api/v3/token>) and fill out the form to
 apply for a token. You should then receive a token shortly after
 completing the form (but not immediately). After receiving a token,
-please open the `.Renviron` file on your computer (e.g. using
+please open the `.Renviron` file on your computer (e.g., using
 `usethis::edit_r_environ()`). Next, please add the following text to the
 file (replacing the string with the token) and save the file, using your
 token in place of the string below.
@@ -223,9 +224,12 @@ print(spp_range_data)
     ## #   family <chr>, genus <chr>, category <chr>, marine <chr>, terrestial <chr>,
     ## #   freshwater <chr>, geometry <POLYGON [°]>
 
-Next, we will generate Area of Habitat data for the species. We also
-specify a folder to cache the downloaded datasets so that we won’t need
-to re-downloaded again during subsequent runs.
+Next, we will prepare all the range data for generating Area of Habitat
+data. This procedure – in addition to repairing any geometry issues in
+the spatial data – will obtain information on the species’ habitat
+preferences and elevational limits (via the IUCN Red List of Threatened
+Species). We also specify a folder to cache the downloaded data so that
+we won’t need to re-download it again during subsequent runs.
 
 ``` r
 # specify cache directory
@@ -235,6 +239,22 @@ cache_dir <- user_data_dir("aoh")
 if (!file.exists(cache_dir)) {
   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 }
+
+# prepare information
+spp_info_data <- create_spp_info_data(spp_range_data, cache_dir = cache_dir)
+```
+
+We can now generate Area of Habitat data for the species. By default,
+these data will be generated using elevation data derived from [Amatulli
+*et al.* 2018](https://doi.org/10.1038/sdata.2018.40) and habitat data
+derived from [Lumbierres *et al.*
+2021](https://doi.org/10.1111/cobi.13851). Similar to before, we also
+specify a folder to cache the downloaded datasets so that we won’t need
+to re-downloaded again during subsequent runs.
+
+``` r
+# specify cache directory
+cache_dir <- user_data_dir("aoh")
 
 # specify folder to save Area of Habitat data
 ## although we use a temporary directory here to avoid polluting your
@@ -246,7 +266,7 @@ output_dir <- tempdir()
 ## note that this function might take a complete because it will need to
 ## download the global habitat and elevation data that first time you run it.
 spp_aoh_data <- create_spp_aoh_data(
-  spp_range_data, output_dir = output_dir, cache_dir = cache_dir
+  spp_info_data, output_dir = output_dir, cache_dir = cache_dir
 )
 
 # preview results
@@ -269,7 +289,7 @@ print(spp_aoh_rasters)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
-    ## source      : AOH_979_1.tif 
+    ## source      : 979_1.tif 
     ## name        : lyr1 
     ## min value   :    0 
     ## max value   :    1 
@@ -280,7 +300,7 @@ print(spp_aoh_rasters)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
-    ## source      : AOH_59448_1.tif 
+    ## source      : 59448_1.tif 
     ## name        : lyr1 
     ## min value   :    0 
     ## max value   :    1 
@@ -291,7 +311,7 @@ print(spp_aoh_rasters)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
-    ## source      : AOH_4657_1.tif 
+    ## source      : 4657_1.tif 
     ## name        : lyr1 
     ## min value   :    0 
     ## max value   :    1 
@@ -302,7 +322,7 @@ print(spp_aoh_rasters)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
-    ## source      : AOH_58622_1.tif 
+    ## source      : 58622_1.tif 
     ## name        : lyr1 
     ## min value   :    0 
     ## max value   :    1

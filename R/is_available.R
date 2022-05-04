@@ -36,31 +36,6 @@ is_iucn_rl_api_available <- function(key = NULL, n = 5) {
   !inherits(x, "try-error")
 }
 
-#' Is GDAL available?
-#'
-#' Check if the Geospatial Data Abstraction Library (GDAL) is available for
-#' processing data.
-#'
-#' @details
-#' The function verifies that (1) the \pkg{gdalUtils} package in installed,
-#' (2) GDAL is installed (i.e., via `system("gdalinfo --version")`), and
-#' (3) the version of GDAL installed is at least 3.0.2.
-#' If any of these checks fail, then GDAL is not considered available.
-#
-#' @return A `logical` indicating if GDAL is available or not.
-#'
-#' @examples
-#' # check if GDAL is available?
-#' print(is_gdal_available())
-#'
-#' @export
-is_gdal_available <- function() {
-  if (!requireNamespace("gdalUtils", quietly = TRUE)) return(FALSE)
-  v <- gdal_version()
-  if (is.na(v)) return(FALSE)
-  isTRUE(as.package_version(v) >= as.package_version("3.0.2"))
-}
-
 #' GDAL version
 #'
 #' Find the version of the Geospatial Data Abstraction Library (GDAL)
@@ -99,6 +74,9 @@ gdal_version <- function() {
 #'
 #' @export
 is_gdal_python_available <- function() {
+  v <- gdal_version()
+  if (is.na(v)) return(FALSE)
+  if (as.package_version(v) < as.package_version("3.0.2")) return(FALSE)
   v <- try(
     system("gdal_calc.py --help", intern = TRUE),
     silent = TRUE

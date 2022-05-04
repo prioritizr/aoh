@@ -23,7 +23,7 @@ process_spp_aoh_on_local <- function(x,
                                      path,
                                      engine = "terra",
                                      n_threads = 1,
-                                     cache_limit = 1000) {
+                                     cache_limit = 200) {
   # main processing
   if (identical(engine, "terra")) {
     engine_spp_aoh_terra(
@@ -46,7 +46,8 @@ process_spp_aoh_on_local <- function(x,
       upper_elevation = upper_elevation,
       extent = extent,
       path = path,
-      n_threads = n_threads
+      n_threads = n_threads,
+      cache_limit = cache_limit
     )
   } else if (identical(engine, "grass")) {
     engine_spp_aoh_grass(

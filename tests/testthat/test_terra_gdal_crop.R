@@ -2,7 +2,7 @@ context("terra_gdal_crop()")
 
 test_that("single core", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -22,7 +22,7 @@ test_that("single core", {
 
 test_that("parallel processing", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,

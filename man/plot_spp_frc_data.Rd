@@ -78,9 +78,15 @@ if (!file.exists(cache_dir)) {
   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
+# create species information data
+spp_info_data <- create_spp_info_data(
+  x = spp_range_data,
+  cache_dir = cache_dir
+)
+
 # create fractional coverage data for species
 spp_aoh_data <- create_spp_frc_data(
-  x = spp_range_data,
+  x = spp_info_data,
   res = 5000,
   output_dir = output_dir,
   n_threads = n_threads,

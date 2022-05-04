@@ -21,13 +21,16 @@ test_that("simulated data", {
   )
   # prepare data
   d <- create_spp_aoh_data(
-    x = read_spp_range_data(f),
+    x = create_spp_info_data(
+      x = read_spp_range_data(f),
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      verbose = interactive()
+    ),
     output_dir = tempdir(),
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
     verbose = interactive()
   )
   # compute fractional coverage
@@ -76,7 +79,7 @@ test_that("simulated data", {
 test_that("different engines produce same result", {
   # skip if needed
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   skip_if_gdal_python_not_available()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
@@ -101,13 +104,16 @@ test_that("different engines produce same result", {
   dir.create(output_dir2, showWarnings = FALSE, recursive = TRUE)
   # prepare data
   d <- create_spp_aoh_data(
-    x = read_spp_range_data(f),
+    x = create_spp_info_data(
+      x = read_spp_range_data(f),
+      spp_habitat_data = spp_habitat_data,
+      spp_summary_data = spp_summary_data,
+      verbose = interactive()
+    ),
     output_dir = output_dir1,
     habitat_data = habitat_data,
     elevation_data = elevation_data,
     crosswalk_data = crosswalk_jung_lvl2_data,
-    spp_habitat_data = spp_habitat_data,
-    spp_summary_data = spp_summary_data,
     verbose = interactive()
   )
   # compute fractional coverage
@@ -154,13 +160,18 @@ test_that("example data", {
   skip_on_cran()
   skip_if_offline()
   skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
   # prepare data
   d <- suppressWarnings(
     create_spp_aoh_data(
-      x = read_spp_range_data(f),
+      x = create_spp_info_data(
+        x = read_spp_range_data(f),
+        cache_dir = cd,
+        verbose = interactive()
+      ),
       output_dir = tempdir(),
       cache_dir = cd,
       habitat_version = latest_lumbierres_version,

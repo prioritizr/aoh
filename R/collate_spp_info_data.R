@@ -1,13 +1,13 @@
-#' @include internal.R clean_spp_range_data.R misc_terra.R misc_sf.R
+#' @include internal.R misc_terra.R misc_sf.R
 NULL
 
-#' Format species data
+#' Collate species information data
 #'
-#' Format species data obtained from the
+#' Collate species data obtained from the
 #' [International Union for Conservation of Nature (IUCN) Red List of
 #' Threatened Species](https://www.iucnredlist.org/).
 #' Specifically, it combines data delineating species geographic ranges,
-#' habitat preferences, and altitudinal limits into a single dataset.
+#' habitat preferences, and elevational limits into a single dataset.
 #'
 #' @param x `sf::st_sf()` Spatial object containing species range data.
 #'  Arguments should follow the output format from [clean_spp_range_data()].
@@ -20,30 +20,22 @@ NULL
 #'   data.
 #'   Arguments should follow the output format from [get_spp_habitat_data()].
 #'
-#' @inheritParams create spp_aoh_data
-#' @inheritParams clean_spp_range_data
+#' @inheritParams create_spp_info_data
 #'
 #' @return
 #' A [sf::st_sf()] spatial object containing an updated version of the
-#' argument to `x` that has been cleaned for subsequent analysis
-#' (see [clean_spp_range_data()]) and contains the additional columns:
-#' `"habitat_codes"`, `"elevation_lower"`, `"elevation_upper"`,
-#' `"xmin"`, `"xmax"`, `"ymin"`, and `"ymax"`.
+#' argument to `x` that has been cleaned and contains the following additional
+#' columns:
+#' `"category"`, `"full_habitat_code"`, `"elevation_lower"`, and
+#' `"elevation_upper"`.
 #'
 #' @noRd
-format_spp_data <- function(x,
-                            spp_summary_data,
-                            spp_habitat_data,
-                            template_data,
-                            cache_dir = tempdir(),
-                            iucn_version = "latest",
-                            key = NULL,
-                            force = FALSE,
-                            keep_iucn_rl_presence = keep_iucn_rl_presence,
-                            keep_iucn_rl_origin = keep_iucn_rl_origin,
-                            keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
-                            omit_habitat_codes = iucn_habitat_codes_marine(),
-                            verbose = TRUE) {
+collate_spp_info_data <- function(x,
+                                  spp_summary_data,
+                                  spp_habitat_data,
+                                  omit_habitat_codes =
+                                    iucn_habitat_codes_marine(),
+                                  verbose = TRUE) {
   # assert arguments are valid
   ## initial checks
   assertthat::assert_that(
@@ -138,7 +130,7 @@ format_spp_data <- function(x,
     by = "id_no"
   )
 
-  # add habitat affiliation columns
+  # add habitat preference columns
   ## remove rows for taxa missing habitat information
   idx <- !is.na(spp_habitat_data$code)
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
@@ -152,26 +144,33 @@ format_spp_data <- function(x,
   ## for bird species that are missing data for "resident" distributions,
   ## we will assume that the habitat codes for their "resident"
   ## distributions are the same as their "breeding" distributions
-  idx <- which(
-    (!x$id_no %in%
-      spp_habitat_data$id_no[which(spp_habitat_data$seasonal == 1)]
-    ) &
-    (x$id_no %in% x$id_no[which(x$seasonal == 1)]) &
-    (x$class == "AVES")
+  spp_habitat_data <- add_missing_habitat_codes(
+    x = x,
+    habitat_data = spp_habitat_data,
+    source_code = 2,
+    update_code = 1,
+    class = "AVES"
   )
-  missing_bird_ids <- unique(x$id_no[idx])
-  if (length(missing_bird_ids > 0)) {
-    idx <- which(
-      (spp_habitat_data$id_no %in% missing_bird_ids) &
-      (spp_habitat_data$seasonal == 2)
-    )
-    missing_bird_spp_habitat <- spp_habitat_data[idx, , drop = FALSE]
-    missing_bird_spp_habitat$seasonal <- 1
-    spp_habitat_data <- dplyr::bind_rows(
-      spp_habitat_data,
-      missing_bird_spp_habitat
-    )
-  }
+  ## for bird species that are missing data for "breeding" distributions,
+  ## we will assume that the habitat codes for their "breeding"
+  ## distributions are the same as their "resident" distributions
+  spp_habitat_data <- add_missing_habitat_codes(
+    x = x,
+    habitat_data = spp_habitat_data,
+    source_code = 1,
+    update_code = 2,
+    class = "AVES"
+  )
+  ## for bird species that are missing data for "non-breeding" distributions,
+  ## we will assume that the habitat codes for their "non-breeding"
+  ## distributions are the same as their "resident" distributions
+  spp_habitat_data <- add_missing_habitat_codes(
+    x = x,
+    habitat_data = spp_habitat_data,
+    source_code = 1,
+    update_code = 3,
+    class = "AVES"
+  )
   ## remove rows for habitat preferences that are not suitable
   idx <- which(
     tolower(spp_habitat_data$suitability) %in% c("major", "suitable")
@@ -197,18 +196,18 @@ format_spp_data <- function(x,
     )
   )
 
-  ## combine habitat codes into a single column using "|" delimiters
+  ## combine habitat codes into a single list-column
   spp_habitat_data <- dplyr::group_by(
     spp_habitat_data, .data$id_no, .data$seasonal
   )
   spp_habitat_data <- dplyr::summarize(
     spp_habitat_data,
-    habitat_code = list(.data$habitat_code)
+    full_habitat_code = list(.data$habitat_code)
   )
   spp_habitat_data <- dplyr::ungroup(spp_habitat_data)
 
   ## add habitat codes to x
-  nms <- c("id_no", "seasonal", "habitat_code")
+  nms <- c("id_no", "seasonal", "full_habitat_code")
   x <- dplyr::left_join(
     x = x,
     y = spp_habitat_data[, nms, drop = FALSE],
@@ -218,56 +217,43 @@ format_spp_data <- function(x,
   ## standardize values in habitat code column
   ## i.e., replace NULLs with an empty character vector, and
   ## lexicographically sort habitat codes
-  x$habitat_code <- lapply(x$habitat_code, function(x) {
+  x$full_habitat_code <- lapply(x$full_habitat_code, function(x) {
     if (is.character(x)) {
       return(stringi::stri_sort(x, numeric = TRUE))
     }
     character(0)
   })
 
-  # add spatial extent columns
-  ## create empty version of data template
-  empty_template <- terra::rast(
-    xmin = terra::xmin(template_data),
-    xmax = terra::xmax(template_data),
-    ymin = terra::ymin(template_data),
-    ymax = terra::ymax(template_data),
-    resolution = terra::res(template_data),
-    crs =  terra::crs(template_data),
-  )
-  ## add columns for xmin, xmax, ymin, and ymax
-  ### note that we return NAs if the species doesn't overlap with the template
-  x <- dplyr::bind_cols(
-    x,
-    plyr::ldply(seq_len(nrow(x)), function(i) {
-      if (
-        sf::st_intersects(
-          x = sf::st_as_sfc(terra_st_bbox(empty_template)),
-          y = sf::st_as_sfc(sf::st_bbox(x[i, ])),
-          sparse = FALSE
-        )[[1]]
-      ) {
-        ex <- terra::ext(
-          terra::crop(
-            x = empty_template,
-            y = sf_terra_ext(x[i, ]),
-            snap = "out"
-          )
-        )
-      } else {
-        ex <- list(
-          xmin = NA_real_, xmax = NA_real_, ymin = NA_real_, ymax = NA_real_
-        )
-      }
-      data.frame(
-        xmin = ex$xmin,
-        xmax = ex$xmax,
-        ymin = ex$ymin,
-        ymax = ex$ymax
-      )
-    })
+  ## convert list-column to "|" delimited character-column
+  x$full_habitat_code <- vapply(
+    x$full_habitat_code, paste, character(1), collapse = "|"
   )
 
   # return result
   x
+}
+
+add_missing_habitat_codes <- function(x, habitat_data, source_code,
+                                      update_code, class) {
+  idx <- which(
+    (!x$id_no %in%
+      habitat_data$id_no[which(habitat_data$seasonal == update_code)]
+    ) &
+    (x$id_no %in% x$id_no[which(x$seasonal == update_code)]) &
+    (x$class == class)
+  )
+  missing_ids <- unique(x$id_no[idx])
+  if (length(missing_ids > 0)) {
+    idx <- which(
+      (habitat_data$id_no %in% missing_ids) &
+      (habitat_data$seasonal == source_code)
+    )
+    missing_spp_habitat <- habitat_data[idx, , drop = FALSE]
+    missing_spp_habitat$seasonal <- update_code
+    habitat_data <- dplyr::bind_rows(
+      habitat_data,
+      missing_spp_habitat
+    )
+  }
+  habitat_data
 }

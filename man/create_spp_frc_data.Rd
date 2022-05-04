@@ -8,31 +8,23 @@ create_spp_frc_data(
   x,
   output_dir,
   res,
-  spp_summary_data = NULL,
-  spp_habitat_data = NULL,
   elevation_data = NULL,
   habitat_data = NULL,
   crosswalk_data = NULL,
   cache_dir = tempdir(),
-  iucn_version = "latest",
   habitat_version = "latest",
   elevation_version = "latest",
-  key = NULL,
   force = FALSE,
   n_threads = 1,
   cache_limit = 1000,
   engine = "terra",
-  keep_iucn_rl_presence = c(1, 2),
-  keep_iucn_rl_origin = c(1, 2, 6),
-  keep_iucn_rl_seasonal = c(1, 2, 3, 4),
-  omit_habitat_codes = iucn_habitat_codes_marine(),
   verbose = TRUE
 )
 }
 \arguments{
-\item{x}{\code{\link[sf:sf]{sf::sf()}} Spatial data delineating species geographic ranges
-obtained from the \href{https://www.iucnredlist.org/}{IUCN Red List}.
-See below for details.}
+\item{x}{\code{\link[sf:sf]{sf::sf()}} Spatial data delineating species' geographic ranges,
+habitat preferences, and elevational limits. This object should
+be created using the \code{\link[=create_spp_info_data]{create_spp_info_data()}} function.}
 
 \item{output_dir}{\code{character} Folder path to save raster (GeoTIFF) files
 containing the fractional coverage data.}
@@ -42,32 +34,6 @@ Note that the argument to \code{res} must be a factor of the
 the resolution of the underlying Area of Habitat data.
 For example, a value of 5000 would be a valid argument
 if the underlying data had a resolution of 100 m.}
-
-\item{spp_summary_data}{\code{\link[tibble:tibble]{tibble::tibble()}} Table containing summary
-information for each species (in the argument to \code{x}).
-Specifically, the argument should contain the following columns: \code{"id_no"},
-\code{"elevation_lower"}, and \code{"elevation_upper"} columns.
-Here, \code{"id_no"} corresponds to the species' taxon identifier
-(also present in \code{x}), and the \code{"elevation_lower"} and \code{"elevation_upper"}
-columns indicate the lowest and highest elevations that contain habitat
-for the species.
-Defaults to \code{NULL} such that data are automatically obtained from the
-latest version of the \href{https://www.iucnredlist.org}{IUCN Red List}.}
-
-\item{spp_habitat_data}{\code{\link[tibble:tibble]{tibble::tibble()}} Table containing habitat
-preference information for each species (in the argument to \code{x}).
-Specifically, the argument should contain the following columns: \code{"id_no"},
-\code{"code"}, \code{"suitability"}, \code{"season"} columns.
-Here, \code{"id_no"} corresponds to the species' taxon identifier
-(also present in \code{x}), \code{"code"} indicates a habitat classification code
-that is suitable for the species (i.e., based on layer names in the
-argument to habitat_data), \code{"suitability"} indicates the level suitability
-of the habitat class for a given species (e.g., using values such
-as \code{"Suitable"} or \code{"Marginal"}), and \code{"season"} indicates
-if the habitat class is only suitable for a particular seasonal
-distribution (e.g., \code{"Breeding"}).
-Defaults to \code{NULL} such that data are automatically obtained from the
-latest version of the \href{https://www.iucnredlist.org}{IUCN Red List}.}
 
 \item{elevation_data}{\code{\link[terra:rast]{terra::rast()}} Raster data delineating the
 worldwide elevation data (e.g., Robinson \emph{et al.} 2014).
@@ -99,13 +65,6 @@ By default, a temporary directory is used (i.e., \code{tempdir()}).
 \strong{To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).}}
 
-\item{iucn_version}{\code{character} Version of the
-IUCN Red List dataset that should be used. See documentation for the
-the \code{version} parameter in the \code{\link[=get_spp_summary_data]{get_spp_summary_data()}} function
-for further details.
-Defaults to \code{"latest"} such that the most recent version of the dataset is
-used.}
-
 \item{habitat_version}{\code{character} Version of the
 habitat dataset that should be used. See documentation for the
 the \code{version} parameter in the \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}} function
@@ -123,11 +82,6 @@ This parameter is only used if elevation data are obtained
 automatically (i.e., the argument to \code{elevation_data} is \code{NULL}).
 Defaults to \code{"latest"} such that the most recent version of the dataset is
 used if data need to be obtained.}
-
-\item{key}{\code{character} Token for querying the IUCN Red List API.
-Defaults to \code{NULL} such that the token
-accessed from  the \code{"IUCN_REDLIST_KEY"} environmental variable
-(which can be specified in the .Renviron file).}
 
 \item{force}{\code{logical} Should the data be downloaded even if the
 the data are already available?
@@ -158,57 +112,18 @@ Available options include \code{"terra"}, \code{"gdal"}, or \code{"grass"}
 (see below for details).
 Defaults to \code{"terra"}.}
 
-\item{keep_iucn_rl_presence}{\code{integer} IUCN Red List presence codes
-to retain
-(see IUCN SSC Red List Technical Working Group 2021 for details).
-Species' ranges that are not associated with these codes are
-excluded during data cleaning procedures.
-Defaults to a numeric vector containing \code{1} and \code{2}
-(corresponding to \emph{extant} and \emph{probably extant}).}
-
-\item{keep_iucn_rl_origin}{\code{integer} IUCN Red List origin codes
-to retain
-(see IUCN SSC Red List Technical Working Group 2021 for details).
-Species' ranges that are not associated with these codes are
-excluded during data cleaning procedures.
-Defaults to a numeric vector containing \code{1}, \code{2}, and \code{6}.
-(corresponding to \emph{native}, \emph{reintroduced}, and \emph{assisted colonization}).}
-
-\item{keep_iucn_rl_seasonal}{\code{integer} IUCN Red List seasonal codes
-to retain
-(see IUCN SSC Red List Technical Working Group 2021 for details).
-Species' ranges that are not associated with these codes are
-excluded during data cleaning procedures.
-Defaults to a numeric vector containing \code{1}, \code{2}, \code{3}, and \code{4}.
-(corresponding to \emph{resident}, \emph{breeding season}, \emph{non-breeding season},
-and \emph{passage} distributions).}
-
-\item{omit_habitat_codes}{\code{character} Habitat classification codes
-to omit from resulting Area of Habitat data.
-Please see the \href{https://www.iucnredlist.org/resources/habitat-classification-scheme}{IUCN Red List Habitat Classification Scheme}
-for the full range of habitat classification codes.
-For example,
-if the aim is to identify natural places that contain suitable conditions,
-then areas classified as anthropogenically modified
-(\code{\link[=iucn_habitat_codes_artificial]{iucn_habitat_codes_artificial()}}),
-introduced vegetation (\code{\link[=iucn_habitat_codes_introduced]{iucn_habitat_codes_introduced()}},
-or unknown habitat (\code{\link[=iucn_habitat_codes_misc]{iucn_habitat_codes_misc()}}) should
-be excluded.
-Defaults to \code{\link[=iucn_habitat_codes_marine]{iucn_habitat_codes_marine()}}, such that marine
-habitats are excluded.}
-
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}
 }
 \value{
-A \code{\link[sf:sf]{sf::st_sf()}} object containing cleaned versions of the species' range maps
-used to generate Area of Habitat data, and additional
-columns describing the output raster files.
-Specifically, the object contains the following columns:
+A \code{\link[sf:sf]{sf::st_sf()}} object. This object is an updated version
+of the argument to \code{x}, and contains additional columns describing the
+output raster files. Specifically, it contains the following columns:
 \describe{
 \item{id_no}{\code{numeric} species' taxon identifier on the IUCN Red List.}
 \item{binomial}{\code{character} species name.}
 \item{seasonal}{\code{numeric} seasonal distribution code.}
+\item{category}{\code{character} IUCN Red List threat category.}
 \item{full_habitat_code}{\code{character} all habitat classification
 codes that contain suitable habitat for the species.
 If a given species has multiple suitable habitat classes,
@@ -272,60 +187,6 @@ Note that if elevation and habitat data are supplied
 (i.e. as arguments to \code{elevation_data} and \code{habitat_data}), then
 the user-supplied datasets are used to generate Area of Habitat data.
 
-\item Species range data cleaned to prepare them for subsequent
-analysis. Briefly, this process involves excluding places where the
-(i) species' presence is not \emph{extant} or
-\emph{probably extant}
-(i.e. filtering based on \code{presence == 1} or \code{presence == 2});
-(ii) species' origin is not \emph{native},
-\emph{reintroduced}, or the result of \emph{assisted colonization}
-(i.e. filtering based on \code{origin == 1}, \code{origin == 2}, or \code{origin == 6});
-(iii) available information on which species' seasonal distribution
-is \emph{uncertain}
-(i.e. filtering based on \code{seasonal != 5}); and
-(iv) species' distribution is not terrestrial
-(i.e. filtering based on where \code{terrestrial == "true"}).
-Additionally, the species' range data are spatially dissolved so that each
-seasonal distribution for each taxon is represented by a separate geometry.
-Finally, geoprocessing routines are used to detect and repair
-any invalid geometries.
-
-\item Species' altitudinal limit and habitat affiliation data are
-imported
-(if needed,
-see \code{\link[=get_spp_summary_data]{get_spp_summary_data()}} and \code{\link[=get_spp_habitat_data]{get_spp_habitat_data()}} for details).
-If these data are not available in the cache directory
-(i.e. argument to \code{cache_dir}), then they are automatically downloaded
-to the cache directory
-Note that if species' altitudinal limit and habitat affiliation
-data are supplied (i.e. as arguments to \code{spp_summary_data} and
-\code{spp_habitat_data}), then the user-supplied datasets are used to generate
-Area of Habitat data.
-
-\item The species data are collated into a single dataset containing
-their geographic ranges, altitudinal limits, and habitat affiliations.
-Specifically, taxon identifiers (per the \code{id_no}/\code{SISID} columns)
-are used merge the datasets together.
-If a species lacks lower or upper altitudinal limits,
-then limits of 0 and 9,000 m are assumed respectively
-(following Lumbierres \emph{et al.} 2021).
-Additionally, the following rules are used to assign
-habitat affiliations for species' distributions.
-First, habitat affiliations are only
-included in the collated dataset if they are classified as \emph{suitable}
-or \emph{major}.
-Second, if a habitat affiliation is defined for a specific seasonal
-distribution of a particular species (e.g. \emph{non-breeding}), then that
-habitat affiliation is only assigned to that specific seasonal
-distribution for the species.
-Third, if a habitat affiliation is not defined for a specific
-seasonal distribution, then the habitat is assigned to all seasonal
-distributions associated with the species.
-Fourth, because the \emph{resident} distributions of some bird species
-lack specific habitat affiliation data, the habitat affiliation data
-for these \emph{resident} distributions are assigned based on habitat
-affiliations for the species' \emph{breeding} distribution.
-
 \item The Area of Habitat data are then generated for each seasonal
 distribution of each species. For a given species' distribution,
 the data are generated by
@@ -370,7 +231,8 @@ file names and spatial metadata for the fractional coverage data.
 
 Fractional coverage data are stored in a separate raster (GeoTIFF) file for
 each seasonal distribution of each species. Each raster file is assigned a
-file name based on a prefix and a combination of the species' taxon identifier
+file name based on a prefix and a combination of the species' taxon
+identifier
 (per \code{id_no}/\code{SISID} in \code{x}) and the identifier for the seasonal
 distribution (per \code{seasonality} in \code{x})
 (i.e., file names are named according to \verb{FRC_\{$id_no\}_$\{seasonality\}.tif}).
@@ -380,46 +242,6 @@ For example, a value of 0 corresponds to 0\% fractional coverage,
 0.5 to 50\% fractional coverage, 1 to 100\% fractional coverage.
 Missing (\code{NA}) values correspond to
 grid cells that are located entirely outside of the species' distribution.
-}
-
-\section{Species range data format}{
-
-Species range data are expected to follow the data format conventions
-for the IUCN Red List (see \href{https://www.iucnredlist.org/resources/mappingstandards}{IUCN Red List documentation} for
-details). Specifically, the argument to \code{x} should be an
-\code{\link[sf:sf]{sf::st_sf()}} object with the following columns: \code{id_no} (or \code{SISID}),
-\code{presence}, \code{origin}, and \code{seasonal}.
-It can also contain the following optional columns: \code{terrestrial}
-(or \code{terrestial}), \code{freshwater}, and \code{marine}.
-Below we provide a brief description of each column:
-
-\describe{
-
-\item{\code{id_no} (or \code{SISID})}{\code{numeric} taxon identifier on the IUCN Red List.}
-
-\item{\code{presence}}{\code{numeric} identifier describing information about
-the presence of the taxon in the range data.}
-
-\item{\code{origin}}{\code{numeric}  identifier describing if the species is native
-to the location(s) described by the range data.}
-
-\item{\code{seasonality}}{\code{numeric} identifier describing if the species
-is occupied by the location(s) describe by the range data throughout
-the whole year, of if only during certain seasons.}
-
-\item{\code{terrestial}}{\code{character} value indicating if the range
-data pertain to terrestrial environments (with \code{"true"} or \code{"false"}
-values.)}
-
-\item{\code{freshwater}}{\code{character} value indicating if the range
-data pertain to freshwater environments (with \code{"true"} or \code{"false"}
-values.)}
-
-\item{\code{marine}}{\code{character} value indicating if the range
-data pertain to marine environments (with \code{"true"} or \code{"false"}
-values.)}
-
-}
 }
 
 \section{Engines}{
@@ -452,7 +274,7 @@ path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 spp_range_data <- read_spp_range_data(path)
 
 # specify settings for data processing
-output_dir <- tempdir()                       # folder to save AOH data
+output_dir <- tempdir()                       # folder to save coverage data
 cache_dir <- rappdirs::user_data_dir("aoh")   # persistent storage location
 n_threads <- parallel::detectCores() - 1      # speed up analysis
 
@@ -461,9 +283,15 @@ if (!file.exists(cache_dir)) {
   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
+# create species' information data
+spp_info_data <- create_spp_info_data(
+  x = spp_range_data,
+  cache_dir = cache_dir
+)
+
 # create fractional coverage data
 spp_frc_data <- create_spp_frc_data(
-  x = spp_range_data,
+  x = spp_info_data,
   res = 5000,
   output_dir = output_dir,
   n_threads = n_threads,

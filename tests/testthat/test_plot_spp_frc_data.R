@@ -20,20 +20,18 @@ test_that("no base map", {
     sep = ",", header = TRUE
   )
   # prepare data
-  x <- calc_spp_frc_data(
-    x = create_spp_aoh_data(
+  x <- create_spp_frc_data(
+    x = create_spp_info_data(
       x = read_spp_range_data(f, n = 4),
-      output_dir = tempdir(),
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      crosswalk_data = crosswalk_jung_lvl2_data,
       spp_habitat_data = spp_habitat_data,
       spp_summary_data = spp_summary_data,
       verbose = interactive()
     ),
-    template_data = habitat_data,
     res = 5000,
     output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     verbose = interactive()
   )
   # create object
@@ -64,20 +62,18 @@ test_that("base map", {
     sep = ",", header = TRUE
   )
   # prepare data
-  x <- calc_spp_frc_data(
-    x = create_spp_aoh_data(
+  x <- create_spp_frc_data(
+    x = create_spp_info_data(
       x = read_spp_range_data(f, n = 4),
-      output_dir = tempdir(),
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      crosswalk_data = crosswalk_jung_lvl2_data,
       spp_habitat_data = spp_habitat_data,
       spp_summary_data = spp_summary_data,
       verbose = interactive()
     ),
-    template_data = habitat_data,
     res = 5000,
     output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     verbose = interactive()
   )
   # create object
@@ -107,20 +103,18 @@ test_that("customized", {
     sep = ",", header = TRUE
   )
   # prepare data
-  x <- calc_spp_frc_data(
-    x = create_spp_aoh_data(
+  x <- create_spp_frc_data(
+    x = create_spp_info_data(
       x = read_spp_range_data(f, n = 4),
-      output_dir = tempdir(),
-      habitat_data = habitat_data,
-      elevation_data = elevation_data,
-      crosswalk_data = crosswalk_jung_lvl2_data,
       spp_habitat_data = spp_habitat_data,
       spp_summary_data = spp_summary_data,
       verbose = interactive()
     ),
-    template_data = habitat_data,
     res = 5000,
     output_dir = tempdir(),
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
     verbose = interactive()
   )
   # create object

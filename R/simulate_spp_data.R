@@ -8,6 +8,7 @@ NULL
 #' species geographic ranges, summary information, and habitat preferences.
 #'
 #' @inheritParams create_spp_aoh_data
+#' @inheritParams create_spp_info_data
 #'
 #' @param n `integer` Number of species to simulate.
 #'
@@ -36,7 +37,7 @@ NULL
 #' \item{spp_range_data}{A [sf::st_sf()] object containing the species'
 #'   geographic range data.}
 #' \item{spp_summary_data}{A [tibble::tibble()] object containing summary
-#'  information about the species (including altitudinal limit information.}
+#'  information about the species (including elevational limit information.}
 #' \item{spp_habitat_data}{A [tibble::tibble()] object containing habitat
 #'  preferences for the species.}
 #' }
@@ -77,7 +78,7 @@ NULL
 #' # preview species range data
 #' print(x$spp_range_data)
 #'
-#' # preview species habitat affiliation data
+#' # preview species habitat preference data
 #' print(x$spp_habitat_data)
 #'
 #' # preview species summary data

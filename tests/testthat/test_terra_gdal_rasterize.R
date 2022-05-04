@@ -2,7 +2,7 @@ context("terra_gdal_rasterize")
 
 test_that("normal", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # import data
   f <- system.file("ex/lux.shp", package = "terra")
   sf <- sf::read_sf(f)
@@ -21,7 +21,7 @@ test_that("normal", {
 
 test_that("invert", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # import data
   f <- system.file("ex/lux.shp", package = "terra")
   sf <- sf::read_sf(f)
@@ -42,7 +42,7 @@ test_that("invert", {
 
 test_that("update", {
   skip_on_cran()
-  skip_if_gdal_not_available()
+  skip_if_not_installed("gdalUtilities")
   # import data
   f <- system.file("ex/lux.shp", package = "terra")
   sf <- sf::read_sf(f)

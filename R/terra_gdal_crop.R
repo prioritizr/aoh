@@ -3,7 +3,7 @@ NULL
 
 #' Crop a raster using GDAL
 #'
-#' This function is a wrapper for [gdalUtils::gdal_translate()].
+#' This function is a wrapper for [gdalUtilities::gdal_translate()].
 #'
 #' @param ext [terra::ext()] Raster extent object.
 #'
@@ -12,10 +12,10 @@ NULL
 #' @inherit terra_gdal_project return
 #'
 #' @examples
-#' # please ensure that the gdalUtils package is installed and
-#' # GDAL system binaries are installed to run this example
+#' # please ensure that the gdalUtilities package is installed
+#' # to run this example
 #'
-#' @examplesIf is_gdal_available()
+#' @examplesIf requireNamespace("gdalUtilities", quietly = TRUE)
 #' # create raster with data
 #' x <- rast(
 #'   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
@@ -36,6 +36,7 @@ terra_gdal_crop <- function(x, ext,
                             n_threads = 1,
                             filename = tempfile(fileext = ".tif"),
                             datatype = "FLT4S",
+                            cache_limit = 200,
                             tiled = FALSE,
                             bigtiff = FALSE,
                             compress = "LZW",
@@ -43,6 +44,13 @@ terra_gdal_crop <- function(x, ext,
                             NAflag = NULL,
                             output_raster = TRUE) {
   # assert arguments are valid
+  assertthat::assert_that(
+    requireNamespace("gdalUtilities", quietly = TRUE),
+    msg = paste(
+      "the \"gdalUtilities\" package needs to be installed, use",
+      "install.packages(\"gdalUtilities\")"
+    )
+  )
   assertthat::assert_that(
     inherits(x, c("character", "SpatRaster")),
     inherits(ext, "SpatExtent"),
@@ -61,7 +69,6 @@ terra_gdal_crop <- function(x, ext,
     assertthat::noNA(output_raster),
     assertthat::is.count(n_threads),
     assertthat::noNA(n_threads),
-    is_gdal_available(),
     any(endsWith(filename, c(".tif", ".vrt")))
   )
   # compress options
@@ -75,7 +82,7 @@ terra_gdal_crop <- function(x, ext,
       co <- c(co, "BIGTIFF=YES")
     }
   } else {
-    co <- c()
+    co <- NULL
   }
 
   # save raster if needed
@@ -87,6 +94,7 @@ terra_gdal_crop <- function(x, ext,
     x_on_disk <- TRUE
     f1 <- x
   }
+
 
   # save wkt data
   f2 <- tempfile(fileext = ".wkt")
@@ -102,15 +110,13 @@ terra_gdal_crop <- function(x, ext,
     ),
     projwin_srs = f2,
     of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
-    co = co,
     ot = gdal_datatype(datatype),
-    wo = paste0("NUM_THREADS=", n_threads),
     oo = paste0("NUM_THREADS=", n_threads),
-    overwrite = TRUE,
-    output_Raster = FALSE,
-    verbose = isTRUE(verbose),
     q = !isTRUE(verbose)
   )
+  if (!is.null(co)) {
+    args$co <- co
+  }
   if (!is.null(NAflag)) {
     if (!identical(NAflag, "none")) {
       assertthat::assert_that(
@@ -120,7 +126,14 @@ terra_gdal_crop <- function(x, ext,
     }
     args$a_nodata <- NAflag
   }
-  do.call(gdalUtils::gdal_translate, args)
+  withr::with_envvar(
+    c(
+      "NUM_THREADS" = n_threads,
+      "GDAL_CACHEMAX" = as.integer(cache_limit),
+      "GDAL_DISABLE_READDIR_ON_OPEN" = "TRUE"
+    ),
+    do.call(gdalUtilities::gdal_translate, args)
+  )
 
   # clean up
   nms <- names(x)

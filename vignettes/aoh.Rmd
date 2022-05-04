@@ -35,13 +35,13 @@ devtools::load_all()
 
 ## Introduction
 
-Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species [@r1]. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions [@r2; @r3; @r7]. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known altitudinal limits for the species [@r1]. To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import them (using `read_spp_range_data()`) and then use them to create Area of Habitat data (using `create_spp_aoh_data()`). Global elevation and habitat classification data are automatically downloaded [@r4; @r5; @r9], and data on species' habitat preferences and altitudinal limits are obtained automatically using the [IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List requires a token, users may need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see below for details).
+Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species [@r1]. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions [@r2; @r3; @r7]. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species [@r1]. To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import them (using `read_spp_range_data()`), prepare them and collate additional information for subsequent processing (using `create_spp_info_data()`), and then create Area of Habitat data (using `create_spp_aoh_data()`). Global elevation and habitat classification data are automatically downloaded [@r4; @r5; @r9], and data on species' habitat preferences and elevational limits are obtained automatically using the [IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List requires a token, users may need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see below for details).
 
 ## Tutorial
 
 Here we provide a tutorial for using the _aoh R_ package. In this tutorial, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (_Calotriton asper_), Iberian frog (_Rana iberica_), western spadefoot toad (_Pelobates cultripes_), and golden striped salamnader (_Chioglossa lusitanica_). To start off, we will load the package. We will also load the [_rappdirs_](https://CRAN.R-project.org/package=rappdirs) _R_ package to cache data, and the [_terra_](https://CRAN.R-project.org/package=terra) and [_ggplot2_](https://CRAN.R-project.org/package=ggplot2) _R_ packages to visualize results.
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 # load packages
 library(aoh)
 library(terra)
@@ -62,9 +62,10 @@ spp_range_data <- read_spp_range_data(path)
 print(spp_range_data)
 ```
 
-Next, we will generate Area of Habitat data for the species. To achieve this, the package will (i) automatically download global elevation and habitat classification data [derived from @r4; @r9], (ii) automatically download information on the altitudinal limits and habitat preferences of the species from the IUCN Red List (per the taxon identifiers in  the `id_no` column), and (iii) cross-reference this information to identify suitable habitat inside the geographic range of each species [following @r1]. We also specify a folder to cache the downloaded datasets so that we won't need to re-download again during subsequent runs.
+Next, we will prepare all the range data for generating Area of Habitat data. This procedure -- in addition to repairing any geometry issues in the spatial data --  will obtain information on the species' habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won't need to re-download it again during subsequent runs.
 
-```{r, results = "hide", message = FALSE}
+
+```{r, message = FALSE, results = "hide"}
 # specify cache directory
 cache_dir <- user_data_dir("aoh")
 
@@ -73,8 +74,18 @@ if (!file.exists(cache_dir)) {
   dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
+# prepare information
+spp_info_data <- create_spp_info_data(spp_range_data, cache_dir = cache_dir)
+```
+
+We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from [Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40) and habitat data derived from [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851). Similar to before, we also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+
+```{r, message = FALSE, results = "hide"}
+# specify cache directory
+cache_dir <- user_data_dir("aoh")
+
 # specify folder to save Area of Habitat data
-## although we use a temporary directory here to avoid polluting your directory
+## although we use a temporary directory here to avoid polluting your
 ## with examples files, you would normally specify the folder
 ## on your computer where you want to save data
 output_dir <- tempdir()
@@ -83,8 +94,11 @@ output_dir <- tempdir()
 ## note that this function might take a complete because it will need to
 ## download the global habitat and elevation data that first time you run it.
 spp_aoh_data <- create_spp_aoh_data(
-  spp_range_data, output_dir = output_dir, cache_dir = cache_dir
+  spp_info_data, output_dir = output_dir, cache_dir = cache_dir
 )
+
+# preview results
+print(spp_aoh_data[, c("id_no", "seasonal", "path")])
 ```
 
 While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. `"7.1"`, `"7.2"`). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class [see @r9 for details]. Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution [@r6].
@@ -97,6 +111,7 @@ While running the code, we see that it displayed a message telling us that certa
 ##
 ## - id_no            : IUCN Red List taxon identifier
 ## - seasonal         : integer identifier for seasonal distributions
+## - category         : character IUCN Red List threat category
 ## - full_habitat_code: All IUCN Red List codes for suitable habitat classes
 ##                      (multiple codes are delimited using "|" symbols)
 ## - habitat_code     : IUCN Red List codes for suitable habitat classes
@@ -200,9 +215,9 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
 * **Can I use species range data from other data sources (instead of the IUCN Red List)?**
 
-    Yes, species range data do not necessarily need to be obtained from the IUCN Red List. For example, species range data can be obtained from  governmental (e.g. data for federally listed species in Canada are available through the [Government of Canada data portal](https://open.canada.ca/en/open-data)) and non-governmental organizations (e.g. [Botanical Information and Ecology Network](https://biendata.org/) and [Map of Life](https://mol.org/)). These data can also be produced using observation records [e.g. following @r8] from data repositories (e.g. [Global Biodiversity Information Facility](https://www.gbif.org/) and [Atlas of Living Australia](https://www.ala.org.au/)). After obtaining species range data, please format them so that they follow the same data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: `id_no`, `presence`, `origin`, `seasonal`, `terrestrial` (or `terrestial`), `freshwater`, and `marine`. For further details on what values these columns should contain, please see the **Species range data format** section in the documentation for `create_spp_aoh_data()` and the [IUCN Red List documentation](https://www.iucnredlist.org/resources/mappingstandards).
+    Yes, species range data do not necessarily need to be obtained from the IUCN Red List. For example, species range data can be obtained from  governmental (e.g. data for federally listed species in Canada are available through the [Government of Canada data portal](https://open.canada.ca/en/open-data)) and non-governmental organizations (e.g. [Botanical Information and Ecology Network](https://biendata.org/) and [Map of Life](https://mol.org/)). These data can also be produced using observation records [e.g. following @r8] from data repositories (e.g. [Global Biodiversity Information Facility](https://www.gbif.org/) and [Atlas of Living Australia](https://www.ala.org.au/)). After obtaining species range data, please format them so that they follow the same data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: `id_no`, `presence`, `origin`, `seasonal`, `terrestrial` (or `terrestial`), `freshwater`, and `marine`. For further details on what values these columns should contain, please see the **Species range data format** section in the documentation for `create_spp_info_data()` and the [IUCN Red List documentation](https://www.iucnredlist.org/resources/mappingstandards).
 
-    If you wish to use the IUCN Red List for specifying habitat affiliation data, please ensure that the `id_no` specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (_Calotriton asper_). To ensure that correct habitat affiliation data were obtained for this species from the the IUCN Red List, the `id_no` value specified for this species in the species range dataset was `59448`.
+    If you wish to use the IUCN Red List for specifying habitat preference data, please ensure that the `id_no` specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (_Calotriton asper_). To ensure that correct habitat preference data were obtained for this species from the the IUCN Red List, the `id_no` value specified for this species in the species range dataset was `59448`.
 
 * **Can I use habitat classification data from other data sources?**
 

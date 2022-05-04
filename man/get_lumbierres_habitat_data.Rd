@@ -49,7 +49,7 @@ classification data from the
 \href{https://doi.org/10.5281/zenodo.5146072}{Zenodo repository}
 (Lumbierres 2021), and resampling the data (using nearest neighbor
 interpolation) to the World Behrmannn coordinate reference
-systems (ESRI:54017).
+system (ESRI:54017).
 }
 \examples{
 \dontrun{

@@ -78,24 +78,16 @@ and will not apply to marine or freshwater species.</p>
   <span class="va">x</span>,
   <span class="va">output_dir</span>,
   <span class="va">res</span>,
-  spp_summary_data <span class="op">=</span> <span class="cn">NULL</span>,
-  spp_habitat_data <span class="op">=</span> <span class="cn">NULL</span>,
   elevation_data <span class="op">=</span> <span class="cn">NULL</span>,
   habitat_data <span class="op">=</span> <span class="cn">NULL</span>,
   crosswalk_data <span class="op">=</span> <span class="cn">NULL</span>,
   cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  iucn_version <span class="op">=</span> <span class="st">"latest"</span>,
   habitat_version <span class="op">=</span> <span class="st">"latest"</span>,
   elevation_version <span class="op">=</span> <span class="st">"latest"</span>,
-  key <span class="op">=</span> <span class="cn">NULL</span>,
   force <span class="op">=</span> <span class="cn">FALSE</span>,
   n_threads <span class="op">=</span> <span class="fl">1</span>,
   cache_limit <span class="op">=</span> <span class="fl">1000</span>,
   engine <span class="op">=</span> <span class="st">"terra"</span>,
-  keep_iucn_rl_presence <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,
-  keep_iucn_rl_origin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span>,
-  keep_iucn_rl_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,
-  omit_habitat_codes <span class="op">=</span> <span class="fu"><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine</a></span><span class="op">(</span><span class="op">)</span>,
   verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -103,9 +95,9 @@ and will not apply to marine or freshwater species.</p>
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code> Spatial data delineating species geographic ranges
-obtained from the <a href="https://www.iucnredlist.org/" class="external-link">IUCN Red List</a>.
-See below for details.</p></dd>
+<dd><p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code> Spatial data delineating species' geographic ranges,
+habitat preferences, and elevational limits. This object should
+be created using the <code><a href="create_spp_info_data.html">create_spp_info_data()</a></code> function.</p></dd>
 <dt>output_dir</dt>
 <dd><p><code>character</code> Folder path to save raster (GeoTIFF) files
 containing the fractional coverage data.</p></dd>
@@ -115,32 +107,6 @@ Note that the argument to <code>res</code> must be a factor of the
 the resolution of the underlying Area of Habitat data.
 For example, a value of 5000 would be a valid argument
 if the underlying data had a resolution of 100 m.</p></dd>
-<dt>spp_summary_data</dt>
-<dd><p><code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> Table containing summary
-information for each species (in the argument to <code>x</code>).
-Specifically, the argument should contain the following columns: <code>"id_no"</code>,
-<code>"elevation_lower"</code>, and <code>"elevation_upper"</code> columns.
-Here, <code>"id_no"</code> corresponds to the species' taxon identifier
-(also present in <code>x</code>), and the <code>"elevation_lower"</code> and <code>"elevation_upper"</code>
-columns indicate the lowest and highest elevations that contain habitat
-for the species.
-Defaults to <code>NULL</code> such that data are automatically obtained from the
-latest version of the <a href="https://www.iucnredlist.org" class="external-link">IUCN Red List</a>.</p></dd>
-<dt>spp_habitat_data</dt>
-<dd><p><code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> Table containing habitat
-preference information for each species (in the argument to <code>x</code>).
-Specifically, the argument should contain the following columns: <code>"id_no"</code>,
-<code>"code"</code>, <code>"suitability"</code>, <code>"season"</code> columns.
-Here, <code>"id_no"</code> corresponds to the species' taxon identifier
-(also present in <code>x</code>), <code>"code"</code> indicates a habitat classification code
-that is suitable for the species (i.e., based on layer names in the
-argument to habitat_data), <code>"suitability"</code> indicates the level suitability
-of the habitat class for a given species (e.g., using values such
-as <code>"Suitable"</code> or <code>"Marginal"</code>), and <code>"season"</code> indicates
-if the habitat class is only suitable for a particular seasonal
-distribution (e.g., <code>"Breeding"</code>).
-Defaults to <code>NULL</code> such that data are automatically obtained from the
-latest version of the <a href="https://www.iucnredlist.org" class="external-link">IUCN Red List</a>.</p></dd>
 <dt>elevation_data</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data delineating the
 worldwide elevation data (e.g., Robinson <em>et al.</em> 2014).
@@ -171,13 +137,6 @@ data are used (i.e., <code><a href="crosswalk_lumbierres_data.html">crosswalk_lu
 By default, a temporary directory is used (i.e., <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong></p></dd>
-<dt>iucn_version</dt>
-<dd><p><code>character</code> Version of the
-IUCN Red List dataset that should be used. See documentation for the
-the <code>version</code> parameter in the <code><a href="get_spp_summary_data.html">get_spp_summary_data()</a></code> function
-for further details.
-Defaults to <code>"latest"</code> such that the most recent version of the dataset is
-used.</p></dd>
 <dt>habitat_version</dt>
 <dd><p><code>character</code> Version of the
 habitat dataset that should be used. See documentation for the
@@ -196,11 +155,6 @@ This parameter is only used if elevation data are obtained
 automatically (i.e., the argument to <code>elevation_data</code> is <code>NULL</code>).
 Defaults to <code>"latest"</code> such that the most recent version of the dataset is
 used if data need to be obtained.</p></dd>
-<dt>key</dt>
-<dd><p><code>character</code> Token for querying the IUCN Red List API.
-Defaults to <code>NULL</code> such that the token
-accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
-(which can be specified in the .Renviron file).</p></dd>
 <dt>force</dt>
 <dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
@@ -230,55 +184,15 @@ to use for data processing.
 Available options include <code>"terra"</code>, <code>"gdal"</code>, or <code>"grass"</code>
 (see below for details).
 Defaults to <code>"terra"</code>.</p></dd>
-<dt>keep_iucn_rl_presence</dt>
-<dd><p><code>integer</code> IUCN Red List presence codes
-to retain
-(see IUCN SSC Red List Technical Working Group 2021 for details).
-Species' ranges that are not associated with these codes are
-excluded during data cleaning procedures.
-Defaults to a numeric vector containing <code>1</code> and <code>2</code>
-(corresponding to <em>extant</em> and <em>probably extant</em>).</p></dd>
-<dt>keep_iucn_rl_origin</dt>
-<dd><p><code>integer</code> IUCN Red List origin codes
-to retain
-(see IUCN SSC Red List Technical Working Group 2021 for details).
-Species' ranges that are not associated with these codes are
-excluded during data cleaning procedures.
-Defaults to a numeric vector containing <code>1</code>, <code>2</code>, and <code>6</code>.
-(corresponding to <em>native</em>, <em>reintroduced</em>, and <em>assisted colonization</em>).</p></dd>
-<dt>keep_iucn_rl_seasonal</dt>
-<dd><p><code>integer</code> IUCN Red List seasonal codes
-to retain
-(see IUCN SSC Red List Technical Working Group 2021 for details).
-Species' ranges that are not associated with these codes are
-excluded during data cleaning procedures.
-Defaults to a numeric vector containing <code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code>.
-(corresponding to <em>resident</em>, <em>breeding season</em>, <em>non-breeding season</em>,
-and <em>passage</em> distributions).</p></dd>
-<dt>omit_habitat_codes</dt>
-<dd><p><code>character</code> Habitat classification codes
-to omit from resulting Area of Habitat data.
-Please see the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN Red List Habitat Classification Scheme</a>
-for the full range of habitat classification codes.
-For example,
-if the aim is to identify natural places that contain suitable conditions,
-then areas classified as anthropogenically modified
-(<code><a href="iucn_habitat_codes_artificial.html">iucn_habitat_codes_artificial()</a></code>),
-introduced vegetation (<code><a href="iucn_habitat_codes_introduced.html">iucn_habitat_codes_introduced()</a></code>,
-or unknown habitat (<code><a href="iucn_habitat_codes_misc.html">iucn_habitat_codes_misc()</a></code>) should
-be excluded.
-Defaults to <code><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine()</a></code>, such that marine
-habitats are excluded.</p></dd>
 <dt>verbose</dt>
 <dd><p><code>logical</code> Should progress be displayed while processing data?
 Defaults to <code>TRUE</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::st_sf()</a></code> object containing cleaned versions of the species' range maps
-used to generate Area of Habitat data, and additional
-columns describing the output raster files.
-Specifically, the object contains the following columns:</p><dl><dt>id_no</dt>
+    <p>A <code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::st_sf()</a></code> object. This object is an updated version
+of the argument to <code>x</code>, and contains additional columns describing the
+output raster files. Specifically, it contains the following columns:</p><dl><dt>id_no</dt>
 <dd><p><code>numeric</code> species' taxon identifier on the IUCN Red List.</p></dd>
 
 <dt>binomial</dt>
@@ -286,6 +200,9 @@ Specifically, the object contains the following columns:</p><dl><dt>id_no</dt>
 
 <dt>seasonal</dt>
 <dd><p><code>numeric</code> seasonal distribution code.</p></dd>
+
+<dt>category</dt>
+<dd><p><code>character</code> IUCN Red List threat category.</p></dd>
 
 <dt>full_habitat_code</dt>
 <dd><p><code>character</code> all habitat classification
@@ -356,57 +273,6 @@ to the cache directory.
 Note that if elevation and habitat data are supplied
 (i.e. as arguments to <code>elevation_data</code> and <code>habitat_data</code>), then
 the user-supplied datasets are used to generate Area of Habitat data.</p></li>
-<li><p>Species range data cleaned to prepare them for subsequent
-analysis. Briefly, this process involves excluding places where the
-(i) species' presence is not <em>extant</em> or
-<em>probably extant</em>
-(i.e. filtering based on <code>presence == 1</code> or <code>presence == 2</code>);
-(ii) species' origin is not <em>native</em>,
-<em>reintroduced</em>, or the result of <em>assisted colonization</em>
-(i.e. filtering based on <code>origin == 1</code>, <code>origin == 2</code>, or <code>origin == 6</code>);
-(iii) available information on which species' seasonal distribution
-is <em>uncertain</em>
-(i.e. filtering based on <code>seasonal != 5</code>); and
-(iv) species' distribution is not terrestrial
-(i.e. filtering based on where <code>terrestrial == "true"</code>).
-Additionally, the species' range data are spatially dissolved so that each
-seasonal distribution for each taxon is represented by a separate geometry.
-Finally, geoprocessing routines are used to detect and repair
-any invalid geometries.</p></li>
-<li><p>Species' altitudinal limit and habitat affiliation data are
-imported
-(if needed,
-see <code><a href="get_spp_summary_data.html">get_spp_summary_data()</a></code> and <code><a href="get_spp_habitat_data.html">get_spp_habitat_data()</a></code> for details).
-If these data are not available in the cache directory
-(i.e. argument to <code>cache_dir</code>), then they are automatically downloaded
-to the cache directory
-Note that if species' altitudinal limit and habitat affiliation
-data are supplied (i.e. as arguments to <code>spp_summary_data</code> and
-<code>spp_habitat_data</code>), then the user-supplied datasets are used to generate
-Area of Habitat data.</p></li>
-<li><p>The species data are collated into a single dataset containing
-their geographic ranges, altitudinal limits, and habitat affiliations.
-Specifically, taxon identifiers (per the <code>id_no</code>/<code>SISID</code> columns)
-are used merge the datasets together.
-If a species lacks lower or upper altitudinal limits,
-then limits of 0 and 9,000 m are assumed respectively
-(following Lumbierres <em>et al.</em> 2021).
-Additionally, the following rules are used to assign
-habitat affiliations for species' distributions.
-First, habitat affiliations are only
-included in the collated dataset if they are classified as <em>suitable</em>
-or <em>major</em>.
-Second, if a habitat affiliation is defined for a specific seasonal
-distribution of a particular species (e.g. <em>non-breeding</em>), then that
-habitat affiliation is only assigned to that specific seasonal
-distribution for the species.
-Third, if a habitat affiliation is not defined for a specific
-seasonal distribution, then the habitat is assigned to all seasonal
-distributions associated with the species.
-Fourth, because the <em>resident</em> distributions of some bird species
-lack specific habitat affiliation data, the habitat affiliation data
-for these <em>resident</em> distributions are assigned based on habitat
-affiliations for the species' <em>breeding</em> distribution.</p></li>
 <li><p>The Area of Habitat data are then generated for each seasonal
 distribution of each species. For a given species' distribution,
 the data are generated by
@@ -448,7 +314,8 @@ file names and spatial metadata for the fractional coverage data.</p></li>
 
 <p>Fractional coverage data are stored in a separate raster (GeoTIFF) file for
 each seasonal distribution of each species. Each raster file is assigned a
-file name based on a prefix and a combination of the species' taxon identifier
+file name based on a prefix and a combination of the species' taxon
+identifier
 (per <code>id_no</code>/<code>SISID</code> in <code>x</code>) and the identifier for the seasonal
 distribution (per <code>seasonality</code> in <code>x</code>)
 (i.e., file names are named according to <code>FRC_{$id_no}_${seasonality}.tif</code>).
@@ -459,58 +326,6 @@ For example, a value of 0 corresponds to 0% fractional coverage,
 Missing (<code>NA</code>) values correspond to
 grid cells that are located entirely outside of the species' distribution.</p>
     </div>
-    <div id="species-range-data-format">
-    <h2>Species range data format</h2>
-    
-
-<p>Species range data are expected to follow the data format conventions
-for the IUCN Red List (see <a href="https://www.iucnredlist.org/resources/mappingstandards" class="external-link">IUCN Red List documentation</a> for
-details). Specifically, the argument to <code>x</code> should be an
-<code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::st_sf()</a></code> object with the following columns: <code>id_no</code> (or <code>SISID</code>),
-<code>presence</code>, <code>origin</code>, and <code>seasonal</code>.
-It can also contain the following optional columns: <code>terrestrial</code>
-(or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>.
-Below we provide a brief description of each column:</p>
-<dl><dt><code>id_no</code> (or <code>SISID</code>)</dt>
-<dd><p><code>numeric</code> taxon identifier on the IUCN Red List.</p></dd>
-
-
-<dt><code>presence</code></dt>
-<dd><p><code>numeric</code> identifier describing information about
-the presence of the taxon in the range data.</p></dd>
-
-
-<dt><code>origin</code></dt>
-<dd><p><code>numeric</code>  identifier describing if the species is native
-to the location(s) described by the range data.</p></dd>
-
-
-<dt><code>seasonality</code></dt>
-<dd><p><code>numeric</code> identifier describing if the species
-is occupied by the location(s) describe by the range data throughout
-the whole year, of if only during certain seasons.</p></dd>
-
-
-<dt><code>terrestial</code></dt>
-<dd><p><code>character</code> value indicating if the range
-data pertain to terrestrial environments (with <code>"true"</code> or <code>"false"</code>
-values.)</p></dd>
-
-
-<dt><code>freshwater</code></dt>
-<dd><p><code>character</code> value indicating if the range
-data pertain to freshwater environments (with <code>"true"</code> or <code>"false"</code>
-values.)</p></dd>
-
-
-<dt><code>marine</code></dt>
-<dd><p><code>character</code> value indicating if the range
-data pertain to marine environments (with <code>"true"</code> or <code>"false"</code>
-values.)</p></dd>
-
-
-
-</dl></div>
     <div id="engines">
     <h2>Engines</h2>
     
@@ -582,7 +397,7 @@ to calculate the fractional coverage data directly.</p></div>
 <span class="r-in"><span class="va">spp_range_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_spp_range_data.html">read_spp_range_data</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># specify settings for data processing</span></span>
-<span class="r-in"><span class="va">output_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>                       <span class="co"># folder to save AOH data</span></span>
+<span class="r-in"><span class="va">output_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>                       <span class="co"># folder to save coverage data</span></span>
 <span class="r-in"><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>   <span class="co"># persistent storage location</span></span>
 <span class="r-in"><span class="va">n_threads</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>      <span class="co"># speed up analysis</span></span>
 <span class="r-in"></span>
@@ -591,48 +406,56 @@ to calculate the fractional coverage data directly.</p></div>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># create species' information data</span></span>
+<span class="r-in"><span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_spp_info_data.html">create_spp_info_data</a></span><span class="op">(</span></span>
+<span class="r-in">  x <span class="op">=</span> <span class="va">spp_range_data</span>,</span>
+<span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[330ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[3.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[364ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[344ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[214ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[13ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
+<span class="r-in"></span>
 <span class="r-in"><span class="co"># create fractional coverage data</span></span>
 <span class="r-in"><span class="va">spp_frc_data</span> <span class="op">&lt;-</span> <span class="fu">create_spp_frc_data</span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="va">spp_range_data</span>,</span>
+<span class="r-in">  x <span class="op">=</span> <span class="va">spp_info_data</span>,</span>
 <span class="r-in">  res <span class="op">=</span> <span class="fl">5000</span>,</span>
 <span class="r-in">  output_dir <span class="op">=</span> <span class="va">output_dir</span>,</span>
 <span class="r-in">  n_threads <span class="op">=</span> <span class="va">n_threads</span>,</span>
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[326ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[4ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[12s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[10s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[4s]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[3.1s]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[377ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[356ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[264ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[4.1s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■                       </span> [ 25% | ETA:  8s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  6s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  4s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> processing [20.4s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[20.4s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     skipping 4 species distributions already processed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[13ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[21ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[22ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span class="co"># }</span></span>
@@ -712,7 +535,7 @@ to calculate the fractional coverage data directly.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

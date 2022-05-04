@@ -46,9 +46,15 @@ if (!file.exists(output_dir)) {
 ## import data
 spp_data <- read_spp_range_data(file.path(input_dir, input_file))
 
-## create data
-result_data <- create_spp_aoh_data(
+## create information data
+spp_info_data <- create_spp_info_data(
   x = spp_data,
+  cache_dir = cache_dir,
+)
+
+## create Area of Habitat data
+spp_aoh_data <- create_spp_aoh_data(
+  x = spp_info_data,
   output_dir = output_dir,
   cache_dir = cache_dir,
   n_threads = n_threads,
@@ -61,4 +67,4 @@ output_path <- file.path(
   output_dir,
   paste0(tools::file_path_sans_ext(basename(input_file)), ".rds")
 )
-saveRDS(result_data, output_path, compress = "xz")
+saveRDS(spp_aoh_data, output_path, compress = "xz")

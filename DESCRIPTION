@@ -42,7 +42,7 @@ Imports:
     ggplot2 (>= 3.1.0),
     fasterize (>= 1.0.3),
     raster (>= 3.5-15),
-    piggyback(>= 0.1.1)
+    piggyback (>= 0.1.1)
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
@@ -54,7 +54,7 @@ Suggests:
     smoothr (>= 0.2.2),
     rnaturalearth (>= 0.1.0),
     rgdal (>= 1.5.27),
-    gdalUtils (>= 2.0.3.2),
+    gdalUtilities (>= 1.2.1),
     archive (>= 1.1.2),
     link2GI (>= 0.4.7),
     rgrass7 (>= 0.2.6),
@@ -76,9 +76,11 @@ Collate:
     'internal.R'
     'calc_spp_frc_data.R'
     'clean_spp_range_data.R'
-    'convert_seasonal.R'
     'misc_sf.R'
     'misc_terra.R'
+    'collate_spp_extent_data.R'
+    'collate_spp_info_data.R'
+    'convert_seasonal.R'
     'get_spp_summary_data.R'
     'get_spp_habitat_data.R'
     'get_lumbierres_habitat_data.R'
@@ -86,6 +88,7 @@ Collate:
     'create_spp_aoh_data.R'
     'create_spp_data.R'
     'create_spp_frc_data.R'
+    'create_spp_info_data.R'
     'create_template_rast.R'
     'crosswalk_jung_lvl1_data.R'
     'crosswalk_jung_lvl2_data.R'
@@ -93,7 +96,6 @@ Collate:
     'engine_spp_aoh_gdal.R'
     'engine_spp_aoh_grass.R'
     'engine_spp_aoh_terra.R'
-    'format_spp_data.R'
     'get_jung_lvl1_habitat_data.R'
     'get_jung_lvl2_habitat_data.R'
     'get_jung_plvl1_habitat_data.R'

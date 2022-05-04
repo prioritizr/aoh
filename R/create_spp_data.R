@@ -1,3 +1,6 @@
+#' @include internal.R collate_spp_extent_data.R
+NULL
+
 #' Create species data
 #'
 #' Internal function used to process species' Area of Habitat data
@@ -12,25 +15,16 @@
 create_spp_data <- function(x,
                             res,
                             output_dir,
-                            spp_summary_data = NULL,
-                            spp_habitat_data = NULL,
                             elevation_data = NULL,
                             habitat_data = NULL,
                             crosswalk_data = NULL,
                             cache_dir = tempdir(),
-                            iucn_version = "latest",
                             habitat_version = "latest",
                             elevation_version = "latest",
-                            key = NULL,
                             force = FALSE,
                             n_threads = 1,
                             cache_limit = 1000,
                             engine = "terra",
-                            keep_iucn_rl_presence = c(1, 2),
-                            keep_iucn_rl_origin = c(1, 2, 6),
-                            keep_iucn_rl_seasonal = c(1, 2, 3, 4),
-                            omit_habitat_codes =
-                              iucn_habitat_codes_marine(),
                             verbose = TRUE) {
 
   # initialization
@@ -41,6 +35,33 @@ create_spp_data <- function(x,
   ## initial validation
   assertthat::assert_that(
     inherits(x, "sf"),
+    nrow(x) > 0,
+    assertthat::has_name(x, "id_no"),
+    is.numeric(x$id_no),
+    assertthat::noNA(x$id_no),
+    assertthat::has_name(x, "binomial"),
+    is.character(x$binomial),
+    assertthat::has_name(x, "seasonal"),
+    is.numeric(x$seasonal),
+    assertthat::noNA(x$seasonal),
+    assertthat::has_name(x, "full_habitat_code"),
+    is.character(x$full_habitat_code),
+    assertthat::has_name(x, "elevation_lower"),
+    is.numeric(x$elevation_lower),
+    assertthat::has_name(x, "elevation_upper"),
+    is.numeric(x$elevation_upper),
+    assertthat::has_name(x, "geometry"),
+    inherits(x$geometry, "sfc")
+  )
+  assertthat::assert_that(
+    identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
+    msg = paste0(
+      "argument to \"x\" must not contain multiple entries with",
+      "the same combination of values for the \"id_no\" and \"seasonal\"",
+      "columns"
+    )
+  )
+  assertthat::assert_that(
     assertthat::is.writeable(output_dir),
     assertthat::is.writeable(cache_dir),
     assertthat::is.count(n_threads),
@@ -73,10 +94,13 @@ create_spp_data <- function(x,
     )
   )
   if (identical(engine, "gdal")) {
-    assertthat::assert_that(
-      is_gdal_available(),
-      msg = "can't use GDAL for processing because it's not available."
+  assertthat::assert_that(
+    requireNamespace("gdalUtilities", quietly = TRUE),
+    msg = paste(
+      "the \"gdalUtilities\" package needs to be installed, use",
+      "install.packages(\"gdalUtilities\")"
     )
+  )
   }
   if (identical(engine, "grass")) {
     assertthat::assert_that(
@@ -86,18 +110,11 @@ create_spp_data <- function(x,
   }
   if (identical(engine, "grass")) {
     assertthat::assert_that(
-      is_gdal_available(),
+      is_gdal_python_available(),
       msg = paste(
         "can't use GRASS for processing because it requires GDAL,",
         "which is not available."
       )
-    )
-  }
-  # verify access to IUCN Red List API
-  if (is.null(spp_summary_data) && is.null(spp_habitat_data)) {
-    assertthat::assert_that(
-      is_iucn_rl_api_available(),
-      msg = "can't access the IUCN Red List API, see ?aoh"
     )
   }
   ## elevation data
@@ -157,6 +174,14 @@ create_spp_data <- function(x,
       "same spatial properties (e.g., coordinate system, extent, resolution)"
     )
   )
+  ## verify species info data has same crs as raster data
+  assertthat::assert_that(
+    sf::st_crs(x) == terra_st_crs(elevation_data),
+    msg = paste(
+      "arguments to \"x\" and \"elevation_data\" don't have the",
+      "same spatial coordinate reference system"
+    )
+  )
   ## crosswalk_data
   assertthat::assert_that(
     inherits(crosswalk_data, "data.frame"),
@@ -181,60 +206,6 @@ create_spp_data <- function(x,
       )
     )
   )
-
-  # clean species range data
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("cleaning species range data")
-  }
-  ## processing
-  x <- clean_spp_range_data(
-    x = x,
-    keep_iucn_rl_presence = keep_iucn_rl_presence,
-    keep_iucn_rl_origin = keep_iucn_rl_origin,
-    keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
-    crs = terra_st_crs(elevation_data)
-  )
-  ## addition data validation
-  assertthat::assert_that(
-    nrow(x) > 0,
-    msg = "argument to x does not contain any terrestrial species"
-  )
-  assertthat::assert_that(
-    identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
-    msg = paste(
-      "failed to combine multiple geometries for a species'",
-      "seasonal distribution"
-    )
-  )
-  ## clean up
-  invisible(gc())
-
-  ## spp_summary_data
-  ### import data
-  if (is.null(spp_summary_data)) {
-    #### display message
-    if (verbose) {
-      cli::cli_progress_step("importing species summary data")
-    }
-    #### processing
-    spp_summary_data <- get_spp_summary_data(
-      x$id_no, dir = cache_dir, version = iucn_version, key = key,
-      force = force, verbose = verbose
-    )
-  }
-  ## spp_habitat_data
-  if (is.null(spp_habitat_data)) {
-    #### display message
-    if (verbose) {
-      cli::cli_progress_step("importing species habitat data")
-    }
-    #### processing
-    spp_habitat_data <- get_spp_habitat_data(
-      unique(x$id_no), dir = cache_dir, version = iucn_version, key = key,
-      force = force, verbose = verbose
-    )
-  }
 
   # calculations for fractional coverage
   if (!is.null(res)) {
@@ -268,30 +239,10 @@ create_spp_data <- function(x,
     frc_template <- NULL
   }
 
-  # format species data
-  ## display message
-  if (verbose) {
-    cli::cli_progress_step("collating species data")
-  }
-  ## main processing
-  x <- format_spp_data(
-    x = x,
-    template_data = habitat_data,
-    spp_summary_data = spp_summary_data,
-    spp_habitat_data = spp_habitat_data,
-    cache_dir = cache_dir,
-    iucn_version = iucn_version,
-    key = key,
-    force = force,
-    omit_habitat_codes = omit_habitat_codes,
-    verbose = verbose
-  )
-  ## clean up
-  invisible(gc())
-
   ## additional data validation
   ### check that habitat_data has all codes in spp_habitat_data
-  habitat_codes <- unique(unlist(x$habitat_code, use.names = FALSE))
+  habitat_codes <- strsplit(x$full_habitat_code, split = "|", fixed = TRUE)
+  habitat_codes <- unique(unlist(habitat_codes, use.names = FALSE))
   missing_codes <- !habitat_codes %in% crosswalk_data$code
   if (any(missing_codes)) {
     cli::cli_alert_warning(
@@ -328,6 +279,18 @@ create_spp_data <- function(x,
   )
   ## remove missing codes
   habitat_codes <- habitat_codes[!missing_codes]
+
+  # prepare data
+  ## create aoh_id column
+  x$aoh_id <- paste0(x$id_no, "_", x$seasonal)
+  ## split habitat codes by | to obtain list
+  x$full_habitat_code <- strsplit(x$full_habitat_code, "|", fixed = TRUE)
+  ## subset habitat codes to those that are available
+  x$habitat_code <- lapply(x$full_habitat_code, function(x) {
+    base::intersect(x, habitat_codes)
+  })
+  ## collate spatial extent information
+  x <- collate_spp_extent_data(x, habitat_data)
   ## add column with output file paths
   if (is.null(res)) {
     x$path <- file.path(output_dir, paste0(x$aoh_id, ".tif"))
@@ -336,12 +299,6 @@ create_spp_data <- function(x,
       output_dir, paste0("FRC_", x$id_no, "_", x$seasonal, ".tif")
     )
   }
-  ## copy all habitat codes to full_habitat_code
-  x$full_habitat_code <- x$habitat_code
-  ## subset habitat codes to those that are available
-  x$habitat_code <- lapply(x$full_habitat_code, function(x) {
-    base::intersect(x, habitat_codes)
-  })
   ## set paths to NA if the species won't be processed
   ## species won't be processed if:
   ##   they don't overlap with the template,
@@ -392,7 +349,7 @@ create_spp_data <- function(x,
   }
   ## processing
   x <- dplyr::select(
-    x, .data$id_no, .data$binomial, .data$seasonal,
+    x, .data$id_no, .data$binomial, .data$seasonal, .data$category,
     .data$full_habitat_code, .data$habitat_code,
     .data$elevation_lower, .data$elevation_upper,
     .data$xmin, .data$xmax, .data$ymin, .data$ymax,
@@ -421,6 +378,11 @@ create_spp_data <- function(x,
     x$ymin[idx] <- exts[3, ]
     x$ymax[idx] <- exts[4, ]
   }
+  ## overwrite spatial extent data with NAs for distributions not processed
+  x$xmin[is.na(x$path)] <- NA_real_
+  x$xmax[is.na(x$path)] <- NA_real_
+  x$ymin[is.na(x$path)] <- NA_real_
+  x$ymax[is.na(x$path)] <- NA_real_
 
   # return result
   ## display message

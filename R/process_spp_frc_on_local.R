@@ -19,7 +19,8 @@ process_spp_frc_on_local <- function(aoh_path,
                                      template_data,
                                      path,
                                      engine = "terra",
-                                     n_threads = 1) {
+                                     n_threads = 1,
+                                     cache_limit = 200) {
   # assert that arguments are valid
   assertthat::assert_that(
     assertthat::is.string(aoh_path),
@@ -69,6 +70,7 @@ process_spp_frc_on_local <- function(aoh_path,
       ext = terra::ext(curr_grid),
       filename = tempfile(tmpdir = tmp_dir, fileext = ".tif"),
       datatype = "INT1U",
+      cache_limit = cache_limit,
       bigtiff = TRUE,
       tiled = TRUE,
       compress = "LZW",

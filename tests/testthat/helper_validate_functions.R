@@ -127,3 +127,98 @@ validate_aoh_data <- function(x, elevation_data, habitat_data, crosswalk_data) {
   # return result
   all(result)
 }
+
+validate_info_data <- function(x, spp_habitat_data, spp_summary_data) {
+  # assert valid arguments
+  assertthat::assert_that(
+    inherits(x, "sf"),
+    inherits(spp_habitat_data, "data.frame"),
+    inherits(spp_summary_data, "data.frame")
+  )
+
+  # initial checks
+  expect_true(is.numeric(x$id_no))
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_is(x$binomial, "character")
+  expect_true(is.numeric(x$seasonal))
+  expect_is(x$full_habitat_code, "character")
+  expect_true(is.numeric(x$elevation_lower))
+  expect_true(is.numeric(x$elevation_upper))
+
+  # main checks
+  result <- lapply(seq_len(nrow(x)), function(i) {
+    ## extract information
+    curr_x <- x[i, , drop = FALSE]
+    curr_id <- curr_x$id_no
+    curr_seas <- curr_x$seasonal
+    ## find elevation data
+    curr_sum <-
+      spp_summary_data[which(spp_summary_data$id_no == curr_id), , drop = FALSE]
+    curr_el <- min(curr_sum$elevation_upper, curr_sum$elevation_lower)
+    curr_eu <- max(curr_sum$elevation_upper, curr_sum$elevation_lower)
+    ## find habitat data
+    r <- which(
+      spp_habitat_data$id_no == curr_id &
+      spp_habitat_data$suitability %in% c("Suitable", "Major")
+    )
+    curr_spp_hab <- spp_habitat_data[r, , drop = FALSE]
+    ## convert seasonal descriptions to codes
+    curr_spp_hab$scode <- convert_to_seasonal_id(curr_spp_hab$season)
+    ## add in missing data for migratory species' seasonal ranges
+    if (all(c(2, 3) %in% curr_x$seasonal)) {
+      ### if no resident data available
+      if (!(1 %in% curr_spp_hab$scode) && (1 %in% curr_spp_hab$scode)) {
+        curr_spp_hab_sub <-
+          curr_spp_hab[curr_spp_hab$scode == 2, , drop = FALSE]
+        curr_spp_hab_sub$scode <- 1
+        curr_spp_hab <- dplyr::bind_rows(curr_spp_hab, curr_spp_hab_sub)
+      }
+      ### if no breeding data available
+      if (!(2 %in% curr_spp_hab$scode) && (2 %in% curr_spp_hab$scode)) {
+        curr_spp_hab_sub <-
+          curr_spp_hab[curr_spp_hab$season == 1, , drop = FALSE]
+        curr_spp_hab_sub$scode <- 2
+        curr_spp_hab <- dplyr::bind_rows(curr_spp_hab, curr_spp_hab_sub)
+      }
+      ### if no non-breeding data available
+      if (!(3 %in% curr_spp_hab$scode) && (3 %in% curr_spp_hab$scode)) {
+        curr_spp_hab_sub <-
+          curr_spp_hab[curr_spp_hab$season == 1, , drop = FALSE]
+        curr_spp_hab_sub$scode <- 3
+        curr_spp_hab <- dplyr::bind_rows(curr_spp_hab, curr_spp_hab_sub)
+      }
+    }
+    ## if the same habitat information is supplied for an un-specified
+    ## seasonal distribution, then assume it is relevant for all seasonal
+    ## distributions
+    idx <- is.na(curr_spp_hab$season)
+    curr_spp_hab <- dplyr::bind_rows(
+      curr_spp_hab[!idx, , drop = FALSE],
+      plyr::ldply(
+        which(idx),
+        function(i) {
+          x <- curr_spp_hab[rep(i, 5), , drop = FALSE]
+          x$scode <- seq_len(5)
+          x
+        }
+      )
+    )
+    ## subset to seasonal range
+    curr_spp_hab_season <-
+      curr_spp_hab[which(curr_spp_hab$scode == curr_seas), , drop = FALSE]
+    ## check expected values
+    expect_equal(curr_x$elevation_lower, curr_el)
+    expect_equal(curr_x$elevation_upper, curr_eu)
+    expect_equal(
+      curr_x$full_habitat_code,
+      paste(
+        stringi::stri_sort(curr_spp_hab_season$code, numeric = TRUE),
+        collapse = "|"
+      )
+    )
+    ## return success
+    TRUE
+  })
+  ## return success
+  TRUE
+}
