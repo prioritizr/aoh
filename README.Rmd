@@ -195,8 +195,6 @@ print(map)
 
 ### Citation
 
-**Please note that the package is still in the early stages of development and not ready for general use. It is not yet suitable for use in scientific publications or related work.**
-
 Please cite the _aoh R_ package and the underlying datasets used to produce Area of Habitat data.
 
 ```{r, echo  = FALSE, result = "asis", comment = ""}

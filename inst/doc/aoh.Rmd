@@ -101,7 +101,7 @@ spp_aoh_data <- create_spp_aoh_data(
 print(spp_aoh_data[, c("id_no", "seasonal", "path")])
 ```
 
-While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e. `"7.1"`, `"7.2"`). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class [see @r9 for details]. Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution [@r6].
+While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e., `"7.1"`, `"7.2"`). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class [see @r9 for details]. Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution [@r6].
 
 ```{r}
 # preview results
@@ -158,7 +158,7 @@ names(spp_aoh_rasters) <- paste0(
 print(spp_aoh_rasters)
 ```
 
-Finally, let's create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g. using the [_ggplot2_](https://CRAN.R-project.org/package=ggplot2) _R_ package), we will use a plotting function distributed with the _aoh R_ package for convenience.
+Finally, let's create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g., using the [_ggplot2_](https://CRAN.R-project.org/package=ggplot2) _R_ package), we will use a plotting function distributed with the _aoh R_ package for convenience.
 
 ```{r, message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = "90%"}
 # create maps
@@ -182,10 +182,6 @@ print(map)
 
 Here we provide answers to some of the frequently asked questions encountered when using the package.
 
-* **I keep seeing this message `Error in x$.self$finalize() : attempt to apply non-function`, what does it mean?**
-
-    This message is commonly encountered when using the _terra_ package with large datasets. Although there is currently no known solution to prevent this message from appearing, the message can be safely ignored ([see here for details](https://github.com/rspatial/terra/issues/30)). This is because the message does not stop R from completing spatial data processing -- meaning that R will continue processing data even when this message is displayed -- and the underlying cause of the message is not thought to result in incorrect calculations.
-
 * **I see the following error message `Error: need an API key for Red List data`, how do I resolve this?**
 
     This error message indicates that you need to obtain a token to access the [IUCN Red List API](https://apiv3.iucnredlist.org/), or that you need to complete the setup process so that R can use the token. For further details on resolving this issue, please see below for details on obtaining access to the IUCN Red List API. If you have previously completed the set up procedures and still receive this error message, please try completing them again.
@@ -194,7 +190,7 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
     You will need to obtain a token to access the [IUCN Red List API](https://apiv3.iucnredlist.org/) (if you do not have one already). To achieve this, please visit the IUCN website and fill out the form to apply for a token (see <https://apiv3.iucnredlist.org/api/v3/token>). You should then receive a token shortly after completing the form (but not immediately). After receiving a token, you will need to complete some additional steps so that R can use this token to access the IUCN Red List API.
 
-    Please please open the `.Renviron` file on your computer (e.g. using `usethis::edit_r_environ()`). Next, please add the following text to the file (replacing the string with the token) and save the file:
+    Please open the `.Renviron` file on your computer (e.g., using `usethis::edit_r_environ()`). Next, please add the following text to the file (replacing the string with the token) and save the file:
 
     ```
     IUCN_REDLIST_KEY="your_actual_token_not_this_string"
@@ -211,25 +207,31 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
 * **Where can I find species range data for generating Area of Habitat data?**
 
-    Species range data can be obtained from the [IUCN Red List](https://www.iucnredlist.org/) (see [Spatial Data Download resources](https://www.iucnredlist.org/resources/spatial-data-download)). They can also be obtained from other data sources (see the following question for details).
+    Species range data can be obtained from the [IUCN Red List](https://www.iucnredlist.org/) (see [Spatial Data Download resources](https://www.iucnredlist.org/resources/spatial-data-download)). They can also be obtained from other data sources (see the question below for details).
 
-* **Can I use species range data from other data sources (instead of the IUCN Red List)?**
+* **I keep seeing this message `Error in x$.self$finalize() : attempt to apply non-function`, what does it mean?**
 
-    Yes, species range data do not necessarily need to be obtained from the IUCN Red List. For example, species range data can be obtained from  governmental (e.g. data for federally listed species in Canada are available through the [Government of Canada data portal](https://open.canada.ca/en/open-data)) and non-governmental organizations (e.g. [Botanical Information and Ecology Network](https://biendata.org/) and [Map of Life](https://mol.org/)). These data can also be produced using observation records [e.g. following @r8] from data repositories (e.g. [Global Biodiversity Information Facility](https://www.gbif.org/) and [Atlas of Living Australia](https://www.ala.org.au/)). After obtaining species range data, please format them so that they follow the same data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: `id_no`, `presence`, `origin`, `seasonal`, `terrestrial` (or `terrestial`), `freshwater`, and `marine`. For further details on what values these columns should contain, please see the **Species range data format** section in the documentation for `create_spp_info_data()` and the [IUCN Red List documentation](https://www.iucnredlist.org/resources/mappingstandards).
-
-    If you wish to use the IUCN Red List for specifying habitat preference data, please ensure that the `id_no` specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (_Calotriton asper_). To ensure that correct habitat preference data were obtained for this species from the the IUCN Red List, the `id_no` value specified for this species in the species range dataset was `59448`.
-
-* **Can I use habitat classification data from other data sources?**
-
-    Yes, you don't need to use the habitat classification data available through the package. For example, habitat classification data derived from other datasets could be used to produce Area of Habitat data (e.g. [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover), [MODIS Land Cover data (MCD12Q1)](https://lpdaac.usgs.gov/products/mcd12q1v006/)). When using habitat classification data from other data sources, you will also need to develop a crosswalk table to determine which land cover (or habitat) classes correspond to which habitat classes as defined by the [IUCN Red List Habitat Classification Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme) [e.g. see @r2; @r9].
+    This message is commonly encountered when using the _terra_ package with large datasets. Although there is currently no known solution to prevent this message from appearing, the message can be safely ignored ([see here for details](https://github.com/rspatial/terra/issues/30)). This is because the message does not stop R from completing spatial data processing -- meaning that R will continue processing data even when this message is displayed -- and the underlying cause of the message is not thought to result in incorrect calculations.
 
 * **Can I produce Area of Habitat data for species globally?**
 
-    Yes, the package can generate Area of Habitat data for species globally. To accomplish this, you will need a system with at least 32 Gb RAM and 65 Gb disk space. Additionally, the processing will likely take multiple days to complete. This is because it can take several days to obtain data from the IUCN Red List API, and it can also take several days to complete the subsequent spatial data processing.
+    Yes, the package can generate Area of Habitat data for species globally. To accomplish this, you will need a system with at least 16 Gb RAM and 65 Gb disk space. Additionally, the processing will likely take multiple days to complete. This is because it can take several days to obtain data from the IUCN Red List API, and it can also take several days to complete the subsequent spatial data processing. An example script for processing global data is available on the online code repository ([see here](https://github.com/prioritizr/aoh/tree/master/inst/examples)). Additionally, to improve performance when processing data for birds globally, it is recommended to split the full dataset into multiple chunks (e.g., six chunks) and process each of these separately.
 
-* **It's taking too long to generate Area of Habitat data, how can I speed it up?**
+* **How can I speed up the processing for Area of Habitat data?**
 
-    The `create_spp_aoh_data()` function can use different software engines for data processing (specified via the `engine` parameter). Although each engine produces the same results, some engines are more computationally efficient than others. The default `"terra"` engine uses the _terra_ package for processing. Although this engine is easy to install and fast for small datasets, it does not scale well for larger datasets. It is generally recommended to use the `"gdal"` engine for both small and moderately sized datasets. Additionally, the `"grass"` engine is recommended when processing data for many species across very large spatial extents. For instructions on installing dependencies for the `"gdal"` and `"grass"` engines, please see the README file.
+    The `create_spp_aoh_data()` function can use different software engines for data processing (specified via the `engine` parameter). Although each engine produces the same results, some engines are more computationally efficient than others. The default `"terra"` engine uses the _terra_ package for processing. Although this engine is easy to install and fast for small datasets, it does not scale well for larger datasets. It is generally recommended to use the `"gdal"` engine in all cases where possible. Although the `"gdal"` engine requires installation of additional software (see the package README for instructions), it is much faster than the other engines. Additionally, the `"grass"` engine is also available. This engine can be faster than the `"terra"` engine when processing many species across large spatial extents. However, benchmarks indicate that it is slower than the `"gdal"` engine.
+
+* **Can I use species range data from other data sources (instead of the IUCN Red List)?**
+
+    Yes, you can use species range data from a variety of sources. For example, species range data could be obtained from governmental (e.g., data for federally listed species in Canada are available through the [Government of Canada data portal](https://open.canada.ca/en/open-data)) and non-governmental organizations (e.g., [Botanical Information and Ecology Network](https://biendata.org/) and [Map of Life](https://mol.org/)). These data can also be produced using observation records [e.g., following @r8] from data repositories (e.g., [Global Biodiversity Information Facility](https://www.gbif.org/) and [Atlas of Living Australia](https://www.ala.org.au/)). After obtaining species range data, they will need to be formatted so that they follow the data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: `id_no`, `presence`, `origin`, `seasonal`, `terrestrial` (or `terrestial`), `freshwater`, and `marine`. For further details on what values these columns should contain, please see the **Species range data format** section in the documentation for `create_spp_info_data()` and the [IUCN Red List documentation](https://www.iucnredlist.org/resources/mappingstandards). Additionally, note that if you wish to use the IUCN Red List for specifying habitat preference data, please ensure that the `id_no` specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (_Calotriton asper_). To ensure that correct habitat preference data were obtained for this species from the the IUCN Red List, the `id_no` value specified for this species was specified as `59448`.
+
+* **Can I use habitat classification data from other data sources?**
+
+    Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover), [MODIS Land Cover data (MCD12Q1)](https://lpdaac.usgs.gov/products/mcd12q1v006/)). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the [IUCN Red List Habitat Classification Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme) [e.g., see @r2; @r9]. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via `create_spp_aoh_data()`).
+
+* **Can I use elevational limit data from other sources?**
+
+    Yes, you can use elevational limit data from other sources. For example, you could obtain such data from the BirdLife Data Zone (e.g., see the _Occasional altitudinal limits_ for the [Eurasian buzzard _Buteo Buteo_](http://datazone.birdlife.org/species/factsheet/eurasian-buzzard-buteo-buteo/details)). To use such data, you will need to manually create a table containing the species' summary information. This table will need to contain information on the species' elevational limits, as well as their habitat preferences and threat status (see `get_spp_summary_data()` for the correct format). After preparing these data, they can be used to collate the information needed for processing Area of Habitat data (via `create_spp_info_data()`) and, in turn, create Area of Habitat data (via `create_spp_aoh_data()`).
 
 * **The output Area of Habitat data have different spatial extents, how can I combine them together?**
 
