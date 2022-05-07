@@ -154,3 +154,45 @@ test_that("species with reversed elevation limits", {
   validate_info_data(x1, spp_habitat_data, spp_summary_data)
   validate_info_data(x2, spp_habitat_data, spp_summary_data_alt)
 })
+
+test_that("migratory species with no habitat codes for breeding season", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
+  skip_if_not_installed("prepr")
+  skip_if_iucn_red_list_data_not_available("BOTW.7z")
+  # specify parameters for processing
+  f <- file.path(
+    rappdirs::user_data_dir("iucn-red-list-data"),
+    "BOTW.7z"
+  )
+  cd <- rappdirs::user_data_dir("aoh")
+  # load data
+  d <- suppressWarnings(read_spp_range_data(f, n = 20))
+  d <- d[d$binomial == "Buteo buteo", , drop = FALSE]
+  assertthat::assert_that(nrow(d) == 3L)
+  # remove habitat codes for breeding data (if needed for future versions)
+  # N.B. per 2021-3 version of IUCN Red List, these codes aren't present
+  spp_habitat_data <- get_spp_habitat_data(
+    unique(d$SISID), dir = cd, verbose = interactive()
+  )
+  spp_habitat_data <-
+    spp_habitat_data[
+      which(spp_habitat_data$season != "Breeding"), , drop = FALSE]
+  # create objects
+  x = create_spp_info_data(
+    x = d,
+    spp_habitat_data = spp_habitat_data,
+    cache_dir = cd,
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, info_names)
+  expect_equal(
+    x$full_habitat_code[x$seasonal == 1], # codes for resident distribution
+    x$full_habitat_code[x$seasonal == 2]  # codes for breeding distribution
+  )
+})
