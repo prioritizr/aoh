@@ -266,7 +266,7 @@ please see the README file.
 \examples{
 \dontrun{
 # find file path for example range data following IUCN Red List data format
-## N.B. the range data were not obtained from the IUCN Red List,
+## N.B., the range data were not obtained from the IUCN Red List,
 ## and were instead based on data from GBIF (https://www.gbif.org/)
 path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 

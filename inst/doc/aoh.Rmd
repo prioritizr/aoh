@@ -1,5 +1,5 @@
 ---
-title: "aoh: Create Area of Habitat Data"
+title: "Getting started"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
@@ -11,7 +11,7 @@ documentclass: article
 bibliography: references.bib
 csl: reference-style.csl
 vignette: >
-  %\VignetteIndexEntry{aoh: Create Area of Habitat Data}
+  %\VignetteIndexEntry{Getting started}
   %\VignetteEngine{knitr::rmarkdown_notangle}
   %\VignetteEncoding{UTF-8}
 ---
@@ -35,7 +35,7 @@ devtools::load_all()
 
 ## Introduction
 
-Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species [@r1]. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions [@r2; @r3; @r7]. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species [@r1]. To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import them (using `read_spp_range_data()`), prepare them and collate additional information for subsequent processing (using `create_spp_info_data()`), and then create Area of Habitat data (using `create_spp_aoh_data()`). Global elevation and habitat classification data are automatically downloaded [@r4; @r5; @r9], and data on species' habitat preferences and elevational limits are obtained automatically using the [IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List requires a token, users may need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see below for details).
+Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species [@r1]. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions [@r2; @r3; @r7]. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species [@r1]. To help make these maps accessible, the _aoh R_ package provides routines for automatically creating Area of Habitat data based on the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). After manually downloading species range data from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download), users can import them (using `read_spp_range_data()`), prepare them and collate additional information for subsequent processing (using `create_spp_info_data()`), and then create Area of Habitat data (using `create_spp_aoh_data()`). Global elevation and habitat classification data are automatically downloaded [@r4; @r5; @r9], and data on species' habitat preferences and elevational limits are obtained automatically using the [IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List requires a token, users may need to [obtain a token](https://apiv3.iucnredlist.org/api/v3/token) and update their _R_ configuration to recognize the token (see README for details).
 
 ## Tutorial
 
@@ -64,7 +64,6 @@ print(spp_range_data)
 
 Next, we will prepare all the range data for generating Area of Habitat data. This procedure -- in addition to repairing any geometry issues in the spatial data --  will obtain information on the species' habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won't need to re-download it again during subsequent runs.
 
-
 ```{r, message = FALSE, results = "hide"}
 # specify cache directory
 cache_dir <- user_data_dir("aoh")
@@ -78,7 +77,7 @@ if (!file.exists(cache_dir)) {
 spp_info_data <- create_spp_info_data(spp_range_data, cache_dir = cache_dir)
 ```
 
-We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from [Amatulli *et al.* 2018](https://doi.org/10.1038/sdata.2018.40) and habitat data derived from [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851). Similar to before, we also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from [Robinson *et al.* 2014](https://doi.org/10.1016/j.isprsjprs.2013.11.002) and habitat data derived from [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851). Similar to before, we also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
 
 ```{r, message = FALSE, results = "hide"}
 # specify cache directory
@@ -96,9 +95,6 @@ output_dir <- tempdir()
 spp_aoh_data <- create_spp_aoh_data(
   spp_info_data, output_dir = output_dir, cache_dir = cache_dir
 )
-
-# preview results
-print(spp_aoh_data[, c("id_no", "seasonal", "path")])
 ```
 
 While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e., `"7.1"`, `"7.2"`). **This is fine. It is not an error.** The reason we see this message is because although the global habitat dataset contains the majority of [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme) for terrestrial environments, it does not contain every single IUCN habitat class [see @r9 for details]. Upon checking the [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme), we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species' non-subterranean habitats is sufficient to describe their spatial distribution [@r6].
@@ -125,10 +121,11 @@ While running the code, we see that it displayed a message telling us that certa
 ## - path             : file path for Area of Habitat data (GeoTIFF format)
 ##
 ## since data obtained from the IUCN Red List cannot be redistributed,
-## we will not show all the columns in this object
+## we will only show some of the columns in this object
 ##
-## N.B. you can view all columns on your computer with: print(spp_aoh_data)
-print(spp_aoh_data[, c("id_no", "seasonal", "path")])
+## N.B., you can view all columns on your computer with:
+##> print(spp_aoh_data, width = Inf)
+print(spp_aoh_data[, c("id_no", "binomial", "seasonal", "path")])
 ```
 
 After generating the Area of Habitat data, we can import them.
@@ -227,7 +224,7 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
 * **Can I use habitat classification data from other data sources?**
 
-    Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover), [MODIS Land Cover data (MCD12Q1)](https://lpdaac.usgs.gov/products/mcd12q1v006/)). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the [IUCN Red List Habitat Classification Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme) [e.g., see @r2; @r9]. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via `create_spp_aoh_data()`).
+    Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover), [MODIS Land Cover data (MCD12Q1)](https://lpdaac.usgs.gov/products/mcd12q1v006/)). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the [IUCN Red List Habitat Classification Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme) [e.g., see @r2; @r9]. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via `create_spp_aoh_data()`). For more information, see the [Customization vignette](customization.html).
 
 * **Can I use elevational limit data from other sources?**
 

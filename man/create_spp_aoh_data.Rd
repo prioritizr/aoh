@@ -242,7 +242,7 @@ grid cells that are located outside of the species' distribution.
 \examples{
 \dontrun{
 # find file path for example range data following IUCN Red List data format
-## N.B. the range data were not obtained from the IUCN Red List,
+## N.B., the range data were not obtained from the IUCN Red List,
 ## and were instead based on data from GBIF (https://www.gbif.org/)
 path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 
@@ -266,6 +266,7 @@ spp_info_data <- create_spp_info_data(
 )
 
 # create Area of Habitat data for species
+# N.B., the default based on Lumbierres et al. (2021)
 spp_aoh_data <- create_spp_aoh_data(
   x = spp_info_data,
   output_dir = output_dir,

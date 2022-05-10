@@ -85,7 +85,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # find file path for example range data following IUCN Red List data format
-#' ## N.B. the range data were not obtained from the IUCN Red List,
+#' ## N.B., the range data were not obtained from the IUCN Red List,
 #' ## and were instead based on data from GBIF (https://www.gbif.org/)
 #' path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
 #'
@@ -99,7 +99,7 @@ NULL
 #' print(spp_range_data)
 #'
 #' # plot data
-#' ## N.B. the cleaned data are very similar to the input data
+#' ## N.B., the cleaned data are very similar to the input data
 #' ## because they don't have any issues
 #' plot(spp_cleaned_range_data)
 #' }
@@ -150,7 +150,7 @@ clean_spp_range_data <- function(x,
 
   # step 1: format all column names
   ## re-order columns so that geometry is last
-  ### N.B. this is needed to avoid sf internal errors related to agr
+  ### N.B., this is needed to avoid sf internal errors related to agr
   ### when renaming columns or adding in new columns
   x <- dplyr::select(x, -.data$geometry, dplyr::everything())
 
@@ -194,7 +194,7 @@ clean_spp_range_data <- function(x,
 
   # step 1d: add in any missing columns
   ## "familyname" column is present
-  ## N.B. BirdLife use the "FamilyName" column to store the Latin name for
+  ## N.B., BirdLife use the "FamilyName" column to store the Latin name for
   ## bird families and the "Family" column to store the English common name for
   ## bird families, so we need to overwrite the "family" column with values
   ## in the "familyname" column
@@ -278,7 +278,7 @@ clean_spp_range_data <- function(x,
   }
 
   # step 1e: re-order columns so that geometry is last
-  ## N.B. this is needed to avoid sf internal errors related to agr
+  ## N.B., this is needed to avoid sf internal errors related to agr
   ## when renaming columns or adding in new columns
   x <- dplyr::select(x, -.data$geometry, dplyr::everything())
 
@@ -442,7 +442,7 @@ clean_spp_range_data <- function(x,
   invisible(gc())
 
   # re-order columns so that geometry is last
-  ## N.B. this is needed to avoid sf internal errors related to agr
+  ## N.B., this is needed to avoid sf internal errors related to agr
   ## when renaming columns or adding in new columns
   x <- dplyr::select(x, -.data$geometry, dplyr::everything())
   invisible(gc())
