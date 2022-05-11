@@ -22,7 +22,7 @@ if (!require(rnaturalearthhires)) {
 }
 
 ## import data
-global_habitat_data <- get_jung_habitat_data(
+global_habitat_data <- get_jung_lvl2_habitat_data(
   dir = cache_dir, version = habitat_version,
 )
 global_elevation_data <- get_global_elevation_data(
@@ -145,6 +145,15 @@ withr::with_dir(
     zipfile = zip_path,
     files = dir(temp_dir)
   )
+)
+
+## save crosswalk data
+write.table(
+  crosswalk_jung_lvl2_data,
+  "inst/testdata/sim_crosswalk.csv",
+  quote = TRUE,
+  sep = ",",
+  row.names = FALSE
 )
 
 ## save habitat data
