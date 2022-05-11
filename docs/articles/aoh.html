@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
             
-            <h4 data-toc-skip class="date">2022-05-11</h4>
+            <h4 data-toc-skip class="date">2022-05-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -199,10 +199,10 @@
 <span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span>
 <span class="co">##   id_no binomial              seasonal path                             geometry</span>
 <span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpadAza… ((-105492 4465129, -1064…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpadAza… ((-238707 5029084, -2377…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpadAza… ((-859178 4559308, -8593…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpadAza… ((-849787 4614155, -8481…</span></code></pre>
+<span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/Rtmp4NWub… ((-105492 4465129, -1064…</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/Rtmp4NWub… ((-238707 5029084, -2377…</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/Rtmp4NWub… ((-859178 4559308, -8593…</span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/Rtmp4NWub… ((-849787 4614155, -8481…</span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -327,8 +327,8 @@
 <p>This message is commonly encountered when using the <em>terra</em> package with large datasets. Although there is currently no known solution to prevent this message from appearing, the message can be safely ignored (<a href="https://github.com/rspatial/terra/issues/30" class="external-link">see here for details</a>). This is because the message does not stop R from completing spatial data processing – meaning that R will continue processing data even when this message is displayed – and the underlying cause of the message is not thought to result in incorrect calculations.</p>
 </li>
 <li>
-<p><strong>Can I produce Area of Habitat data for species globally?</strong></p>
-<p>Yes, the package can generate Area of Habitat data for species globally. To accomplish this, you will need a system with at least 16 Gb RAM and 65 Gb disk space. Additionally, the processing will likely take multiple days to complete. This is because it can take several days to obtain data from the IUCN Red List API, and it can also take several days to complete the subsequent spatial data processing. An example script for processing global data is available on the online code repository (<a href="https://github.com/prioritizr/aoh/tree/master/inst/examples" class="external-link">see here</a>). Additionally, to improve performance when processing data for birds globally, it is recommended to split the full dataset into multiple chunks (e.g., six chunks) and process each of these separately.</p>
+<p><strong>Can I produce Area of Habitat data for thousands of species globally?</strong></p>
+<p>Yes, the package can generate Area of Habitat data for all terrestrial amphibians, mammals, birds, and reptiles. To accomplish this, you will need a system with at least 16 Gb RAM and 65 Gb disk space. The processing could a couple of days (e.g., if processing all amphibian species) or weeks (e.g., if processing all bird species) to complete. An example script for processing global data is available on the online code repository (<a href="https://github.com/prioritizr/aoh/tree/master/inst/examples" class="external-link">see here</a>). Additionally, since a lot of memory is required to process data for all bird species globally, it is recommended to split the full dataset containing all bird species into multiple chunks (e.g., six chunks) and process each of these chunks separately.</p>
 </li>
 <li>
 <p><strong>How can I speed up the processing for Area of Habitat data?</strong></p>
@@ -340,7 +340,7 @@
 </li>
 <li>
 <p><strong>Can I use species elevational limit data from other sources?</strong></p>
-<p>Yes, you can use elevational limit data from other sources. For example, you could obtain such data from the BirdLife Data Zone (e.g., see the <em>Occasional altitudinal limits</em> for the <a href="http://datazone.birdlife.org/species/factsheet/eurasian-buzzard-buteo-buteo/details" class="external-link">Eurasian buzzard <em>Buteo Buteo</em></a>). To use such data, you will need to manually create a table containing the species’ summary information. This table will need to contain information on the species’ elevational limits, as well as their habitat preferences and threat status (see <code><a href="../reference/get_spp_summary_data.html">get_spp_summary_data()</a></code> for the correct format). After preparing these data, they can be used to collate the information needed for processing Area of Habitat data (via <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code>) and, in turn, create Area of Habitat data (via <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p>
+<p>Yes, you can use elevational limit data from other sources. For example, for birds it is important to use the “Occasional minimum altitude” and “Occasional maximum altitude” estimates for those species for which these are coded in the IUCN Red List. These data are available on request from BirdLife International (please contact <a href="mailto:science@birdlife.org" class="email">science@birdlife.org</a>). To use such data, you will need to manually create a table containing the species’ summary information. This table will need to contain information on the species’ elevational limits, as well as their habitat preferences and threat status (see get_spp_summary_data() for the correct format). After preparing these data, they can be used to collate the information needed for processing Area of Habitat data (via create_spp_info_data()) and, in turn, create Area of Habitat data (via create_spp_aoh_data()).</p>
 </li>
 <li>
 <p><strong>Can I use elevation data from other data sources?</strong></p>
