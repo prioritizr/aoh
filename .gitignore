@@ -5,9 +5,11 @@ doc
 *.so
 *.dll
 
-# temporary fi;es
+# temporary files
 Rplots.pdf
 inst/scripts/*.Rout
+/aoh.R
+/customization.R
 
 # R profile files
 *.Rproj.user

@@ -52,7 +52,7 @@ The package can also leverage the [Geospatial Data Abstraction Library (GDAL)](h
 
 ##### _Windows_
 
-The [Rtools](https://cran.r-project.org/bin/windows/Rtools/) software needs to be installed to install the _prepr R_ package package. This software provides system requirements from [rwinlib](https://github.com/rwinlib/). Additionally, the easiest way to install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/), select the "Express Install" option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the _gdalUtils R_ package cannot find GDAL, you may also need to update the `PATH` environmental variable so that it contains the folder path for GDAL (default folder path is `C:\OSGeo4W\bin`),
+The [Rtools](https://cran.r-project.org/bin/windows/Rtools/) software needs to be installed to install the _prepr R_ package package. This software provides system requirements from [rwinlib](https://github.com/rwinlib/). Additionally, the easiest way to install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/). [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/), select the "Express Install" option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the `aoh::is_gdal_python_available()` function cannot find GDAL, you may also need to update the `PATH` environmental variable so that it contains the folder path for GDAL (default folder path is `C:\OSGeo4W\bin`),
 
 ##### _Ubuntu_
 

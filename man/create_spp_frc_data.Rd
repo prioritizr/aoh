@@ -195,7 +195,7 @@ extent  of the species' seasonal distribution;
 (ii) converting the habitat classification data to a binary layer
 denoting suitable habitat for the species' distribution
 (using the habitat affiliation data for the species' distribution);
-(iii) creating a mask based on the species' altitudinal limits
+(iii) creating a mask based on the species' elevational limits
 and the elevation data, and then using the mask to set values
 in the binary layer to zero if they are outside of the species'
 limits;

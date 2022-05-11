@@ -102,10 +102,10 @@ install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/).
 [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/),
 select the “Express Install” option, and then follow the prompts to
 complete the installation. After the installation process has finished,
-please restart your computer. If the *gdalUtils R* package cannot find
-GDAL, you may also need to update the `PATH` environmental variable so
-that it contains the folder path for GDAL (default folder path is
-`C:\OSGeo4W\bin`),
+please restart your computer. If the `aoh::is_gdal_python_available()`
+function cannot find GDAL, you may also need to update the `PATH`
+environmental variable so that it contains the folder path for GDAL
+(default folder path is `C:\OSGeo4W\bin`),
 
 ##### *Ubuntu*
 
@@ -351,10 +351,6 @@ print(map)
 <img src="man/figures/README-map-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Citation
-
-**Please note that the package is still in the early stages of
-development and not ready for general use. It is not yet suitable for
-use in scientific publications or related work.**
 
 Please cite the *aoh R* package and the underlying datasets used to
 produce Area of Habitat data.

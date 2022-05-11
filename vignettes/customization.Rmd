@@ -18,46 +18,105 @@ vignette: >
 
 ## Introduction
 
-The _aoh R_ package can be used to generate Area of Habitat data using various datasets. By default, it will create Area of Habitat data using elevation data derived from Robinson _et al._ [-@r4] and habitat classification data derived from Lumbierres _et al._ [-@r9]. In addition to these default datasets, it also provides built-in functions to use habitat classification derived from other data sources [e.g., from @r5]. It can also be used to generate Area of Habitat data using elevation and habitat classification data that has been manually generated (e.g., from [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover)). As such, the package provides flexible framework for generating customized Area of Habitat data.
+The _aoh R_ package provides a flexible framework for generating Area of Habitat data. By default, it will use elevation data derived from Robinson _et al._ [-@r4] and habitat classification data derived from Lumbierres _et al._ [-@r9]. Its defaults also include using species' elevational limit and habitat preference data from the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). In addition to these defaults, it provides built-in functions to use habitat classification derived from other data sources [e.g., from @r5]. The package can also be used to generate Area of Habitat data using other datasets that have been manually created by the user. For example, it could be used to produce Area of Habitat data using habitat classification data derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover) data or species' elevational limit data from the [BirdLife Data Zone](http://datazone.birdlife.org/home).
 
 ## Tutorial
 
-Here we will show how Area of Habitat data can be generated using manually specified elevation, habitat classification, and crosswalk data. If you have not previously read through the [Getting started vignette](aoh.html), this is strongly recommended to provide an introduction to the package. To start off, we will load the package. We will also load the [_rappdirs_](https://CRAN.R-project.org/package=rappdirs) _R_ package to cache data, and the [_terra_](https://CRAN.R-project.org/package=terra) and [_ggplot2_](https://CRAN.R-project.org/package=ggplot2) _R_ packages to visualize results.
+Here we will show how Area of Habitat data can be generated using particular datasets (rather than the default datasets). In this tutorial, we will manually import data and use them to generate Area of Habitat data. If you have not previously read through the [Getting started vignette](aoh.html), this is strongly recommended to provide an introduction to the package. To start off, we will load the package. We will also load the [_rappdirs_](https://CRAN.R-project.org/package=rappdirs) package to cache data, the [tibble](https://CRAN.R-project.org/package=tibble) package for storing tabular data, and the [_terra_](https://CRAN.R-project.org/package=terra) and [_ggplot2_](https://CRAN.R-project.org/package=ggplot2) _R_ packages to visualize results.
 
 ```{r, message = FALSE, warning = FALSE}
 # load packages
 library(aoh)
 library(terra)
+library(tibble)
 library(rappdirs)
 library(ggplot2)
 ```
 
-Now we will import range data for the species. Although users would typically obtain range data from the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/), here we will use built-in species range data that distributed with the package for convenience. **Please note that these data were not obtained from the IUCN Red List, and were manually generated using occurrence records from the [Global Biodiversity Information Facility](https://www.gbif.org/).**
+Now we will import geographic range data for the species. Although users would typically obtain such data from the [IUCN Red List](https://www.iucnredlist.org/), here we will import example data distributed with the package. **Please note that these data were not obtained from the IUCN Red List, and were generated using random simulations.**
 
-```{r}
+```{r, fig.width = 7, fig.height = 6, out.fig.width = "90%"}
 # find file path for data
-path <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
+spp_range_path <- system.file(
+  "testdata", "SIMULATED_SPECIES.zip", package = "aoh"
+)
 
 # import data
-spp_range_data <- read_spp_range_data(path)
+spp_range_data <- read_spp_range_data(spp_range_path)
 
 # preview data
+## dataset follows the same format as the IUCN Red List spatial data
 print(spp_range_data)
+
+# visualize data
+## each panel corresponds to a different seasonal distribution of a species
+map <-
+  ggplot() +
+  geom_sf(data = spp_range_data, fill = "darkblue") +
+  facet_wrap(~ id_no + seasonal)
+print(map)
 ```
 
-Next, we will import elevation data. Specifically, we will import a pre-processed version of the Robinson _et al._ [-@r4] dataset. If you do have not  this datset data already on your computer, it will be automatically downloaded.
+Next, we will import data to describe the species' habitat preferences. Although such data would be automatically obtained from the [IUCN Red List](https://www.iucnredlist.org/) by default (using the `get_spp_habitat_data()` function), here we will import example data distributed with the package. **As before, please note that these data were not obtained from the IUCN Red List, and were randomly generated.** If you wish to use your own data, please ensure that they follow exactly the same conventions (e.g., column names, data types, and `character` values for the `"suitability"` and `"season"` columns).
 
-```{r, fig.height = 4, fig.width = 8}
-# specify cache directory
-cache_dir <- user_data_dir("aoh")
+```{r}
+# find file path for species habitat preference data
+spp_habitat_path <- system.file(
+  "testdata", "sim_spp_habitat_data.csv", package = "aoh"
+)
 
-# create cache_dir if needed
-if (!file.exists(cache_dir)) {
-  dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
-}
+# import species habitat preference data
+spp_habitat_data <- read.csv(spp_habitat_path, sep = ",", header = TRUE)
+spp_habitat_data <- as_tibble(spp_habitat_data)
+
+# preview data
+print(spp_habitat_data, n = Inf)
+```
+
+Next, we will import data to describe the species' elevational limits. Although such data would be automatically obtained from the [IUCN Red List](https://www.iucnredlist.org/) by default (using the `get_spp_summary_data()` function), here we will import example data distributed with the package. **As before, please note that these data were not obtained from the IUCN Red List, and were randomly generated.** Since the dataset contains additional columns that aren't strictly necessary, we will also update it to include only necessary columns. If you wish to use your own data, please ensure that they follow the same conventions (e.g., column names, data types).
+
+```{r}
+# find file path for species habitat preference data
+spp_summary_path <- system.file(
+  "testdata", "sim_spp_summary_data.csv", package = "aoh"
+)
+
+# import species habitat preference data
+spp_summary_data <- read.csv(spp_summary_path, sep = ",", header = TRUE)
+spp_summary_data <- as_tibble(spp_summary_data)
+
+# extract only necessary columns
+col_names <- c("id_no", "elevation_lower", "elevation_upper", "category")
+spp_summary_data <- spp_summary_data[, col_names, drop = FALSE]
+
+# preview data
+print(spp_summary_data, n = Inf)
+```
+
+After importing all the datasets with the species data, it is important to ensure that each and every species is associated with geographic range, habitat preference, and summary data. Here, the `"id_no"` column values are used to denote different taxa---meaning that each species should have a unique identifier. These identifiers are used when cross-referencing the datasets. For example, the species named `"Simulus spp. 932"` has an identifier (`"id_no"` value) of 932, and this identifier is used to denote its range in the `spp_range_data` dataset, its habitat preferences in the `spp_habitat_data` dataset, and its elevational limits in the `spp_summary_data` dataset. We can verify that each of the species have the required information across all three datasets using the following code.
+
+```{r}
+# verify all identifiers in range data are present in habitat preference data
+## if we see TRUE: then this means both datasets have the same taxa identifiers
+## if we see FALSE: then some taxa identifiers are missing from one dataset
+setequal(spp_range_data$id_no, spp_habitat_data$id_no)
+
+# verify all identifiers in range data are present in summary data
+## if we see TRUE: then this means both datasets have the same taxa identifiers
+## if we see FALSE: then some taxa identifiers are missing from one dataset
+setequal(spp_range_data$id_no, spp_summary_data$id_no)
+```
+
+We will now import elevation data. Although such data would be automatically imported by default (using the `get_global_elevation_data()` function), here we will import example data distributed with the package.
+
+```{r, fig.height = 4, fig.width = 5.5, out.width = "90%"}
+# find file path for elevation data
+elevation_path <- system.file(
+  "testdata", "sim_elevation_data.tif", package = "aoh"
+)
 
 # import elevation data
-elevation_data <- get_global_elevation_data(dir = cache_dir)
+elevation_data <- rast(elevation_path)
 
 # preview data
 print(elevation_data)
@@ -66,26 +125,16 @@ print(elevation_data)
 plot(elevation_data, main = "Elevation data")
 ```
 
-```{r, eval = FALSE}
-# print file path for where elevation data is stored on disk
-print(sources(elevation_data))
-```
+Next, we will import habitat classification data. Although such data would be automatically imported by default (using the `get_lumbierres_habitat_data()` function), here we will import example data distributed with the package.
 
-```{r, echo = FALSE}
-print(gsub(Sys.getenv("USER"), "user", sources(elevation_data), fixed = TRUE))
-```
+```{r, fig.height = 4, fig.width = 5.5, out.width = "90%"}
+# find file path for elevation data
+habitat_path <- system.file(
+  "testdata", "sim_habitat_data.tif", package = "aoh"
+)
 
-```{r}
-# although we used a function to automatically find and import the elevation
-# data, we could use the following code to import the data using a file path:
-#> elevation_data <- rast("insert_file_path_here")
-```
-
-Next, we will import habitat classification data. Similar to the elevation data, we will import a pre-processed version of the habitat classification data. Specifically, we will import a pre-processed version of the level 1 habitat classification produced by Jung *et al.* [-@r5].
-
-```{r, fig.height = 4, fig.width = 8}
-# import elevation data
-habitat_data <- get_jung_lvl1_habitat_data(dir = cache_dir)
+# import habitat classification data
+habitat_data <- rast(habitat_path)
 
 # preview data
 print(habitat_data)
@@ -94,74 +143,67 @@ print(habitat_data)
 plot(habitat_data, main = "Habitat classification data")
 ```
 
-```{r, eval = FALSE}
-# print file path for where habitat data is stored on disk
-print(sources(habitat_data))
-```
-
-```{r, echo = FALSE}
-print(gsub(Sys.getenv("USER"), "user", sources(elevation_data), fixed = TRUE))
-```
+Critically, the elevation data and habitat classification data must have exactly the same spatial properties. This means they must have the same coordinate reference system, resolution, and spatial extent. If you are using elevation or habitat classification data that you have previously prepared yourself (or manually download from online sources), you may need to resample (or reproject) your data to ensure both datasets have the same spatial properties using a geographic information system (GIS). For example, data could be resampled using [ESRI ArcGIS](https://www.esri.com/en-us/arcgis/about-arcgis/overview), [QGIS](https://qgis.org/en/site/), [terra R package](https://cran.r-project.org/package=terra), or the [gdalUtilities R package](https://cran.r-project.org/package=gdalUtilities). We can verify that both of the elevation and habitat classification datasets have the same spatial properties using the following code.
 
 ```{r}
-# although we used a function to automatically find and import the habitat
-# data, we could use the following code to import the data using a file path:
-#> habitat_data <- rast("insert_file_path_here")
-```
-
-Critically, the elevation data and habitat classification data must have exactly the same spatial properties. This means they must have the coordinate reference system, resolution, and spatial extent. If you are using elevation or habitat classification data that you have previously prepared yourself (or manually download from online sources), you may need to resample (or reproject) your data to ensure both datasets have the same spatial properties using a geographic information system (GIS). For example, data could be resampled using [ESRI ArcGIS](https://www.esri.com/en-us/arcgis/about-arcgis/overview), [QGIS](https://qgis.org/en/site/), [terra R package](https://cran.r-project.org/package=terra), or the [gdalUtilities R package](https://cran.r-project.org/package=gdalUtilities)). We can verify that both of the elevation and habitat classification datasets have the same spatial properties using the following code.
-
-```{r}
-# verify that elevation and habitat classification data have the same
-# spatial properties
+# verify that elevation and habitat classification data have same properties
+## if we see TRUE, this means they have the same spatial properties.
+## otherwise, if we see an error, then this means that they do not have
+## have the same spatial properties and require updating
 compareGeom(elevation_data, habitat_data)
 
-# if this code returns TRUE, this means they have the same spatial properties.
-# otherwise, if we see an error, then this means that they do not have
-# have the same spatial properties and require updating
 ```
 
-We will now import a crosswalk table for the habitat classification data. A crosswalk table specifies which pixel values in the habitat classification data correspond to which [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme). This table can specify one-to-one relationships (e.g., pixel value 12 corresponds to IUCN class 1.1), one-to-many relationships (e.g., pixel values 12 corresponds to IUCN classes 1.1 and 1.2), and many-to-many relationships (e.g., both pixel values 12 and 13 each correspond to IUCN classes 1.1 and 1.2). Since the package provides a built-in crosswalk table for level 1 habitat classification produced by Jung *et al.* [-@r5], we will use these data. If you wish to use a different crosswalk table, please ensure that it follows the same format (i.e., same column names and data types).
+We will now import a crosswalk table for the habitat classification data. A crosswalk table specifies which pixel values in the habitat classification data correspond to which [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme). This table can specify one-to-one relationships (e.g., pixel value 12 corresponds to IUCN class 1.1), one-to-many relationships (e.g., pixel values 12 corresponds to IUCN classes 1.1 and 1.2), and many-to-many relationships (e.g., both pixel values 12 and 13 each correspond to IUCN classes 1.1 and 1.2). Although such data would be automatically imported by default (i.e., the `crosswalk_lumbierres_data` built-in dataset), here we will import example data distributed with the package. When using your own habitat classification data, please ensure that it follows the same format (i.e., same column names and data types).
 
 ```{r}
-# import crosswalk table
-data(crosswalk_jung_lvl1_data)
+# find file path for crosswalk data
+crosswalk_path <- system.file(
+  "testdata", "sim_crosswalk.csv", package = "aoh"
+)
 
-# assign table to a new
-crosswalk_data <- crosswalk_jung_lvl1_data
+# import crosswalk data
+crosswalk_data <- read.csv(crosswalk_path, sep = ",", header = TRUE)
+crosswalk_data <- as_tibble(crosswalk_data)
 
 # print table
 ## code column contains codes for the IUCN habitat classes
 ## value column contains values in the habitat classification data
 print(crosswalk_data, n = Inf)
-
-# although we used a function to automatically import the crosswalk table,
-# we could use the following code to import the data from a CSV file
-#> crosswalk_data <- readr::read_csv("insert_file_path_here")
 ```
 
-After importing all the data, we can now generate the Area of Habitat data.
+After importing all the data, we can clean and collate information together for generating Area of Habitat data.
+
+```{r, message = FALSE, results = "hide"}
+# create data with information for Area of Habitat data
+spp_info_data <- create_spp_info_data(
+  spp_range_data,
+  spp_summary_data = spp_summary_data,
+  spp_habitat_data = spp_habitat_data
+)
+```
+
+```{r}
+# preview data
+print(spp_info_data, width = Inf)
+```
+
+Next, we can generate the Area of Habitat data.
 
 ```{r, message = FALSE, results = "hide"}
 # specify folder to save Area of Habitat data
-## although we use a temporary directory here to avoid polluting your
+## although we use a temporary directory here to avoid polluting your computer
 ## with examples files, you would normally specify the folder
 ## on your computer where you want to save data
 output_dir <- tempdir()
 
-# prepare information
-spp_info_data <- create_spp_info_data(spp_range_data, cache_dir = cache_dir)
-
 # generate Area of Habitat data
-## note that we specify exactly which elevation, habitat classification,
-## and crosswalk data should be used for processing
 spp_aoh_data <- create_spp_aoh_data(
   spp_info_data,
   elevation_data = elevation_data,
   habitat_data = habitat_data,
   crosswalk_data = crosswalk_data,
-  output_dir = output_dir,
-  cache_dir = cache_dir
+  output_dir = output_dir
 )
 ```
 
@@ -185,21 +227,20 @@ spp_aoh_data <- create_spp_aoh_data(
 ## - ymin             : minimum y-coordinate for Area of Habitat data
 ## - ymax             : maximum y-coordinate for Area of Habitat data
 ## - path             : file path for Area of Habitat data (GeoTIFF format)
-##
-## since data obtained from the IUCN Red List cannot be redistributed,
-## we will not show all the columns in this object
-##
-## N.B. you can view all columns on your computer with:
-##> print(spp_aoh_data, width = Inf)
-print(spp_aoh_data[, c("id_no", "binomial", "seasonal", "path")])
+print(spp_aoh_data, width = Inf)
 ```
 
-Finally, let's create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g., using the [_ggplot2_](https://CRAN.R-project.org/package=ggplot2) _R_ package), we will use a plotting function distributed with the _aoh R_ package for convenience.
+Finally, let's create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g., using the [_ggplot2_](https://CRAN.R-project.org/package=ggplot2) _R_ package), we will use a plotting function distributed with the _aoh R_ package for convenience. Although the full dataset contains many species; for brevity, we will only show the first four species' seasonal distributions.
 
 ```{r, message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = "90%"}
 # create maps
 map <-
-  plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
+  plot_spp_aoh_data(
+    spp_aoh_data[1:4, ],
+    zoom = 6,
+    maptype = "toner-background",
+    maxcell = Inf
+  ) +
   scale_fill_viridis_d() +
   scale_color_manual(values = c("range" = "red")) +
   scale_size_manual(values = c("range" = 0.5)) +
