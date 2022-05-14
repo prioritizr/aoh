@@ -234,6 +234,7 @@ Finally, let's create some maps to compare the range data with the Area of habit
 
 ```{r, message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = "90%"}
 # create maps
+## N.B. you might need to install the ggmap package to create the maps
 map <-
   plot_spp_aoh_data(
     spp_aoh_data[1:4, ],

@@ -332,6 +332,7 @@ of habitat data.
 
 ``` r
 # create maps
+## N.B. you might need to install the ggmap package
 map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
   scale_fill_viridis_d() +

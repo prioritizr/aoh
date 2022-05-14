@@ -291,6 +291,7 @@
 <p>Finally, let’s create some maps to compare the range data with the Area of habitat data.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create maps</span>
+<span class="co">## N.B. you might need to install the ggmap package</span>
 <span class="va">map</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="reference/plot_spp_aoh_data.html">plot_spp_aoh_data</a></span><span class="op">(</span><span class="va">spp_aoh_data</span>, zoom <span class="op">=</span> <span class="fl">6</span>, maptype <span class="op">=</span> <span class="st">"toner-background"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>

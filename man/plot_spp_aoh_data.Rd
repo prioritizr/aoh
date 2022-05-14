@@ -37,7 +37,8 @@ the basemap to use for the plot.
 See documentation for the \code{maptype} parameter in the
 \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}
 function for details.
-Defaults to \code{NULL} such that no basemap is shown.}
+Defaults to \code{NULL} such that no basemap is shown.
+Note that the \pkg{ggmap} package must be installed to show a basemap.}
 
 \item{maxcell}{\code{integer} Maximum number of grid cells for mapping.
 Defaults to 50000.}

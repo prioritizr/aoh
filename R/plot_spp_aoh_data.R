@@ -28,6 +28,7 @@ NULL
 #'   [ggmap::get_stamenmap()]
 #'   function for details.
 #'   Defaults to `NULL` such that no basemap is shown.
+#'   Note that the \pkg{ggmap} package must be installed to show a basemap.
 #'
 #' @param maxcell `integer` Maximum number of grid cells for mapping.
 #'   Defaults to 50000.
@@ -178,7 +179,9 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
   )
   if (!is.null(maptype)) {
     if (!requireNamespace("ggmap", quietly = TRUE)) {
-      stop("the \"ggmap\" package must be installed to include a basemap")
+      stop(
+        "please install the \"ggmap\" package to create plots with a basemap"
+      )
     }
     assertthat::assert_that(
       assertthat::is.string(maptype),

@@ -177,6 +177,7 @@ Finally, let's create some maps to compare the range data with the Area of habit
 
 ```{r "map", message = FALSE, warning = FALSE, dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(knitr::is_html_output(excludes = c("markdown"))), "60%", "90%")}
 # create maps
+## N.B. you might need to install the ggmap package
 map <-
   plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
   scale_fill_viridis_d() +
