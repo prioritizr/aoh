@@ -35,7 +35,7 @@ NULL
 #' }
 #'
 #' # download and import summary data
-#' spp_summary_data <- get_spp_summary_data(spp_ids, download_dir)
+#' result <- get_spp_summary_data(spp_ids, download_dir)
 #' }
 #'
 #' @examplesIf interactive()

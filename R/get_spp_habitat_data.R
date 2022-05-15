@@ -76,7 +76,7 @@ NULL
 #' }
 #'
 #' # download and import habitat preference data
-#' spp_habitat_data <- get_spp_habitat_data(spp_ids, download_dir)
+#' result <- get_spp_habitat_data(spp_ids, download_dir)
 #' }
 #'
 #' @examplesIf interactive()
