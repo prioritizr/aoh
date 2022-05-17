@@ -7,12 +7,11 @@ iucn_names <- c(
 )
 
 birdlife_names <- c(
-  "SISID", "binomial", "presence", "origin", "seasonal", "compiler",
-  "yrcompiled", "citation", "source", "dist_comm", "version", "Shape_Length",
-  "Shape_Area", "Sequence", "Order_", "FamilyName",
-  "Family", "Subfamily", "Tribe", "CommonName", "ScientificName",
-  "Authority", "BirdLifeTaxonomy", "RedListCategory_2020", "Synonyms",
-  "AlternativeCommonNames", "TaxonomicNotes", "TaxonomicSource", "geometry"
+  "SISID", "presence", "origin", "seasonal", "geometry"
+)
+
+alt_birdlife_names <- c(
+  "id_no", "presence", "origin", "seasonal", "geometry"
 )
 
 cleaned_names <- c(

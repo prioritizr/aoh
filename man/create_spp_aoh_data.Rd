@@ -229,7 +229,7 @@ file names and spatial metadata for the Area of Habitat data.
 Area of Habitat data are stored in a separate raster (GeoTIFF) file for each
 seasonal distribution of each species. Each raster file is assigned a file
 name based on a prefix and a combination of the species' taxon identifier
-(per \code{id_no}/\code{SISID} in \code{x}) and the identifier for the seasonal
+(per \code{id_no}/\code{SISID} column in \code{x}) and the identifier for the seasonal
 distribution (per \code{seasonality} in \code{x})
 (i.e., file names are named according to \verb{AOH_\{$id_no\}_$\{seasonality\}.tif}).
 For a given raster file, grid cell values denote the presence

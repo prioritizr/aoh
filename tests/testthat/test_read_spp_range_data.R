@@ -119,3 +119,23 @@ test_that("bird data (BirdLife format)", {
   expect_true(all(assertthat::has_name(x, birdlife_names)))
   expect_equal(dplyr::last(names(x)), "geometry")
 })
+
+test_that("bird data (alternate BirdLife format)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("archive")
+  skip_if_iucn_red_list_data_not_available("BOTW_2021.7z")
+  # specify parameters for processing
+  f <- file.path(
+    rappdirs::user_data_dir("iucn-red-list-data"),
+    "BOTW_2021.7z"
+  )
+  # create data
+  x <- suppressWarnings(read_spp_range_data(f, n = 10))
+  # tests
+  expect_is(x, "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_true(all(assertthat::has_name(x, alt_birdlife_names)))
+  expect_equal(dplyr::last(names(x)), "geometry")
+})

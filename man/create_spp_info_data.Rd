@@ -164,7 +164,7 @@ and will not apply to marine or freshwater species.
 Species range data are expected to follow the data format conventions
 for the IUCN Red List (see \href{https://www.iucnredlist.org/resources/mappingstandards}{IUCN Red List documentation} for
 details). Specifically, the argument to \code{x} should be an
-\code{\link[sf:sf]{sf::st_sf()}} object with the following columns: \code{id_no} (or \code{SISID}),
+\code{\link[sf:sf]{sf::st_sf()}} object with the following columns: \code{id_no},
 \code{presence}, \code{origin}, and \code{seasonal}.
 It can also contain the following optional columns: \code{terrestrial}
 (or \code{terrestial}), \code{freshwater}, and \code{marine}.
@@ -172,7 +172,7 @@ Below we provide a brief description of each column:
 
 \describe{
 
-\item{\code{id_no} (or \code{SISID})}{\code{numeric} taxon identifier on the IUCN Red List.}
+\item{\code{id_no}}{\code{numeric} taxon identifier on the IUCN Red List.}
 
 \item{\code{presence}}{\code{numeric} identifier describing information about
 the presence of the taxon in the range data.}

@@ -61,7 +61,7 @@ NULL
 #' each seasonal distribution of each species. Each raster file is assigned a
 #' file name based on a prefix and a combination of the species' taxon
 #' identifier
-#' (per `id_no`/`SISID` in `x`) and the identifier for the seasonal
+#' (per `id_no`/`SISID` column in `x`) and the identifier for the seasonal
 #' distribution (per `seasonality` in `x`)
 #' (i.e., file names are named according to `FRC_{$id_no}_${seasonality}.tif`).
 #' For a given raster file, grid cell values denote the proportion of suitable

@@ -59,10 +59,6 @@ test_that("simulated data (old BirdLife format)", {
   d <- dplyr::rename(d, FamilyName = "family")
   # remove columns
   d <- dplyr::select(d, -subspecies, -genus, -kingdom, -phylum)
-  # reformat columns
-  d <- dplyr::mutate(d, marine_system = marine_system == "true")
-  d <- dplyr::mutate(d, terrestrial_system = terrestrial_system == "true")
-  d <- dplyr::mutate(d, freshwater_system = freshwater_system == "true")
   # create object
   x <- clean_spp_range_data(d)
   # tests
@@ -174,6 +170,26 @@ test_that("bird data (BirdLife format)", {
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
     "BOTW.7z"
+  )
+  # create data
+  x <- clean_spp_range_data(suppressWarnings(read_spp_range_data(f, n = 10)))
+  # tests
+  expect_is(x, "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs("ESRI:54017"))
+  expect_named(x, cleaned_names)
+})
+
+test_that("bird data (alternate BirdLife format)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("archive")
+  skip_if_not_installed("prepr")
+  skip_if_iucn_red_list_data_not_available("BOTW_2021.7z")
+  # specify parameters for processing
+  f <- file.path(
+    rappdirs::user_data_dir("iucn-red-list-data"),
+    "BOTW_2021.7z"
   )
   # create data
   x <- clean_spp_range_data(suppressWarnings(read_spp_range_data(f, n = 10)))

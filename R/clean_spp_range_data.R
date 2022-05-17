@@ -35,9 +35,10 @@ NULL
 #' \enumerate{
 #'
 #' \item Column names are standardized. This involves converting them to lower
-#'   case characters and fixing any spelling mistakes. Additionally,
-#'   if taxon identifiers are specified in the `SISID` column, then
-#'   this column is renamed to `id_no` for consistency with the IUCN Red List.
+#'   case characters and fixing any spelling mistakes.
+#'   If a `SISID` column is present, it is renamed to the `id_no` column.
+#'   Additionally, if a `sci_name` or `SCINAME` column is present,
+#'   it is renamed to the `binomial` column.
 #'
 #' \item Species ranges are filtered according to criteria specified
 #'   for the `presence`, `origin`, and `seasonal` columns
@@ -126,8 +127,22 @@ clean_spp_range_data <- function(x,
     assertthat::noNA(keep_iucn_rl_seasonal)
   )
   assertthat::assert_that(
-    assertthat::has_name(x, "binomial") || assertthat::has_name(x, "SCINAME"),
-    msg = "argument to \"x\" must have a \"binomial\" or \"SCINAME\" column"
+    assertthat::has_name(x, "id_no") ||
+      assertthat::has_name(x, "SISID") ||
+      assertthat::has_name(x, "SISRecID"),
+    msg = paste0(
+      "argument to \"x\" must have a \"id_no\", \"SISID\", ",
+      "or \"SISRecID\" column"
+    )
+  )
+  assertthat::assert_that(
+    assertthat::has_name(x, "binomial") ||
+      assertthat::has_name(x, "SCINAME") ||
+      assertthat::has_name(x, "sci_name"),
+    msg = paste0(
+      "argument to \"x\" must have a \"binomial\", \"SCINAME\", ",
+      "or \"sci_name\" column"
+    )
   )
   assertthat::assert_that(
     all(keep_iucn_rl_presence == round(keep_iucn_rl_presence)),
@@ -167,20 +182,33 @@ clean_spp_range_data <- function(x,
     x <- dplyr::rename(x, order = "order_")
   }
 
-  # step 1b: rename and format columns for current BirdLife data format
-  ## "SISID" column
-  if (assertthat::has_name(x, "sisid")) {
-    x <- dplyr::rename(x, id_no = "sisid")
-  }
   ## "RedListCategory_*" column
-  if (any(grepl("redlistcategory_", names(x), fixed = TRUE))) {
-    idx <- which(grepl("redlistcategory_", names(x), fixed = TRUE))[[1]]
-    names(x)[idx] <- "category"
+  if (!assertthat::has_name(x, "category")) {
+    if (any(grepl("category", names(x), fixed = TRUE))) {
+      idx <- which(grepl("category", names(x), fixed = TRUE))[[1]]
+      names(x)[idx] <- "category"
+      # hack to fix st_agr, https://github.com/r-spatial/sf/issues/1472
+      x <- dplyr::mutate(x)
+    }
   }
 
   # step 1c: rename and format columns for old BirdLife data format
-  if (assertthat::has_name(x, "sciname")) {
-    x <- dplyr::rename(x, binomial = "sciname")
+  if (!assertthat::has_name(x, "id_no")) {
+    if (assertthat::has_name(x, "sisid")) {
+      x <- dplyr::rename(x, id_no = "sisid")
+    } else if (assertthat::has_name(x, "sisrecid")) {
+        x <- dplyr::rename(x, id_no = "sisrecid")
+    }
+  }
+  if (!assertthat::has_name(x, "binomial")) {
+    if (assertthat::has_name(x, "sci_name")) {
+      x <- dplyr::rename(x, binomial = "sci_name")
+    }
+  }
+  if (!assertthat::has_name(x, "binomial")) {
+    if (assertthat::has_name(x, "sciname")) {
+      x <- dplyr::rename(x, binomial = "sciname")
+    }
   }
   if (assertthat::has_name(x, "presenc")) {
     x <- dplyr::rename(x, presence = "presenc")
@@ -191,6 +219,16 @@ clean_spp_range_data <- function(x,
   if (!assertthat::has_name(x, "category")) {
     x$category <- NA_character_
   }
+  if (assertthat::has_name(x, "marine_system")) {
+    x <- dplyr::rename(x, marine = "marine_system")
+  }
+  if (assertthat::has_name(x, "terrestrial_system")) {
+    x <- dplyr::rename(x, terrestrial = "terrestrial_system")
+  }
+  if (assertthat::has_name(x, "freshwater_system")) {
+    x <- dplyr::rename(x, freshwater = "freshwater_system")
+  }
+
 
   # step 1d: add in any missing columns
   ## "familyname" column is present

@@ -116,7 +116,7 @@ NULL
 #' for the IUCN Red List (see [IUCN Red List
 #' documentation](https://www.iucnredlist.org/resources/mappingstandards) for
 #' details). Specifically, the argument to `x` should be an
-#' [sf::st_sf()] object with the following columns: `id_no` (or `SISID`),
+#' [sf::st_sf()] object with the following columns: `id_no`,
 #' `presence`, `origin`, and `seasonal`.
 #' It can also contain the following optional columns: `terrestrial`
 #' (or `terrestial`), `freshwater`, and `marine`.
@@ -124,7 +124,7 @@ NULL
 #'
 #' \describe{
 #'
-#' \item{`id_no` (or `SISID`)}{`numeric` taxon identifier on the IUCN Red List.}
+#' \item{`id_no`}{`numeric` taxon identifier on the IUCN Red List.}
 #'
 #' \item{`presence`}{`numeric` identifier describing information about
 #'   the presence of the taxon in the range data.}

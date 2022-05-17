@@ -27,6 +27,8 @@ the International Union for Conservation of Nature (IUCN) Red List website
 Data for birds can be obtained by requesting data from
 \href{http://www.birdlife.org/}{BirdLife International}
 (see \url{http://datazone.birdlife.org/species/requestdis}).
+To standardize data from the IUCN Red List and BirdLife International,
+the \code{"SISID"} and \code{"SISRecID"} columns are renamed as \code{"id_no"}.
 }
 \examples{
 # find file path for example range data following IUCN Red List data format

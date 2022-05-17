@@ -20,6 +20,8 @@ NULL
 #' Data for birds can be obtained by requesting data from
 #' [BirdLife International](http://www.birdlife.org/)
 #' (see <http://datazone.birdlife.org/species/requestdis>).
+#' To standardize data from the IUCN Red List and BirdLife International,
+#' the `"SISID"` and `"SISRecID"` columns are renamed as `"id_no"`.
 #'
 #' @return A [sf::sf()] object containing the dataset.
 #'
@@ -95,7 +97,10 @@ read_spp_range_data <- function(path, n = NULL) {
     )
     ## find index for tabular data
     tbl_idx <- which(
-      grepl("checklist", tolower(gdb_dir$name), fixed = TRUE) &
+      c(
+        grepl("checklist", tolower(gdb_dir$name), fixed = TRUE) |
+        grepl("taxonomic", tolower(gdb_dir$name), fixed = TRUE)
+      ) &
       vapply(gdb_dir$geomtype, FUN.VALUE = logical(1), function(x) {
         any(is.na(x))
       })
@@ -107,12 +112,39 @@ read_spp_range_data <- function(path, n = NULL) {
     ## import data
     out <- read_sf_n(gdb_path, gdb_dir$name[sp_idx], n = n)
     md <- sf::read_sf(gdb_path, gdb_dir$name[tbl_idx])
-    ## ad columns for metadata
-    md <- dplyr::rename(md, SISID = "SISRecID")
+    ## find range data id column
+    if (assertthat::has_name(out, "id_no")) {
+      id_col <- "id_no"
+    } else if (assertthat::has_name(out, "SISID")) {
+      id_col <- "SISID"
+    } else if (assertthat::has_name(out, "SISRecID")) {
+      id_col <- "SISRecID"
+    } else {
+      stop(
+        "range data in argument to \"path\" does not contain ",
+        "\"id_no\", \"SISID\", or \"SISRecID\" columns"
+      )
+    }
+    ## rename column in metadata
+    if (!assertthat::has_name(md, id_col)) {
+      if (assertthat::has_name(md, "id_no")) {
+        names(md)[which(names(md) == "id_no")[[1]]] <- id_col
+      } else if (assertthat::has_name(md, "SISID")) {
+        names(md)[which(names(md) == "SISID")[[1]]] <- id_col
+      } else if (assertthat::has_name(md, "SISRecID")) {
+        names(md)[which(names(md) == "SISRecID")[[1]]] <- id_col
+      } else {
+        stop(
+        "species metadata in argument to \"path\" does not contain ",
+        "\"id_no\", \"SISID\", or \"SISRecID\" columns"
+        )
+      }
+    }
+    # merge data
     out <- dplyr::left_join(
       out,
-      md[, c(setdiff(names(md), names(out)), "SISID"), ],
-      by = "SISID"
+      md[, c(setdiff(names(md), names(out)), id_col), drop = FALSE],
+      by = id_col
     )
     out <- dplyr::select(out, -.data$geometry, dplyr::everything())
   } else {

@@ -819,3 +819,66 @@ test_that("bird data (BirdLife format)", {
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
+
+test_that("bird data (alternate BirdLife format)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_gdal_python_not_available()
+  skip_if_iucn_key_missing()
+  skip_if_iucn_api_not_available()
+  skip_if_not_installed("prepr")
+  skip_if_iucn_red_list_data_not_available("BOTW_2021.7z")
+  # specify parameters for processing
+  f <- file.path(
+    rappdirs::user_data_dir("iucn-red-list-data"),
+    "BOTW_2021.7z"
+  )
+  cd <- rappdirs::user_data_dir("aoh")
+  # load data
+  d <- suppressWarnings(read_spp_range_data(f, n = 200))
+  # subset data (i.e. some range restricted  species)
+  ids <- c(22687417, 22679929)
+  d <- d[which(d$id_no %in% ids), drop = FALSE]
+  assertthat::assert_that(all(ids %in% d$id_no))
+  # create objects
+  x <- create_spp_aoh_data(
+    x = create_spp_info_data(
+      x = d,
+      cache_dir = cd,
+      verbose = interactive()
+    ),
+    output_dir = tempdir(),
+    cache_dir = cd,
+    habitat_version = latest_lumbierres_version,
+    elevation_version = latest_elevation_version,
+    engine = "gdal",
+    verbose = interactive()
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_is(x$path, "character")
+  expect_equal(sum(is.na(x$path)), 0)
+  expect_gte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "min", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  expect_lte(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "max", na.rm = TRUE)[[1]]
+    })),
+    1
+  )
+  expect_gt(
+    min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
+      terra::global(terra::rast(x), "sum", na.rm = TRUE)[[1]]
+    })),
+    0
+  )
+  # clean up
+  unlink(x$path[!is.na(x$path)])
+})
