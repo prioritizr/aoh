@@ -47,7 +47,7 @@ an online repository.
 \details{
 The data were produced by obtaining the level 2 habitat
 classification data from the
-\href{https://zenodo.org/10.5281/zenodo.3666245}{Zenodo repository}
+\href{https://doi.org/10.5281/zenodo.3666245}{Zenodo repository}
 (Jung \emph{et al.} 2020b), and resampling the data (using nearest neighbor
 interpolation) to the World Behrmannn coordinate reference
 systems (ESRI:54017).

@@ -229,7 +229,6 @@ clean_spp_range_data <- function(x,
     x <- dplyr::rename(x, freshwater = "freshwater_system")
   }
 
-
   # step 1d: add in any missing columns
   ## "familyname" column is present
   ## N.B., BirdLife use the "FamilyName" column to store the Latin name for

@@ -43,7 +43,7 @@ automatically downloaded, and data on species’ habitat preferences and
 elevational limits are obtained automatically using the [IUCN Red List
 API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List
 requires a token, users may need to [obtain a
-token](https://apiv3.iucnredlist.org/api/v3/token) and update their *R*
+token](https://apiv3.iucnredlist.org/) and update their *R*
 configuration to recognize the token (see installation instructions
 below for details).
 
@@ -140,14 +140,14 @@ can be installed using the following system commands.
 
 After installing the *aoh R* package, you will need to obtain a token
 for the [IUCN Red List API](https://apiv3.iucnredlist.org/) (if you do
-not have one already). To do so, please visit the IUCN website (see
-<https://apiv3.iucnredlist.org/api/v3/token>) and fill out the form to
-apply for a token. You should then receive a token shortly after
-completing the form (but not immediately). After receiving a token,
-please open the `.Renviron` file on your computer (e.g., using
-`usethis::edit_r_environ()`). Next, please add the following text to the
-file (replacing the string with the token) and save the file, using your
-token in place of the string below.
+not have one already). To do so, please visit the IUCN API website
+(<https://apiv3.iucnredlist.org/>), click the “Generate a token” link at
+the top of the web page, and fill out the form to apply for a token. You
+should then receive a token shortly after completing the form (but not
+immediately). After receiving a token, please open the `.Renviron` file
+on your computer (e.g., using `usethis::edit_r_environ()`). Next, please
+add the following text to the file (replacing the string with the token)
+and save the file, using your token in place of the string below.
 
     IUCN_REDLIST_KEY="your_actual_token_not_this_string"
 
@@ -362,7 +362,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
-      0.0.0.99999. Available at https://github.com/jeffreyhanson/aoh.
+      0.0.0.99999. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

@@ -22,7 +22,7 @@
 #' habitat preferences and elevational limits are obtained automatically using
 #' the [IUCN Red List API](https://apiv3.iucnredlist.org/).
 #' Since accessing the IUCN Red List API requires a token, users may need to
-#' [obtain a token](https://apiv3.iucnredlist.org/api/v3/token)
+#' [obtain a token](https://apiv3.iucnredlist.org/)
 #' and update their R configuration to
 #' recognize the token (see instructions below for details).
 #'
@@ -30,9 +30,10 @@
 #'
 #' You will need to obtain a token for the
 #' [IUCN Red List API](https://apiv3.iucnredlist.org/) (if you do not have one
-#' already). To achieve this, please visit the IUCN website
-#' (see <https://apiv3.iucnredlist.org/api/v3/token>) and fill out the form to
-#' apply for a token. You should then receive a token shortly after completing
+#' already). To achieve this, please visit the IUCN API website
+#' (<https://apiv3.iucnredlist.org/>), click the "Generate a token" link at the
+#' top of the web page, and fill out the form to apply for a token.
+#' You should then receive a token shortly after completing
 #' the form (but not immediately). After receiving a token, please open the
 #' `.Renviron` file on your computer (e.g., using `usethis::edit_r_environ()`).
 #' Next, please add the following text to the file (replacing the string with

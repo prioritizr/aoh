@@ -32,6 +32,16 @@ Please note that a token is required to access the API
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/customization.html">Customization</a>
+    </li>
+  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -88,9 +98,10 @@ accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 
 <p>You will need to obtain a token for the
 <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one
-already). To achieve this, please visit the IUCN website
-(see <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">https://apiv3.iucnredlist.org/api/v3/token</a>) and fill out the form to
-apply for a token. You should then receive a token shortly after completing
+already). To achieve this, please visit the IUCN API website
+(<a href="https://apiv3.iucnredlist.org/" class="external-link">https://apiv3.iucnredlist.org/</a>), click the "Generate a token" link at the
+top of the web page, and fill out the form to apply for a token.
+You should then receive a token shortly after completing
 the form (but not immediately). After receiving a token, please open the
 <code>.Renviron</code> file on your computer (e.g., using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>).
 Next, please add the following text to the file (replacing the string with

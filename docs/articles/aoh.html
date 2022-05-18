@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
             
-            <h4 data-toc-skip class="date">2022-05-15</h4>
+            <h4 data-toc-skip class="date">2022-05-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -95,7 +95,7 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions <span class="citation">(Tracewski <em>et al.</em> 2016; Rondinini <em>et al.</em> 2005; Durán <em>et al.</em> 2020)</span>. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import them (using <code><a href="../reference/read_spp_range_data.html">read_spp_range_data()</a></code>), prepare them and collate additional information for subsequent processing (using <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code>), and then create Area of Habitat data (using <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data are automatically downloaded <span class="citation">(Robinson <em>et al.</em> 2014; Jung <em>et al.</em> 2020; Lumbierres <em>et al.</em> 2021)</span>, and data on species’ habitat preferences and elevational limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see README for details).</p>
+<p>Area of Habitat (AOH) maps aim to delineate the spatial distribution of suitable habitat for a species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. They are used to assess performance of protected area systems, measure impacts of threats to biodiversity, and identify priorities for conservation actions <span class="citation">(Tracewski <em>et al.</em> 2016; Rondinini <em>et al.</em> 2005; Durán <em>et al.</em> 2020)</span>. These maps are generally produced by obtaining geographic range data for a species, and then removing areas that do not contain suitable habitat or occur outside the known elevational limits for the species <span class="citation">(Brooks <em>et al.</em> 2019)</span>. To help make these maps accessible, the <em>aoh R</em> package provides routines for automatically creating Area of Habitat data based on the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>. After manually downloading species range data from the <a href="https://www.iucnredlist.org/resources/spatial-data-download" class="external-link">IUCN Red List</a>, users can import them (using <code><a href="../reference/read_spp_range_data.html">read_spp_range_data()</a></code>), prepare them and collate additional information for subsequent processing (using <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code>), and then create Area of Habitat data (using <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). Global elevation and habitat classification data are automatically downloaded <span class="citation">(Robinson <em>et al.</em> 2014; Jung <em>et al.</em> 2020; Lumbierres <em>et al.</em> 2021)</span>, and data on species’ habitat preferences and elevational limits are obtained automatically using the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a>. Since accessing the IUCN Red List requires a token, users may need to <a href="https://apiv3.iucnredlist.org/" class="external-link">obtain a token</a> and update their <em>R</em> configuration to recognize the token (see README for details).</p>
 </div>
 <div class="section level2">
 <h2 id="tutorial">Tutorial<a class="anchor" aria-label="anchor" href="#tutorial"></a>
@@ -199,10 +199,10 @@
 <span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span>
 <span class="co">##   id_no binomial              seasonal path                             geometry</span>
 <span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpdB5ac… ((-105492 4465129, -1064…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpdB5ac… ((-238707 5029084, -2377…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpdB5ac… ((-859178 4559308, -8593…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpdB5ac… ((-849787 4614155, -8481…</span></code></pre>
+<span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpoOQ5U… ((-105492 4465129, -1064…</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpoOQ5U… ((-238707 5029084, -2377…</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpoOQ5U… ((-859178 4559308, -8593…</span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpoOQ5U… ((-849787 4614155, -8481…</span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
@@ -273,8 +273,8 @@
 <span class="co">## extent      : -914731, 318669, 4364277, 5066777  (xmin, xmax, ymin, ymax)</span>
 <span class="co">## coord. ref. : World_Behrmann </span>
 <span class="co">## sources     : memory  </span>
-<span class="co">##               spat_F5I05z3SLLywImT_237901.tif  </span>
-<span class="co">##               spat_q9HyaVblLkLT2vB_237901.tif  </span>
+<span class="co">##               memory  </span>
+<span class="co">##               memory  </span>
 <span class="co">##               ... and 1 more source(s)</span>
 <span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span>
 <span class="co">## min values  :         0,           0,          0,           0 </span>
@@ -310,7 +310,7 @@
 </li>
 <li>
 <p><strong>How do I obtain access to the IUCN Red List API?</strong></p>
-<p>You will need to obtain a token to access the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one already). To achieve this, please visit the IUCN website and fill out the form to apply for a token (see <a href="https://apiv3.iucnredlist.org/api/v3/token" class="external-link uri">https://apiv3.iucnredlist.org/api/v3/token</a>). You should then receive a token shortly after completing the form (but not immediately). After receiving a token, you will need to complete some additional steps so that R can use this token to access the IUCN Red List API.</p>
+<p>You will need to obtain a token to access the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one already). To achieve this, please visit the IUCN API website (<a href="https://apiv3.iucnredlist.org/" class="external-link uri">https://apiv3.iucnredlist.org/</a>), click the “Generate a token” link at the top of the web page, and fill out the form to apply for a token. You should then receive a token shortly after completing the form (but not immediately). After receiving a token, you will need to complete some additional steps so that R can use this token to access the IUCN Red List API.</p>
 <p>Please open the <code>.Renviron</code> file on your computer (e.g., using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file:</p>
 <pre><code><span class="va">IUCN_REDLIST_KEY</span><span class="op">=</span><span class="st">"your_actual_token_not_this_string"</span></code></pre>
 <p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should see the current version of the IUCN Red List:</p>

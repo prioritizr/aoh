@@ -4,7 +4,7 @@ if (is.null(year) || identical(year, "") || isTRUE(length(year) == 0))
 
 ndots <- length(gregexpr(".", meta$Version, fixed = TRUE)[[1]])
 if (ndots == 3) {
-  cite_url <- "https://github.com/jeffreyhanson/aoh"
+  cite_url <- "https://github.com/prioritizr/aoh"
 } else {
   cite_url <- "https://CRAN.R-project.org/package=aoh"
 }
