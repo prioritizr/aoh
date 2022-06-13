@@ -26,6 +26,7 @@ test_that("latest version (from cache)", {
   skip_on_cran()
   skip_if_offline()
   skip_if_not_installed("rappdirs")
+  skip_if_cached_data_not_available()
   # create object
   x <- get_global_elevation_data(
     dir = rappdirs::user_data_dir("aoh"),
@@ -69,6 +70,7 @@ test_that("specified version (from cache)", {
   skip_on_cran()
   skip_if_offline()
   skip_if_not_installed("rappdirs")
+  skip_if_cached_data_not_available()
   # create object
   x <- get_global_elevation_data(
     dir = rappdirs::user_data_dir("aoh"),

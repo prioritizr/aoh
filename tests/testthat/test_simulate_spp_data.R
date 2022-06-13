@@ -75,6 +75,7 @@ test_that("global elevation and habitat data", {
   skip_if_not_installed("smoothr")
   skip_if_not_installed("RandomFields")
   skip_if_historical_RandomFields()
+  skip_if_cached_data_not_available()
   # set parameters
   set.seed(500)
   RandomFields::RFoptions(seed = 500)

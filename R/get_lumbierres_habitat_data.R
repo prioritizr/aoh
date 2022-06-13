@@ -5,7 +5,7 @@ NULL
 #'
 #' Import habitat classification data derived Lumbierres *et al.* (2021).
 #' If data are not available locally, they are downloaded from
-#' an online repository.
+#' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622059).
 #'
 #' @inheritParams get_jung_lvl2_habitat_data
 #'
@@ -71,7 +71,11 @@ get_lumbierres_habitat_data <- function(dir = tempdir(),
     assertthat::noNA(verbose)
   )
 
-  # find DOI version if needed
+  # set variables
+  file <- function(x) all(grepl("^lumbierres-.*\\.tif$", x))
+  dir <- gsub("\\", "/", dir, fixed = TRUE)
+
+  # find version if needed
   if (identical(version, "latest")) {
     ## verify if internet connection present
     if (!curl::has_internet()) {
@@ -79,37 +83,17 @@ get_lumbierres_habitat_data <- function(dir = tempdir(),
     }
 
     ## find latest version
-    ### note that latest_zenodo_version() fails for Zenodo archives that
-    ### only have one version, so here we manually specify the first version if
-    ### it fails
-    version <- try(
-      latest_zenodo_version(
-        x = "10.5281/zenodo.5146072",
-        file = "habitat_CGLS.tiff"
-      ),
-      silent = TRUE
-    )
-    if (inherits(version, "try-error")) {
-     version <- "10.5281/zenodo.5146073"
-    }
+    version <- latest_zenodo_version(x = "10.5281/zenodo.6622060", file = file)
   }
 
-  # process file path
-  path <- gsub(".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE)
-  path <- file.path(dir, paste0("lumbierres-", path, ".tif"))
-  path <- gsub("\\", "/", path, fixed = TRUE)
-
-  # fetch data if needed
-  if (isTRUE(force) || !file.exists(path)) {
-    piggyback::pb_download(
-      file = basename(path),
-      repo = "prioritizr/aoh",
-      tag = "data",
-      overwrite = TRUE,
-      dest = dirname(path),
-      show_progress = verbose
-    )
-  }
+  # get data
+  path <- get_zenodo_data(
+    x = version,
+    dir = dir,
+    file = file,
+    force = force,
+    verbose = verbose
+  )
 
   # import data
   terra::rast(path)

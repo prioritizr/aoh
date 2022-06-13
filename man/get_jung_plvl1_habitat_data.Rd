@@ -42,7 +42,7 @@ classification codes.
 \description{
 Import potential habitat classification data derived from Jung (2020).
 If data are not available locally, they are downloaded from
-an online repository.
+a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622090).
 }
 \details{
 The data predict the potential habitat types that would be available in a

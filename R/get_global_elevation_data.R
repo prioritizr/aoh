@@ -5,7 +5,7 @@ NULL
 #'
 #' Import elevation data derived from Robinson *et al.* (2014).
 #' If data are not available locally, they are downloaded from
-#' a [Zenodo repository](https://doi.org/10.5281/zenodo.5719982).
+#' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.5719984).
 #'
 #' @inheritParams get_jung_lvl2_habitat_data
 #'

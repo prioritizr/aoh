@@ -362,7 +362,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
-      0.0.0.99999. Available at https://github.com/prioritizr/aoh.
+      1.0.0. Available at https://CRAN.R-project.org/package=aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

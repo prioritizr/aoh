@@ -41,7 +41,7 @@ A \code{\link[terra:rast]{terra::rast()}} object containing the habitat data
 \description{
 Import habitat classification data derived Lumbierres \emph{et al.} (2021).
 If data are not available locally, they are downloaded from
-an online repository.
+a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622059).
 }
 \details{
 The data were produced by obtaining the level 1 habitat

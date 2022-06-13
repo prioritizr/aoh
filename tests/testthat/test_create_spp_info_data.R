@@ -34,6 +34,7 @@ test_that("example data", {
   skip_if_offline()
   skip_if_iucn_key_missing()
   skip_if_iucn_api_not_available()
+  skip_if_cached_data_not_available()
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
@@ -163,6 +164,7 @@ test_that("migratory species with no habitat codes for breeding season", {
   skip_if_iucn_api_not_available()
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
+  skip_if_cached_data_not_available()
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),

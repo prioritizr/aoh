@@ -42,7 +42,7 @@ A \code{\link[terra:rast]{terra::rast()}} object containing the habitat data
 Import habitat classification data (level 2) derived from Jung \emph{et al.}
 (2020a).
 If data are not available locally, they are downloaded from
-an online repository.
+a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622029).
 }
 \details{
 The data were produced by obtaining the level 2 habitat

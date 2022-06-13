@@ -35,10 +35,17 @@ info_names <- c(
   "geometry"
 )
 
-latest_jung_version <- "10.5281/zenodo.4058819"
+latest_jung_version <- NULL
 
-latest_jung_potential_version <- "10.5281/zenodo.4038749"
+latest_jung_potential_version <- NULL
 
-latest_lumbierres_version <- "10.5281/zenodo.5146073"
+latest_lumbierres_version <- NULL
 
-latest_elevation_version <- "10.5281/zenodo.5719984"
+latest_elevation_version <- NULL
+
+if (file.exists(rappdirs::user_data_dir("aoh"))) {
+  latest_jung_version <- extract_cache_doi("jung-lvl1")
+  latest_jung_potential_version <- extract_cache_doi("jung-plvl1")
+  latest_lumbierres_version <- extract_cache_doi("lumbierres-")
+  latest_elevation_version <- extract_cache_doi("dem-")
+}

@@ -5,7 +5,7 @@ NULL
 #'
 #' Import potential habitat classification data derived from Jung (2020).
 #' If data are not available locally, they are downloaded from
-#' an online repository.
+#' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622090).
 #'
 #' @inheritParams get_jung_lvl2_habitat_data
 #'
@@ -78,7 +78,11 @@ get_jung_plvl1_habitat_data <- function(dir = tempdir(),
     assertthat::noNA(verbose)
   )
 
-  # find DOI version if needed
+  # set variables
+  file <- function(x) all(grepl("^jung-plvl1-.*\\.tif$", x))
+  dir <- gsub("\\", "/", dir, fixed = TRUE)
+
+  # find version if needed
   if (identical(version, "latest")) {
     ## verify if internet connection present
     if (!curl::has_internet()) {
@@ -86,33 +90,17 @@ get_jung_plvl1_habitat_data <- function(dir = tempdir(),
     }
 
     ## find latest version
-    version <- latest_zenodo_version(
-      x = "10.5281/zenodo.4038749",
-      file = function(x) {
-        any(
-          startsWith(x, "pnv_lvl1") &
-          endsWith(x, ".zip")
-        )
-      }
-    )
+    version <- latest_zenodo_version(x = "10.5281/zenodo.6622092", file = file)
   }
 
-  # process file path
-  path <- gsub(".", "-", gsub("/", "_", version, fixed = TRUE), fixed = TRUE)
-  path <- file.path(dir, paste0("jung-plvl1-", path, ".tif"))
-  path <- gsub("\\", "/", path, fixed = TRUE)
-
-  # fetch data if needed
-  if (isTRUE(force) || !file.exists(path)) {
-    piggyback::pb_download(
-      file = basename(path),
-      repo = "prioritizr/aoh",
-      tag = "data",
-      overwrite = TRUE,
-      dest = dirname(path),
-      show_progress = verbose
-    )
-  }
+  # get data
+  path <- get_zenodo_data(
+    x = version,
+    dir = dir,
+    file = file,
+    force = force,
+    verbose = verbose
+  )
 
   # import data
   terra::rast(path)

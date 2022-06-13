@@ -76,3 +76,10 @@ skip_if_historical_RandomFields <- function() {
     message = "RandomFields or RandomFieldsUtils packages out of date"
   )
 }
+
+skip_if_cached_data_not_available <- function() {
+  skip_if_not(
+    file.exists(rappdirs::user_data_dir("aoh")),
+    message = "cached global data not available"
+  )
+}

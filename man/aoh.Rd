@@ -42,14 +42,18 @@ You should then receive a token shortly after completing
 the form (but not immediately). After receiving a token, please open the
 \code{.Renviron} file on your computer (e.g., using \code{usethis::edit_r_environ()}).
 Next, please add the following text to the file (replacing the string with
-the token) and save the file:\preformatted{IUCN_REDLIST_KEY="your_actual_token_not_this_string"
-}
+the token) and save the file:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{IUCN_REDLIST_KEY="your_actual_token_not_this_string"
+}\if{html}{\out{</div>}}
 
 Please restart your R session. You should now be able to access the IUCN Red
 List API. To verify this, please try running the following \emph{R} code and --
-assuming everything works correctly -- you should see \code{TRUE} as the output:\preformatted{# verify access to IUCN Red List API
+assuming everything works correctly -- you should see \code{TRUE} as the output:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# verify access to IUCN Red List API
 is_iucn_rl_available()
-}
+}\if{html}{\out{</div>}}
 
 If these instructions did not work, please consult the documentation for the
 \pkg{rredlist} package for further details.

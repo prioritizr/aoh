@@ -41,7 +41,7 @@ A \code{\link[terra:rast]{terra::rast()}} object containing the elevation data
 \description{
 Import elevation data derived from Robinson \emph{et al.} (2014).
 If data are not available locally, they are downloaded from
-a \href{https://doi.org/10.5281/zenodo.5719982}{Zenodo repository}.
+a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.5719984).
 }
 \details{
 The data were produced by (i) obtaining raw elevation data from
