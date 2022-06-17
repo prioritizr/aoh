@@ -66,7 +66,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">st_repair_geometry</span><span class="op">(</span><span class="va">x</span>, geometry_precision <span class="op">=</span> <span class="fl">1500</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">st_repair_geometry</span><span class="op">(</span><span class="va">x</span>, geometry_precision <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -79,7 +79,8 @@ spatial data (used with <code><a href="https://r-spatial.github.io/sf/reference/
 1500 (higher values indicate higher precision). This level of precision is
 generally suitable for analyses at the national-scale. For analyses at
 finer-scale resolutions, consider using a greater value (e.g.
-10000).</p></dd>
+10000). If you encounter geometry errors, increasing the argument to the
+parameter can resolve these issues.</p></dd>
 </dl></div>
     <div id="details">
     <h2>Details</h2>

@@ -4,7 +4,7 @@
 \alias{st_repair_geometry}
 \title{Repair geometry}
 \usage{
-st_repair_geometry(x, geometry_precision = 1500)
+st_repair_geometry(x, geometry_precision = 5000)
 }
 \arguments{
 \item{x}{\code{\link[sf:sf]{sf::sf()}} object.}
@@ -14,7 +14,8 @@ spatial data (used with \code{\link[sf:st_precision]{sf::st_set_precision()}}). 
 1500 (higher values indicate higher precision). This level of precision is
 generally suitable for analyses at the national-scale. For analyses at
 finer-scale resolutions, consider using a greater value (e.g.
-10000).}
+10000). If you encounter geometry errors, increasing the argument to the
+parameter can resolve these issues.}
 }
 \description{
 Repair the geometry of a \code{\link[sf:sf]{sf::st_sf()}} object.

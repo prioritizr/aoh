@@ -17,6 +17,7 @@ create_spp_info_data(
   keep_iucn_rl_seasonal = c(1, 2, 3, 4),
   omit_habitat_codes = iucn_habitat_codes_marine(),
   crs = sf::st_crs("ESRI:54017"),
+  geometry_precision = 5000,
   verbose = TRUE
 )
 }
@@ -122,6 +123,14 @@ which is appropriate for the elevation and habitat datasets
 available through the package
 (e.g., using the \code{\link[=get_global_elevation_data]{get_global_elevation_data()}} and
 \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}} functions).}
+
+\item{geometry_precision}{\code{numeric} level of precision for processing the
+spatial data (used with \code{\link[sf:st_precision]{sf::st_set_precision()}}). The default is
+1500 (higher values indicate higher precision). This level of precision is
+generally suitable for analyses at the national-scale. For analyses at
+finer-scale resolutions, consider using a greater value (e.g.
+10000). If you encounter geometry errors, increasing the argument to the
+parameter can resolve these issues.}
 
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}

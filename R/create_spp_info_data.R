@@ -13,6 +13,7 @@ NULL
 #' and will not apply to marine or freshwater species.
 #'
 #' @inheritParams get_spp_summary_data
+#' @inheritParams st_repair_geometry
 #'
 #' @param x [sf::sf()] Spatial data delineating species geographic ranges
 #'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
@@ -272,6 +273,7 @@ create_spp_info_data <- function(x,
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
                                 crs = sf::st_crs("ESRI:54017"),
+                                geometry_precision = 5000,
                                 verbose = TRUE) {
   # initialization
   ## display message
@@ -286,7 +288,9 @@ create_spp_info_data <- function(x,
     assertthat::noNA(force),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose),
-    inherits(crs, "crs")
+    inherits(crs, "crs"),
+    assertthat::is.count(geometry_precision),
+    assertthat::noNA(geometry_precision)
   )
   assertthat::assert_that(
     !sf::st_is_longlat(crs),
@@ -322,7 +326,8 @@ create_spp_info_data <- function(x,
     keep_iucn_rl_presence = keep_iucn_rl_presence,
     keep_iucn_rl_origin = keep_iucn_rl_origin,
     keep_iucn_rl_seasonal = keep_iucn_rl_seasonal,
-    crs = crs
+    crs = crs,
+    geometry_precision = geometry_precision
   )
   ## addition data validation
   assertthat::assert_that(

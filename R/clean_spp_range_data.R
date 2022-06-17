@@ -20,14 +20,8 @@ NULL
 #' @param snap_tolerance `numeric` tolerance for snapping geometry to a grid
 #'   for resolving invalid geometries. Defaults to 1 meter.
 #'
-#' @param geometry_precision `numeric` level of precision for processing the
-#'   spatial data (used with [sf::st_set_precision()]). The default is
-#'   1500 (higher values indicate higher precision). This level of precision is
-#'   generally suitable for analyses at the national-scale. For analyses at
-#'   finer-scale resolutions, consider using a greater value (e.g.
-#'   10000).
-#'
 #' @inheritParams create_spp_aoh_data
+#' @inheritParams st_repair_geometry
 #'
 #' @details
 #' This function applies the following data cleaning procedures:
@@ -111,7 +105,7 @@ clean_spp_range_data <- function(x,
                                  keep_iucn_rl_seasonal = c(1, 2, 3, 4),
                                  crs = sf::st_crs("ESRI:54017"),
                                  snap_tolerance = 1,
-                                 geometry_precision = 1500) {
+                                 geometry_precision = 5000) {
   # assert arguments are valid
   ## initial checks
   assertthat::assert_that(

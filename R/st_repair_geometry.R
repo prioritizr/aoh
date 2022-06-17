@@ -9,7 +9,8 @@
 #'   1500 (higher values indicate higher precision). This level of precision is
 #'   generally suitable for analyses at the national-scale. For analyses at
 #'   finer-scale resolutions, consider using a greater value (e.g.
-#'   10000).
+#'   10000). If you encounter geometry errors, increasing the argument to the
+#'   parameter can resolve these issues.
 #'
 #' @details
 #' This function works by first using the [sf::st_make_valid()] function
@@ -48,7 +49,7 @@
 #' # print object
 #' print(p2)
 #' @export
-st_repair_geometry <- function(x, geometry_precision = 1500) {
+st_repair_geometry <- function(x, geometry_precision = 5000) {
   # assert arguments are valid
   assertthat::assert_that(
     inherits(x, "sf"),
