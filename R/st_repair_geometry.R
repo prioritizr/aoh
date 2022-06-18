@@ -6,11 +6,12 @@
 #'
 #' @param geometry_precision `numeric` level of precision for processing the
 #'   spatial data (used with [sf::st_set_precision()]). The default is
-#'   1500 (higher values indicate higher precision). This level of precision is
-#'   generally suitable for analyses at the national-scale. For analyses at
-#'   finer-scale resolutions, consider using a greater value (e.g.
-#'   10000). If you encounter geometry errors, increasing the argument to the
-#'   parameter can resolve these issues.
+#'   100000 (higher values indicate higher precision).
+#'   Although this level of precision is generally suitable for fine-scale
+#'   analyses, it might result in unnecessarily long computation times
+#'   (e.g., 1500 is suitable for national-scale analyses). If you encounter
+#'   geometry errors, increasing the argument to the
+#'   parameter can sometimes resolve these issues.
 #'
 #' @details
 #' This function works by first using the [sf::st_make_valid()] function
@@ -49,7 +50,7 @@
 #' # print object
 #' print(p2)
 #' @export
-st_repair_geometry <- function(x, geometry_precision = 5000) {
+st_repair_geometry <- function(x, geometry_precision = 1e5) {
   # assert arguments are valid
   assertthat::assert_that(
     inherits(x, "sf"),

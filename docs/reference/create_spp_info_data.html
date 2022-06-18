@@ -89,7 +89,7 @@ and will not apply to marine or freshwater species.</p>
   keep_iucn_rl_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,
   omit_habitat_codes <span class="op">=</span> <span class="fu"><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine</a></span><span class="op">(</span><span class="op">)</span>,
   crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54017"</span><span class="op">)</span>,
-  geometry_precision <span class="op">=</span> <span class="fl">5000</span>,
+  geometry_precision <span class="op">=</span> <span class="fl">1e+05</span>,
   verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -201,11 +201,12 @@ available through the package
 <dt>geometry_precision</dt>
 <dd><p><code>numeric</code> level of precision for processing the
 spatial data (used with <code><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">sf::st_set_precision()</a></code>). The default is
-1500 (higher values indicate higher precision). This level of precision is
-generally suitable for analyses at the national-scale. For analyses at
-finer-scale resolutions, consider using a greater value (e.g.
-10000). If you encounter geometry errors, increasing the argument to the
-parameter can resolve these issues.</p></dd>
+100000 (higher values indicate higher precision).
+Although this level of precision is generally suitable for fine-scale
+analyses, it might result in unnecessarily long computation times
+(e.g., 1500 is suitable for national-scale analyses). If you encounter
+geometry errors, increasing the argument to the
+parameter can sometimes resolve these issues.</p></dd>
 <dt>verbose</dt>
 <dd><p><code>logical</code> Should progress be displayed while processing data?
 Defaults to <code>TRUE</code>.</p></dd>
@@ -379,21 +380,24 @@ Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 <span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[18.2s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[1.5s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[2.5s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[1.9s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[447ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[463ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[321ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[341ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in collate_spp_info_data(x = x, spp_summary_data = spp_summary_data,     spp_habitat_data = spp_habitat_data, omit_habitat_codes = omit_habitat_codes,     geometry_precision = geometry_precision, verbose = verbose):</span> unused argument (geometry_precision = geometry_precision)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> collating species data <span style="color: #B2B2B2;">[20ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[152ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[13ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span class="co"># }</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span>

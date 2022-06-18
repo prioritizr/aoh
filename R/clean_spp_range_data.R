@@ -105,7 +105,7 @@ clean_spp_range_data <- function(x,
                                  keep_iucn_rl_seasonal = c(1, 2, 3, 4),
                                  crs = sf::st_crs("ESRI:54017"),
                                  snap_tolerance = 1,
-                                 geometry_precision = 5000) {
+                                 geometry_precision = 1e5) {
   # assert arguments are valid
   ## initial checks
   assertthat::assert_that(

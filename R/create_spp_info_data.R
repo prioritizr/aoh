@@ -273,7 +273,7 @@ create_spp_info_data <- function(x,
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
                                 crs = sf::st_crs("ESRI:54017"),
-                                geometry_precision = 5000,
+                                geometry_precision = 1e5,
                                 verbose = TRUE) {
   # initialization
   ## display message
