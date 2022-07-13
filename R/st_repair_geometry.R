@@ -110,8 +110,16 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
     ##  detect if invalid polygons based on total width across planet
     invalid_bbox_idx <- which(
       vapply(sf::st_geometry(x2), FUN.VALUE = logical(1), function(y) {
-        b <- sf::st_bbox(y)
-        (b$xmax - b$xmin) > dist_threshold
+        any(
+          vapply(
+            suppressWarnings(sf::st_cast(y, "POLYGON")),
+            FUN.VALUE = logical(1),
+            function(w) {
+              b <- sf::st_bbox(w)
+              (b$xmax - b$xmin) > dist_threshold
+            }
+          )
+        )
       })
     )
     ## subset geometries
