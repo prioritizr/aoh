@@ -48,15 +48,15 @@ test_that("crosswalk_jung_lvl2_data", {
   expect_is(crosswalk_jung_lvl2_data$value, "integer")
 })
 
-test_that("crosswalk_lumbierres_data", {
+test_that("crosswalk_lumb_cgls_data", {
   # load data
   data(iucn_habitat_data)
-  data(crosswalk_lumbierres_data)
+  data(crosswalk_lumb_cgls_data)
   # tests
-  expect_is(crosswalk_lumbierres_data, "tbl_df")
-  expect_named(crosswalk_lumbierres_data, c("code", "value"))
-  expect_is(crosswalk_lumbierres_data$code, "character")
+  expect_is(crosswalk_lumb_cgls_data, "tbl_df")
+  expect_named(crosswalk_lumb_cgls_data, c("code", "value"))
+  expect_is(crosswalk_lumb_cgls_data$code, "character")
   expect_equal(anyDuplicated(iucn_habitat_data$code), 0L)
-  expect_true(all(crosswalk_lumbierres_data$code %in% iucn_habitat_data$code))
-  expect_is(crosswalk_lumbierres_data$value, "integer")
+  expect_true(all(crosswalk_lumb_cgls_data$code %in% iucn_habitat_data$code))
+  expect_is(crosswalk_lumb_cgls_data$value, "integer")
 })

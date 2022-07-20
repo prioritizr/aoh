@@ -39,13 +39,13 @@ latest_jung_version <- NULL
 
 latest_jung_potential_version <- NULL
 
-latest_lumbierres_version <- NULL
+latest_lumb_cgls_version <- NULL
 
 latest_elevation_version <- NULL
 
 if (file.exists(rappdirs::user_data_dir("aoh"))) {
   latest_jung_version <- extract_cache_doi("jung-lvl1")
   latest_jung_potential_version <- extract_cache_doi("jung-plvl1")
-  latest_lumbierres_version <- extract_cache_doi("lumbierres-")
+  latest_lumb_cgls_version <- extract_cache_doi("lumbierres-")
   latest_elevation_version <- extract_cache_doi("dem-")
 }

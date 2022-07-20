@@ -3,7 +3,8 @@
   utils::data(
     "crosswalk_jung_lvl1_data",
     "crosswalk_jung_lvl2_data",
-    "crosswalk_lumbierres_data",
+    "crosswalk_jung_plvl1_data",
+    "crosswalk_lumb_cgls_data",
     "iucn_habitat_data",
     package = pkgname,
     envir = parent.env(environment())

@@ -74,7 +74,7 @@ Please note that a token is required to access the API
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">is_iucn_rl_api_available</span><span class="op">(</span>key <span class="op">=</span> <span class="cn">NULL</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is_iucn_rl_api_available</span><span class="op">(</span>key <span class="op">=</span> <span class="cn">NULL</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -84,12 +84,17 @@ Please note that a token is required to access the API
 Defaults to <code>NULL</code> such that the token
 accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 (which can be specified in the .Renviron file).</p></dd>
+
+
 <dt>n</dt>
 <dd><p><code>integer</code> Number of times to attempt to access the API.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>logical</code> indicating if the IUCN Red List API can be accessed.</p>
+    
+
+<p>A <code>logical</code> indicating if the IUCN Red List API can be accessed.</p>
     </div>
     <div id="accessing-the-iucn-red-list-api">
     <h2>Accessing the IUCN Red List API</h2>
@@ -106,21 +111,22 @@ the form (but not immediately). After receiving a token, please open the
 <code>.Renviron</code> file on your computer (e.g., using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>).
 Next, please add the following text to the file (replacing the string with
 the token) and save the file:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>IUCN_REDLIST_KEY<span class="ot">=</span><span class="st">"your_actual_token_not_this_string"</span></span></code></pre><p></p></div>
 <p>Please restart your R session. You should now be able to access the IUCN Red
 List API. To verify this, please try running the following <em>R</em> code and --
 assuming everything works correctly -- you should see <code>TRUE</code> as the output:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verify access to IUCN Red List API</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is_iucn_rl_available</span>()</span></code></pre><p></p></div>
 <p>If these instructions did not work, please consult the documentation for the
 <span class="pkg">rredlist</span> package for further details.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># check if IUCN Red List API is available?</span></span>
-<span class="r-in"><span class="fu">is_iucn_rl_api_available</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># check if IUCN Red List API is available?</span></span></span>
+<span class="r-in"><span><span class="fu">is_iucn_rl_api_available</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -135,7 +141,7 @@ assuming everything works correctly -- you should see <code>TRUE</code> as the o
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

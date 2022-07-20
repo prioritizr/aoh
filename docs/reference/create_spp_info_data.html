@@ -76,22 +76,22 @@ and will not apply to marine or freshwater species.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_spp_info_data</span><span class="op">(</span>
-  <span class="va">x</span>,
-  spp_summary_data <span class="op">=</span> <span class="cn">NULL</span>,
-  spp_habitat_data <span class="op">=</span> <span class="cn">NULL</span>,
-  cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  iucn_version <span class="op">=</span> <span class="st">"latest"</span>,
-  key <span class="op">=</span> <span class="cn">NULL</span>,
-  force <span class="op">=</span> <span class="cn">FALSE</span>,
-  keep_iucn_rl_presence <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,
-  keep_iucn_rl_origin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span>,
-  keep_iucn_rl_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,
-  omit_habitat_codes <span class="op">=</span> <span class="fu"><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine</a></span><span class="op">(</span><span class="op">)</span>,
-  crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54017"</span><span class="op">)</span>,
-  geometry_precision <span class="op">=</span> <span class="fl">1e+05</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_spp_info_data</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  spp_summary_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  spp_habitat_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  iucn_version <span class="op">=</span> <span class="st">"latest"</span>,</span>
+<span>  key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep_iucn_rl_presence <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  keep_iucn_rl_origin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>  keep_iucn_rl_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  omit_habitat_codes <span class="op">=</span> <span class="fu"><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54017"</span><span class="op">)</span>,</span>
+<span>  geometry_precision <span class="op">=</span> <span class="fl">1e+05</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -100,6 +100,8 @@ and will not apply to marine or freshwater species.</p>
 <dd><p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code> Spatial data delineating species geographic ranges
 obtained from the <a href="https://www.iucnredlist.org/" class="external-link">IUCN Red List</a>.
 See below for details.</p></dd>
+
+
 <dt>spp_summary_data</dt>
 <dd><p><code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> Table containing summary
 information for each species (in the argument to <code>x</code>).
@@ -111,6 +113,8 @@ columns indicate the lowest and highest elevations that contain habitat
 for the species.
 Defaults to <code>NULL</code> such that data are automatically obtained from the
 latest version of the <a href="https://www.iucnredlist.org" class="external-link">IUCN Red List</a>.</p></dd>
+
+
 <dt>spp_habitat_data</dt>
 <dd><p><code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> Table containing habitat
 preference information for each species (in the argument to <code>x</code>).
@@ -126,11 +130,15 @@ if the habitat class is only suitable for a particular seasonal
 distribution (e.g., <code>"Breeding"</code>).
 Defaults to <code>NULL</code> such that data are automatically obtained from the
 latest version of the <a href="https://www.iucnredlist.org" class="external-link">IUCN Red List</a>.</p></dd>
+
+
 <dt>cache_dir</dt>
 <dd><p><code>character</code> Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e., <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong></p></dd>
+
+
 <dt>iucn_version</dt>
 <dd><p><code>character</code> Version of the
 IUCN Red List dataset that should be used. See documentation for the
@@ -138,15 +146,21 @@ the <code>version</code> parameter in the <code><a href="get_spp_summary_data.ht
 for further details.
 Defaults to <code>"latest"</code> such that the most recent version of the dataset is
 used.</p></dd>
+
+
 <dt>key</dt>
 <dd><p><code>character</code> Token for querying the IUCN Red List API.
 Defaults to <code>NULL</code> such that the token
 accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 (which can be specified in the .Renviron file).</p></dd>
+
+
 <dt>force</dt>
 <dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
 Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>keep_iucn_rl_presence</dt>
 <dd><p><code>integer</code> IUCN Red List presence codes
 to retain
@@ -155,6 +169,8 @@ Species' ranges that are not associated with these codes are
 excluded during data cleaning procedures.
 Defaults to a numeric vector containing <code>1</code> and <code>2</code>
 (corresponding to <em>extant</em> and <em>probably extant</em>).</p></dd>
+
+
 <dt>keep_iucn_rl_origin</dt>
 <dd><p><code>integer</code> IUCN Red List origin codes
 to retain
@@ -163,6 +179,8 @@ Species' ranges that are not associated with these codes are
 excluded during data cleaning procedures.
 Defaults to a numeric vector containing <code>1</code>, <code>2</code>, and <code>6</code>.
 (corresponding to <em>native</em>, <em>reintroduced</em>, and <em>assisted colonization</em>).</p></dd>
+
+
 <dt>keep_iucn_rl_seasonal</dt>
 <dd><p><code>integer</code> IUCN Red List seasonal codes
 to retain
@@ -172,6 +190,8 @@ excluded during data cleaning procedures.
 Defaults to a numeric vector containing <code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code>.
 (corresponding to <em>resident</em>, <em>breeding season</em>, <em>non-breeding season</em>,
 and <em>passage</em> distributions).</p></dd>
+
+
 <dt>omit_habitat_codes</dt>
 <dd><p><code>character</code> Habitat classification codes
 to omit from resulting Area of Habitat data.
@@ -186,6 +206,8 @@ or unknown habitat (<code><a href="iucn_habitat_codes_misc.html">iucn_habitat_co
 be excluded.
 Defaults to <code><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine()</a></code>, such that marine
 habitats are excluded.</p></dd>
+
+
 <dt>crs</dt>
 <dd><p>A <code><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs()</a></code> object containing the coordinate reference system
 for reprojecting the species' range data.
@@ -197,7 +219,9 @@ Defaults to the World Behrmann coordinate reference system (ESRI:54017),
 which is appropriate for the elevation and habitat datasets
 available through the package
 (e.g., using the <code><a href="get_global_elevation_data.html">get_global_elevation_data()</a></code> and
-<code><a href="get_lumbierres_habitat_data.html">get_lumbierres_habitat_data()</a></code> functions).</p></dd>
+<code><a href="get_lumb_cgls_habitat_data.html">get_lumb_cgls_habitat_data()</a></code> functions).</p></dd>
+
+
 <dt>geometry_precision</dt>
 <dd><p><code>numeric</code> level of precision for processing the
 spatial data (used with <code><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">sf::st_set_precision()</a></code>). The default is
@@ -207,13 +231,18 @@ analyses, it might result in unnecessarily long computation times
 (e.g., 1500 is suitable for national-scale analyses). If you encounter
 geometry errors, increasing the argument to the
 parameter can sometimes resolve these issues.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> Should progress be displayed while processing data?
 Defaults to <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::st_sf()</a></code> object containing all the information needed
+    
+
+<p>A <code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::st_sf()</a></code> object containing all the information needed
 to create Area of Habitat data. It contains
 cleaned versions of the species' range maps and columns containing
 the species' elevational limits and habitat preferences.
@@ -357,55 +386,55 @@ Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># find file path for example range data following IUCN Red List data format</span></span>
-<span class="r-in"><span class="co">## N.B., the range data were not obtained from the IUCN Red List,</span></span>
-<span class="r-in"><span class="co">## and were instead based on data from GBIF (https://www.gbif.org/)</span></span>
-<span class="r-in"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"EXAMPLE_SPECIES.zip"</span>, package <span class="op">=</span> <span class="st">"aoh"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># import data</span></span>
-<span class="r-in"><span class="va">spp_range_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_spp_range_data.html">read_spp_range_data</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify persistent storage location for data processing</span></span>
-<span class="r-in"><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create cache directory if needed</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">cache_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create species information data</span></span>
-<span class="r-in"><span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu">create_spp_info_data</span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="va">spp_range_data</span>,</span>
-<span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># find file path for example range data following IUCN Red List data format</span></span></span>
+<span class="r-in"><span><span class="co">## N.B., the range data were not obtained from the IUCN Red List,</span></span></span>
+<span class="r-in"><span><span class="co">## and were instead based on data from GBIF (https://www.gbif.org/)</span></span></span>
+<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"EXAMPLE_SPECIES.zip"</span>, package <span class="op">=</span> <span class="st">"aoh"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># import data</span></span></span>
+<span class="r-in"><span><span class="va">spp_range_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_spp_range_data.html">read_spp_range_data</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify persistent storage location for data processing</span></span></span>
+<span class="r-in"><span><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create cache directory if needed</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">cache_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create species information data</span></span></span>
+<span class="r-in"><span><span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu">create_spp_info_data</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">spp_range_data</span>,</span></span>
+<span class="r-in"><span>  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[1.5s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[2.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[1.9s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[3.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[463ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[2.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[341ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[317ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[152ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[211ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[13ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span>
-<span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># preview data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_info_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># preview data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_info_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -420,7 +449,7 @@ Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

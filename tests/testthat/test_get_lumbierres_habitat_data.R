@@ -1,4 +1,4 @@
-context("get_lumbierres_habitat_data()")
+context("get_lumb_cgls_habitat_data()")
 
 test_that("latest version (from online)", {
   # skip if needed
@@ -6,7 +6,7 @@ test_that("latest version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_lumbierres_habitat_data(
+  x <- get_lumb_cgls_habitat_data(
     version = "latest",
     force = TRUE,
     verbose = interactive()
@@ -28,7 +28,7 @@ test_that("latest version (from cache)", {
   skip_if_not_installed("rappdirs")
   skip_if_cached_data_not_available()
   # create object
-  x <- get_lumbierres_habitat_data(
+  x <- get_lumb_cgls_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
     version = "latest",
     force = FALSE,
@@ -50,8 +50,8 @@ test_that("specified version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   # create object
-  x <- get_lumbierres_habitat_data(
-    version = latest_lumbierres_version,
+  x <- get_lumb_cgls_habitat_data(
+    version = latest_lumb_cgls_version,
     force = TRUE,
     verbose = interactive()
   )
@@ -72,9 +72,9 @@ test_that("specified version (from cache)", {
   skip_if_not_installed("rappdirs")
   skip_if_cached_data_not_available()
   # create object
-  x <- get_lumbierres_habitat_data(
+  x <- get_lumb_cgls_habitat_data(
     dir = rappdirs::user_data_dir("aoh"),
-    version = latest_lumbierres_version,
+    version = latest_lumb_cgls_version,
     force = FALSE,
     verbose = interactive()
   )

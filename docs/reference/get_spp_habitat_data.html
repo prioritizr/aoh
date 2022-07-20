@@ -72,15 +72,15 @@ data from the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUC
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_spp_habitat_data</span><span class="op">(</span>
-  <span class="va">x</span>,
-  dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  version <span class="op">=</span> <span class="st">"latest"</span>,
-  key <span class="op">=</span> <span class="cn">NULL</span>,
-  delay <span class="op">=</span> <span class="fl">2</span>,
-  force <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_spp_habitat_data</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  version <span class="op">=</span> <span class="st">"latest"</span>,</span>
+<span>  key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  delay <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -90,6 +90,8 @@ data from the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUC
 Union for Conservation of Nature (IUCN) Red List of Threatened
 Species. For example, the taxon identifier for the species
 <em>Loxodonta africana</em> is <code>181008073</code>.</p></dd>
+
+
 <dt>dir</dt>
 <dd><p><code>character</code> Folder path where data should be downloaded.
 By default, data are downloaded to a temporary directory
@@ -98,6 +100,8 @@ it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong>
 If data are already available in folder for the specified version, then the
 data are imported and not re-downloaded from the IUCN Red List.</p></dd>
+
+
 <dt>version</dt>
 <dd><p><code>character</code> Value indicating version of the IUCN Red List for
 obtaining data (e.g., <code>"2021-2"</code>).
@@ -106,28 +110,39 @@ of the IUCN Red List, this functionality is useful for accessing
 data previously downloaded from the IUCN Red List.
 Defaults to <code>"latest"</code> such that data are downloaded from the most recent
 version of the IUCN Red List.</p></dd>
+
+
 <dt>key</dt>
 <dd><p><code>character</code> Token for querying the IUCN Red List API.
 Defaults to <code>NULL</code> such that the token
 accessed from  the <code>"IUCN_REDLIST_KEY"</code> environmental variable
 (which can be specified in the .Renviron file).</p></dd>
+
+
 <dt>delay</dt>
 <dd><p><code>integer</code> Number of seconds to wait between subsequent calls
 to the IUCN Red List API. Defaults to 2 seconds (as recommended by the
 <span class="pkg">rredlist</span> package;
 <a href="https://docs.ropensci.org/rredlist/articles/rredlist.html" class="external-link">https://docs.ropensci.org/rredlist/articles/rredlist.html</a>).</p></dd>
+
+
 <dt>force</dt>
 <dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
 Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> Should progress be displayed while downloading
 data?
 Defaults to <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A table (<code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code>) object.</p>
+    
+
+<p>A table (<code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code>) object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -151,11 +166,12 @@ the form (but not immediately). After receiving a token, please open the
 <code>.Renviron</code> file on your computer (e.g., using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>).
 Next, please add the following text to the file (replacing the string with
 the token) and save the file:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>IUCN_REDLIST_KEY<span class="ot">=</span><span class="st">"your_actual_token_not_this_string"</span></span></code></pre><p></p></div>
 <p>Please restart your R session. You should now be able to access the IUCN Red
 List API. To verify this, please try running the following <em>R</em> code and --
 assuming everything works correctly -- you should see <code>TRUE</code> as the output:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verify access to IUCN Red List API</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is_iucn_rl_available</span>()</span></code></pre><p></p></div>
 <p>If these instructions did not work, please consult the documentation for the
 <span class="pkg">rredlist</span> package for further details.</p>
     </div>
@@ -170,30 +186,28 @@ assuming everything works correctly -- you should see <code>TRUE</code> as the o
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># define species to download data for based on taxon identifiers</span></span>
-<span class="r-in"><span class="va">spp_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">22694927</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># define persistent storage location</span></span>
-<span class="r-in"><span class="va">download_dir</span> <span class="op">&lt;-</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create download directory if needed</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">download_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">download_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># download and import habitat preference data</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">get_spp_habitat_data</span><span class="op">(</span><span class="va">spp_ids</span>, <span class="va">download_dir</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> querying <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  3s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> querying <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span>
-<span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># preview data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># define species to download data for based on taxon identifiers</span></span></span>
+<span class="r-in"><span><span class="va">spp_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">22694927</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># define persistent storage location</span></span></span>
+<span class="r-in"><span><span class="va">download_dir</span> <span class="op">&lt;-</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create download directory if needed</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">download_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">download_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># download and import habitat preference data</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">get_spp_habitat_data</span><span class="op">(</span><span class="va">spp_ids</span>, <span class="va">download_dir</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># preview data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -208,7 +222,7 @@ assuming everything works correctly -- you should see <code>TRUE</code> as the o
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

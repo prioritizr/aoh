@@ -66,13 +66,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">st_repair_geometry</span><span class="op">(</span><span class="va">x</span>, geometry_precision <span class="op">=</span> <span class="fl">1e+05</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">st_repair_geometry</span><span class="op">(</span><span class="va">x</span>, geometry_precision <span class="op">=</span> <span class="fl">1e+05</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code> object.</p></dd>
+
+
 <dt>geometry_precision</dt>
 <dd><p><code>numeric</code> level of precision for processing the
 spatial data (used with <code><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">sf::st_set_precision()</a></code>). The default is
@@ -82,6 +84,7 @@ analyses, it might result in unnecessarily long computation times
 (e.g., 1500 is suitable for national-scale analyses). If you encounter
 geometry errors, increasing the argument to the
 parameter can sometimes resolve these issues.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -102,7 +105,8 @@ in certain cases. Because the <span class="pkg">prepr</span> package is not avai
 the Comprehensive R Archive Network (CRAN), it must be installed from
 its online code repository. To achieve this, please
 use the following code:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(remotes)) <span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"dickoa/prepr"</span>)</span></code></pre><p></p></div>
 <p>Note that the <span class="pkg">prepr</span> package has system dependencies that need to be
 installed before the package itself can be installed
 (see package README file for platform-specific instructions).</p>
@@ -110,24 +114,24 @@ installed before the package itself can be installed
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># create sf object</span></span>
-<span class="r-in"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">st_sf</a></span><span class="op">(</span></span>
-<span class="r-in">  id <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">  geometry <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="st">"POLYGON((0 0, 0 10, 10 0, 10 10, 0 0))"</span>, crs <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># repair geometry</span></span>
-<span class="r-in"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">st_repair_geometry</span><span class="op">(</span><span class="va">p1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># print object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># create sf object</span></span></span>
+<span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">st_sf</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  geometry <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="st">"POLYGON((0 0, 0 10, 10 0, 10 10, 0 0))"</span>, crs <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># repair geometry</span></span></span>
+<span class="r-in"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">st_repair_geometry</span><span class="op">(</span><span class="va">p1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># print object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 1 feature and 1 field</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 10 ymax: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: WGS 84 / Pseudo-Mercator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id                       geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 MULTIPOLYGON (((0 0, 0 10, ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 MULTIPOLYGON (((5 5, 0 0, 0...</span>
 </code></pre></div>
     </div>
   </div>
@@ -142,7 +146,7 @@ installed before the package itself can be installed
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

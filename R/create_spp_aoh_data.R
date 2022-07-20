@@ -1,5 +1,5 @@
 #' @include internal.R clean_spp_range_data.R
-#' @include get_global_elevation_data.R get_lumbierres_habitat_data.R
+#' @include get_global_elevation_data.R get_lumb_cgls_habitat_data.R
 #' @include get_spp_habitat_data.R get_spp_summary_data.R
 #' @include misc_terra.R misc_sf.R
 NULL
@@ -14,7 +14,7 @@ NULL
 #' and will not apply to marine or freshwater species.
 #'
 #' @inheritParams create_spp_info_data
-#' @inheritParams get_lumbierres_habitat_data
+#' @inheritParams get_lumb_cgls_habitat_data
 #'
 #' @param x [sf::sf()] Spatial data delineating species' geographic ranges,
 #'   habitat preferences, and elevational limits. This object should
@@ -37,7 +37,7 @@ NULL
 #'   habitat class is present within the cell
 #'   (based on the argument to `crosswalk_data`).
 #'   Defaults to `NULL` such that data are automatically obtained (using
-#'   [get_lumbierres_habitat_data()]).
+#'   [get_lumb_cgls_habitat_data()]).
 #'
 #' @param crosswalk_data [data.frame()] Table containing data that indicate
 #'   which grid cell values in the argument to `habitat_data` correspond to
@@ -46,11 +46,11 @@ NULL
 #'   codes (see [iucn_habitat_data()], and a `value` column that specifies
 #'   different values in the argument to `habitat_data`.
 #'   Defaults to `NULL` such that the crosswalk for the default habitat
-#'   data are used (i.e., [crosswalk_lumbierres_data()]).
+#'   data are used (i.e., [crosswalk_lumb_cgls_data()]).
 #'
 #' @param habitat_version `character` Version of the
 #'   habitat dataset that should be used. See documentation for the
-#'   the `version` parameter in the [get_lumbierres_habitat_data()] function
+#'   the `version` parameter in the [get_lumb_cgls_habitat_data()] function
 #'   for further details.
 #'   This parameter is only used if habitat data are obtained
 #'   automatically (i.e., the argument to `habitat_data` is `NULL`).

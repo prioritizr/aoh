@@ -175,7 +175,7 @@ test_that("example data", {
       ),
       output_dir = tempdir(),
       cache_dir = cd,
-      habitat_version = latest_lumbierres_version,
+      habitat_version = latest_lumb_cgls_version,
       elevation_version = latest_elevation_version,
       verbose = interactive()
     )
@@ -184,7 +184,7 @@ test_that("example data", {
     x = d,
     res = 5000,
     cache_dir = cd,
-    version = latest_lumbierres_version,
+    version = latest_lumb_cgls_version,
     output_dir = tempdir(),
     verbose = interactive()
   )

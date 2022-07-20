@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
             
-            <h4 data-toc-skip class="date">2022-06-09</h4>
+            <h4 data-toc-skip class="date">2022-07-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -102,201 +102,203 @@
 </h2>
 <p>Here we provide a tutorial for using the <em>aoh R</em> package. In this tutorial, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (<em>Calotriton asper</em>), Iberian frog (<em>Rana iberica</em>), western spadefoot toad (<em>Pelobates cultripes</em>), and golden striped salamnader (<em>Chioglossa lusitanica</em>). To start off, we will load the package. We will also load the <a href="https://CRAN.R-project.org/package=rappdirs" class="external-link"><em>rappdirs</em></a> <em>R</em> package to cache data, and the <a href="https://CRAN.R-project.org/package=terra" class="external-link"><em>terra</em></a> and <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link"><em>ggplot2</em></a> <em>R</em> packages to visualize results.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># load packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://prioritizr.github.io/aoh/" class="external-link">aoh</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rappdirs.r-lib.org" class="external-link">rappdirs</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># load packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://prioritizr.github.io/aoh/" class="external-link">aoh</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rappdirs.r-lib.org" class="external-link">rappdirs</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <p>Now we will import range data for the species. Although users would typically obtain range data from the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>, here we will use built-in species range data that distributed with the package for convenience. <strong>Please note that these data were not obtained from the IUCN Red List, and were manually generated using occurrence records from the <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a>.</strong></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># find file path for data</span>
-<span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"EXAMPLE_SPECIES.zip"</span>, package <span class="op">=</span> <span class="st">"aoh"</span><span class="op">)</span>
-
-<span class="co"># import data</span>
-<span class="va">spp_range_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_spp_range_data.html">read_spp_range_data</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-
-<span class="co"># preview data</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_range_data</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Simple feature collection with 4 features and 26 fields</span>
-<span class="co">## Geometry type: POLYGON</span>
-<span class="co">## Dimension:     XY</span>
-<span class="co">## Bounding box:  xmin: -9.479736 ymin: 36.59422 xmax: 3.302702 ymax: 43.76455</span>
-<span class="co">## Geodetic CRS:  WGS 84</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 4 × 27</span></span>
-<span class="co">##   id_no binomial           presence origin seasonal compiler yrcompiled citation</span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni        1      1        1 Derived…         <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper          1      1        1 Derived…         <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusita…        1      1        1 Derived…         <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica              1      1        1 Derived…         <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      </span>
-<span class="co">## <span style="color: #949494;"># … with 19 more variables: subspecies &lt;chr&gt;, subpop &lt;chr&gt;, source &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   island &lt;chr&gt;, tax_comm &lt;chr&gt;, dist_comm &lt;chr&gt;, generalisd &lt;int&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   legend &lt;chr&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   family &lt;chr&gt;, genus &lt;chr&gt;, category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   freshwater &lt;chr&gt;, geometry &lt;POLYGON [°]&gt;</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># find file path for data</span></span>
+<span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"EXAMPLE_SPECIES.zip"</span>, package <span class="op">=</span> <span class="st">"aoh"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># import data</span></span>
+<span><span class="va">spp_range_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_spp_range_data.html">read_spp_range_data</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># preview data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_range_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Simple feature collection with 4 features and 26 fields</span></span>
+<span><span class="co">## Geometry type: POLYGON</span></span>
+<span><span class="co">## Dimension:     XY</span></span>
+<span><span class="co">## Bounding box:  xmin: -9.479736 ymin: 36.59422 xmax: 3.302702 ymax: 43.76455</span></span>
+<span><span class="co">## Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 27</span></span></span>
+<span><span class="co">##   id_no binomial   prese…¹ origin seaso…² compi…³ yrcom…⁴ citat…⁵ subsp…⁶ subpop</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes di…       1      1       1 Derive…      <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotrito…       1      1       1 Derive…      <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chiogloss…       1      1       1 Derive…      <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iber…       1      1       1 Derive…      <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 17 more variables: source &lt;chr&gt;, island &lt;chr&gt;, tax_comm &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   dist_comm &lt;chr&gt;, generalisd &lt;int&gt;, legend &lt;chr&gt;, kingdom &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;, freshwater &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   geometry &lt;POLYGON [°]&gt;, and abbreviated variable names ¹​presence,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre>
 <p>Next, we will prepare all the range data for generating Area of Habitat data. This procedure – in addition to repairing any geometry issues in the spatial data – will obtain information on the species’ habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won’t need to re-download it again during subsequent runs.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># specify cache directory</span>
-<span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>
-
-<span class="co"># create cache_dir if needed</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">cache_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="co"># prepare information</span>
-<span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_spp_info_data.html">create_spp_info_data</a></span><span class="op">(</span><span class="va">spp_range_data</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># specify cache directory</span></span>
+<span><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create cache_dir if needed</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">cache_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># prepare information</span></span>
+<span><span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_spp_info_data.html">create_spp_info_data</a></span><span class="op">(</span><span class="va">spp_range_data</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span><span class="op">)</span></span></code></pre></div>
 <p>We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002" class="external-link">Robinson <em>et al.</em> 2014</a> and habitat data derived from <a href="https://doi.org/10.1111/cobi.13851" class="external-link">Lumbierres <em>et al.</em> 2021</a>. Similar to before, we also specify a folder to cache the downloaded datasets so that we won’t need to re-downloaded again during subsequent runs.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># specify cache directory</span>
-<span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>
-
-<span class="co"># specify folder to save Area of Habitat data</span>
-<span class="co">## although we use a temporary directory here to avoid polluting your computer</span>
-<span class="co">## with examples files, you would normally specify the folder</span>
-<span class="co">## on your computer where you want to save data</span>
-<span class="va">output_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># generate Area of Habitat data</span>
-<span class="co">## note that this function might take a complete because it will need to</span>
-<span class="co">## download the global habitat and elevation data that first time you run it.</span>
-<span class="va">spp_aoh_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data</a></span><span class="op">(</span>
-  <span class="va">spp_info_data</span>, output_dir <span class="op">=</span> <span class="va">output_dir</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># specify cache directory</span></span>
+<span><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># specify folder to save Area of Habitat data</span></span>
+<span><span class="co">## although we use a temporary directory here to avoid polluting your computer</span></span>
+<span><span class="co">## with examples files, you would normally specify the folder</span></span>
+<span><span class="co">## on your computer where you want to save data</span></span>
+<span><span class="va">output_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># generate Area of Habitat data</span></span>
+<span><span class="co">## note that this function might take a complete because it will need to</span></span>
+<span><span class="co">## download the global habitat and elevation data that first time you run it.</span></span>
+<span><span class="va">spp_aoh_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data</a></span><span class="op">(</span></span>
+<span>  <span class="va">spp_info_data</span>, output_dir <span class="op">=</span> <span class="va">output_dir</span>, cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>While running the code, we see that it displayed a message telling us that certain habitat classes were not available (i.e., <code>"7.1"</code>, <code>"7.2"</code>). <strong>This is fine. It is not an error.</strong> The reason we see this message is because although the global habitat dataset contains the majority of <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN habitat classes</a> for terrestrial environments, it does not contain every single IUCN habitat class <span class="citation">(see Lumbierres <em>et al.</em> 2021 for details)</span>. Upon checking the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN habitat classes</a>, we can see that these classes correspond to artificial aquatic areas and also caves and other subterranean environments. Although failing to account for such habitats could potentially be an issue, here we will assume that accounting for the species’ non-subterranean habitats is sufficient to describe their spatial distribution <span class="citation">(Ficetola <em>et al.</em> 2014)</span>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># preview results</span>
-<span class="co">## resulting dataset is a simple features (sf) object containing</span>
-<span class="co">## spatial geometries for cleaned versions of the range data</span>
-<span class="co">## (in the geometry column) and the following additional columns:</span>
-<span class="co">##</span>
-<span class="co">## - id_no            : IUCN Red List taxon identifier</span>
-<span class="co">## - seasonal         : integer identifier for seasonal distributions</span>
-<span class="co">## - category         : character IUCN Red List threat category</span>
-<span class="co">## - full_habitat_code: All IUCN Red List codes for suitable habitat classes</span>
-<span class="co">##                      (multiple codes are delimited using "|" symbols)</span>
-<span class="co">## - habitat_code     : IUCN Red List codes for suitable habitat classes</span>
-<span class="co">##                      used to create AOH maps</span>
-<span class="co">## - elevation_lower  : lower limit for the species on IUCN Red List</span>
-<span class="co">## - elevation_upper  : upper limit for the species on IUCN Red List</span>
-<span class="co">## - xmin             : minimum x-coordinate for Area of Habitat data</span>
-<span class="co">## - xmax             : maximum x-coordinate for Area of Habitat data</span>
-<span class="co">## - ymin             : minimum y-coordinate for Area of Habitat data</span>
-<span class="co">## - ymax             : maximum y-coordinate for Area of Habitat data</span>
-<span class="co">## - path             : file path for Area of Habitat data (GeoTIFF format)</span>
-<span class="co">##</span>
-<span class="co">## since data obtained from the IUCN Red List cannot be redistributed,</span>
-<span class="co">## we will only show some of the columns in this object</span>
-<span class="co">##</span>
-<span class="co">## N.B., you can view all columns on your computer with:</span>
-<span class="co">##&gt; print(spp_aoh_data, width = Inf)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id_no"</span>, <span class="st">"binomial"</span>, <span class="st">"seasonal"</span>, <span class="st">"path"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Simple feature collection with 4 features and 4 fields</span>
-<span class="co">## Geometry type: POLYGON</span>
-<span class="co">## Dimension:     XY</span>
-<span class="co">## Bounding box:  xmin: -914690 ymin: 4364364 xmax: 318662 ymax: 5066731</span>
-<span class="co">## Projected CRS: World_Behrmann</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span>
-<span class="co">##   id_no binomial              seasonal path                             geometry</span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmptAr20… ((-105492 4465129, -1064…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmptAr20… ((-238707 5029084, -2377…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmptAr20… ((-859178 4559308, -8593…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmptAr20… ((-849787 4614155, -8481…</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># preview results</span></span>
+<span><span class="co">## resulting dataset is a simple features (sf) object containing</span></span>
+<span><span class="co">## spatial geometries for cleaned versions of the range data</span></span>
+<span><span class="co">## (in the geometry column) and the following additional columns:</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## - id_no            : IUCN Red List taxon identifier</span></span>
+<span><span class="co">## - seasonal         : integer identifier for seasonal distributions</span></span>
+<span><span class="co">## - category         : character IUCN Red List threat category</span></span>
+<span><span class="co">## - full_habitat_code: All IUCN Red List codes for suitable habitat classes</span></span>
+<span><span class="co">##                      (multiple codes are delimited using "|" symbols)</span></span>
+<span><span class="co">## - habitat_code     : IUCN Red List codes for suitable habitat classes</span></span>
+<span><span class="co">##                      used to create AOH maps</span></span>
+<span><span class="co">## - elevation_lower  : lower limit for the species on IUCN Red List</span></span>
+<span><span class="co">## - elevation_upper  : upper limit for the species on IUCN Red List</span></span>
+<span><span class="co">## - xmin             : minimum x-coordinate for Area of Habitat data</span></span>
+<span><span class="co">## - xmax             : maximum x-coordinate for Area of Habitat data</span></span>
+<span><span class="co">## - ymin             : minimum y-coordinate for Area of Habitat data</span></span>
+<span><span class="co">## - ymax             : maximum y-coordinate for Area of Habitat data</span></span>
+<span><span class="co">## - path             : file path for Area of Habitat data (GeoTIFF format)</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## since data obtained from the IUCN Red List cannot be redistributed,</span></span>
+<span><span class="co">## we will only show some of the columns in this object</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## N.B., you can view all columns on your computer with:</span></span>
+<span><span class="co">##&gt; print(spp_aoh_data, width = Inf)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id_no"</span>, <span class="st">"binomial"</span>, <span class="st">"seasonal"</span>, <span class="st">"path"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Simple feature collection with 4 features and 4 fields</span></span>
+<span><span class="co">## Geometry type: POLYGON</span></span>
+<span><span class="co">## Dimension:     XY</span></span>
+<span><span class="co">## Bounding box:  xmin: -914665 ymin: 4364387 xmax: 318665 ymax: 5066721</span></span>
+<span><span class="co">## Projected CRS: World_Behrmann</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
+<span><span class="co">##   id_no binomial              seasonal path                             geometry</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpFwwuf… ((-105507 4465112, -1064…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpFwwuf… ((-238681 5029057, -2377…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpFwwuf… ((-859202 4559278, -8593…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpFwwuf… ((-849802 4614149, -8481…</span></span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># import the Area of Habitat data</span>
-<span class="co">## since the data for each species have a different spatial extent</span>
-<span class="co">## (to reduce file sizes), we will import each dataset separately in a list</span>
-<span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">path</span>, <span class="va">rast</span><span class="op">)</span>
-
-<span class="co"># preview raster data</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [[1]]</span>
-<span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)</span>
-<span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)</span>
-<span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : 979_1.tif </span>
-<span class="co">## name        : lyr1 </span>
-<span class="co">## min value   :    0 </span>
-<span class="co">## max value   :    1 </span>
-<span class="co">## </span>
-<span class="co">## [[2]]</span>
-<span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 2265, 5669, 1  (nrow, ncol, nlyr)</span>
-<span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)</span>
-<span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : 59448_1.tif </span>
-<span class="co">## name        : lyr1 </span>
-<span class="co">## min value   :    0 </span>
-<span class="co">## max value   :    1 </span>
-<span class="co">## </span>
-<span class="co">## [[3]]</span>
-<span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 5149, 5360, 1  (nrow, ncol, nlyr)</span>
-<span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)</span>
-<span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : 4657_1.tif </span>
-<span class="co">## name        : lyr1 </span>
-<span class="co">## min value   :    0 </span>
-<span class="co">## max value   :    1 </span>
-<span class="co">## </span>
-<span class="co">## [[4]]</span>
-<span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)</span>
-<span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)</span>
-<span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## source      : 58622_1.tif </span>
-<span class="co">## name        : lyr1 </span>
-<span class="co">## min value   :    0 </span>
-<span class="co">## max value   :    1</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># import the Area of Habitat data</span></span>
+<span><span class="co">## since the data for each species have a different spatial extent</span></span>
+<span><span class="co">## (to reduce file sizes), we will import each dataset separately in a list</span></span>
+<span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">path</span>, <span class="va">rast</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># preview raster data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [[1]]</span></span>
+<span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 2593, 3701, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
+<span><span class="co">## extent      : -467931, -97831, 4364377, 4623677  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. : World_Behrmann </span></span>
+<span><span class="co">## source      : 979_1.tif </span></span>
+<span><span class="co">## name        : lyr1 </span></span>
+<span><span class="co">## min value   :    0 </span></span>
+<span><span class="co">## max value   :    1 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[2]]</span></span>
+<span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 2266, 5670, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
+<span><span class="co">## extent      : -248331, 318669, 4838277, 5064877  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. : World_Behrmann </span></span>
+<span><span class="co">## source      : 59448_1.tif </span></span>
+<span><span class="co">## name        : lyr1 </span></span>
+<span><span class="co">## min value   :    0 </span></span>
+<span><span class="co">## max value   :    1 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[3]]</span></span>
+<span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 5149, 5361, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
+<span><span class="co">## extent      : -914731, -378631, 4551877, 5066777  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. : World_Behrmann </span></span>
+<span><span class="co">## source      : 4657_1.tif </span></span>
+<span><span class="co">## name        : lyr1 </span></span>
+<span><span class="co">## min value   :    0 </span></span>
+<span><span class="co">## max value   :    1 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[4]]</span></span>
+<span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
+<span><span class="co">## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. : World_Behrmann </span></span>
+<span><span class="co">## source      : 58622_1.tif </span></span>
+<span><span class="co">## name        : lyr1 </span></span>
+<span><span class="co">## min value   :    0 </span></span>
+<span><span class="co">## max value   :    1</span></span></code></pre>
 <p>We can see that the Area of Habitat data for each species are stored in separate spatial (raster) datasets with different extents. Although this is useful because it drastically reduces the total size of the data for each species, it can make it difficult to work with data for multiple species. To address this, we can use the <code><a href="../reference/terra_combine.html">terra_combine()</a></code> function to automatically align and combine the spatial data for all species’ distributions into a single spatial dataset.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># combine raster data</span>
-<span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span>
-
-<span class="co"># assign identifiers to layer names</span>
-<span class="fu"><a href="https://rdrr.io/pkg/terra/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span>
-  <span class="st">"AOH_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">id_no</span>, <span class="st">"_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">seasonal</span>
-<span class="op">)</span>
-
-<span class="co"># preview raster data</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## class       : SpatRaster </span>
-<span class="co">## dimensions  : 7025, 12334, 4  (nrow, ncol, nlyr)</span>
-<span class="co">## resolution  : 100, 100  (x, y)</span>
-<span class="co">## extent      : -914731, 318669, 4364277, 5066777  (xmin, xmax, ymin, ymax)</span>
-<span class="co">## coord. ref. : World_Behrmann </span>
-<span class="co">## sources     : spat_zVH7V0A460rGKW3_484654.tif  </span>
-<span class="co">##               spat_eYD307VsAiXoIlZ_484654.tif  </span>
-<span class="co">##               spat_DXSuc3DvgNLzrs3_484654.tif  </span>
-<span class="co">##               ... and 1 more source(s)</span>
-<span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span>
-<span class="co">## min values  :         0,           0,          0,           0 </span>
-<span class="co">## max values  :         1,           1,          1,           1</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># combine raster data</span></span>
+<span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># assign identifiers to layer names</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>  <span class="st">"AOH_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">id_no</span>, <span class="st">"_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">seasonal</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># preview raster data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 7024, 12334, 4  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
+<span><span class="co">## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. : World_Behrmann </span></span>
+<span><span class="co">## sources     : spat_rYO8QSE3U3OjIEN_28724.tif  </span></span>
+<span><span class="co">##               spat_4pOR5jqV4qFVLUD_28724.tif  </span></span>
+<span><span class="co">##               spat_1kXfAueUPgJFKB5_28724.tif  </span></span>
+<span><span class="co">##               ... and 1 more source(s)</span></span>
+<span><span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span></span>
+<span><span class="co">## min values  :         0,           0,          0,           0 </span></span>
+<span><span class="co">## max values  :         1,           1,          1,           1</span></span></code></pre>
 <p>Finally, let’s create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g., using the <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link"><em>ggplot2</em></a> <em>R</em> package), we will use a plotting function distributed with the <em>aoh R</em> package for convenience.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># create maps</span>
-<span class="co">## N.B. you might need to install the ggmap package to create the maps</span>
-<span class="va">map</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/plot_spp_aoh_data.html">plot_spp_aoh_data</a></span><span class="op">(</span><span class="va">spp_aoh_data</span>, zoom <span class="op">=</span> <span class="fl">6</span>, maptype <span class="op">=</span> <span class="st">"toner-background"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"range"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_size_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"range"</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>
-    axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-    axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>,
-    strip.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>,
-    strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>
-  <span class="op">)</span>
-
-<span class="co"># display maps</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># create maps</span></span>
+<span><span class="co">## N.B. you might need to install the ggmap package to create the maps</span></span>
+<span><span class="va">map</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/plot_spp_aoh_data.html">plot_spp_aoh_data</a></span><span class="op">(</span><span class="va">spp_aoh_data</span>, zoom <span class="op">=</span> <span class="fl">6</span>, maptype <span class="op">=</span> <span class="st">"toner-background"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"range"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_size_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"range"</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>,</span>
+<span>    strip.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>,</span>
+<span>    strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># display maps</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></span></code></pre></div>
 <p><img src="aoh_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
@@ -312,11 +314,11 @@
 <p><strong>How do I obtain access to the IUCN Red List API?</strong></p>
 <p>You will need to obtain a token to access the <a href="https://apiv3.iucnredlist.org/" class="external-link">IUCN Red List API</a> (if you do not have one already). To achieve this, please visit the IUCN API website (<a href="https://apiv3.iucnredlist.org/" class="external-link uri">https://apiv3.iucnredlist.org/</a>), click the “Generate a token” link at the top of the web page, and fill out the form to apply for a token. You should then receive a token shortly after completing the form (but not immediately). After receiving a token, you will need to complete some additional steps so that R can use this token to access the IUCN Red List API.</p>
 <p>Please open the <code>.Renviron</code> file on your computer (e.g., using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file:</p>
-<pre><code><span class="va">IUCN_REDLIST_KEY</span><span class="op">=</span><span class="st">"your_actual_token_not_this_string"</span></code></pre>
+<pre><code><span><span class="va">IUCN_REDLIST_KEY</span><span class="op">=</span><span class="st">"your_actual_token_not_this_string"</span></span></code></pre>
 <p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should see the current version of the IUCN Red List:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># verify access to IUCN Red List API</span>
-<span class="fu">rredlist</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rredlist/reference/rl_version.html" class="external-link">rl_version</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># verify access to IUCN Red List API</span></span>
+<span><span class="fu">rredlist</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rredlist/reference/rl_version.html" class="external-link">rl_version</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If these instructions did not work, please consult the documentation for the <a href="https://CRAN.R-project.org/package=rredlist" class="external-link"><em>rredlist</em></a> <em>R</em> package for further details.</p>
 </li>
 <li>
@@ -414,7 +416,7 @@ Tracewski, Łukasz, Butchart, S.H.M., Marco, M.D., Ficetola, G.F., Rondinini, C.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

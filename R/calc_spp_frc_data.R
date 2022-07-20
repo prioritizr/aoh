@@ -15,7 +15,7 @@ NULL
 #'   Area of Habitat data.
 #'   Defaults to `NULL` such that template data are automatically imported
 #'   as the default global habitat dataset (using
-#'   [get_lumbierres_habitat_data()]).
+#'   [get_lumb_cgls_habitat_data()]).
 #'
 #' @param engine `character` Value indicating the name of the software
 #'   to use for data processing.
@@ -25,7 +25,7 @@ NULL
 #' @param output_dir `character` `character` Folder path to save raster
 #'   (GeoTIFF) files containing the fractional coverage data.
 #'
-#' @param ... Arguments passed to [get_lumbierres_habitat_data()].
+#' @param ... Arguments passed to [get_lumb_cgls_habitat_data()].
 #'
 #' @details
 #' This function works by
@@ -166,7 +166,7 @@ calc_spp_frc_data <- function(x,
       cli::cli_progress_step("importing global habitat data")
     }
     ### processing
-    template_data <- get_lumbierres_habitat_data(
+    template_data <- get_lumb_cgls_habitat_data(
       dir = cache_dir, force = force, verbose = verbose, ...
     )
   }

@@ -107,7 +107,7 @@ NULL
 #'  which is appropriate for the elevation and habitat datasets
 #'  available through the package
 #'  (e.g., using the [get_global_elevation_data()] and
-#'  [get_lumbierres_habitat_data()] functions).
+#'  [get_lumb_cgls_habitat_data()] functions).
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.

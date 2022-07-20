@@ -43,7 +43,10 @@
     <loc>/reference/crosswalk_jung_lvl2_data.html</loc>
   </url>
   <url>
-    <loc>/reference/crosswalk_lumbierres_data.html</loc>
+    <loc>/reference/crosswalk_jung_plvl1_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/crosswalk_lumb_cgls_data.html</loc>
   </url>
   <url>
     <loc>/reference/gdal_version.html</loc>
@@ -61,7 +64,7 @@
     <loc>/reference/get_jung_plvl1_habitat_data.html</loc>
   </url>
   <url>
-    <loc>/reference/get_lumbierres_habitat_data.html</loc>
+    <loc>/reference/get_lumb_cgls_habitat_data.html</loc>
   </url>
   <url>
     <loc>/reference/get_spp_habitat_data.html</loc>

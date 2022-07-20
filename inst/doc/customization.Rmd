@@ -125,7 +125,7 @@ print(elevation_data)
 plot(elevation_data, main = "Elevation data")
 ```
 
-Next, we will import habitat classification data. Although such data would be automatically imported by default (using the `get_lumbierres_habitat_data()` function), here we will import example data distributed with the package.
+Next, we will import habitat classification data. Although such data would be automatically imported by default (using the `get_lumb_cgls_habitat_data()` function), here we will import example data distributed with the package.
 
 ```{r, fig.height = 4, fig.width = 5.5, out.width = "90%"}
 # find file path for elevation data
@@ -154,7 +154,7 @@ compareGeom(elevation_data, habitat_data)
 
 ```
 
-We will now import a crosswalk table for the habitat classification data. A crosswalk table specifies which pixel values in the habitat classification data correspond to which [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme). This table can specify one-to-one relationships (e.g., pixel value 12 corresponds to IUCN class 1.1), one-to-many relationships (e.g., pixel values 12 corresponds to IUCN classes 1.1 and 1.2), and many-to-many relationships (e.g., both pixel values 12 and 13 each correspond to IUCN classes 1.1 and 1.2). Although such data would be automatically imported by default (i.e., the `crosswalk_lumbierres_data` built-in dataset), here we will import example data distributed with the package. When using your own habitat classification data, please ensure that it follows the same format (i.e., same column names and data types).
+We will now import a crosswalk table for the habitat classification data. A crosswalk table specifies which pixel values in the habitat classification data correspond to which [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme). This table can specify one-to-one relationships (e.g., pixel value 12 corresponds to IUCN class 1.1), one-to-many relationships (e.g., pixel values 12 corresponds to IUCN classes 1.1 and 1.2), and many-to-many relationships (e.g., both pixel values 12 and 13 each correspond to IUCN classes 1.1 and 1.2). Although such data would be automatically imported by default (i.e., the `crosswalk_lumb_cgls_data` built-in dataset), here we will import example data distributed with the package. When using your own habitat classification data, please ensure that it follows the same format (i.e., same column names and data types).
 
 ```{r}
 # find file path for crosswalk data

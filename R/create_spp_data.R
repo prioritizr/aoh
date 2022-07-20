@@ -141,13 +141,13 @@ create_spp_data <- function(x,
       cli::cli_progress_step("importing global habitat data")
     }
     ### processing
-    habitat_data <- get_lumbierres_habitat_data(
+    habitat_data <- get_lumb_cgls_habitat_data(
       dir = cache_dir, version = habitat_version,
       force = force, verbose = verbose
     )
     ### get crosswalk data if needed
     if (is.null(crosswalk_data)) {
-      crosswalk_data <- crosswalk_lumbierres_data
+      crosswalk_data <- crosswalk_lumb_cgls_data
     }
   } else {
     assertthat::assert_that(

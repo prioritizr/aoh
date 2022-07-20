@@ -277,7 +277,7 @@ test_that("example data", {
       x = d,
       output_dir = tempdir(),
       cache_dir = cd,
-      habitat_version = latest_lumbierres_version,
+      habitat_version = latest_lumb_cgls_version,
       elevation_version = latest_elevation_version,
       verbose = interactive()
     )
@@ -295,13 +295,13 @@ test_that("example data", {
   expect_equal(sum(is.na(x$path)), 0)
   validate_aoh_data(
     x = x,
-    habitat_data = get_lumbierres_habitat_data(
-      dir = cd, version = latest_lumbierres_version
+    habitat_data = get_lumb_cgls_habitat_data(
+      dir = cd, version = latest_lumb_cgls_version
     ),
     elevation_data = get_global_elevation_data(
       dir = cd, version = latest_elevation_version
     ),
-    crosswalk_data = crosswalk_lumbierres_data
+    crosswalk_data = crosswalk_lumb_cgls_data
   )
   expect_gte(
     min(vapply(x$path, FUN.VALUE = numeric(1), function(x) {
@@ -472,10 +472,10 @@ test_that("different habitat data produce similar results", {
     create_spp_aoh_data(
       x = d,
       output_dir = output_dir2,
-      habitat_data = get_lumbierres_habitat_data(
-        dir = cd, version = latest_lumbierres_version
+      habitat_data = get_lumb_cgls_habitat_data(
+        dir = cd, version = latest_lumb_cgls_version
       ),
-      crosswalk_data = crosswalk_lumbierres_data,
+      crosswalk_data = crosswalk_lumb_cgls_data,
       cache_dir = cd,
       elevation_version = latest_elevation_version,
       engine = "gdal",
@@ -487,10 +487,10 @@ test_that("different habitat data produce similar results", {
     create_spp_aoh_data(
       x = d,
       output_dir = output_dir3,
-      habitat_data = get_lumbierres_habitat_data(
-        dir = cd, version = latest_lumbierres_version
+      habitat_data = get_lumb_cgls_habitat_data(
+        dir = cd, version = latest_lumb_cgls_version
       ),
-      crosswalk_data = crosswalk_lumbierres_data,
+      crosswalk_data = crosswalk_lumb_cgls_data,
       cache_dir = cd,
       elevation_version = latest_elevation_version,
       engine = "grass",
@@ -517,23 +517,23 @@ test_that("different habitat data produce similar results", {
   )
   validate_aoh_data(
     x = x2,
-    habitat_data = get_lumbierres_habitat_data(
-      dir = cd, version = latest_lumbierres_version
+    habitat_data = get_lumb_cgls_habitat_data(
+      dir = cd, version = latest_lumb_cgls_version
     ),
     elevation_data = get_global_elevation_data(
       dir = cd, version = latest_elevation_version
     ),
-    crosswalk_data = crosswalk_lumbierres_data
+    crosswalk_data = crosswalk_lumb_cgls_data
   )
   validate_aoh_data(
     x = x3,
-    habitat_data = get_lumbierres_habitat_data(
-      dir = cd, version = latest_lumbierres_version
+    habitat_data = get_lumb_cgls_habitat_data(
+      dir = cd, version = latest_lumb_cgls_version
     ),
     elevation_data = get_global_elevation_data(
       dir = cd, version = latest_elevation_version
     ),
-    crosswalk_data = crosswalk_lumbierres_data
+    crosswalk_data = crosswalk_lumb_cgls_data
   )
   expect_equal(
     dplyr::select(x1, -path, -habitat_code),
@@ -599,7 +599,7 @@ test_that("amphibian data (IUCN format)", {
       verbose = interactive()
     ),
     output_dir = tempdir(),
-    habitat_version = latest_lumbierres_version,
+    habitat_version = latest_lumb_cgls_version,
     elevation_version = latest_elevation_version,
     cache_dir = cd,
     engine = "gdal",
@@ -664,7 +664,7 @@ test_that("reptile data (IUCN format)", {
     ),
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = latest_lumbierres_version,
+    habitat_version = latest_lumb_cgls_version,
     elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()
@@ -728,7 +728,7 @@ test_that("terrestrial mammal data (IUCN format)", {
     ),
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = latest_lumbierres_version,
+    habitat_version = latest_lumb_cgls_version,
     elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()
@@ -793,7 +793,7 @@ test_that("bird data (BirdLife format)", {
     ),
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = latest_lumbierres_version,
+    habitat_version = latest_lumb_cgls_version,
     elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()
@@ -857,7 +857,7 @@ test_that("bird data (alternate BirdLife format)", {
     ),
     output_dir = tempdir(),
     cache_dir = cd,
-    habitat_version = latest_lumbierres_version,
+    habitat_version = latest_lumb_cgls_version,
     elevation_version = latest_elevation_version,
     engine = "gdal",
     verbose = interactive()

@@ -1,5 +1,5 @@
 #' @include internal.R clean_spp_range_data.R
-#' @include get_global_elevation_data.R get_lumbierres_habitat_data.R
+#' @include get_global_elevation_data.R get_lumb_cgls_habitat_data.R
 #' @include get_spp_habitat_data.R get_spp_summary_data.R
 #' @include misc_terra.R misc_sf.R
 NULL

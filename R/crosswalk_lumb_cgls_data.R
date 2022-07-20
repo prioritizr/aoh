@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Crosswalk data for Lumbierres *et al.* (2021)
+#' Crosswalk data for CGLS based on Lumbierres *et al.* (2021)
 #'
 #' The [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/)
 #' provides a
@@ -18,21 +18,21 @@ NULL
 #'
 #' @keywords datasets
 #'
-#' @name crosswalk_lumbierres_data
+#' @name crosswalk_lumb_cgls_data
 #'
-#' @usage data(crosswalk_lumbierres_data)
+#' @usage data(crosswalk_lumb_cgls_data)
 #'
 #' @format
 #' A data frame ([tibble::tibble()]) object with
-#' `r nrow(crosswalk_lumbierres_data)` rows and
-#' `r ncol(crosswalk_lumbierres_data)` columns.
+#' `r nrow(crosswalk_lumb_cgls_data)` rows and
+#' `r ncol(crosswalk_lumb_cgls_data)` columns.
 #' Each row corresponds to a different IUCN habitat class.
 #' It has the following columns:
 #' \describe{
 #' \item{code}{The `character` code for a given IUCN habitat class.}
 #' \item{value}{The `numeric` value assigned to grid cells in the
 #'  raster data that contain the IUCN habitat class
-#'  (see [get_lumbierres_habitat_data()]).}
+#'  (see [get_lumb_cgls_habitat_data()]).}
 #' }
 #'
 #' @source
@@ -41,7 +41,7 @@ NULL
 #'
 #' @seealso
 #' A preprocessed version of the habitat classification data can be imported
-#' using [get_lumbierres_habitat_data()].
+#' using [get_lumb_cgls_habitat_data()].
 #'
 #' @references
 #' Buchhorn M, Smets B, Bertels L, Lesiv M, Tsendbazar N-E, Herold M, and Fritz
@@ -64,14 +64,14 @@ NULL
 #' DOI:10.1111/cobi.13851.
 #' Available at <https://doi.org/10.1111/cobi.13851>.
 #'
-#' @inherit get_lumbierres_habitat_data references
+#' @inherit get_lumb_cgls_habitat_data references
 #'
-#' @aliases crosswalk_lumbierres_data
+#' @aliases crosswalk_lumb_cgls_data
 #'
 #' @examples
 #' # load data
-#' data(crosswalk_lumbierres_data)
+#' data(crosswalk_lumb_cgls_data)
 #'
 #' # print data
-#' print(crosswalk_lumbierres_data)
+#' print(crosswalk_lumb_cgls_data)
 NULL

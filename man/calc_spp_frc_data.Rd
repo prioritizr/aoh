@@ -39,7 +39,7 @@ as the elevation and habitat data used to generate the
 Area of Habitat data.
 Defaults to \code{NULL} such that template data are automatically imported
 as the default global habitat dataset (using
-\code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}).}
+\code{\link[=get_lumb_cgls_habitat_data]{get_lumb_cgls_habitat_data()}}).}
 
 \item{cache_dir}{\code{character} Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e., \code{tempdir()}).
@@ -77,7 +77,7 @@ Defaults to 1000.}
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}
 
-\item{...}{Arguments passed to \code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}}.}
+\item{...}{Arguments passed to \code{\link[=get_lumb_cgls_habitat_data]{get_lumb_cgls_habitat_data()}}.}
 }
 \value{
 An updated version of the argument to \code{x} with updated values

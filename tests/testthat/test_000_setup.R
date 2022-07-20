@@ -55,24 +55,23 @@ test_that("Jung level 1 potential habitat data", {
   # tests
   expect_is(x, "SpatRaster")
   expect_is(latest_jung_potential_version, "character")
-
 })
 
-test_that("Lumbierres habitat data", {
+test_that("Lumbierres CGLS habitat data", {
   skip_on_cran()
   skip_if_cached_data_not_available()
   # download data
-  x <- get_lumbierres_habitat_data(
+  x <- get_lumb_cgls_habitat_data(
     version = "latest",
     force = FALSE,
     verbose = interactive(),
     dir = rappdirs::user_data_dir("aoh")
   )
   # extract doi
-  latest_lumbierres_version <<- extract_cache_doi("lumbierres-")
+  latest_lumb_cgls_version <<- extract_cache_doi("lumbierres-")
   # tests
   expect_is(x, "SpatRaster")
-  expect_is(latest_lumbierres_version, "character")
+  expect_is(latest_lumb_cgls_version, "character")
 })
 
 test_that("elevation data", {

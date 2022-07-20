@@ -1,6 +1,6 @@
  \item Global elevation and habitat classification are imported
   (if needed,
-  see [get_global_elevation_data()] and [get_lumbierres_habitat_data()]
+  see [get_global_elevation_data()] and [get_lumb_cgls_habitat_data()]
   for details).
   If these data are not available in the cache directory
   (i.e. argument to `cache_dir`), then they are automatically downloaded

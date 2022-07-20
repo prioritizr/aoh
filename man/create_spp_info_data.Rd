@@ -122,7 +122,7 @@ Defaults to the World Behrmann coordinate reference system (ESRI:54017),
 which is appropriate for the elevation and habitat datasets
 available through the package
 (e.g., using the \code{\link[=get_global_elevation_data]{get_global_elevation_data()}} and
-\code{\link[=get_lumbierres_habitat_data]{get_lumbierres_habitat_data()}} functions).}
+\code{\link[=get_lumb_cgls_habitat_data]{get_lumb_cgls_habitat_data()}} functions).}
 
 \item{geometry_precision}{\code{numeric} level of precision for processing the
 spatial data (used with \code{\link[sf:st_precision]{sf::st_set_precision()}}). The default is

@@ -66,19 +66,19 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_spp_frc_data</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">res</span>,
-  <span class="va">output_dir</span>,
-  template_data <span class="op">=</span> <span class="cn">NULL</span>,
-  cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  force <span class="op">=</span> <span class="cn">FALSE</span>,
-  n_threads <span class="op">=</span> <span class="fl">1</span>,
-  engine <span class="op">=</span> <span class="st">"terra"</span>,
-  cache_limit <span class="op">=</span> <span class="fl">1000</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_spp_frc_data</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">res</span>,</span>
+<span>  <span class="va">output_dir</span>,</span>
+<span>  template_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  n_threads <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  engine <span class="op">=</span> <span class="st">"terra"</span>,</span>
+<span>  cache_limit <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -87,15 +87,21 @@
 <dd><p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::st_sf()</a></code> Object containing the species data.
 This object should be produced using the <code><a href="create_spp_aoh_data.html">create_spp_aoh_data()</a></code>
 function.</p></dd>
+
+
 <dt>res</dt>
 <dd><p><code>numeric</code> Resolution for computing fractional coverage.
 Note that the argument to <code>res</code> must be a factor of the
 the resolution of the underlying Area of Habitat data.
 For example, a value of 5000 would be a valid argument
 if the underlying data had a resolution of 100 m.</p></dd>
+
+
 <dt>output_dir</dt>
 <dd><p><code>character</code> <code>character</code> Folder path to save raster
 (GeoTIFF) files containing the fractional coverage data.</p></dd>
+
+
 <dt>template_data</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data to use as a template
 for computing fractional coverage.
@@ -104,16 +110,22 @@ as the elevation and habitat data used to generate the
 Area of Habitat data.
 Defaults to <code>NULL</code> such that template data are automatically imported
 as the default global habitat dataset (using
-<code><a href="get_lumbierres_habitat_data.html">get_lumbierres_habitat_data()</a></code>).</p></dd>
+<code><a href="get_lumb_cgls_habitat_data.html">get_lumb_cgls_habitat_data()</a></code>).</p></dd>
+
+
 <dt>cache_dir</dt>
 <dd><p><code>character</code> Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e., <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).
 <strong>To avoid downloading the same data multiple times, it is strongly
 recommended to specify a persistent storage location (see Examples below).</strong></p></dd>
+
+
 <dt>force</dt>
 <dd><p><code>logical</code> Should the data be downloaded even if the
 the data are already available?
 Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>n_threads</dt>
 <dd><p><code>integer</code> Number of computational threads to use
 for data processing.
@@ -124,11 +136,15 @@ habitat classification and elevation data.
 As such, this parameter will have no influence when using preprocessed
 datasets.
 Defaults to 1.</p></dd>
+
+
 <dt>engine</dt>
 <dd><p><code>character</code> Value indicating the name of the software
 to use for data processing.
 Available options include <code>"terra"</code> or <code>"gdal"</code>.
 Defaults to <code>"terra"</code>.</p></dd>
+
+
 <dt>cache_limit</dt>
 <dd><p><code>integer</code> Amount of memory (Mb) for caching
 when processing spatial data with the
@@ -138,15 +154,22 @@ If possible, it is recommended to set this as parameter to
 at 5000 (assuming there is at least 8Gb memory available
 on the system).
 Defaults to 1000.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> Should progress be displayed while processing data?
 Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>...</dt>
-<dd><p>Arguments passed to <code><a href="get_lumbierres_habitat_data.html">get_lumbierres_habitat_data()</a></code>.</p></dd>
+<dd><p>Arguments passed to <code><a href="get_lumb_cgls_habitat_data.html">get_lumb_cgls_habitat_data()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An updated version of the argument to <code>x</code> with updated values
+    
+
+<p>An updated version of the argument to <code>x</code> with updated values
 for the <code>path</code>, <code>xmin</code>, <code>xmax</code>, <code>ymin</code>, and <code>ymax</code> columns.
 The</p>
     </div>
@@ -188,106 +211,106 @@ data directly.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># find file path for example range data following IUCN Red List data format</span></span>
-<span class="r-in"><span class="co">## N.B., the range data were not obtained from the IUCN Red List,</span></span>
-<span class="r-in"><span class="co">## and were instead based on data from GBIF (https://www.gbif.org/)</span></span>
-<span class="r-in"><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"EXAMPLE_SPECIES.zip"</span>, package <span class="op">=</span> <span class="st">"aoh"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># import data</span></span>
-<span class="r-in"><span class="va">spp_range_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_spp_range_data.html">read_spp_range_data</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify settings for data processing</span></span>
-<span class="r-in"><span class="va">output_aoh_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>                   <span class="co"># folder to save AOH data</span></span>
-<span class="r-in"><span class="va">output_frc_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>                   <span class="co"># folder to save coverage data</span></span>
-<span class="r-in"><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>   <span class="co"># persistent storage location</span></span>
-<span class="r-in"><span class="va">n_threads</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>      <span class="co"># speed up analysis</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create cache directory if needed</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">cache_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create species information data</span></span>
-<span class="r-in"><span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_spp_info_data.html">create_spp_info_data</a></span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="va">spp_range_data</span>,</span>
-<span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># find file path for example range data following IUCN Red List data format</span></span></span>
+<span class="r-in"><span><span class="co">## N.B., the range data were not obtained from the IUCN Red List,</span></span></span>
+<span class="r-in"><span><span class="co">## and were instead based on data from GBIF (https://www.gbif.org/)</span></span></span>
+<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"EXAMPLE_SPECIES.zip"</span>, package <span class="op">=</span> <span class="st">"aoh"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># import data</span></span></span>
+<span class="r-in"><span><span class="va">spp_range_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_spp_range_data.html">read_spp_range_data</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify settings for data processing</span></span></span>
+<span class="r-in"><span><span class="va">output_aoh_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>                   <span class="co"># folder to save AOH data</span></span></span>
+<span class="r-in"><span><span class="va">output_frc_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>                   <span class="co"># folder to save coverage data</span></span></span>
+<span class="r-in"><span><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"aoh"</span><span class="op">)</span>   <span class="co"># persistent storage location</span></span></span>
+<span class="r-in"><span><span class="va">n_threads</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>      <span class="co"># speed up analysis</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create cache directory if needed</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">cache_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">cache_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create species information data</span></span></span>
+<span class="r-in"><span><span class="va">spp_info_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_spp_info_data.html">create_spp_info_data</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">spp_range_data</span>,</span></span>
+<span class="r-in"><span>  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[1.2s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[1.7s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[2s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[411ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[445ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[306ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[350ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[162ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[173ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[15ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create Area of Habitat data for species</span></span></span>
+<span class="r-in"><span><span class="va">spp_aoh_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_spp_aoh_data.html">create_spp_aoh_data</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">spp_info_data</span>,</span></span>
+<span class="r-in"><span>  output_dir <span class="op">=</span> <span class="va">output_aoh_dir</span>,</span></span>
+<span class="r-in"><span>  n_threads <span class="op">=</span> <span class="va">n_threads</span>,</span></span>
+<span class="r-in"><span>  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[5ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[15.3s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[13.7s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■                       </span> [ 25% | ETA: 10s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  7s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  4s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> processing [20.9s]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[21s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[14ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create Area of Habitat data for species</span></span>
-<span class="r-in"><span class="va">spp_aoh_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_spp_aoh_data.html">create_spp_aoh_data</a></span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="va">spp_info_data</span>,</span>
-<span class="r-in">  output_dir <span class="op">=</span> <span class="va">output_aoh_dir</span>,</span>
-<span class="r-in">  n_threads <span class="op">=</span> <span class="va">n_threads</span>,</span>
-<span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[5ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[15.7s]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># compute fractional coverage across a 5 x 5 km spatial grid</span></span></span>
+<span class="r-in"><span><span class="va">spp_aoh_frc_data</span> <span class="op">&lt;-</span> <span class="fu">calc_spp_frc_data</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">spp_aoh_data</span>,</span></span>
+<span class="r-in"><span>  output_dir <span class="op">=</span> <span class="va">output_frc_dir</span>,</span></span>
+<span class="r-in"><span>  res <span class="op">=</span> <span class="fl">5000</span>,</span></span>
+<span class="r-in"><span>  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> argument to "crosswalk_data" is missing the following 2 habitat classification codes: "7.1", "7.2"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[14.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[15.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■                       </span> [ 25% | ETA: 13s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span> [ 50% | ETA:  9s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> processing <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span> [ 75% | ETA:  5s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> processing [25.6s]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> generating Area of Habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> generating Area of Habitat data <span style="color: #B2B2B2;">[25.7s]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[20ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># compute fractional coverage across a 5 x 5 km spatial grid</span></span>
-<span class="r-in"><span class="va">spp_aoh_frc_data</span> <span class="op">&lt;-</span> <span class="fu">calc_spp_frc_data</span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="va">spp_aoh_data</span>,</span>
-<span class="r-in">  output_dir <span class="op">=</span> <span class="va">output_frc_dir</span>,</span>
-<span class="r-in">  res <span class="op">=</span> <span class="fl">5000</span>,</span>
-<span class="r-in">  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[15.6s]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span>
-<span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># preview data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_frc_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># plot the data to visualize the range maps and fractional coverage data</span></span>
-<span class="r-in"><span class="fu"><a href="plot_spp_frc_data.html">plot_spp_frc_data</a></span><span class="op">(</span><span class="va">spp_aoh_frc_data</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># preview data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_frc_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># plot the data to visualize the range maps and fractional coverage data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot_spp_frc_data.html">plot_spp_frc_data</a></span><span class="op">(</span><span class="va">spp_aoh_frc_data</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="calc_spp_frc_data-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -302,7 +325,7 @@ data directly.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

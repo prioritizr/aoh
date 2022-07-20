@@ -1,9 +1,12 @@
 #' @include internal.R
 NULL
 
-#' Get Lumbierres *et al.* (2021) habitat classification data
+#' Get Lumbierres *et al.* (2021) CGLS habitat classification data
 #'
-#' Import habitat classification data derived Lumbierres *et al.* (2021).
+#' Import habitat classification data derived from the
+#' Copernicus Global Land Service Land Cover
+#' (CGLS-LC100) dataset (Buchhorn *et al.*, 2019; Buchhorn *et al.*, 20200)
+#' following Lumbierres *et al.* (2021).
 #' If data are not available locally, they are downloaded from
 #' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622059).
 #'
@@ -19,20 +22,11 @@ NULL
 #'
 #' @inherit get_jung_lvl2_habitat_data return
 #'
+#' @inherit crosswalk_lumb_cgls_data references
+#'
 #' @seealso
-#' See [crosswalk_lumbierres_data()] for details on which grid values correspond
+#' See [crosswalk_lumb_cgls_data()] for details on which grid values correspond
 #' to which habitat classification codes.
-#'
-#' @references
-#' Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
-#' Habitat. *Zenodo Digital Repository*.
-#' Available at <https://doi.org/10.5281/zenodo.5146072>.
-#'
-#' Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
-#' Rondinini C (2021) Translating habitat class to land cover to map area of
-#' habitat of terrestrial vertebrates. *Conservation Biology*, In press,
-#' DOI:10.1111/cobi.13851.
-#' Available at <https://doi.org/10.1111/cobi.13851>.
 #'
 #' @examples
 #' \dontrun{
@@ -45,7 +39,7 @@ NULL
 #' }
 #'
 #' # download and import habitat data
-#' habitat_data <- get_lumbierres_habitat_data(download_dir, version = "latest")
+#' habitat_data <- get_lumb_cgls_habitat_data(download_dir, version = "latest")
 #'
 #' # preview data
 #' print(habitat_data)
@@ -54,10 +48,10 @@ NULL
 #' plot(habitat_data)
 #' }
 #' @export
-get_lumbierres_habitat_data <- function(dir = tempdir(),
-                                        version = "latest",
-                                        force = FALSE,
-                                        verbose = TRUE) {
+get_lumb_cgls_habitat_data <- function(dir = tempdir(),
+                                       version = "latest",
+                                       force = FALSE,
+                                       verbose = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
     assertthat::is.string(dir),
