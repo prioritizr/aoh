@@ -121,7 +121,7 @@ following system commands.
 ##### *Linux*
 
 For Unix-alikes, `gdal` (&gt;= 3.0.2), `gmp` (&gt;= 4.2.3), `grass`
-(&gt;= 7.8.5), and `mpfr` (&gt;= 3.0.0) are required.
+(&gt;= 7.8.7), and `mpfr` (&gt;= 3.0.0) are required.
 
 ##### *MacOS*
 
@@ -212,17 +212,19 @@ print(spp_range_data)
     ## Bounding box:  xmin: -9.479736 ymin: 36.59422 xmax: 3.302702 ymax: 43.76455
     ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 27
-    ##   id_no binomial           presence origin seasonal compiler yrcompiled citation
-    ##   <dbl> <chr>                 <int>  <int>    <int> <chr>         <dbl> <chr>   
-    ## 1   979 Alytes dickhilleni        1      1        1 Derived…         NA <NA>    
-    ## 2 59448 Calotriton asper          1      1        1 Derived…         NA <NA>    
-    ## 3  4657 Chioglossa lusita…        1      1        1 Derived…         NA <NA>    
-    ## 4 58622 Rana iberica              1      1        1 Derived…         NA <NA>    
-    ## # … with 19 more variables: subspecies <chr>, subpop <chr>, source <chr>,
-    ## #   island <chr>, tax_comm <chr>, dist_comm <chr>, generalisd <int>,
-    ## #   legend <chr>, kingdom <chr>, phylum <chr>, class <chr>, order_ <chr>,
-    ## #   family <chr>, genus <chr>, category <chr>, marine <chr>, terrestial <chr>,
-    ## #   freshwater <chr>, geometry <POLYGON [°]>
+    ##   id_no binomial   prese…¹ origin seaso…² compi…³ yrcom…⁴ citat…⁵ subsp…⁶ subpop
+    ##   <dbl> <chr>        <int>  <int>   <int> <chr>     <dbl> <chr>   <chr>   <chr> 
+    ## 1   979 Alytes di…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
+    ## 2 59448 Calotrito…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
+    ## 3  4657 Chiogloss…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
+    ## 4 58622 Rana iber…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
+    ## # … with 17 more variables: source <chr>, island <chr>, tax_comm <chr>,
+    ## #   dist_comm <chr>, generalisd <int>, legend <chr>, kingdom <chr>,
+    ## #   phylum <chr>, class <chr>, order_ <chr>, family <chr>, genus <chr>,
+    ## #   category <chr>, marine <chr>, terrestial <chr>, freshwater <chr>,
+    ## #   geometry <POLYGON [°]>, and abbreviated variable names ¹​presence,
+    ## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies
+    ## # ℹ Use `colnames()` to see all variable names
 
 Next, we will prepare all the range data for generating Area of Habitat
 data. This procedure – in addition to repairing any geometry issues in
@@ -285,9 +287,9 @@ print(spp_aoh_rasters)
 
     ## [[1]]
     ## class       : SpatRaster 
-    ## dimensions  : 2594, 3701, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 2593, 3701, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -467931, -97831, 4364277, 4623677  (xmin, xmax, ymin, ymax)
+    ## extent      : -467931, -97831, 4364377, 4623677  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : 979_1.tif 
     ## name        : lyr1 
@@ -296,9 +298,9 @@ print(spp_aoh_rasters)
     ## 
     ## [[2]]
     ## class       : SpatRaster 
-    ## dimensions  : 2265, 5669, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 2266, 5670, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -248231, 318669, 4838377, 5064877  (xmin, xmax, ymin, ymax)
+    ## extent      : -248331, 318669, 4838277, 5064877  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : 59448_1.tif 
     ## name        : lyr1 
@@ -307,9 +309,9 @@ print(spp_aoh_rasters)
     ## 
     ## [[3]]
     ## class       : SpatRaster 
-    ## dimensions  : 5149, 5360, 1  (nrow, ncol, nlyr)
+    ## dimensions  : 5149, 5361, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
-    ## extent      : -914731, -378731, 4551877, 5066777  (xmin, xmax, ymin, ymax)
+    ## extent      : -914731, -378631, 4551877, 5066777  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
     ## source      : 4657_1.tif 
     ## name        : lyr1 

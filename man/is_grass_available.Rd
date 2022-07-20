@@ -18,7 +18,7 @@ The function verifies that
 (1) the \pkg{rgrass7} package in installed,
 (2) the \pkg{link2GI} package in installed,
 (3) GRASS is installed (i.e., via \link[link2GI:findGRASS]{link2GI::findGRASS}), and
-(4) the version of GDAL installed is at least 7.8.5.
+(4) the version of GRASS installed is at least 7.8.7.
 If any of these checks fail, then GRASS is not considered available.
 }
 \examples{

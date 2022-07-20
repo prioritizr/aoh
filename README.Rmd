@@ -67,7 +67,7 @@ apt-get install -y \
 
 ##### _Linux_
 
-For Unix-alikes, `gdal` (>= 3.0.2), `gmp` (>= 4.2.3), `grass` (>= 7.8.5), and `mpfr` (>= 3.0.0) are required.
+For Unix-alikes, `gdal` (>= 3.0.2), `gmp` (>= 4.2.3), `grass` (>= 7.8.7), and `mpfr` (>= 3.0.0) are required.
 
 ##### _MacOS_
 

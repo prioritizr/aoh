@@ -55,21 +55,6 @@ engine_spp_aoh_grass <- function(range_data,
   range_data$x <- 1
   sf::write_sf(range_data[, "x", drop = FALSE], spp_path, overwrite = TRUE)
 
-  # generate string to apply habitat mask
-  habitat_intervals <- R.utils::seqToIntervals(habitat_values)
-  habitat_mask <- vapply(
-    seq_len(nrow(habitat_intervals)), FUN.VALUE = character(1), function(i) {
-      if (habitat_intervals[i, 1] == habitat_intervals[i, 2]) {
-        return(as.character(habitat_intervals[i, 1]))
-      }
-      paste0(habitat_intervals[i, 1], " thru ", habitat_intervals[i, 2])
-    }
-  )
-  habitat_mask <- paste(habitat_mask, collapse = " ")
-  reclass_data <- c(paste(habitat_mask, "= 1"), "* = 0")
-  reclass_path <- tempfile(tmpdir = tmp_dir, fileext = ".txt")
-  writeLines(reclass_data, reclass_path)
-
   # initialize region
   rgrass7::execGRASS(
     "g.region",
@@ -116,29 +101,29 @@ engine_spp_aoh_grass <- function(range_data,
     flags = c("overwrite"), parameters = list(raster = "mask")
   )
 
-  # reclassify habitat data
-  rgrass7::execGRASS(
-    "r.reclass",
-    flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
-    redirect = TRUE, legacyExec = TRUE,
-    parameters = list(
-      input = "habitat",
-      output = "suitable",
-      rules = reclass_path
-    )
-  )
-
   # calculate Area of Habitat
+  ## generate calculate expression
+  habitat_intervals <- R.utils::seqToIntervals(habitat_values)
+  calc_expr <- paste(
+    paste0(
+      "((habitat > ", habitat_intervals[, 1] - 0.5, ") && ",
+      "(habitat < ", habitat_intervals[, 2] + 0.5, "))"
+    ),
+    collapse = " || "
+  )
+  calc_expr <- paste0(
+    "(", calc_expr, ") && ",
+    "(elev >= ", lower_elevation, ") && ",
+    "(elev <= ", upper_elevation, ")"
+  )
+  calc_expr <- paste0("aoh = int(", calc_expr, ")")
+
+  ## run processing
   rgrass7::execGRASS(
     "r.mapcalc",
     flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
     redirect = TRUE, legacyExec = TRUE,
-    parameters = list(
-      expression = paste0(
-        "aoh = int(suitable * ",
-        "((elev >= ", lower_elevation, ") & (elev <= ", upper_elevation, ")))"
-      )
-    )
+    parameters = list(expression = calc_expr)
   )
 
   # save data
@@ -151,8 +136,11 @@ engine_spp_aoh_grass <- function(range_data,
       output = path,
       format = "GTiff",
       type = "Byte",
-      nodata = 255,
-      createopt = paste0("BIGTIFF=YES,COMPRESS=DEFLATE,NUM_THREADS=", n_threads)
+      nodata = 2,
+      createopt = paste0(
+        "NBITS=2,BIGTIFF=YES,COMPRESS=DEFLATE,NUM_THREADS=",
+        n_threads
+      )
     )
   )
 

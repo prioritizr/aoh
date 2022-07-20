@@ -15,6 +15,10 @@ NULL
 #' @param burn `numeric` Value for encoding the vector data.
 #'   Defaults to 1.
 #'
+#' @param init `numeric` Value for encoding background cells that do not
+#'  overlap with the vector data.
+#'  Defaults to 0.
+#'
 #' @param invert `logical` Should the burn process be inverted?
 #'   Defaults to `FALSE`.
 #'
@@ -50,7 +54,9 @@ NULL
 #' # plot result
 #' plot(z)
 #' @noRd
-terra_gdal_rasterize <- function(x, sf, burn = 1,
+terra_gdal_rasterize <- function(x, sf,
+                                 burn = 1,
+                                 init = 0,
                                  invert = FALSE,
                                  update = FALSE,
                                  n_threads = 1,
@@ -62,6 +68,7 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
                                  bigtiff = FALSE,
                                  nbits = NULL,
                                  compress = "LZW",
+                                 NAflag = NULL,
                                  verbose = TRUE,
                                  output_raster = TRUE) {
   # assert arguments are valid
@@ -77,6 +84,8 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
     inherits(sf, "sf"),
     assertthat::is.number(burn),
     assertthat::noNA(burn),
+    assertthat::is.number(init),
+    assertthat::noNA(init),
     assertthat::is.flag(invert),
     assertthat::noNA(invert),
     assertthat::is.string(filename),
@@ -141,6 +150,17 @@ terra_gdal_rasterize <- function(x, sf, burn = 1,
     burn = burn,
     q = !isTRUE(verbose)
   )
+  if (!is.null(NAflag)) {
+    if (!identical(NAflag, "none")) {
+      assertthat::assert_that(
+        assertthat::is.number(NAflag),
+        assertthat::noNA(NAflag)
+      )
+    } else {
+      NAflag <- "None"
+    }
+    args$a_nodata <- NAflag
+  }
   if (!isTRUE(update)) {
     f3 <- tempfile(fileext = ".wkt")
     writeLines(terra::crs(x), f3)

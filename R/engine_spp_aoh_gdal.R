@@ -93,14 +93,16 @@ engine_spp_aoh_gdal <- function(range_data,
     sf_filename = f1,
     filename = f4,
     burn = 1,
+    init = 0,
     update = FALSE,
     datatype = "INT1U",
     cache_limit = cache_limit,
     n_threads = n_threads,
     compress = "LZW",
     bigtiff = TRUE,
-    tiled = TRUE,
+    tiled = FALSE,
     nbits = 1,
+    NAflag = 0,
     output_raster = FALSE,
     verbose = FALSE
   )
@@ -110,25 +112,22 @@ engine_spp_aoh_gdal <- function(range_data,
   habitat_intervals <- R.utils::seqToIntervals(habitat_values)
   calc_expr <- paste(
     paste0(
-      "((X > (", habitat_intervals[, 1], " - 0.5)) & ",
-      "(X < (", habitat_intervals[, 2], " + 0.5)))"
+      "((Y > ", habitat_intervals[, 1] - 0.5, ") & ",
+      "(Y < ", habitat_intervals[, 2] + 0.5, "))"
     ),
     collapse = " | "
   )
   calc_expr <- paste0(
-    "((", calc_expr, ") & ",
-    "(Y >= ", lower_elevation, ") & (Y <= ", upper_elevation, "))"
+    "(", calc_expr, ") & ",
+    "(Z >= ", lower_elevation, ") & (Z <= ", upper_elevation, ")"
   )
-  calc_expr <- paste0(
-    "((", calc_expr, ") * (Z == 1)) + ",
-    "(2 * (Z != 1))"
-  )
+  calc_expr <- paste0("X * (", calc_expr, ")")
 
   ## apply processing
   terra_gdal_calc(
-    x = f2,
-    y = f3,
-    z = f4,
+    x = f4,
+    y = f2,
+    z = f3,
     expr = calc_expr,
     filename = path,
     tiled = TRUE,

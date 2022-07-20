@@ -95,7 +95,7 @@ is_gdal_python_available <- function() {
 #' (1) the \pkg{rgrass7} package in installed,
 #' (2) the \pkg{link2GI} package in installed,
 #' (3) GRASS is installed (i.e., via [link2GI::findGRASS]), and
-#' (4) the version of GDAL installed is at least 7.8.5.
+#' (4) the version of GRASS installed is at least 7.8.7.
 #' If any of these checks fail, then GRASS is not considered available.
 #
 #' @return A `logical` indicating if GRASS is available or not.
@@ -110,5 +110,5 @@ is_grass_available <- function() {
   if (!requireNamespace("link2GI", quietly = TRUE)) return(FALSE)
   x <- link2GI::findGRASS()
   if (!inherits(x, "data.frame")) return(FALSE)
-  isTRUE(as.package_version(x$version) >= as.package_version("7.8.5"))
+  isTRUE(as.package_version(x$version) >= as.package_version("7.8.7"))
 }
