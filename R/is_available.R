@@ -101,9 +101,10 @@ is_gdal_python_available <- function() {
 #' @return A `logical` indicating if GRASS is available or not.
 #'
 #' @examples
+#' \dontrun{
 #' # check if GRASS is available?
 #' print(is_grass_available())
-#'
+#' }
 #' @export
 is_grass_available <- function() {
   if (!requireNamespace("rgrass7", quietly = TRUE)) return(FALSE)

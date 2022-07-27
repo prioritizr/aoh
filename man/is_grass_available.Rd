@@ -22,7 +22,8 @@ The function verifies that
 If any of these checks fail, then GRASS is not considered available.
 }
 \examples{
+\dontrun{
 # check if GRASS is available?
 print(is_grass_available())
-
+}
 }
