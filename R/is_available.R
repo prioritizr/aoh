@@ -108,7 +108,23 @@ is_gdal_python_available <- function() {
 is_grass_available <- function() {
   if (!requireNamespace("rgrass7", quietly = TRUE)) return(FALSE)
   if (!requireNamespace("link2GI", quietly = TRUE)) return(FALSE)
-  x <- link2GI::findGRASS()
+  x <- try(
+      with_timeout(
+      link2GI::findGRASS(),
+      cpu = 10,
+      elapsed = 10
+    ),
+    silent = TRUE
+  )
   if (!inherits(x, "data.frame")) return(FALSE)
   isTRUE(as.package_version(x$version) >= as.package_version("7.8.7"))
+}
+
+# obtained from https://stackoverflow.com/a/53018594/3483791
+with_timeout <- function(expr, cpu, elapsed){
+  expr <- substitute(expr)
+  envir <- parent.frame()
+  setTimeLimit(cpu = cpu, elapsed = elapsed, transient = TRUE)
+  on.exit(setTimeLimit(cpu = Inf, elapsed = Inf, transient = FALSE))
+  eval(expr, envir = envir)
 }
