@@ -62,6 +62,7 @@ jobs:
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
+          sudo apt-get install gdal-bin grass grass-doc
           while read -r cmd
           do
             eval sudo $cmd
