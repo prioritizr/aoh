@@ -374,10 +374,6 @@ produce Area of Habitat data.
       habitat types (insert version) [Data set]. Zenodo. Available at
       https://doi.org/10.5281/zenodo.4058819.
 
-      Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
-      Habitat. Zenodo Digital Repository. Available at
-      <https://doi.org/10.5281/zenodo.5146072>.
-
       Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
       Rondinini C (2021) Translating habitat class to land cover to map
       area of habitat of terrestrial vertebrates. Conservation Biology, In
