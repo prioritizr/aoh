@@ -113,22 +113,6 @@ citEntry(
 citEntry(
   entry = "Manual",
   author = personList(
-    person(c("Maria"), "Lumbierres")
-  ),
-  title = "Map of habitat classes (Level 1) from the IUCN Habitat",
-  year = "2021",
-  note = "Zenodo",
-  doi = "https://doi.org/10.5281/zenodo.5146072",
-  textVersion = paste(
-    "Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN",
-    "Habitat. Zenodo Digital Repository.",
-    "Available at <https://doi.org/10.5281/zenodo.5146072>."
-  )
-)
-
-citEntry(
-  entry = "Manual",
-  author = personList(
     person(c("Maria"), "Lumbierres"),
     person(c("Prabhat", "Raj"), "Dahal"),
     person(c("Moreno"), "Di Marco"),
