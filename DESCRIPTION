@@ -126,4 +126,4 @@ Collate:
 Roxygen: list(markdown = TRUE)
 Remotes:
   dickoa/prepr,
-  jeffreyhanson/zen4R
+  eblondel/zen4R
