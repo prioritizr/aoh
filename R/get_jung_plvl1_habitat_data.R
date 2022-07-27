@@ -5,7 +5,7 @@ NULL
 #'
 #' Import potential habitat classification data derived from Jung (2020).
 #' If data are not available locally, they are downloaded from
-#' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622090).
+#' a Zenodo repository (\doi{10.5281/zenodo.6622090}).
 #'
 #' @inheritParams get_jung_lvl2_habitat_data
 #'
@@ -21,8 +21,8 @@ NULL
 #' they cannot be used to examine patterns of habitat loss.
 #'
 #' The data were produced by obtaining the level 1 habitat
-#' classification data from the
-#' [Zenodo repository](https://doi.org/10.5281/zenodo.4038749)
+#' classification data from a
+#' Zenodo repository
 #' (Jung 2020), and resampling the data (using nearest neighbor
 #' interpolation) to the World Behrmannn coordinate reference
 #' systems (ESRI:54017).
@@ -38,8 +38,8 @@ NULL
 #'
 #' @references
 #' Jung M (2020) A layer of global potential habitats (insert version)
-#' \[Data set\]. *Zenodo Digital Repository*.
-#' Available at <https://doi.org/10.5281/zenodo.4038749>.
+#' \[Data set\]. *Zenodo*.
+#' \doi{10.5281/zenodo.4038749}
 #'
 #' @examples
 #' \dontrun{

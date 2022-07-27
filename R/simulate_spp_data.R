@@ -18,16 +18,12 @@ NULL
 #' @param rf_scale_min `numeric` Minimum scaling parameter used
 #'   to control the smallest possible level of spatial auto-correlation for
 #'   simulated species ranges.
-#'   See the documentation for the `scale` parameter in
-#'   `RandomFields::RMgauss()` for more information.
-#'   Defaults to `1e+5`.
+#'   Defaults to 0.5.
 #'
 #' @param rf_scale_max `numeric` Minimum scaling parameter used
-#'   to control the smallest possible level of spatial auto-correlation for
+#'   to control the largest possible level of spatial auto-correlation for
 #'   simulated species ranges.
-#'   See the documentation for the `scale` parameter in
-#'   `RandomFields::RMgauss()` for more information.
-#'   Defaults to `2e+5`.
+#'   Defaults to `0.7`.
 #'
 #' @return
 #' A `list` object containing simulated data that are formatted following
@@ -90,7 +86,7 @@ NULL
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 #' (AOH) and its Utility for the IUCN Red List. *Trends in Ecology & Evolution*,
-#' 34:977--986. Available at <https://doi.org/10.1016/j.tree.2019.06.009>.
+#' 34: 977--986. \doi{10.1016/j.tree.2019.06.009}
 #'
 #' @export
 simulate_spp_data <- function(n,

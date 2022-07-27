@@ -27,7 +27,7 @@ spatial extent and boundary for simulating species ranges.}
 
 \item{habitat_data}{\code{\link[terra:rast]{terra::rast()}} Raster data indicating the
 presence of different habitat classes across world
-(e.g., Jung \emph{et al.} 2020a,b; Lumbierres 2021; Lumbierres \emph{et al.} 2021).
+(e.g., Jung \emph{et al.} 2020a,b; Lumbierres \emph{et al.} 2021).
 Each grid cell should contain an \code{integer} value that specifies which
 habitat class is present within the cell
 (based on the argument to \code{crosswalk_data}).
@@ -53,16 +53,12 @@ data are used (i.e., \code{\link[=crosswalk_lumb_cgls_data]{crosswalk_lumb_cgls_
 \item{rf_scale_min}{\code{numeric} Minimum scaling parameter used
 to control the smallest possible level of spatial auto-correlation for
 simulated species ranges.
-See the documentation for the \code{scale} parameter in
-\code{RandomFields::RMgauss()} for more information.
-Defaults to \code{1e+5}.}
+Defaults to 0.5.}
 
 \item{rf_scale_max}{\code{numeric} Minimum scaling parameter used
-to control the smallest possible level of spatial auto-correlation for
+to control the largest possible level of spatial auto-correlation for
 simulated species ranges.
-See the documentation for the \code{scale} parameter in
-\code{RandomFields::RMgauss()} for more information.
-Defaults to \code{2e+5}.}
+Defaults to \code{0.7}.}
 
 \item{cache_dir}{\code{character} Folder path for downloading and caching data.
 By default, a temporary directory is used (i.e., \code{tempdir()}).
@@ -162,7 +158,7 @@ Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 (AOH) and its Utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
-34:977--986. Available at \url{https://doi.org/10.1016/j.tree.2019.06.009}.
+34: 977--986. \doi{10.1016/j.tree.2019.06.009}
 }
 \seealso{
 See \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}} for creating Area of Habitat maps using

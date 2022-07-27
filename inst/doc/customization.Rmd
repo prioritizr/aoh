@@ -16,6 +16,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include = FALSE}
+# detect if vignette being built under package check
+is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
+             "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
+
+# set default chunk settings
+knitr::opts_chunk$set(fig.align = "center", eval = !is_check)
+```
+
 ## Introduction
 
 The _aoh R_ package provides a flexible framework for generating Area of Habitat data. By default, it will use elevation data derived from Robinson _et al._ [-@r4] and habitat classification data derived from Lumbierres _et al._ [-@r9]. Its defaults also include using species' elevational limit and habitat preference data from the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). In addition to these defaults, it provides built-in functions to use habitat classification derived from other data sources [e.g., from @r5]. The package can also be used to generate Area of Habitat data using other datasets that have been manually created by the user. For example, it could be used to produce Area of Habitat data using habitat classification data derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover) data or species' elevational limit data from the [BirdLife Data Zone](http://datazone.birdlife.org/home).
@@ -151,7 +160,6 @@ Critically, the elevation data and habitat classification data must have exactly
 ## otherwise, if we see an error, then this means that they do not have
 ## have the same spatial properties and require updating
 compareGeom(elevation_data, habitat_data)
-
 ```
 
 We will now import a crosswalk table for the habitat classification data. A crosswalk table specifies which pixel values in the habitat classification data correspond to which [IUCN habitat classes](https://www.iucnredlist.org/resources/habitat-classification-scheme). This table can specify one-to-one relationships (e.g., pixel value 12 corresponds to IUCN class 1.1), one-to-many relationships (e.g., pixel values 12 corresponds to IUCN classes 1.1 and 1.2), and many-to-many relationships (e.g., both pixel values 12 and 13 each correspond to IUCN classes 1.1 and 1.2). Although such data would be automatically imported by default (i.e., the `crosswalk_lumb_cgls_data` built-in dataset), here we will import example data distributed with the package. When using your own habitat classification data, please ensure that it follows the same format (i.e., same column names and data types).

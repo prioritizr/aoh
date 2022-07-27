@@ -42,7 +42,7 @@ classification codes.
 \description{
 Import potential habitat classification data derived from Jung (2020).
 If data are not available locally, they are downloaded from
-a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622090).
+a Zenodo repository (\doi{10.5281/zenodo.6622090}).
 }
 \details{
 The data predict the potential habitat types that would be available in a
@@ -56,8 +56,8 @@ Since the data do not show the historic distribution of habitat types,
 they cannot be used to examine patterns of habitat loss.
 
 The data were produced by obtaining the level 1 habitat
-classification data from the
-\href{https://doi.org/10.5281/zenodo.4038749}{Zenodo repository}
+classification data from a
+Zenodo repository
 (Jung 2020), and resampling the data (using nearest neighbor
 interpolation) to the World Behrmannn coordinate reference
 systems (ESRI:54017).
@@ -84,8 +84,8 @@ plot(ph_data)
 }
 \references{
 Jung M (2020) A layer of global potential habitats (insert version)
-[Data set]. \emph{Zenodo Digital Repository}.
-Available at \url{https://doi.org/10.5281/zenodo.4038749}.
+[Data set]. \emph{Zenodo}.
+\doi{10.5281/zenodo.4038749}
 }
 \seealso{
 See \code{\link[=crosswalk_jung_lvl1_data]{crosswalk_jung_lvl1_data()}} for details on which grid values correspond

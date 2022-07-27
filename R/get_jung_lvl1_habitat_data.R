@@ -6,14 +6,14 @@ NULL
 #' Import habitat classification data (level 1) derived from Jung *et al.*
 #' (2020a).
 #' If data are not available locally, they are downloaded from
-#' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622029).
+#' a Zenodo repository (\doi{10.5281/zenodo.6622029}).
 #'
 #' @inheritParams get_jung_lvl2_habitat_data
 #'
 #' @details
 #' The data were produced by obtaining the level 1 habitat
-#' classification data from the
-#' [Zenodo repository](https://doi.org/10.5281/zenodo.3666245)
+#' classification data from a
+#' Zenodo repository
 #' (Jung *et al.* 2020b), and resampling the data (using nearest neighbor
 #' interpolation) to the World Behrmannn coordinate reference
 #' systems (ESRI:54017).

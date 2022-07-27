@@ -18,8 +18,7 @@ raster data that contain the IUCN habitat class
 }
 }
 \source{
-The data were obtained from \url{https://doi.org/10.5281/zenodo.3666245}
-(Jung 2020).
+The data were obtained from Jung (2020).
 }
 \usage{
 data(crosswalk_jung_plvl1_data)
@@ -43,8 +42,8 @@ print(crosswalk_jung_plvl1_data)
 }
 \references{
 Jung M (2020) A layer of global potential habitats (insert version)
-[Data set]. \emph{Zenodo Digital Repository}.
-Available at \url{https://doi.org/10.5281/zenodo.4038749}.
+[Data set]. \emph{Zenodo}.
+\doi{10.5281/zenodo.4038749}
 }
 \seealso{
 A preprocessed version of the habitat classification data can be imported

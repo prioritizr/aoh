@@ -18,8 +18,7 @@ raster data that contain the IUCN habitat class
 }
 }
 \source{
-The data were obtained from \url{https://doi.org/10.5281/zenodo.3666245}
-(Jung \emph{et al.} 2020b).
+The data were obtained from Jung \emph{et al.} (2020b).
 }
 \usage{
 data(crosswalk_jung_lvl2_data)
@@ -48,14 +47,14 @@ print(crosswalk_jung_lvl2_data)
 \references{
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
-terrestrial habitat types. \emph{Scientific Data}, 7:1--8.
-Available at \url{https://doi.org/10.1038/s41597-020-00599-8}.
+terrestrial habitat types. \emph{Scientific Data}, 7: 1--8.
+\doi{10.1038/s41597-020-00599-8}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
-\emph{Zenodo Digital Repository}.
-Available at \url{https://doi.org/10.5281/zenodo.4058819}.
+\emph{Zenodo}.
+\doi{10.5281/zenodo.4058819}
 }
 \seealso{
 A preprocessed version of the habitat classification data can be imported

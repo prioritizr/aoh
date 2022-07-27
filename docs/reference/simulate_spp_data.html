@@ -19,7 +19,7 @@ species geographic ranges, summary information, and habitat preferences."><!-- m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0.0</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@ spatial extent and boundary for simulating species ranges.</p></dd>
 <dt>habitat_data</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data indicating the
 presence of different habitat classes across world
-(e.g., Jung <em>et al.</em> 2020a,b; Lumbierres 2021; Lumbierres <em>et al.</em> 2021).
+(e.g., Jung <em>et al.</em> 2020a,b; Lumbierres <em>et al.</em> 2021).
 Each grid cell should contain an <code>integer</code> value that specifies which
 habitat class is present within the cell
 (based on the argument to <code>crosswalk_data</code>).
@@ -132,18 +132,14 @@ data are used (i.e., <code><a href="crosswalk_lumb_cgls_data.html">crosswalk_lum
 <dd><p><code>numeric</code> Minimum scaling parameter used
 to control the smallest possible level of spatial auto-correlation for
 simulated species ranges.
-See the documentation for the <code>scale</code> parameter in
-<code><a href="https://rdrr.io/pkg/RandomFields/man/RMgauss.html" class="external-link">RandomFields::RMgauss()</a></code> for more information.
-Defaults to <code>1e+5</code>.</p></dd>
+Defaults to 0.5.</p></dd>
 
 
 <dt>rf_scale_max</dt>
 <dd><p><code>numeric</code> Minimum scaling parameter used
-to control the smallest possible level of spatial auto-correlation for
+to control the largest possible level of spatial auto-correlation for
 simulated species ranges.
-See the documentation for the <code>scale</code> parameter in
-<code><a href="https://rdrr.io/pkg/RandomFields/man/RMgauss.html" class="external-link">RandomFields::RMgauss()</a></code> for more information.
-Defaults to <code>2e+5</code>.</p></dd>
+Defaults to <code>0.7</code>.</p></dd>
 
 
 <dt>cache_dir</dt>
@@ -218,7 +214,7 @@ preferences for the species.</p></dd>
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 (AOH) and its Utility for the IUCN Red List. <em>Trends in Ecology &amp; Evolution</em>,
-34:977--986. Available at <a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">https://doi.org/10.1016/j.tree.2019.06.009</a>.</p>
+34: 977--986. DOI:10.1016/j.tree.2019.06.009</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -254,10 +250,10 @@ data for real or simulated species.</p></div>
 <span class="r-in"><span>  n <span class="op">=</span> <span class="fl">5</span>, boundary_data <span class="op">=</span> <span class="va">boundary_data</span>, cache_dir <span class="op">=</span> <span class="va">download_dir</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[16.7s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[13.8s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[1m 42.7s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[1m 56.8s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># preview species range data</span></span></span>

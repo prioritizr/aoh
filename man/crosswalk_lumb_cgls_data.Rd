@@ -18,8 +18,7 @@ raster data that contain the IUCN habitat class
 }
 }
 \source{
-The data were obtained from \url{https://doi.org/10.5281/zenodo.5146072}
-(Lumbierres 2021).
+The data were derived from Lumbierres \emph{et al.} (2021).
 }
 \usage{
 data(crosswalk_lumb_cgls_data)
@@ -48,21 +47,17 @@ Buchhorn M, Smets B, Bertels L, Lesiv M, Tsendbazar N-E, Herold M, and Fritz
 SA (2019) Copernicus Global Land Service: Land Cover 100m:
 Epoch 2015: Globe. \emph{Dataset of the global component of the Copernicus Land
 Monitoring Service}.
-Available at \url{https://doi.org/10.5281/zenodo.3243508}.
+\doi{10.5281/zenodo.3243508}
 
 Buchhorn M, Smets B, Bertels L, de Roo B, Lesiv M, Tsendbazar N-E, Linlin
 L, and Tarko A (2020) \emph{Copernicus Global Land Service: Land Cover
-100m: Version 3 Globe 2015–2019: Product User Manual}. Geneve: Zenodo
-
-Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
-Habitat. \emph{Zenodo Digital Repository}.
-Available at \url{https://doi.org/10.5281/zenodo.5146072}.
+100m: Version 3 Globe 2015–2019: Product User Manual}. Geneve: Zenodo.
+\doi{10.5281/zenodo.3606295}
 
 Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 Rondinini C (2021) Translating habitat class to land cover to map area of
-habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press,
-DOI:10.1111/cobi.13851.
-Available at \url{https://doi.org/10.1111/cobi.13851}.
+habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press.
+\doi{10.1111/cobi.13851}
 }
 \seealso{
 A preprocessed version of the habitat classification data can be imported

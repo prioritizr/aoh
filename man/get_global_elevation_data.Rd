@@ -41,7 +41,7 @@ A \code{\link[terra:rast]{terra::rast()}} object containing the elevation data
 \description{
 Import elevation data derived from Robinson \emph{et al.} (2014).
 If data are not available locally, they are downloaded from
-a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.5719984).
+a Zenodo repository (\doi{10.5281/zenodo.5719984}).
 }
 \details{
 The data were produced by (i) obtaining raw elevation data from
@@ -49,7 +49,7 @@ The data were produced by (i) obtaining raw elevation data from
 the data into a single raster (GeoTIFF) file, and then (iii)
 reprojecting the data to the World Behrmannn coordinate reference
 systems (ESRI:54017). For further details, see the
-\href{https://github.com/jeffreyhanson/dem}{online repository} containing
+\href{https://github.com/prioritizr/dem}{online repository} containing
 code used to process the data.
 }
 \examples{
@@ -77,5 +77,5 @@ Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
 global, void-free, multi-scale smoothed, 90m digital elevation model from
 fused ASTER and SRTM data.
 \emph{ISPRS Journal of Photogrammetry and Remote Sensing}, 87:57--67.
-Available at \url{https://doi.org/10.1016/j.isprsjprs.2013.11.002}
+\doi{10.1016/j.isprsjprs.2013.11.002}
 }

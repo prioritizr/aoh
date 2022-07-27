@@ -42,12 +42,12 @@ A \code{\link[terra:rast]{terra::rast()}} object containing the habitat data
 Import habitat classification data (level 1) derived from Jung \emph{et al.}
 (2020a).
 If data are not available locally, they are downloaded from
-a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622029).
+a Zenodo repository (\doi{10.5281/zenodo.6622029}).
 }
 \details{
 The data were produced by obtaining the level 1 habitat
-classification data from the
-\href{https://doi.org/10.5281/zenodo.3666245}{Zenodo repository}
+classification data from a
+Zenodo repository
 (Jung \emph{et al.} 2020b), and resampling the data (using nearest neighbor
 interpolation) to the World Behrmannn coordinate reference
 systems (ESRI:54017).
@@ -75,14 +75,14 @@ plot(habitat_data)
 \references{
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
-terrestrial habitat types. \emph{Scientific Data}, 7:1--8.
-Available at \url{https://doi.org/10.1038/s41597-020-00599-8}.
+terrestrial habitat types. \emph{Scientific Data}, 7: 1--8.
+\doi{10.1038/s41597-020-00599-8}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020b) A global map of
 terrestrial habitat types (insert version) [Data set].
-\emph{Zenodo Digital Repository}.
-Available at \url{https://doi.org/10.5281/zenodo.4058819}.
+\emph{Zenodo}.
+\doi{10.5281/zenodo.4058819}
 }
 \seealso{
 See \code{\link[=crosswalk_jung_lvl1_data]{crosswalk_jung_lvl1_data()}} for details on which grid values correspond

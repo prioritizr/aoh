@@ -32,7 +32,7 @@ NULL
 #'
 #' @param habitat_data [terra::rast()] Raster data indicating the
 #'   presence of different habitat classes across world
-#'   (e.g., Jung *et al.* 2020a,b; Lumbierres 2021; Lumbierres *et al.* 2021).
+#'   (e.g., Jung *et al.* 2020a,b; Lumbierres *et al.* 2021).
 #'   Each grid cell should contain an `integer` value that specifies which
 #'   habitat class is present within the cell
 #'   (based on the argument to `crosswalk_data`).
@@ -185,34 +185,29 @@ NULL
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 #' (AOH) and its Utility for the IUCN Red List. *Trends in Ecology & Evolution*,
-#' 34:977--986. Available at <https://doi.org/10.1016/j.tree.2019.06.009>.
+#' 34:977--986. \doi{10.1016/j.tree.2019.06.009}
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020a) A global map of
-#' terrestrial habitat types. *Scientific Data*, 7:1--8.
-#' Available at <https://doi.org/10.1038/s41597-020-00599-8>.
+#' terrestrial habitat types. *Scientific Data*, 7: 1--8.
+#' \doi{10.1038/s41597-020-00599-8}
 #'
 #' Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 #' Rondinini C, and Visconti P (2020b) A global map of
 #' terrestrial habitat types (insert version) \[Data set\].
-#' *Zenodo Digital Repository*.
-#' Available at <https://doi.org/10.5281/zenodo.4058819>.
-#'
-#' Lumbierres, M (2021). Map of habitat classes (Level 1) from the IUCN
-#' Habitat. *Zenodo Digital Repository*.
-#' Available at <https://doi.org/10.5281/zenodo.5146072>.
+#' *Zenodo*.
+#' \doi{10.5281/zenodo.4058819}
 #'
 #' Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 #' Rondinini C (2021) Translating habitat class to land cover to map area of
 #' habitat of terrestrial vertebrates. *Conservation Biology*, In press,
-#' DOI:10.1111/cobi.13851
-#' Available at <https://doi.org/10.1111/cobi.13851>.
+#' \doi{10.1111/cobi.13851}
 #'
 #' Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
 #' global, void-free, multi-scale smoothed, 90m digital elevation model from
 #' fused ASTER and SRTM data.
-#' *ISPRS Journal of Photogrammetry and Remote Sensing*, 87:57--67.
-#' Available at <https://doi.org/10.1016/j.isprsjprs.2013.11.002>
+#' *ISPRS Journal of Photogrammetry and Remote Sensing*, 87: 57--67.
+#' \doi{10.1016/j.isprsjprs.2013.11.002}
 #'
 #' @examples
 #' \dontrun{

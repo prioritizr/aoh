@@ -34,8 +34,7 @@ NULL
 #' }
 #'
 #' @source
-#' The data were obtained from \url{https://doi.org/10.5281/zenodo.3666245}
-#' (Jung 2020).
+#' The data were obtained from Jung (2020).
 #'
 #' @seealso
 #' A preprocessed version of the habitat classification data can be imported

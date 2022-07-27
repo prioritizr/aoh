@@ -8,15 +8,14 @@ NULL
 #' (CGLS-LC100) dataset (Buchhorn *et al.*, 2019; Buchhorn *et al.*, 20200)
 #' following Lumbierres *et al.* (2021).
 #' If data are not available locally, they are downloaded from
-#' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.6622059).
+#' a Zenodo repository (\doi{10.5281/zenodo.6622059}).
 #'
 #' @inheritParams get_jung_lvl2_habitat_data
 #'
 #' @details
 #' The data were produced by obtaining the level 1 habitat
-#' classification data from the
-#' [Zenodo repository](https://doi.org/10.5281/zenodo.5146072)
-#' (Lumbierres 2021), and resampling the data (using nearest neighbor
+#' classification data (derived from Lumbierres *et al.* 2021),
+#' and resampling the data (using nearest neighbor
 #' interpolation) to the World Behrmannn coordinate reference
 #' system (ESRI:54017).
 #'

@@ -226,7 +226,7 @@ NULL
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 #' (AOH) and its Utility for the IUCN Red List. *Trends in Ecology & Evolution*,
-#' 34:977--986. Available at <https://doi.org/10.1016/j.tree.2019.06.009>.
+#' 34: 977--986. \doi{10.1016/j.tree.2019.06.009}
 #'
 #' @examples
 #' \dontrun{

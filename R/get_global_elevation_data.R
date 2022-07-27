@@ -5,7 +5,7 @@ NULL
 #'
 #' Import elevation data derived from Robinson *et al.* (2014).
 #' If data are not available locally, they are downloaded from
-#' a Zenodo Digital Repository (https://doi.org/10.5281/zenodo.5719984).
+#' a Zenodo repository (\doi{10.5281/zenodo.5719984}).
 #'
 #' @inheritParams get_jung_lvl2_habitat_data
 #'
@@ -15,7 +15,7 @@ NULL
 #' the data into a single raster (GeoTIFF) file, and then (iii)
 #' reprojecting the data to the World Behrmannn coordinate reference
 #' systems (ESRI:54017). For further details, see the
-#' [online repository](https://github.com/jeffreyhanson/dem) containing
+#' [online repository](https://github.com/prioritizr/dem) containing
 #' code used to process the data.
 #'
 #' @return A [terra::rast()] object containing the elevation data
@@ -26,7 +26,7 @@ NULL
 #' global, void-free, multi-scale smoothed, 90m digital elevation model from
 #' fused ASTER and SRTM data.
 #' *ISPRS Journal of Photogrammetry and Remote Sensing*, 87:57--67.
-#' Available at <https://doi.org/10.1016/j.isprsjprs.2013.11.002>
+#' \doi{10.1016/j.isprsjprs.2013.11.002}
 #'
 #' @examples
 #' \dontrun{
