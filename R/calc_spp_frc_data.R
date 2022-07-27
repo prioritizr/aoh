@@ -125,7 +125,7 @@ calc_spp_frc_data <- function(x,
     assertthat::has_name(x, "xmax"),
     assertthat::has_name(x, "ymin"),
     assertthat::has_name(x, "ymax"),
-    msg = "argument to \"x\" should be the output from create_aoh_data()"
+    msg = "argument to \"x\" should be the output from create_spp_aoh_data()"
   )
   assertthat::assert_that(
     assertthat::is.string(output_dir),
