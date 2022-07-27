@@ -171,6 +171,7 @@ test_that("simulated data (GDAL engine)", {
 test_that("simulated data (GRASS engine)", {
   # skip if needed
   skip_on_cran()
+  skip_on_os("windows")
   skip_if_not_installed("gdalUtilities")
   skip_if_grass_not_available()
   # specify file path
