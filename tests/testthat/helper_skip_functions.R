@@ -46,16 +46,6 @@ skip_if_grass_not_available <- function() {
   message = "GRASS not available")
 }
 
-skip_if_historical_RandomFields <- function() {
-  skip_if_not(
-    (utils::packageVersion("RandomFields") >=
-      as.package_version("3.3.13")) &&
-    (utils::packageVersion("RandomFieldsUtils") >=
-      as.package_version("1.0.11")),
-    message = "RandomFields or RandomFieldsUtils packages out of date"
-  )
-}
-
 skip_if_cached_data_not_available <- function() {
   skip_if_not(
     file.exists(rappdirs::user_data_dir("aoh")),

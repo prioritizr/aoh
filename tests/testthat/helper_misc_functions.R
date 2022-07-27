@@ -5,5 +5,5 @@ extract_cache_doi <- function(x) {
   if (length(v) == 0) return(NULL)
   v <- basename(dirname(v))
   v <- gsub("_", "/", v, fixed = TRUE)
-  v
+  sort(v, decreasing = TRUE)[[1]]
 }

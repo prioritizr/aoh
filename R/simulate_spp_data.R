@@ -1,4 +1,4 @@
-#' @include internal.R misc_randomfields.R convert_seasonal.R
+#' @include internal.R simulate_random_field_data.R convert_seasonal.R
 NULL
 
 #' Simulate species data
@@ -15,14 +15,16 @@ NULL
 #' @param boundary_data [sf::st_sf()] Spatial object delineating the
 #'   spatial extent and boundary for simulating species ranges.
 #'
-#' @param rf_model_scale_min `numeric` Minimum scaling parameter used
-#'   to control the smallest possible size of simulated species ranges.
+#' @param rf_scale_min `numeric` Minimum scaling parameter used
+#'   to control the smallest possible level of spatial auto-correlation for
+#'   simulated species ranges.
 #'   See the documentation for the `scale` parameter in
 #'   `RandomFields::RMgauss()` for more information.
 #'   Defaults to `1e+5`.
 #'
-#' @param rf_model_scale_max `numeric` Maximum scaling parameter used
-#'   to control the largest possible size of simulated species ranges.
+#' @param rf_scale_max `numeric` Minimum scaling parameter used
+#'   to control the smallest possible level of spatial auto-correlation for
+#'   simulated species ranges.
 #'   See the documentation for the `scale` parameter in
 #'   `RandomFields::RMgauss()` for more information.
 #'   Defaults to `2e+5`.
@@ -47,10 +49,10 @@ NULL
 #' data for real or simulated species.
 #'
 #' @examples
-#' # please ensure that the RandomFields and smoothr packages are installed
+#' # please ensure that the fields and smoothr packages are installed
 #' # to run these examples
 #'
-#' @examplesIf require(RandomFields) && require(smoothr)
+#' @examplesIf require(fields) && require(smoothr)
 #' \dontrun{
 #' # define persistent storage location
 #' download_dir <- rappdirs::user_data_dir("aoh")
@@ -68,7 +70,6 @@ NULL
 #'
 #' # set random number generator seeds for consistency
 #' set.seed(500)
-#' RandomFields::RFoptions(seed = 500)
 #'
 #' # simulate data for 5 species
 #' x <- simulate_spp_data(
@@ -97,33 +98,18 @@ simulate_spp_data <- function(n,
                               habitat_data = NULL,
                               elevation_data = NULL,
                               crosswalk_data = NULL,
-                              rf_model_scale_min = 1e+5,
-                              rf_model_scale_max = 2e+5,
+                              rf_scale_min = 0.5,
+                              rf_scale_max = 0.7,
                               cache_dir = tempdir(),
                               habitat_version = "latest",
                               force = FALSE,
                               omit_habitat_codes = iucn_habitat_codes_marine(),
                               verbose = TRUE) {
   # assert dependencies available
-  if (!requireNamespace("RandomFields", quietly = TRUE))
-    stop("the \"RandomFields\" package must be installed to simulate data")
   if (!requireNamespace("smoothr", quietly = TRUE))
     stop("the \"smoothr\" package must be installed to simulate data")
-  if (
-    utils::packageVersion("RandomFields") >= as.package_version("3.3.13")
-  ) {
-    assertthat::assert_that(
-      utils::packageVersion("RandomFieldsUtils") >=
-        as.package_version("1.0.11"),
-      msg = paste(
-        "the \"RandomFields\" package (version 3.3.13+) needs to be",
-        "compiled with the \"RandomFieldsUtils\" package",
-        "(version 1.0.11+), please re-install the \"RandomFieldsUtils\"",
-        "package and then the \"RandomFields\" package"
-      )
-    )
-  }
-
+  if (!requireNamespace("fields", quietly = TRUE))
+    stop("the \"fields\" package must be installed to simulate data")
 
   # assert that arguments are valid
   ## initial validation
@@ -250,13 +236,13 @@ simulate_spp_data <- function(n,
 
   # simulate species range maps
   sim_eoo <- lapply(
-    stats::runif(n, min = rf_model_scale_min, max = rf_model_scale_max),
+    stats::runif(n, min = rf_scale_min, max = rf_scale_max),
     function(x) {
-      simulate_rf_data(
+      simulate_random_field_data(
         x = elevation_data,
-        model = RandomFields::RMgauss(scale = x),
-        transform = function(x) round(stats::plogis(x)),
-        n = 1
+        n = 1,
+        scale = x,
+        transform = function(x) round(stats::plogis(x))
       )
     }
   )
@@ -265,6 +251,7 @@ simulate_spp_data <- function(n,
     x <- sim_eoo[[i]]
     x[x < 0.5] <- NA_real_
     x <- sf::st_as_sf(terra::as.polygons(x))
+    x <- smoothr::fill_holes(x, threshold = Inf)
     sf::st_as_sf(
       geometry = sf::st_geometry(x),
       tibble::tibble(id_no = spp_id_no[i])

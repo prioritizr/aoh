@@ -76,8 +76,8 @@ species geographic ranges, summary information, and habitat preferences.</p>
 <span>  habitat_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  elevation_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  crosswalk_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  rf_model_scale_min <span class="op">=</span> <span class="fl">1e+05</span>,</span>
-<span>  rf_model_scale_max <span class="op">=</span> <span class="fl">2e+05</span>,</span>
+<span>  rf_scale_min <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  rf_scale_max <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>  cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  habitat_version <span class="op">=</span> <span class="st">"latest"</span>,</span>
 <span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -128,17 +128,19 @@ Defaults to <code>NULL</code> such that the crosswalk for the default habitat
 data are used (i.e., <code><a href="crosswalk_lumb_cgls_data.html">crosswalk_lumb_cgls_data()</a></code>).</p></dd>
 
 
-<dt>rf_model_scale_min</dt>
+<dt>rf_scale_min</dt>
 <dd><p><code>numeric</code> Minimum scaling parameter used
-to control the smallest possible size of simulated species ranges.
+to control the smallest possible level of spatial auto-correlation for
+simulated species ranges.
 See the documentation for the <code>scale</code> parameter in
 <code><a href="https://rdrr.io/pkg/RandomFields/man/RMgauss.html" class="external-link">RandomFields::RMgauss()</a></code> for more information.
 Defaults to <code>1e+5</code>.</p></dd>
 
 
-<dt>rf_model_scale_max</dt>
-<dd><p><code>numeric</code> Maximum scaling parameter used
-to control the largest possible size of simulated species ranges.
+<dt>rf_scale_max</dt>
+<dd><p><code>numeric</code> Minimum scaling parameter used
+to control the smallest possible level of spatial auto-correlation for
+simulated species ranges.
 See the documentation for the <code>scale</code> parameter in
 <code><a href="https://rdrr.io/pkg/RandomFields/man/RMgauss.html" class="external-link">RandomFields::RMgauss()</a></code> for more information.
 Defaults to <code>2e+5</code>.</p></dd>
@@ -226,7 +228,7 @@ data for real or simulated species.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># please ensure that the RandomFields and smoothr packages are installed</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># please ensure that the fields and smoothr packages are installed</span></span></span>
 <span class="r-in"><span><span class="co"># to run these examples</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
@@ -246,89 +248,89 @@ data for real or simulated species.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># set random number generator seeds for consistency</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">RandomFields</span><span class="fu">::</span><span class="fu">RFoptions</span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># simulate data for 5 species</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">simulate_spp_data</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  n <span class="op">=</span> <span class="fl">5</span>, boundary_data <span class="op">=</span> <span class="va">boundary_data</span>, cache_dir <span class="op">=</span> <span class="va">download_dir</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[14.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[16.7s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Set 'RFoptions(seed=NA)' to make the seed arbitrary.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: simulation is performed with fixed random seed 500.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[42.8s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[1m 42.7s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># preview species range data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">spp_range_data</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 8 features and 26 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 17 features and 26 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: GEOMETRY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -84.32377 ymin: 33.88216 xmax: -75.45658 ymax: 36.58977</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -84.31763 ymin: 33.88392 xmax: -75.45658 ymax: 36.5881</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   id_no seasonal presence origin                       geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   799        1        1      1 MULTIPOLYGON (((-77.29714 3...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2102        1        1      1 MULTIPOLYGON (((-80.4885 36...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  2102        1        5      5 MULTIPOLYGON (((-84.3043 35...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4082        1        1      1 MULTIPOLYGON (((-81.9608 35...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  4082        1        3      2 MULTIPOLYGON (((-77.65906 3...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  4082        1        5      6 MULTIPOLYGON (((-76.29354 3...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  5167        1        1      1 POLYGON ((-78.54066 36.5396...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  5479        1        1      1 MULTIPOLYGON (((-76.64406 3...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            binomial   compiler yrcompiled citation subspecies subpop source</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Simulus spp. 799 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Simulus spp. 5167 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Simulus spp. 5479 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   island tax_comm dist_comm generalisd legend kingdom phylum class order_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   family   genus category marine terrestial freshwater</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   &lt;NA&gt; Simulus       NT  false       true      false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   &lt;NA&gt; Simulus       EN  false       true      false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   &lt;NA&gt; Simulus       EN  false       true      false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   &lt;NA&gt; Simulus       LC  false       true      false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   &lt;NA&gt; Simulus       LC  false       true      false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   &lt;NA&gt; Simulus       LC  false       true      false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   &lt;NA&gt; Simulus       EN  false       true      false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   &lt;NA&gt; Simulus       EN  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id_no seasonal presence origin                       geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    799        1        1      1 POLYGON ((-78.71844 34.0082...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    799        1        3      2 POLYGON ((-78.40331 34.2545...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   2102        1        1      1 MULTIPOLYGON (((-76.49551 3...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   2102        3        1      1 MULTIPOLYGON (((-76.86322 3...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   2102        4        1      1 MULTIPOLYGON (((-82.74959 3...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2102        3        4      4 MULTIPOLYGON (((-77.15074 3...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   2102        3        3      3 MULTIPOLYGON (((-77.22261 3...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   4082        1        1      1 MULTIPOLYGON (((-78.57828 3...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   4082        1        1      6 MULTIPOLYGON (((-78.49659 3...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  4082        1        4      2 MULTIPOLYGON (((-78.2597 35...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             binomial   compiler yrcompiled citation subspecies subpop source</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Simulus spp. 799 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Simulus spp. 799 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  Simulus spp. 2102 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Simulus spp. 4082 Simulation         NA     &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    island tax_comm dist_comm generalisd legend kingdom phylum class order_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   &lt;NA&gt;     &lt;NA&gt;      &lt;NA&gt;         NA   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    family   genus category marine terrestial freshwater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    &lt;NA&gt; Simulus       LC  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    &lt;NA&gt; Simulus       LC  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    &lt;NA&gt; Simulus       LC  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    &lt;NA&gt; Simulus       LC  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    &lt;NA&gt; Simulus       LC  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    &lt;NA&gt; Simulus       LC  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    &lt;NA&gt; Simulus       LC  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    &lt;NA&gt; Simulus       VU  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    &lt;NA&gt; Simulus       VU  false       true      false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   &lt;NA&gt; Simulus       VU  false       true      false</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># preview species habitat preference data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">spp_habitat_data</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 21 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id_no code  habitat                                    suita…¹ season major…²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>   799 3.4   Shrubland - Temperate                      Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>   799 5.5   Wetlands (inland) - Permanent freshwater … Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>   799 14.2  Pastureland                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>102 5     Wetlands (inland)                          Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>   799 4.4   Grassland - Temperate                      Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>   799 14.3  Plantations                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>   799 14.1  Arable Land                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>102 4.4   Grassland - Temperate                      Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>102 3.4   Shrubland - Temperate                      Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>102 5.13  Wetlands (inland) - Permanent inland delt… Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">4</span>082 14.2  Pastureland                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">4</span>082 14.5  Urban Areas                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">4</span>082 1.4   Forest - Temperate                         Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">5</span>167 3.4   Shrubland - Temperate                      Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">5</span>167 14.3  Plantations                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>  <span style="text-decoration: underline;">5</span>479 3.4   Shrubland - Temperate                      Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>  <span style="text-decoration: underline;">5</span>479 14.5  Urban Areas                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>  <span style="text-decoration: underline;">5</span>479 14.2  Pastureland                                Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​suitability, ²​majorimportance</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>102 5.15  Wetlands (inland) - Seasonal/intermittent… Suitab… Resid… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>102 3.4   Shrubland - Temperate                      Suitab… Non-b… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>102 14.1  Arable Land                                Suitab… Non-b… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>102 14.3  Plantations                                Suitab… Non-b… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>102 14.3  Plantations                                Suitab… Passa… <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 11 more rows, and abbreviated variable names ¹​suitability,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​majorimportance</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># preview species summary data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">spp_summary_data</span><span class="op">)</span></span></span>
@@ -363,7 +365,7 @@ data for real or simulated species.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

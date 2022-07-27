@@ -10,8 +10,8 @@ simulate_spp_data(
   habitat_data = NULL,
   elevation_data = NULL,
   crosswalk_data = NULL,
-  rf_model_scale_min = 1e+05,
-  rf_model_scale_max = 2e+05,
+  rf_scale_min = 0.5,
+  rf_scale_max = 0.7,
   cache_dir = tempdir(),
   habitat_version = "latest",
   force = FALSE,
@@ -50,14 +50,16 @@ different values in the argument to \code{habitat_data}.
 Defaults to \code{NULL} such that the crosswalk for the default habitat
 data are used (i.e., \code{\link[=crosswalk_lumb_cgls_data]{crosswalk_lumb_cgls_data()}}).}
 
-\item{rf_model_scale_min}{\code{numeric} Minimum scaling parameter used
-to control the smallest possible size of simulated species ranges.
+\item{rf_scale_min}{\code{numeric} Minimum scaling parameter used
+to control the smallest possible level of spatial auto-correlation for
+simulated species ranges.
 See the documentation for the \code{scale} parameter in
 \code{RandomFields::RMgauss()} for more information.
 Defaults to \code{1e+5}.}
 
-\item{rf_model_scale_max}{\code{numeric} Maximum scaling parameter used
-to control the largest possible size of simulated species ranges.
+\item{rf_scale_max}{\code{numeric} Minimum scaling parameter used
+to control the smallest possible level of spatial auto-correlation for
+simulated species ranges.
 See the documentation for the \code{scale} parameter in
 \code{RandomFields::RMgauss()} for more information.
 Defaults to \code{2e+5}.}
@@ -117,10 +119,10 @@ Simulate species data for creating Area of Habitat data
 species geographic ranges, summary information, and habitat preferences.
 }
 \examples{
-# please ensure that the RandomFields and smoothr packages are installed
+# please ensure that the fields and smoothr packages are installed
 # to run these examples
 
-\dontshow{if (require(RandomFields) && require(smoothr)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require(fields) && require(smoothr)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
 # define persistent storage location
 download_dir <- rappdirs::user_data_dir("aoh")
@@ -138,7 +140,6 @@ boundary_data <- sf::st_union(sf::read_sf(boundary_path))
 
 # set random number generator seeds for consistency
 set.seed(500)
-RandomFields::RFoptions(seed = 500)
 
 # simulate data for 5 species
 x <- simulate_spp_data(

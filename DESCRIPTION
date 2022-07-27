@@ -49,7 +49,7 @@ Suggests:
     rmarkdown (>= 1.10),
     pingr (>= 1.1.2),
     ggmap (>= 2.6.1),
-    RandomFields (>= 3.3.10),
+    fields (>= 14.0),
     smoothr (>= 0.2.2),
     rnaturalearth (>= 0.1.0),
     rgdal (>= 1.5.27),
@@ -107,7 +107,6 @@ Collate:
     'iucn_habitat_codes.R'
     'iucn_habitat_data.R'
     'misc_gdal.R'
-    'misc_randomfields.R'
     'package.R'
     'plot_spp_aoh_data.R'
     'plot_spp_frc_data.R'
@@ -115,6 +114,7 @@ Collate:
     'process_spp_data_on_local.R'
     'process_spp_frc_on_local.R'
     'read_spp_range_data.R'
+    'simulate_random_field_data.R'
     'simulate_spp_data.R'
     'st_repair_geometry.R'
     'terra_combine.R'
@@ -125,4 +125,5 @@ Collate:
     'zzz.R'
 Roxygen: list(markdown = TRUE)
 Remotes:
-  dickoa/prepr
+  dickoa/prepr,
+  jeffreyhanson/zen4R
