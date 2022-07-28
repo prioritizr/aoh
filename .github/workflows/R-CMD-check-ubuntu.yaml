@@ -57,6 +57,7 @@ jobs:
           extra-packages: |
             any::covr
             any::rcmdcheck
+            any::XML
           needs: check
 
       - name: Session information
