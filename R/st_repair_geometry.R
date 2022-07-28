@@ -80,7 +80,7 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
 
   # remove empty geometries
   print(paste("before remove empty geoms, nrow =", nrow(x)))
-  x2 <- x2[!sf::st_is_empty(x2), , drop = TRUE]
+  x2 <- x2[!sf::st_is_empty(x2), , drop = FALSE]
   print(paste("after remove empty geoms, nrow =", nrow(x)))
 
   # extract polygons (if needed)
