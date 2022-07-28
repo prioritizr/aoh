@@ -363,22 +363,39 @@ clean_spp_range_data <- function(x,
     msg = "terrestrial column should contain \"true\" or \"false\" values"
   )
 
+  print(paste("after step 1:", nrow(x)))
+  print(x, width = Inf)
+
   # step 2: exclude polygons based on presence code
-  x <- x[which(x$presence %in% keep_iucn_rl_presence), , drop = FALSE]
+  x <- x[
+    which(round(x$presence) %in% round(keep_iucn_rl_presence)), , drop = FALSE
+  ]
   invisible(gc())
+  print(paste("after step 2:", nrow(x)))
+  print(x, width = Inf)
 
   # step 3: exclude polygons based on origin code
-  x <- x[which(x$origin %in% keep_iucn_rl_origin), , drop = FALSE]
+  x <- x[
+    which(round(x$origin) %in% round(keep_iucn_rl_origin)), , drop = FALSE
+  ]
   invisible(gc())
+  print(paste("after step 3:", nrow(x)))
+  print(x, width = Inf)
 
   # step 4: exclude uncertain seasonality
-  x <- x[which(x$seasonal %in% keep_iucn_rl_seasonal), , drop = FALSE]
+  x <- x[
+    which(round(x$seasonal) %in% round(keep_iucn_rl_seasonal)), , drop = FALSE
+  ]
   invisible(gc())
+  print(paste("after step 4:", nrow(x)))
+  print(x, width = Inf)
 
   # step 5: exclude non-terrestrial distributions
   idx <- which(x$terrestrial == "true")
   x <- x[idx, , drop = FALSE]
   invisible(gc())
+  print(paste("after step 5:", nrow(x)))
+  print(x, width = Inf)
 
   # step 6: convert MULTISURFACE to MULTIPOLYGON
   x <- sf::st_set_precision(x, geometry_precision)
@@ -467,6 +484,9 @@ clean_spp_range_data <- function(x,
   )
   x <- x[na.omit(match(old_ids, x$aoh_id)), , drop = FALSE]
   invisible(gc())
+
+  print(paste("after step 14:", nrow(x)))
+  print(x, width = Inf)
 
   # step 15: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
