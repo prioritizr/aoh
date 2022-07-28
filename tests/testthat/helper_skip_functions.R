@@ -36,7 +36,7 @@ skip_if_iucn_red_list_data_not_available <- function(x) {
   path <- file.path(dir, x)
   testthat::skip_if_not(
     file.exists(path),
-    message = paste("IUCN Red List data not available: \"", x, "\"")
+    message = paste0("IUCN Red List data not available: \"", x, "\"")
   )
 }
 
