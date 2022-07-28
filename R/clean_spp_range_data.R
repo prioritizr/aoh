@@ -413,10 +413,15 @@ clean_spp_range_data <- function(x,
   }
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   invisible(gc())
+  print(paste("after step 6:", nrow(x)))
+  print(x, width = Inf)
 
   # step 7: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
+  print(paste("after step 7:", nrow(x)))
+  print(x, width = Inf)
+
 
   # step 8: wrap geometries to dateline
   x <- sf::st_set_precision(x, geometry_precision)
@@ -424,19 +429,31 @@ clean_spp_range_data <- function(x,
     options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
   )
   invisible(gc())
+  print(paste("after step 8:", nrow(x)))
+  print(x, width = Inf)
+
 
   # step 9: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
+  print(paste("after step 9:", nrow(x)))
+  print(x, width = Inf)
+
 
   # step 10: reproject data
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_transform(x, crs)
   invisible(gc())
+  print(paste("after step 10:", nrow(x)))
+  print(x, width = Inf)
+
 
   # step 11: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
+  print(paste("after step 11:", nrow(x)))
+  print(x, width = Inf)
+
 
   # step 12: snap geometries to grid
   if (snap_tolerance > 0) {
@@ -444,10 +461,15 @@ clean_spp_range_data <- function(x,
     x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
   }
   invisible(gc())
+  print(paste("after step 12:", nrow(x)))
+  print(x, width = Inf)
+
 
   # step 13: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
+  print(paste("after step 13:", nrow(x)))
+  print(x, width = Inf)
 
   # step 14: dissolve geometries by species, subspecies, seasonal
   ## create id
