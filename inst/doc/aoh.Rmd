@@ -77,7 +77,7 @@ if (!file.exists(cache_dir)) {
 spp_info_data <- create_spp_info_data(spp_range_data, cache_dir = cache_dir)
 ```
 
-We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from [Robinson *et al.* 2014](https://doi.org/10.1016/j.isprsjprs.2013.11.002) and habitat data derived from [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851). Similar to before, we also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
+We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from @r4 and habitat data derived from @r9. Similar to before, we also specify a folder to cache the downloaded datasets so that we won't need to re-downloaded again during subsequent runs.
 
 ```{r, message = FALSE, results = "hide"}
 # specify cache directory

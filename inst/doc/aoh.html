@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-07-27" />
+<meta name="date" content="2022-07-28" />
 
 <title>Getting started</title>
 
@@ -162,7 +162,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">Getting started</h1>
-<h4 class="date">2022-07-27</h4>
+<h4 class="date">2022-07-28</h4>
 
 
 <div id="TOC">
@@ -226,7 +226,7 @@ div.csl-indent {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># prepare information</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>spp_info_data <span class="ot">&lt;-</span> <span class="fu">create_spp_info_data</span>(spp_range_data, <span class="at">cache_dir =</span> cache_dir)</span></code></pre></div>
-<p>We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from <a href="https://doi.org/10.1016/j.isprsjprs.2013.11.002">Robinson <em>et al.</em> 2014</a> and habitat data derived from <a href="https://doi.org/10.1111/cobi.13851">Lumbierres <em>et al.</em> 2021</a>. Similar to before, we also specify a folder to cache the downloaded datasets so that we won’t need to re-downloaded again during subsequent runs.</p>
+<p>We can now generate Area of Habitat data for the species. By default, these data will be generated using elevation data derived from <span class="citation">Robinson <em>et al.</em> (2014)</span> and habitat data derived from <span class="citation">Lumbierres <em>et al.</em> (2021)</span>. Similar to before, we also specify a folder to cache the downloaded datasets so that we won’t need to re-downloaded again during subsequent runs.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specify cache directory</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cache_dir <span class="ot">&lt;-</span> <span class="fu">user_data_dir</span>(<span class="st">&quot;aoh&quot;</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -277,10 +277,10 @@ div.csl-indent {
 ## # A tibble: 4 × 5
 ##   id_no binomial              seasonal path                             geometry
 ##   &lt;dbl&gt; &lt;chr&gt;                    &lt;int&gt; &lt;chr&gt;                       &lt;POLYGON [m]&gt;
-## 1   979 Alytes dickhilleni           1 /tmp/RtmpzYHfF… ((-105507 4465112, -1064…
-## 2 59448 Calotriton asper             1 /tmp/RtmpzYHfF… ((-238681 5029057, -2377…
-## 3  4657 Chioglossa lusitanica        1 /tmp/RtmpzYHfF… ((-859202 4559278, -8593…
-## 4 58622 Rana iberica                 1 /tmp/RtmpzYHfF… ((-849802 4614149, -8481…</code></pre>
+## 1   979 Alytes dickhilleni           1 /tmp/RtmpHRXXL… ((-105507 4465112, -1064…
+## 2 59448 Calotriton asper             1 /tmp/RtmpHRXXL… ((-238681 5029057, -2377…
+## 3  4657 Chioglossa lusitanica        1 /tmp/RtmpHRXXL… ((-859202 4559278, -8593…
+## 4 58622 Rana iberica                 1 /tmp/RtmpHRXXL… ((-849802 4614149, -8481…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the Area of Habitat data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## since the data for each species have a different spatial extent</span></span>
@@ -348,9 +348,9 @@ div.csl-indent {
 ## resolution  : 100, 100  (x, y)
 ## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## sources     : spat_bCbtNkfJCeXQPEf_92987.tif  
-##               spat_kzSRCgz2YjFk4PJ_92987.tif  
-##               spat_VWOXfiZUvplu0Q9_92987.tif  
+## sources     : spat_4F9FidcL79t35IQ_56704.tif  
+##               spat_OyIUbJBkagJmw1Z_56704.tif  
+##               spat_3Vrj8AhQAR1IaQf_56704.tif  
 ##               ... and 1 more source(s)
 ## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 
 ## min values  :         0,           0,          0,           0 
