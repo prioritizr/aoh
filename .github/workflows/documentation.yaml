@@ -60,6 +60,9 @@ jobs:
 
       - name: Install system dependencies
         run: |
+          sudo apt-get install \
+            libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
+            libgmp3-dev libmpfr-dev libudunits2-dev
           while read -r cmd
           do
             eval sudo $cmd
