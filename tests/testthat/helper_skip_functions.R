@@ -17,6 +17,7 @@ skip_if_iucn_key_missing <- function() {
 }
 
 skip_if_iucn_api_not_available <- function() {
+  skip_if_iucn_key_missing()
   testthat::skip_if_not(
     is_iucn_rl_api_available(),
     "IUCN Red List API not available"
@@ -33,21 +34,28 @@ skip_if_local_and_slow_internet <- function(x) {
 skip_if_iucn_red_list_data_not_available <- function(x) {
   dir <- rappdirs::user_data_dir("iucn-red-list-data")
   path <- file.path(dir, x)
-  file.exists(path)
+  testthat::skip_if_not(
+    file.exists(path),
+    message = paste("IUCN Red List data not available: \"", x, "\"")
+  )
 }
 
 skip_if_gdal_python_not_available <- function() {
-  skip_if_not(is_gdal_python_available(),
-  message = "GDAL Python scripts not available")
+  testthat::skip_if_not(
+    is_gdal_python_available(),
+    message = "GDAL Python scripts not available"
+  )
 }
 
 skip_if_grass_not_available <- function() {
-  skip_if_not(is_grass_available(),
-  message = "GRASS not available")
+  testthat::skip_if_not(
+    is_grass_available(),
+    message = "GRASS not available"
+  )
 }
 
 skip_if_cached_data_not_available <- function() {
-  skip_if_not(
+  testthat::skip_if_not(
     file.exists(rappdirs::user_data_dir("aoh")),
     message = "cached global data not available"
   )
