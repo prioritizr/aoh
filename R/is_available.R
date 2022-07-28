@@ -19,8 +19,10 @@ NULL
 #' @return A `logical` indicating if the IUCN Red List API can be accessed.
 #'
 #' @examples
+#' \dontrun{
 #' # check if IUCN Red List API is available?
 #' is_iucn_rl_api_available()
+#' }
 #'
 #' @export
 is_iucn_rl_api_available <- function(key = NULL, n = 5) {

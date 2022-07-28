@@ -54,7 +54,9 @@ If these instructions did not work, please consult the documentation for the
 }
 
 \examples{
+\dontrun{
 # check if IUCN Red List API is available?
 is_iucn_rl_api_available()
+}
 
 }
