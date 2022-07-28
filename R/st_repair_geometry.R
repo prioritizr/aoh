@@ -51,6 +51,8 @@
 #' print(p2)
 #' @export
 st_repair_geometry <- function(x, geometry_precision = 1e5) {
+  print("starting st_repair_geometry")
+
   # assert arguments are valid
   assertthat::assert_that(
     inherits(x, "sf"),
@@ -77,14 +79,21 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
   sf::st_crs(x2) <- x_crs
 
   # remove empty geometries
-  x2 <- x2[!sf::st_is_empty(x2), ]
+  print(paste("before remove empty geoms, nrow =", nrow(x)))
+  x2 <- x2[!sf::st_is_empty(x2), , drop = TRUE]
+  print(paste("after remove empty geoms, nrow =", nrow(x)))
 
   # extract polygons (if needed)
+  print(paste("before collection extract, nrow =", nrow(x)))
   x2 <- suppressWarnings(sf::st_collection_extract(x2, "POLYGON"))
+  print(paste("after collection extract, nrow =", nrow(x)))
 
   # detect if any invalid geometries persist
   ## subset repaired polygons
   x_sub <- x[match(x2[["_repair_id"]], x[["_repair_id"]]), , drop = FALSE]
+  print("x_sub")
+  print(x_sub, width = Inf)
+
   ## detect if invalid polygons based on changes in area
   area_threshold <- ifelse(sf::st_is_longlat(x), 1, 1e+4)
   invalid_idx <- which(
@@ -128,6 +137,9 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
 
   # manually fix geometries if needed
   if (length(invalid_idx) > 0) {
+    print("fixing geometries with prepr")
+    print(invalid_idx)
+
     ### verify that prepr package is installed
     assertthat::assert_that(
       requireNamespace("prepr", quietly = TRUE),

@@ -454,7 +454,6 @@ clean_spp_range_data <- function(x,
   print(paste("after step 11:", nrow(x)))
   print(x, width = Inf)
 
-
   # step 12: snap geometries to grid
   if (snap_tolerance > 0) {
     x <- sf::st_set_precision(x, geometry_precision)
@@ -463,7 +462,6 @@ clean_spp_range_data <- function(x,
   invisible(gc())
   print(paste("after step 12:", nrow(x)))
   print(x, width = Inf)
-
 
   # step 13: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
