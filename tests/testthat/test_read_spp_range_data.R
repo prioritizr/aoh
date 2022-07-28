@@ -31,7 +31,7 @@ test_that("simulated data (shapefile 7z format)", {
     archive::archive_write_files(archive = f, files = dir(td), format = "7zip")
   })
   # create data
-  x <- read_spp_range_data(f)
+  x <- suppressWarnings(read_spp_range_data(f))
   # tests
   expect_is(x, "sf")
   expect_gt(nrow(x), 1)
