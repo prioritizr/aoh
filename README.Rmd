@@ -106,7 +106,7 @@ If these instructions did not work, please consult the documentation for the [_r
 
 ### Usage
 
-Here we provide a short example for using the _aoh R_ package. In this example, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (_Calotriton asper_), Iberian frog (_Rana iberica_), western spadefoot toad (_Pelobates cultripes_), and golden striped salamnader (_Chioglossa lusitanica_). Please note that this example is an abridged version of the tutorial provided in the [package vignette](https://prioritizr.github.io/aoh/articles/aoh.html), so please consult the package vignette for a more detailed tutorial on using the package. To start off, we will load the package and several other packages to help with data processing and visualization.
+Here we provide a short example for using the _aoh R_ package. In this example, we will generate Area of Habitat data for the following Iberian species: Pyrenean brook salamander (_Calotriton asper_), Iberian frog (_Rana iberica_), western spadefoot toad (_Pelobates cultripes_), and golden striped salamnader (_Chioglossa lusitanica_). Please note that this example is an abridged version of the tutorial provided in the package vignette, so please consult the package vignette for a more detailed tutorial on using the package. To start off, we will load the package and several other packages to help with data processing and visualization.
 
 ```{r, message = FALSE, warning = FALSE}
 # load packages
@@ -208,4 +208,4 @@ citation("aoh")
 
 ## Getting help
 
-Please refer to the [package website](https://prioritizr.github.io/aoh) for more information. If you have any questions about using the package or suggestions for improving it, please [file an issue at the package's online code repository](https://github.com/prioritizr/aoh/issues).
+Please refer to the [package website](https://prioritizr.github.io/aoh/) for more information. If you have any questions about using the package or suggestions for improving it, please [file an issue at the package's online code repository](https://github.com/prioritizr/aoh/issues).

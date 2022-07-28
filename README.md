@@ -165,10 +165,10 @@ species: Pyrenean brook salamander (*Calotriton asper*), Iberian frog
 (*Rana iberica*), western spadefoot toad (*Pelobates cultripes*), and
 golden striped salamnader (*Chioglossa lusitanica*). Please note that
 this example is an abridged version of the tutorial provided in the
-[package vignette](https://prioritizr.github.io/aoh/articles/aoh.html),
-so please consult the package vignette for a more detailed tutorial on
-using the package. To start off, we will load the package and several
-other packages to help with data processing and visualization.
+package vignette, so please consult the package vignette for a more
+detailed tutorial on using the package. To start off, we will load the
+package and several other packages to help with data processing and
+visualization.
 
 ``` r
 # load packages
@@ -391,7 +391,7 @@ produce Area of Habitat data.
 
 ## Getting help
 
-Please refer to the [package website](https://prioritizr.github.io/aoh)
+Please refer to the [package website](https://prioritizr.github.io/aoh/)
 for more information. If you have any questions about using the package
 or suggestions for improving it, please [file an issue at the package’s
 online code repository](https://github.com/prioritizr/aoh/issues).
