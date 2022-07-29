@@ -60,14 +60,14 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
-            any::sf
-            any::terra
-            any::rgdal
+            sf
+            terra
+            rgdal
           needs: check
 
       - name: Install R packages
         run: |
-          install.packages("terra")
+          install.packages("terra", type = "source")
         shell: Rscript {0}
 
       - name: Session information
