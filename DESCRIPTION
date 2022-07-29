@@ -61,7 +61,7 @@ Suggests:
 Depends:
     R (>= 4.1.0),
     sf (>= 1.0-2),
-    terra (>= 1.6.3)
+    terra (>= 1.6-3)
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
