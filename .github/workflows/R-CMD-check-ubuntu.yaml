@@ -60,9 +60,9 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
-            sf
-            terra
-            rgdal
+            any::sf
+            any::terra
+            any::rgdal
           needs: check
 
       - name: Install R packages
