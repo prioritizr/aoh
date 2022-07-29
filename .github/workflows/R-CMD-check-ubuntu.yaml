@@ -67,7 +67,7 @@ jobs:
 
       - name: Install R packages
         run: |
-          install.packages("terra", type = "source")
+          install.packages("terra", type = "source", repos = "https://cloud.r-project.org/")
         shell: Rscript {0}
 
       - name: Session information
