@@ -61,6 +61,7 @@ jobs:
             any::rcmdcheck
             any::XML
             any::sf
+            any::terra
             any::rgdal
           needs: check
 
