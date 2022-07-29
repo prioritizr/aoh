@@ -60,14 +60,15 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
-            any::sf
-            any::terra
-            any::rgdal
           needs: check
 
-      - name: Install R packages
+      - name: Install spatial R packages
         run: |
-          install.packages("terra", type = "source", repos = "https://cloud.r-project.org/")
+          options(repos = "https://cloud.r-project.org/")
+          install.packages("sf")
+          install.packages("terra")
+          install.packages("lwgeom")
+          install.packages("rgdal")
         shell: Rscript {0}
 
       - name: Session information
