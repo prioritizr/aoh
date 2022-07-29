@@ -442,20 +442,7 @@ clean_spp_range_data <- function(x,
 
   # step 10: reproject data
   x <- sf::st_set_precision(x, geometry_precision)
-  pipeline <- c()
-  if (
-    # sf::st_is_empty(
-    #   sf::st_transform(sf::st_as_sfc(sf::st_bbox(x)), crs)
-    # )
-    TRUE
-  ) {
-    x <- sf::st_transform(
-      sf::st_set_crs(x, "OGC:CRS84"),
-      crs
-    )
-  } else {
-    x <- sf::st_transform(x, crs)
-  }
+  x <- sf::st_transform(x, crs)
   invisible(gc())
   print(paste("after step 10:", nrow(x)))
   print(sf::st_bbox(x))

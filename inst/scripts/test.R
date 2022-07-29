@@ -1,5 +1,7 @@
 # load package
 devtools::load_all()
+print("sf linking to:")
+print(sf_extSoftVersion())
 
 # specify file path
 f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
