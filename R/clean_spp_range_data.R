@@ -449,9 +449,13 @@ clean_spp_range_data <- function(x,
     # )
     TRUE
   ) {
-    pipeline <- "+step +proj=axisswap +order=2,1"
+    x <- sf::st_transform(
+      sf::st_set_crs(x, "OGC:CRS84"),
+      crs
+    )
+  } else {
+    x <- sf::st_transform(x, crs)
   }
-  x <- sf::st_transform(x, crs, pipeline = pipeline)
   invisible(gc())
   print(paste("after step 10:", nrow(x)))
   print(sf::st_bbox(x))
