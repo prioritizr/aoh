@@ -1,7 +1,9 @@
 # load package
-devtools::load_all()
+print("terra version")
+print(packageVersion("terra"))
 print("sf linking to:")
-print(sf_extSoftVersion())
+print(sf::sf_extSoftVersion())
+devtools::load_all()
 
 # specify file path
 f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
