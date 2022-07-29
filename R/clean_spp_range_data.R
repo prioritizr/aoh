@@ -437,16 +437,16 @@ clean_spp_range_data <- function(x,
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
   print(paste("after step 9:", nrow(x)))
+  print(sf::st_bbox(x))
   print(x, width = Inf)
-
 
   # step 10: reproject data
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_transform(x, crs)
   invisible(gc())
   print(paste("after step 10:", nrow(x)))
+  print(sf::st_bbox(x))
   print(x, width = Inf)
-
 
   # step 11: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
