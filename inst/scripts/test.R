@@ -1,8 +1,10 @@
 # load package
 print("terra version")
 print(packageVersion("terra"))
+library(terra)
 print("sf linking to:")
 print(sf::sf_extSoftVersion())
+library(sf)
 devtools::load_all()
 
 # specify file path
