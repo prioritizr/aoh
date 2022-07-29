@@ -60,6 +60,8 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
+            any::sf
+            any::rgdal
           needs: check
 
       - name: Session information
