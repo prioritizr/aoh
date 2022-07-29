@@ -65,6 +65,11 @@ jobs:
             any::rgdal
           needs: check
 
+      - name: Install R packages
+        run: |
+          install.packages("terra")
+        shell: Rscript {0}
+
       - name: Session information
         run: |
           options(width = 100)
