@@ -60,7 +60,7 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
-            package=dickoa/prepr?ignore
+            package=prepr?ignore-before-r=100.0.0
           needs: check
 
       - name: Install spatial R packages
