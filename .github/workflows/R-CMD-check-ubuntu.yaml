@@ -60,6 +60,7 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
+            package=prepr?ignore
           needs: check
 
       - name: Install spatial R packages
@@ -69,6 +70,7 @@ jobs:
           install.packages("terra")
           install.packages("lwgeom")
           install.packages("rgdal")
+          remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 
       - name: Session information
