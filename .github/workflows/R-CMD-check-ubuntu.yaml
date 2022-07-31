@@ -60,8 +60,10 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
-            package=prepr?ignore-before-r=100.0.0
-          needs: check
+            prepr=?ignore
+          needs: |
+            check
+            coverage
 
       - name: Install spatial R packages
         run: |
