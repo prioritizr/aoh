@@ -122,9 +122,15 @@ get_zenodo_data <- function(x, file, dir = tempdir(), n_attempts = 5,
   }
 
   # exit if file already exists
-  if (is.character(file)) {
-    if (!isTRUE(force) && file.exists(file.path(dir, file))) {
+  if (!isTRUE(force)) {
+    if (is.character(file) && file.exists(file.path(dir, file))) {
       return(file.path(dir, file))
+    } else if (is.function(file)) {
+      f <- sort(dir(dir), decreasing = TRUE)
+      r <- vapply(f, file, FUN.VALUE = logical(1))
+      if (any(r)) {
+        return(file.path(dir, f[which(r)[[1]]]))
+      }
     }
   }
 

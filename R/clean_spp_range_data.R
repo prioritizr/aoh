@@ -363,39 +363,28 @@ clean_spp_range_data <- function(x,
     msg = "terrestrial column should contain \"true\" or \"false\" values"
   )
 
-  print(paste("after step 1:", nrow(x)))
-  print(x, width = Inf)
-
   # step 2: exclude polygons based on presence code
   x <- x[
     which(round(x$presence) %in% round(keep_iucn_rl_presence)), , drop = FALSE
   ]
   invisible(gc())
-  print(paste("after step 2:", nrow(x)))
-  print(x, width = Inf)
 
   # step 3: exclude polygons based on origin code
   x <- x[
     which(round(x$origin) %in% round(keep_iucn_rl_origin)), , drop = FALSE
   ]
   invisible(gc())
-  print(paste("after step 3:", nrow(x)))
-  print(x, width = Inf)
 
   # step 4: exclude uncertain seasonality
   x <- x[
     which(round(x$seasonal) %in% round(keep_iucn_rl_seasonal)), , drop = FALSE
   ]
   invisible(gc())
-  print(paste("after step 4:", nrow(x)))
-  print(x, width = Inf)
 
   # step 5: exclude non-terrestrial distributions
   idx <- which(x$terrestrial == "true")
   x <- x[idx, , drop = FALSE]
   invisible(gc())
-  print(paste("after step 5:", nrow(x)))
-  print(x, width = Inf)
 
   # step 6: convert MULTISURFACE to MULTIPOLYGON
   x <- sf::st_set_precision(x, geometry_precision)
@@ -413,15 +402,10 @@ clean_spp_range_data <- function(x,
   }
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   invisible(gc())
-  print(paste("after step 6:", nrow(x)))
-  print(x, width = Inf)
 
   # step 7: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
-  print(paste("after step 7:", nrow(x)))
-  print(x, width = Inf)
-
 
   # step 8: wrap geometries to dateline
   x <- sf::st_set_precision(x, geometry_precision)
@@ -429,30 +413,19 @@ clean_spp_range_data <- function(x,
     options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
   )
   invisible(gc())
-  print(paste("after step 8:", nrow(x)))
-  print(x, width = Inf)
-
 
   # step 9: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
-  print(paste("after step 9:", nrow(x)))
-  print(sf::st_bbox(x))
-  print(x, width = Inf)
 
   # step 10: reproject data
   x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_transform(x, crs)
   invisible(gc())
-  print(paste("after step 10:", nrow(x)))
-  print(sf::st_bbox(x))
-  print(x, width = Inf)
 
   # step 11: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
-  print(paste("after step 11:", nrow(x)))
-  print(x, width = Inf)
 
   # step 12: snap geometries to grid
   if (snap_tolerance > 0) {
@@ -460,14 +433,10 @@ clean_spp_range_data <- function(x,
     x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
   }
   invisible(gc())
-  print(paste("after step 12:", nrow(x)))
-  print(x, width = Inf)
 
   # step 13: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
-  print(paste("after step 13:", nrow(x)))
-  print(x, width = Inf)
 
   # step 14: dissolve geometries by species, subspecies, seasonal
   ## create id
@@ -504,9 +473,6 @@ clean_spp_range_data <- function(x,
   )
   x <- x[na.omit(match(old_ids, x$aoh_id)), , drop = FALSE]
   invisible(gc())
-
-  print(paste("after step 14:", nrow(x)))
-  print(x, width = Inf)
 
   # step 15: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)

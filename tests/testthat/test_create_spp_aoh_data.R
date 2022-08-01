@@ -263,6 +263,8 @@ test_that("example data", {
   skip_if_iucn_key_missing()
   skip_if_iucn_api_not_available()
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
@@ -438,6 +440,8 @@ test_that("amphibian data (IUCN format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -502,6 +506,8 @@ test_that("reptile data (IUCN format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -566,6 +572,8 @@ test_that("terrestrial mammal data (IUCN format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -630,6 +638,8 @@ test_that("bird data (BirdLife format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -695,6 +705,8 @@ test_that("bird data (alternate BirdLife format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("BOTW_2021.7z")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),

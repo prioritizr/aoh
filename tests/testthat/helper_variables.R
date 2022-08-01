@@ -35,17 +35,15 @@ info_names <- c(
   "geometry"
 )
 
-latest_jung_version <- NULL
-
-latest_jung_potential_version <- NULL
-
-latest_lumb_cgls_version <- NULL
-
-latest_elevation_version <- NULL
-
-if (file.exists(rappdirs::user_data_dir("aoh"))) {
-  latest_jung_version <- extract_cache_doi("jung-lvl1")
-  latest_jung_potential_version <- extract_cache_doi("jung-plvl1")
-  latest_lumb_cgls_version <- extract_cache_doi("lumbierres-")
-  latest_elevation_version <- extract_cache_doi("dem-")
-}
+latest_jung_version <- try(
+  extract_cache_doi("jung-lvl1"), silent = TRUE
+)
+latest_jung_potential_version <- try(
+  extract_cache_doi("jung-plvl1"), silent = TRUE
+)
+latest_lumb_cgls_version <- try(
+  extract_cache_doi("lumbierres-"), silent = TRUE
+)
+latest_elevation_version <- try(
+  extract_cache_doi("dem-"), silent = TRUE
+)

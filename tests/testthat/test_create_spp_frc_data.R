@@ -146,6 +146,8 @@ test_that("example data", {
   skip_if_iucn_key_missing()
   skip_if_iucn_api_not_available()
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
