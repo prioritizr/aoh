@@ -13,7 +13,10 @@ if (identical(Sys.getenv("CI"), "true")) {
 }
 
 # run tests
-if (isTRUE(is_gdal_version_met()) && isTRUE(is_proj_version_met())) {
+if (
+  isTRUE(aoh:::is_gdal_version_met()) &&
+  isTRUE(aoh:::is_proj_version_met())
+) {
   test_check("aoh", reporter = reporter)
 } else {
   message("skipping all tests due to out-dated system dependencies")
