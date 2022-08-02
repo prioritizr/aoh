@@ -3,6 +3,7 @@ context("create_spp_aoh_data()")
 test_that("simulated data (terra engine)", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -84,6 +85,7 @@ test_that("simulated data (terra engine)", {
 test_that("simulated data (GDAL engine)", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_python_not_available()
   # specify file path
@@ -172,6 +174,7 @@ test_that("simulated data (GRASS engine)", {
   # skip if needed
   skip_on_cran()
   skip_on_os("windows")
+  skip_if_not_installed("rgdal")
   skip_if_not_installed("gdalUtilities")
   skip_if_grass_not_available()
   # specify file path
@@ -259,6 +262,7 @@ test_that("simulated data (GRASS engine)", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   skip_if_offline()
   skip_if_iucn_key_missing()
   skip_if_iucn_api_not_available()
@@ -331,6 +335,7 @@ test_that("example data", {
 test_that("some species missing habitat data", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
