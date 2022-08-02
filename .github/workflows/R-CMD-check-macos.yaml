@@ -49,6 +49,7 @@ jobs:
           brew install gmp
           brew install mpfr
           brew install automake
+          brew install gdal
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
