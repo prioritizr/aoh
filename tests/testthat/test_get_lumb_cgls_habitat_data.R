@@ -7,7 +7,9 @@ test_that("latest version (from online)", {
   skip_if_local_and_slow_internet()
   skip_if_zenodo_api_not_available()
   # create object
+  d <- new_temp_dir()
   x <- get_lumb_cgls_habitat_data(
+    dir = d,
     version = "latest",
     force = TRUE,
     verbose = interactive()
@@ -20,6 +22,8 @@ test_that("latest version (from online)", {
   expect_lte(terra::xmin(x), -6005523)
   expect_gte(terra::ymax(x), 7287077)
   expect_equal(terra::nlyr(x), 1)
+  # clean up
+  unlink(d, recursive = TRUE, force = TRUE)
 })
 
 test_that("latest version (from cache)", {
@@ -55,7 +59,9 @@ test_that("specified version (from online)", {
   skip_if_zenodo_api_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
   # create object
+  d <- new_temp_dir()
   x <- get_lumb_cgls_habitat_data(
+    dir = d,
     version = latest_lumb_cgls_version,
     force = FALSE,
     verbose = interactive()
@@ -68,6 +74,8 @@ test_that("specified version (from online)", {
   expect_lte(terra::xmin(x), -6005523)
   expect_gte(terra::ymax(x), 7287077)
   expect_equal(terra::nlyr(x), 1)
+  # clean up
+  unlink(d, recursive = TRUE, force = TRUE)
 })
 
 test_that("specified version (from cache)", {

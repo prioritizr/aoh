@@ -17,3 +17,9 @@ extract_cache_doi <- function(x) {
   v <- gsub("_", "/", v, fixed = TRUE)
   sort(v, decreasing = TRUE)[[1]]
 }
+
+new_temp_dir <- function() {
+  f <- tempfile()
+  dir.create(f, showWarnings = FALSE, recursive = TRUE)
+  f
+}
