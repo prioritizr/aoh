@@ -44,41 +44,31 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
+          use-public-rspm: true
 
-      - uses: r-lib/actions/setup-pandoc@master
-
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          cache-version: 4
+          extra-packages: |
+            any::rcmdcheck
+            any::XML
+            prepr=?ignore
+          needs: |
+            check
 
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
+      - name: Install spatial R packages
         run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-
-      - name: Install dependencies
-        run: |
-          options("install.packages.compile.from.source" = "never", pkgType = "binary")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
-          remotes::install_cran("covr")
+          options(repos = "https://cloud.r-project.org/")
+          install.packages("sf")
+          install.packages("terra")
+          install.packages("lwgeom")
+          install.packages("rgdal")
+          remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 
       - name: Session information
@@ -88,19 +78,11 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
-      - name: Check
-        run: |
-          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--no-build-vignettes"), error_on = "warning", check_dir = "check")
-        shell: Rscript {0}
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
 
       - name: Show testthat output
         if: always()
         run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
         shell: bash
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
-        with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check

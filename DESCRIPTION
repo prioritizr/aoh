@@ -66,7 +66,7 @@ License: GPL-3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-SystemRequirements: GDAL (>= 3.0.2)
+SystemRequirements: GDAL (>= 3.0.2) (optional), PROJ (>= 7.2.0) (optional)
 URL: https://prioritizr.github.io/aoh/, https://github.com/prioritizr/aoh
 BugReports: https://github.com/prioritizr/aoh/issues
 VignetteBuilder: knitr

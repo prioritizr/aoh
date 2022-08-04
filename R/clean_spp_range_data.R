@@ -364,15 +364,21 @@ clean_spp_range_data <- function(x,
   )
 
   # step 2: exclude polygons based on presence code
-  x <- x[which(x$presence %in% keep_iucn_rl_presence), , drop = FALSE]
+  x <- x[
+    which(round(x$presence) %in% round(keep_iucn_rl_presence)), , drop = FALSE
+  ]
   invisible(gc())
 
   # step 3: exclude polygons based on origin code
-  x <- x[which(x$origin %in% keep_iucn_rl_origin), , drop = FALSE]
+  x <- x[
+    which(round(x$origin) %in% round(keep_iucn_rl_origin)), , drop = FALSE
+  ]
   invisible(gc())
 
   # step 4: exclude uncertain seasonality
-  x <- x[which(x$seasonal %in% keep_iucn_rl_seasonal), , drop = FALSE]
+  x <- x[
+    which(round(x$seasonal) %in% round(keep_iucn_rl_seasonal)), , drop = FALSE
+  ]
   invisible(gc())
 
   # step 5: exclude non-terrestrial distributions

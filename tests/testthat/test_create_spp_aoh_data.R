@@ -3,6 +3,7 @@ context("create_spp_aoh_data()")
 test_that("simulated data (terra engine)", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -84,6 +85,7 @@ test_that("simulated data (terra engine)", {
 test_that("simulated data (GDAL engine)", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_python_not_available()
   # specify file path
@@ -171,6 +173,8 @@ test_that("simulated data (GDAL engine)", {
 test_that("simulated data (GRASS engine)", {
   # skip if needed
   skip_on_cran()
+  skip_on_os("windows")
+  skip_if_not_installed("rgdal")
   skip_if_not_installed("gdalUtilities")
   skip_if_grass_not_available()
   # specify file path
@@ -258,10 +262,13 @@ test_that("simulated data (GRASS engine)", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   skip_if_offline()
   skip_if_iucn_key_missing()
   skip_if_iucn_api_not_available()
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
@@ -328,6 +335,7 @@ test_that("example data", {
 test_that("some species missing habitat data", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("rgdal")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -437,6 +445,8 @@ test_that("amphibian data (IUCN format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("AMPHIBIANS.zip")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -501,6 +511,8 @@ test_that("reptile data (IUCN format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("REPTILES.zip")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -565,6 +577,8 @@ test_that("terrestrial mammal data (IUCN format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("MAMMALS_TERRESTRIAL_ONLY.zip")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -629,6 +643,8 @@ test_that("bird data (BirdLife format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("BOTW.7z")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),
@@ -694,6 +710,8 @@ test_that("bird data (alternate BirdLife format)", {
   skip_if_not_installed("prepr")
   skip_if_iucn_red_list_data_not_available("BOTW_2021.7z")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify parameters for processing
   f <- file.path(
     rappdirs::user_data_dir("iucn-red-list-data"),

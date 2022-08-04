@@ -19,8 +19,10 @@ NULL
 #' @return A `logical` indicating if the IUCN Red List API can be accessed.
 #'
 #' @examples
+#' \dontrun{
 #' # check if IUCN Red List API is available?
 #' is_iucn_rl_api_available()
+#' }
 #'
 #' @export
 is_iucn_rl_api_available <- function(key = NULL, n = 5) {
@@ -101,9 +103,10 @@ is_gdal_python_available <- function() {
 #' @return A `logical` indicating if GRASS is available or not.
 #'
 #' @examples
+#' \dontrun{
 #' # check if GRASS is available?
 #' print(is_grass_available())
-#'
+#' }
 #' @export
 is_grass_available <- function() {
   if (!requireNamespace("rgrass7", quietly = TRUE)) return(FALSE)

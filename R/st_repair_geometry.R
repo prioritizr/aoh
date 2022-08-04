@@ -77,7 +77,7 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
   sf::st_crs(x2) <- x_crs
 
   # remove empty geometries
-  x2 <- x2[!sf::st_is_empty(x2), ]
+  x2 <- x2[!sf::st_is_empty(x2), , drop = FALSE]
 
   # extract polygons (if needed)
   x2 <- suppressWarnings(sf::st_collection_extract(x2, "POLYGON"))
@@ -85,6 +85,7 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
   # detect if any invalid geometries persist
   ## subset repaired polygons
   x_sub <- x[match(x2[["_repair_id"]], x[["_repair_id"]]), , drop = FALSE]
+
   ## detect if invalid polygons based on changes in area
   area_threshold <- ifelse(sf::st_is_longlat(x), 1, 1e+4)
   invalid_idx <- which(
