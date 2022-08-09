@@ -1,5 +1,6 @@
 context("setup")
 
+# initialize data
 test_that("cache directory", {
   skip_on_cran()
   # create data directory

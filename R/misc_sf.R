@@ -54,7 +54,7 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   out <- sf::read_sf(dsn = dsn, query = query)
   if (!is.null(n)) {
     if (nrow(out) > n) {
-      out <- out[seq_len(n), ]
+      out <- out[seq_len(n), ] # nocov
     }
   }
   # force sf_geometry column to be called "geometry"
@@ -92,31 +92,4 @@ sf_terra_ext <- function(x) {
     x <- sf::st_bbox(x)
   }
   terra::ext(c(x$xmin, x$xmax, x$ymin, x$ymax))
-}
-
-#' Coordinate reference system
-#'
-#' Create a `character` object to describe the coordinate reference system
-#' of a [sf::st_sf()] object following the \pkg{terra} package conventions.
-#'
-#' @param x [sf::st_sf()] Object.
-#'
-#' @return A `character` value.
-#'
-#' @examples
-#' # import sf object
-#' nc <- read_sf(system.file("shape/nc.shp", package = "sf"))
-#'
-#' # create terra CRS value
-#' sf_terra_crs(nc)
-#'
-#' @family geoprocessing
-#'
-#' @noRd
-sf_terra_crs <- function(x) {
-  assertthat::assert_that(inherits(x, c("sf", "crs")))
-  if (!inherits(x, "crs")) {
-    x <- sf::st_crs(x)
-  }
-  x$wkt
 }

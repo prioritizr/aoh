@@ -128,7 +128,7 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
   }
 
   # manually fix geometries if needed
-  if (length(invalid_idx) > 0) {
+  if (length(invalid_idx) > 0) { # nocov start
     ### verify that prepr package is installed
     assertthat::assert_that(
       requireNamespace("prepr", quietly = TRUE),
@@ -147,7 +147,7 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
         x[x[["_repair_id"]] %in% invalid_ids, , drop = FALSE]
       )
     )
-  }
+  } # nocov end
 
   # remove custom id column
   geom_col <- attr(x2, "sf_column")

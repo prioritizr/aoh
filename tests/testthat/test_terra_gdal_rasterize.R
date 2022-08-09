@@ -10,7 +10,9 @@ test_that("normal", {
   x <- terra::rast(v, ncols = 75, nrows = 100)
   x <- terra::setValues(x, runif(terra::ncell(x)))
   # create object
-  z1 <- terra_gdal_rasterize(x, sf, burn = 5, verbose = interactive())
+  z1 <- terra_gdal_rasterize(
+    x, sf, burn = 5, NAflag = 1, verbose = interactive()
+  )
   z2 <- rasterize(v, x, field = 5, background = 0)
   # tests
   expect_is(z1, "SpatRaster")

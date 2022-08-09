@@ -54,4 +54,8 @@ reference:
     desc: Assorted functions with various uses
     contents:
       - terra_combine
+      - terra_gdal_calc
+      - terra_gdal_crop
+      - terra_gdal_project
+      - terra_gdal_rasterize
       - st_repair_geometry

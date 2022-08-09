@@ -1,0 +1,175 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:22 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3ALBbF1KOBcG8RgZn4KO0vhyoT_cxtHoEj.X4OKDTk15FNHxbFGp%2B5JK%2BGk49X7uqrmDKbvCzX23%2B0;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 22:59:32 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/18?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:24 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '290'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"122-JHwals/BRrSLj/3hgcM24A"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AbFK5j-YwLjNtLcls_CVScjA4VfGHDXXI.8g6lsG7Z3m97ptdoGQC%2FaP%2Fzr2ZWz3%2B5ut%2F50u6FdcY;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"18","result":[{"code":"1.9","habitat":"Forest - Subtropical/Tropical
+        Moist Montane","suitability":"Suitable","season":null,"majorimportance":null},{"code":"6","habitat":"Rocky
+        areas (eg. inland cliffs, mountain peaks)","suitability":"Suitable","season":null,"majorimportance":null}]}'
+  recorded_at: 2022-08-08 22:59:32 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/137?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:27 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '448'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"1c0-/xhqtKpymw7Mu/H+NjyXIQ"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3A24KgM4j5_deX0XsCRZVcGipBGYK62Df-.T9XCUt%2BYLr2Vry5fGLlm5OZS4aaHE4SToSHPZZvJHfI;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"137","result":[{"code":"14.4","habitat":"Artificial/Terrestrial
+        - Rural Gardens","suitability":"Suitable","season":null,"majorimportance":"No"},{"code":"1.6","habitat":"Forest
+        - Subtropical/Tropical Moist Lowland","suitability":"Suitable","season":null,"majorimportance":"Yes"},{"code":"1.7","habitat":"Forest
+        - Subtropical/Tropical Mangrove Vegetation Above High Tide Level","suitability":"Suitable","season":null,"majorimportance":"Yes"}]}'
+  recorded_at: 2022-08-08 22:59:32 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/138?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:29 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '156'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"9c-POC3OuObRaL+tXwNDJWrbw"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AKoGYX2n4y-4audWxoNAzMwSfjIUHMTbV.Kkit6fXPL18A1UIErhI82Sxqxj45YD01b38fQd52crI;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"138","result":[{"code":"1.6","habitat":"Forest - Subtropical/Tropical
+        Moist Lowland","suitability":"Suitable","season":null,"majorimportance":null}]}'
+  recorded_at: 2022-08-08 22:59:32 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/139?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:32 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '451'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"1c3-Nv3t1/eZA/GiX0Zp/CavPw"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3ALPpC7jKr8-UNvrd2IsicmytwqRFT6zjF.ndc%2BI9Hlnkg8hQ6vL7BDWkWpBvaO9AoW3j%2BHIRTW130;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"139","result":[{"code":"1.6","habitat":"Forest - Subtropical/Tropical
+        Moist Lowland","suitability":"Suitable","season":null,"majorimportance":"Yes"},{"code":"1.7","habitat":"Forest
+        - Subtropical/Tropical Mangrove Vegetation Above High Tide Level","suitability":"Suitable","season":null,"majorimportance":"No"},{"code":"1.9","habitat":"Forest
+        - Subtropical/Tropical Moist Montane","suitability":"Marginal","season":null,"majorimportance":null}]}'
+  recorded_at: 2022-08-08 22:59:32 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

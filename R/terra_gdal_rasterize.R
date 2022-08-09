@@ -6,9 +6,11 @@ NULL
 
 #' Convert vector data into a raster using GDAL
 #'
-#' This function is a wrapper for [gdalUtilities::gdal_rasterize()].
+#' This function is a wrapper for [gdalUtilities::gdal_rasterize()] for use with
+#' \pkg{terra} objects.
 #'
 #' @inheritParams terra_gdal_calc
+#' @inheritParams terra_gdal_project
 #'
 #' @param sf [sf::st_sf()] Spatial object to rasterize.
 #'
@@ -53,7 +55,7 @@ NULL
 #'
 #' # plot result
 #' plot(z)
-#' @noRd
+#' @export
 terra_gdal_rasterize <- function(x, sf,
                                  burn = 1,
                                  init = 0,
@@ -150,6 +152,9 @@ terra_gdal_rasterize <- function(x, sf,
     burn = burn,
     q = !isTRUE(verbose)
   )
+  if (!isTRUE(update)) {
+    args$init <- init
+  }
   if (!is.null(NAflag)) {
     if (!identical(NAflag, "none")) {
       assertthat::assert_that(

@@ -179,9 +179,11 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
   )
   if (!is.null(maptype)) {
     if (!requireNamespace("ggmap", quietly = TRUE)) {
+      # nocov start
       stop(
         "please install the \"ggmap\" package to create plots with a basemap"
       )
+      # nocov end
     }
     assertthat::assert_that(
       assertthat::is.string(maptype),
@@ -199,6 +201,7 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
     cli::cli_alert("argument to \"zoom\" has no effect if \"maptype\" is NULL")
   }
   if (nrow(x) > max_plot) {
+    # nocov start
     warning(
       paste(
         "plotting the first 9 out of", nrow(x), "Area of Habitat datasets;",
@@ -207,6 +210,7 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
       immediate. = TRUE
     )
     x <- x[seq_len(max_plot), , drop = FALSE]
+    # nocov end
   }
 
   # prepare data

@@ -123,4 +123,16 @@
   <url>
     <loc>/reference/terra_combine.html</loc>
   </url>
+  <url>
+    <loc>/reference/terra_gdal_calc.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_gdal_crop.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_gdal_project.html</loc>
+  </url>
+  <url>
+    <loc>/reference/terra_gdal_rasterize.html</loc>
+  </url>
 </urlset>

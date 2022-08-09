@@ -72,7 +72,7 @@ terra_combine <- function(x) {
 
   # expand extents as needed
   x <- terra::rast(lapply(terra::as.list(x), function(x) {
-    if (terra::ext(x) == max_ext) return(x)
+    if (terra::ext(x) == max_ext) return(x) # nocov
     terra::extend(x = x, y = max_ext)
   }))
 

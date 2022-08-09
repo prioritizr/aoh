@@ -4,12 +4,13 @@ test_that("single layer (single core)", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
   # create data
+  f <- tempfile(fileext = ".tif")
   x <- terra::rast(
     ncols = 40, nrows = 40,
     xmin = -110, xmax = -90, ymin = 40, ymax = 60,
     crs = "+proj=longlat +datum=WGS84"
   )
-  x <- terra::init(x, runif)
+  x <- terra::init(x, runif, filename = f)
   names(x) <- "random"
   y <- terra::rast(
     ncols = 10, nrows = 10,
@@ -20,12 +21,14 @@ test_that("single layer (single core)", {
   # create correct result
   z1 <- terra::project(x, y, method = "near")
   # create results using function
-  z2 <- terra_gdal_project(
-    x, y, method = "near", verbose = interactive(), n_threads = 1
-  )
+  z2 <- terra::rast(terra_gdal_project(
+    x, y, method = "near", verbose = interactive(), n_threads = 1,
+    tiled = TRUE, bigtiff = TRUE, output_raster = FALSE
+  ))
   # tests
   expect_true(terra::compareGeom(z1, z2, stopOnError = FALSE, res = TRUE))
-  expect_equal(terra::values(z1), terra::values(z2), tolerance = 0.1)
+  expect_equivalent(terra::values(z1), terra::values(z2), tolerance = 0.1)
+  unlink(f)
 })
 
 test_that("single layer (parallel processing)", {
@@ -115,7 +118,7 @@ test_that("multiple layers (parallel processing)", {
   # create results using function
   z2 <- terra_gdal_project(
     x, y, method = "near", verbose = interactive(),
-    n_threads = 2, NAflag = -9999
+    n_threads = 2, NAflag = "none"
   )
   # tests
   expect_true(terra::compareGeom(z1, z2, stopOnError = FALSE, res = TRUE))

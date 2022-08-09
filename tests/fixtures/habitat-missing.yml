@@ -1,0 +1,166 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:34 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AwR5OtVyvsxXTGCQ7fS0uQxMLGJeZTPbw.Mnvw8%2BBfAKl%2Br%2FgHwv3skJjlblcwcBv%2Bqz0gFx4BnS0;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 22:59:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/-100?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:37 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '25'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"19-1bYxLlqZb+XoqxmbHFGK4w"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AiNiadUMSZoUvZcZGh9O4OhBiHupWdy-I.7brBcHMBZbvuff5sdNeSRqeDwGCzA8GeBeW8BlQaDno;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"-100","result":[]}'
+  recorded_at: 2022-08-08 22:59:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/41129?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:39 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '26'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"1a-XafBQQLkkL0JEg8Girz+NA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AGWrHnZ92IWCuuUg9Vfz1U4dUPlcsy-mA.V61ia9pBH5QlXcKhPekRuXvS37%2BMeHuX4RlIMQKoRqA;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"41129","result":[]}'
+  recorded_at: 2022-08-08 22:59:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/135913?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:42 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '27'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"1b-gtkyGrg8hbiF3ZCZ8P1mxA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AFcJ34LGqKoprO7wEG_v9IzgSYe6MVOap.Ke6CWSZ6leHiA4fZvckLBTUAKK5gQwLpml4bYgmsuBE;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"135913","result":[]}'
+  recorded_at: 2022-08-08 22:59:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/135758?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:45 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '27'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"1b-u0QCxsUe0udSvgfS4L47NA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3Aa31LIR2PGJyQqmtzHqovizjWyzPs8gca.vPH6u8%2FMZyw477Y6NF9c81IYbgIP%2BN6dM6wtHVVX2qM;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"135758","result":[]}'
+  recorded_at: 2022-08-08 22:59:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

@@ -102,7 +102,7 @@ get_jung_lvl2_habitat_data <- function(dir = tempdir(),
   if (identical(version, "latest")) {
     ## verify if internet connection present
     if (!curl::has_internet()) {
-      stop("no internet connection detected.")
+      stop("no internet connection detected.") # nocov
     }
 
     ## find latest version

@@ -34,13 +34,13 @@ test_that("simulated data", {
     verbose = interactive()
   )
   # compute fractional coverage
-  x1 <- calc_spp_frc_data(
+  x1 <- suppressMessages(calc_spp_frc_data(
     x = d,
     res = 5000,
     template_data = elevation_data,
     output_dir = tempdir(),
-    verbose = interactive()
-  )
+    verbose = TRUE
+  ))
   x2 <- calc_spp_frc_data(
     x = d,
     res = 5000,

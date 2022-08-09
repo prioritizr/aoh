@@ -3,13 +3,13 @@ context("get_spp_habitat_data()")
 test_that("single taxon identifier", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
+  skip_if_not_installed("vcr")
   # set parameters
   id_no <- c(18)
   # create objects
-  x1 <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+  vcr::use_cassette("habitat-single", {
+    x1 <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+  })
   Sys.sleep(2)
   x2 <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   # tests
@@ -27,13 +27,13 @@ test_that("single taxon identifier", {
 test_that("multiple taxon identifiers", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
+  skip_if_not_installed("vcr")
   # set parameters
   id_no <- c(18, 137, 138, 139)
   # create objects
-  x1 <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+  vcr::use_cassette("habitat-multiple", {
+    x1 <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+  })
   Sys.sleep(2)
   x2 <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   # tests
@@ -51,13 +51,13 @@ test_that("multiple taxon identifiers", {
 test_that("some taxon missing habitat information", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
+  skip_if_not_installed("vcr")
   # set parameters
   id_no <- c(-100, 41129, 135913, 135758)
   # create objects
-  x1 <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+  vcr::use_cassette("habitat-missing", {
+    x1 <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+  })
   Sys.sleep(2)
   x2 <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   # tests

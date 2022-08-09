@@ -3,7 +3,8 @@ NULL
 
 #' GDAL calculate
 #'
-#' This function is a wrapper for the `gdal_calc.py` script.
+#' This function is a wrapper for the `gdal_calc.py` script for use with
+#' \pkg{terra} objects.
 #'
 #' @inheritParams terra_gdal_project
 #'
@@ -40,7 +41,7 @@ NULL
 #'
 #' # preview result
 #' print(y)
-#' @noRd
+#' @export
 terra_gdal_calc <- function(x, expr,
                             y = NULL,
                             z = NULL,

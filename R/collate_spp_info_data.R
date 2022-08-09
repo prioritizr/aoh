@@ -74,6 +74,7 @@ collate_spp_info_data <- function(x,
     )
   )
   if (any(!x$id_no %in% spp_habitat_data$id_no)) {
+    # nocov start
     warning(
       paste(
         "argument to \"x\" contains",
@@ -82,6 +83,7 @@ collate_spp_info_data <- function(x,
       ),
       immediate. = TRUE
     )
+    # nocov end
   }
   assertthat::assert_that(
     identical(anyDuplicated(spp_summary_data$id_no), 0L),

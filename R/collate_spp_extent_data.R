@@ -54,9 +54,11 @@ collate_spp_extent_data <- function(x, template_data) {
           )
         )
       } else {
+        # nocov start
         ex <- list(
           xmin = NA_real_, xmax = NA_real_, ymin = NA_real_, ymax = NA_real_
         )
+        # nocov end
       }
       data.frame(
         xmin = ex$xmin,

@@ -81,7 +81,7 @@ read_spp_range_data <- function(path, n = NULL) {
   # import data
   if (length(shp_path) == 1) {
     out <- read_sf_n(shp_path, n = n)
-  } else if (length(gdb_path) == 1) {
+  } else if (length(gdb_path) == 1) { # nocov start
     ## inspect geodatabase
     gdb_dir <- sf::st_layers(gdb_path)
     ## find index for spatial data
@@ -149,7 +149,7 @@ read_spp_range_data <- function(path, n = NULL) {
     out <- dplyr::select(out, -.data$geometry, dplyr::everything())
   } else {
     stop("argument to \"path\" does not contain spatial data")
-  }
+  } # nocov end
 
   # clean up
   unlink(temp_dir, recursive = TRUE, force = TRUE)

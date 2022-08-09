@@ -147,7 +147,7 @@ get_zenodo_data <- function(x, file, dir = tempdir(), n_attempts = 5,
     idx <- which(f$filename == file)
   }
   if (length(idx) == 0) {
-    stop("argument to \"file\" not found in Zenodo repository")
+    stop("argument to \"file\" not found in Zenodo repository") # nocov
   }
 
   # download data and return paths
@@ -192,13 +192,14 @@ get_zenodo_record <- function(x, z = zen4R::ZenodoManager$new(logger = NULL),
   # attempt to query API
   r <- NULL
   for (i in seq_len(n_attempts)) {
-    # try to query result
+    ## try to query result
     r <- try(z$getRecordByDOI(x), silent = TRUE)
-    # if success, then exit now
+    ## if success, then exit now
     if (!inherits(r, "try-error")) {
       break
     }
-    # if the error is not due to internal server error, then exit too
+    # nocov start
+    ## if the error is not due to internal server error, then exit too
     if (
       any(
         grepl("$ operator is invalid for atomic vectors", r[[1]], fixed = TRUE)
@@ -206,15 +207,16 @@ get_zenodo_record <- function(x, z = zen4R::ZenodoManager$new(logger = NULL),
     ) {
       stop(r[[1]])
     }
-    # otherwise, wait for 5 seconds and try again
+    ## otherwise, wait for 5 seconds and try again
     if (i < n_attempts) {
       Sys.sleep(5)
     }
+    # nocov end
   }
 
   # if the result is an error after trying multiple times, then throw error
   if (inherits(r, "try-error")) {
-    stop("failed to access Zenodo API")
+    stop("failed to access Zenodo API") # nocov
   }
 
   # return result

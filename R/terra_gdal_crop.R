@@ -3,7 +3,8 @@ NULL
 
 #' Crop a raster using GDAL
 #'
-#' This function is a wrapper for [gdalUtilities::gdal_translate()].
+#' This function is a wrapper for [gdalUtilities::gdal_translate()]
+#' for use with \pkg{terra} objects.
 #'
 #' @param ext [terra::ext()] Raster extent object.
 #'
@@ -31,7 +32,7 @@ NULL
 #'
 #' # preview result
 #' print(z)
-#' @noRd
+#' @export
 terra_gdal_crop <- function(x, ext,
                             n_threads = 1,
                             filename = tempfile(fileext = ".tif"),

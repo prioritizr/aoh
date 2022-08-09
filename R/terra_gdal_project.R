@@ -3,7 +3,8 @@ NULL
 
 #' Project a raster using GDAL
 #'
-#' This function is a wrapper for [gdalUtilities::gdalwarp()].
+#' This function is a wrapper for [gdalUtilities::gdalwarp()] for use with
+#' \pkg{terra} objects.
 #'
 #' @param x [terra::rast()] Raster object with source data.
 #'
@@ -76,7 +77,7 @@ NULL
 #'
 #' # preview result
 #' print(z)
-#' @noRd
+#' @export
 terra_gdal_project <- function(x, y,
                                method = "bilinear",
                                n_threads = 1,

@@ -1,0 +1,114 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:10 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AOqTjGxFN1bnhjd2zUArszcmpaWn0s6bx.SYfTouxcv1xjasBli9SobBUMM7TN2tKkdnXComySP2w;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 23:00:14 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/178652?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:12 GMT
+      content-type: application/json; charset=utf-8
+      transfer-encoding: chunked
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"5db-UkhgBQnXSZJgSuCQai/8Tg"
+      vary: Accept-Encoding
+      content-encoding: gzip
+      set-cookie: sails.sid=s%3ApQ524m4PxwR-nxiJT-e-JHYk16Unxmf2.1zikKfLWkCHm9Q4LdbTBh2jnWvQzNGlOoG7%2BMBXDokE;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"178652","result":[{"taxonid":178652,"scientific_name":"Sphaerodactylus
+        dunni","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"SPHAERODACTYLIDAE","genus":"Sphaerodactylus","main_common_name":"Dunn''s
+        Least Gecko","authority":"Schmidt, 1936","published_year":2013,"assessment_date":"2012-05-08","category":"LC","criteria":null,"population_trend":"Stable","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Townsend,
+        J.H., Wilson, L.D., Luque, I. & Mayer, Greg","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"0","elevation_upper":700,"elevation_lower":60,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null},{"taxonid":178652,"scientific_name":"Sphaerodactylus
+        dunni","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"SPHAERODACTYLIDAE","genus":"Sphaerodactylus","main_common_name":"Dunn''s
+        Least Gecko","authority":"Schmidt, 1936","published_year":2013,"assessment_date":"2012-05-08","category":"LC","criteria":null,"population_trend":"Stable","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Townsend,
+        J.H., Wilson, L.D., Luque, I. & Mayer, Greg","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"18,598","elevation_upper":700,"elevation_lower":60,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-08 23:00:14 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/177906?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:14 GMT
+      content-type: application/json; charset=utf-8
+      transfer-encoding: chunked
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"590-4m0BwF4G5zKdeez3f4NJkg"
+      vary: Accept-Encoding
+      content-encoding: gzip
+      set-cookie: sails.sid=s%3AsgDsyYeDo8OtCC1KEqupETeKYgoJkosC.w82%2BEMsoICXt8IpitMSOg%2FAotUshSlIMmK9EcfrnVjw;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"177906","result":[{"taxonid":177906,"scientific_name":"Anolis
+        cristifer","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"DACTYLOIDAE","genus":"Anolis","main_common_name":"Abaniquillo
+        Liquenado Crestado","authority":"Smith, 1968","published_year":2021,"assessment_date":"2012-10-11","category":"DD","criteria":null,"population_trend":"Unknown","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Mayer,
+        G.C. & Acevedo, M.","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"0","elevation_upper":1500,"elevation_lower":0,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null},{"taxonid":177906,"scientific_name":"Anolis
+        cristifer","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"DACTYLOIDAE","genus":"Anolis","main_common_name":"Abaniquillo
+        Liquenado Crestado","authority":"Smith, 1968","published_year":2021,"assessment_date":"2012-10-11","category":"DD","criteria":null,"population_trend":"Unknown","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Mayer,
+        G.C. & Acevedo, M.","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"13100","elevation_upper":1500,"elevation_lower":0,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-08 23:00:14 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

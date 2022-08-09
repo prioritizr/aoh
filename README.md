@@ -3,7 +3,7 @@
 
 ## aoh: Create Area of Habitat Data
 
-[![lifecycle](https://img.shields.io/badge/Lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
 [![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/aoh/Windows/master.svg?label=Windows)](https://github.com/prioritizr/aoh/actions)
 [![R-CMD-check-macOS](https://img.shields.io/github/workflow/status/prioritizr/aoh/macOS/master.svg?label=macOS)](https://github.com/prioritizr/aoh/actions)
@@ -355,7 +355,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
-      0.0.0.1. Available at https://github.com/prioritizr/aoh.
+      0.0.0.2. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

@@ -1,0 +1,107 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:35 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3Apy8KVd0Ix-94cf0OcAjiUC0g2Euj1dBo.AB9hgfTaOx8Z4ZgqA3RFpdik%2B%2FgIHHHuJhyrbN7l1ew;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 23:00:40 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/threats/species/id/18?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:37 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '864'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"360-0bs5tuFkyL0WyCEQ2zztuQ"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AW-6ZNuCaXUJKcS81X_p4jOSAxshA7WSG.gYVnp6uVlNxIeUkiiL037BDnuBQRhTywTR79s2EoIbQ;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"18","result":[{"code":"1.1","title":"Housing & urban areas","timing":"Ongoing","scope":null,"severity":null,"score":"Low
+        Impact: 3","invasive":null},{"code":"2.3","title":"Livestock farming & ranching","timing":"Ongoing","scope":null,"severity":null,"score":"Low
+        Impact: 3","invasive":null},{"code":"2.3.2","title":"Small-holder grazing,
+        ranching or farming","timing":"Ongoing","scope":null,"severity":null,"score":"Low
+        Impact: 3","invasive":null},{"code":"4.1","title":"Roads & railroads","timing":"Ongoing","scope":null,"severity":null,"score":"Low
+        Impact: 3","invasive":null},{"code":"7.1","title":"Fire & fire suppression","timing":"Ongoing","scope":null,"severity":null,"score":"Low
+        Impact: 3","invasive":null},{"code":"7.1.3","title":"Trend Unknown/Unrecorded","timing":"Ongoing","scope":null,"severity":null,"score":"Low
+        Impact: 3","invasive":null}]}'
+  recorded_at: 2022-08-08 23:00:40 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/threats/species/id/-100?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:40 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '25'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"19-1bYxLlqZb+XoqxmbHFGK4w"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AcHmFwm1P_XQwKINnJpixWQXNVole20ua.g2qQViL1SI3Bx2Je08iH2EH5OT%2BmhDZgHRxJj5BWQuM;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"-100","result":[]}'
+  recorded_at: 2022-08-08 23:00:40 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
