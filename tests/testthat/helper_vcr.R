@@ -11,5 +11,5 @@ if (require(vcr)) {
 
 # initialize API key
 if (!nzchar(Sys.getenv("IUCN_REDLIST_KEY"))) {
-  Sys.setenv("IUCN_REDLIST_KEY", "FAKE_KEY")
+  Sys.setenv("IUCN_REDLIST_KEY" = "FAKE_KEY")
 }
