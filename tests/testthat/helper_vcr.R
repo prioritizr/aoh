@@ -8,3 +8,8 @@ if (require(vcr)) {
   ))
   vcr::check_cassette_names()
 }
+
+# initialize API key
+if (!nzchar(Sys.getenv("IUCN_REDLIST_KEY"))) {
+  Sys.setenv("IUCN_REDLIST_KEY", "FAKE_KEY")
+}
