@@ -67,7 +67,7 @@ jobs:
           print(x$version)
           print(isTRUE(as.package_version(x$version) >= as.package_version("7.8.7")))
           stop("end")
-      shell: Rscript {0}
+        shell: Rscript {0}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
