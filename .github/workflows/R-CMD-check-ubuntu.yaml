@@ -76,30 +76,6 @@ jobs:
           remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 
-
-      - name: Find GRASS installation
-        run: |
-          grass --version
-          which grass
-        shell: bash
-
-      - name: Verify GRASS installation
-        run: |
-          options(repos = "https://cloud.r-project.org/")
-          install.packages("rgrass7")
-          install.packages("link2GI")
-          x <- link2GI::findGRASS(quiet = FALSE)
-          print(x)
-          MP <- "/usr/bin"
-          raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
-          print("here1")
-          print(raw_GRASS)
-          if (length(raw_GRASS) == 0) raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass' -print"),stdout = TRUE,stderr = FALSE)
-          print("here2")
-          print(raw_GRASS)
-          stop("done")
-        shell: Rscript {0}
-
       - name: Session information
         run: |
           options(width = 100)
