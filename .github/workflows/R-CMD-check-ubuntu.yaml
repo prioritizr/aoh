@@ -76,11 +76,13 @@ jobs:
           remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 
-      - name: Verify spatial installation
+      - name: Verify GRASS installation
         run: |
-          grass --version
-          gdalinfo --version
-        shell: bash
+          x <- link2GI::findGRASS()
+          print(x)
+          print(x$version)
+          print(isTRUE(as.package_version(x$version) >= as.package_version("7.8.7")))
+        shell: Rscript {0}
 
       - name: Session information
         run: |
