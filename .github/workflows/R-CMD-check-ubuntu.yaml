@@ -54,6 +54,21 @@ jobs:
             libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
             libgmp3-dev libmpfr-dev libudunits2-dev
 
+      - name: Find GRASS installation
+        run: |
+          grass --version
+          which grass
+        shell: bash
+
+      - name: Verify GRASS installation
+        run: |
+          x <- link2GI::findGRASS()
+          print(x)
+          print(x$version)
+          print(isTRUE(as.package_version(x$version) >= as.package_version("7.8.7")))
+          stop("end")
+      shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: 4
@@ -74,14 +89,6 @@ jobs:
           install.packages("lwgeom")
           install.packages("rgdal")
           remotes::install_github("dickoa/prepr")
-        shell: Rscript {0}
-
-      - name: Verify GRASS installation
-        run: |
-          x <- link2GI::findGRASS()
-          print(x)
-          print(x$version)
-          print(isTRUE(as.package_version(x$version) >= as.package_version("7.8.7")))
         shell: Rscript {0}
 
       - name: Session information
