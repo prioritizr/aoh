@@ -76,6 +76,12 @@ jobs:
           remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 
+      - name: Verify spatial installation
+        run: |
+          grass --version
+          gdalinfo --version
+        shell: bash
+
       - name: Session information
         run: |
           options(width = 100)
