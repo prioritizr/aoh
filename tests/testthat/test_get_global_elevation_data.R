@@ -3,6 +3,7 @@ context("get_global_elevation_data()")
 test_that("latest version (from online)", {
   # skip if needed
   skip_on_cran()
+  skip_on_ci()
   skip_if_offline()
   skip_if_local_and_slow_internet()
   skip_if_zenodo_api_not_available()
@@ -54,6 +55,7 @@ test_that("latest version (from cache)", {
 test_that("specified version (from online)", {
   # skip if needed
   skip_on_cran()
+  skip_on_ci()
   skip_if_offline()
   skip_if_local_and_slow_internet()
   skip_if_zenodo_api_not_available()
