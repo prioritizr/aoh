@@ -88,10 +88,15 @@ jobs:
           options(repos = "https://cloud.r-project.org/")
           install.packages("rgrass7")
           install.packages("link2GI")
-          x <- link2GI::findGRASS()
+          x <- link2GI::findGRASS(quiet = FALSE)
           print(x)
-          print(x$version)
-          print(isTRUE(as.package_version(x$version) >= as.package_version("7.8.7")))
+          MP <- "/usr/bin"
+          raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
+          print("here1")
+          print(raw_GRASS)
+          if (length(raw_GRASS) == 0) raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass' -print"),stdout = TRUE,stderr = FALSE)
+          print("here2")
+          print(raw_GRASS)
           stop("done")
         shell: Rscript {0}
 
