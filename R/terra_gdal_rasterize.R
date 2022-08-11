@@ -128,9 +128,22 @@ terra_gdal_rasterize <- function(x, sf,
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
+    x_crs <- terra::crs(x)
+    x_res <- terra::res(x)
+    x_te <- c(terra::xmin(x), terra::ymin(x), terra::xmax(x), terra::ymax(x))
+    x_nms <- names(x)
     f1 <- terra::sources(x)[[1]]
   } else {
     x_on_disk <- TRUE
+    x_crs <- terra::crs(terra::rast(x))
+    x_res <- terra::res(terra::rast(x))
+    x_te <-  c(
+      terra::xmin(terra::rast(x)),
+      terra::ymin(terra::rast(x)),
+      terra::xmax(terra::rast(x)),
+      terra::ymax(terra::rast(x))
+    )
+    x_nms <- names(terra::rast(x))
     f1 <- x
   }
 
@@ -168,16 +181,16 @@ terra_gdal_rasterize <- function(x, sf,
   }
   if (!isTRUE(update)) {
     f3 <- tempfile(fileext = ".wkt")
-    writeLines(terra::crs(x), f3)
+    writeLines(x_crs, f3)
     args <- append(
       args,
       list(
         of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
         ot = gdal_datatype(datatype),
         co = co,
-        tr = c(terra::xres(x), terra::yres(x)),
+        tr = x_res,
         a_srs = f3,
-        te = c(terra::xmin(x), terra::ymin(x), terra::xmax(x), terra::ymax(x))
+        te = x_te
       )
     )
   }
@@ -201,7 +214,7 @@ terra_gdal_rasterize <- function(x, sf,
 
   # return result
   if (output_raster) {
-    return(stats::setNames(terra::rast(filename), nms))
+    return(stats::setNames(terra::rast(filename), x_nms))
   } else {
     return(filename)
   }

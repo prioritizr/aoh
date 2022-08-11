@@ -89,23 +89,28 @@ terra_gdal_crop <- function(x, ext,
   # save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
+    x_crs <- terra::crs(x)
+    x_res <- terra::res(x)
+    x_nms <- names(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
     f1 <- terra::sources(x)[[1]]
   } else {
     x_on_disk <- TRUE
     f1 <- x
+    x_crs <- terra::crs(terra::rast(x))
+    x_res <- terra::res(terra::rast(x))
+    x_nms <- names(terra::rast(x))
   }
-
 
   # save wkt data
   f2 <- tempfile(fileext = ".wkt")
-  writeLines(terra::crs(x), f2)
+  writeLines(x_crs, f2)
 
   # main processing
   args <- list(
     src_dataset = f1,
     dst_dataset = filename,
-    tr = terra::res(x),
+    tr = x_res,
     projwin = c(
       terra::xmin(ext), terra::ymax(ext), terra::xmax(ext), terra::ymin(ext)
     ),
@@ -137,7 +142,6 @@ terra_gdal_crop <- function(x, ext,
   )
 
   # clean up
-  nms <- names(x)
   if (!x_on_disk) {
     rm(x)
     unlink(f1, force = TRUE)
@@ -146,7 +150,7 @@ terra_gdal_crop <- function(x, ext,
 
   # return result
   if (output_raster) {
-    return(stats::setNames(terra::rast(filename), nms))
+    return(stats::setNames(terra::rast(filename), x_nms))
   } else {
     return(filename)
   }

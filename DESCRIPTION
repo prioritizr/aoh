@@ -103,7 +103,6 @@ Collate:
     'get_spp_api_data.R'
     'get_spp_threat_data.R'
     'get_zenodo_data.R'
-    'intersecting_ext.R'
     'is_available.R'
     'iucn_habitat_codes.R'
     'iucn_habitat_data.R'

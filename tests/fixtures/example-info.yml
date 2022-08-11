@@ -1,0 +1,104 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/region/list?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Thu, 11 Aug 2022 14:03:54 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '556'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"22c-BCVu0OnWlcKqpIpHDySfMA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AuwPgts6UkeQOoZEzWM4jPQw7BOwpuJyy.PMlkEIdbIEXtn43AkHgtHet3UbqWVhwp%2F%2Bqd%2FLygJW8;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"count":10,"results":[{"name":"Eastern Africa","identifier":"eastern_africa"},{"name":"Northeastern
+        Africa","identifier":"northeastern_africa"},{"name":"Global","identifier":"global"},{"name":"Western
+        Africa","identifier":"western_africa"},{"name":"Northern Africa","identifier":"northern_africa"},{"name":"Central
+        Africa","identifier":"central_africa"},{"name":"Pan-Africa","identifier":"pan-africa"},{"name":"Southern
+        Africa","identifier":"southern_africa"},{"name":"Mediterranean","identifier":"mediterranean"},{"name":"Europe","identifier":"europe"}]}'
+  recorded_at: 2022-08-11 14:04:06 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Thu, 11 Aug 2022 14:04:05 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3Ahyw4DMVvxVfTtm6zu0QBiyHaRu7OHk8q.rkcjbcjuxw%2FWESIWeZHaDaX5mSjkAV%2BYfy44Sg%2BXyXA;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-11 14:04:06 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Thu, 11 Aug 2022 14:04:05 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AdFs7EoWNbhlRCtH8ij-M6tU_7eb6w4Iu.3ZqJAODy1GCqmuf1rb3auZebzYf9k5xEenUglaYncmk;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-11 14:04:06 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

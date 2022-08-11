@@ -261,6 +261,7 @@ process_spp_data_on_local <- function(x,
 
   # clean up GRASS
   if (identical(engine, "grass")) {
+    # nocov start
     if (!h_on_disk) {
       f <- terra::sources(habitat_data)[[1]]
       rm(habitat_data)
@@ -274,6 +275,7 @@ process_spp_data_on_local <- function(x,
     unlink(grass_dir, force = TRUE, recursive = TRUE)
     unlink(e_grass_vrt_path, force = TRUE, recursive = TRUE)
     unlink(h_grass_vrt_path, force = TRUE, recursive = TRUE)
+    # nocov end
   }
 
   # close progress bar if needed

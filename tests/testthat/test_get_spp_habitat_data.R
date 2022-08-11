@@ -32,7 +32,9 @@ test_that("multiple taxon identifiers", {
   id_no <- c(18, 137, 138, 139)
   # create objects
   vcr::use_cassette("habitat-multiple", {
-    x1 <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+    x1 <- suppressMessages(
+      get_spp_habitat_data(id_no, force = TRUE, verbose = TRUE)
+    )
   })
   Sys.sleep(2)
   x2 <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())

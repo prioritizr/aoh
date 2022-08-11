@@ -102,10 +102,14 @@ simulate_spp_data <- function(n,
                               omit_habitat_codes = iucn_habitat_codes_marine(),
                               verbose = TRUE) {
   # assert dependencies available
-  if (!requireNamespace("smoothr", quietly = TRUE))
-    stop("the \"smoothr\" package must be installed to simulate data")
-  if (!requireNamespace("fields", quietly = TRUE))
-    stop("the \"fields\" package must be installed to simulate data")
+  assertthat::assert_that(
+    requireNamespace("smoothr", quietly = TRUE),
+    msg = "the \"smoothr\" package must be installed to simulate data"
+  )
+  assertthat::assert_that(
+    requireNamespace("fields", quietly = TRUE),
+    msg = "the \"fields\" package must be installed to simulate data"
+  )
 
   # assert that arguments are valid
   ## initial validation
@@ -262,7 +266,7 @@ simulate_spp_data <- function(n,
     x <- sf::st_make_valid(x)
     x <- x[sf::st_is_valid(x), , drop = FALSE]
     if (nrow(x) == 0) {
-      stop("failed to simulate data")
+      stop("failed to simulate data") # nocov
     }
     rownames(x) <- NULL
     # remove overlapping areas
