@@ -1,0 +1,179 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:52 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3ATu9ccb63lPNCZ2SPGgbuWbXIxe-ahQHJ.%2BjF37yKw1dUIV0jcL%2BYkNhrRkcz0hdyf3bV%2BFkBPUHc;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 23:00:00 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/18?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:54 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '733'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2dd-aZCM2xyBnEwOXKkqu6WJKg"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AeRsR2f91MfBC6PT88EMbN4pPg9SmIyf0.znlCjjCiIkuQUQTZtc9D09rhmK3SFnntoo%2BIf8I3tP8;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"18","result":[{"taxonid":18,"scientific_name":"Abrocoma boliviensis","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"MAMMALIA","order":"RODENTIA","family":"ABROCOMIDAE","genus":"Abrocoma","main_common_name":"Bolivian
+        Chinchilla Rat","authority":"Glanz &amp; Anderson, 1990","published_year":2016,"assessment_date":"2016-03-01","category":"CR","criteria":"B1ab(i,ii,iii)","population_trend":"Decreasing","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Bernal,
+        N.","reviewer":"Amori, G.","aoo_km2":null,"eoo_km2":null,"elevation_upper":2270,"elevation_lower":1800,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-08 23:00:00 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/137?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:56 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '725'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2d5-bt10LSPNsb7Qp2JcRCqt/w"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AwwQrIMB1Z5C12gc4eKHzTCj84g_rCTMV.fhmdeVGgIlP9rrpIriXJTd2aXbzFWGw7OsZwTKDtph4;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"137","result":[{"taxonid":137,"scientific_name":"Acerodon
+        celebensis","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"MAMMALIA","order":"CHIROPTERA","family":"PTEROPODIDAE","genus":"Acerodon","main_common_name":"Sulawesi
+        Fruit Bat","authority":"Peters, 1867","published_year":2016,"assessment_date":"2016-01-08","category":"VU","criteria":"A2d","population_trend":"Decreasing","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Tsang,
+        S.M. & Sheherazade","reviewer":"Mildenstein, T.","aoo_km2":null,"eoo_km2":null,"elevation_upper":1500,"elevation_lower":0,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-08 23:00:00 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/138?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:58 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '843'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"34b-qXTKT9D2ETNYjjZk2oQf+A"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AL2ZYjSOLQ3LHZhi31bTQ3jXrTGrwXT1s.ydT7tDEyhBVs8WshDC%2BVZkaVZj51iA2DUGjkBJjiQUE;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"138","result":[{"taxonid":138,"scientific_name":"Acerodon
+        humilis","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"MAMMALIA","order":"CHIROPTERA","family":"PTEROPODIDAE","genus":"Acerodon","main_common_name":"Talaud
+        Fruit Bat","authority":"K. Andersen, 1909","published_year":2016,"assessment_date":"2015-06-20","category":"EN","criteria":"B1ab(iii,v)","population_trend":"Decreasing","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Mildenstein,
+        T.","reviewer":"Battistoni, A.","aoo_km2":null,"eoo_km2":"1577","elevation_upper":null,"elevation_lower":null,"depth_upper":null,"depth_lower":null,"errata_flag":true,"errata_reason":"This
+        errata assessment has been created because the map was accidentally left out
+        of the version published previously.","amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-08 23:00:00 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/139?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:00 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '741'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2e5-yvsd/zc0Xk65At4DzWwMTg"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3Atzo7aDamZN8uWPUKIsdoBSfEOBUvvLKm.%2BBfoJEc2d%2BCsBl59hBxjtsRhi4cxiipxO9tIXhUZ91o;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"139","result":[{"taxonid":139,"scientific_name":"Acerodon
+        jubatus","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"MAMMALIA","order":"CHIROPTERA","family":"PTEROPODIDAE","genus":"Acerodon","main_common_name":"Golden-capped
+        Fruit Bat","authority":"(Eschscholtz, 1831)","published_year":2016,"assessment_date":"2016-04-05","category":"EN","criteria":"A2cd","population_trend":"Decreasing","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Mildenstein,
+        T. & Paguntalan, L.","reviewer":"Battistoni, A.","aoo_km2":null,"eoo_km2":null,"elevation_upper":1100,"elevation_lower":0,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-08 23:00:00 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

@@ -309,10 +309,12 @@ create_spp_info_data <- function(x,
   )
   # verify access to IUCN Red List API
   if (is.null(spp_summary_data) && is.null(spp_habitat_data)) {
+    # nocov start
     assertthat::assert_that(
       is_iucn_rl_api_available(),
       msg = "can't access the IUCN Red List API, see ?aoh"
     )
+    # nocov end
   }
 
   # clean species range data

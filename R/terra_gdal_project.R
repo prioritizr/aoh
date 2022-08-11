@@ -3,7 +3,8 @@ NULL
 
 #' Project a raster using GDAL
 #'
-#' This function is a wrapper for [gdalUtilities::gdalwarp()].
+#' This function is a wrapper for [gdalUtilities::gdalwarp()] for use with
+#' \pkg{terra} objects.
 #'
 #' @param x [terra::rast()] Raster object with source data.
 #'
@@ -76,7 +77,7 @@ NULL
 #'
 #' # preview result
 #' print(z)
-#' @noRd
+#' @export
 terra_gdal_project <- function(x, y,
                                method = "bilinear",
                                n_threads = 1,
@@ -144,15 +145,34 @@ terra_gdal_project <- function(x, y,
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
+    x_crs <- terra::crs(x)
+    x_nms <- names(x)
     f1 <- terra::sources(x)[[1]]
   } else {
     x_on_disk <- TRUE
+    x_crs <- terra::crs(terra::rast(x))
+    x_nms <- names(terra::rast(x))
     f1 <- x
   }
 
+  if (inherits(y, "SpatRaster")) {
+    y_crs <- terra::crs(y)
+    y_res <- terra::res(y)
+    y_te <- c(terra::xmin(y), terra::ymin(y), terra::xmax(y), terra::ymax(y))
+  } else {
+    y_crs <- terra::crs(terra::rast(y))
+    y_res <- terra::res(terra::rast(y))
+    y_te <- c(
+      terra::xmin(terra::rast(y)),
+      terra::ymin(terra::rast(y)),
+      terra::xmax(terra::rast(y)),
+      terra::ymax(terra::rast(y))
+    )
+  }
+
   # save wkt data
-  writeLines(terra::crs(x), f2)
-  writeLines(terra::crs(y), f3)
+  writeLines(x_crs, f2)
+  writeLines(y_crs, f3)
 
   # main processing
   args <- list(
@@ -160,9 +180,9 @@ terra_gdal_project <- function(x, y,
     dstfile = filename,
     s_srs = f2,
     t_srs = f3,
-    te = c(terra::xmin(y), terra::ymin(y), terra::xmax(y), terra::ymax(y)),
+    te = y_te,
     te_srs = f3,
-    tr = terra::res(y),
+    tr = y_res,
     r = method,
     of = ifelse(endsWith(filename, ".vrt"), "VRT", "GTiff"),
     wm = as.character(cache_limit),

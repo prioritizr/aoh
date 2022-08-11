@@ -1,0 +1,109 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:40 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AnxBZIiBziQDUmOlsqdyVVJ54-w6Tt4C_.vZM%2FQw1gMfvsc1xlvjnhwJS3l%2Bz%2FVnQ7WoNyyVFNFDQ;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 23:00:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/threats/species/id/178652?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:43 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '513'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"201-K9BCjEu7iRNASAeH4q5byg"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AXSbL0TZlRCgEAAmNHZFV5BkX_DPge8EJ.DvBVvkPIuH7RB90a2kV7SOWs2EPcdG6PnOvnN2elktY;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"178652","result":[{"code":"1.1","title":"Housing & urban areas","timing":"Ongoing","scope":"Minority
+        (<50%)","severity":"No decline","score":"Low Impact: 4","invasive":null},{"code":"2.1","title":"Annual
+        & perennial non-timber crops","timing":"Ongoing","scope":"Minority (<50%)","severity":"No
+        decline","score":"Low Impact: 4","invasive":null},{"code":"2.1.4","title":"Scale
+        Unknown/Unrecorded","timing":"Ongoing","scope":"Minority (<50%)","severity":"No
+        decline","score":"Low Impact: 4","invasive":null}]}'
+  recorded_at: 2022-08-08 23:00:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/threats/species/id/177906?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:45 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '752'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2f0-Q1R1dMz0hpf7Bh9uYwwmyQ"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3ATKjNny3-wC9y4t1Z3qgyvzxbnKM7JVIg.dKPA0R53AkfrSs7Ds6NgEpmxHViLSe9fUM8jmLMuQP8;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"177906","result":[{"code":"1.1","title":"Housing & urban areas","timing":"Ongoing","scope":"Unknown","severity":"Unknown","score":"Unknown","invasive":null},{"code":"2.1","title":"Annual
+        & perennial non-timber crops","timing":"Ongoing","scope":"Unknown","severity":"Unknown","score":"Unknown","invasive":null},{"code":"2.1.4","title":"Scale
+        Unknown/Unrecorded","timing":"Ongoing","scope":"Unknown","severity":"Unknown","score":"Unknown","invasive":null},{"code":"2.3","title":"Livestock
+        farming & ranching","timing":"Ongoing","scope":"Unknown","severity":"Unknown","score":"Unknown","invasive":null},{"code":"2.3.4","title":"Scale
+        Unknown/Unrecorded","timing":"Ongoing","scope":"Unknown","severity":"Unknown","score":"Unknown","invasive":null}]}'
+  recorded_at: 2022-08-08 23:00:45 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

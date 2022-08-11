@@ -242,7 +242,7 @@ clean_spp_range_data <- function(x,
   ## "kingdom" column is missing
   if (!assertthat::has_name(x, "kingdom")) {
     if (any(grepl("birdlife", tolower(names(x))))) {
-      x$kingdom <- "ANIMALIA"
+      x$kingdom <- "ANIMALIA" # nocov
     } else {
       x$kingdom <- NA_character_
     }
@@ -250,7 +250,7 @@ clean_spp_range_data <- function(x,
   ## "phylum" column is missing
   if (!assertthat::has_name(x, "phylum")) {
     if (any(grepl("birdlife", tolower(names(x))))) {
-      x$phylum <- "CHORDATA"
+      x$phylum <- "CHORDATA" # nocov
     } else {
       x$phylum <- NA_character_
     }
@@ -258,7 +258,7 @@ clean_spp_range_data <- function(x,
   ## "class" column is missing
   if (!assertthat::has_name(x, "class")) {
     if (any(grepl("birdlife", tolower(names(x))))) {
-      x$class <- "AVES"
+      x$class <- "AVES" #nocov
     } else {
       x$class <- NA_character_
     }
@@ -389,7 +389,7 @@ clean_spp_range_data <- function(x,
   # step 6: convert MULTISURFACE to MULTIPOLYGON
   x <- sf::st_set_precision(x, geometry_precision)
   idx <- which(vapply(sf::st_geometry(x), inherits, logical(1), "MULTISURFACE"))
-  if (length(idx) > 0) {
+  if (length(idx) > 0) { # nocov start
     g <- sf::st_geometry(x)
     g2 <- lapply(g[idx], sf::st_cast, "MULTIPOLYGON")
     g2 <- lapply(g2, sf::st_buffer, 0)
@@ -399,7 +399,7 @@ clean_spp_range_data <- function(x,
     }
     x <- sf::st_set_geometry(x, g)
     rm(g, g2)
-  }
+  } # nocov end
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   invisible(gc())
 
@@ -441,7 +441,7 @@ clean_spp_range_data <- function(x,
   # step 14: dissolve geometries by species, subspecies, seasonal
   ## create id
   if (is.character(x$seasonal)) {
-    x$seasonal <- convert_to_seasonal_id(x$seasonal)
+    x$seasonal <- convert_to_seasonal_id(x$seasonal) # nocov
   }
   x$seasonal <- as.integer(x$seasonal)
   x$aoh_id <- withr::with_options(

@@ -3,13 +3,13 @@ context("get_spp_threat_data()")
 test_that("single taxon identifier", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
+  skip_if_not_installed("vcr")
   # set parameters
   id_no <- c(18)
   # create objects
-  x1 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+  vcr::use_cassette("threat-single", {
+    x1 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+  })
   Sys.sleep(2)
   x2 <- get_spp_threat_data(id_no, force = FALSE, verbose = interactive())
   # tests
@@ -30,13 +30,15 @@ test_that("single taxon identifier", {
 test_that("multiple taxon identifiers", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
+  skip_if_not_installed("vcr")
   # tests
   id_no <- c(18, 137, 138, 139)
   # create objects
-  x1 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+  vcr::use_cassette("threat-multiple", {
+    x1 <- suppressMessages(
+      get_spp_threat_data(id_no, force = TRUE, verbose = TRUE)
+    )
+  })
   Sys.sleep(2)
   x2 <- get_spp_threat_data(id_no, force = FALSE, verbose = interactive())
   # tests
@@ -57,14 +59,16 @@ test_that("multiple taxon identifiers", {
 test_that("some taxon missing summary data", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
+  skip_if_not_installed("vcr")
   # set parameters
   id_no <- c(18, -100)
   # create objects
-  x1 <- get_spp_threat_data(id_no[1], force = TRUE, verbose = interactive())
-  x2 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+  vcr::use_cassette("threat-missing-x1", {
+    x1 <- get_spp_threat_data(id_no[1], force = TRUE, verbose = interactive())
+  })
+  vcr::use_cassette("threat-missing-x2", {
+    x2 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+  })
   # tests
   ## x1
   expect_is(x1, "data.frame")
@@ -88,13 +92,13 @@ test_that("some taxon missing summary data", {
 test_that("taxon with multiple records", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
+  skip_if_not_installed("vcr")
   # set parameters
   id_no <- c(178652, 177906)
   # create objects
-  x <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+  vcr::use_cassette("threat-multiple-records", {
+    x <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+  })
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)

@@ -109,12 +109,14 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     dir, paste0("iucn-red-list-", data_prefix, "-", iucn_rl_version, ".csv.gz")
   )
   if (!identical(version, "latest") && isTRUE(!file.exists(file_path))) {
+    # nocov start
     stop(
       paste0(
         "cannot find previously downloaded data for \"version\" \"", version,
         "\" at argument to \"dir\""
       )
     )
+    # nocov end
   }
 
   # access cached data
@@ -204,12 +206,14 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     }
     ## throw errors
     if (any(!api_success)) {
+      # nocov start
       stop(
         paste(
           "failed to download data for the following taxon identifiers:",
           paste(paste0("\"", api_ids[!api_success], "\""), collapse = ", ")
         )
       )
+      # nocov end
     }
   }
 

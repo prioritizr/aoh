@@ -1,0 +1,69 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:03 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3A-_rVYCLlrxeddT5uFghSSyS3zinueT8T.kQZmEbntNAkBY8NesfiSH1PXc%2BzLS6mq4Tx0IfUOSNU;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 23:00:05 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/18?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 23:00:05 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '733'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2dd-aZCM2xyBnEwOXKkqu6WJKg"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3Awpc2S5EzaTIZhMYuMqZ4D4MXKP4LNIRY.t%2BdR8WFQGSB07M002PqXmFGDPkMEfWIeKtqn0wQZGM4;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"18","result":[{"taxonid":18,"scientific_name":"Abrocoma boliviensis","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"MAMMALIA","order":"RODENTIA","family":"ABROCOMIDAE","genus":"Abrocoma","main_common_name":"Bolivian
+        Chinchilla Rat","authority":"Glanz &amp; Anderson, 1990","published_year":2016,"assessment_date":"2016-03-01","category":"CR","criteria":"B1ab(i,ii,iii)","population_trend":"Decreasing","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Bernal,
+        N.","reviewer":"Amori, G.","aoo_km2":null,"eoo_km2":null,"elevation_upper":2270,"elevation_lower":1800,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-08 23:00:05 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

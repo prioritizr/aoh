@@ -1,0 +1,69 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:16 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '20'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AKgt5D4Uj7IaMUUAZjn-VvVSERHFAMD5m.Ml0H9TzewBSrzqqOdltlRbCac4ehux829EoT%2B020WaY;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"version":"2022-1"}'
+  recorded_at: 2022-08-08 22:59:19 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/18?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Mon, 08 Aug 2022 22:59:19 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '290'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"122-JHwals/BRrSLj/3hgcM24A"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AAytNm9OC6Us9vrY1pTPorIsC6QT3a33O.p521qdeKE5zEQr4Ve9cwCaFnPz1maQU309RdYVukiU4;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"18","result":[{"code":"1.9","habitat":"Forest - Subtropical/Tropical
+        Moist Montane","suitability":"Suitable","season":null,"majorimportance":null},{"code":"6","habitat":"Rocky
+        areas (eg. inland cliffs, mountain peaks)","suitability":"Suitable","season":null,"majorimportance":null}]}'
+  recorded_at: 2022-08-08 22:59:19 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

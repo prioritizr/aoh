@@ -264,8 +264,6 @@ test_that("example data", {
   skip_on_cran()
   skip_if_not_installed("rgdal")
   skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
   skip_if_cached_data_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
   skip_if_zenodo_data_not_available(latest_elevation_version)
@@ -273,20 +271,27 @@ test_that("example data", {
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
   # load data
-  d <- create_spp_info_data(
-    x = read_spp_range_data(f),
-    cache_dir = cd,
-    verbose = interactive()
-  )
+  vcr::use_cassette("example-info", {
+    d <-
+    suppressMessages(
+      create_spp_info_data(
+        x = read_spp_range_data(f),
+        cache_dir = cd,
+        verbose = TRUE
+      )
+    )
+  })
   # create objects
-  x <- suppressWarnings(
-    create_spp_aoh_data(
-      x = d,
-      output_dir = tempdir(),
-      cache_dir = cd,
-      habitat_version = latest_lumb_cgls_version,
-      elevation_version = latest_elevation_version,
-      verbose = interactive()
+  x <- suppressMessages(
+    suppressWarnings(
+      create_spp_aoh_data(
+        x = d,
+        output_dir = tempdir(),
+        cache_dir = cd,
+        habitat_version = latest_lumb_cgls_version,
+        elevation_version = latest_elevation_version,
+        verbose = TRUE
+      )
     )
   )
   # tests
