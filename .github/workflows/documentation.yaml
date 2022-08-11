@@ -60,6 +60,7 @@ jobs:
             any::rcmdcheck
             any::XML
             prepr=?ignore
+            link2GI=?ignore
           needs: |
             check
             coverage
@@ -72,6 +73,7 @@ jobs:
           install.packages("lwgeom")
           install.packages("rgdal")
           remotes::install_github("dickoa/prepr")
+          remotes::install_github("r-spatial/link2GI")
         shell: Rscript {0}
 
       - name: Session information
