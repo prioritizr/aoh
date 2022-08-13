@@ -31,6 +31,10 @@ test_that("simulated data", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("vcr")
+  skip_if_cached_data_not_available()
+  skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- tempfile()
