@@ -31,23 +31,22 @@ test_that("simulated data", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_iucn_key_missing()
-  skip_if_iucn_api_not_available()
-  skip_if_cached_data_not_available()
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
-  cd <- rappdirs::user_data_dir("aoh")
+  cd <- tempfile()
+  dir.create(cd, showWarnings = FALSE, recursive = TRUE)
   # load data
   d <- read_spp_range_data(f)
   # create objects
-  x <- suppressWarnings(
-    create_spp_info_data(
-      x = d,
-      cache_dir = cd,
-      verbose = interactive()
+  vcr::use_cassette("example-info", {
+    x <- suppressWarnings(
+      create_spp_info_data(
+        x = d,
+        cache_dir = cd,
+        verbose = interactive()
+      )
     )
-  )
+  })
   # tests
   expect_is(x, "sf")
   expect_named(x, info_names)
@@ -62,6 +61,7 @@ test_that("example data", {
       x$id_no, dir = cd, verbose = interactive()
     )
   )
+  unlink(cd, force = TRUE, recursive = TRUE)
 })
 
 test_that("some species missing habitat data", {

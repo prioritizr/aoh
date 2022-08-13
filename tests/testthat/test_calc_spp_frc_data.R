@@ -166,13 +166,15 @@ test_that("example data", {
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
+  cd2 <- tempfile()
+  dir.create(cd2, showWarnings = FALSE, recursive = TRUE)
   # prepare data
   vcr::use_cassette("frc-example-info", {
     d <- suppressWarnings(
       create_spp_aoh_data(
         x = create_spp_info_data(
           x = read_spp_range_data(f),
-          cache_dir = cd,
+          cache_dir = cd2,
           verbose = interactive()
         ),
         output_dir = tempdir(),
@@ -218,4 +220,5 @@ test_that("example data", {
   )
   # clean up
   unlink(x$path[!is.na(x$path)])
+  unlink(cd2, force = TRUE, recursive = TRUE)
 })
