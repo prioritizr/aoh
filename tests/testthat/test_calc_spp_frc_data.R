@@ -170,21 +170,22 @@ test_that("example data", {
   dir.create(cd2, showWarnings = FALSE, recursive = TRUE)
   # prepare data
   vcr::use_cassette("frc-example-info", {
-    d <- suppressWarnings(
-      create_spp_aoh_data(
-        x = create_spp_info_data(
-          x = read_spp_range_data(f),
-          cache_dir = cd2,
-          verbose = interactive()
-        ),
-        output_dir = tempdir(),
-        cache_dir = cd,
-        habitat_version = latest_lumb_cgls_version,
-        elevation_version = latest_elevation_version,
-        verbose = interactive()
-      )
+    i = create_spp_info_data(
+      x = read_spp_range_data(f),
+      cache_dir = cd2,
+      verbose = interactive()
     )
   })
+  d <- suppressWarnings(
+    create_spp_aoh_data(
+      x = i,
+      output_dir = tempdir(),
+      cache_dir = cd,
+      habitat_version = latest_lumb_cgls_version,
+      elevation_version = latest_elevation_version,
+      verbose = interactive()
+    )
+  )
   x <- calc_spp_frc_data(
     x = d,
     res = 5000,
