@@ -17,14 +17,14 @@ http_interactions:
     headers:
       status: HTTP/1.1 200 OK
       server: nginx/1.14.0 (Ubuntu)
-      date: Thu, 11 Aug 2022 14:03:54 GMT
+      date: Sat, 13 Aug 2022 15:55:35 GMT
       content-type: application/json; charset=utf-8
       content-length: '556'
       connection: keep-alive
       x-powered-by: Sails <sailsjs.org>
       etag: W/"22c-BCVu0OnWlcKqpIpHDySfMA"
       vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AuwPgts6UkeQOoZEzWM4jPQw7BOwpuJyy.PMlkEIdbIEXtn43AkHgtHet3UbqWVhwp%2F%2Bqd%2FLygJW8;
+      set-cookie: sails.sid=s%3AEQ0cUSISN3iJWW74ZbDkCCdCcExs2Sra.VkfNCkb5aSzBy3qiGymsSsiq0tBk3XPdStWi02PpoNI;
         Path=/; HttpOnly
     body:
       encoding: UTF-8
@@ -34,7 +34,7 @@ http_interactions:
         Africa","identifier":"western_africa"},{"name":"Northern Africa","identifier":"northern_africa"},{"name":"Central
         Africa","identifier":"central_africa"},{"name":"Pan-Africa","identifier":"pan-africa"},{"name":"Southern
         Africa","identifier":"southern_africa"},{"name":"Mediterranean","identifier":"mediterranean"},{"name":"Europe","identifier":"europe"}]}'
-  recorded_at: 2022-08-11 14:04:06 GMT
+  recorded_at: 2022-08-13 15:56:04 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0
 - request:
     method: get
@@ -54,20 +54,165 @@ http_interactions:
     headers:
       status: HTTP/1.1 200 OK
       server: nginx/1.14.0 (Ubuntu)
-      date: Thu, 11 Aug 2022 14:04:05 GMT
+      date: Sat, 13 Aug 2022 15:55:43 GMT
       content-type: application/json; charset=utf-8
       content-length: '20'
       connection: keep-alive
       x-powered-by: Sails <sailsjs.org>
       etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
       vary: Accept-Encoding
-      set-cookie: sails.sid=s%3Ahyw4DMVvxVfTtm6zu0QBiyHaRu7OHk8q.rkcjbcjuxw%2FWESIWeZHaDaX5mSjkAV%2BYfy44Sg%2BXyXA;
+      set-cookie: sails.sid=s%3AF4v0EQVR7MaJLRBplp27ps3BXNEvvBj0.TpOMa2kuPcHLvWweMsmGIA1XZkGLqohwRpAMH2UBPmU;
         Path=/; HttpOnly
     body:
       encoding: UTF-8
       file: no
       string: '{"version":"2022-1"}'
-  recorded_at: 2022-08-11 14:04:06 GMT
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/979?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:55:45 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '749'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2ed-5gMs0DPptLRvNc0VrP4p2g"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AM5n_29taPZpDoPGBCexAottQtMYAZOyp.uYDciVosuMkcAmP629As3Gj28s1Ha2U11c0RYxUIET4;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"979","result":[{"taxonid":979,"scientific_name":"Alytes dickhilleni","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"AMPHIBIA","order":"ANURA","family":"ALYTIDAE","genus":"Alytes","main_common_name":"Betic
+        Midwife Toad","authority":"Arntzen &amp; García-París, 1995","published_year":2022,"assessment_date":"2019-11-21","category":"EN","criteria":"A2ace","population_trend":"Decreasing","marine_system":false,"freshwater_system":true,"terrestrial_system":true,"assessor":"IUCN
+        SSC Amphibian Specialist Group","reviewer":"Chanson, J.S.","aoo_km2":null,"eoo_km2":"36748","elevation_upper":2510,"elevation_lower":700,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/59448?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:55:48 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '746'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2ea-d/xHaKLBD9OgoyrJ/PXeaA"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3ABMuhsa4zBPlQWlDHPhpVBYqa93rrzNk4.MHzYZtM8YRCcM%2BmyV7PLsYiR%2B8CExH23DAqRtqkRwFg;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"59448","result":[{"taxonid":59448,"scientific_name":"Calotriton
+        asper","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"AMPHIBIA","order":"CAUDATA","family":"SALAMANDRIDAE","genus":"Calotriton","main_common_name":"Pyrenean
+        Brook Salamander","authority":"(Dugès, 1852)","published_year":2022,"assessment_date":"2021-12-07","category":"LC","criteria":null,"population_trend":"Decreasing","marine_system":false,"freshwater_system":true,"terrestrial_system":true,"assessor":"IUCN
+        SSC Amphibian Specialist Group","reviewer":"Chanson, J.S.","aoo_km2":null,"eoo_km2":"41586","elevation_upper":3000,"elevation_lower":175,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/4657?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:55:50 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '747'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"2eb-lENlBSt9lYL6Umevsb7srw"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AG3qIKSRVzsTLKXo-FvKVRGfVR7VDM5HA.2m3L6MEOcpBPXDrEWeyHEFQxFZkDkfe%2Bt7AHOYZbixE;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"4657","result":[{"taxonid":4657,"scientific_name":"Chioglossa
+        lusitanica","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"AMPHIBIA","order":"CAUDATA","family":"SALAMANDRIDAE","genus":"Chioglossa","main_common_name":"Golden-striped
+        Salamander","authority":"Bocage, 1864","published_year":2022,"assessment_date":"2021-12-14","category":"NT","criteria":null,"population_trend":"Decreasing","marine_system":false,"freshwater_system":true,"terrestrial_system":true,"assessor":"IUCN
+        SSC Amphibian Specialist Group","reviewer":"Chanson, J.S.","aoo_km2":null,"eoo_km2":"55468","elevation_upper":1396,"elevation_lower":100,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/species/id/58622?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:55:52 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '876'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"36c-847Y9y2QQn15TJarNDQLKw"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3ARK9bO7C1f-3cZuu8KmIALwX6onKg56Zi.eL%2BWUNyyH6k4wG1UdSkOW3Hew8xpodZgAmTBipuVFzs;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"name":"58622","result":[{"taxonid":58622,"scientific_name":"Rana
+        iberica","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"AMPHIBIA","order":"ANURA","family":"RANIDAE","genus":"Rana","main_common_name":"Iberian
+        Frog","authority":"Boulenger, 1879","published_year":2022,"assessment_date":"2020-06-10","category":"VU","criteria":"A2ace","population_trend":"Decreasing","marine_system":false,"freshwater_system":true,"terrestrial_system":true,"assessor":"IUCN
+        SSC Amphibian Specialist Group","reviewer":"Chanson, J.S.","aoo_km2":null,"eoo_km2":"236178","elevation_upper":2425,"elevation_lower":0,"depth_upper":null,"depth_lower":null,"errata_flag":true,"errata_reason":"An
+        errata assessment was created in order to add two missing references related
+        to the threats section, and to cite in the text many of the attached references.","amended_flag":null,"amended_reason":null}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0
 - request:
     method: get
@@ -87,18 +232,173 @@ http_interactions:
     headers:
       status: HTTP/1.1 200 OK
       server: nginx/1.14.0 (Ubuntu)
-      date: Thu, 11 Aug 2022 14:04:05 GMT
+      date: Sat, 13 Aug 2022 15:55:53 GMT
       content-type: application/json; charset=utf-8
       content-length: '20'
       connection: keep-alive
       x-powered-by: Sails <sailsjs.org>
       etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
       vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AdFs7EoWNbhlRCtH8ij-M6tU_7eb6w4Iu.3ZqJAODy1GCqmuf1rb3auZebzYf9k5xEenUglaYncmk;
+      set-cookie: sails.sid=s%3Am2_M2hnbRnqqiDwhVnEVzqXH0z2ivPgI.%2B6vG5NwRWmL9sM8vJs5NlOo2I3CPdwOBlCW0lsmKG34;
         Path=/; HttpOnly
     body:
       encoding: UTF-8
       file: no
       string: '{"version":"2022-1"}'
-  recorded_at: 2022-08-11 14:04:06 GMT
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/979?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:55:55 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '879'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"36f-gNr5sr+ZzWaQyqRup9v8Xg"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AZW1Ye1gZfLMoCqJpKgSFZ1q8UDgawg0_.Z%2BfhwlYRKH%2FugokVQKOpXn8bEJUlfUmumZr286BtcPo;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"979","result":[{"code":"1.4","habitat":"Forest - Temperate","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"14.2","habitat":"Artificial/Terrestrial
+        - Pastureland","suitability":"Marginal","season":"Resident","majorimportance":null},{"code":"15.2","habitat":"Artificial/Aquatic
+        - Ponds (below 8ha)","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"15.3","habitat":"Artificial/Aquatic
+        - Aquaculture Ponds","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"5.7","habitat":"Wetlands
+        (inland) - Permanent Freshwater Marshes/Pools (under 8ha)","suitability":"Marginal","season":"Resident","majorimportance":null},{"code":"5.8","habitat":"Wetlands
+        (inland) - Seasonal/Intermittent Freshwater Marshes/Pools (under 8ha)","suitability":"Marginal","season":"Resident","majorimportance":null}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/59448?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:55:58 GMT
+      content-type: application/json; charset=utf-8
+      transfer-encoding: chunked
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"461-jFR0MexbV14cu/LxYRRsag"
+      vary: Accept-Encoding
+      content-encoding: gzip
+      set-cookie: sails.sid=s%3AndJuJtvTbVjvBeufXr5UD0tSpb3TrBqW.7UF5FXCMTujNJkETMR0IrIibUFFWD3gUDkdu8WyYbv8;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"59448","result":[{"code":"1.4","habitat":"Forest - Temperate","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"5.1","habitat":"Wetlands
+        (inland) - Permanent Rivers/Streams/Creeks (includes waterfalls)","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"5.18","habitat":"Wetlands
+        (inland) - Karst and Other Subterranean Hydrological Systems (inland)","suitability":"Marginal","season":"Resident","majorimportance":null},{"code":"5.2","habitat":"Wetlands
+        (inland) - Seasonal/Intermittent/Irregular Rivers/Streams/Creeks","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"5.5","habitat":"Wetlands
+        (inland) - Permanent Freshwater Lakes (over 8ha)","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"5.7","habitat":"Wetlands
+        (inland) - Permanent Freshwater Marshes/Pools (under 8ha)","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"7.1","habitat":"Caves
+        and Subterranean Habitats (non-aquatic) - Caves","suitability":"Marginal","season":"Resident","majorimportance":null}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/4657?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:56:00 GMT
+      content-type: application/json; charset=utf-8
+      content-length: '807'
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"327-g9kybWR1LjU3GwFFA1Ce2A"
+      vary: Accept-Encoding
+      set-cookie: sails.sid=s%3AXZWSuxIicgig9DGFAogbnzXUdeMcX02H.COmKf%2BJP5KayZ6SjRrEDp4hNtRSvmNwr%2B2wA3V9h5Mg;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"4657","result":[{"code":"1.4","habitat":"Forest - Temperate","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"5.1","habitat":"Wetlands
+        (inland) - Permanent Rivers/Streams/Creeks (includes waterfalls)","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"5.18","habitat":"Wetlands
+        (inland) - Karst and Other Subterranean Hydrological Systems (inland)","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"7.1","habitat":"Caves
+        and Subterranean Habitats (non-aquatic) - Caves","suitability":"Suitable","season":"Resident","majorimportance":"Yes"},{"code":"7.2","habitat":"Caves
+        and Subterranean Habitats (non-aquatic) - Other Subterranean Habitats","suitability":"Suitable","season":"Resident","majorimportance":"Yes"}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/58622?token=<<<IUCN_REDLIST_KEY>>>
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx/1.14.0 (Ubuntu)
+      date: Sat, 13 Aug 2022 15:56:03 GMT
+      content-type: application/json; charset=utf-8
+      transfer-encoding: chunked
+      connection: keep-alive
+      x-powered-by: Sails <sailsjs.org>
+      etag: W/"442-5A/moIfWb8QiXdhDarpdUw"
+      vary: Accept-Encoding
+      content-encoding: gzip
+      set-cookie: sails.sid=s%3AUDOXsEyqLM2OQXkinUSs3JM50GtZuWBl.dYltR3UApEHDW8J11c89pylmYseRv%2F7kQxtDchiUTzc;
+        Path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"id":"58622","result":[{"code":"1.4","habitat":"Forest - Temperate","suitability":"Suitable","season":"Resident","majorimportance":null},{"code":"5.1","habitat":"Wetlands
+        (inland) - Permanent Rivers/Streams/Creeks (includes waterfalls)","suitability":"Suitable","season":"Resident","majorimportance":null},{"code":"5.2","habitat":"Wetlands
+        (inland) - Seasonal/Intermittent/Irregular Rivers/Streams/Creeks","suitability":"Marginal","season":"Resident","majorimportance":null},{"code":"5.4","habitat":"Wetlands
+        (inland) - Bogs, Marshes, Swamps, Fens, Peatlands","suitability":"Suitable","season":"Resident","majorimportance":null},{"code":"5.5","habitat":"Wetlands
+        (inland) - Permanent Freshwater Lakes (over 8ha)","suitability":"Suitable","season":"Resident","majorimportance":null},{"code":"5.7","habitat":"Wetlands
+        (inland) - Permanent Freshwater Marshes/Pools (under 8ha)","suitability":"Suitable","season":"Resident","majorimportance":null},{"code":"5.9","habitat":"Wetlands
+        (inland) - Freshwater Springs and Oases","suitability":"Suitable","season":"Resident","majorimportance":null}]}'
+  recorded_at: 2022-08-13 15:56:04 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0

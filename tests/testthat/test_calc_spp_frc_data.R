@@ -158,31 +158,33 @@ test_that("different engines produce same result", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
-  skip_if_offline()
-  skip_if_offline()
+  skip_if_not_installed("vcr")
   skip_if_cached_data_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
   skip_if_zenodo_data_not_available(latest_elevation_version)
   # specify file path
   f <- system.file("extdata", "EXAMPLE_SPECIES.zip", package = "aoh")
   cd <- rappdirs::user_data_dir("aoh")
+  cd2 <- tempfile()
+  dir.create(cd2, showWarnings = FALSE, recursive = TRUE)
   # prepare data
   vcr::use_cassette("frc-example-info", {
-    d <- suppressWarnings(
-      create_spp_aoh_data(
-        x = create_spp_info_data(
-          x = read_spp_range_data(f),
-          cache_dir = cd,
-          verbose = interactive()
-        ),
-        output_dir = tempdir(),
-        cache_dir = cd,
-        habitat_version = latest_lumb_cgls_version,
-        elevation_version = latest_elevation_version,
-        verbose = interactive()
-      )
+    i = create_spp_info_data(
+      x = read_spp_range_data(f),
+      cache_dir = cd2,
+      verbose = interactive()
     )
   })
+  d <- suppressWarnings(
+    create_spp_aoh_data(
+      x = i,
+      output_dir = tempdir(),
+      cache_dir = cd,
+      habitat_version = latest_lumb_cgls_version,
+      elevation_version = latest_elevation_version,
+      verbose = interactive()
+    )
+  )
   x <- calc_spp_frc_data(
     x = d,
     res = 5000,
@@ -218,4 +220,5 @@ test_that("example data", {
   )
   # clean up
   unlink(x$path[!is.na(x$path)])
+  unlink(cd2, force = TRUE, recursive = TRUE)
 })

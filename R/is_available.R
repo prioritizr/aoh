@@ -113,7 +113,7 @@ is_grass_available <- function() {
   if (!requireNamespace("link2GI", quietly = TRUE)) return(FALSE)
   x <- try(
       with_timeout(
-      link2GI::findGRASS(),
+      suppressWarnings(link2GI::findGRASS()),
       cpu = 10,
       elapsed = 10
     ),

@@ -1,3 +1,9 @@
+# aoh 0.0.1.2
+
+- Suppress meaningless warnings triggered for GRASS on macOS.
+- Increase version requirement for _terra_ package.
+- Fix IUCN Red List API tests.
+
 # aoh 0.0.1.1
 
 - Improve test coverage.
