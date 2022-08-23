@@ -3,7 +3,7 @@ context("terra_gdal_calc()")
 test_that("single layer (in memory)", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
-  skip_if_gdal_python_not_available()
+  skip_if_gdal_calc_not_available()
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -22,10 +22,7 @@ test_that("single layer (in memory)", {
 test_that("two layers", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
-  skip_if_not(
-    is_gdal_python_available(),
-    message = "gdal_calc.py not available"
-  )
+  skip_if_gdal_calc_not_available()
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -45,10 +42,7 @@ test_that("two layers", {
 test_that("three layers (in memory)", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
-  skip_if_not(
-    is_gdal_python_available(),
-    message = "gdal_calc.py not available"
-  )
+  skip_if_gdal_calc_not_available()
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -71,10 +65,7 @@ test_that("three layers (in memory)", {
 test_that("three layers (on disk)", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
-  skip_if_not(
-    is_gdal_python_available(),
-    message = "gdal_calc.py not available"
-  )
+  skip_if_gdal_calc_not_available()
   # create paths
   f1 <- tempfile(fileext = ".tif")
   f2 <- tempfile(fileext = ".tif")

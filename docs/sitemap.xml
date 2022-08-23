@@ -49,9 +49,6 @@
     <loc>/reference/crosswalk_lumb_cgls_data.html</loc>
   </url>
   <url>
-    <loc>/reference/gdal_version.html</loc>
-  </url>
-  <url>
     <loc>/reference/get_global_elevation_data.html</loc>
   </url>
   <url>
@@ -79,13 +76,16 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/is_gdal_python_available.html</loc>
+    <loc>/reference/is_gdal_calc_available.html</loc>
   </url>
   <url>
     <loc>/reference/is_grass_available.html</loc>
   </url>
   <url>
     <loc>/reference/is_iucn_rl_api_available.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_osgeo4w_available.html</loc>
   </url>
   <url>
     <loc>/reference/iucn_habitat_codes_artificial.html</loc>
@@ -119,6 +119,9 @@
   </url>
   <url>
     <loc>/reference/st_repair_geometry.html</loc>
+  </url>
+  <url>
+    <loc>/reference/system_gdal_version.html</loc>
   </url>
   <url>
     <loc>/reference/terra_combine.html</loc>

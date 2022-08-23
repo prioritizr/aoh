@@ -38,20 +38,20 @@ is_iucn_rl_api_available <- function(key = NULL, n = 5) {
   !inherits(x, "try-error")
 }
 
-#' GDAL version
+#' System GDAL version
 #'
 #' Find the version of the Geospatial Data Abstraction Library (GDAL)
-#' that is currently installed.
+#' that is currently installed on the system.
 #'
 #' @return A `character` value describing the version of GDAL installed.
 #' If GDAL is not installed, then a missing (`NA`) value is returned.
 #'
 #' @examples
 #' # show version of GDAL installed
-#' print(gdal_version())
+#' print(system_gdal_version())
 #'
 #' @export
-gdal_version <- function() {
+system_gdal_version <- function() {
   v <- try(
     silent = TRUE, {
       x <- system("gdalinfo --version", intern = TRUE)
@@ -64,21 +64,74 @@ gdal_version <- function() {
   v
 }
 
-#' Is GDAL Python interface available?
+#' Is OSGeo4W available?
 #'
-#' Check if GDAL Python scripts are available.
+#' Check if OSGeo4W software is available.
+#'
+#' @details
+#' This software is used to provide GDAL Python scripts on Windows systems
+#' that are used to generate Area of Habitat data via the GDAL engine.
+#' It can be installed from <https://trac.osgeo.org/osgeo4w/>.
+#' Note that macOS and Linux systems do not require this software.
+#' By default, it is assumed that the software is installed in the
+#' `"C:/OSGeo4W"` directory. If the software is installed at a different
+#' location, then the `"OSGEO4W_ROOT"` environmental variable can be
+#' used to specify a different location.
+#'
+#' @inherit is_gdal_calc_available return
+#'
+#' @examples
+#' # see if OSGeo4W is available at the default location
+#' print(is_osgeo4w_available())
+#'
+#' \dontrun{
+#' # specify a different location for OSGeo4W, and
+#' # then see if OSGeo4W is available at this location
+#' Sys.setenv("OSGEO4W_ROOT" = "C:/software/OSGeo4W")
+#' print(is_osgeo4w_available())
+#' }
+#'
+#' @export
+is_osgeo4w_available <- function() {
+  if (!identical(.Platform$OS.type, "windows")) return(FALSE)
+  r <- getOption("OSGEO4W_ROOT") %||% "C:/OSGeo4W"
+  file.exists(normalizePath(r)) &&
+    file.exists(normalizePath(file.path(r, "OSGeo4W.bat")))
+}
+
+#' Is gdal_calc.py available?
+#'
+#' Check if `gdal_calc.py` Python script is available.
+#'
+#' @details
+#' The `gdal_calc.py` Python script is used to process Area of Habitat data
+#' when using the GDAL engine (within [create_spp_aoh_data()]) .
+#' This function determines if this script is available on the system.
+#' On Windows systems, it first tries to access this script using the
+#' OSGeo4W software (available at <https://trac.osgeo.org/osgeo4w/>).
+#' If that fails, or if you are not using a Windows system: it then tries to
+#' access this script using default system variables.
 #'
 #' @return A `logical` value indicating if it is available.
 #'
 #' @examples
-#' # see if GDAL python scripts are available
-#' print(is_gdal_python_available())
+#' # see if gdal_calc python script is available
+#' print(is_gdal_calc_available())
 #'
 #' @export
-is_gdal_python_available <- function() {
-  v <- gdal_version()
+is_gdal_calc_available <- function() {
+  # see if OSGeo4W installation available
+  if (is_osgeo4w_available()) return(TRUE)
+  # otherwise, let's try the system library
+  v <- system_gdal_version()
   if (is.na(v)) return(FALSE)
-  if (as.package_version(v) < as.package_version("3.0.2")) return(FALSE)
+  if (as.package_version(v) < as.package_version("3.0.2")) {
+    warning(
+      "system installation of GDAL is too old, version must be >= 3.0.2",
+      immediate. = TRUE
+    )
+    return(FALSE)
+  }
   v <- try(
     system("gdal_calc.py --help", intern = TRUE),
     silent = TRUE
@@ -100,7 +153,7 @@ is_gdal_python_available <- function() {
 #' (4) the version of GRASS installed is at least 7.8.7.
 #' If any of these checks fail, then GRASS is not considered available.
 #
-#' @return A `logical` indicating if GRASS is available or not.
+#' @inherit is_gdal_calc_available return
 #'
 #' @examples
 #' \dontrun{

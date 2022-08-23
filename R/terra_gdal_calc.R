@@ -24,11 +24,18 @@ NULL
 #'
 #' @inherit terra_gdal_project return
 #'
+#' @seealso
+#' See the package README for instructions to install the GDAL dependencies
+#' for this function. The [is_osgeo4w_available()] and
+#' [is_gdal_calc_available()] can be used to check if the installation
+#' was successful.
+#'
 #' @examples
 #' # please ensure that the Python and the GDAL system binaries are
-#' # installed to run the example
+#' # installed to run the example,
+#' # see ?is_gdal_calc_available for more details
 #'
-#' @examplesIf is_gdal_python_available()
+#' \dontrun{
 #' # create raster with data
 #' x <- rast(
 #'   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
@@ -41,6 +48,7 @@ NULL
 #'
 #' # preview result
 #' print(y)
+#' }
 #' @export
 terra_gdal_calc <- function(x, expr,
                             y = NULL,
@@ -78,7 +86,7 @@ terra_gdal_calc <- function(x, expr,
     assertthat::noNA(output_raster),
     assertthat::is.string(datatype),
     assertthat::noNA(datatype),
-    is_gdal_python_available()
+    is_gdal_calc_available()
   )
   if (inherits(x, "SpatRaster")) {
     assertthat::assert_that(
@@ -141,8 +149,7 @@ terra_gdal_calc <- function(x, expr,
   }
 
   # build cmd processing
-  cmd <- "gdal_calc.py "
-  cmd <- paste0(cmd, "-X \"", f1, "\" ")
+  cmd <- paste0("-X \"", f1, "\" ")
   if (!is.null(y)) {
     cmd <- paste0(cmd, "-Y \"", f2, "\" ")
   }
@@ -168,6 +175,7 @@ terra_gdal_calc <- function(x, expr,
   if (!verbose) {
     cmd <- paste(cmd, "--quiet")
   }
+  cmd <- gdal_calc_command(cmd)
   if (isTRUE(verbose)) {
     cli::cli_alert_info(paste("System command:", cmd))
   }
@@ -194,4 +202,53 @@ terra_gdal_calc <- function(x, expr,
   } else {
     return(filename)
   }
+}
+
+gdal_calc_command <- function(x) {
+  if (is_osgeo4w_available()) {
+    out <- osgeo4w_gdal_calc(x)
+  } else {
+    out <- python_gdal_calc(x)
+  }
+  out
+}
+
+# nocov start
+osgeo4w_gdal_calc <- function(x) {
+  # assert valid arguments
+  assertthat::assert_that(
+    assertthat::is.string(x),
+    assertthat::noNA(x)
+  )
+  # find OSGeo4W root
+  r <- Sys.getenv("OSGEO4W_ROOT") %||% "C:/OSGeo4W"
+  # build bat file path
+  bat <- normalizePath(file.path(r, "OSGeo4W.bat"), mustWork = FALSE)
+  if (!file.exists(bat)) {
+    stop(paste("OSGeo4W not available at", dirname(bat)))
+  }
+  # find gdal_calc.py
+  p <- Sys.glob(
+    normalizePath(
+      paste0(r, "/apps/Pyth*/Scripts/gdal_calc.py"),
+      mustWork = FALSE
+    )
+  )
+  assertthat::assert_that(
+    identical(length(p), 1L),
+    msg = "could not find \"gdal_calc.py\" in OSGeo4W installation"
+  )
+  # build command
+  paste0("\"", bat, "\" \"", normalizePath(p), "\" ", x)
+}
+# nocov end
+
+python_gdal_calc <- function(x) {
+  # assert valid arguments
+  assertthat::assert_that(
+    assertthat::is.string(x),
+    assertthat::noNA(x)
+  )
+  # run command
+  paste("gdal_calc.py", x)
 }

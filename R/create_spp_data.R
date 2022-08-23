@@ -110,7 +110,7 @@ create_spp_data <- function(x,
   }
   if (identical(engine, "grass")) {
     assertthat::assert_that(
-      is_gdal_python_available(),
+      is_gdal_calc_available(),
       msg = paste(
         "can't use GRASS for processing because it requires GDAL,",
         "which is not available."

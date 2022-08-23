@@ -40,10 +40,10 @@ skip_if_iucn_red_list_data_not_available <- function(x) {
   )
 }
 
-skip_if_gdal_python_not_available <- function() {
+skip_if_gdal_calc_not_available <- function() {
   testthat::skip_if_not(
-    is_gdal_python_available(),
-    message = "GDAL Python scripts not available"
+    is_gdal_calc_available(),
+    message = "gdal_calc.py script not available"
   )
 }
 

@@ -7,7 +7,7 @@
 is_grass_available()
 }
 \value{
-A \code{logical} indicating if GRASS is available or not.
+A \code{logical} value indicating if it is available.
 }
 \description{
 Check if the Geographic Resources Analysis Support System (GRASS)

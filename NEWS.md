@@ -1,3 +1,9 @@
+# aoh 0.0.1.3
+
+- Fix issues with using GDAL engine for processing data on Windows.
+  Specifically, the package will now correctly work with the GDAL Python
+  bindings that are installed as part of the OSGeo4W software.
+
 # aoh 0.0.1.2
 
 - Suppress meaningless warnings triggered for GRASS on macOS.
