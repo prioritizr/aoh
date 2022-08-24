@@ -175,6 +175,10 @@ terra_gdal_calc <- function(x, expr,
   if (!verbose) {
     cmd <- paste(cmd, "--quiet")
   }
+
+  ## DEBUGGING
+  o1 <<- cmd
+
   cmd <- gdal_calc_command(cmd)
   if (isTRUE(verbose)) {
     cli::cli_alert_info(paste("System command:", cmd))
@@ -183,18 +187,20 @@ terra_gdal_calc <- function(x, expr,
 
   # clean up
   nms <- names(x)
-  if (!x_on_disk) {
-    rm(x)
-    unlink(f1, force = TRUE)
-  }
-  if (!y_on_disk) {
-    rm(y)
-    unlink(f2, force = TRUE)
-  }
-  if (!z_on_disk) {
-    rm(z)
-    unlink(f3, force = TRUE)
-  }
+
+  ## DEBUGGING
+  # if (!x_on_disk) {
+  #   rm(x)
+  #   unlink(f1, force = TRUE)
+  # }
+  # if (!y_on_disk) {
+  #   rm(y)
+  #   unlink(f2, force = TRUE)
+  # }
+  # if (!z_on_disk) {
+  #   rm(z)
+  #   unlink(f3, force = TRUE)
+  # }
 
   # return result
   if (output_raster) {
