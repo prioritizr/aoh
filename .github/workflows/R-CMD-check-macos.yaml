@@ -58,6 +58,7 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
+            any::remotes
             prepr=?ignore
             link2GI=?ignore
           needs: |
