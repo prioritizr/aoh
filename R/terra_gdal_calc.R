@@ -176,6 +176,14 @@ terra_gdal_calc <- function(x, expr,
     cmd <- paste(cmd, "--quiet")
   }
 
+  # if on windows, we need to escape the "(", ")", "<", "*"
+  if (identical(.Platform$OS.type, "windows")) {
+    cmd <- gsub("(", "^(", cmd, fixed = TRUE)
+    cmd <- gsub(")", "^)", cmd, fixed = TRUE)
+    cmd <- gsub("<", "^<", cmd, fixed = TRUE)
+    cmd <- gsub("*", "^*", cmd, fixed = TRUE)
+  }
+
   ## DEBUGGING
   o1 <<- cmd
 
