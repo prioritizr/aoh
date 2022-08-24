@@ -10,7 +10,7 @@ terra_gdal_calc(
   y = NULL,
   z = NULL,
   n_threads = 1,
-  filename = tempfile(fileext = ".tif"),
+  filename = temp_raster_path(fileext = ".tif"),
   datatype = "FLT4S",
   tiled = FALSE,
   bigtiff = FALSE,

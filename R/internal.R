@@ -41,5 +41,5 @@ temp_raster_path <- function(fileext = ".tif") {
   # delete the raster to avoid polluting system
   unlink(f, force = TRUE, recursive = TRUE)
   # return the filename
-  f
+  normalizePath(f, mustWork = FALSE)
 }
