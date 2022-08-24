@@ -54,7 +54,7 @@ terra_gdal_calc <- function(x, expr,
                             y = NULL,
                             z = NULL,
                             n_threads = 1,
-                            filename = tempfile(fileext = ".tif"),
+                            filename = temp_raster_path(fileext = ".tif"),
                             datatype = "FLT4S",
                             tiled = FALSE,
                             bigtiff = FALSE,
@@ -176,9 +176,6 @@ terra_gdal_calc <- function(x, expr,
     cmd <- paste(cmd, "--quiet")
   }
   cmd <- gdal_calc_command(cmd)
-
-  o1 <<- cmd
-
   if (isTRUE(verbose)) {
     cli::cli_alert_info(paste("System command:", cmd))
   }
