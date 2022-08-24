@@ -178,3 +178,43 @@ terra_force_disk <- function(x, filename = tempfile(fileext = ".tif"), ...) {
   }
   x
 }
+
+#' Temporary raster file path
+#'
+#' Create a temporary raster file path using the \pkg{terra} package
+#' to ensure cross-platform compatibility.
+#'
+#' @param fileext `character` Defaults to ".tif".
+#'
+#' @details
+#' This function is used to create temporary raster files that works
+#' cross-platform. This is especially important because the [tempfile()]
+#' function will sometimes replace characters in the file path with a `"~"`
+#' symbol -- resulting in invalid file paths -- if the full file path is
+#' too long.
+#'
+#' @return A `character` file path.
+#'
+#' @export
+terra_temp_path <- function(fileext = ".tif") {
+  # assert arguments are valid
+  assertthat::assert_that(
+    assertthat::is.string(fileext),
+    assertthat::noNA(fileext)
+  )
+  # create temporary file
+  f <- tempfile(fileext = fileext)
+  # create a raster since terra::writeRaster auto-magically fixes
+  # concatenation issues
+  r <- terra::rast(
+      vals = 1, nrows = 1, ncols = 1,
+      xmin = 0, xmax = 1, ymin = 0, ymax = 1
+  )
+  # save the raster and then extract the file name
+  ## N.B. this will
+  f <- terra::sources(terra::writeRaster(r, f, overwrite = TRUE))
+  # delete the raster to avoid polluting system
+  unlink(f, force = TRUE, recursive = TRUE)
+  # return the filename
+  normalizePath(f, mustWork = FALSE)
+}

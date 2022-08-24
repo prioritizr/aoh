@@ -22,6 +22,10 @@ NULL
 #'  (see [GDAL documentation](https://gdal.org/drivers/raster/gtiff.html)).
 #'  Defaults to 1 such that no predictor is used for compression.
 #'
+#' @param filename `character` Filename for output raster.
+#'  Defaults to a random GeoTIFF file path in [tempdir()]
+#'  (using [terra_temp_path()] to ensure cross-platform compatibility).
+#'
 #' @inherit terra_gdal_project return
 #'
 #' @seealso
@@ -54,7 +58,7 @@ terra_gdal_calc <- function(x, expr,
                             y = NULL,
                             z = NULL,
                             n_threads = 1,
-                            filename = temp_raster_path(fileext = ".tif"),
+                            filename = terra_temp_path(),
                             datatype = "FLT4S",
                             tiled = FALSE,
                             bigtiff = FALSE,
@@ -176,7 +180,7 @@ terra_gdal_calc <- function(x, expr,
     cmd <- paste(cmd, "--quiet")
   }
 
-  # if on windows, we need to escape the "(", ")", "<", "*"
+  # if on windows, we need to escape the characters: "(", ")", "<", "*"
   if (identical(.Platform$OS.type, "windows")) {
     cmd <- gsub("(", "^(", cmd, fixed = TRUE)
     cmd <- gsub(")", "^)", cmd, fixed = TRUE)
@@ -184,9 +188,7 @@ terra_gdal_calc <- function(x, expr,
     cmd <- gsub("*", "^*", cmd, fixed = TRUE)
   }
 
-  ## DEBUGGING
-  o1 <<- cmd
-
+  # prepend gdal_calc executable for calling script
   cmd <- gdal_calc_command(cmd)
   if (isTRUE(verbose)) {
     cli::cli_alert_info(paste("System command:", cmd))
@@ -195,20 +197,18 @@ terra_gdal_calc <- function(x, expr,
 
   # clean up
   nms <- names(x)
-
-  ## DEBUGGING
-  # if (!x_on_disk) {
-  #   rm(x)
-  #   unlink(f1, force = TRUE)
-  # }
-  # if (!y_on_disk) {
-  #   rm(y)
-  #   unlink(f2, force = TRUE)
-  # }
-  # if (!z_on_disk) {
-  #   rm(z)
-  #   unlink(f3, force = TRUE)
-  # }
+  if (!x_on_disk) {
+    rm(x)
+    unlink(f1, force = TRUE)
+  }
+  if (!y_on_disk) {
+    rm(y)
+    unlink(f2, force = TRUE)
+  }
+  if (!z_on_disk) {
+    rm(z)
+    unlink(f3, force = TRUE)
+  }
 
   # return result
   if (output_raster) {

@@ -138,4 +138,7 @@
   <url>
     <loc>/reference/terra_gdal_rasterize.html</loc>
   </url>
+  <url>
+    <loc>/reference/terra_temp_path.html</loc>
+  </url>
 </urlset>

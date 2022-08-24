@@ -54,7 +54,8 @@ parameter based on available resources (see Examples section below).
 Defaults to 1.}
 
 \item{filename}{\code{character} Filename for output raster.
-Defaults to \code{tempfile(fileext = ".tif")}.}
+Defaults to a random GeoTIFF file path in \code{\link[=tempdir]{tempdir()}}
+(using \code{\link[=terra_temp_path]{terra_temp_path()}} to ensure cross-platform compatibility).}
 
 \item{sf_filename}{\code{character} File name to temporarily save argument
 to \code{sf}.
