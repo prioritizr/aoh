@@ -53,12 +53,27 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 4
+          cache-version: 5
           extra-packages: |
+            any::covr
             any::rcmdcheck
             any::XML
+            prepr=?ignore
+            link2GI=?ignore
           needs: |
             check
+            coverage
+
+      - name: Install spatial R packages
+        run: |
+          options(repos = "https://cloud.r-project.org/")
+          install.packages("sf")
+          install.packages("terra")
+          install.packages("lwgeom")
+          install.packages("rgdal")
+          remotes::install_github("dickoa/prepr")
+          remotes::install_github("r-spatial/link2GI")
+        shell: Rscript {0}
 
       - name: Session information
         run: |
