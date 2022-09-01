@@ -56,7 +56,6 @@ get_global_elevation_data <- function(dir = tempdir(),
   assertthat::assert_that(
     assertthat::is.string(dir),
     assertthat::noNA(dir),
-    file.exists(dir),
     assertthat::is.string(version),
     assertthat::noNA(version),
     assertthat::is.flag(force),
@@ -67,7 +66,10 @@ get_global_elevation_data <- function(dir = tempdir(),
 
   # set variables
   file <- "dem-100m-esri54017.tif"
-  dir <- gsub("\\", "/", dir, fixed = TRUE)
+
+  # normalize file paths
+  dir <- normalize_path(dir, mustWork = FALSE)
+  assertthat::assert_that(file.exists(dir))
 
   # find version if needed
   if (identical(version, "latest")) {

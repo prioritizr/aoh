@@ -24,6 +24,9 @@ process_spp_aoh_on_local <- function(x,
                                      engine = "terra",
                                      n_threads = 1,
                                      cache_limit = 200) {
+  # normalize the file path
+  path <- normalize_path(path, mustWork = FALSE)
+
   # main processing
   if (identical(engine, "terra")) {
     engine_spp_aoh_terra(

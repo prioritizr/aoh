@@ -55,7 +55,6 @@ get_lumb_cgls_habitat_data <- function(dir = tempdir(),
   assertthat::assert_that(
     assertthat::is.string(dir),
     assertthat::noNA(dir),
-    file.exists(dir),
     assertthat::is.string(version),
     assertthat::noNA(version),
     assertthat::is.flag(force),
@@ -66,7 +65,10 @@ get_lumb_cgls_habitat_data <- function(dir = tempdir(),
 
   # set variables
   file <- function(x) all(grepl("^lumbierres-.*\\.tif$", x))
-  dir <- gsub("\\", "/", dir, fixed = TRUE)
+
+  # normalize file paths
+  dir <- normalize_path(dir, mustWork = FALSE)
+  assertthat::assert_that(file.exists(dir))
 
   # find version if needed
   if (identical(version, "latest")) {

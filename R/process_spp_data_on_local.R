@@ -57,13 +57,16 @@ process_spp_data_on_local <- function(x,
     assertthat::is.string(engine),
     assertthat::noNA(engine),
     engine %in% c("terra", "gdal", "grass"),
-    assertthat::is.writeable(cache_dir),
     assertthat::is.flag(force),
     assertthat::noNA(force),
     assertthat::is.flag(verbose),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
+
+  # normalize file paths
+  cache_dir <- normalize_path(cache_dir, mustWork = FALSE)
+  assertthat::assert_that(assertthat::is.writeable(cache_dir))
 
   # determine which species need processing
   if (!force & any(file.exists(x$path))) {

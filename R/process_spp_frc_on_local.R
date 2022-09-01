@@ -35,6 +35,10 @@ process_spp_frc_on_local <- function(aoh_path,
     assertthat::noNA(n_threads)
   )
 
+  # normalize the file paths
+  aoh_path <- normalize_path(aoh_path, mustWork = FALSE)
+  path <- normalize_path(path, mustWork = FALSE)
+
   # reset terra options on exit
   on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
 

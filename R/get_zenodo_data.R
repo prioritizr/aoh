@@ -117,19 +117,25 @@ get_zenodo_data <- function(x, file, dir = tempdir(), n_attempts = 5,
     gsub("\\", "/", dir, fixed = TRUE),
     gsub(".", "-", gsub("/", "_", x, fixed = TRUE), fixed = TRUE)
   )
+  dir <- normalize_path(dir, mustWork = FALSE)
   if (!file.exists(dir)) {
     dir.create(dir, showWarnings = FALSE, recursive = TRUE)
   }
 
   # exit if file already exists
   if (!isTRUE(force)) {
-    if (is.character(file) && file.exists(file.path(dir, file))) {
-      return(file.path(dir, file))
+    if (
+      is.character(file) &&
+      file.exists(normalize_path(file.path(dir, file), mustWork = FALSE))
+    ) {
+      return(normalize_path(file.path(dir, file), mustWork = FALSE))
     } else if (is.function(file)) {
-      f <- sort(dir(dir), decreasing = TRUE)
+      f <- sort(dir(dir, full.names = TRUE), decreasing = TRUE)
       r <- vapply(f, file, FUN.VALUE = logical(1))
       if (any(r)) {
-        return(file.path(dir, f[which(r)[[1]]]))
+        return(
+          normalize_path(file.path(dir, f[which(r)[[1]]]), mustWork = FALSE)
+        )
       }
     }
   }
@@ -152,7 +158,7 @@ get_zenodo_data <- function(x, file, dir = tempdir(), n_attempts = 5,
 
   # download data and return paths
   unname(vapply(idx, FUN.VALUE = character(1), function(i) {
-    p <- file.path(dir, f$filename[i])
+    p <- normalize_path(file.path(dir, f$filename[i]), mustWork = FALSE)
     if (isTRUE(force) || !file.exists(p)) {
       curl::curl_download(
         url = f$download[i],
@@ -160,7 +166,7 @@ get_zenodo_data <- function(x, file, dir = tempdir(), n_attempts = 5,
         quiet = !isTRUE(verbose)
       )
     }
-    p
+    normalize_path(p, mustWork = FALSE)
   }))
 }
 
