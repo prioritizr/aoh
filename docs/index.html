@@ -206,8 +206,7 @@
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">## #   phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="do">## #   category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;, freshwater &lt;chr&gt;,</span></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   geometry &lt;POLYGON [°]&gt;, and abbreviated variable names ¹​presence,</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ Use `colnames()` to see all variable names</span></span></code></pre></div>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies</span></span></code></pre></div>
 <p>Next, we will prepare all the range data for generating Area of Habitat data. This procedure – in addition to repairing any geometry issues in the spatial data – will obtain information on the species’ habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won’t need to re-download it again during subsequent runs.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># specify cache directory</span></span>

@@ -135,8 +135,7 @@ Defaults to 1.</p></dd>
 
 <dt>filename</dt>
 <dd><p><code>character</code> Filename for output raster.
-Defaults to a random GeoTIFF file path in <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>
-(using <code><a href="terra_temp_path.html">terra_temp_path()</a></code> to ensure cross-platform compatibility).</p></dd>
+Defaults to <code>tempfile(fileext = ".tif")</code>.</p></dd>
 
 
 <dt>sf_filename</dt>

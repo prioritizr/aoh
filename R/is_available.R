@@ -95,8 +95,8 @@ system_gdal_version <- function() {
 is_osgeo4w_available <- function() {
   if (!identical(.Platform$OS.type, "windows")) return(FALSE)
   r <- getOption("OSGEO4W_ROOT") %||% "C:/OSGeo4W"
-  file.exists(normalizePath(r)) &&
-    file.exists(normalizePath(file.path(r, "OSGeo4W.bat")))
+  file.exists(normalize_path(r), mustWork = FALSE) &&
+    file.exists(normalize_path(file.path(r, "OSGeo4W.bat"), mustWork = FALSE))
 }
 
 #' Is gdal_calc.py available?

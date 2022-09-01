@@ -17,24 +17,6 @@ test_that("create_template_rast()", {
   expect_gte(terra::ymax(x), sf::st_bbox(nc)$ymax)
 })
 
-test_that("terra_temp_path() (default extension)", {
-  f1 <- terra_temp_path()
-  expect_is(f1, "character")
-  expect_length(f1, 1)
-  expect_true(all(!is.na(f1)))
-  expect_true(all(endsWith(f1, ".tif")))
-  expect_true(!file.exists(f1))
-})
-
-test_that("terra_temp_path() (custom extension)", {
-  f1 <- terra_temp_path(fileext = ".asc")
-  expect_is(f1, "character")
-  expect_length(f1, 1)
-  expect_true(all(!is.na(f1)))
-  expect_true(all(endsWith(f1, ".asc")))
-  expect_true(!file.exists(f1))
-})
-
 test_that("terra_st_crs()", {
   # create object
   x <- terra::rast(

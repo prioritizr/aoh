@@ -10,7 +10,7 @@ terra_gdal_calc(
   y = NULL,
   z = NULL,
   n_threads = 1,
-  filename = terra_temp_path(),
+  filename = tempfile(fileext = ".tif"),
   datatype = "FLT4S",
   tiled = FALSE,
   bigtiff = FALSE,
@@ -38,8 +38,7 @@ parameter based on available resources (see Examples section below).
 Defaults to 1.}
 
 \item{filename}{\code{character} Filename for output raster.
-Defaults to a random GeoTIFF file path in \code{\link[=tempdir]{tempdir()}}
-(using \code{\link[=terra_temp_path]{terra_temp_path()}} to ensure cross-platform compatibility).}
+Defaults to \code{tempfile(fileext = ".tif")}.}
 
 \item{datatype}{\code{character} Value indicating the data type for saving data.
 Defaults to \code{"FLT4S"}.}

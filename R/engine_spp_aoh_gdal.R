@@ -41,7 +41,7 @@ engine_spp_aoh_gdal <- function(range_data,
   )
 
   # create temporary directory for processing
-  tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+  tmp_dir <- normalize_path(tempfile(), mustWork = FALSE)
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
 
   # setup terra processing
@@ -49,10 +49,22 @@ engine_spp_aoh_gdal <- function(range_data,
   on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
 
   # create temporary files
-  f1 <- tempfile(tmpdir = tmp_dir, fileext = ".gpkg")
-  f2 <- tempfile(tmpdir = tmp_dir, fileext = ".vrt")
-  f3 <- tempfile(tmpdir = tmp_dir, fileext = ".vrt")
-  f4 <- tempfile(tmpdir = tmp_dir, fileext = ".tif")
+  f1 <- normalize_path(
+    tempfile(tmpdir = tmp_dir, fileext = ".gpkg"),
+    mustWork = FALSE
+  )
+  f2 <- normalize_path(
+    tempfile(tmpdir = tmp_dir, fileext = ".vrt"),
+    mustWork = FALSE
+  )
+  f3 <- normalize_path(
+    tempfile(tmpdir = tmp_dir, fileext = ".vrt"),
+    mustWork = FALSE
+  )
+  f4 <- normalize_path(
+    tempfile(tmpdir = tmp_dir, fileext = ".tif"),
+    mustWork = FALSE
+  )
 
   # crop habitat data
   terra_gdal_crop(

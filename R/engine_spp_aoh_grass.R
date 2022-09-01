@@ -47,11 +47,14 @@ engine_spp_aoh_grass <- function(range_data,
   )
 
   # create temporary directory for processing
-  tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+  tmp_dir <- normalize_path(tempfile(), mustWork = FALSE)
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
 
   # save species range data to disk
-  spp_path <- tempfile(tmpdir = tmp_dir, fileext = ".gpkg")
+  spp_path <- normalize_path(
+    tempfile(tmpdir = tmp_dir, fileext = ".gpkg"),
+    mustWork = FALSE
+  )
   range_data$x <- 1
   sf::write_sf(range_data[, "x", drop = FALSE], spp_path, overwrite = TRUE)
 

@@ -123,9 +123,12 @@ terra_gdal_project <- function(x, y,
     any(endsWith(filename, c(".tif", ".vrt")))
   )
 
+  # sanitize file name
+  filename <- normalize_path(filename, mustWork = FALSE)
+
   # create temporary files
-  f2 <- tempfile(fileext = ".wkt")
-  f3 <- tempfile(fileext = ".wkt")
+  f2 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
+  f3 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
 
   # compress options
   if (endsWith(filename, ".tif")) {

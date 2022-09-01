@@ -55,8 +55,8 @@ read_spp_range_data <- function(path, n = NULL) {
     msg = "argument to \"path\" should have a \".zip\" or \"7z\" extension"
   )
 
-  # crea temporary directory
-  temp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+  # create temporary directory
+  temp_dir <- normalize_path(tempfile(), mustWork = FALSE)
   dir.create(temp_dir, showWarnings = FALSE, recursive = TRUE)
 
   # unzip data to temporary directory

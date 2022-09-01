@@ -22,10 +22,6 @@ NULL
 #'  (see [GDAL documentation](https://gdal.org/drivers/raster/gtiff.html)).
 #'  Defaults to 1 such that no predictor is used for compression.
 #'
-#' @param filename `character` Filename for output raster.
-#'  Defaults to a random GeoTIFF file path in [tempdir()]
-#'  (using [terra_temp_path()] to ensure cross-platform compatibility).
-#'
 #' @inherit terra_gdal_project return
 #'
 #' @seealso
@@ -58,7 +54,7 @@ terra_gdal_calc <- function(x, expr,
                             y = NULL,
                             z = NULL,
                             n_threads = 1,
-                            filename = terra_temp_path(),
+                            filename = tempfile(fileext = ".tif"),
                             datatype = "FLT4S",
                             tiled = FALSE,
                             bigtiff = FALSE,
@@ -107,6 +103,9 @@ terra_gdal_calc <- function(x, expr,
       terra::nlyr(z) == 1
     )
   }
+
+  # standardize output file path
+  filename <- normalize_path(filename, mustWork = FALSE)
 
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
@@ -237,13 +236,13 @@ osgeo4w_gdal_calc <- function(x) {
   # find OSGeo4W root
   r <- Sys.getenv("OSGEO4W_ROOT") %||% "C:/OSGeo4W"
   # build bat file path
-  bat <- normalizePath(file.path(r, "OSGeo4W.bat"), mustWork = FALSE)
+  bat <- normalize_path(file.path(r, "OSGeo4W.bat"), mustWork = FALSE)
   if (!file.exists(bat)) {
     stop(paste("OSGeo4W not available at", dirname(bat)))
   }
   # find gdal_calc.py
   p <- Sys.glob(
-    normalizePath(
+    normalize_path(
       paste0(r, "/apps/Pyth*/Scripts/gdal_calc.py"),
       mustWork = FALSE
     )
@@ -253,7 +252,7 @@ osgeo4w_gdal_calc <- function(x) {
     msg = "could not find \"gdal_calc.py\" in OSGeo4W installation"
   )
   # build command
-  paste0("\"", bat, "\" \"", normalizePath(p), "\" ", x)
+  paste0("\"", bat, "\" \"", normalize_path(p), "\" ", x)
 }
 # nocov end
 

@@ -216,7 +216,6 @@ print(spp_range_data)
     ## #   category <chr>, marine <chr>, terrestial <chr>, freshwater <chr>,
     ## #   geometry <POLYGON [°]>, and abbreviated variable names ¹​presence,
     ## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies
-    ## # ℹ Use `colnames()` to see all variable names
 
 Next, we will prepare all the range data for generating Area of Habitat
 data. This procedure – in addition to repairing any geometry issues in

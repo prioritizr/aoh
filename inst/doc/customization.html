@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-08-23" />
+<meta name="date" content="2022-08-31" />
 
 <title>Customization</title>
 
@@ -109,13 +109,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -162,7 +169,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">Customization</h1>
-<h4 class="date">2022-08-23</h4>
+<h4 class="date">2022-08-31</h4>
 
 
 <div id="TOC">
@@ -222,8 +229,7 @@ div.csl-indent {
 ## #   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;, family &lt;chr&gt;,
 ## #   genus &lt;chr&gt;, category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;,
 ## #   freshwater &lt;chr&gt;, geometry &lt;MULTIPOLYGON [°]&gt;, and abbreviated variable
-## #   names ¹​binomial, ²​compiler, ³​yrcompiled, ⁴​citation, ⁵​subspecies
-## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+## #   names ¹​binomial, ²​compiler, ³​yrcompiled, ⁴​citation, ⁵​subspecies</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## each panel corresponds to a different seasonal distribution of a species</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>map <span class="ot">&lt;-</span></span>
@@ -670,21 +676,21 @@ div.csl-indent {
 ## 15              32            1017 -868631 -654631 4404077 4576077
 ##    path                      
 ##  * &lt;chr&gt;                     
-##  1 /tmp/RtmprT0JZP/932_1.tif 
-##  2 /tmp/RtmprT0JZP/3032_1.tif
-##  3 /tmp/RtmprT0JZP/3046_1.tif
-##  4 /tmp/RtmprT0JZP/3046_3.tif
-##  5 /tmp/RtmprT0JZP/3046_4.tif
-##  6 /tmp/RtmprT0JZP/3255_1.tif
-##  7 /tmp/RtmprT0JZP/4008_1.tif
-##  8 /tmp/RtmprT0JZP/4785_1.tif
-##  9 /tmp/RtmprT0JZP/4973_1.tif
-## 10 /tmp/RtmprT0JZP/5854_1.tif
-## 11 /tmp/RtmprT0JZP/6068_1.tif
-## 12 /tmp/RtmprT0JZP/6678_1.tif
-## 13 /tmp/RtmprT0JZP/6678_2.tif
-## 14 /tmp/RtmprT0JZP/6678_3.tif
-## 15 /tmp/RtmprT0JZP/6678_4.tif
+##  1 /tmp/RtmpEioPMJ/932_1.tif 
+##  2 /tmp/RtmpEioPMJ/3032_1.tif
+##  3 /tmp/RtmpEioPMJ/3046_1.tif
+##  4 /tmp/RtmpEioPMJ/3046_3.tif
+##  5 /tmp/RtmpEioPMJ/3046_4.tif
+##  6 /tmp/RtmpEioPMJ/3255_1.tif
+##  7 /tmp/RtmpEioPMJ/4008_1.tif
+##  8 /tmp/RtmpEioPMJ/4785_1.tif
+##  9 /tmp/RtmpEioPMJ/4973_1.tif
+## 10 /tmp/RtmpEioPMJ/5854_1.tif
+## 11 /tmp/RtmpEioPMJ/6068_1.tif
+## 12 /tmp/RtmpEioPMJ/6678_1.tif
+## 13 /tmp/RtmpEioPMJ/6678_2.tif
+## 14 /tmp/RtmpEioPMJ/6678_3.tif
+## 15 /tmp/RtmpEioPMJ/6678_4.tif
 ##                                                                         geometry
 ##  *                                                            &lt;MULTIPOLYGON [m]&gt;
 ##  1 (((-258786 4373975, -259389 4373961, -259723 4374219, -259763 4374773, -2596…

@@ -109,6 +109,10 @@ terra_gdal_rasterize <- function(x, sf,
     assertthat::noNA(output_raster)
   )
 
+  # sanitize file name
+  filename <- normalize_path(filename, mustWork = FALSE)
+  sf_filename <- normalize_path(sf_filename, mustWork = FALSE)
+
   # compress options
   co <- paste0("NUM_THREADS=", n_threads)
   if (endsWith(filename, ".tif")) {
@@ -180,7 +184,7 @@ terra_gdal_rasterize <- function(x, sf,
     args$a_nodata <- NAflag
   }
   if (!isTRUE(update)) {
-    f3 <- tempfile(fileext = ".wkt")
+    f3 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
     writeLines(x_crs, f3)
     args <- append(
       args,

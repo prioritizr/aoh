@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-08-23" />
+<meta name="date" content="2022-08-31" />
 
 <title>Getting started</title>
 
@@ -109,13 +109,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -162,7 +169,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">Getting started</h1>
-<h4 class="date">2022-08-23</h4>
+<h4 class="date">2022-08-31</h4>
 
 
 <div id="TOC">
@@ -213,8 +220,7 @@ div.csl-indent {
 ## #   phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,
 ## #   category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;, freshwater &lt;chr&gt;,
 ## #   geometry &lt;POLYGON [°]&gt;, and abbreviated variable names ¹​presence,
-## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies
-## # ℹ Use `colnames()` to see all variable names</code></pre>
+## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies</code></pre>
 <p>Next, we will prepare all the range data for generating Area of Habitat data. This procedure – in addition to repairing any geometry issues in the spatial data – will obtain information on the species’ habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won’t need to re-download it again during subsequent runs.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># specify cache directory</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cache_dir <span class="ot">&lt;-</span> <span class="fu">user_data_dir</span>(<span class="st">&quot;aoh&quot;</span>)</span>
@@ -277,10 +283,10 @@ div.csl-indent {
 ## # A tibble: 4 × 5
 ##   id_no binomial              seasonal path                             geometry
 ##   &lt;dbl&gt; &lt;chr&gt;                    &lt;int&gt; &lt;chr&gt;                       &lt;POLYGON [m]&gt;
-## 1   979 Alytes dickhilleni           1 /tmp/RtmprT0JZ… ((-105507 4465112, -1064…
-## 2 59448 Calotriton asper             1 /tmp/RtmprT0JZ… ((-238681 5029057, -2377…
-## 3  4657 Chioglossa lusitanica        1 /tmp/RtmprT0JZ… ((-859202 4559278, -8593…
-## 4 58622 Rana iberica                 1 /tmp/RtmprT0JZ… ((-849802 4614149, -8481…</code></pre>
+## 1   979 Alytes dickhilleni           1 /tmp/RtmpEioPM… ((-105507 4465112, -1064…
+## 2 59448 Calotriton asper             1 /tmp/RtmpEioPM… ((-238681 5029057, -2377…
+## 3  4657 Chioglossa lusitanica        1 /tmp/RtmpEioPM… ((-859202 4559278, -8593…
+## 4 58622 Rana iberica                 1 /tmp/RtmpEioPM… ((-849802 4614149, -8481…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the Area of Habitat data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## since the data for each species have a different spatial extent</span></span>
@@ -348,9 +354,9 @@ div.csl-indent {
 ## resolution  : 100, 100  (x, y)
 ## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## sources     : spat_VK7etc1dVFiEpRx_108119.tif  
-##               spat_6ePlOnpjciUd9AS_108119.tif  
-##               spat_Bj1MimwA4h7ZEgc_108119.tif  
+## sources     : spat_0Er9b4Qmrb0WX48_67479.tif  
+##               memory  
+##               memory  
 ##               ... and 1 more source(s)
 ## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 
 ## min values  :         0,           0,          0,           0 
