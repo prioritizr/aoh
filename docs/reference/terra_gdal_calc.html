@@ -176,6 +176,39 @@ Defaults to <code>TRUE</code>.</p></dd>
 
 <p>A <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> raster object.</p>
     </div>
+    <div id="troubleshooting">
+    <h2>Troubleshooting</h2>
+    
+
+<p>The function aims to automatically determine the best approach to
+run the <code>gdal_calc.py</code> script. However, it is not always successful.
+As such, there are several environmental variables that can be
+configured to manually specify exactly how the <code>gdal_calc.py</code> script
+should be executed. These variables specify the following behavior.</p>
+<dl><dt><code>GDAL_PYTHON</code></dt>
+<dd><p>Specifies the file path for the Python executable
+used to run the <code>gdal_calc.py</code> script. For example, this variable
+could be configured as: <code>sys.setenv("GDAL_PYTHON", "python")</code>,
+<code>sys.setenv("GDAL_PYTHON", "python3")</code>, or
+<code>sys.setenv("GDAL_PYTHON", "python.exe")</code>.</p></dd>
+
+
+<dt><code>GDAL_CALC</code></dt>
+<dd><p>Specifies the file path for the <code>gdal_calc.py</code> script.
+For example, this variable could be configured as:
+<code>sys.setenv("GDAL_PYTHON", "gdal_calc.py")</code>, or
+<code> sys.setenv("GDAL_PYTHON", "C:\\OSGeo4W\\apps\\Python39\\Scripts\\gdal_calc.py")</code>.</p></dd>
+
+
+<dt><code>GDAL_ESCAPE</code></dt>
+<dd><p>Specifies whether symbols in the mathematical expressions used to perform the
+calculations should be escaped. On Windows systems, the default behavior
+is to escape these symbols. This behavior can be disabled using the
+following code: <code>sys.setenv("GDAL_ESCAPE", "false")</code>.</p></dd>
+
+
+
+</dl></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>See the package README for instructions to install the GDAL dependencies
@@ -200,7 +233,7 @@ was successful.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># run calculation</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">terra_gdal_calc</span><span class="op">(</span><span class="va">x</span>, <span class="st">"(X &lt; 20) * 1"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> System command: gdal_calc.py -X "/tmp/RtmpvRGaXY/file105f334cea2c6.tif" --outfile="/tmp/RtmpvRGaXY/file105f366a6f2a1.tif" --calc="(X &lt; 20) * 1" --type="Float32" --co="NUM_THREADS=1" --co="COMPRESS=LZW" --co="PREDICTOR=1"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> System command: gdal_calc.py -X "/tmp/Rtmp2X1WlS/filec36d3bec0473.tif" --outfile="/tmp/Rtmp2X1WlS/filec36d16e5ef7e.tif" --calc="(X &lt; 20) * 1" --type="Float32" --co="NUM_THREADS=1" --co="COMPRESS=LZW" --co="PREDICTOR=1"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># preview result</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
@@ -209,7 +242,7 @@ was successful.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 0.5, 0.5  (x, y)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -110, -90, 40, 60  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file105f366a6f2a1.tif </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source      : filec36d16e5ef7e.tif </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr.1 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

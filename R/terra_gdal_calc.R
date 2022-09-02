@@ -24,6 +24,35 @@ NULL
 #'
 #' @inherit terra_gdal_project return
 #'
+#' @section Troubleshooting:
+#' The function aims to automatically determine the best approach to
+#' run the `gdal_calc.py` script. However, it is not always successful.
+#' As such, there are several environmental variables that can be
+#' configured to manually specify exactly how the `gdal_calc.py` script
+#' should be executed. These variables specify the following behavior.
+#'
+#' \describe{
+#'
+#' \item{\code{GDAL_PYTHON}}{Specifies the file path for the Python executable
+#'  used to run the `gdal_calc.py` script. For example, this variable
+#' could be configured as: `sys.setenv("GDAL_PYTHON", "python")`,
+#' `sys.setenv("GDAL_PYTHON", "python3")`, or
+#' `sys.setenv("GDAL_PYTHON", "python.exe")`.}
+#'
+#' \item{\code{GDAL_CALC}}{
+#' Specifies the file path for the \code{gdal_calc.py} script.
+#' For example, this variable could be configured as:
+#' `sys.setenv("GDAL_PYTHON", "gdal_calc.py")`, or
+#'` sys.setenv("GDAL_PYTHON",
+#' "C:\\OSGeo4W\\apps\\Python39\\Scripts\\gdal_calc.py")`.}
+#'
+#' \item{\code{GDAL_ESCAPE}}{
+#' Specifies whether symbols in the mathematical expressions used to perform the
+#' calculations should be escaped. On Windows systems, the default behavior
+#' is to escape these symbols. This behavior can be disabled using the
+#' following code: `sys.setenv("GDAL_ESCAPE", "false")`.}
+#'
+#' }
 #' @seealso
 #' See the package README for instructions to install the GDAL dependencies
 #' for this function. The [is_osgeo4w_available()] and
