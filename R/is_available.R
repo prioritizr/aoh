@@ -124,7 +124,12 @@ is_gdal_calc_available <- function() {
   if (is_osgeo4w_available()) return(TRUE)
   # otherwise, let's try the system library
   v <- system_gdal_version()
-  if (is.na(v)) return(FALSE)
+  if (is.na(v)) {
+    warning(
+      "system installation of GDAL is unknown",
+      immediate. = TRUE
+    )
+  }
   if (as.package_version(v) < as.package_version("3.0.2")) {
     warning(
       "system installation of GDAL is too old, version must be >= 3.0.2",
@@ -133,7 +138,7 @@ is_gdal_calc_available <- function() {
     return(FALSE)
   }
   v <- try(
-    system("gdal_calc.py --help", intern = TRUE),
+    system(python_gdal_calc("--help"), intern = TRUE),
     silent = TRUE
   )
   if (inherits(v, "try-error")) return(FALSE)
