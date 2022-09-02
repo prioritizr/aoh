@@ -218,7 +218,7 @@ terra_gdal_calc <- function(x, expr,
 }
 
 gdal_calc_command <- function(x) {
-  if (is_osgeo4w_available() && !identical(Sys.getenv("GDAL_PYTHON"), "")) {
+  if (is_osgeo4w_available() && identical(Sys.getenv("GDAL_PYTHON"), "")) {
     out <- osgeo4w_gdal_calc(x)
   } else {
     out <- python_gdal_calc(x)
