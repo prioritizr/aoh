@@ -129,13 +129,14 @@ is_gdal_calc_available <- function() {
       "system installation of GDAL is unknown",
       immediate. = TRUE
     )
-  }
-  if (as.package_version(v) < as.package_version("3.0.2")) {
-    warning(
-      "system installation of GDAL is too old, version must be >= 3.0.2",
-      immediate. = TRUE
-    )
-    return(FALSE)
+  } else {
+    if (as.package_version(v) < as.package_version("3.0.2")) {
+      warning(
+        "system installation of GDAL is too old, version must be >= 3.0.2",
+        immediate. = TRUE
+      )
+      return(FALSE)
+    }
   }
   v <- try(
     system(python_gdal_calc("--help"), intern = TRUE),
