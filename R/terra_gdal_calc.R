@@ -234,7 +234,9 @@ osgeo4w_gdal_calc <- function(x) {
     assertthat::noNA(x)
   )
   # find OSGeo4W root
-  r <- Sys.getenv("OSGEO4W_ROOT") %||% "C:/OSGeo4W"
+  r <- Sys.getenv("OSGEO4W_ROOT")
+  if (is.null(r)) r <- "C:/OSGeo4W"
+  if (is.character(r) && (nchar(r) == 0)) r <- "C:/OSGeo4W"
   # build bat file path
   bat <- normalize_path(file.path(r, "OSGeo4W.bat"), mustWork = FALSE)
   if (!file.exists(bat)) {
