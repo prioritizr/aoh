@@ -180,7 +180,10 @@ terra_gdal_calc <- function(x, expr,
   }
 
   # if on windows, we need to escape the characters: "(", ")", "<", "*"
-  if (identical(.Platform$OS.type, "windows")) {
+  if (
+    identical(.Platform$OS.type, "windows") &&
+    !identical(tolower(Sys.getenv("GDAL_ESCAPE")), "false")
+  ) {
     cmd <- gsub("(", "^(", cmd, fixed = TRUE)
     cmd <- gsub(")", "^)", cmd, fixed = TRUE)
     cmd <- gsub("<", "^<", cmd, fixed = TRUE)
