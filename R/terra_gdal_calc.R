@@ -216,7 +216,10 @@ terra_gdal_calc <- function(x, expr,
     cmd <- gsub("(", "^(", cmd, fixed = TRUE)
     cmd <- gsub(")", "^)", cmd, fixed = TRUE)
     cmd <- gsub("<", "^<", cmd, fixed = TRUE)
+    cmd <- gsub(">", "^<", cmd, fixed = TRUE)
     cmd <- gsub("*", "^*", cmd, fixed = TRUE)
+    cmd <- gsub("|", "^|", cmd, fixed = TRUE)
+    cmd <- gsub("&", "^&", cmd, fixed = TRUE)
   }
 
   # prepend gdal_calc executable for calling script
