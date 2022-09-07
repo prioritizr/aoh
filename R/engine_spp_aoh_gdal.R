@@ -150,7 +150,7 @@ engine_spp_aoh_gdal <- function(range_data,
     nbits = 2,
     NAflag = 2,
     output_raster = FALSE,
-    verbose = TRUE
+    verbose = FALSE
   )
 
   # clean up
