@@ -153,14 +153,8 @@ engine_spp_aoh_gdal <- function(range_data,
     verbose = TRUE
   )
 
-  print("tempdir")
-  print(tmp_dir)
-
-  print("path")
-  print(path)
-
   # clean up
-  #unlink(tmp_dir, force = TRUE, recursive = TRUE)
+  unlink(tmp_dir, force = TRUE, recursive = TRUE)
 
   # return result
   invisible(TRUE)
