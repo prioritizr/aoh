@@ -150,11 +150,17 @@ engine_spp_aoh_gdal <- function(range_data,
     nbits = 2,
     NAflag = 2,
     output_raster = FALSE,
-    verbose = FALSE
+    verbose = TRUE
   )
 
+  print("tempdir")
+  print(tmp_dir)
+
+  print("path")
+  print(path)
+
   # clean up
-  unlink(tmp_dir, force = TRUE, recursive = TRUE)
+  #unlink(tmp_dir, force = TRUE, recursive = TRUE)
 
   # return result
   invisible(TRUE)
