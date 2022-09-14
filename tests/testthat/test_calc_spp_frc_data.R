@@ -158,6 +158,7 @@ test_that("different engines produce same result", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
+  skip_on_ci()
   skip_if_not_installed("vcr")
   skip_if_cached_data_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)

@@ -30,6 +30,7 @@ test_that("latest version (from online)", {
 test_that("latest version (from cache)", {
   # skip if needed
   skip_on_cran()
+  skip_on_ci()
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   skip_if_zenodo_api_not_available()
@@ -83,6 +84,7 @@ test_that("specified version (from online)", {
 test_that("specified version (from cache)", {
   # skip if needed
   skip_on_cran()
+  skip_on_ci()
   skip_if_not_installed("rappdirs")
   skip_if_cached_data_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
