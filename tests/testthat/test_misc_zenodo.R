@@ -34,7 +34,10 @@ test_that("get_doi_versions", {
   )
   # subset x to include same versions as y,
   # to future proof in case new versions are uploaded
+  # N.B. we don't test "created" due to time zone conversion differences
   expect_is(x, "tbl_df")
   x <- x[seq_len(3), , drop = FALSE]
-  expect_equal(x, y,)
+  expect_equal(names(x), names(y))
+  expect_equal(x$version, y$version)
+  expect_equal(x$doi, y$doi)
 })

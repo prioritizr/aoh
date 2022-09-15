@@ -42,14 +42,14 @@ skip_if_iucn_red_list_data_not_available <- function(x) {
 
 skip_if_gdal_calc_not_available <- function() {
   testthat::skip_if_not(
-    is_gdal_calc_available(),
+    suppressWarnings(is_gdal_calc_available()),
     message = "gdal_calc.py script not available"
   )
 }
 
 skip_if_grass_not_available <- function() {
   testthat::skip_if_not(
-    is_grass_available(),
+    suppressWarnings(is_grass_available()),
     message = "GRASS not available"
   )
 }
