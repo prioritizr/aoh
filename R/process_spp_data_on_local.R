@@ -57,13 +57,16 @@ process_spp_data_on_local <- function(x,
     assertthat::is.string(engine),
     assertthat::noNA(engine),
     engine %in% c("terra", "gdal", "grass"),
-    assertthat::is.writeable(cache_dir),
     assertthat::is.flag(force),
     assertthat::noNA(force),
     assertthat::is.flag(verbose),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
+
+  # normalize file paths
+  cache_dir <- normalize_path(cache_dir, mustWork = FALSE)
+  assertthat::assert_that(assertthat::is.writeable(cache_dir))
 
   # determine which species need processing
   if (!force & any(file.exists(x$path))) {
@@ -100,9 +103,9 @@ process_spp_data_on_local <- function(x,
   # initialize GRASS session if needed
   if (identical(engine, "grass")) {
     ## create temporary directory for processing
-    grass_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+    grass_dir <- normalize_path(tempfile(), mustWork = FALSE)
     dir.create(grass_dir, showWarnings = FALSE, recursive = TRUE)
-    data_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+    data_dir <- normalize_path(tempfile(), mustWork = FALSE)
     dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
 
     ## set up GRASS connection
@@ -130,7 +133,10 @@ process_spp_data_on_local <- function(x,
     )
 
     ## create a VRT containing cropped version of habitat data
-    e_grass_vrt_path <- tempfile(fileext = ".vrt")
+    e_grass_vrt_path <- normalize_path(
+      tempfile(fileext = ".vrt"),
+      mustWork = FALSE
+    )
     terra_gdal_crop(
       x = elevation_data,
       ext = terra::ext(c(
@@ -149,7 +155,10 @@ process_spp_data_on_local <- function(x,
     )
 
     ## create a VRT containing cropped version of elevation data
-    h_grass_vrt_path <- tempfile(fileext = ".vrt")
+    h_grass_vrt_path <- normalize_path(
+      tempfile(fileext = ".vrt"),
+      mustWork = FALSE
+    )
     terra_gdal_crop(
       x = habitat_data,
       ext = terra::ext(c(
@@ -201,7 +210,10 @@ process_spp_data_on_local <- function(x,
       if (is.null(frc_template_data)) {
         curr_aoh_path <- curr_spp_path
       } else {
-        curr_aoh_path <- tempfile(fileext = ".tif")
+        curr_aoh_path <- normalize_path(
+          tempfile(fileext = ".tif"),
+          mustWork = FALSE
+        )
       }
 
       ## process AOH data

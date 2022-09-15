@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.3</span>
       </span>
     </div>
 
@@ -126,7 +126,7 @@
 <h5 id="windows">
 <em>Windows</em><a class="anchor" aria-label="anchor" href="#windows"></a>
 </h5>
-<p>The <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a> software needs to be installed to install the <em>prepr R</em> package package. This software provides system requirements from <a href="https://github.com/rwinlib/" class="external-link">rwinlib</a>. Additionally, the easiest way to install GDAL and GRASS is through <a href="https://www.osgeo.org/" class="external-link">OSGeo4W</a>. <a href="https://trac.osgeo.org/osgeo4w/" class="external-link">Download the OSGeo4W installer</a>, select the “Express Install” option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the <code><a href="reference/is_gdal_python_available.html">aoh::is_gdal_python_available()</a></code> function cannot find GDAL, you may also need to update the <code>PATH</code> environmental variable so that it contains the folder path for GDAL (default folder path is <code>C:\OSGeo4W\bin</code>),</p>
+<p>The <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a> software needs to be installed to install the <em>prepr R</em> package package. This software provides system requirements from <a href="https://github.com/rwinlib/" class="external-link">rwinlib</a>. Additionally, the easiest way to install GDAL and GRASS is through <a href="https://www.osgeo.org/" class="external-link">OSGeo4W</a>. <a href="https://trac.osgeo.org/osgeo4w/" class="external-link">Download the OSGeo4W installer</a>, select the “Express Install” option, and then follow the prompts to complete the installation. After the installation process has finished, please restart your computer. If the <code>aoh::is_gdal_python_available()</code> function cannot find GDAL, you may also need to update the <code>PATH</code> environmental variable so that it contains the folder path for GDAL (default folder path is <code>C:\OSGeo4W\bin</code>),</p>
 </div>
 <div class="section level5">
 <h5 id="ubuntu">
@@ -206,8 +206,7 @@
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">## #   phylum &lt;chr&gt;, class &lt;chr&gt;, order_ &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="do">## #   category &lt;chr&gt;, marine &lt;chr&gt;, terrestial &lt;chr&gt;, freshwater &lt;chr&gt;,</span></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   geometry &lt;POLYGON [°]&gt;, and abbreviated variable names ¹​presence,</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ Use `colnames()` to see all variable names</span></span></code></pre></div>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies</span></span></code></pre></div>
 <p>Next, we will prepare all the range data for generating Area of Habitat data. This procedure – in addition to repairing any geometry issues in the spatial data – will obtain information on the species’ habitat preferences and elevational limits (via the IUCN Red List of Threatened Species). We also specify a folder to cache the downloaded data so that we won’t need to re-download it again during subsequent runs.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># specify cache directory</span></span>
@@ -319,7 +318,7 @@
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>relevant data using<span class="sc">:</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2022</span>) aoh<span class="sc">:</span> Create Area of Habitat Data. R package version</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">1</span>.<span class="fl">2.</span> Available at https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>prioritizr<span class="sc">/</span>aoh.</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>.<span class="dv">0</span>.<span class="dv">1</span>.<span class="fl">3.</span> Available at https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>prioritizr<span class="sc">/</span>aoh.</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  IUCN [insert year] IUCN Red List of Threatened Species. Version</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  [insert version]. Available at www.iucnredlist.org.</span>
@@ -397,7 +396,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/Lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
 <li><a href="https://github.com/prioritizr/aoh/actions" class="external-link"><img src="https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu" alt="R-CMD-check-Ubuntu"></a></li>
 <li><a href="https://github.com/prioritizr/aoh/actions" class="external-link"><img src="https://img.shields.io/github/workflow/status/prioritizr/aoh/Windows/master.svg?label=Windows" alt="R-CMD-check-Windows"></a></li>
 <li><a href="https://github.com/prioritizr/aoh/actions" class="external-link"><img src="https://img.shields.io/github/workflow/status/prioritizr/aoh/macOS/master.svg?label=macOS" alt="R-CMD-check-macOS"></a></li>

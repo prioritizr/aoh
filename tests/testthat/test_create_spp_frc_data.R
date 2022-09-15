@@ -66,7 +66,7 @@ test_that("different engines produce same result", {
   # skip if needed
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
-  skip_if_gdal_python_not_available()
+  skip_if_gdal_calc_not_available()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -142,6 +142,7 @@ test_that("different engines produce same result", {
 test_that("example data", {
   # skip if needed
   skip_on_cran()
+  skip_on_ci()
   skip_if_offline()
   skip_if_iucn_key_missing()
   skip_if_iucn_api_not_available()

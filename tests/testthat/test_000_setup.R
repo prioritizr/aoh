@@ -42,6 +42,7 @@ test_that("Jung level 1 habitat data", {
 
 test_that("Jung level 2 habitat data", {
   skip_on_cran()
+  skip_on_ci()
   # download data
   x <- try(
     get_jung_lvl2_habitat_data(

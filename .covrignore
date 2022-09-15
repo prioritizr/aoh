@@ -1,2 +1,3 @@
+R/internal.R
 R/is_available.R
 R/zzz.R

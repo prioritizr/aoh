@@ -25,8 +25,8 @@ jobs:
       matrix:
         config:
           - {os: ubuntu-20.04, r: 'release'}
-          - {os: ubuntu-20.04, r: 'devel'}
-          - {os: ubuntu-20.04, r: 'devel', pkgs: 'depends only'}
+          # - {os: ubuntu-20.04, r: 'devel'}
+          # - {os: ubuntu-20.04, r: 'devel', pkgs: 'depends only'}
 
     env:
       _R_REMOTES_NO_ERRORS_FROM_WARNINGS_: true
@@ -52,7 +52,8 @@ jobs:
           sudo apt update
           sudo apt-get install \
             libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
-            libgmp3-dev libmpfr-dev libudunits2-dev
+            libgmp3-dev libmpfr-dev libudunits2-dev \
+            libharfbuzz-dev libfribidi-dev
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -61,6 +62,7 @@ jobs:
             any::covr
             any::rcmdcheck
             any::XML
+            any::remotes
             prepr=?ignore
             link2GI=?ignore
           needs: |
@@ -70,12 +72,12 @@ jobs:
       - name: Install spatial R packages
         run: |
           options(repos = "https://cloud.r-project.org/")
+          install.packages("rgdal")
           install.packages("sf")
           install.packages("terra")
           install.packages("lwgeom")
-          install.packages("rgdal")
+          install.packages("link2GI")
           remotes::install_github("dickoa/prepr")
-          remotes::install_github("r-spatial/link2GI")
         shell: Rscript {0}
 
       - name: Session information

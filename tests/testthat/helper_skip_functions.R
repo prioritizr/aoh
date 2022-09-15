@@ -40,16 +40,16 @@ skip_if_iucn_red_list_data_not_available <- function(x) {
   )
 }
 
-skip_if_gdal_python_not_available <- function() {
+skip_if_gdal_calc_not_available <- function() {
   testthat::skip_if_not(
-    is_gdal_python_available(),
-    message = "GDAL Python scripts not available"
+    suppressWarnings(is_gdal_calc_available()),
+    message = "gdal_calc.py script not available"
   )
 }
 
 skip_if_grass_not_available <- function() {
   testthat::skip_if_not(
-    is_grass_available(),
+    suppressWarnings(is_grass_available()),
     message = "GRASS not available"
   )
 }
@@ -64,15 +64,6 @@ skip_if_cached_data_not_available <- function() {
 skip_if_zenodo_data_not_available <- function(x) {
   testthat::skip_if(
     inherits(x, "try-error"),
-    message = "Zenodo dataset not available"
-  )
-}
-
-skip_if_zenodo_api_not_available <- function() {
-  z <- zen4R::ZenodoManager$new(logger = NULL)
-  r <- try(z$getRecordByDOI("10.5281/zenodo.3378733"), silent = TRUE)
-  testthat::skip_if(
-    inherits(r, "try-error"),
     message = "Zenodo dataset not available"
   )
 }

@@ -11,7 +11,6 @@
   )
 }
 
-
 .onAttach <- function(libname, pkgname) {
   # initialize message
   m <- paste0(

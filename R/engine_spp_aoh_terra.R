@@ -55,7 +55,7 @@ engine_spp_aoh_terra <- function(range_data,
   )
 
   # create temporary directory for processing
-  tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+  tmp_dir <- normalize_path(tempfile(), mustWork = FALSE)
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
   terra::terraOptions(progress = 0, tempdir = tmp_dir)
 

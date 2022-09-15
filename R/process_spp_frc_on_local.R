@@ -35,11 +35,15 @@ process_spp_frc_on_local <- function(aoh_path,
     assertthat::noNA(n_threads)
   )
 
+  # normalize the file paths
+  aoh_path <- normalize_path(aoh_path, mustWork = FALSE)
+  path <- normalize_path(path, mustWork = FALSE)
+
   # reset terra options on exit
   on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
 
   # configure terra for processing
-  tmp_dir <- gsub("\\", "/", tempfile(), fixed = TRUE)
+  tmp_dir <- normalize_path(tempfile(), mustWork = FALSE)
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
   terra::terraOptions(progress = 0, tempdir = tmp_dir)
 
@@ -68,7 +72,10 @@ process_spp_frc_on_local <- function(aoh_path,
     r <- terra_gdal_crop(
       x = r,
       ext = terra::ext(curr_grid),
-      filename = tempfile(tmpdir = tmp_dir, fileext = ".tif"),
+      filename = normalize_path(
+        tempfile(tmpdir = tmp_dir, fileext = ".tif"),
+        mustWork = FALSE
+      ),
       datatype = "INT1U",
       cache_limit = cache_limit,
       bigtiff = TRUE,

@@ -81,11 +81,43 @@ A \code{\link[terra:rast]{terra::rast()}} raster object.
 This function is a wrapper for the \code{gdal_calc.py} script for use with
 \pkg{terra} objects.
 }
+\section{Troubleshooting}{
+
+The function aims to automatically determine the best approach to
+run the \code{gdal_calc.py} script. However, it is not always successful.
+As such, there are several environmental variables that can be
+configured to manually specify exactly how the \code{gdal_calc.py} script
+should be executed. These variables specify the following behavior.
+
+\describe{
+
+\item{\code{GDAL_PYTHON}}{Specifies the file path for the Python executable
+used to run the \code{gdal_calc.py} script. For example, this variable
+could be configured as: \code{sys.setenv("GDAL_PYTHON", "python")},
+\code{sys.setenv("GDAL_PYTHON", "python3")}, or
+\code{sys.setenv("GDAL_PYTHON", "python.exe")}.}
+
+\item{\code{GDAL_CALC}}{
+Specifies the file path for the \code{gdal_calc.py} script.
+For example, this variable could be configured as:
+\code{sys.setenv("GDAL_PYTHON", "gdal_calc.py")}, or
+\code{ sys.setenv("GDAL_PYTHON", "C:\\\\OSGeo4W\\\\apps\\\\Python39\\\\Scripts\\\\gdal_calc.py")}.}
+
+\item{\code{GDAL_ESCAPE}}{
+Specifies whether symbols in the mathematical expressions used to perform the
+calculations should be escaped. On Windows systems, the default behavior
+is to escape these symbols. This behavior can be disabled using the
+following code: \code{sys.setenv("GDAL_ESCAPE", "false")}.}
+
+}
+}
+
 \examples{
 # please ensure that the Python and the GDAL system binaries are
-# installed to run the example
+# installed to run the example,
+# see ?is_gdal_calc_available for more details
 
-\dontshow{if (is_gdal_python_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
 # create raster with data
 x <- rast(
   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,
@@ -98,5 +130,11 @@ y <- terra_gdal_calc(x, "(X < 20) * 1")
 
 # preview result
 print(y)
-\dontshow{\}) # examplesIf}
+}
+}
+\seealso{
+See the package README for instructions to install the GDAL dependencies
+for this function. The \code{\link[=is_osgeo4w_available]{is_osgeo4w_available()}} and
+\code{\link[=is_gdal_calc_available]{is_gdal_calc_available()}} can be used to check if the installation
+was successful.
 }

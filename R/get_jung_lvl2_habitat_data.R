@@ -81,43 +81,17 @@ get_jung_lvl2_habitat_data <- function(dir = tempdir(),
                                   version = "latest",
                                   force = FALSE,
                                   verbose = TRUE) {
-  # assert arguments are valid
-  assertthat::assert_that(
-    assertthat::is.string(dir),
-    assertthat::noNA(dir),
-    file.exists(dir),
-    assertthat::is.string(version),
-    assertthat::noNA(version),
-    assertthat::is.flag(force),
-    assertthat::noNA(force),
-    assertthat::is.flag(verbose),
-    assertthat::noNA(verbose)
-  )
-
-  # set variables
-  file <- function(x) all(grepl("^jung-lvl2-.*\\.tif$", x))
-  dir <- gsub("\\", "/", dir, fixed = TRUE)
-
-  # find version if needed
-  if (identical(version, "latest")) {
-    ## verify if internet connection present
-    if (!curl::has_internet()) {
-      stop("no internet connection detected.") # nocov
-    }
-
-    ## find latest version
-    version <- latest_zenodo_version(x = "10.5281/zenodo.6622038", file = file)
-  }
 
   # get data
   path <- get_zenodo_data(
-    x = version,
+    x = "10.5281/zenodo.6622038",
+    file = function(x) all(grepl("^jung-lvl2-.*\\.tif$", x)),
+    version = version,
     dir = dir,
-    file = file,
     force = force,
     verbose = verbose
   )
 
-  # import data
+  # return data
   terra::rast(path)
 }

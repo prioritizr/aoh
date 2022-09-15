@@ -48,7 +48,7 @@ reference:
     desc: Functions to check if external software or services are available
     contents:
       - ends_with("available")
-      - gdal_version
+      - system_gdal_version
 
   - title: Miscellaneous functions
     desc: Assorted functions with various uses

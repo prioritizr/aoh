@@ -76,7 +76,6 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     assertthat::noNA(data_prefix),
     inherits(data_template, "data.frame"),
     assertthat::is.string(dir),
-    assertthat::is.writeable(dir),
     assertthat::is.string(version),
     assertthat::noNA(version),
     inherits(key, c("NULL", "character")),
@@ -96,6 +95,10 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
     msg = "x does not contain integer numbers"
   )
   x <- as.integer(x)
+
+  # normalize file paths
+  dir <- normalize_path(dir, mustWork = FALSE)
+  assertthat::assert_that(assertthat::is.writeable(dir))
 
   # find version of data
   if (identical(version, "latest")) {

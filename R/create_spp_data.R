@@ -61,6 +61,10 @@ create_spp_data <- function(x,
       "columns"
     )
   )
+  ## normalize directories
+  output_dir <- normalize_path(output_dir, mustWork = FALSE)
+  cache_dir <- normalize_path(cache_dir, mustWork = FALSE)
+  ## additional validation
   assertthat::assert_that(
     assertthat::is.writeable(output_dir),
     assertthat::is.writeable(cache_dir),
@@ -110,7 +114,7 @@ create_spp_data <- function(x,
   }
   if (identical(engine, "grass")) {
     assertthat::assert_that(
-      is_gdal_python_available(),
+      is_gdal_calc_available(),
       msg = paste(
         "can't use GRASS for processing because it requires GDAL,",
         "which is not available."
@@ -299,6 +303,10 @@ create_spp_data <- function(x,
       output_dir, paste0("FRC_", x$id_no, "_", x$seasonal, ".tif")
     )
   }
+  ## normalize file paths
+  x$path <- vapply(
+    x$path, normalize_path, character(1), mustWork = FALSE, USE.NAMES = FALSE
+  )
   ## set paths to NA if the species won't be processed
   ## species won't be processed if:
   ##   they don't overlap with the template,

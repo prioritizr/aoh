@@ -108,7 +108,7 @@ quickcheck:
 
 check:
 	echo "\n===== R CMD CHECK =====\n" > check.log 2>&1
-	R --slave -e "devtools::check(build_args = '--no-build-vignettes', args = '--no-build-vignettes', run_dont_test = TRUE, vignettes = FALSE)" >> check.log 2>&1
+	R --slave -e "devtools::check(remote = TRUE, build_args = '--no-build-vignettes', args = '--no-build-vignettes', run_dont_test = TRUE, vignettes = FALSE)" >> check.log 2>&1
 
 wbcheck:
 	R --slave -e "devtools::check_win_devel()"
@@ -124,7 +124,7 @@ urlcheck:
 	R --slave -e "urlchecker::url_check()"
 
 examples:
-	R --slave -e "devtools::run_examples(test = TRUE, run = TRUE);warnings()"  >> examples.log
+	R --slave -e "devtools::run_examples(run_dontrun = TRUE, run_donttest = TRUE);warnings()" > examples.log 2>&1
 	rm -f Rplots.pdf
 
 purl_vigns:

@@ -72,6 +72,10 @@ terra_gdal_crop <- function(x, ext,
     assertthat::noNA(n_threads),
     any(endsWith(filename, c(".tif", ".vrt")))
   )
+
+  # sanitize file name
+  filename <- normalize_path(filename, mustWork = FALSE)
+
   # compress options
   if (endsWith(filename, ".tif")) {
     co <- paste0("NUM_THREADS=", n_threads)
@@ -103,7 +107,7 @@ terra_gdal_crop <- function(x, ext,
   }
 
   # save wkt data
-  f2 <- tempfile(fileext = ".wkt")
+  f2 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
   writeLines(x_crs, f2)
 
   # main processing
