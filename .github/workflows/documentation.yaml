@@ -50,7 +50,8 @@ jobs:
           sudo apt update
           sudo apt-get install \
             libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
-            libgmp3-dev libmpfr-dev libudunits2-dev
+            libgmp3-dev libmpfr-dev libudunits2-dev \
+            libharfbuzz-dev libfribidi-dev
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -73,8 +74,8 @@ jobs:
           install.packages("terra")
           install.packages("lwgeom")
           install.packages("rgdal")
+          install.packages("link2GI")
           remotes::install_github("dickoa/prepr")
-          remotes::install_github("r-spatial/link2GI")
         shell: Rscript {0}
 
       - name: Session information

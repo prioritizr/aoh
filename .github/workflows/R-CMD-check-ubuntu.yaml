@@ -52,7 +52,8 @@ jobs:
           sudo apt update
           sudo apt-get install \
             libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
-            libgmp3-dev libmpfr-dev libudunits2-dev
+            libgmp3-dev libmpfr-dev libudunits2-dev \
+            libharfbuzz-dev libfribidi-dev
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

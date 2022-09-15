@@ -55,7 +55,7 @@ Suggests:
     rgdal (>= 1.5.27),
     gdalUtilities (>= 1.2.1),
     archive (>= 1.1.2),
-    link2GI (>= 0.4.7),
+    link2GI (>= 0.5-0),
     rgrass7 (>= 0.2.6),
     rgrass (>= 0.3-3),
     prepr (>= 0.1.9000),
