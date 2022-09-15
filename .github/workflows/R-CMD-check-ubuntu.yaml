@@ -79,6 +79,15 @@ jobs:
           remotes::install_github("r-spatial/link2GI")
         shell: Rscript {0}
 
+      - name: Check GRASS
+        run: |
+          print(requireNamespace("rgrass7"))
+          print(requireNamespace("rgrass"))
+          print(requireNamespace("link2GI"))
+          print(link2GI::findGRASS())
+          stop("here")
+        shell: Rscript {0}
+
       - name: Session information
         run: |
           options(width = 100)

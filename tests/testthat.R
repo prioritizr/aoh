@@ -12,10 +12,6 @@ if (identical(Sys.getenv("CI"), "true")) {
   reporter = testthat::check_reporter()
 }
 
-# print grass info
-print("link2GI::findGRASS()")
-print(link2GI::findGRASS())
-
 # run tests
 if (
   isTRUE(aoh:::is_gdal_version_met()) &&
