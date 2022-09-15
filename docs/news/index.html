@@ -62,7 +62,10 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.1.3" id="aoh-0013">aoh 0.0.1.3<a class="anchor" aria-label="anchor" href="#aoh-0013"></a></h2>
-<ul><li>Fix issues with using GDAL engine for processing data on Windows. Specifically, the package will now correctly work with the GDAL Python bindings that are installed as part of the OSGeo4W software.</li></ul></div>
+<ul><li>Fix issues with using GDAL engine for processing data on Windows. Specifically, the package will now correctly work with the GDAL Python bindings that are installed as part of the OSGeo4W software.</li>
+<li>Fix issues where functions for downloading datasets would fail to load data from cache, and needlessly re-download data.</li>
+<li>Fix issue where attempting to download data or query data version numbers would throw an error due to erros with the Zenodo API.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.1.2" id="aoh-0012">aoh 0.0.1.2<a class="anchor" aria-label="anchor" href="#aoh-0012"></a></h2>
 <ul><li>Suppress meaningless warnings triggered for GRASS on macOS.</li>

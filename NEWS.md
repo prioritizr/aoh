@@ -3,6 +3,10 @@
 - Fix issues with using GDAL engine for processing data on Windows.
   Specifically, the package will now correctly work with the GDAL Python
   bindings that are installed as part of the OSGeo4W software.
+- Fix issues where functions for downloading datasets would fail to
+  load data from cache, and needlessly re-download data.
+- Fix issue where attempting to download data or query data version
+  numbers would throw an error due to erros with the Zenodo API.
 
 # aoh 0.0.1.2
 
