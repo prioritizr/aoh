@@ -72,6 +72,7 @@ jobs:
       - name: Install spatial R packages
         run: |
           options(repos = "https://cloud.r-project.org/")
+          install.packages("rgdal")
           install.packages("sf")
           install.packages("terra")
           install.packages("lwgeom")
