@@ -6,7 +6,7 @@
 - Fix issues where functions for downloading datasets would fail to
   load data from cache, and needlessly re-download data.
 - Fix issue where attempting to download data or query data version
-  numbers would throw an error due to erros with the Zenodo API.
+  numbers would throw an error due to errors with the Zenodo API.
 
 # aoh 0.0.1.2
 
