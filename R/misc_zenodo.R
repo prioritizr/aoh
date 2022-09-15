@@ -94,7 +94,14 @@ get_doi_versions <- function(x) {
   })
 
   # return input doi if it's not associated with any versions
-  if (!any(is_version_div)) return(x)
+  if (!any(is_version_div)) {
+    d <- tibble::tibble(
+      version = NA_character_,
+      created = as.POSIXct(NA_real_),
+      doi = gsub("https://doi.org/", "", x, fixed = TRUE)
+    )
+    return(d)
+  }
 
   # extract div containing version numbers
   version_div <- metadata_divs[[which(is_version_div)[[1]]]]

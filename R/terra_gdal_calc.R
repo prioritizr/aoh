@@ -209,6 +209,7 @@ terra_gdal_calc <- function(x, expr,
   }
 
   # if on windows, we need to escape the characters: "(", ")", "<", "*"
+  # nocov start
   if (
     identical(.Platform$OS.type, "windows") &&
     !identical(tolower(Sys.getenv("GDAL_ESCAPE")), "false")
@@ -221,6 +222,7 @@ terra_gdal_calc <- function(x, expr,
     cmd <- gsub("|", "^|", cmd, fixed = TRUE)
     cmd <- gsub("&", "^&", cmd, fixed = TRUE)
   }
+  # nocov end
 
   # prepend gdal_calc executable for calling script
   cmd <- gdal_calc_command(cmd)
@@ -258,7 +260,7 @@ gdal_calc_command <- function(x) {
     identical(Sys.getenv("GDAL_PYTHON"), "") &&
     identical(Sys.getenv("GDAL_CALC"), "")
   ) {
-    out <- osgeo4w_gdal_calc(x)
+    out <- osgeo4w_gdal_calc(x) # nocov
   } else {
     out <- python_gdal_calc(x)
   }
@@ -310,12 +312,12 @@ python_gdal_calc <- function(x) {
   # prepend command
   cmd <- ""
   if (!identical(python_cmd, "")) {
-    cmd <- paste(python_cmd, " ")
+    cmd <- paste(python_cmd, " ") # nocov
   }
 
-  # specify
+  # specify script
   if (identical(script_path, "")) {
-    script_path <- "gdal_calc.py"
+    script_path <- "gdal_calc.py" # nocov
   }
 
   # return command

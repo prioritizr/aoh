@@ -1,7 +1,3 @@
-R/get_global_elevation_data.R
-R/get_jung_lvl1_habitat_data.R
-R/get_jung_lvl2_habitat_data.R
-R/get_jung_plvl1_habitat_data.R
-R/get_lumb_cgls_habitat_data.R
+R/internal.R
 R/is_available.R
 R/zzz.R

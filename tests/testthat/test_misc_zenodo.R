@@ -18,7 +18,7 @@ test_that("get_doi_files", {
   expect_equal(x, y,)
 })
 
-test_that("get_doi_versions", {
+test_that("get_doi_versions (multiple versions)", {
   skip_on_cran()
   x <- get_doi_versions("https://doi.org/10.5281/zenodo.6622038")
   y <- tibble::tibble(
@@ -40,4 +40,15 @@ test_that("get_doi_versions", {
   expect_equal(names(x), names(y))
   expect_equal(x$version, y$version)
   expect_equal(x$doi, y$doi)
+})
+
+test_that("get_doi_versions (single version)", {
+  skip_on_cran()
+  x <- get_doi_versions("https://doi.org/10.5281/zenodo.46757")
+  y <- tibble::tibble(
+    version = NA_character_,
+    created = as.POSIXct(NA_real_),
+    doi = c("10.5281/zenodo.46757")
+  )
+  expect_equal(x, y)
 })
