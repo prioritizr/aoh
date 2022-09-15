@@ -154,6 +154,7 @@ is_gdal_calc_available <- function() {
 #' @details
 #' The function verifies that
 #' (1) the \pkg{rgrass7} package in installed,
+#' (2) the \pkg{rgrass} package in installed,
 #' (2) the \pkg{link2GI} package in installed,
 #' (3) GRASS is installed (i.e., via [link2GI::findGRASS]), and
 #' (4) the version of GRASS installed is at least 7.8.7.
@@ -169,6 +170,7 @@ is_gdal_calc_available <- function() {
 #' @export
 is_grass_available <- function() {
   if (!requireNamespace("rgrass7", quietly = TRUE)) return(FALSE)
+  if (!requireNamespace("rgrass", quietly = TRUE)) return(FALSE)
   if (!requireNamespace("link2GI", quietly = TRUE)) return(FALSE)
   x <- try(
       with_timeout(

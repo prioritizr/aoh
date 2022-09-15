@@ -176,6 +176,7 @@ test_that("simulated data (GRASS engine)", {
   skip_on_os("windows")
   skip_if_not_installed("rgdal")
   skip_if_not_installed("gdalUtilities")
+  skip_if_not_installed("rgrass7")
   skip_if_grass_not_available()
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")

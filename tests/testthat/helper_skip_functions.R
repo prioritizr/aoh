@@ -67,12 +67,3 @@ skip_if_zenodo_data_not_available <- function(x) {
     message = "Zenodo dataset not available"
   )
 }
-
-skip_if_zenodo_api_not_available <- function() {
-  z <- zen4R::ZenodoManager$new(logger = NULL)
-  r <- try(z$getRecordByDOI("10.5281/zenodo.3378733"), silent = TRUE)
-  testthat::skip_if(
-    inherits(r, "try-error"),
-    message = "Zenodo dataset not available"
-  )
-}

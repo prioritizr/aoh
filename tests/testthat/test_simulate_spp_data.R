@@ -70,7 +70,6 @@ test_that("built-in data", {
   # skip if needed
   skip_if_not_installed("fields")
   skip_if_not_installed("smoothr")
-  skip_if_zenodo_api_not_available()
   skip_if_cached_data_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
   skip_if_zenodo_data_not_available(latest_elevation_version)
