@@ -122,8 +122,11 @@ output raster files. Specifically, it contains the following columns:
 \describe{
 \item{id_no}{\code{numeric} species' taxon identifier on the IUCN Red List.}
 \item{binomial}{\code{character} species name.}
-\item{seasonal}{\code{numeric} seasonal distribution code.}
 \item{category}{\code{character} IUCN Red List threat category.}
+\item{migratory}{\code{logical} indicating if the species was processed
+as a migratory species (i.e., it had a \emph{breeding}, \emph{non-breeding}, or
+\emph{passage} seasonal distribution).}
+\item{seasonal}{\code{numeric} seasonal distribution code.}
 \item{full_habitat_code}{\code{character} all habitat classification
 codes that contain suitable habitat for the species.
 If a given species has multiple suitable habitat classes,

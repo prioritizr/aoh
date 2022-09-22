@@ -22,7 +22,7 @@ and will not apply to marine or freshwater species."><!-- mathjax --><script src
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.4</span>
       </span>
     </div>
 
@@ -88,6 +88,8 @@ and will not apply to marine or freshwater species.</p>
 <span>  keep_iucn_rl_origin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span>,</span>
 <span>  keep_iucn_rl_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,</span>
 <span>  omit_habitat_codes <span class="op">=</span> <span class="fu"><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_marine</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  adjust_elevational_limits <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  adjust_habitat_codes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54017"</span><span class="op">)</span>,</span>
 <span>  geometry_precision <span class="op">=</span> <span class="fl">1e+05</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -208,6 +210,23 @@ Defaults to <code><a href="iucn_habitat_codes_marine.html">iucn_habitat_codes_ma
 habitats are excluded.</p></dd>
 
 
+<dt>adjust_elevational_limits</dt>
+<dd><p><code>logical</code> Should elevation limits be
+adjusted to correct for errors? Defaults to <code>TRUE</code> to automatically
+fix errors (see Data processing section below for details).</p></dd>
+
+
+<dt>adjust_habitat_codes</dt>
+<dd><p><code>logical</code> Should habitat codes be adjusted so
+they are assigned to species' distributions following guidelines for Key
+Biodiversity areas?
+Defaults to <code>TRUE</code> (see Data processing section below for details).
+Otherwise, if <code>FALSE</code>, habitat codes are assigned to  species'
+distributions following
+exact matches (e.g., only codes described for a <em>resident</em> distribution
+are assigned to the <em>resident</em> distribution).</p></dd>
+
+
 <dt>crs</dt>
 <dd><p>A <code><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs()</a></code> object containing the coordinate reference system
 for reprojecting the species' range data.
@@ -252,11 +271,16 @@ Specifically, the object contains the following columns:</p><dl><dt>id_no</dt>
 <dt>binomial</dt>
 <dd><p><code>character</code> species name.</p></dd>
 
-<dt>seasonal</dt>
-<dd><p><code>numeric</code> seasonal distribution code.</p></dd>
-
 <dt>category</dt>
 <dd><p><code>character</code> IUCN Red List threat category.</p></dd>
+
+<dt>migratory</dt>
+<dd><p><code>logical</code> indicating if the species was processed
+as a migratory species (i.e., it had a <em>breeding</em>, <em>non-breeding</em>, or
+<em>passage</em> seasonal distribution).</p></dd>
+
+<dt>seasonal</dt>
+<dd><p><code>numeric</code> seasonal distribution code.</p></dd>
 
 <dt>full_habitat_code</dt>
 <dd><p><code>character</code> all habitat classification
@@ -336,8 +360,11 @@ values.)</p></dd>
     <h2>Data processing</h2>
     
 
-<p>The species' information data are produced using the following procedures.</p><ol><li><p>Species range data cleaned.
-By default, this process involves excluding places where the
+<p>The species' information data are produced using the following procedures.</p><ol><li><p>Species range data cleaned. By default, the range data are cleaned
+following guidelines for the identification of Key Biodiversity Areas
+(KBA Standards and Appeals Committee of IUCN SSC/WCPA 2022).
+Specifically, the default cleaning procedures involves excluding places
+where the
 (i) species' presence is not <em>extant</em> or
 <em>probably extant</em>
 (i.e. filtering based on <code>presence == 1</code> or <code>presence == 2</code>);
@@ -358,21 +385,61 @@ imported (if needed, see <code><a href="get_spp_summary_data.html">get_spp_summa
 If these data are not available in the cache directory
 (i.e. argument to <code>cache_dir</code>), then they are automatically downloaded
 to the cache directory.</p></li>
+<li><p>If specified (per <code>adjust_elevational_limits = TRUE</code>),
+then the elevational limit values in the species summary data
+are adjusted to correct for errors. These adjustments applied based on
+the following procedures:
+(i) if a species lacks lower or upper elevational limits,
+then limits of -500 m and 9,000 m are assumed (respectively);
+(ii) lower elevational limit values below -500 m are replaced with -500 m;
+(iii) upper elevational limit values above 9000 are is replaced with
+9000 m;
+(iv) if a lower elevational limit is greater than an upper elevational
+limit, then limits of -500 m and 9000 m are assumed (respectively);
+(v) if a lower elevational limit is within 50 m of an
+upper elevational limit, then limits are adjusted such that there is a
+50 m difference between them.
+Otherwise, if <code>FALSE</code>, then elevation limit values are not altered.</p></li>
+<li><p>Each is species is classified as either migratory or non-migratory,
+based on the presence of <em>breeding</em>, <em>non-breeding</em>, or <em>passage</em>
+distributions in the species range data (i.e., x`). For example,
+if a species only has a <em>resident</em> distribution in the species range
+data, then it is classified as a non-migratory species. If a
+species has a <em>resident</em> and a <em>breeding</em> distribution in the
+species range data, then it is classified as a migratory species.</p></li>
+<li><p>If specified (per <code>adjust_habitat_codes = TRUE</code>),
+then the habitat codes in the species habitat preferences data
+are adjusted based on guidelines for the identification of
+Key Biodiversity Areas
+(KBA Standards and Appeals Committee of IUCN SSC/WCPA 2022).
+These adjustments are based on the following procedures:
+(i) <em>resident</em> distributions for non-migratory species are assigned habitat
+codes described in the species habitat preference data for the species'
+<em>resident</em>, <em>breeding</em>, <em>non-breeding</em>, <em>passage</em>,
+<em>seasonal occurrence uncertain</em>, and missing (<code>NA</code>) seasonal distributions;
+(ii) <em>resident</em> distributions for migratory species are assigned habitat
+codes described in the species habitat preference data for the species'
+<em>resident</em>, <em>breeding</em>, <em>non-breeding</em>, <em>seasonal occurrence uncertain</em>, and
+missing (<code>NA</code>) seasonal distributions;
+(ii) <em>breeding</em> distributions are assigned habitat codes
+described for the species' <em>resident</em>, <em>breeding</em>,
+<em>seasonal occurrence uncertain</em> and missing (<code>NA</code>) seasonal distributions;
+(iii) <em>non-breeding</em> distributions are assigned
+habitat codes described for the species' <em>resident</em>, <em>non-breeding</em>,
+<em>seasonal occurrence uncertain</em>, and missing (<code>NA</code>)
+seasonal distributions; and
+(iv) <em>passage</em> distributions are assigned habitat codes described for the
+species' <em>resident</em>, <em>passage</em>, <em>seasonal occurrence uncertain</em>, and
+missing (<code>NA</code>) seasonal distributions.
+If the adjustments are not applied (per <code>adjust_habitat_codes = FALSE</code>),
+then the habitat codes are assigned to species' distributions based on
+exact matches (e.g., only codes described for a <em>resident</em> distribution
+are assigned to the <em>resident</em> distribution).</p></li>
 <li><p>Species information are collated into a single dataset containing
-their geographic ranges, habitat preferences, and elevational limits.
+their geographic ranges, migratory status, habitat preferences, and
+elevational limits.
 Specifically, taxon identifiers (per the <code>id_no</code>/<code>SISID</code> columns)
-are used merge the datasets together.
-If a species lacks lower or upper elevational limits,
-then limits of 0 and 9,000 m are assumed respectively
-(following Lumbierres <em>et al.</em> 2021).
-Additionally, habitat preferences are only included in the dataset if they
-are classified as <em>suitable</em> or <em>major</em>.
-Migratory bird species that have <em>breeding</em> or <em>non-breeding</em>
-distributions which lack habitat preference data are assigned
-habitat preferences based on available data for <em>resident</em> distributions.
-If a migratory bird species has a <em>resident</em> seasonal distribution
-which lacks habitat preference data, then habitat preference data
-are assigned based on available data for <em>breeding</em> distributions.</p></li>
+are used merge the datasets together.</p></li>
 <li><p>Post-processing routines are used to prepare the output data.</p></li>
 </ol></div>
     <div id="references">
@@ -382,6 +449,9 @@ Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 (AOH) and its Utility for the IUCN Red List. <em>Trends in Ecology &amp; Evolution</em>,
 34: 977--986. <a href="https://doi.org/10.1016/j.tree.2019.06.009" class="external-link">doi:10.1016/j.tree.2019.06.009</a></p>
+<p>KBA Standards and Appeals Committee of IUCN SSC/WCPA
+(2022). <em>Guidelines for using A Global Standard for the Identification</em>
+<em>of Key Biodiversity Areas</em>. Version 1.2. Gland, Switzerland: IUCN.</p>
     </div>
 
     <div id="ref-examples">
@@ -409,22 +479,22 @@ Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 <span class="r-in"><span>  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[1.2s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[216ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[6.7s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[6.9s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[161ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[178ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[143ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[171ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[414ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[536ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[39ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[40ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

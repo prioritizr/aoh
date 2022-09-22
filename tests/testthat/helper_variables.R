@@ -21,7 +21,7 @@ cleaned_names <- c(
 )
 
 aoh_names <- c(
-  "id_no", "binomial", "seasonal", "category",
+  "id_no", "binomial", "category", "migratory", "seasonal", 
   "full_habitat_code", "habitat_code",
   "elevation_lower", "elevation_upper",
   "xmin", "xmax", "ymin", "ymax",
@@ -29,7 +29,7 @@ aoh_names <- c(
 )
 
 info_names <- c(
-  "id_no", "binomial", "seasonal", "category",
+  "id_no", "binomial", "category", "migratory", "seasonal",
   "full_habitat_code",
   "elevation_lower", "elevation_upper",
   "geometry"

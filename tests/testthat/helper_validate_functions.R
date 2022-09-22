@@ -151,70 +151,55 @@ validate_info_data <- function(x, spp_habitat_data, spp_summary_data) {
     curr_x <- x[i, , drop = FALSE]
     curr_id <- curr_x$id_no
     curr_seas <- curr_x$seasonal
-    ## find elevation data
     curr_sum <-
       spp_summary_data[which(spp_summary_data$id_no == curr_id), , drop = FALSE]
-    curr_el <- min(curr_sum$elevation_upper, curr_sum$elevation_lower)
-    curr_eu <- max(curr_sum$elevation_upper, curr_sum$elevation_lower)
-    ## find habitat data
-    r <- which(
-      spp_habitat_data$id_no == curr_id &
-      spp_habitat_data$suitability %in% c("Suitable", "Major")
-    )
-    curr_spp_hab <- spp_habitat_data[r, , drop = FALSE]
-    ## convert seasonal descriptions to codes
-    curr_spp_hab$scode <- convert_to_seasonal_id(curr_spp_hab$season)
-    ## add in missing data for migratory species' seasonal ranges
-    if (all(c(2, 3) %in% curr_x$seasonal)) {
-      ### if no resident data available
-      if (!(1 %in% curr_spp_hab$scode) && (1 %in% curr_spp_hab$scode)) {
-        curr_spp_hab_sub <-
-          curr_spp_hab[curr_spp_hab$scode == 2, , drop = FALSE]
-        curr_spp_hab_sub$scode <- 1
-        curr_spp_hab <- dplyr::bind_rows(curr_spp_hab, curr_spp_hab_sub)
-      }
-      ### if no breeding data available
-      if (!(2 %in% curr_spp_hab$scode) && (2 %in% curr_spp_hab$scode)) {
-        curr_spp_hab_sub <-
-          curr_spp_hab[curr_spp_hab$season == 1, , drop = FALSE]
-        curr_spp_hab_sub$scode <- 2
-        curr_spp_hab <- dplyr::bind_rows(curr_spp_hab, curr_spp_hab_sub)
-      }
-      ### if no non-breeding data available
-      if (!(3 %in% curr_spp_hab$scode) && (3 %in% curr_spp_hab$scode)) {
-        curr_spp_hab_sub <-
-          curr_spp_hab[curr_spp_hab$season == 1, , drop = FALSE]
-        curr_spp_hab_sub$scode <- 3
-        curr_spp_hab <- dplyr::bind_rows(curr_spp_hab, curr_spp_hab_sub)
-      }
+    curr_spp_hab <-
+      spp_habitat_data[which(spp_habitat_data$id_no == curr_id), , drop = FALSE]
+    ## prepare elevational limits
+    curr_el <- curr_sum$elevation_lower
+    curr_eu <- curr_sum$elevation_upper
+    if (is.na(curr_el)) curr_el <- -500
+    if (is.na(curr_eu)) curr_eu <- 9000
+    if (curr_el > curr_eu) {
+      curr_el <- -500
+      curr_eu <- 9000
     }
-    ## if the same habitat information is supplied for an un-specified
-    ## seasonal distribution, then assume it is relevant for all seasonal
-    ## distributions
-    idx <- is.na(curr_spp_hab$season)
-    curr_spp_hab <- dplyr::bind_rows(
-      curr_spp_hab[!idx, , drop = FALSE],
-      plyr::ldply(
-        which(idx),
-        function(i) {
-          x <- curr_spp_hab[rep(i, 5), , drop = FALSE]
-          x$scode <- seq_len(5)
-          x
-        }
-      )
+    if (curr_el < -500) curr_el <- -500
+    if (curr_eu > 9000) curr_eu <- 9000
+    if ((curr_eu - curr_el) < 50) {
+      pad <- (50 - (curr_eu - curr_el)) / 2
+      curr_el <- curr_el - pad
+      curr_eu <- curr_eu + pad
+    }
+    ## prepare seasonal codes
+    curr_spp_hab$seasonal <- aoh:::convert_to_seasonal_id(curr_spp_hab$season)
+    if ((curr_seas == 1L) & !isTRUE(curr_x$migratory)) {
+       curr_seas_code <- c(1L, 2L, 3L, 4L, 5L)
+    } else if ((curr_seas == 1L) & isTRUE(curr_x$migratory)) {
+      curr_seas_code <- c(1L, 2L, 3L, 5L)
+    } else if (curr_seas == 2L) {
+      curr_seas_code <- c(1L, 2L, 5L)
+    } else if (curr_seas == 3L) {
+      curr_seas_code <- c(1L, 3L, 5L)
+    } else if (curr_seas == 4L) {
+      curr_seas_code <- c(1L, 4L, 5L)
+    }
+    curr_spp_hab <- dplyr::filter(
+      curr_spp_hab, (seasonal %in% curr_seas_code) | is.na(seasonal)
     )
-    ## subset to seasonal range
-    curr_spp_hab_season <-
-      curr_spp_hab[which(curr_spp_hab$scode == curr_seas), , drop = FALSE]
     ## check expected values
     expect_equal(curr_x$elevation_lower, curr_el)
     expect_equal(curr_x$elevation_upper, curr_eu)
     expect_equal(
       curr_x$full_habitat_code,
       paste(
-        stringi::stri_sort(curr_spp_hab_season$code, numeric = TRUE),
+        stringi::stri_sort(unique(curr_spp_hab$code), numeric = TRUE),
         collapse = "|"
       )
+    )
+    expect_equal(
+      curr_x$migratory,
+      any(x$seasonal[x$id_no == curr_id] %in% c(2L, 3L, 4L))
     )
     ## return success
     TRUE

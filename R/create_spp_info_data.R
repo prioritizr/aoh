@@ -83,19 +83,32 @@ NULL
 #'  and *passage* distributions).
 #'
 #' @param omit_habitat_codes `character` Habitat classification codes
-#'   to omit from resulting Area of Habitat data.
-#'   Please see the [IUCN Red List Habitat Classification Scheme](
-#'   https://www.iucnredlist.org/resources/habitat-classification-scheme)
-#'   for the full range of habitat classification codes.
-#'   For example,
-#'   if the aim is to identify natural places that contain suitable conditions,
-#'   then areas classified as anthropogenically modified
-#'   ([iucn_habitat_codes_artificial()]),
-#'   introduced vegetation ([iucn_habitat_codes_introduced()],
-#'   or unknown habitat ([iucn_habitat_codes_misc()]) should
-#'   be excluded.
-#'   Defaults to [iucn_habitat_codes_marine()], such that marine
-#'   habitats are excluded.
+#'  to omit from resulting Area of Habitat data.
+#'  Please see the [IUCN Red List Habitat Classification Scheme](
+#'  https://www.iucnredlist.org/resources/habitat-classification-scheme)
+#'  for the full range of habitat classification codes.
+#'  For example,
+#'  if the aim is to identify natural places that contain suitable conditions,
+#'  then areas classified as anthropogenically modified
+#'  ([iucn_habitat_codes_artificial()]),
+#'  introduced vegetation ([iucn_habitat_codes_introduced()],
+#'  or unknown habitat ([iucn_habitat_codes_misc()]) should
+#'  be excluded.
+#'  Defaults to [iucn_habitat_codes_marine()], such that marine
+#'  habitats are excluded.
+#'
+#' @param adjust_elevational_limits `logical` Should elevation limits be
+#'  adjusted to correct for errors? Defaults to `TRUE` to automatically
+#'  fix errors (see Data processing section below for details).
+#'
+#' @param adjust_habitat_codes `logical` Should habitat codes be adjusted so
+#'   they are assigned to species' distributions following guidelines for Key
+#'   Biodiversity areas?
+#'   Defaults to `TRUE` (see Data processing section below for details).
+#'   Otherwise, if `FALSE`, habitat codes are assigned to  species'
+#'   distributions following
+#'   exact matches (e.g., only codes described for a *resident* distribution
+#'   are assigned to the *resident* distribution).
 #'
 #' @param crs A `st_crs()` object containing the coordinate reference system
 #'  for reprojecting the species' range data.
@@ -154,8 +167,11 @@ NULL
 #' @section Data processing:
 #' The species' information data are produced using the following procedures.
 #'
-#' 1. Species range data cleaned.
-#' By default, this process involves excluding places where the
+#' 1. Species range data cleaned. By default, the range data are cleaned
+#' following guidelines for the identification of Key Biodiversity Areas
+#' (KBA Standards and Appeals Committee of IUCN SSC/WCPA 2022).
+#' Specifically, the default cleaning procedures involves excluding places
+#' where the
 #' (i) species' presence is not _extant_ or
 #' _probably extant_
 #' (i.e. filtering based on `presence == 1` or `presence == 2`);
@@ -178,23 +194,66 @@ NULL
 #' (i.e. argument to `cache_dir`), then they are automatically downloaded
 #' to the cache directory.
 #'
-#' 3. Species information are collated into a single dataset containing
-#' their geographic ranges, habitat preferences, and elevational limits.
+#' 3. If specified (per `adjust_elevational_limits = TRUE`),
+#' then the elevational limit values in the species summary data
+#' are adjusted to correct for errors. These adjustments applied based on
+#' the following procedures:
+#' (i) if a species lacks lower or upper elevational limits,
+#' then limits of -500 m and 9,000 m are assumed (respectively);
+#' (ii) lower elevational limit values below -500 m are replaced with -500 m;
+#' (iii) upper elevational limit values above 9000 are is replaced with
+#' 9000 m;
+#' (iv) if a lower elevational limit is greater than an upper elevational
+#' limit, then limits of -500 m and 9000 m are assumed (respectively);
+#' (v) if a lower elevational limit is within 50 m of an
+#' upper elevational limit, then limits are adjusted such that there is a
+#' 50 m difference between them.
+#' Otherwise, if `FALSE`, then elevation limit values are not altered.
+#'
+#' 4. Each is species is classified as either migratory or non-migratory,
+#' based on the presence of *breeding*, *non-breeding*, or *passage*
+#' distributions in the species range data (i.e., x`). For example,
+#' if a species only has a *resident* distribution in the species range
+#' data, then it is classified as a non-migratory species. If a
+#' species has a *resident* and a *breeding* distribution in the
+#' species range data, then it is classified as a migratory species.
+#'
+#' 5. If specified (per `adjust_habitat_codes = TRUE`),
+#' then the habitat codes in the species habitat preferences data
+#' are adjusted based on guidelines for the identification of
+#' Key Biodiversity Areas
+#' (KBA Standards and Appeals Committee of IUCN SSC/WCPA 2022).
+#' These adjustments are based on the following procedures:
+#' (i) *resident* distributions for non-migratory species are assigned habitat
+#' codes described in the species habitat preference data for the species'
+#' *resident*, *breeding*, *non-breeding*, *passage*,
+#' *seasonal occurrence uncertain*, and missing (`NA`) seasonal distributions;
+#' (ii) *resident* distributions for migratory species are assigned habitat
+#' codes described in the species habitat preference data for the species'
+#' *resident*, *breeding*, *non-breeding*, *seasonal occurrence uncertain*, and
+#' missing (`NA`) seasonal distributions;
+#' (ii) *breeding* distributions are assigned habitat codes
+#' described for the species' *resident*, *breeding*,
+#' *seasonal occurrence uncertain* and missing (`NA`) seasonal distributions;
+#' (iii) *non-breeding* distributions are assigned
+#' habitat codes described for the species' *resident*, *non-breeding*,
+#' *seasonal occurrence uncertain*, and missing (`NA`)
+#' seasonal distributions; and
+#' (iv) *passage* distributions are assigned habitat codes described for the
+#' species' *resident*, *passage*, *seasonal occurrence uncertain*, and
+#' missing (`NA`) seasonal distributions.
+#' If the adjustments are not applied (per `adjust_habitat_codes = FALSE`),
+#' then the habitat codes are assigned to species' distributions based on
+#' exact matches (e.g., only codes described for a *resident* distribution
+#' are assigned to the *resident* distribution).
+#'
+#' 6. Species information are collated into a single dataset containing
+#' their geographic ranges, migratory status, habitat preferences, and
+#' elevational limits.
 #' Specifically, taxon identifiers (per the `id_no`/`SISID` columns)
 #' are used merge the datasets together.
-#' If a species lacks lower or upper elevational limits,
-#' then limits of 0 and 9,000 m are assumed respectively
-#' (following Lumbierres *et al.* 2021).
-#' Additionally, habitat preferences are only included in the dataset if they
-#' are classified as *suitable* or *major*.
-#' Migratory bird species that have *breeding* or *non-breeding*
-#' distributions which lack habitat preference data are assigned
-#' habitat preferences based on available data for *resident* distributions.
-#' If a migratory bird species has a *resident* seasonal distribution
-#' which lacks habitat preference data, then habitat preference data
-#' are assigned based on available data for *breeding* distributions.
 #'
-#' 4. Post-processing routines are used to prepare the output data.
+#' 7. Post-processing routines are used to prepare the output data.
 #'
 #' @return
 #' A [sf::st_sf()] object containing all the information needed
@@ -205,8 +264,11 @@ NULL
 #' \describe{
 #' \item{id_no}{`numeric` species' taxon identifier on the IUCN Red List.}
 #' \item{binomial}{`character` species name.}
-#' \item{seasonal}{`numeric` seasonal distribution code.}
 #' \item{category}{`character` IUCN Red List threat category.}
+#' \item{migratory}{`logical` indicating if the species was processed
+#'  as a migratory species (i.e., it had a *breeding*, *non-breeding*, or
+#' *passage* seasonal distribution).}
+#' \item{seasonal}{`numeric` seasonal distribution code.}
 #' \item{full_habitat_code}{`character` all habitat classification
 #'   codes that contain suitable habitat for the species.
 #'   If a given species has multiple suitable habitat classes,
@@ -227,6 +289,10 @@ NULL
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 #' (AOH) and its Utility for the IUCN Red List. *Trends in Ecology & Evolution*,
 #' 34: 977--986. \doi{10.1016/j.tree.2019.06.009}
+#'
+#' KBA Standards and Appeals Committee of IUCN SSC/WCPA
+#' (2022). *Guidelines for using A Global Standard for the Identification*
+#' *of Key Biodiversity Areas*. Version 1.2. Gland, Switzerland: IUCN.
 #'
 #' @examples
 #' \dontrun{
@@ -272,6 +338,8 @@ create_spp_info_data <- function(x,
                                 keep_iucn_rl_seasonal = c(1, 2, 3, 4),
                                 omit_habitat_codes =
                                   iucn_habitat_codes_marine(),
+                                adjust_elevational_limits = TRUE,
+                                adjust_habitat_codes = TRUE,
                                 crs = sf::st_crs("ESRI:54017"),
                                 geometry_precision = 1e5,
                                 verbose = TRUE) {
@@ -286,6 +354,10 @@ create_spp_info_data <- function(x,
     assertthat::is.writeable(cache_dir),
     assertthat::is.flag(force),
     assertthat::noNA(force),
+    assertthat::is.flag(adjust_elevational_limits),
+    assertthat::noNA(adjust_elevational_limits),
+    assertthat::is.flag(adjust_habitat_codes),
+    assertthat::noNA(adjust_habitat_codes),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose),
     inherits(crs, "crs"),
@@ -383,6 +455,8 @@ create_spp_info_data <- function(x,
     spp_summary_data = spp_summary_data,
     spp_habitat_data = spp_habitat_data,
     omit_habitat_codes = omit_habitat_codes,
+    adjust_elevational_limits = adjust_elevational_limits,
+    adjust_habitat_codes = adjust_habitat_codes,
     verbose = verbose
   )
   ## clean up
@@ -395,7 +469,8 @@ create_spp_info_data <- function(x,
   }
   ## processing
   x <- dplyr::select(
-    x, .data$id_no, .data$binomial, .data$seasonal, .data$category,
+    x, .data$id_no, .data$binomial,  .data$category,
+    .data$migratory, .data$seasonal,
     .data$full_habitat_code,
     .data$elevation_lower, .data$elevation_upper,
   )

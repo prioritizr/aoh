@@ -26,7 +26,7 @@ NULL
 #' A [sf::st_sf()] spatial object containing an updated version of the
 #' argument to `x` that has been cleaned and contains the following additional
 #' columns:
-#' `"category"`, `"full_habitat_code"`, `"elevation_lower"`, and
+#' `"category"`, `"migratory", `"full_habitat_code"`, `"elevation_lower"`, and
 #' `"elevation_upper"`.
 #'
 #' @noRd
@@ -35,6 +35,8 @@ collate_spp_info_data <- function(x,
                                   spp_habitat_data,
                                   omit_habitat_codes =
                                     iucn_habitat_codes_marine(),
+                                  adjust_elevational_limits = TRUE,
+                                  adjust_habitat_codes = TRUE,
                                   verbose = TRUE) {
   # assert arguments are valid
   ## initial checks
@@ -45,6 +47,12 @@ collate_spp_info_data <- function(x,
     assertthat::has_name(x, "id_no"),
     assertthat::has_name(x, "seasonal"),
     assertthat::has_name(x, "class"),
+    ## adjust_habitat_codes
+    assertthat::is.flag(adjust_habitat_codes),
+    assertthat::noNA(adjust_habitat_codes),
+    ## adjust_elevational_limits
+    assertthat::is.flag(adjust_elevational_limits),
+    assertthat::noNA(adjust_elevational_limits),
     ## spp_summary_data
     inherits(spp_summary_data, "data.frame"),
     assertthat::has_name(spp_summary_data, "id_no"),
@@ -93,6 +101,10 @@ collate_spp_info_data <- function(x,
     )
   )
 
+  ## identify which species are migratory
+  migratory_ids <- na.omit(unique(x$id_no[x$seasonal %in% c(2L, 3L, 4L)]))
+  x$migratory <- x$id_no %in% migratory_ids
+
   # add IUCN Red List category information from summary data
   ## although the range data do contain IUCN Red List categories,
   ## we will overwrite the values with those from the summary data.
@@ -107,23 +119,59 @@ collate_spp_info_data <- function(x,
   )
 
   # add elevation columns
-  ## convert NA values to -Inf and Inf for lower and upper thresholds
-  idx <- is.na(spp_summary_data$elevation_lower)
-  spp_summary_data$elevation_lower[idx] <- 0
-  idx <- is.na(spp_summary_data$elevation_upper)
-  spp_summary_data$elevation_upper[idx] <- 9000
-  ## ensure that lower elevation limit is <= upper elevation limit
-  idx <- which(
-    is.finite(spp_summary_data$elevation_lower) &
-    is.finite(spp_summary_data$elevation_upper)
-  )
-  if (length(idx) > 0) {
-    l <- spp_summary_data$elevation_lower[idx]
-    u <- spp_summary_data$elevation_upper[idx]
-    spp_summary_data$elevation_lower[idx] <- pmin(l, u)
-    spp_summary_data$elevation_upper[idx] <- pmax(l, u)
-    rm(l, u)
+  if (isTRUE(adjust_elevational_limits)) {
+    ## convert NA values to -500 and 9000 for lower and upper thresholds
+    idx <- is.na(spp_summary_data$elevation_lower)
+    spp_summary_data$elevation_lower[idx] <- -500
+    idx <- is.na(spp_summary_data$elevation_upper)
+    spp_summary_data$elevation_upper[idx] <- 9000
+    ## overwrite values if lower elevation limit is > upper elevation limit
+    idx <- which(
+      is.finite(spp_summary_data$elevation_lower) &
+      is.finite(spp_summary_data$elevation_upper)
+    )
+    if (length(idx) > 0) {
+      l <- spp_summary_data$elevation_lower[idx]
+      u <- spp_summary_data$elevation_upper[idx]
+      idx2 <- idx[which(l > u)]
+      spp_summary_data$elevation_lower[idx2] <- -500
+      spp_summary_data$elevation_upper[idx2] <- 9000
+      rm(l, u, idx2)
+    }
+    ## fix values that are outside limits
+    idx <- which(
+      is.finite(spp_summary_data$elevation_lower) &
+      is.finite(spp_summary_data$elevation_upper)
+    )
+    spp_summary_data$elevation_lower[idx] <-
+      pmax(spp_summary_data$elevation_lower[idx], -500)
+    spp_summary_data$elevation_upper[idx] <-
+      pmin(spp_summary_data$elevation_upper[idx], 9000)
+    rm(idx)
+    ## fix values that are within 50 m of each other
+    elev_diff <-
+      spp_summary_data$elevation_upper - spp_summary_data$elevation_lower
+    elev_pad <- (50 - elev_diff) / 2
+    idx <- which(elev_diff < 50)
+    if (length(idx) > 0) {
+      spp_summary_data$elevation_lower[idx] <-
+        spp_summary_data$elevation_lower[idx] - elev_pad[idx]
+      spp_summary_data$elevation_upper[idx] <-
+        spp_summary_data$elevation_upper[idx] + elev_pad[idx]
+    }
+    rm(idx, elev_diff, elev_pad)
+  } else {
+    assertthat::assert_that(
+      all(is.finite(spp_summary_data$elevation_lower)) &&
+        all(is.finite(spp_summary_data$elevation_upper)),
+      msg = paste(
+        "spp_summary_data must have finite (non-NA) values in the",
+        "\"elevation_lower\" and \"elevation_upper\" columns when",
+        "setting \"adjust_elevational_limits = FALSE\""
+      )
+    )
   }
+
   ## append columns
   nms <- c("id_no", "elevation_lower", "elevation_upper")
   x <- dplyr::left_join(
@@ -133,78 +181,64 @@ collate_spp_info_data <- function(x,
   )
 
   # add habitat preference columns
-  ## remove rows for taxa missing habitat information
+  ## remove rows for data with no habitat code
   idx <- !is.na(spp_habitat_data$code)
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## remove rows for taxa not present in x
   idx <- spp_habitat_data$id_no %in% x$id_no
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## convert season descriptions to codes
-  spp_habitat_data$seasonal <- convert_to_seasonal_id(
-    spp_habitat_data$season
-  )
-  ## for bird species that are missing data for "resident" distributions,
-  ## we will assume that the habitat codes for their "resident"
-  ## distributions are the same as their "breeding" distributions
-  spp_habitat_data <- add_missing_habitat_codes(
-    x = x,
-    habitat_data = spp_habitat_data,
-    source_code = 2,
-    update_code = 1,
-    class = "AVES"
-  )
-  ## for bird species that are missing data for "breeding" distributions,
-  ## we will assume that the habitat codes for their "breeding"
-  ## distributions are the same as their "resident" distributions
-  spp_habitat_data <- add_missing_habitat_codes(
-    x = x,
-    habitat_data = spp_habitat_data,
-    source_code = 1,
-    update_code = 2,
-    class = "AVES"
-  )
-  ## for bird species that are missing data for "non-breeding" distributions,
-  ## we will assume that the habitat codes for their "non-breeding"
-  ## distributions are the same as their "resident" distributions
-  spp_habitat_data <- add_missing_habitat_codes(
-    x = x,
-    habitat_data = spp_habitat_data,
-    source_code = 1,
-    update_code = 3,
-    class = "AVES"
-  )
-  ## remove rows for habitat preferences that are not suitable
-  idx <- which(
-    tolower(spp_habitat_data$suitability) %in% c("major", "suitable")
-  )
-  spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
+  spp_habitat_data$seasonal <- convert_to_seasonal_id(spp_habitat_data$season)
   ## coerce code column to character for subsequent joins with habitat_data
   spp_habitat_data$habitat_code <- as.character(spp_habitat_data$code)
   ## remove omit habitat codes
   idx <- which(!spp_habitat_data$habitat_code %in% omit_habitat_codes)
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
-  ## replace rows with NA values "season" in the season column with
-  ## duplicates for every possible seasonal code (i.e., [1, 2, 3, 4, 5])
-  idx <- is.na(spp_habitat_data$seasonal)
-  spp_habitat_data <- dplyr::bind_rows(
-    spp_habitat_data[!idx, , drop = FALSE],
-    plyr::ldply(
-      which(idx),
-      function(i) {
-        x <- spp_habitat_data[rep(i, 5), , drop = FALSE]
-        x$seasonal <- seq_len(5)
-        x
-      }
+  ## if exact matches for habitat codes should not be used then...
+  if (isTRUE(adjust_habitat_codes)) {
+    ### create new data by merging habitat codes following KBA guidelines
+    spp_habitat_data <- dplyr::bind_rows(
+      list(
+        ### resident (non-migratory species)
+        prepare_habitat_codes(
+          dplyr::filter(spp_habitat_data, .data$seasonal %in% migratory_ids),
+          focal_seasonal = 1L,
+          extra_seasonal = c(2L, 3L, 4L, 5L, NA_integer_)
+        ),
+        ### resident (migratory species)
+        prepare_habitat_codes(
+          dplyr::filter(spp_habitat_data, !.data$seasonal %in% migratory_ids),
+          focal_seasonal = 1L,
+          extra_seasonal = c(2L, 3L, 5L, NA_integer_)
+        ),
+        ### breeding
+        prepare_habitat_codes(
+          spp_habitat_data,
+          focal_seasonal = 2L,
+          extra_seasonal = c(1L, 5L, NA_integer_)
+        ),
+        ### non-breeding
+        prepare_habitat_codes(
+          spp_habitat_data,
+          focal_seasonal = 3L,
+          extra_seasonal = c(1L, 5L, NA_integer_)
+        ),
+        ### passage
+        prepare_habitat_codes(
+          spp_habitat_data,
+          focal_seasonal = 4L,
+          extra_seasonal = c(1L, 5L, NA_integer_)
+        )
+      )
     )
-  )
-
+  }
   ## combine habitat codes into a single list-column
   spp_habitat_data <- dplyr::group_by(
     spp_habitat_data, .data$id_no, .data$seasonal
   )
   spp_habitat_data <- dplyr::summarize(
     spp_habitat_data,
-    full_habitat_code = list(.data$habitat_code)
+    full_habitat_code = list(unique(.data$habitat_code))
   )
   spp_habitat_data <- dplyr::ungroup(spp_habitat_data)
 
@@ -235,27 +269,48 @@ collate_spp_info_data <- function(x,
   x
 }
 
-add_missing_habitat_codes <- function(x, habitat_data, source_code,
-                                      update_code, class) {
-  idx <- which(
-    (!x$id_no %in%
-      habitat_data$id_no[which(habitat_data$seasonal == update_code)]
-    ) &
-    (x$id_no %in% x$id_no[which(x$seasonal == update_code)]) &
-    (x$class == class)
+prepare_habitat_codes <- function(x, focal_seasonal, extra_seasonal) {
+  # assert valid arguments
+  assertthat::assert_that(
+    inherits(x, "data.frame"),
+    assertthat::has_name(x, "id_no"),
+    assertthat::has_name(x, "seasonal"),
+    assertthat::has_name(x, "habitat_code"),
+    is.integer(focal_seasonal),
+    assertthat::is.count(focal_seasonal),
+    assertthat::noNA(focal_seasonal),
+    is.integer(extra_seasonal),
+    length(extra_seasonal) >= 1,
+    isTRUE(!focal_seasonal %in% extra_seasonal)
   )
-  missing_ids <- unique(x$id_no[idx])
-  if (length(missing_ids > 0)) {
-    idx <- which(
-      (habitat_data$id_no %in% missing_ids) &
-      (habitat_data$seasonal == source_code)
-    )
-    missing_spp_habitat <- habitat_data[idx, , drop = FALSE]
-    missing_spp_habitat$seasonal <- update_code
-    habitat_data <- dplyr::bind_rows(
-      habitat_data,
-      missing_spp_habitat
-    )
+
+  # if x has zero rows, then return empty data frame
+  if (nrow(x) == 0) return(x)
+
+  # convert NA values to an integer code to ensure correct handling
+  if (any(is.na(extra_seasonal))) {
+    extra_seasonal[is.na(extra_seasonal)] <- -9999L
+    x$seasonal[is.na(x$seasonal)] <- -9999L
   }
-  habitat_data
+
+  # extract data
+  x_focal <- dplyr::filter(x, .data$seasonal == focal_seasonal)
+  x_extra <- dplyr::filter(x, .data$seasonal %in% extra_seasonal)
+
+  # if there are no seasonal codes which need updating, then return focal data
+  if (nrow(x_extra) == 0) return(x_focal)
+
+  # replace extra seasonal codes with focal seasonal code
+  x_extra$seasonal <- focal_seasonal
+
+  # merge results
+  out <- dplyr::bind_rows(x_focal, x_extra)
+
+  # remove duplicates
+  out <- dplyr::distinct(
+    out, .data$id_no, .data$seasonal, .data$habitat_code, .keep_all = TRUE
+  )
+
+  # return results
+  out
 }

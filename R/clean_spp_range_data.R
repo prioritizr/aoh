@@ -51,7 +51,7 @@ NULL
 #' \item Reproject data to specified coordinate system
 #'    (using [sf::st_transform()]).
 #'
-#' \item Fix any potential geometry issues (iusing [sf::st_make_valid()]).
+#' \item Fix any potential geometry issues (using [sf::st_make_valid()]).
 #'
 #' \item Snap geometries to spatial grid (using [lwgeom::st_snap_to_grid()]).
 #'   Note that this step is only performed if the argument to `snap_tolerance`
