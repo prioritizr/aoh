@@ -82,6 +82,20 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
   # extract polygons (if needed)
   x2 <- suppressWarnings(sf::st_collection_extract(x2, "POLYGON"))
 
+  # dissolve by repair id
+  if (!identical(anyDuplicated(x2[["_repair_id"]]), 0L)) {
+    x2 <- split(x2, x2[["_repair_id"]])
+    x2_df <- tibble::tibble(`_repair_id` = as.integer(names(x2)))
+    x2 <- lapply(x2, sf::st_geometry)
+    x2 <- lapply(x2, sf::st_union)
+    x2 <- do.call(c, x2)
+    x2_df <- dplyr::left_join(x2_df, sf::st_drop_geometry(x), by = "_repair_id")
+    x2_df <- x2_df[, names(sf::st_drop_geometry(x)), , drop = FALSE]
+    x2_df$geometry <- x2
+    x2 <- sf::st_sf(x2_df)
+    rm(x2_df)
+  }
+
   # detect if any invalid geometries persist
   ## subset repaired polygons
   x_sub <- x[match(x2[["_repair_id"]], x[["_repair_id"]]), , drop = FALSE]
