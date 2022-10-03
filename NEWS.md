@@ -1,4 +1,4 @@
-# aoh 0.0.1.4
+# aoh 0.0.1.5
 
 - Update documentation for the `create_spp_info_data()` function.
 - Update `create_spp_info_data()` function so that the methodology used to
