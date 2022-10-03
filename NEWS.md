@@ -25,6 +25,11 @@
   the order of the columns now places the IUCN threat status information
   (i.e., `"category"` column) closer to the start of the table.
 
+# aoh 0.0.1.4
+
+- Update`st_repair_geometry()` to avoid uneeded geometry duplication.
+  This reduces memory requirements for`crate_spp_info_data()`.
+
 # aoh 0.0.1.3
 
 - Fix issues with using GDAL engine for processing data on Windows.
