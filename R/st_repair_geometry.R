@@ -89,11 +89,14 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
     x2 <- lapply(x2, sf::st_geometry)
     x2 <- lapply(x2, sf::st_union)
     x2 <- do.call(c, x2)
-    x2_df <- dplyr::left_join(x2_df, sf::st_drop_geometry(x), by = "_repair_id")
+    x_df <- match(x2_df[["_repair_id"]], x[["_repair_id"]])
+    x_df <- sf::st_drop_geometry(x)[x_df, , drop = FALSE]
+    x_df <- x_df[, setdiff(names(x_df), "_repair_id"), drop = FALSE]
+    x2_df <- tibble::as_tibble(cbind(x2_df, x_df))
     x2_df <- x2_df[, names(sf::st_drop_geometry(x)), , drop = FALSE]
     x2_df$geometry <- x2
     x2 <- sf::st_sf(x2_df)
-    rm(x2_df)
+    rm(x_df, x2_df)
   }
 
   # detect if any invalid geometries persist
