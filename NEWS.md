@@ -1,3 +1,8 @@
+# aoh 0.0.1.4
+
+- Update`st_repair_geometry()` to avoid uneeded geometry duplication.
+  This reduces memory requirements for`crate_spp_info_data()`.
+
 # aoh 0.0.1.3
 
 - Fix issues with using GDAL engine for processing data on Windows.
