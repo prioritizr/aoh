@@ -1,3 +1,8 @@
+# aoh 0.0.1.6
+
+- Fix spelling and formatting mistakes in vignette.
+- Update `st_repair_geometry()` to be more robust to geometry issues.
+
 # aoh 0.0.1.5
 
 - Update documentation for the `create_spp_info_data()` function.
