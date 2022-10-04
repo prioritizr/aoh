@@ -57,7 +57,7 @@ jobs:
           extra-packages: |
             any::covr
             any::rcmdcheck
-            any::XML
+            cran/XML
             any::remotes
             prepr=?ignore
             link2GI=?ignore
