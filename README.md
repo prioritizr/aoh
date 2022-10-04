@@ -354,7 +354,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
-      0.0.1.3. Available at https://github.com/prioritizr/aoh.
+      0.0.1.5. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.
@@ -366,7 +366,7 @@ produce Area of Habitat data.
 
       Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos
       V, Rondinini C, and Visconti P (2020a) A global map of terrestrial
-      habitat types. Scientific data, 7:1--8.
+      habitat types. Scientific Data, 7, 1--8.
 
       Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos
       V, Rondinini C, and Visconti P (2020b) A global map of terrestrial
@@ -375,14 +375,13 @@ produce Area of Habitat data.
 
       Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
       Rondinini C (2021) Translating habitat class to land cover to map
-      area of habitat of terrestrial vertebrates. Conservation Biology, In
-      press: DOI:10.1111/cobi.13851. Available at
-      <https://doi.org/10.1111/cobi.13851>.
+      area of habitat of terrestrial vertebrates. Conservation Biology, 36,
+      e13851. Available at <https://doi.org/10.1111/cobi.13851>.
 
       Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A
       nearly-global, void-free, multi-scale smoothed, 90m digital elevation
       model from fused ASTER and SRTM data. ISPRS Journal of Photogrammetry
-      and Remote Sensing, 87:57--67.
+      and Remote Sensing, 87, 57--67.
 
     To see these entries in BibTeX format, use 'print(<citation>,
     bibtex=TRUE)', 'toBibtex(.)', or set

@@ -62,18 +62,18 @@ If these instructions did not work, please consult the documentation for the
 \references{
 Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
 Jetz W (2018) A suite of global, cross-scale topographic variables for
-environmental and biodiversity modeling. \emph{Scientific Data}, 5: 180040.
+environmental and biodiversity modeling. \emph{Scientific Data}, 5, 180040.
 \doi{10.1038/sdata.2018.40}
 
 Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
-(AOH) and its Utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
-34: 977--986. \doi{10.1016/j.tree.2019.06.009}
+(AOH) and its utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
+34, 977--986. \doi{10.1016/j.tree.2019.06.009}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
-terrestrial habitat types. \emph{Scientific data}, 7: 1--8.
+terrestrial habitat types. \emph{Scientific data}, 7, 1--8.
 \doi{10.1038/s41597-020-00599-8}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
@@ -84,17 +84,17 @@ terrestrial habitat types (insert version) [Data set].
 
 Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 Rondinini C (2021) Translating habitat class to land cover to map area of
-habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press,
+habitat of terrestrial vertebrates. \emph{Conservation Biology}, 36, e13851.
 \doi{10.1111/cobi.13851}
 
 Rondinini C, Stuart S, Boitani L (2005) Habitat suitability models and the
 shortfall in conservation planning for African vertebrates.
-\emph{Conservation Biology}, 19: 1488--1497.
+\emph{Conservation Biology}, 19, 1488--1497.
 \doi{10.1111/j.1523-1739.2005.00204}
 
 Tracewski Ł, Butchart SHM, Di Marco M, Ficetola GF, Rondinini C, Symes A,
 Wheatley H, Beresford AE, Buchanan GM (2016) Toward quantification of the
 impact of 21st‐century deforestation on the extinction risk of terrestrial
-vertebrates. \emph{Conservation Biology}, 30: 1070--1079.
+vertebrates. \emph{Conservation Biology}, 30, 1070--1079.
 \doi{10.1111/cobi.12715}
 }

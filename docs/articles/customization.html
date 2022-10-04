@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.5</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Customization</h1>
             
-            <h4 data-toc-skip class="date">2022-09-15</h4>
+            <h4 data-toc-skip class="date">2022-10-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/customization.Rmd" class="external-link"><code>vignettes/customization.Rmd</code></a></small>
       <div class="hidden name"><code>customization.Rmd</code></div>
@@ -470,46 +470,46 @@
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># preview data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_info_data</span>, width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Simple feature collection with 15 features and 7 fields</span></span>
+<pre><code><span><span class="co">## Simple feature collection with 15 features and 8 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
 <span><span class="co">## Dimension:     XY</span></span>
 <span><span class="co">## Bounding box:  xmin: -916330 ymin: 4303624 xmax: 320141 ymax: 5069358</span></span>
 <span><span class="co">## Projected CRS: World_Behrmann</span></span>
-<span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 8</span></span></span>
-<span><span class="co">##    id_no binomial          seasonal category full_habitat_code elevation_lower</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   932 Simulus spp. 932         1 NT       1.4|2.1|14.2                   76</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">3</span>032 Simulus spp. 3032        1 EN       1.4|4|14.5                     36</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046        1 EN       2.1|3.8|5                      23</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046        3 EN       1.4|3.5|14.2                   23</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046        4 EN       5|5.5|14.1                     23</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">3</span>255 Simulus spp. 3255        1 VU       2.1|4.4|5.5                    90</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">4</span>008 Simulus spp. 4008        1 EN       3.8|4.5|6                      38</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">4</span>785 Simulus spp. 4785        1 EN       3.8|5                          45</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">4</span>973 Simulus spp. 4973        1 EN       1.4|3.4|14.2                   43</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">5</span>854 Simulus spp. 5854        1 EN       2.1|3.8|5                      45</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">6</span>068 Simulus spp. 6068        1 NT       3.8|4|6                       335</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        1 EN       1.5|3.5|4.4                    32</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">13</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        2 EN       3.5|3.8|14.2                   32</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">14</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        3 EN       5|14.5                         32</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">15</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        4 EN       3.8|5.5|14.5                   32</span></span>
-<span><span class="co">##    elevation_upper</span></span>
-<span><span class="co">##              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>             830</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>             999</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>             874</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>             874</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>             874</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>            <span style="text-decoration: underline;">1</span>050</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>             933</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>             942</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>            <span style="text-decoration: underline;">1</span>058</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>            <span style="text-decoration: underline;">1</span>018</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span>            <span style="text-decoration: underline;">1</span>052</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span>            <span style="text-decoration: underline;">1</span>017</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">13</span>            <span style="text-decoration: underline;">1</span>017</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">14</span>            <span style="text-decoration: underline;">1</span>017</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">15</span>            <span style="text-decoration: underline;">1</span>017</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 9</span></span></span>
+<span><span class="co">##    id_no binomial          category migratory seasonal</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   932 Simulus spp. 932  NT       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">3</span>032 Simulus spp. 3032 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046 EN       TRUE             1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046 EN       TRUE             3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046 EN       TRUE             4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">3</span>255 Simulus spp. 3255 VU       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">4</span>008 Simulus spp. 4008 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">4</span>785 Simulus spp. 4785 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">4</span>973 Simulus spp. 4973 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">5</span>854 Simulus spp. 5854 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">6</span>068 Simulus spp. 6068 NT       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             4</span></span>
+<span><span class="co">##    full_habitat_code           elevation_lower elevation_upper</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1.4|2.1|14.2                             76             830</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 1.4|4|14.5                               36             999</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 1.4|2.1|3.5|3.8|5|14.2                   23             874</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 1.4|2.1|3.5|3.8|5|14.2                   23             874</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 2.1|3.8|5|5.5|14.1                       23             874</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 2.1|4.4|5.5                              90            <span style="text-decoration: underline;">1</span>050</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 3.8|4.5|6                                38             933</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 3.8|5                                    45             942</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1.4|3.4|14.2                             43            <span style="text-decoration: underline;">1</span>058</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 2.1|3.8|5                                45            <span style="text-decoration: underline;">1</span>018</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> 3.8|4|6                                 335            <span style="text-decoration: underline;">1</span>052</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> 1.5|3.5|3.8|4.4|5|14.2|14.5              32            <span style="text-decoration: underline;">1</span>017</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> 1.5|3.5|3.8|4.4|14.2                     32            <span style="text-decoration: underline;">1</span>017</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> 1.5|3.5|4.4|5|14.5                       32            <span style="text-decoration: underline;">1</span>017</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span> 1.5|3.5|3.8|4.4|5.5|14.5                 32            <span style="text-decoration: underline;">1</span>017</span></span>
 <span><span class="co">##                                                                         geometry</span></span>
 <span><span class="co">##                                                               <span style="color: #949494; font-style: italic;">&lt;MULTIPOLYGON [m]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> (((-258786 4373975, -259389 4373961, -259723 4374219, -259763 4374773, -2596…</span></span>
@@ -564,63 +564,63 @@
 <span><span class="co">## - ymax             : maximum y-coordinate for Area of Habitat data</span></span>
 <span><span class="co">## - path             : file path for Area of Habitat data (GeoTIFF format)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spp_aoh_data</span>, width <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Simple feature collection with 15 features and 13 fields</span></span>
+<pre><code><span><span class="co">## Simple feature collection with 15 features and 14 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
 <span><span class="co">## Dimension:     XY</span></span>
 <span><span class="co">## Bounding box:  xmin: -916330 ymin: 4303624 xmax: 320141 ymax: 5069358</span></span>
 <span><span class="co">## Projected CRS: World_Behrmann</span></span>
-<span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 14</span></span></span>
-<span><span class="co">##    id_no binomial          seasonal category full_habitat_code habitat_code</span></span>
-<span><span class="co">##  <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   932 Simulus spp. 932         1 NT       1.4|2.1|14.2      1.4|2.1|14.2</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">3</span>032 Simulus spp. 3032        1 EN       1.4|4|14.5        1.4|4|14.5  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046        1 EN       2.1|3.8|5         2.1|3.8|5   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046        3 EN       1.4|3.5|14.2      1.4|3.5|14.2</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046        4 EN       5|5.5|14.1        5|5.5|14.1  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">3</span>255 Simulus spp. 3255        1 VU       2.1|4.4|5.5       2.1|4.4|5.5 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">4</span>008 Simulus spp. 4008        1 EN       3.8|4.5|6         3.8|4.5|6   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">4</span>785 Simulus spp. 4785        1 EN       3.8|5             3.8|5       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">4</span>973 Simulus spp. 4973        1 EN       1.4|3.4|14.2      1.4|3.4|14.2</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">5</span>854 Simulus spp. 5854        1 EN       2.1|3.8|5         2.1|3.8|5   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">6</span>068 Simulus spp. 6068        1 NT       3.8|4|6           3.8|4|6     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        1 EN       1.5|3.5|4.4       1.5|3.5|4.4 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">13</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        2 EN       3.5|3.8|14.2      3.5|3.8|14.2</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">14</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        3 EN       5|14.5            5|14.5      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">15</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678        4 EN       3.8|5.5|14.5      3.8|5.5|14.5</span></span>
-<span><span class="co">##    elevation_lower elevation_upper    xmin    xmax    ymin    ymax</span></span>
-<span><span class="co">##  <span style="color: #BCBCBC;">*</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>              76             830 -<span style="color: #BB0000; text-decoration: underline;">896</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">61</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">373</span>077 5<span style="text-decoration: underline;">070</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>              36             999 -<span style="color: #BB0000; text-decoration: underline;">902</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">60</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">303</span>077 5<span style="text-decoration: underline;">070</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>              23             874 -<span style="color: #BB0000; text-decoration: underline;">707</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">320</span>369 4<span style="text-decoration: underline;">305</span>077 5<span style="text-decoration: underline;">058</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>              23             874 -<span style="color: #BB0000; text-decoration: underline;">734</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">504</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">658</span>077 5<span style="text-decoration: underline;">011</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>              23             874 -<span style="color: #BB0000; text-decoration: underline;">916</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">708</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">520</span>077 5<span style="text-decoration: underline;">015</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>              90            <span style="text-decoration: underline;">1</span>050 -<span style="color: #BB0000; text-decoration: underline;">620</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">320</span>369 4<span style="text-decoration: underline;">304</span>077 5<span style="text-decoration: underline;">058</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>              38             933 -<span style="color: #BB0000; text-decoration: underline;">916</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">116</span>369 4<span style="text-decoration: underline;">304</span>077 5<span style="text-decoration: underline;">044</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>              45             942 -<span style="color: #BB0000; text-decoration: underline;">916</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">266</span>369 4<span style="text-decoration: underline;">303</span>077 5<span style="text-decoration: underline;">070</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>              43            <span style="text-decoration: underline;">1</span>058 -<span style="color: #BB0000; text-decoration: underline;">910</span><span style="color: #BB0000;">631</span>   <span style="text-decoration: underline;">65</span>369 4<span style="text-decoration: underline;">574</span>077 5<span style="text-decoration: underline;">070</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>              45            <span style="text-decoration: underline;">1</span>018 -<span style="color: #BB0000; text-decoration: underline;">565</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">96</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">304</span>077 4<span style="text-decoration: underline;">587</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span>             335            <span style="text-decoration: underline;">1</span>052 -<span style="color: #BB0000; text-decoration: underline;">752</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">66</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">374</span>077 5<span style="text-decoration: underline;">058</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span>              32            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">284</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">239</span>369 4<span style="text-decoration: underline;">373</span>077 4<span style="text-decoration: underline;">967</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">13</span>              32            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">794</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">396</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">901</span>077 5<span style="text-decoration: underline;">070</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">14</span>              32            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">617</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">393</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">304</span>077 4<span style="text-decoration: underline;">447</span>077</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">15</span>              32            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">868</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">654</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">404</span>077 4<span style="text-decoration: underline;">576</span>077</span></span>
-<span><span class="co">##    path                      </span></span>
-<span><span class="co">##  <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> /tmp/Rtmpq6MKoQ/932_1.tif </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> /tmp/Rtmpq6MKoQ/3032_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> /tmp/Rtmpq6MKoQ/3046_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> /tmp/Rtmpq6MKoQ/3046_3.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> /tmp/Rtmpq6MKoQ/3046_4.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> /tmp/Rtmpq6MKoQ/3255_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> /tmp/Rtmpq6MKoQ/4008_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> /tmp/Rtmpq6MKoQ/4785_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> /tmp/Rtmpq6MKoQ/4973_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> /tmp/Rtmpq6MKoQ/5854_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span> /tmp/Rtmpq6MKoQ/6068_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span> /tmp/Rtmpq6MKoQ/6678_1.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">13</span> /tmp/Rtmpq6MKoQ/6678_2.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">14</span> /tmp/Rtmpq6MKoQ/6678_3.tif</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">15</span> /tmp/Rtmpq6MKoQ/6678_4.tif</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 15</span></span></span>
+<span><span class="co">##    id_no binomial          category migratory seasonal</span></span>
+<span><span class="co">##  <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   932 Simulus spp. 932  NT       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">3</span>032 Simulus spp. 3032 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046 EN       TRUE             1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046 EN       TRUE             3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">3</span>046 Simulus spp. 3046 EN       TRUE             4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">3</span>255 Simulus spp. 3255 VU       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">4</span>008 Simulus spp. 4008 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">4</span>785 Simulus spp. 4785 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">4</span>973 Simulus spp. 4973 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">5</span>854 Simulus spp. 5854 EN       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">6</span>068 Simulus spp. 6068 NT       FALSE            1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span>  <span style="text-decoration: underline;">6</span>678 Simulus spp. 6678 EN       TRUE             4</span></span>
+<span><span class="co">##    full_habitat_code           habitat_code                elevation_lower</span></span>
+<span><span class="co">##  <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1.4|2.1|14.2                1.4|2.1|14.2                             76</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 1.4|4|14.5                  1.4|4|14.5                               36</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 1.4|2.1|3.5|3.8|5|14.2      1.4|2.1|3.5|3.8|5|14.2                   23</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 1.4|2.1|3.5|3.8|5|14.2      1.4|2.1|3.5|3.8|5|14.2                   23</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 2.1|3.8|5|5.5|14.1          2.1|3.8|5|5.5|14.1                       23</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 2.1|4.4|5.5                 2.1|4.4|5.5                              90</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 3.8|4.5|6                   3.8|4.5|6                                38</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 3.8|5                       3.8|5                                    45</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1.4|3.4|14.2                1.4|3.4|14.2                             43</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 2.1|3.8|5                   2.1|3.8|5                                45</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> 3.8|4|6                     3.8|4|6                                 335</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> 1.5|3.5|3.8|4.4|5|14.2|14.5 1.5|3.5|3.8|4.4|5|14.2|14.5              32</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> 1.5|3.5|3.8|4.4|14.2        1.5|3.5|3.8|4.4|14.2                     32</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> 1.5|3.5|4.4|5|14.5          1.5|3.5|4.4|5|14.5                       32</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span> 1.5|3.5|3.8|4.4|5.5|14.5    1.5|3.5|3.8|4.4|5.5|14.5                 32</span></span>
+<span><span class="co">##    elevation_upper    xmin    xmax    ymin    ymax path                      </span></span>
+<span><span class="co">##  <span style="color: #BCBCBC;">*</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>             830 -<span style="color: #BB0000; text-decoration: underline;">896</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">61</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">373</span>077 5<span style="text-decoration: underline;">070</span>077 /tmp/RtmpUFIxZz/932_1.tif </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>             999 -<span style="color: #BB0000; text-decoration: underline;">902</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">60</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">303</span>077 5<span style="text-decoration: underline;">070</span>077 /tmp/RtmpUFIxZz/3032_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>             874 -<span style="color: #BB0000; text-decoration: underline;">707</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">320</span>369 4<span style="text-decoration: underline;">305</span>077 5<span style="text-decoration: underline;">058</span>077 /tmp/RtmpUFIxZz/3046_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>             874 -<span style="color: #BB0000; text-decoration: underline;">734</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">504</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">658</span>077 5<span style="text-decoration: underline;">011</span>077 /tmp/RtmpUFIxZz/3046_3.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>             874 -<span style="color: #BB0000; text-decoration: underline;">916</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">708</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">520</span>077 5<span style="text-decoration: underline;">015</span>077 /tmp/RtmpUFIxZz/3046_4.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>            <span style="text-decoration: underline;">1</span>050 -<span style="color: #BB0000; text-decoration: underline;">620</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">320</span>369 4<span style="text-decoration: underline;">304</span>077 5<span style="text-decoration: underline;">058</span>077 /tmp/RtmpUFIxZz/3255_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>             933 -<span style="color: #BB0000; text-decoration: underline;">916</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">116</span>369 4<span style="text-decoration: underline;">304</span>077 5<span style="text-decoration: underline;">044</span>077 /tmp/RtmpUFIxZz/4008_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>             942 -<span style="color: #BB0000; text-decoration: underline;">916</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">266</span>369 4<span style="text-decoration: underline;">303</span>077 5<span style="text-decoration: underline;">070</span>077 /tmp/RtmpUFIxZz/4785_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>            <span style="text-decoration: underline;">1</span>058 -<span style="color: #BB0000; text-decoration: underline;">910</span><span style="color: #BB0000;">631</span>   <span style="text-decoration: underline;">65</span>369 4<span style="text-decoration: underline;">574</span>077 5<span style="text-decoration: underline;">070</span>077 /tmp/RtmpUFIxZz/4973_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>            <span style="text-decoration: underline;">1</span>018 -<span style="color: #BB0000; text-decoration: underline;">565</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">96</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">304</span>077 4<span style="text-decoration: underline;">587</span>077 /tmp/RtmpUFIxZz/5854_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span>            <span style="text-decoration: underline;">1</span>052 -<span style="color: #BB0000; text-decoration: underline;">752</span><span style="color: #BB0000;">631</span>  -<span style="color: #BB0000; text-decoration: underline;">66</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">374</span>077 5<span style="text-decoration: underline;">058</span>077 /tmp/RtmpUFIxZz/6068_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span>            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">284</span><span style="color: #BB0000;">631</span>  <span style="text-decoration: underline;">239</span>369 4<span style="text-decoration: underline;">373</span>077 4<span style="text-decoration: underline;">967</span>077 /tmp/RtmpUFIxZz/6678_1.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span>            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">794</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">396</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">901</span>077 5<span style="text-decoration: underline;">070</span>077 /tmp/RtmpUFIxZz/6678_2.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span>            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">617</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">393</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">304</span>077 4<span style="text-decoration: underline;">447</span>077 /tmp/RtmpUFIxZz/6678_3.tif</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span>            <span style="text-decoration: underline;">1</span>017 -<span style="color: #BB0000; text-decoration: underline;">868</span><span style="color: #BB0000;">631</span> -<span style="color: #BB0000; text-decoration: underline;">654</span><span style="color: #BB0000;">631</span> 4<span style="text-decoration: underline;">404</span>077 4<span style="text-decoration: underline;">576</span>077 /tmp/RtmpUFIxZz/6678_4.tif</span></span>
 <span><span class="co">##                                                                         geometry</span></span>
 <span><span class="co">##  <span style="color: #BCBCBC;">*</span>                                                            <span style="color: #949494; font-style: italic;">&lt;MULTIPOLYGON [m]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> (((-258786 4373975, -259389 4373961, -259723 4374219, -259763 4374773, -2596…</span></span>

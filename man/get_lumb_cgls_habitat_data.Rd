@@ -87,7 +87,7 @@ L, and Tarko A (2020) \emph{Copernicus Global Land Service: Land Cover
 
 Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 Rondinini C (2021) Translating habitat class to land cover to map area of
-habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press.
+habitat of terrestrial vertebrates. \emph{Conservation Biology}, 36, e13851.
 \doi{10.1111/cobi.13851}
 }
 \seealso{
