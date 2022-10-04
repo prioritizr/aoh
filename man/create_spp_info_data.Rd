@@ -351,8 +351,8 @@ print(spp_info_data)
 Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
-(AOH) and its Utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
-34: 977--986. \doi{10.1016/j.tree.2019.06.009}
+(AOH) and its utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
+34, 977--986. \doi{10.1016/j.tree.2019.06.009}
 
 KBA Standards and Appeals Committee of IUCN SSC/WCPA
 (2022). \emph{Guidelines for using A Global Standard for the Identification}

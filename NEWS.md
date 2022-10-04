@@ -24,6 +24,7 @@
   `create_spp_frc_data()`, and `calc_spp_frc_data()` functions so that
   the order of the columns now places the IUCN threat status information
   (i.e., `"category"` column) closer to the start of the table.
+- Update tests to be robust to Zenodo website outages.
 
 # aoh 0.0.1.4
 

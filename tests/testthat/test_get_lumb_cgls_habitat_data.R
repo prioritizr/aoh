@@ -6,6 +6,7 @@ test_that("latest version (from online)", {
   skip_on_ci()
   skip_if_offline()
   skip_if_local_and_slow_internet()
+  skip_if_zenodo_website_not_available()
   # create object
   d <- new_temp_dir()
   x <- get_lumb_cgls_habitat_data(
@@ -32,6 +33,7 @@ test_that("latest version (from cache)", {
   skip_if_offline()
   skip_if_not_installed("rappdirs")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_website_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
   # create object
   x <- get_lumb_cgls_habitat_data(
@@ -57,6 +59,7 @@ test_that("specified version (from online)", {
   skip_if_offline()
   skip_if_local_and_slow_internet()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
+  skip_if_zenodo_website_not_available()
   # create object
   d <- new_temp_dir()
   x <- get_lumb_cgls_habitat_data(
@@ -82,6 +85,7 @@ test_that("specified version (from cache)", {
   skip_on_cran()
   skip_if_not_installed("rappdirs")
   skip_if_cached_data_not_available()
+  skip_if_zenodo_website_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
   # create object
   x <- get_lumb_cgls_habitat_data(

@@ -67,3 +67,11 @@ skip_if_zenodo_data_not_available <- function(x) {
     message = "Zenodo dataset not available"
   )
 }
+
+skip_if_zenodo_website_not_available <- function() {
+  x <- try(rvest::read_html("https://zenodo.org/"), silent = TRUE)
+  testthat::skip_if(
+    inherits(x, "try-error"),
+    message = "Zenodo website not available"
+  )
+}

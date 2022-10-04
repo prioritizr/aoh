@@ -2,6 +2,7 @@ context("zenodo misc functions")
 
 test_that("get_doi_files", {
   skip_on_cran()
+  skip_if_zenodo_website_not_available()
   x <- get_doi_files("https://doi.org/10.5281/zenodo.6622038")
   y <- tibble::tibble(
     filename = c(
@@ -20,6 +21,7 @@ test_that("get_doi_files", {
 
 test_that("get_doi_versions (multiple versions)", {
   skip_on_cran()
+  skip_if_zenodo_website_not_available()
   x <- get_doi_versions("https://doi.org/10.5281/zenodo.6622038")
   y <- tibble::tibble(
     version = c("v0.0.1", "v1.0.0", "v1.0.0"),
@@ -44,6 +46,7 @@ test_that("get_doi_versions (multiple versions)", {
 
 test_that("get_doi_versions (single version)", {
   skip_on_cran()
+  skip_if_zenodo_website_not_available()
   x <- get_doi_versions("https://doi.org/10.5281/zenodo.46757")
   y <- tibble::tibble(
     version = NA_character_,

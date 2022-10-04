@@ -292,12 +292,12 @@ plot_spp_frc_data(spp_frc_data)
 Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
-(AOH) and its Utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
-34:977--986. \doi{10.1016/j.tree.2019.06.009}
+(AOH) and its utility for the IUCN Red List. \emph{Trends in Ecology & Evolution},
+34, 977--986. \doi{10.1016/j.tree.2019.06.009}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
 Rondinini C, and Visconti P (2020a) A global map of
-terrestrial habitat types. \emph{Scientific Data}, 7: 1--8.
+terrestrial habitat types. \emph{Scientific Data}, 7, 1--8.
 \doi{10.1038/s41597-020-00599-8}
 
 Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,
@@ -308,13 +308,13 @@ terrestrial habitat types (insert version) [Data set].
 
 Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 Rondinini C (2021) Translating habitat class to land cover to map area of
-habitat of terrestrial vertebrates. \emph{Conservation Biology}, In press,
+habitat of terrestrial vertebrates. \emph{Conservation Biology}, 36, e13851.
 \doi{10.1111/cobi.13851}
 
 Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
 global, void-free, multi-scale smoothed, 90m digital elevation model from
 fused ASTER and SRTM data.
-\emph{ISPRS Journal of Photogrammetry and Remote Sensing}, 87: 57--67.
+\emph{ISPRS Journal of Photogrammetry and Remote Sensing}, 87, 57--67.
 \doi{10.1016/j.isprsjprs.2013.11.002}
 }
 \seealso{

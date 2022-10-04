@@ -15,6 +15,7 @@ test_that("cache directory", {
 
 test_that("Jung level 1 habitat data", {
   skip_on_cran()
+  skip_if_zenodo_website_not_available()
   # download data
   x <- try(
     get_jung_lvl1_habitat_data(
@@ -42,7 +43,7 @@ test_that("Jung level 1 habitat data", {
 
 test_that("Jung level 2 habitat data", {
   skip_on_cran()
-  skip_on_ci()
+  skip_if_zenodo_website_not_available()
   # download data
   x <- try(
     get_jung_lvl2_habitat_data(
@@ -70,6 +71,7 @@ test_that("Jung level 2 habitat data", {
 
 test_that("Jung level 1 potential habitat data", {
   skip_on_cran()
+  skip_if_zenodo_website_not_available()
   # download data
   x <- try(
     get_jung_plvl1_habitat_data(
@@ -98,6 +100,7 @@ test_that("Jung level 1 potential habitat data", {
 
 test_that("Lumbierres CGLS habitat data", {
   skip_on_cran()
+  skip_if_zenodo_website_not_available()
   # download data
   x <- try(
       get_lumb_cgls_habitat_data(
@@ -128,6 +131,7 @@ test_that("Lumbierres CGLS habitat data", {
 
 test_that("elevation data", {
   skip_on_cran()
+  skip_if_zenodo_website_not_available()
   # download data
   x <- try(
     get_global_elevation_data(
