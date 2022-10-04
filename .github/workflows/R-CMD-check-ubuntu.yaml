@@ -66,6 +66,7 @@ jobs:
             cran/dotCall64
             prepr=?ignore
             link2GI=?ignore
+            OpenMPController=?ignore
           needs: |
             check
             coverage

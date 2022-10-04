@@ -72,10 +72,6 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
   # apply first pass for fixing geometry
   x2 <- sf::st_make_valid(x)
 
-  # add CRS information back
-  sf::st_crs(x) <- x_crs
-  sf::st_crs(x2) <- x_crs
-
   # remove empty geometries
   x2 <- x2[!sf::st_is_empty(x2), , drop = FALSE]
 
@@ -100,6 +96,10 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
     rm(x_df, x2_df)
   }
   # nocov end
+
+  # add CRS information back
+  sf::st_crs(x) <- x_crs
+  sf::st_crs(x2) <- x_crs
 
   # detect if any invalid geometries persist
   ## subset repaired polygons

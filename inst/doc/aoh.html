@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-10-03" />
+<meta name="date" content="2022-10-04" />
 
 <title>Getting started</title>
 
@@ -169,7 +169,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">Getting started</h1>
-<h4 class="date">2022-10-03</h4>
+<h4 class="date">2022-10-04</h4>
 
 
 <div id="TOC">
@@ -283,10 +283,10 @@ div.csl-indent {
 ## # A tibble: 4 × 5
 ##   id_no binomial              seasonal path                             geometry
 ##   &lt;dbl&gt; &lt;chr&gt;                    &lt;int&gt; &lt;chr&gt;                       &lt;POLYGON [m]&gt;
-## 1   979 Alytes dickhilleni           1 /tmp/Rtmpo6jaT… ((-105507 4465112, -1064…
-## 2 59448 Calotriton asper             1 /tmp/Rtmpo6jaT… ((-238681 5029057, -2377…
-## 3  4657 Chioglossa lusitanica        1 /tmp/Rtmpo6jaT… ((-859202 4559278, -8593…
-## 4 58622 Rana iberica                 1 /tmp/Rtmpo6jaT… ((-849802 4614149, -8481…</code></pre>
+## 1   979 Alytes dickhilleni           1 /tmp/Rtmp5gW0D… ((-105507 4465112, -1064…
+## 2 59448 Calotriton asper             1 /tmp/Rtmp5gW0D… ((-238681 5029057, -2377…
+## 3  4657 Chioglossa lusitanica        1 /tmp/Rtmp5gW0D… ((-859202 4559278, -8593…
+## 4 58622 Rana iberica                 1 /tmp/Rtmp5gW0D… ((-849802 4614149, -8481…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the Area of Habitat data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## since the data for each species have a different spatial extent</span></span>
@@ -354,9 +354,9 @@ div.csl-indent {
 ## resolution  : 100, 100  (x, y)
 ## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## sources     : spat_lVvM0W1M9tg5Iid_48961.tif  
-##               spat_5TOvfyboKKAKm71_48961.tif  
-##               spat_vfwFc5ZhnXgiW1S_48961.tif  
+## sources     : spat_Jz4k1kfUq0p6UFX_22312.tif  
+##               spat_2MSAeMUnugVXArt_22312.tif  
+##               spat_RkH29vTD5GqLMXo_22312.tif  
 ##               ... and 1 more source(s)
 ## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 
 ## min values  :         0,           0,          0,           0 
@@ -399,13 +399,13 @@ div.csl-indent {
 <li><p><strong>I keep seeing this message <code>Error in x$.self$finalize() : attempt to apply non-function</code>, what does it mean?</strong></p>
 <p>This message is commonly encountered when using the <em>terra</em> package with large datasets. Although there is currently no known solution to prevent this message from appearing, the message can be safely ignored (<a href="https://github.com/rspatial/terra/issues/30">see here for details</a>). This is because the message does not stop R from completing spatial data processing – meaning that R will continue processing data even when this message is displayed – and the underlying cause of the message is not thought to result in incorrect calculations.</p></li>
 <li><p><strong>Can I produce Area of Habitat data for thousands of species globally?</strong></p>
-<p>Yes, the package can generate Area of Habitat data for all terrestrial amphibians, mammals, birds, and reptiles. To accomplish this, you will need a system with at least 16 Gb RAM and 65 Gb disk space. The processing could a couple of days (e.g., if processing all amphibian species) or weeks (e.g., if processing all bird species) to complete. An example script for processing global data is available on the online code repository (<a href="https://github.com/prioritizr/aoh/tree/master/inst/examples">see here</a>). Additionally, since a lot of memory is required to process data for all bird species globally, it is recommended to split the full dataset containing all bird species into multiple chunks (e.g., six chunks) and process each of these chunks separately.</p></li>
+<p>Yes, the package can generate Area of Habitat data for all terrestrial amphibians, mammals, birds, and reptiles. To accomplish this, you will need a system with at least 16 Gb RAM and 65 Gb disk space. The processing could take a couple of days (e.g., if processing all amphibian species) or weeks (e.g., if processing all bird species) to complete. An example script for processing global data is available on the online code repository (<a href="https://github.com/prioritizr/aoh/tree/master/inst/examples">see here</a>). Additionally, since a lot of memory is required to process data for all bird species globally, it is recommended to split the full dataset containing all bird species into multiple chunks (e.g., six chunks) and process each of these chunks separately.</p></li>
 <li><p><strong>How can I speed up the processing for Area of Habitat data?</strong></p>
 <p>The <code>create_spp_aoh_data()</code> function can use different software engines for data processing (specified via the <code>engine</code> parameter). Although each engine produces the same results, some engines are more computationally efficient than others. The default <code>&quot;terra&quot;</code> engine uses the <em>terra</em> package for processing. Although this engine is easy to install and fast for small datasets, it does not scale well for larger datasets. It is generally recommended to use the <code>&quot;gdal&quot;</code> engine in all cases where possible. Although the <code>&quot;gdal&quot;</code> engine requires installation of additional software (see the package README for instructions), it is much faster than the other engines. Additionally, the <code>&quot;grass&quot;</code> engine is also available. This engine can be faster than the <code>&quot;terra&quot;</code> engine when processing many species across large spatial extents. However, benchmarks indicate that it is slower than the <code>&quot;gdal&quot;</code> engine.</p></li>
 <li><p><strong>Can I use species range data from other data sources (instead of the IUCN Red List)?</strong></p>
 <p>Yes, you can use species range data from a variety of sources. For example, species range data could be obtained from governmental (e.g., data for federally listed species in Canada are available through the <a href="https://open.canada.ca/en/open-data">Government of Canada data portal</a>) and non-governmental organizations (e.g., <a href="https://biendata.org/">Botanical Information and Ecology Network</a> and <a href="https://mol.org/">Map of Life</a>). These data can also be produced using observation records <span class="citation">(e.g., following Palacio <em>et al.</em> 2021)</span> from data repositories (e.g., <a href="https://www.gbif.org/">Global Biodiversity Information Facility</a> and <a href="https://www.ala.org.au/">Atlas of Living Australia</a>). After obtaining species range data, they will need to be formatted so that they follow the data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details on what values these columns should contain, please see the <strong>Species range data format</strong> section in the documentation for <code>create_spp_info_data()</code> and the <a href="https://www.iucnredlist.org/resources/mappingstandards">IUCN Red List documentation</a>. Additionally, note that if you wish to use the IUCN Red List for specifying habitat preference data, please ensure that the <code>id_no</code> specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (<em>Calotriton asper</em>). To ensure that correct habitat preference data were obtained for this species from the the IUCN Red List, the <code>id_no</code> value specified for this species was specified as <code>59448</code>.</p></li>
 <li><p><strong>Can I use species elevational limit data from other sources?</strong></p>
-<p>Yes, you can use elevational limit data from other sources. For example, for birds it is important to use the “Occasional minimum altitude” and “Occasional maximum altitude” estimates for those species for which these are coded in the IUCN Red List. These data are available on request from BirdLife International (please contact <a href="mailto:science@birdlife.org" class="email">science@birdlife.org</a>). To use such data, you will need to manually create a table containing the species’ summary information. This table will need to contain information on the species’ elevational limits, as well as their habitat preferences and threat status (see get_spp_summary_data() for the correct format). After preparing these data, they can be used to collate the information needed for processing Area of Habitat data (via create_spp_info_data()) and, in turn, create Area of Habitat data (via create_spp_aoh_data()).</p></li>
+<p>Yes, you can use elevational limit data from other sources. For example, for birds it is important to use the “Occasional minimum altitude” and “Occasional maximum altitude” estimates for those species for which these are coded in the IUCN Red List. These data are available on request from BirdLife International (please contact <a href="mailto:science@birdlife.org" class="email">science@birdlife.org</a>). To use such data, you will need to manually create a table containing the species’ summary information. This table will need to contain information on the species’ elevational limits, as well as their habitat preferences and threat status (see <code>get_spp_summary_data()</code> for the correct format). After preparing these data, they can be used to collate the information needed for processing Area of Habitat data (via <code>create_spp_info_data()</code>) and, in turn, create Area of Habitat data (via <code>create_spp_aoh_data())</code>.</p></li>
 <li><p><strong>Can I use elevation data from other data sources?</strong></p>
 <p>Yes, you can use elevation data from a variety of sources. For example, elevation data could be derived from <a href="https://cgiarcsi.community/data/srtm-90m-digital-elevation-database-v4-1/">NASA’s Shuttle Radar Topography Mission (SRTM)</a>. After preparing the elevation data, they can be used to create Area of Habitat data (via <code>create_spp_aoh_data()</code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p></li>
 <li><p><strong>Can I use habitat classification data from other data sources?</strong></p>
@@ -434,10 +434,10 @@ Ficetola, G.F., Rondinini, C., Bonardi, A., Baisero, D. &amp; Padoa-Schioppa, E.
 Jung, M., Dahal, P.R., Butchart, S.H.M., Donald, P.F., Lamo, X.D., Lesiv, M., Kapos, V., Rondinini, C. &amp; Visconti, P. (2020). A global map of terrestrial habitat types. <em>Scientific Data</em>, <em>7</em>, 256.
 </div>
 <div id="ref-r9" class="csl-entry">
-Lumbierres, M., Dahal, P.R., Marco, M.D., Butchart, S.H.M., Donald, P.F. &amp; Rondinini, C. (2021). Translating habitat class to land cover to map area of habitat of terrestrial vertebrates. <em>Conservation Biology</em>, <em>In press</em>, DOI:10.1111/cobi.13851.
+Lumbierres, M., Dahal, P.R., Marco, M.D., Butchart, S.H.M., Donald, P.F. &amp; Rondinini, C. (2021). Translating habitat class to land cover to map area of habitat of terrestrial vertebrates. <em>Conservation Biology</em>, <em>36</em>, e13851.
 </div>
 <div id="ref-r8" class="csl-entry">
-Palacio, R.D., Negret, P.J., Velásquez-Tibatá, J. &amp; Jacobson, A.P. (2021). A data-driven geospatial workflow to map species distributions for conservation assessments. <em>Diversity and Distributions</em>.
+Palacio, R.D., Negret, P.J., Velásquez-Tibatá, J. &amp; Jacobson, A.P. (2021). A data-driven geospatial workflow to map species distributions for conservation assessments. <em>Diversity and Distributions</em>, <em>27</em>, 2559–2570.
 </div>
 <div id="ref-r4" class="csl-entry">
 Robinson, N., Regetz, J. &amp; Guralnick, R.P. (2014). <span>EarthEnv</span>-<span>DEM</span>90: A nearly-global, void-free, multi-scale smoothed, 90m digital elevation model from fused <span>ASTER</span> and <span>SRTM</span> data. <em><span>ISPRS</span> Journal of Photogrammetry and Remote Sensing</em>, <em>87</em>, 57–67.

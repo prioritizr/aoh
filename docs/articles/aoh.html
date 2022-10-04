@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.6</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
             
-            <h4 data-toc-skip class="date">2022-10-03</h4>
+            <h4 data-toc-skip class="date">2022-10-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -200,10 +200,10 @@
 <span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">##   id_no binomial              seasonal path                             geometry</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpF1scK… ((-105507 4465112, -1064…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpF1scK… ((-238681 5029057, -2377…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpF1scK… ((-859202 4559278, -8593…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpF1scK… ((-849802 4614149, -8481…</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpLEeZa… ((-105507 4465112, -1064…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpLEeZa… ((-238681 5029057, -2377…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpLEeZa… ((-859202 4559278, -8593…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpLEeZa… ((-849802 4614149, -8481…</span></span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import the Area of Habitat data</span></span>
@@ -273,9 +273,9 @@
 <span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
 <span><span class="co">## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## coord. ref. : World_Behrmann </span></span>
-<span><span class="co">## sources     : spat_arqZEegpFlvkXZW_48344.tif  </span></span>
-<span><span class="co">##               spat_u268uWu2brRYXcC_48344.tif  </span></span>
-<span><span class="co">##               spat_Z7qxwKNxsLUUmMX_48344.tif  </span></span>
+<span><span class="co">## sources     : spat_8ljnBBPgDtvWF8R_21559.tif  </span></span>
+<span><span class="co">##               spat_cW8Hcf4UV4KkAig_21559.tif  </span></span>
+<span><span class="co">##               spat_q5wAe72O2orwzwj_21559.tif  </span></span>
 <span><span class="co">##               ... and 1 more source(s)</span></span>
 <span><span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span></span>
 <span><span class="co">## min values  :         0,           0,          0,           0 </span></span>
@@ -330,7 +330,7 @@
 </li>
 <li>
 <p><strong>Can I produce Area of Habitat data for thousands of species globally?</strong></p>
-<p>Yes, the package can generate Area of Habitat data for all terrestrial amphibians, mammals, birds, and reptiles. To accomplish this, you will need a system with at least 16 Gb RAM and 65 Gb disk space. The processing could a couple of days (e.g., if processing all amphibian species) or weeks (e.g., if processing all bird species) to complete. An example script for processing global data is available on the online code repository (<a href="https://github.com/prioritizr/aoh/tree/master/inst/examples" class="external-link">see here</a>). Additionally, since a lot of memory is required to process data for all bird species globally, it is recommended to split the full dataset containing all bird species into multiple chunks (e.g., six chunks) and process each of these chunks separately.</p>
+<p>Yes, the package can generate Area of Habitat data for all terrestrial amphibians, mammals, birds, and reptiles. To accomplish this, you will need a system with at least 16 Gb RAM and 65 Gb disk space. The processing could take a couple of days (e.g., if processing all amphibian species) or weeks (e.g., if processing all bird species) to complete. An example script for processing global data is available on the online code repository (<a href="https://github.com/prioritizr/aoh/tree/master/inst/examples" class="external-link">see here</a>). Additionally, since a lot of memory is required to process data for all bird species globally, it is recommended to split the full dataset containing all bird species into multiple chunks (e.g., six chunks) and process each of these chunks separately.</p>
 </li>
 <li>
 <p><strong>How can I speed up the processing for Area of Habitat data?</strong></p>
@@ -342,7 +342,7 @@
 </li>
 <li>
 <p><strong>Can I use species elevational limit data from other sources?</strong></p>
-<p>Yes, you can use elevational limit data from other sources. For example, for birds it is important to use the “Occasional minimum altitude” and “Occasional maximum altitude” estimates for those species for which these are coded in the IUCN Red List. These data are available on request from BirdLife International (please contact <a href="mailto:science@birdlife.org" class="email">science@birdlife.org</a>). To use such data, you will need to manually create a table containing the species’ summary information. This table will need to contain information on the species’ elevational limits, as well as their habitat preferences and threat status (see get_spp_summary_data() for the correct format). After preparing these data, they can be used to collate the information needed for processing Area of Habitat data (via create_spp_info_data()) and, in turn, create Area of Habitat data (via create_spp_aoh_data()).</p>
+<p>Yes, you can use elevational limit data from other sources. For example, for birds it is important to use the “Occasional minimum altitude” and “Occasional maximum altitude” estimates for those species for which these are coded in the IUCN Red List. These data are available on request from BirdLife International (please contact <a href="mailto:science@birdlife.org" class="email">science@birdlife.org</a>). To use such data, you will need to manually create a table containing the species’ summary information. This table will need to contain information on the species’ elevational limits, as well as their habitat preferences and threat status (see <code><a href="../reference/get_spp_summary_data.html">get_spp_summary_data()</a></code> for the correct format). After preparing these data, they can be used to collate the information needed for processing Area of Habitat data (via <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code>) and, in turn, create Area of Habitat data (via <code>create_spp_aoh_data())</code>.</p>
 </li>
 <li>
 <p><strong>Can I use elevation data from other data sources?</strong></p>
@@ -380,10 +380,10 @@ Ficetola, G.F., Rondinini, C., Bonardi, A., Baisero, D. &amp; Padoa-Schioppa, E.
 Jung, M., Dahal, P.R., Butchart, S.H.M., Donald, P.F., Lamo, X.D., Lesiv, M., Kapos, V., Rondinini, C. &amp; Visconti, P. (2020). A global map of terrestrial habitat types. <em>Scientific Data</em>, <em>7</em>, 256.
 </div>
 <div id="ref-r9" class="csl-entry">
-Lumbierres, M., Dahal, P.R., Marco, M.D., Butchart, S.H.M., Donald, P.F. &amp; Rondinini, C. (2021). Translating habitat class to land cover to map area of habitat of terrestrial vertebrates. <em>Conservation Biology</em>, <em>In press</em>, DOI:10.1111/cobi.13851.
+Lumbierres, M., Dahal, P.R., Marco, M.D., Butchart, S.H.M., Donald, P.F. &amp; Rondinini, C. (2021). Translating habitat class to land cover to map area of habitat of terrestrial vertebrates. <em>Conservation Biology</em>, <em>36</em>, e13851.
 </div>
 <div id="ref-r8" class="csl-entry">
-Palacio, R.D., Negret, P.J., Velásquez-Tibatá, J. &amp; Jacobson, A.P. (2021). A data-driven geospatial workflow to map species distributions for conservation assessments. <em>Diversity and Distributions</em>.
+Palacio, R.D., Negret, P.J., Velásquez-Tibatá, J. &amp; Jacobson, A.P. (2021). A data-driven geospatial workflow to map species distributions for conservation assessments. <em>Diversity and Distributions</em>, <em>27</em>, 2559–2570.
 </div>
 <div id="ref-r4" class="csl-entry">
 Robinson, N., Regetz, J. &amp; Guralnick, R.P. (2014). <span>EarthEnv</span>-<span>DEM</span>90: A nearly-global, void-free, multi-scale smoothed, 90m digital elevation model from fused <span>ASTER</span> and <span>SRTM</span> data. <em><span>ISPRS</span> Journal of Photogrammetry and Remote Sensing</em>, <em>87</em>, 57–67.
