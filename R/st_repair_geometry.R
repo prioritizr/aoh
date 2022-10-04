@@ -83,6 +83,7 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
   x2 <- suppressWarnings(sf::st_collection_extract(x2, "POLYGON"))
 
   # dissolve by repair id
+  # nocov start
   if (!identical(anyDuplicated(x2[["_repair_id"]]), 0L)) {
     x2 <- split(x2, x2[["_repair_id"]])
     x2_df <- tibble::tibble(`_repair_id` = as.integer(names(x2)))
@@ -98,6 +99,7 @@ st_repair_geometry <- function(x, geometry_precision = 1e5) {
     x2 <- sf::st_sf(x2_df)
     rm(x_df, x2_df)
   }
+  # nocov end
 
   # detect if any invalid geometries persist
   ## subset repaired polygons
