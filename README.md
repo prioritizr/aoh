@@ -35,7 +35,7 @@ users can import them (using `read_spp_range_data()`), prepare them and
 collate additional information for subsequent processing (using
 `create_spp_info_data()`), and then create Area of Habitat data (using
 `create_spp_aoh_data()`). Global elevation and habitat classification
-data ( [Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8);
+data ([Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8);
 [Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851);
 [Robinson *et al.*
 2014](https://doi.org/10.1016/j.isprsjprs.2013.11.002)) are
@@ -102,7 +102,7 @@ install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/).
 [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/),
 select the “Express Install” option, and then follow the prompts to
 complete the installation. After the installation process has finished,
-please restart your computer. If the `aoh::is_gdal_python_available()`
+please restart your computer. If the `aoh::is_gdal_calc_available()`
 function cannot find GDAL, you may also need to update the `PATH`
 environmental variable so that it contains the folder path for GDAL
 (default folder path is `C:\OSGeo4W\bin`),
