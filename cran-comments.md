@@ -34,6 +34,26 @@ Jeff
 
   **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/dickoa/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
 
+* Found the following (possibly) invalid URLs:
+  URL: https://doi.org/10.1111/2041-210X.13427
+    From: README.md
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1111/cobi.12715
+    From: README.md
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1111/cobi.13851
+    From: README.md
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1111/j.1523-1739.2005.00204.x
+    From: README.md
+    Status: 503
+    Message: Service Unavailable
+
+  **I can confirm that all of these URLs are valid. They correspond to the following journal articles: Durán et al. 2020 (https://doi.org/10.1111/2041-210X.13427), Lumbierres et al. 2022 (https://doi.org/10.1111/cobi.13851), and Rondinini et al. 2005 (https://doi.org/10.1111/j.1523-1739.2005.00204.x).**
+
 * Found the following (possibly) invalid DOIs:
     DOI: 10.1111/cobi.13851
       From: DESCRIPTION
