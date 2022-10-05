@@ -1,6 +1,13 @@
+# aoh 0.0.2.0
+
+- Initial stable release.
+- Add tests for `st_repair_geometry()`.
+- Add URLs to citations in README.
+- Update references in documentation.
+
 # aoh 0.0.1.6
 
-- Fix spelling and formatting mistakes in vignette.
+- Fix spelling and formatting mikes in vignette.
 - Update `st_repair_geometry()` to be more robust to geometry issues.
 
 # aoh 0.0.1.5
