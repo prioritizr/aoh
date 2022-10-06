@@ -3,7 +3,7 @@
 
 ## aoh: Create Area of Habitat Data
 
-[![lifecycle](https://img.shields.io/badge/Lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
 [![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/aoh/Windows/master.svg?label=Windows)](https://github.com/prioritizr/aoh/actions)
 [![R-CMD-check-macOS](https://img.shields.io/github/workflow/status/prioritizr/aoh/macOS/master.svg?label=macOS)](https://github.com/prioritizr/aoh/actions)
@@ -13,28 +13,36 @@ Status](https://codecov.io/github/prioritizr/aoh/coverage.svg?branch=master)](ht
 ### Overview
 
 Area of Habitat (AOH) maps aim to delineate the spatial distribution of
-suitable habitat for a species (Brooks *et al.* 2019). They are used to
+suitable habitat for a species ([Brooks *et al.*
+2019](https://doi.org/10.1016/j.tree.2019.06.009)). They are used to
 assess performance of protected area systems, measure impacts of threats
 to biodiversity, and identify priorities for conservation actions (e.g.,
-Rondinini *et al.* 2005; Tracewski *et al.* 2016; Durán *et al.* 2021).
-These maps are generally produced by obtaining geographic range data for
-a species, and then removing areas that do not contain suitable habitat
-or occur outside the known elevational limits for the species (Brooks
-*et al.* 2019). To help make these maps accessible, the *aoh R* package
-provides routines for automatically creating Area of Habitat data based
-on the [International Union for Conservation of Nature (IUCN) Red List
-of Threatened Species](https://www.iucnredlist.org/). After manually
-downloading species range data from the [IUCN Red
+[Rondinini *et al.*
+2005](https://doi.org/10.1111/j.1523-1739.2005.00204.x); [Tracewski *et
+al.* 2016](https://doi.org/10.1111/cobi.12715); [Durán *et al.*
+2021](https://doi.org/10.1111/2041-210X.13427)). These maps are
+generally produced by obtaining geographic range data for a species, and
+then removing areas that do not contain suitable habitat or occur
+outside the known elevational limits for the species ([Brooks *et al.*
+2019](https://doi.org/10.1016/j.tree.2019.06.009)). To help make these
+maps accessible, the *aoh R* package provides routines for automatically
+creating Area of Habitat data based on the [International Union for
+Conservation of Nature (IUCN) Red List of Threatened
+Species](https://www.iucnredlist.org/). After manually downloading
+species range data from the [IUCN Red
 List](https://www.iucnredlist.org/resources/spatial-data-download),
 users can import them (using `read_spp_range_data()`), prepare them and
 collate additional information for subsequent processing (using
 `create_spp_info_data()`), and then create Area of Habitat data (using
 `create_spp_aoh_data()`). Global elevation and habitat classification
-data (Amatulli *et al.* 2018; Jung *et al.* 2020; Lumbierres *et al.*
-2021) are automatically downloaded, and data on species’ habitat
-preferences and elevational limits are obtained automatically using the
-[IUCN Red List API](https://apiv3.iucnredlist.org/). Since accessing the
-IUCN Red List requires a token, users may need to [obtain a
+data ([Jung *et al.* 2020](https://doi.org/10.1038/s41597-020-00599-8);
+[Lumbierres *et al.* 2021](https://doi.org/10.1111/cobi.13851);
+[Robinson *et al.*
+2014](https://doi.org/10.1016/j.isprsjprs.2013.11.002)) are
+automatically downloaded, and data on species’ habitat preferences and
+elevational limits are obtained automatically using the [IUCN Red List
+API](https://apiv3.iucnredlist.org/). Since accessing the IUCN Red List
+requires a token, users may need to [obtain a
 token](https://apiv3.iucnredlist.org/) and update their *R*
 configuration to recognize the token (see installation instructions
 below for details).
@@ -94,7 +102,7 @@ install GDAL and GRASS is through [OSGeo4W](https://www.osgeo.org/).
 [Download the OSGeo4W installer](https://trac.osgeo.org/osgeo4w/),
 select the “Express Install” option, and then follow the prompts to
 complete the installation. After the installation process has finished,
-please restart your computer. If the `aoh::is_gdal_python_available()`
+please restart your computer. If the `aoh::is_gdal_calc_available()`
 function cannot find GDAL, you may also need to update the `PATH`
 environmental variable so that it contains the folder path for GDAL
 (default folder path is `C:\OSGeo4W\bin`),
@@ -238,11 +246,12 @@ spp_info_data <- create_spp_info_data(spp_range_data, cache_dir = cache_dir)
 ```
 
 We can now generate Area of Habitat data for the species. By default,
-these data will be generated using elevation data derived from Amatulli
-*et al.* (2018) and habitat data derived from Lumbierres *et al.*
-(2021). Similar to before, we also specify a folder to cache the
-downloaded datasets so that we won’t need to re-downloaded again during
-subsequent runs.
+these data will be generated using elevation data derived from [Robinson
+*et al.* (2014)](https://doi.org/10.1016/j.isprsjprs.2013.11.002) and
+habitat data derived from [Lumbierres *et al.*
+(2021)](https://doi.org/10.1111/cobi.13851). Similar to before, we also
+specify a folder to cache the downloaded datasets so that we won’t need
+to re-downloaded again during subsequent runs.
 
 ``` r
 # specify cache directory
@@ -354,7 +363,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
-      0.0.1.6. Available at https://github.com/prioritizr/aoh.
+      0.0.2.0. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

@@ -124,7 +124,8 @@ urlcheck:
 	R --slave -e "urlchecker::url_check()"
 
 examples:
-	R --slave -e "devtools::run_examples(run_dontrun = TRUE, run_donttest = TRUE);warnings()" > examples.log 2>&1
+	echo "\n===== EXAMPLES =====\n" > examples.log 2>&1
+	R --slave -e "devtools::run_examples(run_dontrun = TRUE, run_donttest = TRUE);warnings()" >> examples.log 2>&1
 	rm -f Rplots.pdf
 
 purl_vigns:

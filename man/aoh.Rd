@@ -21,8 +21,8 @@ users can import them (using \code{\link[=read_spp_range_data]{read_spp_range_da
 collate additional information for subsequent processing (using
 \code{\link[=create_spp_info_data]{create_spp_info_data()}}), and then create Area of Habitat data
 (using \code{\link[=create_spp_aoh_data]{create_spp_aoh_data()}}). Global elevation and habitat classification
-data (Amatulli \emph{et al.} 2018; Jung \emph{et al.} 2020a,b;
-Lumbierres *et al. 2021) are automatically downloaded, and data on species'
+data (Jung \emph{et al.} 2020a,b; Lumbierres *et al. 2021; Robinson \emph{et al.}
+2014) are automatically downloaded, and data on species'
 habitat preferences and elevational limits are obtained automatically using
 the \href{https://apiv3.iucnredlist.org/}{IUCN Red List API}.
 Since accessing the IUCN Red List API requires a token, users may need to
@@ -60,11 +60,6 @@ If these instructions did not work, please consult the documentation for the
 }
 
 \references{
-Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
-Jetz W (2018) A suite of global, cross-scale topographic variables for
-environmental and biodiversity modeling. \emph{Scientific Data}, 5, 180040.
-\doi{10.1038/sdata.2018.40}
-
 Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
@@ -86,6 +81,12 @@ Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 Rondinini C (2021) Translating habitat class to land cover to map area of
 habitat of terrestrial vertebrates. \emph{Conservation Biology}, 36, e13851.
 \doi{10.1111/cobi.13851}
+
+Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
+global, void-free, multi-scale smoothed, 90m digital elevation model from
+fused ASTER and SRTM data.
+\emph{ISPRS Journal of Photogrammetry and Remote Sensing}, 87:57--67.
+\doi{10.1016/j.isprsjprs.2013.11.002}
 
 Rondinini C, Stuart S, Boitani L (2005) Habitat suitability models and the
 shortfall in conservation planning for African vertebrates.

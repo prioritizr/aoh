@@ -17,8 +17,8 @@
 #' collate additional information for subsequent processing (using
 #' [create_spp_info_data()]), and then create Area of Habitat data
 #' (using [create_spp_aoh_data()]). Global elevation and habitat classification
-#' data (Amatulli *et al.* 2018; Jung *et al.* 2020a,b;
-#' Lumbierres *et al. 2021) are automatically downloaded, and data on species'
+#' data (Jung *et al.* 2020a,b; Lumbierres *et al. 2021; Robinson *et al.*
+#' 2014) are automatically downloaded, and data on species'
 #' habitat preferences and elevational limits are obtained automatically using
 #' the [IUCN Red List API](https://apiv3.iucnredlist.org/).
 #' Since accessing the IUCN Red List API requires a token, users may need to
@@ -56,11 +56,6 @@
 #' \pkg{rredlist} package for further details.
 #'
 #' @references
-#' Amatulli G, Domisch S, Tuanmu M-N, Parmentier B, Ranipeta A, Malczyk J, and
-#' Jetz W (2018) A suite of global, cross-scale topographic variables for
-#' environmental and biodiversity modeling. *Scientific Data*, 5, 180040.
-#' \doi{10.1038/sdata.2018.40}
-#'
 #' Brooks TM, Pimm SL, Akçakaya HR, Buchanan GM, Butchart SHM, Foden W,
 #' Hilton-Taylor C, Hoffmann M, Jenkins CN, Joppa L, Li BV, Menon V,
 #' Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
@@ -82,6 +77,12 @@
 #' Rondinini C (2021) Translating habitat class to land cover to map area of
 #' habitat of terrestrial vertebrates. *Conservation Biology*, 36, e13851.
 #' \doi{10.1111/cobi.13851}
+#'
+#' Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
+#' global, void-free, multi-scale smoothed, 90m digital elevation model from
+#' fused ASTER and SRTM data.
+#' *ISPRS Journal of Photogrammetry and Remote Sensing*, 87:57--67.
+#' \doi{10.1016/j.isprsjprs.2013.11.002}
 #'
 #' Rondinini C, Stuart S, Boitani L (2005) Habitat suitability models and the
 #' shortfall in conservation planning for African vertebrates.
