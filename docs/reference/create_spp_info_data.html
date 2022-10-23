@@ -391,12 +391,15 @@ are adjusted to correct for errors. These adjustments applied based on
 the following procedures:
 (i) if a species lacks lower or upper elevational limits,
 then limits of -500 m and 9,000 m are assumed (respectively);
-(ii) lower elevational limit values below -500 m are replaced with -500 m;
-(iii) upper elevational limit values above 9000 are is replaced with
+(ii) since the IUCN Red List assigns lower limit values of 0 m for many
+species that have parts of their distribution in areas below sea level,
+lower elevational limit values equal to 0 m are replaced with -500 m;
+(iii) lower elevational limit values below -500 m are replaced with -500 m;
+(iv) upper elevational limit values above 9000 are is replaced with
 9000 m;
-(iv) if a lower elevational limit is greater than an upper elevational
+(v) if a lower elevational limit is greater than an upper elevational
 limit, then limits of -500 m and 9000 m are assumed (respectively);
-(v) if a lower elevational limit is within 50 m of an
+(vi) if a lower elevational limit is within 50 m of an
 upper elevational limit, then limits are adjusted such that there is a
 50 m difference between them.
 Otherwise, if <code>FALSE</code>, then elevation limit values are not altered.</p></li>
@@ -479,22 +482,22 @@ Ocampo-Peñuela N, Rondinini C (2019) Measuring terrestrial Area of Habitat
 <span class="r-in"><span>  cache_dir <span class="op">=</span> <span class="va">cache_dir</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> initializing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[211ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> initializing <span style="color: #B2B2B2;">[403ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> cleaning species range data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[8.3s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> cleaning species range data <span style="color: #B2B2B2;">[8.8s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species summary data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[193ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species summary data <span style="color: #B2B2B2;">[377ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing species habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[170ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing species habitat data <span style="color: #B2B2B2;">[360ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> collating species data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[638ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> collating species data <span style="color: #B2B2B2;">[677ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> post-processing results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[39ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> post-processing results <span style="color: #B2B2B2;">[43ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> finished</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

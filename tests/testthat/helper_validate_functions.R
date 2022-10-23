@@ -159,6 +159,7 @@ validate_info_data <- function(x, spp_habitat_data, spp_summary_data) {
     curr_el <- curr_sum$elevation_lower
     curr_eu <- curr_sum$elevation_upper
     if (is.na(curr_el)) curr_el <- -500
+    if (isTRUE(curr_el == 0)) curr_el <- -500
     if (is.na(curr_eu)) curr_eu <- 9000
     if (curr_el > curr_eu) {
       curr_el <- -500

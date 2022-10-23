@@ -1,6 +1,6 @@
 context("create_spp_info_data()")
 
-test_that("simulated data", {
+test_that("simulated data (default arguments)", {
   # skip if needed
   skip_on_cran()
   # specify file path
@@ -21,6 +21,35 @@ test_that("simulated data", {
     spp_habitat_data = spp_habitat_data,
     spp_summary_data = spp_summary_data,
     verbose = TRUE
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, info_names)
+  validate_info_data(x, spp_habitat_data, spp_summary_data)
+})
+
+test_that("simulated data (crs = EPSG:4326)", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # load data
+  d <- read_spp_range_data(f)
+  # create objects
+  x <- create_spp_info_data(
+    x = d,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    crs = sf::st_crs(4326),
+    verbose = FALSE
   )
   # tests
   expect_is(x, "sf")

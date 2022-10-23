@@ -63,15 +63,24 @@ engine_spp_aoh_terra <- function(range_data,
   on.exit(terra::terraOptions(progress = 3, tempdir = tempdir()))
 
   # combine habitat and elevation data into a single object
-  raster_data <- terra::rast(list(habitat_data, elevation_data))
+  raster_data <- terra::rast(
+    list(
+      terra::crop(
+        x = habitat_data,
+        y = extent,
+        wopt = list(datatype = "INT2U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
+      ),
+      terra::crop(
+        x = elevation_data,
+        y = extent,
+        wopt = list(datatype = "INT2S", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
+      )
+    )
+  )
 
   # crop data to extent and convert to presence/absence of suitable habitat
   spp_habitat_data <- terra::lapp(
-    x = terra::crop(
-      x = raster_data,
-      y = extent,
-      wopt = list(datatype = "INT2U", gdal = c("COMPRESS=LZW", "BIGTIFF=YES"))
-    ),
+    raster_data,
     function(x, y) {
       1 * (
         ((x %in% habitat_values) &

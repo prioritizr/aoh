@@ -18,7 +18,10 @@ NULL
 #'   reference system. Defaults to World Behrmann (ESRI:54017).
 #'
 #' @param snap_tolerance `numeric` tolerance for snapping geometry to a grid
-#'   for resolving invalid geometries. Defaults to 1 meter.
+#'   for resolving invalid geometries. Defaults to `NULL` such that
+#'   the data are snapped to 0.00001 decimal degrees or 1 meter,
+#'   depending on whether the argument to `x` is in longitudes/latitudes format
+#'   (EPSG:4326) or not (respectively).
 #'
 #' @inheritParams create_spp_aoh_data
 #' @inheritParams st_repair_geometry
@@ -104,7 +107,7 @@ clean_spp_range_data <- function(x,
                                  keep_iucn_rl_origin = c(1, 2, 6),
                                  keep_iucn_rl_seasonal = c(1, 2, 3, 4),
                                  crs = sf::st_crs("ESRI:54017"),
-                                 snap_tolerance = 1,
+                                 snap_tolerance = NULL,
                                  geometry_precision = 1e5) {
   # assert arguments are valid
   ## initial checks
@@ -156,6 +159,14 @@ clean_spp_range_data <- function(x,
       "argument to \"keep_iucn_rl_seasonal\" does not contain integer codes"
     )
   )
+
+  # update snap_tolerance if default specified
+  if (is.null(snap_tolerance)) {
+    snap_tolerance <- ifelse(
+      isTRUE(sf::st_crs(x) == sf::st_crs(4326)),
+      1e-5, 1
+    )
+  }
 
   # step 1: format all column names
   ## re-order columns so that geometry is last
@@ -429,8 +440,11 @@ clean_spp_range_data <- function(x,
 
   # step 12: snap geometries to grid
   if (snap_tolerance > 0) {
+    x_crs <- sf::st_crs(x)
+    sf::st_crs(x) <- sf::st_crs(NA)
     x <- sf::st_set_precision(x, geometry_precision)
     x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
+    sf::st_crs(x) <- x_crs
   }
   invisible(gc())
 

@@ -1,3 +1,15 @@
+# aoh 0.0.2.1
+
+- Update `create_spp_info_data()` so that data cleaning procedures replace
+  0 m lower elevation limits with 500 m (#39). This is because the IUCN Red
+  List assigns lower limit values of 0 m for many species that have parts
+  of their distribution in areas below sea level.
+- Update `create_spp_info_data()` so that data can be processed using
+  EPSG:4326 coordinate reference system. Instead of throwing an error,
+  the function will now display an alert.
+- Fix bug in `create_spp_aoh_data()` with the `terra` engine that caused
+  negative elevations to be rounded to zero.
+
 # aoh 0.0.2.0
 
 - Initial stable release.
