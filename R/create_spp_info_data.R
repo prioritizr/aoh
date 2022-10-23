@@ -200,12 +200,15 @@ NULL
 #' the following procedures:
 #' (i) if a species lacks lower or upper elevational limits,
 #' then limits of -500 m and 9,000 m are assumed (respectively);
-#' (ii) lower elevational limit values below -500 m are replaced with -500 m;
-#' (iii) upper elevational limit values above 9000 are is replaced with
+#' (ii) since the IUCN Red List assigns lower limit values of 0 m for many
+#' species that have parts of their distribution in areas below sea level,
+#' lower elevational limit values equal to 0 m are replaced with -500 m;
+#' (iii) lower elevational limit values below -500 m are replaced with -500 m;
+#' (iv) upper elevational limit values above 9000 are is replaced with
 #' 9000 m;
-#' (iv) if a lower elevational limit is greater than an upper elevational
+#' (v) if a lower elevational limit is greater than an upper elevational
 #' limit, then limits of -500 m and 9000 m are assumed (respectively);
-#' (v) if a lower elevational limit is within 50 m of an
+#' (vi) if a lower elevational limit is within 50 m of an
 #' upper elevational limit, then limits are adjusted such that there is a
 #' 50 m difference between them.
 #' Otherwise, if `FALSE`, then elevation limit values are not altered.
@@ -365,10 +368,6 @@ create_spp_info_data <- function(x,
     assertthat::noNA(geometry_precision)
   )
   assertthat::assert_that(
-    !sf::st_is_longlat(crs),
-    msg = "argument to \"crs\" must not correspond to longitudes/latitudes"
-  )
-  assertthat::assert_that(
     crs != sf::st_crs(NA),
     msg = "argument to \"crs\" must be properly defined"
   )
@@ -379,6 +378,7 @@ create_spp_info_data <- function(x,
       "argument to \"x\" does not have a column named \"id_no\" or \"SISID\""
     )
   )
+
   # verify access to IUCN Red List API
   if (is.null(spp_summary_data) && is.null(spp_habitat_data)) {
     # nocov start
@@ -387,6 +387,17 @@ create_spp_info_data <- function(x,
       msg = "can't access the IUCN Red List API, see ?aoh"
     )
     # nocov end
+  }
+
+  # display alert if argument to crs is EPSG:4326
+  if (isTRUE(sf::st_is_longlat(crs))) {
+    cli::cli_alert_warning(
+      paste0(
+        "argument to \"crs\" corresponds to longitudes/latitudes",
+        "(EPSG:4326); it is generally recommended to use an",
+        "equal-area coordinate system to ensure correct calculations"
+      )
+    )
   }
 
   # clean species range data

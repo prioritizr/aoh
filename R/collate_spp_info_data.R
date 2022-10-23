@@ -138,6 +138,9 @@ collate_spp_info_data <- function(x,
       spp_summary_data$elevation_upper[idx2] <- 9000
       rm(l, u, idx2)
     }
+    ## replace 0 m values with -500 m values
+    idx <- which(spp_summary_data$elevation_lower == 0)
+    spp_summary_data$elevation_lower[idx] <- -500
     ## fix values that are outside limits
     idx <- which(
       is.finite(spp_summary_data$elevation_lower) &

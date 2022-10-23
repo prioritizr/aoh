@@ -262,12 +262,15 @@ are adjusted to correct for errors. These adjustments applied based on
 the following procedures:
 (i) if a species lacks lower or upper elevational limits,
 then limits of -500 m and 9,000 m are assumed (respectively);
-(ii) lower elevational limit values below -500 m are replaced with -500 m;
-(iii) upper elevational limit values above 9000 are is replaced with
+(ii) since the IUCN Red List assigns lower limit values of 0 m for many
+species that have parts of their distribution in areas below sea level,
+lower elevational limit values equal to 0 m are replaced with -500 m;
+(iii) lower elevational limit values below -500 m are replaced with -500 m;
+(iv) upper elevational limit values above 9000 are is replaced with
 9000 m;
-(iv) if a lower elevational limit is greater than an upper elevational
+(v) if a lower elevational limit is greater than an upper elevational
 limit, then limits of -500 m and 9000 m are assumed (respectively);
-(v) if a lower elevational limit is within 50 m of an
+(vi) if a lower elevational limit is within 50 m of an
 upper elevational limit, then limits are adjusted such that there is a
 50 m difference between them.
 Otherwise, if \code{FALSE}, then elevation limit values are not altered.
