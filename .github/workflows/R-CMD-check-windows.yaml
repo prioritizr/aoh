@@ -59,7 +59,7 @@ jobs:
             any::XML
             any::remotes
             prepr=?ignore
-            prepr=?rgrass
+            rgrass=?ignore
           needs: |
             check
 
