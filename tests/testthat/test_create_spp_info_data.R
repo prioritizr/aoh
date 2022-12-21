@@ -72,6 +72,7 @@ test_that("example data", {
   d <- read_spp_range_data(f)
   # create objects
   vcr::use_cassette("example-info", {
+    version <- rredlist::rl_version()
     x <- suppressWarnings(
       create_spp_info_data(
         x = d,
@@ -88,10 +89,10 @@ test_that("example data", {
   validate_info_data(
     x = x,
     spp_habitat_data = get_spp_habitat_data(
-      x$id_no, dir = cd, verbose = interactive()
+      x$id_no, dir = cd, version = version, verbose = interactive()
     ),
     spp_summary_data = get_spp_summary_data(
-      x$id_no, dir = cd, verbose = interactive()
+      x$id_no, dir = cd, version = version, verbose = interactive()
     )
   )
   unlink(cd, force = TRUE, recursive = TRUE)
