@@ -59,8 +59,9 @@ engine_spp_aoh_grass <- function(range_data,
   sf::write_sf(range_data[, "x", drop = FALSE], spp_path, overwrite = TRUE)
 
   # initialize region
-  rgrass7::execGRASS(
+  rgrass::execGRASS(
     "g.region",
+    Sys_show.output.on.console = FALSE,
     parameters = list(
       n = as.character(extent$ymax),
       s = as.character(extent$ymin),
@@ -72,9 +73,11 @@ engine_spp_aoh_grass <- function(range_data,
   )
 
   # import vector data
-  rgrass7::execGRASS(
+  rgrass::execGRASS(
     "v.import",
-    redirect = TRUE, legacyExec = TRUE,
+    redirect = TRUE,
+    legacyExec = TRUE,
+    Sys_show.output.on.console = FALSE,
     flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
     parameters = list(
       input = spp_path,
@@ -84,9 +87,11 @@ engine_spp_aoh_grass <- function(range_data,
   )
 
   # rasterize vector data
-  rgrass7::execGRASS(
+  rgrass::execGRASS(
     "v.to.rast",
-    redirect = TRUE, legacyExec = TRUE,
+    redirect = TRUE,
+    legacyExec = TRUE,
+    Sys_show.output.on.console = FALSE,
     flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
     parameters = list(
       input = "range",
@@ -99,9 +104,13 @@ engine_spp_aoh_grass <- function(range_data,
   )
 
   # set mask based on range data
-  rgrass7::execGRASS(
-    "r.mask", redirect = TRUE, legacyExec = TRUE,
-    flags = c("overwrite"), parameters = list(raster = "mask")
+  rgrass::execGRASS(
+    "r.mask",
+    redirect = TRUE,
+    legacyExec = TRUE,
+    Sys_show.output.on.console = FALSE,
+    flags = c("overwrite"),
+    parameters = list(raster = "mask")
   )
 
   # calculate Area of Habitat
@@ -122,17 +131,21 @@ engine_spp_aoh_grass <- function(range_data,
   calc_expr <- paste0("aoh = int(", calc_expr, ")")
 
   ## run processing
-  rgrass7::execGRASS(
+  rgrass::execGRASS(
     "r.mapcalc",
     flags = c("overwrite", ifelse(verbose, "verbose", "quiet")),
-    redirect = TRUE, legacyExec = TRUE,
+    redirect = TRUE,
+    legacyExec = TRUE,
+    Sys_show.output.on.console = FALSE,
     parameters = list(expression = calc_expr)
   )
 
   # save data
-  rgrass7::execGRASS(
+  rgrass::execGRASS(
     "r.out.gdal",
-    redirect = TRUE, legacyExec = TRUE,
+    redirect = TRUE,
+    legacyExec = TRUE,
+    Sys_show.output.on.console = FALSE,
     flags = c("overwrite", "c", ifelse(verbose, "verbose", "quiet")),
     parameters = list(
       input = "aoh",
@@ -148,10 +161,12 @@ engine_spp_aoh_grass <- function(range_data,
   )
 
   # remove mask
-  rgrass7::execGRASS(
+  rgrass::execGRASS(
     "g.remove",
-    redirect = TRUE, legacyExec = TRUE,
+    redirect = TRUE,
+    legacyExec = TRUE,
     flags = "f",
+    Sys_show.output.on.console = FALSE,
     parameters = list(
       type = "raster",
       name = "mask"

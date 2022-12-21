@@ -172,7 +172,7 @@ clean_spp_range_data <- function(x,
   ## re-order columns so that geometry is last
   ### N.B., this is needed to avoid sf internal errors related to agr
   ### when renaming columns or adding in new columns
-  x <- dplyr::select(x, -.data$geometry, dplyr::everything())
+  x <- dplyr::select(x, -"geometry", dplyr::everything())
 
   ## convert column names to lower case
   x <- dplyr::rename_all(x, tolower)
@@ -322,7 +322,7 @@ clean_spp_range_data <- function(x,
   # step 1e: re-order columns so that geometry is last
   ## N.B., this is needed to avoid sf internal errors related to agr
   ## when renaming columns or adding in new columns
-  x <- dplyr::select(x, -.data$geometry, dplyr::everything())
+  x <- dplyr::select(x, -"geometry", dplyr::everything())
 
   # validate data
   ## check column names
@@ -495,7 +495,7 @@ clean_spp_range_data <- function(x,
   # re-order columns so that geometry is last
   ## N.B., this is needed to avoid sf internal errors related to agr
   ## when renaming columns or adding in new columns
-  x <- dplyr::select(x, -.data$geometry, dplyr::everything())
+  x <- dplyr::select(x, -"geometry", dplyr::everything())
   invisible(gc())
 
   # return result

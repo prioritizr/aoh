@@ -177,9 +177,11 @@ process_spp_data_on_local <- function(x,
     )
 
     ## import habitat data
-    rgrass7::execGRASS(
+    rgrass::execGRASS(
       "r.external",
-      redirect = TRUE, legacyExec = TRUE,
+      redirect = TRUE,
+      legacyExec = TRUE,
+      Sys_show.output.on.console = FALSE,
       flags = c("o", "r"),
       parameters = list(
         input = h_grass_vrt_path,
@@ -188,9 +190,11 @@ process_spp_data_on_local <- function(x,
     )
 
     ## import elevation data
-    rgrass7::execGRASS(
+    rgrass::execGRASS(
       "r.external",
-      redirect = TRUE, legacyExec = TRUE,
+      redirect = TRUE,
+      legacyExec = TRUE,
+      Sys_show.output.on.console = FALSE,
       flags = c("o", "r"),
       parameters = list(
         input = e_grass_vrt_path,

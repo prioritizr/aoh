@@ -5,55 +5,51 @@ test_that("single taxon identifier", {
   skip_on_cran()
   skip_if_not_installed("vcr")
   # set parameters
+  data(iucn_threat_data)
   id_no <- c(18)
   # create objects
   vcr::use_cassette("threat-single", {
-    x1 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
+    x <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
   })
-  Sys.sleep(2)
-  x2 <- get_spp_threat_data(id_no, force = FALSE, verbose = interactive())
   # tests
-  expect_is(x1, "data.frame")
-  expect_is(x2, "data.frame")
-  expect_gte(nrow(x1), 1)
+  expect_is(x, "data.frame")
+  expect_gte(nrow(x), 1)
   expect_named(
-    x1,
+    x,
     c(
       "id_no", "code", "title", "timing", "scope", "severity",
       "score", "invasive"
     )
   )
-  expect_true(all(id_no %in% x1$id_no))
-  expect_identical(x1, x2)
+  expect_true(all(id_no %in% x$id_no))
+  expect_true(all(x$code %in% iucn_threat_data$code))
 })
 
 test_that("multiple taxon identifiers", {
   # skip if needed
   skip_on_cran()
   skip_if_not_installed("vcr")
-  # tests
+  # set parameters
+  data(iucn_threat_data)
   id_no <- c(18, 137, 138, 139)
   # create objects
   vcr::use_cassette("threat-multiple", {
-    x1 <- suppressMessages(
+    x <- suppressMessages(
       get_spp_threat_data(id_no, force = TRUE, verbose = TRUE)
     )
   })
-  Sys.sleep(2)
-  x2 <- get_spp_threat_data(id_no, force = FALSE, verbose = interactive())
   # tests
-  expect_is(x1, "data.frame")
-  expect_is(x2, "data.frame")
-  expect_gte(nrow(x1), 1)
+  expect_is(x, "data.frame")
+  expect_gte(nrow(x), 1)
   expect_named(
-    x1,
+    x,
     c(
       "id_no", "code", "title", "timing", "scope", "severity",
       "score", "invasive"
     )
   )
-  expect_true(all(id_no %in% x1$id_no))
-  expect_identical(x1, x2)
+  expect_true(all(id_no %in% x$id_no))
+  expect_true(all(x$code %in% iucn_threat_data$code))
 })
 
 test_that("some taxon missing summary data", {
@@ -61,6 +57,7 @@ test_that("some taxon missing summary data", {
   skip_on_cran()
   skip_if_not_installed("vcr")
   # set parameters
+  data(iucn_threat_data)
   id_no <- c(18, -100)
   # create objects
   vcr::use_cassette("threat-missing-x1", {
@@ -94,6 +91,7 @@ test_that("taxon with multiple records", {
   skip_on_cran()
   skip_if_not_installed("vcr")
   # set parameters
+  data(iucn_threat_data)
   id_no <- c(178652, 177906)
   # create objects
   vcr::use_cassette("threat-multiple-records", {
@@ -110,4 +108,5 @@ test_that("taxon with multiple records", {
     )
   )
   expect_true(all(id_no %in% x$id_no))
+  expect_true(all(x$code %in% iucn_threat_data$code))
 })

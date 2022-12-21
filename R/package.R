@@ -103,6 +103,7 @@ NULL
 #' @import sf
 #' @import terra
 #' @importFrom rlang .data
+#' @importFrom tidyselect any_of
 NULL
 
 # ensure package checks pass

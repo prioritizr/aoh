@@ -17,6 +17,16 @@ iucn_habitat_data <- readr::read_csv(
   )
 )
 
+iucn_threat_data <- readr::read_csv(
+  "data-raw/iucn-threat-data.csv",
+  show_col_types = FALSE,
+  progress = FALSE,
+  col_types = readr::cols(
+    code = readr::col_character(),
+    name = readr::col_character()
+  )
+)
+
 crosswalk_jung_lvl1_data <- readr::read_csv(
   "data-raw/crosswalk-jung-lvl1-data.csv",
   show_col_types = FALSE,
@@ -51,6 +61,7 @@ crosswalk_lumb_cgls_data <- readr::read_csv(
 
 # Exports
 usethis::use_data(iucn_habitat_data, overwrite = TRUE)
+usethis::use_data(iucn_threat_data, overwrite = TRUE)
 usethis::use_data(crosswalk_jung_lvl1_data, overwrite = TRUE)
 usethis::use_data(crosswalk_jung_lvl2_data, overwrite = TRUE)
 usethis::use_data(crosswalk_jung_plvl1_data, overwrite = TRUE)

@@ -376,7 +376,7 @@ simulate_spp_data <- function(n,
     freshwater = "false"
   )
   if ("id" %in% names(sim_range_data)) {
-    sim_range_data <- dplyr::select(sim_range_data, -.data$id)
+    sim_range_data <- dplyr::select(sim_range_data, -"id")
   }
 
   # assign IUCN categories
@@ -505,7 +505,7 @@ simulate_habitat_data <- function(x, habitat_data, crosswalk_data,
   ## unique combinations id_no and seasonal
   x_distinct <- sf::st_drop_geometry(x)
   x_distinct <- dplyr::distinct(
-    dplyr::select(x_distinct, .data$id_no, .data$seasonal)
+    dplyr::select(x_distinct, "id_no", "seasonal")
   )
   x_distinct <- x_distinct[x_distinct$seasonal <= 4, , drop = FALSE]
   x_distinct$seasonal_name <- convert_to_seasonal_name(x_distinct$seasonal)

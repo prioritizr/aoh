@@ -4,11 +4,12 @@
 ## aoh: Create Area of Habitat Data
 
 [![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/aoh/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
-[![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/aoh/Windows/master.svg?label=Windows)](https://github.com/prioritizr/aoh/actions)
-[![R-CMD-check-macOS](https://img.shields.io/github/workflow/status/prioritizr/aoh/macOS/master.svg?label=macOS)](https://github.com/prioritizr/aoh/actions)
+[![R-CMD-check-Ubuntu](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/R-CMD-check-ubuntu.yaml?branch=master&label=Ubuntu)](https://github.com/prioritizr/aoh/actions)
+[![R-CMD-check-Windows](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/R-CMD-check-windows.yaml?branch=master&label=Windows)](https://github.com/prioritizr/aoh/actions)
+[![R-CMD-check-macOS](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/R-CMD-check-macos.yaml?branch=master&label=macOS)](https://github.com/prioritizr/aoh/actions)
+[![Documentation](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/documentation.yaml?branch=master&label=Documentation)](https://github.com/prioritizr/aoh/actions)
 [![Coverage
-Status](https://codecov.io/github/prioritizr/aoh/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/aoh?branch=master)
+Status](https://img.shields.io/codecov/c/github/prioritizr/aoh?label=Coverage)](https://codecov.io/github/prioritizr/aoh?branch=master)
 
 ### Overview
 
@@ -345,12 +346,16 @@ map <-
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )
+```
 
+    ## |---------|---------|---------|---------|=========================================                                          
+
+``` r
 # display maps
 print(map)
 ```
 
-<img src="man/figures/README-map-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-map-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Citation
 
@@ -363,7 +368,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
-      0.0.2.1. Available at https://github.com/prioritizr/aoh.
+      0.0.2.2. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

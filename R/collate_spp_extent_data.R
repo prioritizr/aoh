@@ -70,7 +70,7 @@ collate_spp_extent_data <- function(x, template_data) {
   )
 
   # re-order columns
-  x <- dplyr::select(x, dplyr::everything(), -.data$geometry, .data$geometry)
+  x <- dplyr::select(x, dplyr::everything(), -"geometry", "geometry")
 
   # return result
   x
