@@ -113,7 +113,7 @@ collate_spp_info_data <- function(x,
   ## provides IUCN threat categories based on 2020 version of Red List)
   nms <- c("id_no", "category")
   x <- dplyr::left_join(
-    x = dplyr::select(x, -.data$category),
+    x = dplyr::select(x, -"category"),
     y = spp_summary_data[, nms, drop = FALSE],
     by = "id_no"
   )

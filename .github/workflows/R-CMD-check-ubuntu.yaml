@@ -66,6 +66,7 @@ jobs:
             cran/dotCall64
             prepr=?ignore
             link2GI=?ignore
+            rgrass=?ignore
             OpenMPController=?ignore
           needs: |
             check
@@ -79,6 +80,7 @@ jobs:
           install.packages("terra")
           install.packages("lwgeom")
           install.packages("link2GI")
+          install.packages("rgrass")
           remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 

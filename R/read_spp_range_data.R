@@ -146,7 +146,7 @@ read_spp_range_data <- function(path, n = NULL) {
       md[, c(setdiff(names(md), names(out)), id_col), drop = FALSE],
       by = id_col
     )
-    out <- dplyr::select(out, -.data$geometry, dplyr::everything())
+    out <- dplyr::select(out, -"geometry", dplyr::everything())
   } else {
     stop("argument to \"path\" does not contain spatial data")
   } # nocov end

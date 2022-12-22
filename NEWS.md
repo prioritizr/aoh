@@ -1,3 +1,13 @@
+# aoh 0.0.2.2
+
+- New `iucn_threat_data` built-in dataset denoting threat information
+  on the IUCN Red List Threat Classification.
+- Fix compatibility of tests with updates to IUCN Red List.
+- Fix compatibility with _tidyselect_ package (>= 1.2.0).
+- Fix badges in README.
+- The _rgrass_ package is now used for GRASS functionality (due to
+  upcoming deprecation of the _rgrass7_ package).
+
 # aoh 0.0.2.1
 
 - Update `create_spp_info_data()` so that data cleaning procedures replace
@@ -52,7 +62,7 @@
 
 # aoh 0.0.1.4
 
-- Update`st_repair_geometry()` to avoid uneeded geometry duplication.
+- Update`st_repair_geometry()` to avoid unneeded geometry duplication.
   This reduces memory requirements for`crate_spp_info_data()`.
 
 # aoh 0.0.1.3

@@ -33,10 +33,11 @@ reference:
     contents:
       - starts_with("crosswalk_")
 
-  - title: IUCN habitat classification codes
-    desc: Data and functions for querying habitat classification codes
+  - title: IUCN classifications
+    desc: Data and functions for querying classification codes
     contents:
       - iucn_habitat_data
+      - iucn_threat_data
       - starts_with("iucn_habitat_codes")
 
   - title: Simulating data

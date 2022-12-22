@@ -61,9 +61,9 @@ jobs:
             any::remotes
             prepr=?ignore
             link2GI=?ignore
+            rgrass=?ignore
           needs: |
             check
-            coverage
 
       - name: Install spatial R packages
         run: |

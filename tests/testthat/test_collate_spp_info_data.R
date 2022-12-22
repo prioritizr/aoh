@@ -187,7 +187,7 @@ test_that("elevation limits (adjust_elevational_limits = FALSE)", {
     tibble::tibble(id_no = x$id_no, elevation_lower = x$elevation_lower),
     tibble::tibble(id_no = x$id_no) %>%
       dplyr::left_join(
-        dplyr::select(d2_1, .data$id_no, .data$elevation_lower),
+        dplyr::select(d2_1, "id_no", "elevation_lower"),
         by = "id_no"
       )
   )
@@ -195,7 +195,7 @@ test_that("elevation limits (adjust_elevational_limits = FALSE)", {
     tibble::tibble(id_no = x$id_no, elevation_upper = x$elevation_upper),
     tibble::tibble(id_no = x$id_no) %>%
       dplyr::left_join(
-        dplyr::select(d2_1, .data$id_no, .data$elevation_upper),
+        dplyr::select(d2_1, "id_no", "elevation_upper"),
         by = "id_no"
       )
   )
