@@ -25,7 +25,8 @@ create_spp_data <- function(x,
                             n_threads = 1,
                             cache_limit = 1000,
                             engine = "terra",
-                            verbose = TRUE) {
+                            verbose = TRUE,
+                            habitat_source = NULL) {
 
   # initialization
   ## display message
@@ -145,13 +146,24 @@ create_spp_data <- function(x,
       cli::cli_progress_step("importing global habitat data")
     }
     ### processing
-    habitat_data <- get_lumb_cgls_habitat_data(
-      dir = cache_dir, version = habitat_version,
-      force = force, verbose = verbose
-    )
-    ### get crosswalk data if needed
-    if (is.null(crosswalk_data)) {
-      crosswalk_data <- crosswalk_lumb_cgls_data
+    if (identical(habitat_source, "jung")) {
+      habitat_data <- get_jung_lvl1_habitat_data(
+        dir = cache_dir, version = habitat_version,
+        force = force, verbose = verbose
+      )
+      ### get crosswalk data if needed
+      if (is.null(crosswalk_data)) {
+        crosswalk_data <- crosswalk_jung_lvl1_data
+      }
+    } else {
+      habitat_data <- get_lumb_cgls_habitat_data(
+        dir = cache_dir, version = habitat_version,
+        force = force, verbose = verbose
+      )
+      ### get crosswalk data if needed
+      if (is.null(crosswalk_data)) {
+        crosswalk_data <- crosswalk_lumb_cgls_data
+      }
     }
   } else {
     assertthat::assert_that(
