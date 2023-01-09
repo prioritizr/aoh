@@ -1,5 +1,6 @@
 #' @include internal.R clean_spp_range_data.R
 #' @include get_global_elevation_data.R get_lumb_cgls_habitat_data.R
+#' @include get_jung_lvl1_habitat_data.R
 #' @include get_spp_habitat_data.R get_spp_summary_data.R
 #' @include misc_terra.R misc_sf.R
 NULL
@@ -15,6 +16,7 @@ NULL
 #'
 #' @inheritParams create_spp_info_data
 #' @inheritParams get_lumb_cgls_habitat_data
+#' @inheritParams get_jung_lvl1_habitat_data
 #'
 #' @param x [sf::sf()] Spatial data delineating species' geographic ranges,
 #'   habitat preferences, and elevational limits. This object should
@@ -93,6 +95,13 @@ NULL
 #'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
+#'
+#' @param habitat_source `character` Value indicating the habitat source
+#'   to use for data processing
+#'   (e.g., by Jung *et al.* 2020a,b; Lumbierres *et al.* 2021).
+#'   Available options include `"jung1"`.
+#'   Defaults to `NULL` such that the habitat source is by 
+#'   Lumbierres *et al.* 2021 (i.e. [get_lumb_cgls_habitat_data()]).
 #'
 #' @section Engines:
 #' This function can use different software engines for data processing
@@ -278,7 +287,8 @@ create_spp_aoh_data <- function(x,
                                 n_threads = 1,
                                 cache_limit = 1000,
                                 engine = "terra",
-                                verbose = TRUE) {
+                                verbose = TRUE,
+                                habitat_source = NULL) {
   create_spp_data(
     x = x,
     res = NULL, ## N.B., this is to produce AOH data
@@ -293,6 +303,7 @@ create_spp_aoh_data <- function(x,
     n_threads = n_threads,
     cache_limit = cache_limit,
     engine = engine,
-    verbose = verbose
+    verbose = verbose,
+    habitat_source = habitat_source,
   )
 }

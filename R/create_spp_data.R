@@ -146,7 +146,7 @@ create_spp_data <- function(x,
       cli::cli_progress_step("importing global habitat data")
     }
     ### processing
-    if (identical(habitat_source, "jung")) {
+    if (identical(habitat_source, "jung1")) {
       habitat_data <- get_jung_lvl1_habitat_data(
         dir = cache_dir, version = habitat_version,
         force = force, verbose = verbose
