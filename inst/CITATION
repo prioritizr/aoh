@@ -17,9 +17,9 @@ citHeader(
   )
 )
 
-citEntry(
-  entry = "Manual",
-  author = personList(person(c("Jeffrey", "O"), "Hanson")),
+bibentry(
+  bibtype = "Manual",
+  author = person(c("Jeffrey", "O"), "Hanson"),
   title = "aoh: Create Area of Habitat Data",
   year = year,
   note = paste("R package version", meta$Version),
@@ -31,9 +31,9 @@ citEntry(
   )
 )
 
-citEntry(
-  entry = "Manual",
-  author = "IUCN",
+bibentry(
+  bibtype = "Manual",
+  author = person("IUCN"),
   title = "IUCN Red List of Threatened Species",
   year = "[insert year]",
   note = "Version [insert version]",
@@ -44,9 +44,9 @@ citEntry(
   )
 )
 
-citEntry(
-  entry = "Manual",
-  author = "BirdLife International and Handbook of the Birds of the World",
+bibentry(
+  bibtype = "Manual",
+  author = c(person("BirdLife International"), person("Handbook of the Birds of the World")),
   title = "Bird species distribution maps of the world",
   year = "[insert year]",
   note = "Version [insert version]",
@@ -59,9 +59,9 @@ citEntry(
   )
 )
 
-citEntry(
-  entry = "Article",
-  author = personList(
+bibentry(
+  bibtype = "Article",
+  author = c(
     person(c("Martin"), "Jung"),
     person(c("Prabhat", "Raj"), "Dahal"),
     person(c("Stuart", "H.", "M."), "Butchart"),
@@ -77,17 +77,13 @@ citEntry(
   journal = "Scientific Data",
   volume = "7",
   number = "1",
-  doi = "10.1038/s41597-020-00599-8",
-  textVersion = paste(
-   "Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V,",
-   "Rondinini C, and Visconti P (2020a) A global map of",
-   "terrestrial habitat types. Scientific Data, 7, 1--8."
-  )
+  pages = "256",
+  doi = "10.1038/s41597-020-00599-8"
 )
 
-citEntry(
-  entry = "Manual",
-  author = personList(
+bibentry(
+  bibtype = "Manual",
+  author = c(
     person(c("Martin"), "Jung"),
     person(c("Prabhat", "Raj"), "Dahal"),
     person(c("Stuart", "H.", "M."), "Butchart"),
@@ -110,9 +106,9 @@ citEntry(
   )
 )
 
-citEntry(
-  entry = "Manual",
-  author = personList(
+bibentry(
+  bibtype = "Article",
+  author = c(
     person(c("Maria"), "Lumbierres"),
     person(c("Prabhat", "Raj"), "Dahal"),
     person(c("Moreno"), "Di Marco"),
@@ -126,21 +122,15 @@ citEntry(
   ),
   year = "2021",
   journal = "Conservation Biology",
-  volume = "In press",
-  doi = "10.1111/cobi.13851",
-  textVersion = paste(
-    "Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and",
-    "Rondinini C (2021)",
-    "Translating habitat class to land cover to map area of",
-    "habitat of terrestrial vertebrates. Conservation Biology,",
-    "36, e13851.",
-    "Available at <https://doi.org/10.1111/cobi.13851>."
-  )
+  volume = "36",
+  number = "3",
+  pages = "e13851",
+  doi = "10.1111/cobi.13851"
 )
 
-citEntry(
-  entry = "Article",
-  author = personList(
+bibentry(
+  bibtype = "Article",
+  author = c(
     person(c("Natalie"), "Robinson"),
     person(c("James"), "Regetz"),
     person(c("Robert", "P"), "Guralnick")
@@ -152,11 +142,7 @@ citEntry(
   journal = "ISPRS Journal of Photogrammetry and Remote Sensing",
   year = "2014",
   volume = "87",
-  doi = "10.1016/j.isprsjprs.2013.11.002",
-  textVersion = paste(
-    "Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90:",
-    "A nearly-global, void-free, multi-scale smoothed, 90m digital",
-    "elevation model from fused ASTER and SRTM data.",
-    "ISPRS Journal of Photogrammetry and Remote Sensing, 87, 57--67."
-  )
+  number = "1",
+  pages = "57--67",
+  doi = "10.1016/j.isprsjprs.2013.11.002"
 )

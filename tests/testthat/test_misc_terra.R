@@ -78,6 +78,7 @@ test_that("terra_fasterize() (large dataset)", {
   d <- sf::st_wrap_dateline(d, options = c("WRAPDATELINE=YES"))
   d <- sf::st_make_valid(d)
   d <- sf::st_transform(d, sf::st_crs("ESRI:54017"))
+  d <- sf::st_make_valid(d)
   d <- sf::st_union(d)
   d <- sf::st_make_valid(d)
   d <- sf::st_as_sf(d, idx = 1)

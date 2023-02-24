@@ -1,3 +1,12 @@
+# aoh 0.0.2.3
+
+- Fix bug in `create_spp_aoh_data()` when using GRASS engine that caused the
+  function to throw an error because it failed to initialize a new GRASS
+  project correctly.
+- Update `get_spp_habitat_data()`, `get_spp_summary_data()`,
+  `get_spp_threat_data()`,  `get_spp_summary_data()` functions so that they
+  do not throw warnings related to the _dplyr_ package.
+
 # aoh 0.0.2.2
 
 - New `iucn_threat_data` built-in dataset denoting threat information

@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check-Windows](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/R-CMD-check-windows.yaml?branch=master&label=Windows)](https://github.com/prioritizr/aoh/actions)
 [![R-CMD-check-macOS](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/R-CMD-check-macos.yaml?branch=master&label=macOS)](https://github.com/prioritizr/aoh/actions)
 [![Documentation](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/documentation.yaml?branch=master&label=Documentation)](https://github.com/prioritizr/aoh/actions)
-[![Coverage Status](https://img.shields.io/codecov/c/github/prioritizr/aoh?label=Coverage)](https://codecov.io/github/prioritizr/aoh?branch=master)
+[![Coverage Status](https://img.shields.io/codecov/c/github/prioritizr/aoh?label=Coverage)](https://app.codecov.io/gh/prioritizr/aoh/branch/master)
 
 ```{r, include = FALSE}
 devtools::load_all()

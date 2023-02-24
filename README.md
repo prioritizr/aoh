@@ -9,7 +9,7 @@
 [![R-CMD-check-macOS](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/R-CMD-check-macos.yaml?branch=master&label=macOS)](https://github.com/prioritizr/aoh/actions)
 [![Documentation](https://img.shields.io/github/actions/workflow/status/prioritizr/aoh/documentation.yaml?branch=master&label=Documentation)](https://github.com/prioritizr/aoh/actions)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/prioritizr/aoh?label=Coverage)](https://codecov.io/github/prioritizr/aoh?branch=master)
+Status](https://img.shields.io/codecov/c/github/prioritizr/aoh?label=Coverage)](https://app.codecov.io/gh/prioritizr/aoh/branch/master)
 
 ### Overview
 
@@ -346,11 +346,7 @@ map <-
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )
-```
 
-    ## |---------|---------|---------|---------|=========================================                                          
-
-``` r
 # display maps
 print(map)
 ```
@@ -367,8 +363,8 @@ produce Area of Habitat data.
     Depending on which datasets are used, please cite the aoh package and
     relevant data using:
 
-      Hanson JO (2022) aoh: Create Area of Habitat Data. R package version
-      0.0.2.2. Available at https://github.com/prioritizr/aoh.
+      Hanson JO (2023) aoh: Create Area of Habitat Data. R package version
+      0.0.2.3. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.
@@ -379,23 +375,28 @@ produce Area of Habitat data.
       http://datazone.birdlife.org/species/requestdis.
 
       Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos
-      V, Rondinini C, and Visconti P (2020a) A global map of terrestrial
-      habitat types. Scientific Data, 7, 1--8.
+      V, Rondinini C, Visconti P (2020). "A global map of terrestrial
+      habitat types." _Scientific Data_, *7*(1), 256.
+      doi:10.1038/s41597-020-00599-8
+      <https://doi.org/10.1038/s41597-020-00599-8>.
 
       Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos
       V, Rondinini C, and Visconti P (2020b) A global map of terrestrial
       habitat types (insert version) [Data set]. Zenodo. Available at
       https://doi.org/10.5281/zenodo.4058819.
 
-      Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
-      Rondinini C (2021) Translating habitat class to land cover to map
-      area of habitat of terrestrial vertebrates. Conservation Biology, 36,
-      e13851. Available at <https://doi.org/10.1111/cobi.13851>.
+      Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF,
+      Rondinini C (2021). "Translating habitat class to land cover to map
+      area of habitat of terrestrial vertebrates." _Conservation Biology_,
+      *36*(3), e13851. doi:10.1111/cobi.13851
+      <https://doi.org/10.1111/cobi.13851>.
 
-      Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A
-      nearly-global, void-free, multi-scale smoothed, 90m digital elevation
-      model from fused ASTER and SRTM data. ISPRS Journal of Photogrammetry
-      and Remote Sensing, 87, 57--67.
+      Robinson N, Regetz J, Guralnick RP (2014). "EarthEnv-DEM90: A
+      nearly-global, void-free, multi-scale smoothed 90m digital elevation
+      model from fused ASTER and SRTM data." _ISPRS Journal of
+      Photogrammetry and Remote Sensing_, *87*(1), 57-67.
+      doi:10.1016/j.isprsjprs.2013.11.002
+      <https://doi.org/10.1016/j.isprsjprs.2013.11.002>.
 
     To see these entries in BibTeX format, use 'print(<citation>,
     bibtex=TRUE)', 'toBibtex(.)', or set

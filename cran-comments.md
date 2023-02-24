@@ -60,7 +60,7 @@ Jeff
       Status: Service Unavailable
       Message: 503
 
-  **I can confirm that this DOI is valid. It corresponds to Lumbierres et al. (2022).**
+  **I can confirm that this DOI is valid.**
 
 # Downstream dependencies
 

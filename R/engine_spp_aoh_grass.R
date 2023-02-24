@@ -6,8 +6,6 @@ NULL
 #' Generate Area of Habitat data for a single species' distribution using the
 #' GRASS software for processing.
 #'
-#' @param idx `integer` index corresponding to species for processing.
-#'
 #' @inheritParams engine_spp_aoh_terra
 #' @inheritParams create_spp_aoh_data
 #'
