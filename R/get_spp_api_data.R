@@ -222,7 +222,10 @@ get_spp_api_data <- function(x, api_function, data_prefix, data_template,
 
   # extract data following same order as x
   out <- dplyr::left_join(
-    tibble::tibble(id_no = x), iucn_rl_data, by = c("id_no")
+    tibble::tibble(id_no = x),
+    iucn_rl_data,
+    multiple = "all",
+    by = c("id_no")
   )
 
   # return result

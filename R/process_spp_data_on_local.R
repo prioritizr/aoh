@@ -108,15 +108,30 @@ process_spp_data_on_local <- function(x,
     data_dir <- normalize_path(tempfile(), mustWork = FALSE)
     dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
 
-    ## set up GRASS connection
-    link2GI::initProj(projRootDir = grass_dir, projFolders = "aoh/")
-    suppressWarnings(
-      link2GI::linkGRASS7(
-        x = x[1, "xmin", drop = FALSE],
-        gisdbase = grass_dir,
-        location = "aoh"
+    ## initialize GRASS
+    if (identical(.Platform$OS.type, "unix")) {
+      ### Unix setup
+      loc <- rgrass::initGRASS(
+        home = grass_dir,
+        SG = terra::rast(
+          nrows = 5, ncols = 5, nlyrs = 1, xmin = 0, xmax = 5,
+          ymin = 0, ymax = 5, crs = terra::crs(elevation_data), vals = 1
+        ),
+        gisDbase = data_dir,
+        override = TRUE
       )
-    )
+    } else {
+      ### Windows setup
+      link2GI::initProj(projRootDir = grass_dir, projFolders = "aoh/")
+      suppressWarnings(
+        link2GI::linkGRASS(
+          x = x[1, 1],
+          gisdbase = grass_dir,
+          location = "aoh",
+          quiet = FALSE
+        )
+      )
+    }
 
     ## force habitat to disk
     h_on_disk <- terra_on_disk(habitat_data)
