@@ -213,18 +213,17 @@ print(spp_range_data)
     ## Bounding box:  xmin: -9.479736 ymin: 36.59422 xmax: 3.302702 ymax: 43.76455
     ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 27
-    ##   id_no binomial   prese…¹ origin seaso…² compi…³ yrcom…⁴ citat…⁵ subsp…⁶ subpop
-    ##   <dbl> <chr>        <int>  <int>   <int> <chr>     <dbl> <chr>   <chr>   <chr> 
-    ## 1   979 Alytes di…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
-    ## 2 59448 Calotrito…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
-    ## 3  4657 Chiogloss…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
-    ## 4 58622 Rana iber…       1      1       1 Derive…      NA <NA>    <NA>    <NA>  
-    ## # … with 17 more variables: source <chr>, island <chr>, tax_comm <chr>,
-    ## #   dist_comm <chr>, generalisd <int>, legend <chr>, kingdom <chr>,
-    ## #   phylum <chr>, class <chr>, order_ <chr>, family <chr>, genus <chr>,
-    ## #   category <chr>, marine <chr>, terrestial <chr>, freshwater <chr>,
-    ## #   geometry <POLYGON [°]>, and abbreviated variable names ¹​presence,
-    ## #   ²​seasonal, ³​compiler, ⁴​yrcompiled, ⁵​citation, ⁶​subspecies
+    ##   id_no binomial           presence origin seasonal compiler yrcompiled citation
+    ##   <dbl> <chr>                 <int>  <int>    <int> <chr>         <dbl> <chr>   
+    ## 1   979 Alytes dickhilleni        1      1        1 Derived…         NA <NA>    
+    ## 2 59448 Calotriton asper          1      1        1 Derived…         NA <NA>    
+    ## 3  4657 Chioglossa lusita…        1      1        1 Derived…         NA <NA>    
+    ## 4 58622 Rana iberica              1      1        1 Derived…         NA <NA>    
+    ## # ℹ 19 more variables: subspecies <chr>, subpop <chr>, source <chr>,
+    ## #   island <chr>, tax_comm <chr>, dist_comm <chr>, generalisd <int>,
+    ## #   legend <chr>, kingdom <chr>, phylum <chr>, class <chr>, order_ <chr>,
+    ## #   family <chr>, genus <chr>, category <chr>, marine <chr>, terrestial <chr>,
+    ## #   freshwater <chr>, geometry <POLYGON [°]>
 
 Next, we will prepare all the range data for generating Area of Habitat
 data. This procedure – in addition to repairing any geometry issues in
@@ -364,7 +363,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2023) aoh: Create Area of Habitat Data. R package version
-      0.0.2.3. Available at https://github.com/prioritizr/aoh.
+      0.0.2.4. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

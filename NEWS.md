@@ -1,3 +1,8 @@
+# aoh 0.0.2.4
+
+- Update data cleaning procedures for `create_spp_info_data()` so that a
+  useful error message is provided if all species are excluded.
+
 # aoh 0.0.2.3
 
 - Fix bug in `create_spp_aoh_data()` when using GRASS engine that caused the

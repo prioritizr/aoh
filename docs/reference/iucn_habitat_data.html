@@ -21,7 +21,7 @@ This dataset provides details on the different IUCN habitat classes."><!-- mathj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.4</span>
       </span>
     </div>
 
@@ -123,20 +123,19 @@ corresponds to introduced vegetation.</p></dd>
 <span class="r-in"><span><span class="co"># print data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">iucn_habitat_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 126 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    code  name                            is_te…¹ is_ma…² is_ar…³ is_misc is_in…⁴</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 1     Forest                          TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 1.1   Forest - Boreal                 TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 1.2   Forest - Subarctic              TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 1.3   Forest - Subantarctic           TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 1.4   Forest - Temperate              TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 1.5   Forest - Subtropical/tropical … TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 1.6   Forest - Subtropical/tropical … TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1.7   Forest - Subtropical/tropical … TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.8   Forest - Subtropical/tropical … TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1.9   Forest - Subtropical/tropical … TRUE    FALSE   FALSE   FALSE   FALSE  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 116 more rows, and abbreviated variable names ¹​is_terrestrial,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​is_marine, ³​is_artificial, ⁴​is_introduced</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    code  name       is_terrestrial is_marine is_artificial is_misc is_introduced</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 1     Forest     TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 1.1   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 1.2   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 1.3   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 1.4   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 1.5   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 1.6   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1.7   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1.8   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1.9   Forest - … TRUE           FALSE     FALSE         FALSE   FALSE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 116 more rows</span></span>
 </code></pre></div>
     </div>
   </div>

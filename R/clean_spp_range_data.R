@@ -452,6 +452,15 @@ clean_spp_range_data <- function(x,
   x <- st_repair_geometry(x, geometry_precision)
   invisible(gc())
 
+  # check that there is at least one species remaining
+  assertthat::assert_that(
+    nrow(x) >= 1,
+    msg =  paste0(
+      "all species in argument to \"x\" have been excluded by data cleaning",
+      "procedures."
+    )
+  )
+
   # step 14: dissolve geometries by species, subspecies, seasonal
   ## create id
   if (is.character(x$seasonal)) {
