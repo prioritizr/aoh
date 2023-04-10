@@ -1,3 +1,7 @@
+# aoh 0.0.2.5
+
+- Fix compatibility with updates to `terra::compareGeom()`.
+
 # aoh 0.0.2.4
 
 - Update data cleaning procedures for `create_spp_info_data()` so that a

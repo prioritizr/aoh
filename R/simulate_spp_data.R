@@ -168,7 +168,7 @@ simulate_spp_data <- function(n,
   ## verify rasters match
   assertthat::assert_that(
     terra::compareGeom(
-      elevation_data, habitat_data, res = TRUE, stopiffalse = FALSE
+      elevation_data, habitat_data, res = TRUE, stopOnError = FALSE
     ),
     msg = paste(
       "arguments to \"elevation_data\" and \"habitat_data\" don't have the",

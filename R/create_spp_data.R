@@ -171,7 +171,7 @@ create_spp_data <- function(x,
   assertthat::assert_that(
     terra::compareGeom(
       elevation_data, habitat_data,
-      res = TRUE, stopiffalse = FALSE
+      res = TRUE, stopOnError = FALSE
     ),
     msg = paste(
       "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
