@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.5</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
             
-            <h4 data-toc-skip class="date">2023-03-30</h4>
+            <h4 data-toc-skip class="date">2023-04-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -104,7 +104,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://prioritizr.github.io/aoh/" class="external-link">aoh</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rappdirs.r-lib.org" class="external-link">rappdirs</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <p>Now we will import range data for the species. Although users would typically obtain range data from the <a href="https://www.iucnredlist.org/" class="external-link">International Union for Conservation of Nature (IUCN) Red List of Threatened Species</a>, here we will use built-in species range data that distributed with the package for convenience. <strong>Please note that these data were not obtained from the IUCN Red List, and were manually generated using occurrence records from the <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a>.</strong></p>
@@ -199,10 +199,10 @@
 <span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">##   id_no binomial              seasonal path                             geometry</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpU69UY… ((-105506.8 4465112, -10…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpU69UY… ((-238681 5029057, -2377…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpU69UY… ((-859201.6 4559278, -85…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpU69UY… ((-849801.9 4614149, -84…</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/Rtmp7jXko… ((-105506.8 4465112, -10…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/Rtmp7jXko… ((-238681 5029057, -2377…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/Rtmp7jXko… ((-859201.6 4559278, -85…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/Rtmp7jXko… ((-849801.9 4614149, -84…</span></span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import the Area of Habitat data</span></span>
@@ -261,15 +261,15 @@
 <span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 |---------|---------|---------|---------|
-=====
+=======
                                           
 
 |---------|---------|---------|---------|
-=====
+=======
                                           
 
 |---------|---------|---------|---------|
-=====
+=======
                                           
 
 |---------|---------|---------|---------|
@@ -288,10 +288,10 @@
 <span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
 <span><span class="co">## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## coord. ref. : World_Behrmann </span></span>
-<span><span class="co">## sources     : spat_ubJ34k1P2TdemEO_94845.tif  </span></span>
-<span><span class="co">##               spat_2bBPK2uCBgOiK82_94845.tif  </span></span>
-<span><span class="co">##               spat_YUwN4Vuqr1ZZ7Hm_94845.tif  </span></span>
-<span><span class="co">##               spat_XEE5osLTxdWj3o3_94845.tif  </span></span>
+<span><span class="co">## sources     : spat_Wyv7sDZGGCKPbD6_98750.tif  </span></span>
+<span><span class="co">##               spat_wDVBw30iAXBEHP6_98750.tif  </span></span>
+<span><span class="co">##               spat_hpaDOy8QnuwlrDq_98750.tif  </span></span>
+<span><span class="co">##               spat_l10lqGauHVE5aBV_98750.tif  </span></span>
 <span><span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span></span>
 <span><span class="co">## min values  :         0,           0,          0,           0 </span></span>
 <span><span class="co">## max values  :         1,           1,          1,           1</span></span></code></pre>
