@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.6</span>
       </span>
     </div>
 
@@ -60,6 +60,13 @@
       <small>Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.2.6" id="aoh-0026">aoh 0.0.2.6<a class="anchor" aria-label="anchor" href="#aoh-0026"></a></h2>
+<ul><li>Update <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> and <code><a href="../reference/create_spp_frc_data.html">create_spp_frc_data()</a></code> to have a new <code>rasterize_touches</code> parameter (<a href="https://github.com/prioritizr/aoh/issues/48" class="external-link">#48</a>). This parameter can be toggled so that when rasterizing species’ range data, raster cells that partially overlap with any part of the species’ range are treated as covered by the species’ range. This functionality may be especially useful for species with very small geographic ranges.</li>
+<li>Fix bug in <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> and <code><a href="../reference/create_spp_frc_data.html">create_spp_frc_data()</a></code> that causes Python errors when using the GDAL engine and a <code>habitat_data</code> or <code>elevation_data</code> raster that is stored only in memory (and not associated with any file on disk).</li>
+<li>Fix bug in <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> and <code><a href="../reference/create_spp_frc_data.html">create_spp_frc_data()</a></code> that causes the GRASS engine to throws errors.</li>
+<li>Update package dependency versions.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.2.5" id="aoh-0025">aoh 0.0.2.5<a class="anchor" aria-label="anchor" href="#aoh-0025"></a></h2>
 <ul><li>Fix compatibility with updates to <code><a href="https://rdrr.io/pkg/terra/man/compareGeom.html" class="external-link">terra::compareGeom()</a></code>.</li></ul></div>

@@ -25,6 +25,7 @@ create_spp_data <- function(x,
                             n_threads = 1,
                             cache_limit = 1000,
                             engine = "terra",
+                            rasterize_touches = FALSE,
                             verbose = TRUE) {
 
   # initialization
@@ -77,9 +78,20 @@ create_spp_data <- function(x,
     assertthat::is.string(engine),
     assertthat::noNA(engine),
     engine %in% c("terra", "gdal", "grass"),
+    assertthat::is.flag(rasterize_touches),
+    assertthat::noNA(rasterize_touches),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
+  if (isTRUE(rasterize_touches)) {
+    assertthat::assert_that(
+      !identical(engine, "grass"),
+      msg = paste0(
+        "argument to \"rasterize_touches\" is TRUE, and so",
+        "argument to \"engine\" cannot be \"grass\""
+      )
+    )
+  }
   if (!is.null(res)) {
     assertthat::assert_that(
       assertthat::is.count(res),
@@ -110,6 +122,15 @@ create_spp_data <- function(x,
     assertthat::assert_that(
       is_grass_available(),
       msg = "can't use GRASS for processing because it's not available."
+    )
+  }
+  if (identical(engine, "grass")) {
+    assertthat::assert_that(
+      requireNamespace("sp", quietly = TRUE),
+      msg = paste(
+        "the \"sp\" package needs to be installed, use",
+        "install.packages(\"sp\")"
+      )
     )
   }
   if (identical(engine, "grass")) {
@@ -347,6 +368,7 @@ create_spp_data <- function(x,
     frc_template_data = frc_template,
     n_threads = n_threads,
     cache_limit = cache_limit,
+    rasterize_touches = rasterize_touches,
     verbose = verbose
   )
 

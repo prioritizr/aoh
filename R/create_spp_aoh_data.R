@@ -91,6 +91,22 @@ NULL
 #'   (see below for details).
 #'   Defaults to `"terra"`.
 #'
+#' @param rasterize_touches `logical` How should `x` (the species' range data)
+#'   be rasterized when overlapped with the elevation and habitat raster data?
+#'   If `rasterize_touches = FALSE`, the species' range data are treated as
+#'   overlapping with a raster cell, if the range data overlap with the
+#'   centroid of the raster cell.
+#'   If `rasterize_touches = TRUE`, then the species' range data are treated as
+#'   overlapping with a raster cell, if the range data overlap with any
+#'   part of the raster cell.
+#'   Since some species' ranges might be too small to overlap
+#'   with the centroid of any raster cells (meaning that the output
+#'   Area of Habitat map does not contain any suitable habitat for the species),
+#'   it may be preferable to use `rasterize_touches = TRUE`.
+#'   Note that `rasterize_touches = TRUE` is not compatible with the GRASS
+#'   engine.
+#'   Defaults to `FALSE` (following Lumbierres *et al.* 2022).
+#'
 #' @param verbose `logical` Should progress be displayed while processing data?
 #'  Defaults to `TRUE`.
 #'
@@ -206,6 +222,10 @@ NULL
 #' habitat of terrestrial vertebrates. *Conservation Biology*, 36, e13851.
 #' \doi{10.1111/cobi.13851}
 #'
+#' Lumbierres M, Dahal PR, Soria CD, Di Marco M, Butchart SHM, Donald PF, and
+#' Rondinini C (2022) Area of Habitat maps for the world’s terrestrial birds
+#' and mammals. *Scientific Data*, 9, 749.
+#'
 #' Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
 #' global, void-free, multi-scale smoothed, 90m digital elevation model from
 #' fused ASTER and SRTM data.
@@ -278,6 +298,7 @@ create_spp_aoh_data <- function(x,
                                 n_threads = 1,
                                 cache_limit = 1000,
                                 engine = "terra",
+                                rasterize_touches = FALSE,
                                 verbose = TRUE) {
   create_spp_data(
     x = x,
@@ -293,6 +314,7 @@ create_spp_aoh_data <- function(x,
     n_threads = n_threads,
     cache_limit = cache_limit,
     engine = engine,
+    rasterize_touches = rasterize_touches,
     verbose = verbose
   )
 }

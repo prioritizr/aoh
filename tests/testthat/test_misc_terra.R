@@ -71,8 +71,7 @@ test_that("terra_fasterize() (large dataset)", {
   skip_if_not_installed("rgdal")
   skip_if_not_installed("rnaturalearth")
   # load data
-  d <- rnaturalearth::ne_countries(type = "countries")
-  d <- sf::st_as_sf(d)
+  d <- rnaturalearth::ne_countries(type = "countries", returnclass = "sf")
   d <- d[d$region_wb %in% c("Sub-Saharan Africa", "North America"), ]
   d <- sf::st_make_valid(d)
   d <- sf::st_wrap_dateline(d, options = c("WRAPDATELINE=YES"))
@@ -95,4 +94,33 @@ test_that("terra_fasterize() (large dataset)", {
   names(x) <- names(y)
   # compare results
   expect_true(terra::global(abs(x - y), "max", na.rm = TRUE) <= 1e-5)
+})
+
+test_that("terra_fasterize() (touches)", {
+  # create data
+  sf <- sf::st_sf(
+    tibble::tibble(geom = sf::st_sfc(sf::st_point(c(0, 0)), crs = 3857))
+  )
+  sf <- sf::st_buffer(sf, 10)
+  x <- terra::rast(matrix(c(1, 2)))
+  terra::ext(x) <- c(xmin = -200, xmax = 200, ymin = -300, ymax = 800)
+  terra::crs(x) <- terra::crs(sf)
+  # create object
+  z1 <- terra_fasterize(sf, x, touches = TRUE)
+  z2 <- terra::deepcopy(x)
+  terra::values(z2) <- c(NA, 1)
+  z3 <- terra_fasterize(sf, x, touches = FALSE)
+  z4 <- terra::deepcopy(x)
+  terra::values(z4) <- c(NA, NA)
+  # tests
+  expect_is(z1, "SpatRaster")
+  expect_is(z2, "SpatRaster")
+  expect_is(z3, "SpatRaster")
+  expect_is(z4, "SpatRaster")
+  expect_true(terra::compareGeom(z1, z2, stopOnError = FALSE, res = TRUE))
+  expect_equal(as.list(terra::ext(z1)), as.list(terra::ext(z2)))
+  expect_equivalent(terra::values(z1), terra::values(z2), tolerance = 1e-5)
+  expect_true(terra::compareGeom(z3, z4, stopOnError = FALSE, res = TRUE))
+  expect_equal(as.list(terra::ext(z3)), as.list(terra::ext(z4)))
+  expect_equivalent(terra::values(z3), terra::values(z4), tolerance = 1e-5)
 })

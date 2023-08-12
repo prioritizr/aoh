@@ -11,6 +11,7 @@ terra_gdal_rasterize(
   init = 0,
   invert = FALSE,
   update = FALSE,
+  touches = FALSE,
   n_threads = 1,
   filename = tempfile(fileext = ".tif"),
   sf_filename = tempfile(fileext = ".gpkg"),
@@ -46,6 +47,11 @@ If \code{FALSE} then the argument to \code{x} is only used to specify the
 spatial properties of the resulting raster
 (i.e., values have on the result),
 Defaults to \code{FALSE}.}
+
+\item{touches}{\code{logical} Should cells of \code{x} that are overlap with any
+part of \code{sf} be treated as covered by \code{sf}?
+Defaults to \code{FALSE}, such that only cells that have their centroid
+covered by \code{sf} are treated as covered.}
 
 \item{n_threads}{\code{integer} Number of computational threads to use
 for data processing.

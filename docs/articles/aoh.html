@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.6</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
             
-            <h4 data-toc-skip class="date">2023-04-10</h4>
+            <h4 data-toc-skip class="date">2023-08-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -199,10 +199,10 @@
 <span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">##   id_no binomial              seasonal path                             geometry</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/Rtmp7jXko… ((-105506.8 4465112, -10…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/Rtmp7jXko… ((-238681 5029057, -2377…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/Rtmp7jXko… ((-859201.6 4559278, -85…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/Rtmp7jXko… ((-849801.9 4614149, -84…</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/Rtmpyjm7g… ((-105506.8 4465112, -10…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/Rtmpyjm7g… ((-238681 5029057, -2377…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/Rtmpyjm7g… ((-859201.6 4559278, -85…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/Rtmpyjm7g… ((-849801.9 4614149, -84…</span></span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import the Area of Habitat data</span></span>
@@ -261,15 +261,15 @@
 <span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 |---------|---------|---------|---------|
-=======
+==========
                                           
 
 |---------|---------|---------|---------|
-=======
+==========
                                           
 
 |---------|---------|---------|---------|
-=======
+==========
                                           
 
 |---------|---------|---------|---------|
@@ -288,10 +288,10 @@
 <span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
 <span><span class="co">## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## coord. ref. : World_Behrmann </span></span>
-<span><span class="co">## sources     : spat_Wyv7sDZGGCKPbD6_98750.tif  </span></span>
-<span><span class="co">##               spat_wDVBw30iAXBEHP6_98750.tif  </span></span>
-<span><span class="co">##               spat_hpaDOy8QnuwlrDq_98750.tif  </span></span>
-<span><span class="co">##               spat_l10lqGauHVE5aBV_98750.tif  </span></span>
+<span><span class="co">## sources     : spat_9Mc51lz4Yq0e9cJ_34599.tif  </span></span>
+<span><span class="co">##               spat_SWzjDaCcXdDnbZw_34599.tif  </span></span>
+<span><span class="co">##               spat_COfxEkDveZ0oOyH_34599.tif  </span></span>
+<span><span class="co">##               spat_zTzYlYiQ0z4h9VA_34599.tif  </span></span>
 <span><span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span></span>
 <span><span class="co">## min values  :         0,           0,          0,           0 </span></span>
 <span><span class="co">## max values  :         1,           1,          1,           1</span></span></code></pre>
@@ -311,6 +311,10 @@
 <span>    strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <pre><code>## 
+|---------|---------|---------|---------|
+=========================================
+                                          
+
 |---------|---------|---------|---------|
 =========================================
                                           </code></pre>
@@ -357,7 +361,7 @@
 </li>
 <li>
 <p><strong>Can I use species range data from other data sources (instead of the IUCN Red List)?</strong></p>
-<p>Yes, you can use species range data from a variety of sources. For example, species range data could be obtained from governmental (e.g., data for federally listed species in Canada are available through the <a href="https://open.canada.ca/en/open-data" class="external-link">Government of Canada data portal</a>) and non-governmental organizations (e.g., <a href="https://biendata.org/" class="external-link">Botanical Information and Ecology Network</a> and <a href="https://mol.org/" class="external-link">Map of Life</a>). These data can also be produced using observation records <span class="citation">(e.g., following Palacio <em>et al.</em> 2021)</span> from data repositories (e.g., <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>). After obtaining species range data, they will need to be formatted so that they follow the data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details on what values these columns should contain, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code> and the <a href="https://www.iucnredlist.org/resources/mappingstandards" class="external-link">IUCN Red List documentation</a>. Additionally, note that if you wish to use the IUCN Red List for specifying habitat preference data, please ensure that the <code>id_no</code> specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (<em>Calotriton asper</em>). To ensure that correct habitat preference data were obtained for this species from the the IUCN Red List, the <code>id_no</code> value specified for this species was specified as <code>59448</code>.</p>
+<p>Yes, you can use species range data from a variety of sources. For example, species range data could be obtained from governmental (e.g., data for federally listed species in Canada are available through the <a href="http://open.canada.ca/en/using-open-data" class="external-link">Government of Canada data portal</a>) and non-governmental organizations (e.g., <a href="https://biendata.org/" class="external-link">Botanical Information and Ecology Network</a> and <a href="https://mol.org/" class="external-link">Map of Life</a>). These data can also be produced using observation records <span class="citation">(e.g., following Palacio <em>et al.</em> 2021)</span> from data repositories (e.g., <a href="https://www.gbif.org/" class="external-link">Global Biodiversity Information Facility</a> and <a href="https://www.ala.org.au/" class="external-link">Atlas of Living Australia</a>). After obtaining species range data, they will need to be formatted so that they follow the data format conventions used by the IUCN Red List. This means that the species range data must contain the following columns: <code>id_no</code>, <code>presence</code>, <code>origin</code>, <code>seasonal</code>, <code>terrestrial</code> (or <code>terrestial</code>), <code>freshwater</code>, and <code>marine</code>. For further details on what values these columns should contain, please see the <strong>Species range data format</strong> section in the documentation for <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code> and the <a href="https://www.iucnredlist.org/resources/mappingstandards" class="external-link">IUCN Red List documentation</a>. Additionally, note that if you wish to use the IUCN Red List for specifying habitat preference data, please ensure that the <code>id_no</code> specified for each species follows the taxon identifiers used by the IUCN Red List. For example, the tutorial used manually generated species range data for the Pyrenean brook salamander (<em>Calotriton asper</em>). To ensure that correct habitat preference data were obtained for this species from the the IUCN Red List, the <code>id_no</code> value specified for this species was specified as <code>59448</code>.</p>
 </li>
 <li>
 <p><strong>Can I use species elevational limit data from other sources?</strong></p>
@@ -365,7 +369,7 @@
 </li>
 <li>
 <p><strong>Can I use elevation data from other data sources?</strong></p>
-<p>Yes, you can use elevation data from a variety of sources. For example, elevation data could be derived from <a href="https://cgiarcsi.community/data/srtm-90m-digital-elevation-database-v4-1/" class="external-link">NASA’s Shuttle Radar Topography Mission (SRTM)</a>. After preparing the elevation data, they can be used to create Area of Habitat data (via <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p>
+<p>Yes, you can use elevation data from a variety of sources. For example, elevation data could be derived from <a href="https://csidotinfo.wordpress.com/data/srtm-90m-digital-elevation-database-v4-1/" class="external-link">NASA’s Shuttle Radar Topography Mission (SRTM)</a>. After preparing the elevation data, they can be used to create Area of Habitat data (via <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p>
 </li>
 <li>
 <p><strong>Can I use habitat classification data from other data sources?</strong></p>

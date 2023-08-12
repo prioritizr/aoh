@@ -176,6 +176,7 @@ test_that("simulated data (GRASS engine)", {
   skip_on_cran()
   skip_on_os("windows")
   skip_if_not_installed("rgdal")
+  skip_if_not_installed("sp")
   skip_if_not_installed("gdalUtilities")
   skip_if_not_installed("rgrass")
   skip_if_grass_not_available()
@@ -444,6 +445,214 @@ test_that("some species missing habitat data", {
   # clean up
   unlink(output_dir1, recursive = TRUE)
   unlink(output_dir2, recursive = TRUE)
+})
+
+test_that("small range data (rasterize_touches, engine = terra)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("rgdal")
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # create objects with rasterize_touches = FALSE
+  td1 <- tempfile()
+  td2 <- tempfile()
+  dir.create(td1, showWarnings = FALSE)
+  dir.create(td2, showWarnings = FALSE)
+  # create fake species with tiny range
+  spp_range <- read_spp_range_data(f)[1, ]
+  spp_range <- sf::st_transform(spp_range, 3857)
+  spp_range <- sf::st_set_geometry(
+    spp_range,
+    sf::st_buffer(sf::st_centroid(sf::st_geometry(spp_range)), 1)
+  )
+  # update habitat data to contain suitable habitat across all cells
+  spp_suitable_codes <-
+    spp_habitat_data$code[spp_habitat_data$id_no == spp_range$id_no[[1]]][[1]]
+  spp_suitable_value <-
+    crosswalk_jung_lvl2_data$value[
+      crosswalk_jung_lvl2_data$code == spp_suitable_codes
+    ][[1]]
+  terra::values(habitat_data) <-
+    rep(spp_suitable_value, terra::ncell(habitat_data))
+  # update elevation data to contain suitable habitat across all cells
+  idx <- which(spp_summary_data$id_no == spp_range$id_no)[[1]]
+  spp_suitable_elevation <- mean(
+    c(
+      spp_summary_data$elevation_upper[idx],
+      spp_summary_data$elevation_lower[idx]
+    )
+  )
+  terra::values(elevation_data) <-
+    rep(spp_suitable_elevation, terra::ncell(elevation_data))
+  # load data
+  d <- create_spp_info_data(
+    x = spp_range,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = interactive()
+  )
+  # create objects with rasterize_touches = FALSE
+  x1 <- create_spp_aoh_data(
+    x = d,
+    output_dir = td1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
+    rasterize_touches = FALSE,
+    engine = "terra",
+    verbose = TRUE
+  )
+  # create objects with rasterize_touches = TRUE, via terra
+  x2 <- create_spp_aoh_data(
+    x = d,
+    output_dir = td2,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
+    rasterize_touches = TRUE,
+    engine = "terra",
+    verbose = TRUE
+  )
+  # tests
+  ## verify that x1 only contains NA values, since the species range
+  ## does not overlap with any cell centroids
+  expect_equal(
+    terra::global(terra::rast(x1$path), "notNA", na.rm = TRUE)[[1]],
+    0
+  )
+  ## verify that x2 only has 1 non-NA value, since the species range
+  ## does not overlap with any cell centroids
+  expect_equal(
+    terra::global(terra::rast(x2$path), "notNA", na.rm = TRUE)[[1]],
+    1
+  )
+  ## verify that x2 has a single cell that is not NA
+  expect_equal(
+    c(na.omit(terra::values(terra::rast(x2$path)))),
+    1
+  )
+  # clean up
+  unlink(x1$path[!is.na(x1$path)])
+  unlink(x2$path[!is.na(x2$path)])
+})
+
+test_that("small range data (rasterize_touches, engine = gdal)", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("rgdal")
+  skip_if_not_installed("gdalUtilities")
+  skip_if_gdal_calc_not_available()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # create objects with rasterize_touches = FALSE
+  td1 <- tempfile()
+  td2 <- tempfile()
+  dir.create(td1, showWarnings = FALSE)
+  dir.create(td2, showWarnings = FALSE)
+  # create fake species with tiny range
+  spp_range <- read_spp_range_data(f)[1, ]
+  spp_range <- sf::st_transform(spp_range, 3857)
+  spp_range <- sf::st_set_geometry(
+    spp_range,
+    sf::st_buffer(sf::st_centroid(sf::st_geometry(spp_range)), 1)
+  )
+  # update habitat data to contain suitable habitat across all cells
+  spp_suitable_codes <-
+    spp_habitat_data$code[spp_habitat_data$id_no == spp_range$id_no[[1]]][[1]]
+  spp_suitable_value <-
+    crosswalk_jung_lvl2_data$value[
+      crosswalk_jung_lvl2_data$code == spp_suitable_codes
+    ][[1]]
+  terra::values(habitat_data) <-
+    rep(spp_suitable_value, terra::ncell(habitat_data))
+  # update elevation data to contain suitable habitat across all cells
+  idx <- which(spp_summary_data$id_no == spp_range$id_no)[[1]]
+  spp_suitable_elevation <- mean(
+    c(
+      spp_summary_data$elevation_upper[idx],
+      spp_summary_data$elevation_lower[idx]
+    )
+  )
+  terra::values(elevation_data) <-
+    rep(spp_suitable_elevation, terra::ncell(elevation_data))
+  # load data
+  d <- create_spp_info_data(
+    x = spp_range,
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = interactive()
+  )
+  # create objects with rasterize_touches = FALSE
+  x1 <- create_spp_aoh_data(
+    x = d,
+    output_dir = td1,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
+    rasterize_touches = FALSE,
+    engine = "gdal",
+    verbose = TRUE
+  )
+  # create objects with rasterize_touches = TRUE, via terra
+  x2 <- create_spp_aoh_data(
+    x = d,
+    output_dir = td2,
+    habitat_data = habitat_data,
+    elevation_data = elevation_data,
+    crosswalk_data = crosswalk_jung_lvl2_data,
+    rasterize_touches = TRUE,
+    engine = "gdal",
+    verbose = TRUE
+  )
+  # tests
+  ## verify that x1 only contains NA values, since the species range
+  ## does not overlap with any cell centroids
+  expect_equal(
+    terra::global(terra::rast(x1$path), "notNA", na.rm = TRUE)[[1]],
+    0
+  )
+  ## verify that x2 only has 1 non-NA value, since the species range
+  ## does not overlap with any cell centroids
+  expect_equal(
+    terra::global(terra::rast(x2$path), "notNA", na.rm = TRUE)[[1]],
+    1
+  )
+  ## verify that x2 has a single cell that is not NA
+  expect_equal(
+    c(na.omit(terra::values(terra::rast(x2$path)))),
+    1
+  )
+  # clean up
+  unlink(x1$path[!is.na(x1$path)])
+  unlink(x2$path[!is.na(x2$path)])
 })
 
 test_that("amphibian data (IUCN format)", {

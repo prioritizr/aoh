@@ -28,6 +28,7 @@ process_spp_data_on_local <- function(x,
                                       engine = "terra",
                                       n_threads = 1,
                                       cache_limit = 200,
+                                      rasterize_touches = FALSE,
                                       force = FALSE,
                                       verbose = TRUE) {
   # assert that arguments are valid
@@ -59,7 +60,8 @@ process_spp_data_on_local <- function(x,
     engine %in% c("terra", "gdal", "grass"),
     assertthat::is.flag(force),
     assertthat::noNA(force),
-    assertthat::is.flag(verbose),
+    assertthat::is.flag(rasterize_touches),
+    assertthat::noNA(rasterize_touches),
     assertthat::is.flag(verbose),
     assertthat::noNA(verbose)
   )
@@ -100,6 +102,33 @@ process_spp_data_on_local <- function(x,
     cli::cli_progress_update(id = pb, set = 0)
   }
 
+  # ensure raster data on disk
+  ## force habitat to disk
+  h_on_disk <- terra_on_disk(habitat_data)
+  habitat_data <- terra_force_disk(
+    habitat_data,
+    overwrite = TRUE,
+    datatype = ifelse(
+      nzchar(terra::datatype(habitat_data)),
+      terra::datatype(habitat_data),
+      "INT4S"
+    ),
+    gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
+  )
+
+  ## force elevation data to disk
+  e_on_disk <- terra_on_disk(elevation_data)
+  elevation_data <- terra_force_disk(
+    elevation_data,
+    overwrite = TRUE,
+    datatype = ifelse(
+      nzchar(terra::datatype(elevation_data)),
+      terra::datatype(elevation_data),
+      "INT4S"
+    ),
+    gdal = c("COMPRESS=LZW", "BIGTIFF=YES")
+  )
+
   # initialize GRASS session if needed
   if (identical(engine, "grass")) {
     ## create temporary directory for processing
@@ -113,9 +142,13 @@ process_spp_data_on_local <- function(x,
       ### Unix setup
       loc <- rgrass::initGRASS(
         home = grass_dir,
-        SG = terra::rast(
-          nrows = 5, ncols = 5, nlyrs = 1, xmin = 0, xmax = 5,
-          ymin = 0, ymax = 5, crs = terra::crs(elevation_data), vals = 1
+        SG = sp::SpatialGrid(
+          sp::GridTopology(
+            cellcentre.offset = c(0, 0),
+            cellsize = c(1, 1),
+            cells.dim = c(5, 5)
+          ),
+          proj4string = sp::CRS(terra::crs(elevation_data))
         ),
         gisDbase = data_dir,
         override = TRUE
@@ -257,7 +290,8 @@ process_spp_data_on_local <- function(x,
             path = curr_aoh_path,
             engine = engine,
             n_threads = n_threads,
-            cache_limit = cache_limit
+            cache_limit = cache_limit,
+            rasterize_touches = rasterize_touches
         )
       )
 
@@ -290,19 +324,23 @@ process_spp_data_on_local <- function(x,
       TRUE
   }))
 
+  # clean up rasters
+  # nocov start
+  if (!h_on_disk) {
+    f <- terra::sources(habitat_data)[[1]]
+    rm(habitat_data)
+    unlink(f, force = TRUE)
+  }
+  if (!e_on_disk) {
+    f <- terra::sources(elevation_data)[[1]]
+    rm(elevation_data)
+    unlink(f, force = TRUE)
+  }
+  # nocov end
+
   # clean up GRASS
   if (identical(engine, "grass")) {
     # nocov start
-    if (!h_on_disk) {
-      f <- terra::sources(habitat_data)[[1]]
-      rm(habitat_data)
-      unlink(f, force = TRUE)
-    }
-    if (!e_on_disk) {
-      f <- terra::sources(elevation_data)[[1]]
-      rm(elevation_data)
-      unlink(f, force = TRUE)
-    }
     unlink(grass_dir, force = TRUE, recursive = TRUE)
     unlink(e_grass_vrt_path, force = TRUE, recursive = TRUE)
     unlink(h_grass_vrt_path, force = TRUE, recursive = TRUE)

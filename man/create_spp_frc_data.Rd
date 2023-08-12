@@ -18,6 +18,7 @@ create_spp_frc_data(
   n_threads = 1,
   cache_limit = 1000,
   engine = "terra",
+  rasterize_touches = FALSE,
   verbose = TRUE
 )
 }
@@ -111,6 +112,22 @@ to use for data processing.
 Available options include \code{"terra"}, \code{"gdal"}, or \code{"grass"}
 (see below for details).
 Defaults to \code{"terra"}.}
+
+\item{rasterize_touches}{\code{logical} How should \code{x} (the species' range data)
+be rasterized when overlapped with the elevation and habitat raster data?
+If \code{rasterize_touches = FALSE}, the species' range data are treated as
+overlapping with a raster cell, if the range data overlap with the
+centroid of the raster cell.
+If \code{rasterize_touches = TRUE}, then the species' range data are treated as
+overlapping with a raster cell, if the range data overlap with any
+part of the raster cell.
+Since some species' ranges might be too small to overlap
+with the centroid of any raster cells (meaning that the output
+Area of Habitat map does not contain any suitable habitat for the species),
+it may be preferable to use \code{rasterize_touches = TRUE}.
+Note that \code{rasterize_touches = TRUE} is not compatible with the GRASS
+engine.
+Defaults to \code{FALSE} (following Lumbierres \emph{et al.} 2022).}
 
 \item{verbose}{\code{logical} Should progress be displayed while processing data?
 Defaults to \code{TRUE}.}
@@ -310,6 +327,10 @@ Lumbierres M, Dahal PR, Di Marco M, Butchart SHM, Donald PF, and
 Rondinini C (2021) Translating habitat class to land cover to map area of
 habitat of terrestrial vertebrates. \emph{Conservation Biology}, 36, e13851.
 \doi{10.1111/cobi.13851}
+
+Lumbierres M, Dahal PR, Soria CD, Di Marco M, Butchart SHM, Donald PF, and
+Rondinini C (2022) Area of Habitat maps for the world’s terrestrial birds
+and mammals. \emph{Scientific Data}, 9, 749.
 
 Robinson N, Regetz J, and Guralnick RP (2014) EarthEnv-DEM90: A nearly-
 global, void-free, multi-scale smoothed, 90m digital elevation model from
