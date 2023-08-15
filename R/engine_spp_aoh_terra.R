@@ -24,6 +24,11 @@ NULL
 #' @param extent `terra::ext()` Object denoting the spatial extent for
 #'  data processing.
 #'
+#' @param touches `logical` Should raster cells that are overlap with any
+#'   part of a species' range be treated as covered?
+#'   Defaults to `FALSE`, such that only cells that have their centroid
+#'   covered by a species' range are treated as covered.
+#'
 #' @param path `character` File path to save resulting Area of Habitat data.
 #'
 #' @return An invisible `TRUE` indicating success.
@@ -36,6 +41,7 @@ engine_spp_aoh_terra <- function(range_data,
                                  lower_elevation,
                                  upper_elevation,
                                  extent,
+                                 rasterize_touches,
                                  path) {
   # validate arguments
   assertthat::assert_that(
@@ -50,6 +56,8 @@ engine_spp_aoh_terra <- function(range_data,
     assertthat::is.number(upper_elevation),
     assertthat::noNA(upper_elevation),
     inherits(extent, "SpatExtent"),
+    assertthat::is.flag(rasterize_touches),
+    assertthat::noNA(rasterize_touches),
     assertthat::is.string(path),
     assertthat::noNA(path)
   )
@@ -96,8 +104,10 @@ engine_spp_aoh_terra <- function(range_data,
   # mask data by species range
   spp_habitat_data <- terra::mask(
     x = spp_habitat_data,
-    mask =  terra_fasterize(
-      sf = range_data, raster = spp_habitat_data
+    mask = terra_fasterize(
+      sf = range_data,
+      raster = spp_habitat_data,
+      touches = rasterize_touches
     ),
     updatevalue = NA_integer_,
     filename = path,

@@ -345,7 +345,11 @@ map <-
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )
+```
 
+    ## |---------|---------|---------|---------|=========================================                                          
+
+``` r
 # display maps
 print(map)
 ```
@@ -357,13 +361,12 @@ print(map)
 Please cite the *aoh R* package and the underlying datasets used to
 produce Area of Habitat data.
 
-
     Area of Habitat data are created using a range of different datasets.
     Depending on which datasets are used, please cite the aoh package and
     relevant data using:
 
       Hanson JO (2023) aoh: Create Area of Habitat Data. R package version
-      0.0.2.5. Available at https://github.com/prioritizr/aoh.
+      0.0.2.6. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

@@ -23,7 +23,8 @@ process_spp_aoh_on_local <- function(x,
                                      path,
                                      engine = "terra",
                                      n_threads = 1,
-                                     cache_limit = 200) {
+                                     cache_limit = 200,
+                                     rasterize_touches = FALSE) {
   # normalize the file path
   path <- normalize_path(path, mustWork = FALSE)
 
@@ -37,6 +38,7 @@ process_spp_aoh_on_local <- function(x,
       lower_elevation = lower_elevation,
       upper_elevation = upper_elevation,
       extent = extent,
+      rasterize_touches = rasterize_touches,
       path = path
     )
   } else if (identical(engine, "gdal")) {
@@ -50,6 +52,7 @@ process_spp_aoh_on_local <- function(x,
       extent = extent,
       path = path,
       n_threads = n_threads,
+      rasterize_touches = rasterize_touches,
       cache_limit = cache_limit
     )
   } else if (identical(engine, "grass")) {

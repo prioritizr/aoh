@@ -20,7 +20,8 @@ engine_spp_aoh_gdal <- function(range_data,
                                 extent,
                                 path,
                                 n_threads = 1,
-                                cache_limit = 1000) {
+                                cache_limit = 1000,
+                                rasterize_touches = FALSE) {
   # validate arguments
   assertthat::assert_that(
     inherits(range_data, "sf"),
@@ -37,7 +38,9 @@ engine_spp_aoh_gdal <- function(range_data,
     assertthat::is.string(path),
     assertthat::noNA(path),
     assertthat::noNA(n_threads),
-    assertthat::is.number(n_threads)
+    assertthat::is.number(n_threads),
+    assertthat::is.flag(rasterize_touches),
+    assertthat::noNA(rasterize_touches)
   )
 
   # create temporary directory for processing
@@ -115,6 +118,7 @@ engine_spp_aoh_gdal <- function(range_data,
     tiled = FALSE,
     nbits = 1,
     NAflag = 0,
+    touches = rasterize_touches,
     output_raster = FALSE,
     verbose = FALSE
   )

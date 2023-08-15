@@ -147,6 +147,7 @@ create_spp_frc_data <- function(x,
                                 n_threads = 1,
                                 cache_limit = 1000,
                                 engine = "terra",
+                                rasterize_touches = FALSE,
                                 verbose = TRUE) {
   create_spp_data(
     x = x,
@@ -162,6 +163,7 @@ create_spp_frc_data <- function(x,
     n_threads = n_threads,
     cache_limit = cache_limit,
     engine = engine,
+    rasterize_touches = rasterize_touches,
     verbose = verbose
   )
 }

@@ -1,3 +1,19 @@
+# aoh 0.0.2.6
+
+- Update `create_spp_aoh_data()` and `create_spp_frc_data()` to have a
+  new `rasterize_touches` parameter (#48). This parameter can be toggled so
+  that when rasterizing species' range data, raster cells that partially
+  overlap with any part of the species' range are treated as covered by
+  the species' range. This functionality may be especially useful for
+  species with very small geographic ranges.
+- Fix bug in `create_spp_aoh_data()` and `create_spp_frc_data()` that causes
+  Python errors when using the GDAL engine and a `habitat_data` or
+  `elevation_data` raster that is stored only in memory (and not associated with
+  any file on disk).
+- Fix bug in `create_spp_aoh_data()` and `create_spp_frc_data()` that causes
+  the GRASS engine to throws errors.
+- Update package dependency versions.
+
 # aoh 0.0.2.5
 
 - Fix compatibility with updates to `terra::compareGeom()`.

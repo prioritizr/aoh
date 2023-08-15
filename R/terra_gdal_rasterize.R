@@ -24,6 +24,11 @@ NULL
 #' @param invert `logical` Should the burn process be inverted?
 #'   Defaults to `FALSE`.
 #'
+#' @param touches `logical` Should cells of `x` that are overlap with any
+#'   part of `sf` be treated as covered by `sf`?
+#'   Defaults to `FALSE`, such that only cells that have their centroid
+#'   covered by `sf` are treated as covered.
+#'
 #' @param update `logical` Should the result by producing by updating
 #'   the argument to `x`?
 #'   If `FALSE` then the argument to `x` is only used to specify the
@@ -61,6 +66,7 @@ terra_gdal_rasterize <- function(x, sf,
                                  init = 0,
                                  invert = FALSE,
                                  update = FALSE,
+                                 touches = FALSE,
                                  n_threads = 1,
                                  filename = tempfile(fileext = ".tif"),
                                  sf_filename = tempfile(fileext = ".gpkg"),
@@ -88,6 +94,10 @@ terra_gdal_rasterize <- function(x, sf,
     assertthat::noNA(burn),
     assertthat::is.number(init),
     assertthat::noNA(init),
+    assertthat::is.flag(update),
+    assertthat::noNA(update),
+    assertthat::is.flag(touches),
+    assertthat::noNA(touches),
     assertthat::is.flag(invert),
     assertthat::noNA(invert),
     assertthat::is.string(filename),
@@ -167,6 +177,7 @@ terra_gdal_rasterize <- function(x, sf,
     dst_filename = filename,
     i = isTRUE(invert),
     burn = burn,
+    at = isTRUE(touches),
     q = !isTRUE(verbose)
   )
   if (!isTRUE(update)) {

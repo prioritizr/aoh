@@ -69,14 +69,21 @@ terra_st_bbox <- function(x) {
 #' Quickly rasterize vector data
 #'
 #' This function converts a [sf::st_as_sf()] object to a [terra::rast()]
-#' object using [fasterize::fasterize()]. It is similar to
-#' [terra::rasterize()], except that it has greater performance.
+#' object
 #'
 #' @param sf [sf::st_sf()] Object.
 #'
 #' @param raster [terra::rast()] Object.
 #'
-#' @param ... Additional arguments passed to [fasterize::fasterize()].
+#' @param touches `logical` Should cells of `raster` that are overlap with any
+#'   part of `sf` be treated as covered by `sf`?
+#'   Defaults to `FALSE`, such that only cells that have their centroid
+#'   covered by `sf` are treated as covered.
+#'   Defaults to `FALSE`.
+#'
+#' @details
+#' If `touches = FALSE`, then [fasterize::fasterize()] is used to perform
+#' the processing. Otherwise, [terra::rasterize()] is used.
 #'
 #' @return A [terra::rast()] object.
 #'
@@ -94,38 +101,55 @@ terra_st_bbox <- function(x) {
 #' plot(nc_rast)
 #' }
 #' @noRd
-terra_fasterize <- function(sf, raster, ...) {
+terra_fasterize <- function(sf, raster, touches = FALSE) {
   # assert that arguments are valid
   assertthat::assert_that(
     inherits(sf, "sf"),
     inherits(raster, "SpatRaster")
   )
 
-  # convert raster to RasterLayer
-  raster <- withr::with_package(
-    "raster",
-    methods::as(raster[[1]], "Raster"),
-    verbose = FALSE
-  )
+  # run processing based on touches
+  if (isTRUE(touches)) {
+    ## create new column with values for rasterization
+    sf$value <- 1
 
-  # store raster filename
-  raster_filename <- raster::filename(raster)
+    ## rasterize data
+    out <- terra::rasterize(
+      x = terra::vect(sf),
+      y = raster,
+      field = "value",
+      touches = touches
+    )
 
-  # create result
-  out <- fasterize::fasterize(
-    sf = sf,
-    raster = raster,
-    ...
-  )
+  } else {
+    ## convert raster to RasterLayer
+    raster <- withr::with_package(
+      "raster",
+      methods::as(raster[[1]], "Raster"),
+      verbose = FALSE
+    )
 
-  # ensure that result isn't affected by
-  # https://github.com/ecohealthalliance/fasterize/issues/41
-  if (identical(raster::filename(out), raster_filename)) {
-    out <- raster::brick(out)
+    ## store raster filename
+    raster_filename <- raster::filename(raster)
+
+    ## rasterize data
+    out <- fasterize::fasterize(
+      sf = sf,
+      raster = raster
+    )
+
+    ## ensure that result isn't affected by
+    ## https://github.com/ecohealthalliance/fasterize/issues/41
+    if (identical(raster::filename(out), raster_filename)) {
+      out <- raster::brick(out)
+    }
+
+    ## convert result as terra object
+    out <- methods::as(out, "SpatRaster")
   }
 
-  # return result as terra object
-  methods::as(out, "SpatRaster")
+  # return result
+  out
 }
 
 #' On disk?
