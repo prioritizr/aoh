@@ -81,6 +81,21 @@ read_spp_range_data <- function(path, n = NULL) {
   # import data
   if (length(shp_path) == 1) {
     out <- read_sf_n(shp_path, n = n)
+  } else if (length(shp_path) > 1) {
+    ## load data
+    out <- lapply(shp_path, read_sf_n, n = n)
+    ## get column names for each shapefile
+    nms <- lapply(out, names)
+    ## check that all shapefiles have the same column names
+    assertthat::assert_that(
+      all(vapply(nms, FUN.VALUE = logical(1), identical, nms[[1]])),
+      msg = paste0(
+        "argument to \"path\" contains multiple shapefiles that have",
+        "different columns names, and so cannot import spatial data"
+      )
+    )
+    ## merge datasets together
+    out <- dplyr::bind_rows(out)
   } else if (length(gdb_path) == 1) { # nocov start
     ## inspect geodatabase
     gdb_dir <- sf::st_layers(gdb_path)

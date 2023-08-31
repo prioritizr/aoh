@@ -15,6 +15,47 @@ test_that("simulated data (shapefile zip format)", {
   expect_equal(dplyr::last(names(x)), "geometry")
 })
 
+test_that("simulated data (shapefile zip format, multiple files)", {
+  # unzip data
+  td1 <- tempfile()
+  dir.create(td1, showWarnings = FALSE, recursive = TRUE)
+  utils::unzip(
+    system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh"),
+    exdir = td1
+  )
+  o <- sf::read_sf(dir(td1, pattern = "^.*\\.shp$", full.names = TRUE))
+  # create zip with 2 shapefiles
+  td2 <- tempfile()
+  dir.create(td2, showWarnings = FALSE, recursive = TRUE)
+  n <- nrow(o)
+  m <- median(seq_len(n))
+  sf::write_sf(
+    o[seq(1, m - 1), , drop = FALSE],
+    paste0(td2, "/SIMULATED_SPECIES1.shp")
+  )
+  sf::write_sf(
+    o[seq(m, n), , drop = FALSE],
+    paste0(td2, "/SIMULATED_SPECIES2.shp")
+  )
+  f <- tempfile(fileext = ".zip")
+  withr::with_dir(td2, {
+    archive::archive_write_files(archive = f, files = dir(td2), format = "zip")
+  })
+  # create data
+  x <- suppressWarnings(read_spp_range_data(f))
+  # tests
+  expect_is(x, "sf")
+  expect_equal(nrow(x), nrow(o))
+  expect_equal(x$id_no, o$id_no)
+  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_true(all(assertthat::has_name(x, iucn_names)))
+  expect_equal(dplyr::last(names(x)), "geometry")
+  # clean up
+  unlink(td1, force = TRUE, recursive = TRUE)
+  unlink(td2, force = TRUE, recursive = TRUE)
+  unlink(f, force = TRUE, recursive = TRUE)
+})
+
 test_that("simulated data (shapefile 7z format)", {
   # skip if needed
   skip_on_cran()

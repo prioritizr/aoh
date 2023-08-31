@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.7</span>
       </span>
     </div>
 
@@ -60,6 +60,9 @@
       <small>Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.2.7" id="aoh-0027">aoh 0.0.2.7<a class="anchor" aria-label="anchor" href="#aoh-0027"></a></h2>
+<ul><li>Update <code><a href="../reference/read_spp_range_data.html">read_spp_range_data()</a></code> to that it can import data from a zip file that contains multiple ESRI Shapefiles (e.g., the 2022-2 IUCN Red List release for reptile data).</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.2.6" id="aoh-0026">aoh 0.0.2.6<a class="anchor" aria-label="anchor" href="#aoh-0026"></a></h2>
 <ul><li>Update <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> and <code><a href="../reference/create_spp_frc_data.html">create_spp_frc_data()</a></code> to have a new <code>rasterize_touches</code> parameter (<a href="https://github.com/prioritizr/aoh/issues/48" class="external-link">#48</a>). This parameter can be toggled so that when rasterizing species’ range data, raster cells that partially overlap with any part of the species’ range are treated as covered by the species’ range. This functionality may be especially useful for species with very small geographic ranges.</li>

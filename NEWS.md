@@ -1,3 +1,9 @@
+# aoh 0.0.2.7
+
+- Update `read_spp_range_data()` to that it can import data from a zip
+  file that contains multiple ESRI Shapefiles (e.g., the 2022-2 IUCN Red List
+  release for reptile data).
+
 # aoh 0.0.2.6
 
 - Update `create_spp_aoh_data()` and `create_spp_frc_data()` to have a
