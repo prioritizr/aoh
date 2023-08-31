@@ -84,12 +84,20 @@ read_spp_range_data <- function(path, n = NULL) {
   } else if (length(shp_path) > 1) {
     ## load data
     out <- lapply(shp_path, read_sf_n, n = n)
+    ## remove uneeded columns
+    out <- lapply(
+      out,
+      function(x) {
+        n <- setdiff(names(x), c("OBJECTID", attr(x, "sf_column")))
+        x[, n, drop = FALSE]
+      }
+    )
     ## get column names for each shapefile
     nms <- lapply(out, names)
     ## check that all shapefiles have the same column names
     assertthat::assert_that(
       all(vapply(nms, FUN.VALUE = logical(1), identical, nms[[1]])),
-      msg = paste0(
+      msg = paste(
         "argument to \"path\" contains multiple shapefiles that have",
         "different columns names, and so cannot import spatial data"
       )
