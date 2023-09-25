@@ -1,3 +1,8 @@
+# aoh 0.0.2.8
+
+- Fix failing tests on continuous integration services (due to issues unzipping
+  test files).
+
 # aoh 0.0.2.7
 
 - Update `read_spp_range_data()` to that it can import data from a zip

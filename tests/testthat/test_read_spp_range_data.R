@@ -39,7 +39,7 @@ test_that("simulated data (shapefile zip format, multiple files)", {
   )
   f <- tempfile(fileext = ".zip")
   withr::with_dir(td2, {
-    archive::archive_write_files(archive = f, files = dir(td2), format = "zip")
+    utils::zip(zipfile = f, files = dir(td2))
   })
   # create data
   x <- suppressWarnings(read_spp_range_data(f))
