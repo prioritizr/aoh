@@ -82,6 +82,11 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
+      - name: Set R environmental variables
+        run: |
+          echo GGMAP_STADIAMAPS_API_KEY="$GGMAP_KEY" >> ~/.Renviron
+        shell: bash
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true

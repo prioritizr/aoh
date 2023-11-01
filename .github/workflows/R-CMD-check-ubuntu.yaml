@@ -34,6 +34,7 @@ jobs:
       _R_CHECK_TIMINGS_: 10
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GGMAP_KEY: ${{ secrets.GGMAP_STADIAMAPS_API_KEY }}
       CI: true
 
     steps:
@@ -91,6 +92,11 @@ jobs:
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
+
+      - name: Set R environmental variables
+        run: |
+          echo GGMAP_STADIAMAPS_API_KEY="$GGMAP_KEY" >> ~/.Renviron
+        shell: bash
 
       - name: Environmental variables
         if: matrix.config.pkgs == 'depends only'

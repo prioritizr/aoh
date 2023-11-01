@@ -132,4 +132,5 @@ Collate:
 Roxygen: list(markdown = TRUE)
 Remotes:
   dickoa/prepr,
-  r-spatial/link2GI
+  r-spatial/link2GI,
+  dkahle/ggmap
