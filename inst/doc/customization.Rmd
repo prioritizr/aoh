@@ -247,7 +247,7 @@ map <-
   plot_spp_aoh_data(
     spp_aoh_data[1:4, ],
     zoom = 6,
-    maptype = "toner-background",
+    maptype = "stamen_toner_background",
     maxcell = Inf
   ) +
   scale_fill_viridis_d() +

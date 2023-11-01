@@ -88,7 +88,7 @@ NULL
 #' if (require(ggmap)) {
 #'   ## create customized map with basemap
 #'   p3 <-
-#'     plot_spp_frc_data(spp_frc_data, zoom = 7, maptype = "toner") +
+#'     plot_spp_frc_data(spp_frc_data, zoom = 7, maptype = "stamen_toner") +
 #'     scale_fill_viridis_c() +
 #'     scale_color_manual(values = c("range" = "red")) +
 #'     scale_size_manual(values = c("range" = 1.5)) +

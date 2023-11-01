@@ -78,7 +78,7 @@ test_that("base map", {
     verbose = interactive()
   )
   # create object
-  p <- plot_spp_frc_data(x, zoom = 3, maptype = "toner")
+  p <- plot_spp_frc_data(x, zoom = 3, maptype = "stamen_toner")
   # tests
   expect_is(p, "gg")
   expect_is(suppressWarnings(print(p)), "gg")

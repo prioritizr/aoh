@@ -51,7 +51,7 @@ Suggests:
     roxygen2 (>= 6.1.1),
     rmarkdown (>= 1.10),
     pingr (>= 1.1.2),
-    ggmap (>= 2.6.1),
+    ggmap (>= 3.0.2.9002),
     fields (>= 14.0),
     smoothr (>= 0.2.2),
     rnaturalearth (>= 0.3.3),

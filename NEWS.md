@@ -3,6 +3,8 @@
 - Remove _rgdal_ package dependency.
 - Updates URLs.
 - Update functions for downloading preprocessed data from Zenodo.
+- Update `plot_spp_aoh_data()` and `plot_spp_frc_data()` to be compatible
+  with changes to the _ggmap_ package for creating maps with a basemap.
 
 # aoh 0.0.2.8
 
