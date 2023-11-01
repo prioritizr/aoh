@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.9</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
             
-            <h4 data-toc-skip class="date">2023-09-20</h4>
+            <h4 data-toc-skip class="date">2023-11-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/vignettes/aoh.Rmd" class="external-link"><code>vignettes/aoh.Rmd</code></a></small>
       <div class="hidden name"><code>aoh.Rmd</code></div>
@@ -199,10 +199,10 @@
 <span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">##   id_no binomial              seasonal path                             geometry</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpR2ro6… ((-105506.8 4465112, -10…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpR2ro6… ((-238681 5029057, -2377…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpR2ro6… ((-859201.6 4559278, -85…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpR2ro6… ((-849801.9 4614149, -84…</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpENb6o… ((-105506.8 4465112, -10…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpENb6o… ((-238681 5029057, -2377…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpENb6o… ((-859201.6 4559278, -85…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpENb6o… ((-849801.9 4614149, -84…</span></span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import the Area of Habitat data</span></span>
@@ -258,25 +258,9 @@
 <p>We can see that the Area of Habitat data for each species are stored in separate spatial (raster) datasets with different extents. Although this is useful because it drastically reduces the total size of the data for each species, it can make it difficult to work with data for multiple species. To address this, we can use the <code><a href="../reference/terra_combine.html">terra_combine()</a></code> function to automatically align and combine the spatial data for all species’ distributions into a single spatial dataset.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># combine raster data</span></span>
-<span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-|---------|---------|---------|---------|
-=======
-                                          
-
-|---------|---------|---------|---------|
-=======
-                                          
-
-|---------|---------|---------|---------|
-=======
-                                          
-
-|---------|---------|---------|---------|
-=====================
-                                          </code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># assign identifiers to layer names</span></span>
+<span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># assign identifiers to layer names</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
 <span>  <span class="st">"AOH_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">id_no</span>, <span class="st">"_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">seasonal</span></span>
 <span><span class="op">)</span></span>
@@ -288,15 +272,16 @@
 <span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
 <span><span class="co">## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## coord. ref. : World_Behrmann </span></span>
-<span><span class="co">## sources     : spat_pN3mxv1FCLTOgNL_55031.tif  </span></span>
-<span><span class="co">##               spat_vXSxz0rfRIU1cl4_55031.tif  </span></span>
-<span><span class="co">##               spat_oKUh2besnzKiIvj_55031.tif  </span></span>
-<span><span class="co">##               spat_uFag2xakMQdtk9u_55031.tif  </span></span>
+<span><span class="co">## source(s)   : memory</span></span>
+<span><span class="co">## varnames    : 979_1 </span></span>
+<span><span class="co">##               59448_1 </span></span>
+<span><span class="co">##               4657_1 </span></span>
+<span><span class="co">##               ...</span></span>
 <span><span class="co">## names       : AOH_979_1, AOH_59448_1, AOH_4657_1, AOH_58622_1 </span></span>
 <span><span class="co">## min values  :         0,           0,          0,           0 </span></span>
 <span><span class="co">## max values  :         1,           1,          1,           1</span></span></code></pre>
 <p>Finally, let’s create some maps to compare the range data with the Area of habitat data. Although we could create these maps manually (e.g., using the <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link"><em>ggplot2</em></a> <em>R</em> package), we will use a plotting function distributed with the <em>aoh R</em> package for convenience.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create maps</span></span>
 <span><span class="co">## N.B. you might need to install the ggmap package to create the maps</span></span>
 <span><span class="va">map</span> <span class="op">&lt;-</span></span>
@@ -313,12 +298,8 @@
 <pre><code>## 
 |---------|---------|---------|---------|
 =========================================
-                                          
-
-|---------|---------|---------|---------|
-=========================================
                                           </code></pre>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># display maps</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></span></code></pre></div>
 <p><img src="aoh_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;"></p>
@@ -338,7 +319,7 @@
 <p>Please open the <code>.Renviron</code> file on your computer (e.g., using <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>). Next, please add the following text to the file (replacing the string with the token) and save the file:</p>
 <pre><code><span><span class="va">IUCN_REDLIST_KEY</span><span class="op">=</span><span class="st">"your_actual_token_not_this_string"</span></span></code></pre>
 <p>Please restart your R session. You should now be able to access the IUCN Red List API. To verify this, please try running the following <em>R</em> code and – assuming everything works correctly – you should see the current version of the IUCN Red List:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># verify access to IUCN Red List API</span></span>
 <span><span class="fu">rredlist</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rredlist/reference/rl_version.html" class="external-link">rl_version</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If these instructions did not work, please consult the documentation for the <a href="https://CRAN.R-project.org/package=rredlist" class="external-link"><em>rredlist</em></a> <em>R</em> package for further details.</p>
@@ -373,7 +354,7 @@
 </li>
 <li>
 <p><strong>Can I use habitat classification data from other data sources?</strong></p>
-<p>Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from <a href="https://land.copernicus.eu/pan-european/corine-land-cover" class="external-link">Copernicus Corine Land Cover</a>, and <a href="https://lpdaac.usgs.gov/products/mcd12q1v006/" class="external-link">MODIS Land Cover data (MCD12Q1)</a>). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN Red List Habitat Classification Scheme</a> <span class="citation">(e.g., see Tracewski <em>et al.</em> 2016; Lumbierres <em>et al.</em> 2021)</span>. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p>
+<p>Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from <a href="https://land.copernicus.eu/en/products/corine-land-cover" class="external-link">Copernicus Corine Land Cover</a>, and <a href="https://lpdaac.usgs.gov/products/mcd12q1v006/" class="external-link">MODIS Land Cover data (MCD12Q1)</a>). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN Red List Habitat Classification Scheme</a> <span class="citation">(e.g., see Tracewski <em>et al.</em> 2016; Lumbierres <em>et al.</em> 2021)</span>. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p>
 </li>
 <li>
 <p><strong>The output Area of Habitat data have different spatial extents, how can I combine them together?</strong></p>

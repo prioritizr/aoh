@@ -34,19 +34,14 @@ get_doi_files <- function(x) {
   # scrape html file
   d <- rvest::read_html(x)
 
-  # find file container
-  file_div <- rvest::html_elements(d, css = ".files-box")
-
-  # find table in file container
-  file_table <- rvest::html_element(file_div, "table")
-  file_rows <- rvest::html_children(rvest::html_element(file_table, "tbody"))
-  file_info <- rvest::html_element(file_rows, "a")
+  # extract metedata
+  md <- rvest::html_elements(d, css = "#recordVersions")
+  md <- jsonlite::fromJSON(rvest::html_attr(md, "data-record"))
 
   # extract file details
-  file_names <- rvest::html_text(file_info)
-  file_urls <- paste0(
-    "https://zenodo.org", rvest::html_attr(file_info, "href")
-  )
+  file_names <- names(md$files$entries)
+  file_urls <- paste0(md$links$files, "/", file_names, "?download=1")
+  file_urls <- gsub("/api/", "/", file_urls, fixed = TRUE)
 
   # return result
   tibble::tibble(filename = file_names, download = file_urls)
@@ -83,53 +78,35 @@ get_doi_versions <- function(x) {
   d <- rvest::read_html(x)
 
   # find metadata containers
-  metadata_divs <- rvest::html_elements(d, css = ".metadata")
+  md <- rvest::html_elements(d, css = "#recordVersions")
+  md <- jsonlite::fromJSON(rvest::html_attr(md, "data-record"))
+  md <- rvest::read_html(md$links$versions)
+  md <- jsonlite::fromJSON(rvest::html_text(md), "p")$hits[[1]]
 
-  # extract div containing version numbers
-  is_version_div <- vapply(metadata_divs, FUN.VALUE = logical(1), function(x) {
-    h <- rvest::html_elements(x, css = "h4")
-    if (length(h) == 0) return(FALSE)
-    h <- h[[1]]
-    identical(rvest::html_text(h), "Versions")
+  # extract metadata
+  version <- vapply(md, FUN.VALUE = character(1), function(x) {
+    if (is.null(x$metadata)) return(NA_character_)
+    if (is.null(x$metadata$version)) return(NA_character_)
+    trimws(x$metadata$version)
+  })
+  created <- vapply(md, FUN.VALUE = character(1), function(x) {
+    if (is.null(x$metadata)) return(NA_character_)
+    if (is.null(x$metadata$publication_date)) return(NA_character_)
+    trimws(x$metadata$publication_date)
+  })
+  doi <- vapply(md, FUN.VALUE = character(1), function(x) {
+    if (is.null(x$metadata)) return(NA_character_)
+    if (is.null(x$metadata$doi)) return(NA_character_)
+    trimws(x$metadata$doi)
   })
 
-  # return input doi if it's not associated with any versions
-  if (!any(is_version_div)) {
-    d <- tibble::tibble(
-      version = NA_character_,
-      created = as.POSIXct(NA_real_),
-      doi = gsub("https://doi.org/", "", x, fixed = TRUE)
-    )
-    return(d)
-  }
+  # create table with metadata
+  info <- tibble::tibble(
+    version = version,
+    created = as.POSIXct(created, format = "%Y-%m-%d"),
+    doi = doi
+  )
 
-  # extract div containing version numbers
-  version_div <- metadata_divs[[which(is_version_div)[[1]]]]
-
-  # extract version table
-  version_table <- rvest::html_element(version_div, "table")
-  version_rows <- rvest::html_children(version_table)
-
-  # parse information for each version
-  info <- lapply(version_rows, function(x) {
-    tibble::tibble(
-      version = trimws(gsub(
-        "Version ", "", fixed = TRUE,
-        rvest::html_text(rvest::html_element(x, "a"))
-      )),
-      created = as.POSIXct(
-        trimws(rvest::html_text(
-          rvest::html_element(rvest::html_children(x)[[2]], "small")
-        )),
-        format = "%b %e, %Y"
-      ),
-      doi = trimws(rvest::html_text(rvest::html_element(x, "small"))),
-    )
-  })
-
-  # compile table
-  info <- dplyr::bind_rows(info)
-
-  ## return result (reverse row ordering for compatibility with zen4R
+  # return result (reverse row ordering for compatibility with zen4R
   info[rev(seq_len(nrow(info))), , drop = FALSE]
 }

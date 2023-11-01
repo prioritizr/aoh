@@ -1,3 +1,9 @@
+# aoh 0.0.2.9
+
+- Remove _rgdal_ package dependency.
+- Updates URLs.
+- Update functions for downloading preprocessed data from Zenodo.
+
 # aoh 0.0.2.8
 
 - Fix failing tests on continuous integration services (due to issues unzipping

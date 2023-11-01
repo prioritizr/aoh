@@ -3,7 +3,6 @@ context("create_spp_aoh_data()")
 test_that("simulated data (terra engine)", {
   # skip if needed
   skip_on_cran()
-  skip_if_not_installed("rgdal")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -86,7 +85,6 @@ test_that("simulated data (terra engine)", {
 test_that("simulated data (GDAL engine)", {
   # skip if needed
   skip_on_cran()
-  skip_if_not_installed("rgdal")
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_calc_not_available()
   # specify file path
@@ -175,7 +173,6 @@ test_that("simulated data (GRASS engine)", {
   # skip if needed
   skip_on_cran()
   skip_on_os("windows")
-  skip_if_not_installed("rgdal")
   skip_if_not_installed("sp")
   skip_if_not_installed("gdalUtilities")
   skip_if_not_installed("rgrass")
@@ -266,7 +263,6 @@ test_that("example data", {
   # skip if needed
   skip_on_cran()
   skip_on_ci()
-  skip_if_not_installed("rgdal")
   skip_if_not_installed("vcr")
   skip_if_cached_data_not_available()
   skip_if_zenodo_data_not_available(latest_lumb_cgls_version)
@@ -347,7 +343,6 @@ test_that("example data", {
 test_that("some species missing habitat data", {
   # skip if needed
   skip_on_cran()
-  skip_if_not_installed("rgdal")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -450,7 +445,6 @@ test_that("some species missing habitat data", {
 test_that("small range data (rasterize_touches, engine = terra)", {
   # skip if needed
   skip_on_cran()
-  skip_if_not_installed("rgdal")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -553,7 +547,6 @@ test_that("small range data (rasterize_touches, engine = terra)", {
 test_that("small range data (rasterize_touches, engine = gdal)", {
   # skip if needed
   skip_on_cran()
-  skip_if_not_installed("rgdal")
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_calc_not_available()
   # specify file path

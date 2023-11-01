@@ -47,7 +47,6 @@ test_that("terra_st_bbox()", {
 
 test_that("terra_fasterize() (small dataset)", {
   skip_on_cran()
-  skip_if_not_installed("rgdal")
   # load data
   nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf"))
   nc <- sf::st_transform(nc, sf::st_crs("ESRI:54017"))
@@ -68,7 +67,6 @@ test_that("terra_fasterize() (small dataset)", {
 
 test_that("terra_fasterize() (large dataset)", {
   skip_on_cran()
-  skip_if_not_installed("rgdal")
   skip_if_not_installed("rnaturalearth")
   # load data
   d <- rnaturalearth::ne_countries(type = "countries", returnclass = "sf")
