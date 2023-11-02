@@ -28,14 +28,14 @@ Defaults to 0.05 such that plot limits are extended 5\% beyond the
 spatial extent of the data.}
 
 \item{zoom}{\code{numeric} Value indicating the zoom level for the basemap.
-See documentation for the \code{zoom} parameter in the \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}
+See documentation for the \code{zoom} parameter in the \code{\link[ggmap:get_stadiamap]{ggmap::get_stadiamap()}}
 function for details.
 Defaults to \code{NULL} such that no basemap is shown.}
 
 \item{maptype}{\code{character} Value indicating the name of the
 the basemap to use for the plot.
 See documentation for the \code{maptype} parameter in the
-\code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}
+\code{\link[ggmap:get_stadiamap]{ggmap::get_stadiamap()}}
 function for details.
 Defaults to \code{NULL} such that no basemap is shown.
 Note that the \pkg{ggmap} package must be installed to show a basemap.}
@@ -43,7 +43,7 @@ Note that the \pkg{ggmap} package must be installed to show a basemap.}
 \item{maxcell}{\code{integer} Maximum number of grid cells for mapping.
 Defaults to 50000.}
 
-\item{...}{Additional arguments passed to \code{\link[ggmap:get_stamenmap]{ggmap::get_stamenmap()}}.}
+\item{...}{Additional arguments passed to \code{\link[ggmap:get_stadiamap]{ggmap::get_stadiamap()}}.}
 }
 \value{
 A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.
@@ -124,7 +124,7 @@ print(p2)
 if (require(ggmap)) {
   ## create customized map with basemap
   p3 <-
-    plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "toner") +
+    plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "stamen_toner") +
     scale_fill_manual(
       values = c("suitable" = "blue", "not suitable" = "transparent")
     ) +

@@ -45,6 +45,7 @@ test_that("base map", {
   # skip if needed
   skip_on_cran()
   skip_if_not_installed("ggmap")
+  skip_if_not(nzchar(Sys.getenv("GGMAP_STADIAMAPS_API_KEY")))
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -77,7 +78,7 @@ test_that("base map", {
     verbose = interactive()
   )
   # create object
-  p <- plot_spp_frc_data(x, zoom = 3, maptype = "toner")
+  p <- plot_spp_frc_data(x, zoom = 3, maptype = "stamen_toner")
   # tests
   expect_is(p, "gg")
   expect_is(suppressWarnings(print(p)), "gg")

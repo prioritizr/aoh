@@ -335,7 +335,11 @@ of habitat data.
 # create maps
 ## N.B. you might need to install the ggmap package
 map <-
-  plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
+  plot_spp_aoh_data(
+    spp_aoh_data,
+    zoom = 6,
+    maptype = "stamen_toner_background"
+  ) +
   scale_fill_viridis_d() +
   scale_color_manual(values = c("range" = "red")) +
   scale_size_manual(values = c("range" = 0.5)) +
@@ -345,7 +349,11 @@ map <-
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )
+```
 
+    ## |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          
+
+``` r
 # display maps
 print(map)
 ```
@@ -362,7 +370,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2023) aoh: Create Area of Habitat Data. R package version
-      0.0.2.8. Available at https://github.com/prioritizr/aoh.
+      0.0.2.9. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

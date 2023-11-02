@@ -18,14 +18,14 @@ NULL
 #'   spatial extent of the data.
 #'
 #' @param zoom `numeric` Value indicating the zoom level for the basemap.
-#'   See documentation for the `zoom` parameter in the [ggmap::get_stamenmap()]
+#'   See documentation for the `zoom` parameter in the [ggmap::get_stadiamap()]
 #'   function for details.
 #'   Defaults to `NULL` such that no basemap is shown.
 #'
 #' @param maptype `character` Value indicating the name of the
 #'   the basemap to use for the plot.
 #'   See documentation for the `maptype` parameter in the
-#'   [ggmap::get_stamenmap()]
+#'   [ggmap::get_stadiamap()]
 #'   function for details.
 #'   Defaults to `NULL` such that no basemap is shown.
 #'   Note that the \pkg{ggmap} package must be installed to show a basemap.
@@ -33,7 +33,7 @@ NULL
 #' @param maxcell `integer` Maximum number of grid cells for mapping.
 #'   Defaults to 50000.
 #'
-#' @param ... Additional arguments passed to [ggmap::get_stamenmap()].
+#' @param ... Additional arguments passed to [ggmap::get_stadiamap()].
 #'
 #' @details
 #' Note that data are automatically projected to a
@@ -110,7 +110,7 @@ NULL
 #' if (require(ggmap)) {
 #'   ## create customized map with basemap
 #'   p3 <-
-#'     plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "toner") +
+#'     plot_spp_aoh_data(spp_aoh_data, zoom = 7, maptype = "stamen_toner") +
 #'     scale_fill_manual(
 #'       values = c("suitable" = "blue", "not suitable" = "transparent")
 #'     ) +
@@ -310,11 +310,18 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
 #'
 #' @param x [sf::st_sf()] object.
 #'
-#' @return A [ggmap::get_stamenmap()] object.
+#' @return A [ggmap::get_stadiamap()] object.
 #'
 #' @noRd
 get_ggmap_basemap <- function(x, expand = 0.05, ...) {
   assertthat::assert_that(sf::st_crs(x) == sf::st_crs(4326))
+  assertthat::assert_that(
+    nzchar(Sys.getenv("GGMAP_STADIAMAPS_API_KEY")),
+    msg = paste(
+      "StadiaMaps API key must be registered to plot a basemap,",
+      "see `?ggmap::register_stadiamaps` for details."
+    )
+  )
   bb <- as.list(sf::st_bbox(x))
   bb2 <- bb
   if (expand > 0) {
@@ -325,5 +332,5 @@ get_ggmap_basemap <- function(x, expand = 0.05, ...) {
     bb2[["ymin"]] <- bb[["ymin"]] - yf
     bb2[["ymax"]] <- bb[["ymax"]] + yf
   }
-  ggmap::get_stamenmap(unname(unlist(bb2)), ...)
+  ggmap::get_stadiamap(unname(unlist(bb2)), ...)
 }

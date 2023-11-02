@@ -11,9 +11,9 @@ test_that("get_doi_files", {
       "prioritizr/jung-habitat-data-v1.0.0.zip"
     ),
     download = c(
-      "https://zenodo.org/record/6622038/files/jung-lvl1-10-5281_zenodo-4058819.tif?download=1",
-      "https://zenodo.org/record/6622038/files/jung-lvl2-10-5281_zenodo-4058819.tif?download=1",
-      "https://zenodo.org/record/6622038/files/prioritizr/jung-habitat-data-v1.0.0.zip?download=1"
+      "https://zenodo.org/records/6622038/files/jung-lvl1-10-5281_zenodo-4058819.tif?download=1",
+      "https://zenodo.org/records/6622038/files/jung-lvl2-10-5281_zenodo-4058819.tif?download=1",
+      "https://zenodo.org/records/6622038/files/prioritizr/jung-habitat-data-v1.0.0.zip?download=1"
     )
   )
   expect_equal(x, y,)
@@ -50,7 +50,7 @@ test_that("get_doi_versions (single version)", {
   x <- get_doi_versions("https://doi.org/10.5281/zenodo.46757")
   y <- tibble::tibble(
     version = NA_character_,
-    created = as.POSIXct(NA_real_),
+    created = as.POSIXct("2016-03-01", format = "%Y-%m-%d"),
     doi = c("10.5281/zenodo.46757")
   )
   expect_equal(x, y)

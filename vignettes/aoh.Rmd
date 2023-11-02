@@ -161,7 +161,11 @@ Finally, let's create some maps to compare the range data with the Area of habit
 # create maps
 ## N.B. you might need to install the ggmap package to create the maps
 map <-
-  plot_spp_aoh_data(spp_aoh_data, zoom = 6, maptype = "toner-background") +
+  plot_spp_aoh_data(
+    spp_aoh_data,
+    zoom = 6,
+    maptype = "stamen_toner_background"
+  ) +
   scale_fill_viridis_d() +
   scale_color_manual(values = c("range" = "red")) +
   scale_size_manual(values = c("range" = 0.5)) +
@@ -233,7 +237,7 @@ Here we provide answers to some of the frequently asked questions encountered wh
 
 * **Can I use habitat classification data from other data sources?**
 
-    Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/pan-european/corine-land-cover), and [MODIS Land Cover data (MCD12Q1)](https://lpdaac.usgs.gov/products/mcd12q1v006/)). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the [IUCN Red List Habitat Classification Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme) [e.g., see @r2; @r9]. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via `create_spp_aoh_data()`). For more information, see the [Customization vignette](customization.html).
+    Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/en/products/corine-land-cover), and [MODIS Land Cover data (MCD12Q1)](https://lpdaac.usgs.gov/products/mcd12q1v006/)). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the [IUCN Red List Habitat Classification Scheme](https://www.iucnredlist.org/resources/habitat-classification-scheme) [e.g., see @r2; @r9]. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via `create_spp_aoh_data()`). For more information, see the [Customization vignette](customization.html).
 
 * **The output Area of Habitat data have different spatial extents, how can I combine them together?**
 
