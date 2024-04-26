@@ -18,7 +18,7 @@ terra objects."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.10</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@ terra objects."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster object with source data.</p></dd>
+<dd><p><code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> Raster object with source data.</p></dd>
 
 
 <dt>expr</dt>
@@ -98,11 +98,11 @@ terra objects."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
 
 
 <dt>y</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Optional raster for calculations.</p></dd>
+<dd><p><code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> Optional raster for calculations.</p></dd>
 
 
 <dt>z</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Optional raster for calculations.</p></dd>
+<dd><p><code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> Optional raster for calculations.</p></dd>
 
 
 <dt>n_threads</dt>
@@ -164,7 +164,7 @@ Defaults to <code>NULL</code> such that the value is determined automatically.</
 
 
 <dt>output_raster</dt>
-<dd><p><code>logical</code> Should a raster (<code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code>)
+<dd><p><code>logical</code> Should a raster (<code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code>)
 object be returned?
 If <code>FALSE</code> then the file path for the resulting file is returned.
 Defaults to <code>TRUE</code>.</p></dd>
@@ -174,7 +174,7 @@ Defaults to <code>TRUE</code>.</p></dd>
     <h2>Value</h2>
     
 
-<p>A <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> raster object.</p>
+<p>A <code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> raster object.</p>
     </div>
     <div id="troubleshooting">
     <h2>Troubleshooting</h2>
@@ -225,15 +225,15 @@ was successful.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># create raster with data</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  ncols <span class="op">=</span> <span class="fl">40</span>, nrows <span class="op">=</span> <span class="fl">40</span>, xmin <span class="op">=</span> <span class="op">-</span><span class="fl">110</span>, xmax <span class="op">=</span> <span class="op">-</span><span class="fl">90</span>, ymin <span class="op">=</span> <span class="fl">40</span>, ymax<span class="op">=</span><span class="fl">60</span>,</span></span>
 <span class="r-in"><span>  crs <span class="op">=</span> <span class="st">"+proj=longlat +datum=WGS84"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/dimensions.html" class="external-link">ncell</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/dimensions.html" class="external-link">ncell</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># run calculation</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">terra_gdal_calc</span><span class="op">(</span><span class="va">x</span>, <span class="st">"(X &lt; 20) * 1"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> System command: gdal_calc.py -X "/tmp/RtmpMIzb2V/fileb71bf50a8b7fd.tif" --outfile="/tmp/RtmpMIzb2V/fileb71bf74285393.tif" --calc="(X &lt; 20) * 1" --type="Float32" --co="NUM_THREADS=1" --co="COMPRESS=LZW" --co="PREDICTOR=1"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> System command: gdal_calc.py -X "/tmp/Rtmpm6mSyf/file2c5a372d06f97.tif" --outfile="/tmp/Rtmpm6mSyf/file2c5a33520d43.tif" --calc="(X &lt; 20) * 1" --type="Float32" --co="NUM_THREADS=1" --co="COMPRESS=LZW" --co="PREDICTOR=1"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># preview result</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
@@ -242,7 +242,7 @@ was successful.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 0.5, 0.5  (x, y)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -110, -90, 40, 60  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> source      : fileb71bf74285393.tif </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file2c5a33520d43.tif </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr.1 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

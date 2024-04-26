@@ -71,7 +71,7 @@ jobs:
           install.packages("sf")
           install.packages("terra")
           install.packages("lwgeom")
-          remotes::install_github("dickoa/prepr")
+          remotes::install_github("prioritizr/prepr")
           remotes::install_github("r-spatial/link2GI")
         shell: Rscript {0}
 

@@ -1,6 +1,6 @@
 Package: aoh
 Type: Package
-Version: 0.0.2.9
+Version: 0.0.2.10
 Title: Create Area of Habitat Data
 Description: Create Area of Habitat data to characterize species distributions.
     Data are produced following procedures outlined by Brooks et al. (2019)
@@ -15,7 +15,7 @@ Description: Create Area of Habitat data to characterize species distributions.
     processing time.
     To augment data cleaning procedures, users can also install the
     'prepr' R package
-    (available at <https://github.com/dickoa/prepr>).
+    (available at <https://github.com/prioritizr/prepr>).
 Authors@R:
     c(person(c('Jeffrey', 'O'), 'Hanson',
         email='jeffrey.hanson@uqconnect.edu.au', role = c('aut','cre'),
@@ -59,7 +59,7 @@ Suggests:
     archive (>= 1.1.2),
     link2GI (>= 0.5-0),
     rgrass (>= 0.3-8),
-    prepr (>= 0.1.9000),
+    prepr (>= 0.3.0),
     vcr (>= 0.6.0)
 Depends:
     R (>= 4.1.0),
@@ -73,7 +73,7 @@ SystemRequirements: GDAL (>= 3.0.2) (optional), PROJ (>= 7.2.0) (optional)
 URL: https://prioritizr.github.io/aoh/, https://github.com/prioritizr/aoh
 BugReports: https://github.com/prioritizr/aoh/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Collate:
     'internal.R'
     'calc_spp_frc_data.R'
@@ -131,6 +131,6 @@ Collate:
     'zzz.R'
 Roxygen: list(markdown = TRUE)
 Remotes:
-  dickoa/prepr,
+  prioritizr/prepr,
   r-spatial/link2GI,
   dkahle/ggmap
