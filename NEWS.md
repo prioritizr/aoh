@@ -1,3 +1,7 @@
+# aoh 0.0.2.10
+
+- Update _prepr_ and _ggmap_ package dependencies.
+
 # aoh 0.0.2.9
 
 - Remove _rgdal_ package dependency.

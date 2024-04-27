@@ -18,7 +18,7 @@ terra objects."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.10</span>
       </span>
     </div>
 
@@ -88,11 +88,11 @@ terra objects."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster object with source data.</p></dd>
+<dd><p><code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> Raster object with source data.</p></dd>
 
 
 <dt>y</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster object specifying spatial properties for
+<dd><p><code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> Raster object specifying spatial properties for
 output data.</p></dd>
 
 
@@ -152,7 +152,7 @@ Defaults to <code>NULL</code> such that the value is determined automatically.</
 
 
 <dt>output_raster</dt>
-<dd><p><code>logical</code> Should a raster (<code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code>)
+<dd><p><code>logical</code> Should a raster (<code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code>)
 object be returned?
 If <code>FALSE</code> then the file path for the resulting file is returned.
 Defaults to <code>TRUE</code>.</p></dd>
@@ -162,7 +162,7 @@ Defaults to <code>TRUE</code>.</p></dd>
     <h2>Value</h2>
     
 
-<p>A <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> raster object.</p>
+<p>A <code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> raster object.</p>
     </div>
 
     <div id="ref-examples">
@@ -171,14 +171,14 @@ Defaults to <code>TRUE</code>.</p></dd>
 <span class="r-in"><span><span class="co"># to run this example</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># create raster with data</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  ncols <span class="op">=</span> <span class="fl">40</span>, nrows <span class="op">=</span> <span class="fl">40</span>, xmin <span class="op">=</span> <span class="op">-</span><span class="fl">110</span>, xmax <span class="op">=</span> <span class="op">-</span><span class="fl">90</span>, ymin <span class="op">=</span> <span class="fl">40</span>, ymax<span class="op">=</span><span class="fl">60</span>,</span></span>
 <span class="r-in"><span>  crs <span class="op">=</span> <span class="st">"+proj=longlat +datum=WGS84"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/dimensions.html" class="external-link">ncell</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/dimensions.html" class="external-link">ncell</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># create raster to define spatial properties for projection</span></span></span>
-<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  ncols <span class="op">=</span> <span class="fl">94</span>, nrows <span class="op">=</span> <span class="fl">124</span>, xmin <span class="op">=</span> <span class="op">-</span><span class="fl">944881</span>, xmax <span class="op">=</span> <span class="fl">935118</span>, ymin <span class="op">=</span> <span class="fl">4664377</span>,</span></span>
 <span class="r-in"><span>  ymax <span class="op">=</span> <span class="fl">7144377</span>,</span></span>
 <span class="r-in"><span>  crs <span class="op">=</span> <span class="st">"+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"</span></span></span>
@@ -194,7 +194,7 @@ Defaults to <code>TRUE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 19999.99, 20000  (x, y)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -944881, 935118, 4664377, 7144377  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : +proj=lcc +lat_0=0 +lon_0=-100 +lat_1=48 +lat_2=33 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> source      : fileb71bf21cbbcb8.tif </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file2c5a3655aa3b0.tif </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr.1 </span>
 </code></pre></div>
     </div>

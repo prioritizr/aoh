@@ -19,7 +19,7 @@ species geographic ranges, summary information, and habitat preferences."><!-- m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.10</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@ spatial extent and boundary for simulating species ranges.</p></dd>
 
 
 <dt>habitat_data</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data indicating the
+<dd><p><code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> Raster data indicating the
 presence of different habitat classes across world
 (e.g., Jung <em>et al.</em> 2020a,b; Lumbierres <em>et al.</em> 2021).
 Each grid cell should contain an <code>integer</code> value that specifies which
@@ -109,7 +109,7 @@ Defaults to <code>NULL</code> such that data are automatically obtained (using
 
 
 <dt>elevation_data</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast()</a></code> Raster data delineating the
+<dd><p><code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> Raster data delineating the
 worldwide elevation data (e.g., Robinson <em>et al.</em> 2014).
 Defaults to <code>NULL</code> such that data
 are automatically obtained (using <code><a href="get_global_elevation_data.html">get_global_elevation_data()</a></code>).
@@ -250,10 +250,10 @@ data for real or simulated species.</p></div>
 <span class="r-in"><span>  n <span class="op">=</span> <span class="fl">5</span>, boundary_data <span class="op">=</span> <span class="va">boundary_data</span>, cache_dir <span class="op">=</span> <span class="va">download_dir</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global elevation data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[17.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global elevation data <span style="color: #B2B2B2;">[12.4s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> importing global habitat data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[51.9s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> importing global habitat data <span style="color: #B2B2B2;">[49.3s]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># preview species range data</span></span></span>
@@ -261,7 +261,7 @@ data for real or simulated species.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 17 features and 26 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: GEOMETRY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -84.31762 ymin: 33.88392 xmax: -75.45658 ymax: 36.5881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -84.31763 ymin: 33.88392 xmax: -75.45658 ymax: 36.5881</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id_no seasonal presence origin                       geometry</span>

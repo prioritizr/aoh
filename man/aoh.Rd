@@ -2,6 +2,7 @@
 % Please edit documentation in R/package.R
 \docType{package}
 \name{aoh}
+\alias{aoh-package}
 \alias{aoh}
 \title{aoh: Create Area of Habitat Data}
 \description{
@@ -98,4 +99,17 @@ Wheatley H, Beresford AE, Buchanan GM (2016) Toward quantification of the
 impact of 21st‐century deforestation on the extinction risk of terrestrial
 vertebrates. \emph{Conservation Biology}, 30, 1070--1079.
 \doi{10.1111/cobi.12715}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://prioritizr.github.io/aoh/}
+  \item \url{https://github.com/prioritizr/aoh}
+  \item Report bugs at \url{https://github.com/prioritizr/aoh/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Jeffrey O Hanson \email{jeffrey.hanson@uqconnect.edu.au} (\href{https://orcid.org/0000-0002-4716-6134}{ORCID})
+
 }

@@ -78,7 +78,7 @@ jobs:
           install.packages("lwgeom")
           install.packages("link2GI")
           install.packages("rgrass")
-          remotes::install_github("dickoa/prepr")
+          remotes::install_github("prioritizr/prepr")
         shell: Rscript {0}
 
       - name: Session information

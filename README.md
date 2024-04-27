@@ -82,7 +82,7 @@ installed (see below for platform-specific instructions).
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("dickoa/prepr")
+remotes::install_github("prioritizr/prepr")
 ```
 
 The package can also leverage the [Geospatial Data Abstraction Library
@@ -349,11 +349,7 @@ map <-
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )
-```
 
-    ## |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          
-
-``` r
 # display maps
 print(map)
 ```
@@ -369,8 +365,8 @@ produce Area of Habitat data.
     Depending on which datasets are used, please cite the aoh package and
     relevant data using:
 
-      Hanson JO (2023) aoh: Create Area of Habitat Data. R package version
-      0.0.2.9. Available at https://github.com/prioritizr/aoh.
+      Hanson JO (2024) aoh: Create Area of Habitat Data. R package version
+      0.0.2.10. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.
