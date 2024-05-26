@@ -65,12 +65,13 @@ jobs:
           needs: |
             check
 
-      - name: Install spatial R packages
+      - name: Install R packages
         run: |
           options(repos = "https://cloud.r-project.org/")
           install.packages("sf")
           install.packages("terra")
           install.packages("lwgeom")
+          install.packages("archive")
           remotes::install_github("prioritizr/prepr")
           remotes::install_github("r-spatial/link2GI")
         shell: Rscript {0}
