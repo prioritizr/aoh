@@ -2,8 +2,8 @@
 % Please edit documentation in R/package.R
 \docType{package}
 \name{aoh}
-\alias{aoh-package}
 \alias{aoh}
+\alias{aoh-package}
 \title{aoh: Create Area of Habitat Data}
 \description{
 Area of Habitat (AOH) maps aim to delineate the spatial distribution of
