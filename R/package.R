@@ -96,8 +96,9 @@
 #' \doi{10.1111/cobi.12715}
 #'
 #' @name aoh
-#'
 #' @docType package
+#' @aliases aoh-package
+"_PACKAGE"
 NULL
 
 #' @import sf

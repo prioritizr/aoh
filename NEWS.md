@@ -1,3 +1,9 @@
+# aoh 0.0.2.11
+
+- Fix bug in `create_spp_info_data()` so that the IUCN Red List API key can be
+  specified using the `key` parameter.
+- Fix aliasing for package manual entry.
+
 # aoh 0.0.2.10
 
 - Update _prepr_ and _ggmap_ package dependencies.
