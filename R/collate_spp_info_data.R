@@ -199,34 +199,63 @@ collate_spp_info_data <- function(x,
   spp_habitat_data <- spp_habitat_data[idx, , drop = FALSE]
   ## if exact matches for habitat codes should not be used then...
   if (isTRUE(adjust_habitat_codes)) {
-    ### create new data by merging habitat codes following KBA guidelines
+    ### create new data by merging habitat codes based on KBA guidelines
+    ### and personal communications with Busana M. and Butchart S.H.M. at
+    ### BirdLife International
     spp_habitat_data <- dplyr::bind_rows(
       list(
         ### resident (non-migratory species)
+        #### NOTE: we include habitat types listed for all seasonal
+        #### distributions. although non-migratory
+        #### species should not have any habitat types affiliated with
+        #### non-residential distributions, this can happen due to
+        #### errors/discrepancies in the IUCN Red List data
         prepare_habitat_codes(
-          dplyr::filter(spp_habitat_data, .data$seasonal %in% migratory_ids),
+          dplyr::filter(spp_habitat_data, !.data$seasonal %in% migratory_ids),
           focal_seasonal = 1L,
           extra_seasonal = c(2L, 3L, 4L, 5L, NA_integer_)
         ),
         ### resident (migratory species)
+        #### NOTE: we do not include passage (code 4) habitat types here
+        #### for migratory bird species because these might be substantially
+        #### diferent from resident distriubtions
         prepare_habitat_codes(
-          dplyr::filter(spp_habitat_data, !.data$seasonal %in% migratory_ids),
+          dplyr::filter(spp_habitat_data, .data$seasonal %in% migratory_ids),
           focal_seasonal = 1L,
           extra_seasonal = c(2L, 3L, 5L, NA_integer_)
         ),
         ### breeding
+        #### NOTE: we include habitat types listed for resident (code 1),
+        #### breeding (code 2) and seasonality uncertain (code 5) when
+        #### mapping the breeding distributions, per KBA guidelines
         prepare_habitat_codes(
           spp_habitat_data,
           focal_seasonal = 2L,
           extra_seasonal = c(1L, 5L, NA_integer_)
         ),
         ### non-breeding
+        #### NOTE: we include habitat types listed for resident (code 1),
+        #### non-breeding (code 2) and seasonality uncertain (code 5) when
+        #### mapping the non-breeding distributions, per KBA guidelines
         prepare_habitat_codes(
           spp_habitat_data,
           focal_seasonal = 3L,
           extra_seasonal = c(1L, 5L, NA_integer_)
         ),
         ### passage
+        #### NOTE: we include habitat types listed for resident (code 1),
+        #### passage (code 24 and seasonality uncertain (code 5) when
+        #### mapping the passage distributions, following a similar
+        #### rationale for the breeding and non-breeding distributions.
+        #### although the resident distribution for migratory species
+        #### does not consider habitat types listed for passage
+        #### distributions (based on the rationale that species might
+        #### have habitat types unique to their passage distribution),
+        #### we include habitat types for resident distributions here
+        #### since (i) many species are missing habitat types for their
+        #### passage distributions and (ii) if the habitat types are
+        #### used during the resident distribution, then they are
+        #### likely used during passage (but not vice versa)
         prepare_habitat_codes(
           spp_habitat_data,
           focal_seasonal = 4L,

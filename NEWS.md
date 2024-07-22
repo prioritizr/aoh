@@ -1,3 +1,14 @@
+# aoh 0.0.2.12
+
+- Fix bug in `create_spp_info_data()` where (i) habitat types for resident
+  distributions of non-migratory species would not include those exclusively
+  affiliated with passage distributions and (iii) habitat types for resident
+  distributions of migratory species include those exclusively affiliated with
+  passage distributions. Thanks to Jianqiao Zhao for raising this issue.
+- Fix bug in `create_spp_aoh_data()` that caused errors when using the GDAL
+  engine on macOS systems.
+- Fix URLs.
+
 # aoh 0.0.2.11
 
 - Fix bug in `create_spp_info_data()` so that the IUCN Red List API key can be

@@ -19,7 +19,7 @@ NULL
 #' (see https://www.iucnredlist.org/resources/spatial-data-download).
 #' Data for birds can be obtained by requesting data from
 #' [BirdLife International](https://www.birdlife.org/)
-#' (see <http://datazone.birdlife.org/species/requestdis>).
+#' (see <https://datazone.birdlife.org/species/requestdis>).
 #' To standardize data from the IUCN Red List and BirdLife International,
 #' the `"SISID"` and `"SISRecID"` columns are renamed as `"id_no"`.
 #'
