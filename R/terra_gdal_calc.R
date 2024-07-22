@@ -253,7 +253,7 @@ terra_gdal_calc <- function(x, expr,
     file.exists(filename),
     msg = paste0(
       "failed to run `gdal_calc.py` script: output file \"",
-      filename, "\ does not exist"
+      filename, "\" does not exist"
     )
   )
 
