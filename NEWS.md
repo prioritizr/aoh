@@ -1,10 +1,12 @@
 # aoh 0.0.2.12
 
-- Fix bug in `create_spp_info_data()` where (i) habitat types for resident
-  distributions of non-migratory species would not include those exclusively
-  affiliated with passage distributions and (iii) habitat types for resident
-  distributions of migratory species include those exclusively affiliated with
-  passage distributions. Thanks to Jianqiao Zhao for raising this issue.
+- Fix bug in `create_spp_info_data()` in assigning habitat types for resident
+  distributions of migratory and non-migratory species. This bug meant that (i)
+  habitat types for resident distributions of migratory species would include
+  those exclusively affiliated with the species' passage distributions and (ii)
+  habitat types for resident distributions of non-migratory species would not
+  include those exclusively affiliated with the species' passage distributions.
+  Thanks to Jianqiao Zhao for raising this issue.
 - Fix bug in `create_spp_aoh_data()` that caused errors when using the GDAL
   engine on macOS systems.
 - Fix URLs.

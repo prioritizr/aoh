@@ -211,16 +211,16 @@ collate_spp_info_data <- function(x,
         #### non-residential distributions, this can happen due to
         #### errors/discrepancies in the IUCN Red List data
         prepare_habitat_codes(
-          dplyr::filter(spp_habitat_data, !.data$seasonal %in% migratory_ids),
+          dplyr::filter(spp_habitat_data, !.data$id_no %in% migratory_ids),
           focal_seasonal = 1L,
           extra_seasonal = c(2L, 3L, 4L, 5L, NA_integer_)
         ),
         ### resident (migratory species)
         #### NOTE: we do not include passage (code 4) habitat types here
         #### for migratory bird species because these might be substantially
-        #### diferent from resident distriubtions
+        #### different from resident distributions
         prepare_habitat_codes(
-          dplyr::filter(spp_habitat_data, .data$seasonal %in% migratory_ids),
+          dplyr::filter(spp_habitat_data, .data$id_no %in% migratory_ids),
           focal_seasonal = 1L,
           extra_seasonal = c(2L, 3L, 5L, NA_integer_)
         ),
