@@ -67,7 +67,6 @@ test_that("different engines produce same result", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_calc_not_available()
-  skip_on_os("mac")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(

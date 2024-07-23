@@ -11,6 +11,7 @@
 - Update internal R script for creating test dataset
   (i.e., `inst/scripts/test-data.R`) to be compatible with current version of
   the package.
+- Update `is_gdal_calc_available()` to be more robust.
 - Fix URLs.
 
 # aoh 0.0.2.11

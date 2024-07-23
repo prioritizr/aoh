@@ -4,7 +4,6 @@ test_that("single layer (in memory)", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_calc_not_available()
-  skip_on_os("mac")
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -24,7 +23,6 @@ test_that("two layers", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_calc_not_available()
-  skip_on_os("mac")
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -45,7 +43,6 @@ test_that("three layers (in memory)", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_calc_not_available()
-  skip_on_os("mac")
   # create data
   x <- terra::rast(
    ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax = 60,
@@ -69,7 +66,6 @@ test_that("three layers (on disk)", {
   skip_on_cran()
   skip_if_not_installed("gdalUtilities")
   skip_if_gdal_calc_not_available()
-  skip_on_os("mac")
   # create paths
   f1 <- tempfile(fileext = ".tif")
   f2 <- tempfile(fileext = ".tif")

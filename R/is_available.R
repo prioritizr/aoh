@@ -138,11 +138,21 @@ is_gdal_calc_available <- function() {
       return(FALSE)
     }
   }
-  v <- try(
-    system(python_gdal_calc("--help"), intern = TRUE),
-    silent = TRUE
+  v <- suppressWarnings(
+    try(
+      system(python_gdal_calc("--help"), intern = TRUE),
+      silent = TRUE
+    )
   )
+  # return FALSE if system command executed with error
   if (inherits(v, "try-error")) return(FALSE)
+  # return FALSE if system command executed with non-zero status
+  if (!is.null(attr(v, "status"))) {
+    if (!identical(attr(v, "status"), 0L)) {
+      return(FALSE)
+    }
+  }
+  # otherwise, return TRUE
   TRUE
 }
 
