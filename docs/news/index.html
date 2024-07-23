@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">aoh</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.12</span>
       </span>
     </div>
 
@@ -60,6 +60,12 @@
       <small>Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.2.12" id="aoh-00212">aoh 0.0.2.12<a class="anchor" aria-label="anchor" href="#aoh-00212"></a></h2>
+<ul><li>Fix bug in <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code> in assigning habitat types for resident distributions of migratory and non-migratory species. This bug meant that (i) habitat types for resident distributions of migratory species would include those exclusively affiliated with the species’ passage distributions and (ii) habitat types for resident distributions of non-migratory species would not include those exclusively affiliated with the species’ passage distributions. Thanks to Jianqiao Zhao for raising this issue.</li>
+<li>Fix bug in <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code> that caused errors when using the GDAL engine on macOS systems.</li>
+<li>Fix URLs.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.2.11" id="aoh-00211">aoh 0.0.2.11<a class="anchor" aria-label="anchor" href="#aoh-00211"></a></h2>
 <ul><li>Fix bug in <code><a href="../reference/create_spp_info_data.html">create_spp_info_data()</a></code> so that the IUCN Red List API key can be specified using the <code>key</code> parameter.</li>

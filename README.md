@@ -366,7 +366,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2024) aoh: Create Area of Habitat Data. R package version
-      0.0.2.11. Available at https://github.com/prioritizr/aoh.
+      0.0.2.12. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.
@@ -374,7 +374,7 @@ produce Area of Habitat data.
       BirdLife International and Handbook of the Birds of the World
       ([insert year]) Bird species distribution maps of the world. Version
       [insert version]. Available at
-      http://datazone.birdlife.org/species/requestdis.
+      https://datazone.birdlife.org/species/requestdis.
 
       Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos
       V, Rondinini C, Visconti P (2020). "A global map of terrestrial
