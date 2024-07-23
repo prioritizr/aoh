@@ -282,10 +282,10 @@ div.csl-indent {
 ## # A tibble: 4 × 5
 ##   id_no binomial              seasonal path                             geometry
 ##   &lt;dbl&gt; &lt;chr&gt;                    &lt;int&gt; &lt;chr&gt;                       &lt;POLYGON [m]&gt;
-## 1   979 Alytes dickhilleni           1 /tmp/Rtmp4jowx… ((-105506.8 4465112, -10…
-## 2 59448 Calotriton asper             1 /tmp/Rtmp4jowx… ((-238681 5029057, -2377…
-## 3  4657 Chioglossa lusitanica        1 /tmp/Rtmp4jowx… ((-859201.6 4559278, -85…
-## 4 58622 Rana iberica                 1 /tmp/Rtmp4jowx… ((-849801.9 4614149, -84…</code></pre>
+## 1   979 Alytes dickhilleni           1 /tmp/RtmpTR2H9… ((-105506.8 4465112, -10…
+## 2 59448 Calotriton asper             1 /tmp/RtmpTR2H9… ((-238681 5029057, -2377…
+## 3  4657 Chioglossa lusitanica        1 /tmp/RtmpTR2H9… ((-859201.6 4559278, -85…
+## 4 58622 Rana iberica                 1 /tmp/RtmpTR2H9… ((-849801.9 4614149, -84…</code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the Area of Habitat data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## since the data for each species have a different spatial extent</span></span>
@@ -340,7 +340,7 @@ div.csl-indent {
 <p>We can see that the Area of Habitat data for each species are stored in separate spatial (raster) datasets with different extents. Although this is useful because it drastically reduces the total size of the data for each species, it can make it difficult to work with data for multiple species. To address this, we can use the <code>terra_combine()</code> function to automatically align and combine the spatial data for all species’ distributions into a single spatial dataset.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># combine raster data</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>spp_aoh_rasters <span class="ot">&lt;-</span> <span class="fu">terra_combine</span>(spp_aoh_rasters)</span></code></pre></div>
-<pre><code>## |---------|---------|---------|---------|==========                                          |---------|---------|---------|---------|==========                                          |---------|---------|---------|---------|==========                                          |---------|---------|---------|---------|=====================                                          </code></pre>
+<pre><code>## |---------|---------|---------|---------|========                                          |---------|---------|---------|---------|========                                          |---------|---------|---------|---------|========                                          |---------|---------|---------|---------|================                                          </code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assign identifiers to layer names</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(spp_aoh_rasters) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;AOH_&quot;</span>, spp_aoh_data<span class="sc">$</span>id_no, <span class="st">&quot;_&quot;</span>, spp_aoh_data<span class="sc">$</span>seasonal</span>
@@ -353,10 +353,10 @@ div.csl-indent {
 ## resolution  : 100, 100  (x, y)
 ## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)
 ## coord. ref. : World_Behrmann 
-## sources     : spat_2668b689624bd_157323.tif  
-##               spat_2668b702b6cce_157323.tif  
-##               spat_2668b1a6da19c_157323.tif  
-##               spat_2668b52e3ef5_157323.tif  
+## sources     : spat_30e2f660c336b_200239.tif  
+##               spat_30e2f6fa2518_200239.tif  
+##               spat_30e2f41f64d80_200239.tif  
+##               spat_30e2f5c266dd2_200239.tif  
 ## varnames    : 979_1 
 ##               59448_1 
 ##               4657_1 
