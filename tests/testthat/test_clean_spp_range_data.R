@@ -76,7 +76,7 @@ test_that("custom presence, origin, and seasonal codes", {
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   presence <- c(1, 3)
   origin <- c(1, 5)
-  season <- c(1, 5)
+  season <- c(1, 2, 5)
   # create object
   d <- read_spp_range_data(f)
   x <- clean_spp_range_data(

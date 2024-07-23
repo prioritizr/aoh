@@ -7,8 +7,10 @@
   habitat types for resident distributions of non-migratory species would not
   include those exclusively affiliated with the species' passage distributions.
   Thanks to Jianqiao Zhao for raising this issue.
-- Fix bug in `create_spp_aoh_data()` that caused errors when using the GDAL
-  engine on macOS systems.
+- Update built-in testing data to include multiple migratory species.
+- Update internal R script for creating test dataset
+  (i.e., `inst/scripts/test-data.R`) to be compatible with current version of
+  the package.
 - Fix URLs.
 
 # aoh 0.0.2.11
