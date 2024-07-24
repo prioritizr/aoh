@@ -1,3 +1,19 @@
+# aoh 0.0.2.12
+
+- Fix bug in `create_spp_info_data()` in assigning habitat types for resident
+  distributions of migratory and non-migratory species. This bug meant that (i)
+  habitat types for resident distributions of migratory species would include
+  those exclusively affiliated with the species' passage distributions and (ii)
+  habitat types for resident distributions of non-migratory species would not
+  include those exclusively affiliated with the species' passage distributions.
+  Thanks to Jianqiao Zhao for bug report.
+- Update built-in testing data to include multiple migratory species.
+- Update internal R script for creating test dataset
+  (i.e., `inst/scripts/test-data.R`) to be compatible with current version of
+  the package.
+- Update `is_gdal_calc_available()` to be more robust.
+- Fix URLs.
+
 # aoh 0.0.2.11
 
 - Fix bug in `create_spp_info_data()` so that the IUCN Red List API key can be

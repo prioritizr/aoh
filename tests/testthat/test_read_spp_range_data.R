@@ -28,7 +28,7 @@ test_that("simulated data (shapefile zip format, multiple files)", {
   td2 <- tempfile()
   dir.create(td2, showWarnings = FALSE, recursive = TRUE)
   n <- nrow(o)
-  m <- median(seq_len(n))
+  m <- as.integer(floor(median(seq_len(n))))
   sf::write_sf(
     o[seq(1, m - 1), , drop = FALSE],
     paste0(td2, "/SIMULATED_SPECIES1.shp")

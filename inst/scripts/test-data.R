@@ -2,7 +2,7 @@
 ## define variables
 n_spp <- 10
 country_names <- c("spain", "portugal")
-habitat_version <- "10.5281/zenodo.4058819"
+habitat_version <- "10.5281/zenodo.6622038"
 elevation_version <- "10.5281/zenodo.5719984"
 cache_dir <- rappdirs::user_data_dir("aoh")
 
@@ -13,7 +13,7 @@ library(dplyr)
 library(terra)
 
 # set rng state
-set.seed(501)
+set.seed(502)
 
 # Preliminary processing
 ## install dependencies if needed
@@ -89,8 +89,8 @@ sim_elevation_data <- terra::aggregate(
 ## identify codes to use for test data
 ## these are codes present in both the Jung and Lumbierres crosswalks
 include_codes <- intersect(
-  crosswalk_jung_data$code,
-  crosswalk_lumbierres_data$code
+  crosswalk_jung_lvl2_data$code,
+  crosswalk_lumb_cgls_data$code
 )
 omit_codes <- setdiff(iucn_habitat_data$code, include_codes)
 omit_codes <- unique(c(omit_codes, iucn_habitat_codes_marine()))
@@ -101,7 +101,7 @@ sim_data <- simulate_spp_data(
   boundary_data = sim_boundary_data,
   habitat_data = sim_habitat_data,
   elevation_data = sim_elevation_data,
-  crosswalk_data = crosswalk_jung_data,
+  crosswalk_data = crosswalk_jung_lvl2_data,
   omit_habitat_codes = omit_codes
 )
 
@@ -109,6 +109,17 @@ sim_data <- simulate_spp_data(
 assertthat::assert_that(
   sum(sim_data$spp_range_data$seasonal == 2) > 0,
   msg = "simulated data does not contain any migratory species"
+)
+mig_ids <- unique(
+  sim_data$spp_range_data$id_no[sim_data$spp_range_data$seasonal == 2]
+)
+assertthat::assert_that(
+  any(mig_ids %in% sim_data$spp_habitat_data$id_no),
+  msg = "no simulated habitat data for migratory species"
+)
+assertthat::assert_that(
+  any(mig_ids %in% sim_data$spp_summary_data$id_no),
+  msg = "no simulated summary data for migratory species"
 )
 
 # Exports

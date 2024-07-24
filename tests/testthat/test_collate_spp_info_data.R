@@ -237,6 +237,28 @@ test_that("habitat codes (adjust_habitat_codes = TRUE)", {
   d3 <- utils::read.table(
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
+  # add in additional classes for passage distributions for some species,
+  # this is to mimic cases where passage habitat data are available for
+  # migratory and non-migratory species and we want to make sure they
+  # are handled correctly
+  ## sample species to add extra habitat class
+  mig_ids <- unique(d3$id_no[d3$season == "Breeding Season"])
+  non_mig_ids <- setdiff(unique(d3$id_no), mig_ids)
+  ids <- c(sample(mig_ids, size = 2), sample(non_mig_ids, size = 2))
+  ## create additional habitat data
+  ## we will deliberately use aquatic habitat so we can make sure that
+  ## the passage habitat information is treated correctly
+  new_data <- d3
+  new_data <-
+    dplyr::filter(new_data, id_no %in% ids)
+  new_data <- dplyr::group_by(new_data, id_no)
+  new_data <- dplyr::filter(new_data , seq_along(id_no) == 1)
+  new_data <- dplyr::ungroup(new_data)
+  new_data$code <- 15.4
+  new_data$habitat <- "Salt Exploitation Sites"
+  new_data$season <- "Passage"
+  ## merge extra data
+  d3 <- dplyr::bind_rows(d3, new_data)
   # create object
   x <- collate_spp_info_data(
     x = cd1,
@@ -246,14 +268,16 @@ test_that("habitat codes (adjust_habitat_codes = TRUE)", {
     verbose = interactive()
   )
   # tests
-  ids <- unique(d1$id_no)
-  for (i in seq_along(ids)) {
-    s <- dplyr::filter(cd1, id_no == ids[i])
-    h <- dplyr::filter(d3, id_no == ids[i])
+  ## verify that habitat classes are correct for each seasonal distribution
+  ## for each species
+  all_ids <- unique(d1$id_no)
+  for (i in seq_along(all_ids)) {
+    s <- dplyr::filter(cd1, id_no == all_ids[i])
+    h <- dplyr::filter(d3, id_no == all_ids[i])
     m <- any(c(2L, 3L, 4L) %in% s$seasonal)
     h$seasonal <- convert_to_seasonal_id(h$season)
     for (j in unique(s$seasonal)) {
-      w <- dplyr::filter(x, id_no == ids[i], seasonal == j)
+      w <- dplyr::filter(x, id_no == all_ids[i], seasonal == j)
       if ((j == 1) && !isTRUE(m)) {
         h_ids <- h$code[(h$seasonal %in% seq_len(5)) | is.na(h$seasonal)]
       } else if ((j == 1) && isTRUE(m)) {
@@ -269,6 +293,26 @@ test_that("habitat codes (adjust_habitat_codes = TRUE)", {
       }
       h_code <- paste(sort(unique(h_ids)), collapse = "|")
       expect_equal(w$full_habitat_code, h_code)
+    }
+  }
+  ## double check that passage habitat classes are NOT included for resident
+  ## distributions of migratory species
+  updated_mig_ids <- mig_ids[mig_ids %in% ids]
+  for (i in seq_along(updated_mig_ids)) {
+    w <- dplyr::filter(x, id_no == updated_mig_ids[i], seasonal == 1)
+    if (nrow(w) > 0) {
+      h_ids <- as.numeric(strsplit(w$full_habitat_code, "|", fixed = TRUE)[[1]])
+      expect_false(15.4 %in% h_ids)
+    }
+  }
+  ## double check that passage habitat classes are included for resident
+  ## distributions of non-migratory species
+  updated_non_mig_ids <- non_mig_ids[non_mig_ids %in% ids]
+  for (i in seq_along(updated_non_mig_ids)) {
+    w <- dplyr::filter(x, id_no == updated_non_mig_ids[i], seasonal == 1)
+    if (nrow(w) > 0) {
+      h_ids <- as.numeric(strsplit(w$full_habitat_code, "|", fixed = TRUE)[[1]])
+      expect_true(15.4 %in% h_ids)
     }
   }
 })
@@ -289,6 +333,26 @@ test_that("habitat codes (adjust_habitat_codes = FALSE)", {
   d3 <- utils::read.table(
     f3, header = TRUE, sep = ",", stringsAsFactors = FALSE
   )
+  # add in additional classes for passage distributions for some species,
+  # this is to mimic cases where passage habitat data are available for
+  # migratory and non-migratory species and we want to make sure they
+  # are handled correctly
+  ## sample species to add extra habitat class
+  mig_ids <- unique(d3$id_no[d3$season == "Breeding Season"])
+  non_mig_ids <- setdiff(unique(d3$id_no), mig_ids)
+  ids <- c(sample(mig_ids, size = 2), sample(non_mig_ids, size = 2))
+  ## create additional habitat data
+  ## we will deliberately use aquatic habitat so we can make sure that
+  ## the passage habitat information is treated correctly
+  new_data <- d3
+  new_data <-
+    dplyr::filter(new_data, id_no %in% ids)
+  new_data <- dplyr::group_by(new_data, id_no)
+  new_data <- dplyr::filter(new_data , seq_along(id_no) == 1)
+  new_data <- dplyr::ungroup(new_data)
+  new_data$code <- 15.4
+  new_data$habitat <- "Salt Exploitation Sites"
+  new_data$season <- "Passage"
   # create object
   x <- collate_spp_info_data(
     x = cd1,
@@ -298,13 +362,13 @@ test_that("habitat codes (adjust_habitat_codes = FALSE)", {
     verbose = interactive()
   )
   # tests
-  ids <- unique(d1$id_no)
-  for (i in seq_along(ids)) {
-    s <- dplyr::filter(cd1, id_no == ids[i])
-    h <- dplyr::filter(d3, id_no == ids[i])
+  all_ids <- unique(d1$id_no)
+  for (i in seq_along(all_ids)) {
+    s <- dplyr::filter(cd1, id_no == all_ids[i])
+    h <- dplyr::filter(d3, id_no == all_ids[i])
     h$seasonal <- convert_to_seasonal_id(h$season)
     for (j in unique(s$seasonal)) {
-      w <- dplyr::filter(x, id_no == ids[i], seasonal == j)
+      w <- dplyr::filter(x, id_no == all_ids[i], seasonal == j)
       if (j == 1) {
         h_ids <- h$code[h$seasonal %in% 1L]
       } else if (j == 2) {

@@ -44,6 +44,9 @@ normalize_path <- function(path, winslash = "\\", mustWork = NA) {
   if (identical(.Platform$OS.type, "unix")) {
     # if on a Unix platform, then we just need to use normalizePath()
     out <- normalizePath(path, winslash = winslash, mustWork = mustWork)
+    # if on a macOS system, this sometimes results in file paths
+    # that contain "//" instead of "/" for a folder separator
+    out <- gsub("//", "/", out, fixed = TRUE)
   } else {
     # if on a Windows platform, then things get a bit more complicated...
     if (!grepl("~", path, fixed = TRUE)) {

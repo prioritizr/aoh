@@ -229,6 +229,8 @@ terra_gdal_calc <- function(x, expr,
   if (isTRUE(verbose)) {
     cli::cli_alert_info(paste("System command:", cmd))
   }
+
+  # run gdal_calc via system command
   system(cmd, intern = !verbose)
 
   # clean up
@@ -245,6 +247,15 @@ terra_gdal_calc <- function(x, expr,
     rm(z)
     unlink(f3, force = TRUE)
   }
+
+  # verify output file exists
+  assertthat::assert_that(
+    file.exists(filename),
+    msg = paste0(
+      "failed to run `gdal_calc.py` script: output file \"",
+      filename, "\" does not exist"
+    )
+  )
 
   # return result
   if (output_raster) {
