@@ -25,6 +25,12 @@ is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
 knitr::opts_chunk$set(fig.align = "center", eval = !is_check)
 ```
 
+```{r, include = FALSE, eval = TRUE}
+# set dummy values so pre-compiled vignette passes checks
+spp_name <- "`\"Simulus spp. 670\"`"
+spp_id_no <- 632
+```
+
 ## Introduction
 
 The _aoh R_ package provides a flexible framework for generating Area of Habitat data. By default, it will use elevation data derived from Robinson _et al._ [-@r4] and habitat classification data derived from Lumbierres _et al._ [-@r9]. Its defaults also include using species' elevational limit and habitat preference data from the [International Union for Conservation of Nature (IUCN) Red List of Threatened Species](https://www.iucnredlist.org/). In addition to these defaults, it provides built-in functions to use habitat classification derived from other data sources [e.g., from @r5]. The package can also be used to generate Area of Habitat data using other datasets that have been manually created by the user. For example, it could be used to produce Area of Habitat data using habitat classification data derived from [Copernicus Corine Land Cover](https://land.copernicus.eu/en/products/corine-land-cover) data or species' elevational limit data from the [BirdLife Data Zone](https://datazone.birdlife.org/home).
@@ -105,7 +111,6 @@ print(spp_summary_data, n = Inf)
 ```{r, include = FALSE}
 spp_name <- paste0("`\"", spp_range_data$binomial[[1]], "\"`")
 spp_id_no <- paste0("`", spp_range_data$id_no[[1]], "`")
-
 ```
 
 After importing all the datasets with the species data, it is important to ensure that each and every species is associated with geographic range, habitat preference, and summary data. Here, the `"id_no"` column values are used to denote different taxa---meaning that each species should have a unique identifier. These identifiers are used when cross-referencing the datasets. For example, the species named `r spp_name` has an identifier (`"id_no"` value) of `r spp_id_no`, and this identifier is used to denote its range in the `spp_range_data` dataset, its habitat preferences in the `spp_habitat_data` dataset, and its elevational limits in the `spp_summary_data` dataset. We can verify that each of the species have the required information across all three datasets using the following code.
