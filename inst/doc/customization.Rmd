@@ -102,7 +102,13 @@ spp_summary_data <- spp_summary_data[, col_names, drop = FALSE]
 print(spp_summary_data, n = Inf)
 ```
 
-After importing all the datasets with the species data, it is important to ensure that each and every species is associated with geographic range, habitat preference, and summary data. Here, the `"id_no"` column values are used to denote different taxa---meaning that each species should have a unique identifier. These identifiers are used when cross-referencing the datasets. For example, the species named `"Simulus spp. 932"` has an identifier (`"id_no"` value) of 932, and this identifier is used to denote its range in the `spp_range_data` dataset, its habitat preferences in the `spp_habitat_data` dataset, and its elevational limits in the `spp_summary_data` dataset. We can verify that each of the species have the required information across all three datasets using the following code.
+```{r, include = FALSE}
+spp_name <- paste0("`\"", spp_range_data$binomial[[1]], "\"`")
+spp_id_no <- paste0("`", spp_range_data$id_no[[1]], "`")
+
+```
+
+After importing all the datasets with the species data, it is important to ensure that each and every species is associated with geographic range, habitat preference, and summary data. Here, the `"id_no"` column values are used to denote different taxa---meaning that each species should have a unique identifier. These identifiers are used when cross-referencing the datasets. For example, the species named `r spp_name` has an identifier (`"id_no"` value) of `r spp_id_no`, and this identifier is used to denote its range in the `spp_range_data` dataset, its habitat preferences in the `spp_habitat_data` dataset, and its elevational limits in the `spp_summary_data` dataset. We can verify that each of the species have the required information across all three datasets using the following code.
 
 ```{r}
 # verify all identifiers in range data are present in habitat preference data

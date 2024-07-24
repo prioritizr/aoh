@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2024-07-23" />
+<meta name="date" content="2024-07-24" />
 
 <title>Customization</title>
 
@@ -169,7 +169,7 @@ div.csl-indent {
 
 
 <h1 class="title toc-ignore">Customization</h1>
-<h4 class="date">2024-07-23</h4>
+<h4 class="date">2024-07-24</h4>
 
 
 <div id="TOC">
@@ -324,7 +324,7 @@ div.csl-indent {
 ##  8  6701             221            1069 EN      
 ##  9  8110              75             991 VU      
 ## 10  8644             182            1183 LC</code></pre>
-<p>After importing all the datasets with the species data, it is important to ensure that each and every species is associated with geographic range, habitat preference, and summary data. Here, the <code>&quot;id_no&quot;</code> column values are used to denote different taxa—meaning that each species should have a unique identifier. These identifiers are used when cross-referencing the datasets. For example, the species named <code>&quot;Simulus spp. 932&quot;</code> has an identifier (<code>&quot;id_no&quot;</code> value) of 932, and this identifier is used to denote its range in the <code>spp_range_data</code> dataset, its habitat preferences in the <code>spp_habitat_data</code> dataset, and its elevational limits in the <code>spp_summary_data</code> dataset. We can verify that each of the species have the required information across all three datasets using the following code.</p>
+<p>After importing all the datasets with the species data, it is important to ensure that each and every species is associated with geographic range, habitat preference, and summary data. Here, the <code>&quot;id_no&quot;</code> column values are used to denote different taxa—meaning that each species should have a unique identifier. These identifiers are used when cross-referencing the datasets. For example, the species named <code>&quot;Simulus spp. 670&quot;</code> has an identifier (<code>&quot;id_no&quot;</code> value) of <code>670</code>, and this identifier is used to denote its range in the <code>spp_range_data</code> dataset, its habitat preferences in the <code>spp_habitat_data</code> dataset, and its elevational limits in the <code>spp_summary_data</code> dataset. We can verify that each of the species have the required information across all three datasets using the following code.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verify all identifiers in range data are present in habitat preference data</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">## if we see TRUE: then this means both datasets have the same taxa identifiers</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## if we see FALSE: then some taxa identifiers are missing from one dataset</span></span>
@@ -674,21 +674,21 @@ div.csl-indent {
 ## 15 3.4|5|14.5                     3.4|5|14.5                                 182
 ##    elevation_upper    xmin    xmax    ymin    ymax path                      
 ##  *           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;                     
-##  1             942 -896631 -648631 4946077 5067077 /tmp/RtmpTR2H9Y/670_2.tif 
-##  2             942 -417631  320369 4742077 5033077 /tmp/RtmpTR2H9Y/670_3.tif 
-##  3             942 -527631 -312631 4664077 4840077 /tmp/RtmpTR2H9Y/670_4.tif 
-##  4             907 -916631   39369 4328077 5070077 /tmp/RtmpTR2H9Y/2072_1.tif
-##  5            1020 -868631  320369 4304077 5070077 /tmp/RtmpTR2H9Y/2374_1.tif
-##  6             598 -794631 -305631 4334077 4678077 /tmp/RtmpTR2H9Y/3667_1.tif
-##  7             949 -863631   -8631 4400077 5062077 /tmp/RtmpTR2H9Y/4421_1.tif
-##  8             951 -916631  203369 4304077 5070077 /tmp/RtmpTR2H9Y/4650_1.tif
-##  9             974 -621631 -354631 4304077 4456077 /tmp/RtmpTR2H9Y/5808_1.tif
-## 10             974 -375631 -201631 4373077 4519077 /tmp/RtmpTR2H9Y/5808_2.tif
-## 11             974 -771631 -651631 4781077 4861077 /tmp/RtmpTR2H9Y/5808_3.tif
-## 12             974 -868631  275369 4406077 5058077 /tmp/RtmpTR2H9Y/5808_4.tif
-## 13            1069 -896631  -74631 4634077 5070077 /tmp/RtmpTR2H9Y/6701_1.tif
-## 14             991 -868631  291369 4304077 5044077 /tmp/RtmpTR2H9Y/8110_1.tif
-## 15            1183 -402631  183369 4624077 5000077 /tmp/RtmpTR2H9Y/8644_1.tif
+##  1             942 -896631 -648631 4946077 5067077 /tmp/Rtmp082JE2/670_2.tif 
+##  2             942 -417631  320369 4742077 5033077 /tmp/Rtmp082JE2/670_3.tif 
+##  3             942 -527631 -312631 4664077 4840077 /tmp/Rtmp082JE2/670_4.tif 
+##  4             907 -916631   39369 4328077 5070077 /tmp/Rtmp082JE2/2072_1.tif
+##  5            1020 -868631  320369 4304077 5070077 /tmp/Rtmp082JE2/2374_1.tif
+##  6             598 -794631 -305631 4334077 4678077 /tmp/Rtmp082JE2/3667_1.tif
+##  7             949 -863631   -8631 4400077 5062077 /tmp/Rtmp082JE2/4421_1.tif
+##  8             951 -916631  203369 4304077 5070077 /tmp/Rtmp082JE2/4650_1.tif
+##  9             974 -621631 -354631 4304077 4456077 /tmp/Rtmp082JE2/5808_1.tif
+## 10             974 -375631 -201631 4373077 4519077 /tmp/Rtmp082JE2/5808_2.tif
+## 11             974 -771631 -651631 4781077 4861077 /tmp/Rtmp082JE2/5808_3.tif
+## 12             974 -868631  275369 4406077 5058077 /tmp/Rtmp082JE2/5808_4.tif
+## 13            1069 -896631  -74631 4634077 5070077 /tmp/Rtmp082JE2/6701_1.tif
+## 14             991 -868631  291369 4304077 5044077 /tmp/Rtmp082JE2/8110_1.tif
+## 15            1183 -402631  183369 4624077 5000077 /tmp/Rtmp082JE2/8644_1.tif
 ##                                                                         geometry
 ##  *                                                            &lt;MULTIPOLYGON [m]&gt;
 ##  1 (((-744167.8 5065733, -744758.3 5065030, -745429.8 5064437, -745619 5064063,…

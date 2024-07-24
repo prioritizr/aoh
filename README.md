@@ -349,11 +349,7 @@ map <-
     strip.text = element_text(color = "white"),
     strip.background = element_rect(fill = "black", color = "black")
   )
-```
 
-    ## |---------|---------|---------|---------|=========================================                                          
-
-``` r
 # display maps
 print(map)
 ```
