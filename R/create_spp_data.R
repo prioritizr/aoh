@@ -103,11 +103,8 @@ create_spp_data <- function(x,
     msg = "argument to \"cache_limit\" cannot exceed 9999"
   )
   assertthat::assert_that(
-    assertthat::has_name(x, "id_no") ||
-      assertthat::has_name(x, "SISID"),
-    msg = paste0(
-      "argument to \"x\" does not have a column named \"id_no\" or \"SISID\""
-    )
+    assertthat::has_name(x, "id_no"),
+    msg = "argument to \"x\" does not have a column named \"id_no\""
   )
   if (identical(engine, "gdal")) {
   assertthat::assert_that(

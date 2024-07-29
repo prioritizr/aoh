@@ -138,6 +138,8 @@ read_spp_range_data <- function(path, n = NULL) {
     ## find range data id column
     if (assertthat::has_name(out, "id_no")) {
       id_col <- "id_no"
+    } else if (assertthat::has_name(out, "sisid")) {
+      id_col <- "sisid"
     } else if (assertthat::has_name(out, "SISID")) {
       id_col <- "SISID"
     } else if (assertthat::has_name(out, "SISRecID")) {
@@ -145,21 +147,25 @@ read_spp_range_data <- function(path, n = NULL) {
     } else {
       stop(
         "range data in argument to \"path\" does not contain ",
-        "\"id_no\", \"SISID\", or \"SISRecID\" columns"
+        "a recognized species identifier column (i.e., a column named ",
+        "\"id_no\", \"sisid\", \"SISID\", or \"SISRecID\")"
       )
     }
     ## rename column in metadata
     if (!assertthat::has_name(md, id_col)) {
       if (assertthat::has_name(md, "id_no")) {
         names(md)[which(names(md) == "id_no")[[1]]] <- id_col
+      } else if (assertthat::has_name(md, "sisid")) {
+        names(md)[which(names(md) == "sisid")[[1]]] <- id_col
       } else if (assertthat::has_name(md, "SISID")) {
         names(md)[which(names(md) == "SISID")[[1]]] <- id_col
       } else if (assertthat::has_name(md, "SISRecID")) {
         names(md)[which(names(md) == "SISRecID")[[1]]] <- id_col
       } else {
         stop(
-        "species metadata in argument to \"path\" does not contain ",
-        "\"id_no\", \"SISID\", or \"SISRecID\" columns"
+          "species metadata in argument to \"path\" does not contain ",
+          "a recognized species identifier column (i.e., a column named ",
+          "\"id_no\", \"sisid\", \"SISID\", or \"SISRecID\")"
         )
       }
     }

@@ -1,3 +1,12 @@
+# aoh 0.0.2.13
+
+- Update `read_spp_range_data()` and `create_spp_info_data()` to fix
+  incompatibility issue with latest version of the BirdLife species range
+  dataset (#57). Thanks to Jianqiao Zhao for the bug report.
+- Update `create_spp_aoh_data()` and `create_spp_frc_data()` so that they
+  provide a correct error message when the argument to `x` does not
+  contain an `"id_no"` column.
+
 # aoh 0.0.2.12
 
 - Fix bug in `create_spp_info_data()` in assigning habitat types for resident
