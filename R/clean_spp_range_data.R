@@ -125,20 +125,22 @@ clean_spp_range_data <- function(x,
   )
   assertthat::assert_that(
     assertthat::has_name(x, "id_no") ||
+      assertthat::has_name(x, "sisid") ||
       assertthat::has_name(x, "SISID") ||
       assertthat::has_name(x, "SISRecID"),
-    msg = paste0(
-      "argument to \"x\" must have a \"id_no\", \"SISID\", ",
-      "or \"SISRecID\" column"
+    msg = paste(
+      "argument to \"x\" must have a recognized species identifier column",
+      "(i.e., a column named \"id_no\", \"sisid\", \"SISID\", or",
+      "\"SISRecID\")"
     )
   )
   assertthat::assert_that(
     assertthat::has_name(x, "binomial") ||
       assertthat::has_name(x, "SCINAME") ||
       assertthat::has_name(x, "sci_name"),
-    msg = paste0(
-      "argument to \"x\" must have a \"binomial\", \"SCINAME\", ",
-      "or \"sci_name\" column"
+    msg = paste(
+      "argument to \"x\" must have a recognized species name column",
+      "(i.e., a column named \"binomial\", \"SCINAME\", or \"sci_name\")"
     )
   )
   assertthat::assert_that(

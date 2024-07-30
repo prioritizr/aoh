@@ -373,9 +373,11 @@ create_spp_info_data <- function(x,
   )
   assertthat::assert_that(
     assertthat::has_name(x, "id_no") ||
-      assertthat::has_name(x, "SISID"),
-    msg = paste0(
-      "argument to \"x\" does not have a column named \"id_no\" or \"SISID\""
+      assertthat::has_name(x, "SISID") ||
+      assertthat::has_name(x, "sisid"),
+    msg = paste(
+      "argument to \"x\" does not have a recognized species identifier column",
+      "(i.e., a column named \"id_no\", \"sisid\", or \"SISID\")"
     )
   )
 
