@@ -38,7 +38,9 @@ prep_lumbierres_habitat_data: inst/scripts/lumbierres-habitat-data.R
 	R CMD BATCH --no-restore --no-save inst/scripts/lumbierres-habitat-data.R
 
 # process aoh data
-aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles aoh_birds
+aoh_global_data: aoh_amphibians aoh_mammals aoh_reptiles aoh_birds aoh_mammals
+
+aoh_mammals: aoh_mammals_land aoh_mammals_land_freshwater aoh_mammals_land_marine
 
 aoh_amphibians:
 	R CMD BATCH --no-restore --no-save '--args amphibians' inst/scripts/aoh-data.R aoh-data-amphibians.Rout
@@ -51,8 +53,14 @@ aoh_birds:
 	R CMD BATCH --no-restore --no-save '--args birds-part-5' inst/scripts/aoh-data.R aoh-data-birds-part-5.Rout
 	R CMD BATCH --no-restore --no-save '--args birds-part-6' inst/scripts/aoh-data.R aoh-data-birds-part-6.Rout
 
-aoh_mammals:
-	R CMD BATCH --no-restore --no-save '--args mammals' inst/scripts/aoh-data.R aoh-data-mammals.Rout
+aoh_mammals_land:
+	R CMD BATCH --no-restore --no-save '--args mammals-land' inst/scripts/aoh-data.R aoh-data-mammals-land.Rout
+
+aoh_mammals_land_freshwater:
+	R CMD BATCH --no-restore --no-save '--args mammals-land-freshwater' inst/scripts/aoh-data.R aoh-data-mammals-land-freshwater.Rout
+
+aoh_mammals_land_marine:
+	R CMD BATCH --no-restore --no-save '--args mammals-land-marine' inst/scripts/aoh-data.R aoh-data-mammals-land-marine.Rout
 
 aoh_reptiles:
 	R CMD BATCH --no-restore --no-save '--args reptiles' inst/scripts/aoh-data.R aoh-data-reptiles.Rout
@@ -132,4 +140,4 @@ purl_vigns:
 	R --slave -e "lapply(dir('vignettes', '^.*\\\\.Rmd$$'), function(x) knitr::purl(file.path('vignettes', x), gsub('.Rmd', '.R', x, fixed = TRUE)))"
 	rm -f Rplots.pdf
 
-.PHONY: initc vigns clean data docs readme site test check checkwb build  purl_vigns install man spellcheck examples prep_habitat_data prep_elevation_data aoh_reptiles aoh_mammals aoh_birds aoh_amphibians aoh_global_data frc_reptiles frc_mammals frc_birds frc_amphibians frc_global_data
+.PHONY: initc vigns clean data docs readme site test check checkwb build  purl_vigns install man spellcheck examples prep_habitat_data prep_elevation_data aoh_reptiles aoh_mammals aoh_mammals_land aoh_mammals_land_freshwater aoh_mammals_land_marine aoh_birds aoh_amphibians aoh_global_data frc_reptiles frc_mammals frc_birds frc_amphibians frc_global_data

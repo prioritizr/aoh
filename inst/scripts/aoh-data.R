@@ -1,6 +1,5 @@
 # Initialization
 ## load packages
-devtools::load_all()
 library(aoh)
 library(raster)
 library(terra)
@@ -11,14 +10,16 @@ library(rappdirs)
 ## define available datasets
 input_file_options <- c(
   "amphibians" = "AMPHIBIANS.zip",
-  "birds" = "BOTW.7z",
-  "birds-part-1" = "BOTW.7z",
-  "birds-part-2" = "BOTW.7z",
-  "birds-part-3" = "BOTW.7z",
-  "birds-part-4" = "BOTW.7z",
-  "birds-part-5" = "BOTW.7z",
-  "birds-part-6" = "BOTW.7z",
-  "mammals" = "MAMMALS_TERRESTRIAL_ONLY.zip",
+  "birds" = "BOTW_2023_1.7z",
+  "birds-part-1" = "BOTW_2023_1.7z",
+  "birds-part-2" = "BOTW_2023_1.7z",
+  "birds-part-3" = "BOTW_2023_1.7z",
+  "birds-part-4" = "BOTW_2023_1.7z",
+  "birds-part-5" = "BOTW_2023_1.7z",
+  "birds-part-6" = "BOTW_2023_1.7z",
+  "mammals-land" = "MAMMALS_TERRESTRIAL_ONLY.zip",
+  "mammals-land-freshwater" = "MAMMALS_FRESHWATER.zip",
+  "mammals-land-marine" = "MAMMALS_MARINE_AND_TERRESTRIAL.zip",
   "reptiles" = "REPTILES.zip"
 )
 
@@ -45,28 +46,34 @@ assertthat::assert_that(
 input_file <- input_file_options[[cmd_args]]
 cli::cli_alert_info(paste0("processing file: ", input_file))
 
+### set geometry processing
+if (isTRUE(startsWith(input_file, "BOTW"))) {
+  geometry_precision <- 1e10
+} else {
+  geometry_precision <- 1e6
+}
+
 ### change this to the folder where the zip file is located
 input_dir <- rappdirs::user_data_dir("iucn-red-list-data")
 
 ### change this to where you want to save the outputs
 output_dir <- "~/aoh-data"
 
+## change this to where you want to catch IUCN Red List data
+cache_dir <- paste0(output_dir, "/iucn-red-list-cache")
+
 # Preliminary processing
-## specify cache directory
-cache_dir <- rappdirs::user_data_dir("aoh")
-
-## create cache directory if needed
-cache_dir <- user_data_dir("aoh")
-if (!file.exists(cache_dir)) {
-  dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
-}
-
 ## update output directory based on input data filename
 output_dir <- file.path(
   path.expand(output_dir), tools::file_path_sans_ext(basename(input_file))
 )
 if (!file.exists(output_dir)) {
   dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+}
+
+## create cache directory if needed
+if (!file.exists(cache_dir)) {
+  dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
 # Main processing
@@ -86,13 +93,17 @@ if (startsWith(cmd_args, "birds-part-")) {
 gc()
 
 ## exclude species in BirdLife data that are not on the IUCN Red List
-if (identical(input_file, "BOTW.7z")) {
+if (isTRUE(startsWith(toupper(input_file), "BOTW"))) {
   ### exclude species
-  exclude_ids <- c(
-    22682860, 22700886, 22724592, 22683873, 61450351, 22735845,
-    22709707, 155257132, 155257123, 22709791, 22723656
+  #### N.B. all speciesin 2023-1 version of BirdLife data are present on
+  #### IUCN Red List so we don't need to exclude any species for this version
+  exclude_ids <- c()
+  id_column <- ifelse("sisid" %in% names(x), "sisid", "SISID")
+  assertthat::assert_that(
+    id_column %in% names(x),
+    msg = "can't identify id column (neither \"sisid\" or \"SISID\" present)"
   )
-  x <- x[which(!x$SISID %in% exclude_ids), , drop = FALSE]
+  x <- x[which(!x[[id_column]] %in% exclude_ids), , drop = FALSE]
   ### garbage collection
   gc()
 }
@@ -101,6 +112,7 @@ if (identical(input_file, "BOTW.7z")) {
 info_data <- create_spp_info_data(
   x = x,
   cache_dir = cache_dir,
+  geometry_precision = geometry_precision
 )
 
 ## create Area of Habitat data
@@ -110,7 +122,8 @@ result_data <- create_spp_aoh_data(
   cache_dir = cache_dir,
   engine = engine,
   n_threads = n_threads,
-  cache_limit = cache_limit
+  cache_limit = cache_limit,
+  rasterize_touches = TRUE
 )
 
 # Exports
@@ -120,3 +133,6 @@ saveRDS(
   file = file.path(dirname(output_dir), paste0("AOH_", out_name, ".rds")),
   compress = "xz"
 )
+
+## session information
+sessionInfo()
