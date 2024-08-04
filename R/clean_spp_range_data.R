@@ -402,9 +402,11 @@ clean_spp_range_data <- function(x,
   # step 6: convert MULTISURFACE to MULTIPOLYGON
   x <- sf::st_set_precision(x, geometry_precision)
   idx <- which(vapply(sf::st_geometry(x), inherits, logical(1), "MULTISURFACE"))
-  if (length(idx) > 0) { # nocov start
+  # nocov start
+  if (length(idx) > 0) {
     g <- sf::st_geometry(x)
-    g2 <- lapply(g[idx], sf::st_cast, "MULTIPOLYGON")
+    g2 <- g[idx]
+    g2 <- lapply(g2, sf::st_cast, "MULTIPOLYGON")
     g2 <- lapply(g2, sf::st_buffer, 0)
     g2 <- lapply(g2, sf::st_make_valid)
     for (i in seq_along(idx)) {
@@ -412,9 +414,14 @@ clean_spp_range_data <- function(x,
     }
     x <- sf::st_set_geometry(x, g)
     rm(g, g2)
-  } # nocov end
+  }
+  # nocov end
+
+  # force construction of object, this seems to be needed for some reason
+  # that I do not understand, otherwise st_collection_extract() throws
+  # an error
+  x <- x[seq_len(nrow(x)), , drop = FALSE]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  invisible(gc())
 
   # step 7: fix any potential geometry issues
   x <- st_repair_geometry(x, geometry_precision)
@@ -422,8 +429,11 @@ clean_spp_range_data <- function(x,
 
   # step 8: wrap geometries to dateline
   x <- sf::st_set_precision(x, geometry_precision)
-  x <- suppressWarnings(sf::st_wrap_dateline(x,
-    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
+  x <- suppressWarnings(
+    sf::st_wrap_dateline(
+      x,
+      options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
+    )
   )
   invisible(gc())
 

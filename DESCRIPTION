@@ -1,6 +1,6 @@
 Package: aoh
 Type: Package
-Version: 0.0.2.13
+Version: 0.0.2.14
 Title: Create Area of Habitat Data
 Description: Create Area of Habitat data to characterize species distributions.
     Data are produced following procedures outlined by Brooks et al. (2019)
@@ -73,7 +73,7 @@ SystemRequirements: GDAL (>= 3.0.2) (optional), PROJ (>= 7.2.0) (optional)
 URL: https://prioritizr.github.io/aoh/, https://github.com/prioritizr/aoh
 BugReports: https://github.com/prioritizr/aoh/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Collate:
     'internal.R'
     'calc_spp_frc_data.R'
