@@ -174,10 +174,10 @@
 <span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">##   id_no binomial              seasonal path                             geometry</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpAcEC2… ((-105506.8 4465112, -10…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpAcEC2… ((-238681 5029057, -2377…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpAcEC2… ((-859201.6 4559278, -85…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpAcEC2… ((-849801.9 4614149, -84…</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/Rtmp5rXUb… ((-105506.8 4465112, -10…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/Rtmp5rXUb… ((-238681 5029057, -2377…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/Rtmp5rXUb… ((-859201.6 4559278, -85…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/Rtmp5rXUb… ((-849801.9 4614149, -84…</span></span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import the Area of Habitat data</span></span>
@@ -274,7 +274,7 @@
 <span>    strip.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>,</span>
 <span>    strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          </span></span></code></pre>
+<pre><code><span><span class="co">## |---------|---------|---------|---------|=========================================                                          </span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># display maps</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></span></code></pre></div>
@@ -330,7 +330,7 @@
 </li>
 <li>
 <p><strong>Can I use habitat classification data from other data sources?</strong></p>
-<p>Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from <a href="https://land.copernicus.eu/en/products/corine-land-cover" class="external-link">Copernicus Corine Land Cover</a>, and <a href="https://lpdaac.usgs.gov/products/mcd12q1v006/" class="external-link">MODIS Land Cover data (MCD12Q1)</a>). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN Red List Habitat Classification Scheme</a> <span class="citation">(e.g., see Tracewski <em>et al.</em> 2016; Lumbierres <em>et al.</em> 2021)</span>. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p>
+<p>Yes, you can use habitat classification data from a variety of sources. For example, the habitat classification data could be derived from <a href="https://land.copernicus.eu/en/products/corine-land-cover" class="external-link">Copernicus Corine Land Cover</a>, and <a href="https://lpdaac.usgs.gov/products/mcd12q1v061/" class="external-link">MODIS Land Cover data (MCD12Q1)</a>). To use such data, you will also need to develop a crosswalk table to specify which land cover (or habitat) classes correspond to which habitat classes as defined by the <a href="https://www.iucnredlist.org/resources/habitat-classification-scheme" class="external-link">IUCN Red List Habitat Classification Scheme</a> <span class="citation">(e.g., see Tracewski <em>et al.</em> 2016; Lumbierres <em>et al.</em> 2021)</span>. After preparing the habitat classification data and the crosswalk table, they can be used to create Area of Habitat data (via <code><a href="../reference/create_spp_aoh_data.html">create_spp_aoh_data()</a></code>). For more information, see the <a href="customization.html">Customization vignette</a>.</p>
 </li>
 <li>
 <p><strong>The output Area of Habitat data have different spatial extents, how can I combine them together?</strong></p>
