@@ -26,7 +26,14 @@ knitr::opts_chunk$set(
 [![Coverage Status](https://img.shields.io/codecov/c/github/prioritizr/aoh?label=Coverage)](https://app.codecov.io/gh/prioritizr/aoh/branch/master)
 
 ```{r, include = FALSE}
+# load developmental version of package
 devtools::load_all()
+
+# check if being prepared for website
+## see https://github.com/r-lib/pkgdown/blob/main/R/pkgdown.R
+in_pkgdown <- function() {
+  identical(Sys.getenv("IN_PKGDOWN"), "true")
+}
 ```
 
 ### Overview
@@ -180,7 +187,7 @@ print(spp_aoh_rasters)
 
 Finally, let's create some maps to compare the range data with the Area of habitat data.
 
-```{r "map", message = FALSE, warning = FALSE, results = "hide", dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(knitr::is_html_output(excludes = c("markdown"))), "60%", "90%")}
+```{r "map", message = FALSE, warning = FALSE, results = "hide", dpi = 200, fig.width = 5.5, fig.height = 4, out.width = ifelse(isTRUE(in_pkgdown()), "60%", "90%")}
 # create maps
 ## N.B. you might need to install the ggmap package
 map <-

@@ -7,7 +7,7 @@
   (ii)  mammal speices with terrestrial and marine distributions
   (see `inst/scripts/aoh-data.R`)
 - New built-in helper script to download all species identifiers from the
-   IUCN Red List (see `inst/scripts/iucn-species-list.R`)
+  IUCN Red List (see `inst/scripts/iucn-species-list.R`)
 
 # aoh 0.0.2.13
 

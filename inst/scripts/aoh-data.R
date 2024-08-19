@@ -79,12 +79,27 @@ if (!file.exists(cache_dir)) {
 # Main processing
 ## import data
 x <- read_spp_range_data(file.path(input_dir, input_file))
+
+## determine id column
+id_column <- ifelse("sisid" %in% names(x), "sisid", "SISID")
+assertthat::assert_that(
+  id_column %in% names(x),
+  msg = "can't identify id column (neither \"sisid\" or \"SISID\" present)"
+)
+
+## processing data in chunks
 if (startsWith(cmd_args, "birds-part-")) {
   ### parse options for partitioned bird run
   out_name <- gsub("birds-", "BOTW-", cmd_args, fixed = TRUE)
   i <- as.numeric(gsub("birds-part-", "", cmd_args, fixed = TRUE))
   n <- sum(grepl("birds-part-", names(input_file_options), fixed = TRUE))
-  x <- x[parallel::splitIndices(nrow(x), n)[[i]], , drop = FALSE]
+  ### assign each species id to a different partition
+  spp_ids <- c(na.omit(unique(x[[id_column]])))
+  chunks <- parallel::splitIndices(length(spp_ids), n)
+  ### subset data for processing
+  x <- x[which(x[[id_column]] %in% spp_ids[chunks[[i]]]), , drop = FALSE]
+  ### update output directory to save in a folder for the partition
+  output_dir <- paste0(output_dir, "-part-", i)
 } else {
   ### parse options for other runs
   out_name <- tools::file_path_sans_ext(basename(input_file))
@@ -98,14 +113,14 @@ if (isTRUE(startsWith(toupper(input_file), "BOTW"))) {
   #### N.B. all speciesin 2023-1 version of BirdLife data are present on
   #### IUCN Red List so we don't need to exclude any species for this version
   exclude_ids <- c()
-  id_column <- ifelse("sisid" %in% names(x), "sisid", "SISID")
-  assertthat::assert_that(
-    id_column %in% names(x),
-    msg = "can't identify id column (neither \"sisid\" or \"SISID\" present)"
-  )
   x <- x[which(!x[[id_column]] %in% exclude_ids), , drop = FALSE]
   ### garbage collection
   gc()
+}
+
+## ensure output directory exists
+if (!file.exists(output_dir)) {
+  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 }
 
 ## create information data

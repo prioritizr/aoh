@@ -354,7 +354,7 @@ map <-
 print(map)
 ```
 
-<img src="man/figures/README-map-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-map-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Citation
 
