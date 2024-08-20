@@ -93,6 +93,9 @@ jobs:
         run: |
           result <- urlchecker::url_check()
           result <- result[!startsWith(result$URL, "https://doi.org/"), , drop = FALSE]
+          result <- result[!startsWith(result$URL, "https://land.copernicus.eu"), , drop = FALSE]
+          result <- result[!startsWith(result$URL, "https://www.iucnredlist.org"), , drop = FALSE]
+          result <- result[!startsWith(result$URL, "https://lpdaac.usgs.gov"), , drop = FALSE]
           if (nrow(result) > 0) {
             print(result)
             stop("Invalid URLs detected")

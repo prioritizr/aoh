@@ -1,8 +1,11 @@
+url: https://prioritizr.github.io/aoh
+
 authors:
   Jeffrey O Hanson:
     href: http://jeffrey-hanson.com
 
 template:
+  bootstrap: 5
   params:
     bootswatch: flatly
 
