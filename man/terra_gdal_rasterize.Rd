@@ -22,7 +22,6 @@ terra_gdal_rasterize(
   nbits = NULL,
   compress = "LZW",
   NAflag = NULL,
-  verbose = TRUE,
   output_raster = TRUE
 )
 }
@@ -90,9 +89,6 @@ Defaults to \code{"LZW"}.}
 \item{NAflag}{\code{numeric} Value for representing missing (\code{NA}) values.
 A \code{"none"} value can also be used to indicate that no flag should be set.
 Defaults to \code{NULL} such that the value is determined automatically.}
-
-\item{verbose}{\code{logical} Should information be displayed during processing?
-Defaults to \code{TRUE}.}
 
 \item{output_raster}{\code{logical} Should a raster (\code{\link[terra:rast]{terra::rast()}})
 object be returned?

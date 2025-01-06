@@ -121,8 +121,8 @@ following system commands.
 
 ##### *Linux*
 
-For Unix-alikes, `gdal` (&gt;= 3.0.2), `gmp` (&gt;= 4.2.3), `grass`
-(&gt;= 7.8.7), and `mpfr` (&gt;= 3.0.0) are required.
+For Unix-alikes, `gdal` (\>= 3.0.2), `gmp` (\>= 4.2.3), `grass` (\>=
+7.8.7), and `mpfr` (\>= 3.0.0) are required.
 
 ##### *MacOS*
 
@@ -365,8 +365,8 @@ produce Area of Habitat data.
     Depending on which datasets are used, please cite the aoh package and
     relevant data using:
 
-      Hanson JO (2024) aoh: Create Area of Habitat Data. R package version
-      0.0.2.14. Available at https://github.com/prioritizr/aoh.
+      Hanson JO (2025) aoh: Create Area of Habitat Data. R package version
+      0.0.2.15. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

@@ -1,10 +1,17 @@
+# aoh 0.0.2.15
+
+- Update `terra_gdal_rasterize()` to remove the `verbose` parameter.
+  This is because the underlying `gdalUtilities::gdal_rasterize()` function no
+  longer supports the `q` parameter with recent GDAL versions (i.e., 3.9.3+).
+- Fix URLs.
+
 # aoh 0.0.2.14
 
 - Update `create_spp_info_data()` to make data cleaning functionality more
   robust for the BirdLife species' range dataset.
 - Update built-in helper script for processing area of habitat data to
-  include (i) mammal species with terrestrial and freshwater distributions and
-  (ii)  mammal species with terrestrial and marine distributions
+  include (i) mammal species with terrestrial and freshwater distributions
+  and (ii) mammal species with terrestrial and marine distributions
   (see `inst/scripts/aoh-data.R`)
 - New built-in helper script to download all species identifiers from the
   IUCN Red List (see `inst/scripts/iucn-species-list.R`)

@@ -55,7 +55,8 @@ Available options include \code{"LZW"} and \code{"DEFLATE"}.
 Defaults to \code{"LZW"}.}
 
 \item{predictor}{\code{integer} Predictor for GeoTIFF compression
-(see \href{https://gdal.org/drivers/raster/gtiff.html}{GDAL documentation}).
+(see
+\href{https://gdal.org/en/stable/drivers/raster/gtiff.html}{GDAL documentation}).
 Defaults to 1 such that no predictor is used for compression.}
 
 \item{nbits}{\code{integer} Number of bits for output data.

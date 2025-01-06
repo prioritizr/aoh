@@ -11,7 +11,7 @@ test_that("normal", {
   x <- terra::setValues(x, runif(terra::ncell(x)))
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, burn = 5, NAflag = 1, verbose = interactive()
+    x, sf, burn = 5, NAflag = 1
   )
   z2 <- rasterize(v, x, field = 5, background = 0)
   # tests
@@ -34,7 +34,7 @@ test_that("filename", {
   terra_force_disk(x, f1)
   # create object
   z1 <- terra_gdal_rasterize(
-    f1, sf, burn = 5, NAflag = 1, verbose = interactive()
+    f1, sf, burn = 5, NAflag = 1
   )
   z2 <- rasterize(v, x, field = 5, background = 0)
   # tests
@@ -56,7 +56,7 @@ test_that("invert", {
   x <- terra::setValues(x, runif(terra::ncell(x)))
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, invert = TRUE, burn = 200, verbose = interactive()
+    x, sf, invert = TRUE, burn = 200
   )
   z2 <- terra::rasterize(v, x, field = 0, background = 200)
   # tests
@@ -77,7 +77,7 @@ test_that("update", {
   x <- terra::setValues(x, runif(terra::ncell(x)))
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, burn = 5, update = TRUE, verbose = interactive()
+    x, sf, burn = 5, update = TRUE
   )
   z2 <- rasterize(v, x, field = 5, update = TRUE)
   # tests
@@ -100,12 +100,12 @@ test_that("touches", {
   terra::crs(x) <- terra::crs(sf)
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, burn = 5, touches = TRUE, verbose = interactive()
+    x, sf, burn = 5, touches = TRUE
   )
   z2 <- terra::deepcopy(x)
   terra::values(z2) <- c(0, 5)
   z3 <- terra_gdal_rasterize(
-    x, sf, burn = 5, touches = FALSE, verbose = interactive()
+    x, sf, burn = 5, touches = FALSE
   )
   z4 <- terra::deepcopy(x)
   terra::values(z4) <- c(0, 0)
