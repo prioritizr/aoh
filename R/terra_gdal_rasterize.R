@@ -77,7 +77,6 @@ terra_gdal_rasterize <- function(x, sf,
                                  nbits = NULL,
                                  compress = "LZW",
                                  NAflag = NULL,
-                                 verbose = TRUE,
                                  output_raster = TRUE) {
   # assert arguments are valid
   assertthat::assert_that(
@@ -177,8 +176,7 @@ terra_gdal_rasterize <- function(x, sf,
     dst_filename = filename,
     i = isTRUE(invert),
     burn = burn,
-    at = isTRUE(touches),
-    q = !isTRUE(verbose)
+    at = isTRUE(touches)
   )
   if (!isTRUE(update)) {
     args$init <- init

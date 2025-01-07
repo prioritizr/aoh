@@ -19,7 +19,8 @@ NULL
 #'  determined.
 #'
 #' @param predictor `integer` Predictor for GeoTIFF compression
-#'  (see [GDAL documentation](https://gdal.org/drivers/raster/gtiff.html)).
+#'  (see
+#'  [GDAL documentation](https://gdal.org/en/stable/drivers/raster/gtiff.html)).
 #'  Defaults to 1 such that no predictor is used for compression.
 #'
 #' @inherit terra_gdal_project return
