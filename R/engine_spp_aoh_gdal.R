@@ -119,8 +119,7 @@ engine_spp_aoh_gdal <- function(range_data,
     nbits = 1,
     NAflag = 0,
     touches = rasterize_touches,
-    output_raster = FALSE,
-    verbose = FALSE
+    output_raster = FALSE
   )
 
   # convert to presence/absence of suitable habitat

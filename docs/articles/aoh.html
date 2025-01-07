@@ -259,10 +259,10 @@ spatial distribution <span class="citation">(Ficetola <em>et al.</em>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">##   id_no binomial              seasonal path                             geometry</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpwX6Nk… ((-105506.8 4465112, -10…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpwX6Nk… ((-238681 5029057, -2377…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpwX6Nk… ((-859201.6 4559278, -85…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpwX6Nk… ((-849801.9 4614149, -84…</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   979 Alytes dickhilleni           1 /tmp/RtmpLjahe… ((-105506.8 4465112, -10…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">59</span>448 Calotriton asper             1 /tmp/RtmpLjahe… ((-238681 5029057, -2377…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">4</span>657 Chioglossa lusitanica        1 /tmp/RtmpLjahe… ((-859201.6 4559278, -85…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">58</span>622 Rana iberica                 1 /tmp/RtmpLjahe… ((-849801.9 4614149, -84…</span></span></code></pre>
 <p>After generating the Area of Habitat data, we can import them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import the Area of Habitat data</span></span>
@@ -325,9 +325,10 @@ the spatial data for all species’ distributions into a single spatial
 dataset.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># combine raster data</span></span>
-<span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># assign identifiers to layer names</span></span>
+<span><span class="va">spp_aoh_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/terra_combine.html">terra_combine</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## |---------|---------|---------|---------|======                                          |---------|---------|---------|---------|======                                          |---------|---------|---------|---------|======                                          |---------|---------|---------|---------|=====================                                          </span></span></code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># assign identifiers to layer names</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spp_aoh_rasters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
 <span>  <span class="st">"AOH_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">id_no</span>, <span class="st">"_"</span>, <span class="va">spp_aoh_data</span><span class="op">$</span><span class="va">seasonal</span></span>
 <span><span class="op">)</span></span>
@@ -339,7 +340,10 @@ dataset.</p>
 <span><span class="co">## resolution  : 100, 100  (x, y)</span></span>
 <span><span class="co">## extent      : -914731, 318669, 4364377, 5066777  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## coord. ref. : World_Behrmann </span></span>
-<span><span class="co">## source(s)   : memory</span></span>
+<span><span class="co">## sources     : spat_160775e313d1b_90231_DvggOkjkTOQeAAI.tif  </span></span>
+<span><span class="co">##               spat_160774592de6c_90231_hn1JHs296zpoh7J.tif  </span></span>
+<span><span class="co">##               spat_1607739b8976b_90231_lwU2fR7NDl3n2BP.tif  </span></span>
+<span><span class="co">##               spat_1607729e7fa54_90231_USRUenhvkoHhg0e.tif  </span></span>
 <span><span class="co">## varnames    : 979_1 </span></span>
 <span><span class="co">##               59448_1 </span></span>
 <span><span class="co">##               4657_1 </span></span>
@@ -352,7 +356,7 @@ Area of habitat data. Although we could create these maps manually
 (e.g., using the <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link"><em>ggplot2</em></a>
 <em>R</em> package), we will use a plotting function distributed with
 the <em>aoh R</em> package for convenience.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create maps</span></span>
 <span><span class="co">## N.B. you might need to install the ggmap package to create the maps</span></span>
 <span><span class="va">map</span> <span class="op">&lt;-</span></span>
@@ -413,7 +417,7 @@ save the file:</p>
 IUCN Red List API. To verify this, please try running the following
 <em>R</em> code and – assuming everything works correctly – you should
 see the current version of the IUCN Red List:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># verify access to IUCN Red List API</span></span>
 <span><span class="fu">rredlist</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rredlist/reference/rl_version.html" class="external-link">rl_version</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If these instructions did not work, please consult the documentation
