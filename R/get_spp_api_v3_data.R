@@ -55,8 +55,7 @@ NULL
 #' }
 #' @noRd
 get_spp_api_v3_data <- function(x, data_prefix, data_template,
-                                dir = tempdir(), version = "latest",
-                                force = FALSE) {
+                                dir = tempdir(), version = "latest") {
   # assert arguments are valid
   assertthat::assert_that(
     is.numeric(x),
@@ -69,6 +68,15 @@ get_spp_api_v3_data <- function(x, data_prefix, data_template,
     assertthat::is.string(version),
     assertthat::noNA(version)
   )
+  ## assert suitable version
+  assertthat::assert_that(
+    !identical(version, "latest"),
+    msg = paste(
+      "version number must be specified",
+      "to load cached API V3 data (e.g, version = \"2024-1\")"
+    )
+  )
+
   # prepare x
   ## remove duplicates
   x <- unique(x)
@@ -83,68 +91,45 @@ get_spp_api_v3_data <- function(x, data_prefix, data_template,
   dir <- normalize_path(dir, mustWork = FALSE)
   assertthat::assert_that(assertthat::is.writeable(dir))
 
-  # find version of data
-  if (identical(version, "latest")) {
-    iucn_rl_version <- rredlist::rl_version()
-  } else {
-    iucn_rl_version <- version
-  }
-
   # create file path for caching data
   file_path <- file.path(
-    dir, paste0("iucn-red-list-", data_prefix, "-", iucn_rl_version, ".csv.gz")
+    dir, paste0("iucn-red-list-", data_prefix, "-", version, ".csv.gz")
   )
-  if (!identical(version, "latest") && isTRUE(!file.exists(file_path))) {
-    # nocov start
-    stop(
-      paste0(
-        "cannot find previously downloaded data for \"version\" \"", version,
-        "\" at argument to \"dir\""
-      ),
-      call. = FALSE
+  assertthat::assert_that(
+    file.exists(file_path),
+    msg = paste0(
+      "cannot find previously downloaded data for \"version\" \"", version,
+      "\" at argument to \"dir\""
     )
-    # nocov end
-  }
+  )
 
   # access cached data
-  if (file.exists(file_path) && !isTRUE(force)) {
-    ## import cached data if available
-    iucn_rl_data <- readr::read_csv(
-      file_path, col_names = TRUE, na = "", progress = FALSE,
-      show_col_types = FALSE,
-      col_types = readr::as.col_spec(
-        dplyr::bind_cols(
-          tibble::tibble(id_no = integer(nrow(data_template))),
-          data_template
-        )
+  iucn_rl_data <- readr::read_csv(
+    file_path, col_names = TRUE, na = "", progress = FALSE,
+    show_col_types = FALSE,
+    col_types = readr::as.col_spec(
+      dplyr::bind_cols(
+        tibble::tibble(id_no = integer(nrow(data_template))),
+        data_template
       )
     )
-    assertthat::assert_that(
-      identical(names(iucn_rl_data), c("id_no", names(data_template))),
-      msg = "issue loading cache data"
-    )
-  } else {
-    ## start from scratch
-    iucn_rl_data <- data_template
-    iucn_rl_data$id_no <- integer(0)
-    iucn_rl_data <- {
-      iucn_rl_data[, c("id_no", names(data_template)), drop = FALSE]
-    }
-  }
+  )
+  assertthat::assert_that(
+    identical(names(iucn_rl_data), c("id_no", names(data_template))),
+    msg = "issue loading cache data"
+  )
 
   # check that all species are present in cache
-  if (any(!x %in% iucn_rl_data$id_no)) {
-    stop(
-      paste(
-        "Cached IUCN Red List dataset cannot be used because",
-        "it is missing at least one of the requested species.",
-        "As such, we recommend using the latest version of the IUCN Red List",
-        "to ensure consistent data for all species."
-      ),
-      call. = FALSE
+  assertthat::assert_that(
+    all(x %in% iucn_rl_data$id_no),
+    msg = paste(
+      "cached IUCN Red List dataset cannot be used because",
+      "it is missing at least one of the requested species.",
+      "As such, we recommend using the latest version of the IUCN Red List",
+      "to ensure consistent data for all species."
     )
-  }
+  )
 
-  # return result
-  iucn_rl_data
+  # re-order columns and return result
+  iucn_rl_data[, c("id_no", names(data_template)), drop = FALSE]
 }

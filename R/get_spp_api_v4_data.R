@@ -60,11 +60,18 @@ NULL
 #' print(result)
 #' }
 #' @noRd
-get_spp_api_v4_data <- function(x, data_format, data_template,
-                             dir = tempdir(), version = "latest",
-                             key = NULL, delay = 2, force = FALSE,
-                             progress_name = "querying",
-                             verbose = TRUE) {
+get_spp_api_v4_data <- function(
+  x,
+  data_format,
+  data_template,
+  dir = tempdir(),
+  version = "latest",
+  key = NULL,
+  delay = 2,
+  force = FALSE,
+  progress_name = "querying",
+  verbose = TRUE
+) {
   # assert arguments are valid
   assertthat::assert_that(
     is.numeric(x),
@@ -95,7 +102,7 @@ get_spp_api_v4_data <- function(x, data_format, data_template,
   x <- as.integer(x)
   ## convert to character ids
   x_char_ids <- withr::with_options(
-    list(scipen = 1e6),
+    list(scipen = 9999),
     as.character(x)
   )
 
@@ -210,10 +217,12 @@ get_spp_api_v4_data <- function(x, data_format, data_template,
     )
     ## throw error if failed
     if (inherits(out, "try-error")) {
+      # nocov start
       cli::cli_abort(
         "failed to process IUCN Red List data",
         .internal = TRUE
       )
+      # nocov end
     }
   } else {
     ## initialize as empty list
@@ -238,11 +247,12 @@ get_spp_api_v4_data <- function(x, data_format, data_template,
     silent = TRUE
   )
   if (inherits(out, "try-error")) {
-    print(out)
+    # nocov start
     cli::cli_abort(
       "failed to format IUCN Red List data",
       .internal = TRUE
     )
+    # nocov end
   }
 
   # re-order data to follow the same order as x

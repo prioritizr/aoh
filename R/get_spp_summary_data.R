@@ -138,8 +138,7 @@ get_spp_summary_data <- function(x, dir = tempdir(), version = "latest",
       ),
       data_prefix = "summary",
       dir = dir,
-      version = version,
-      force = force
+      version = version
     )
   }
 
@@ -229,7 +228,7 @@ format_summary_data <- function(x, id_no) {
             ]
         } else {
           ## else, then pick first name
-          d$main_common_name <- x$taxon$common_names$name[[1]]
+          d$main_common_name <- x$taxon$common_names$name[[1]] # nocov
         }
       }
     }

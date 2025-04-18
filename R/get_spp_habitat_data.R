@@ -134,8 +134,7 @@ get_spp_habitat_data <- function(x, dir = tempdir(), version = "latest",
       data_template = data_template,
       data_prefix = "habitat",
       dir = dir,
-      version = version,
-      force = force
+      version = version
     )
   }
 

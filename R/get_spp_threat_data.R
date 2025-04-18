@@ -120,8 +120,7 @@ get_spp_threat_data <- function(x, dir = tempdir(), version = "latest",
       ),
       data_prefix = "threat",
       dir = dir,
-      version = version,
-      force = force
+      version = version
     )
   }
 
