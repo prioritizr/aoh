@@ -27,10 +27,17 @@ test_that("single species", {
   )
   # tests
   expect_is(x, "list")
-  expect_named(x, c("spp_range_data", "spp_habitat_data", "spp_summary_data"))
+  expect_named(
+    x,
+    c(
+      "spp_range_data", "spp_habitat_data", "spp_summary_data",
+      "spp_threat_data"
+    )
+  )
   validate_range_data(x$spp_range_data, n = n)
   validate_habitat_data(x$spp_habitat_data, n = n)
   validate_summary_data(x$spp_summary_data, n = n)
+  validate_threat_data(x$spp_threat_data, n = n)
 })
 
 test_that("multiple species", {
@@ -60,10 +67,17 @@ test_that("multiple species", {
   )
   # tests
   expect_is(x, "list")
-  expect_named(x, c("spp_range_data", "spp_habitat_data", "spp_summary_data"))
+  expect_named(
+    x,
+    c(
+      "spp_range_data", "spp_habitat_data", "spp_summary_data",
+      "spp_threat_data"
+    )
+  )
   validate_range_data(x$spp_range_data, n = n)
   validate_habitat_data(x$spp_habitat_data, n = n)
   validate_summary_data(x$spp_summary_data, n = n)
+  validate_threat_data(x$spp_threat_data, n = n)
 })
 
 test_that("built-in data", {
@@ -89,8 +103,15 @@ test_that("built-in data", {
   )
   # tests
   expect_is(x, "list")
-  expect_named(x, c("spp_range_data", "spp_habitat_data", "spp_summary_data"))
+  expect_named(
+    x,
+    c(
+      "spp_range_data", "spp_habitat_data", "spp_summary_data",
+      "spp_threat_data"
+    )
+  )
   validate_range_data(x$spp_range_data, n = n)
   validate_habitat_data(x$spp_habitat_data, n = n)
   validate_summary_data(x$spp_summary_data, n = n)
+  validate_threat_data(x$spp_threat_data, n = n)
 })

@@ -7,7 +7,7 @@ NULL
 #' for Conservation of Nature (IUCN) Red List of Threatened
 #' Species](https://www.iucnredlist.org/).
 #' Please note that a token is required to download
-#' data from the [IUCN Red List API](https://apiv3.iucnredlist.org/)
+#' data from the [IUCN Red List API](https://api.iucnredlist.org/)
 #' (see instructions below to obtain a token).
 #'
 #' @param x `integer` Taxon identifier for the species on the International
@@ -88,23 +88,107 @@ NULL
 get_spp_habitat_data <- function(x, dir = tempdir(), version = "latest",
                                  key = NULL, delay = 2, force = FALSE,
                                  verbose = TRUE) {
-  get_spp_api_data(
-    x = x,
-    api_function = rredlist::rl_habitats,
-    data_template =  tibble::tibble(
-      code = character(0),
-      habitat = character(0),
-      suitability = character(0),
-      season = character(0),
-      majorimportance = character(0)
-    ),
-    data_prefix = "habitat",
-    dir = dir,
-    version = version,
-    key = key,
-    delay = delay,
-    force = force,
-    progress_name = "querying",
-    verbose = verbose
+  # assert arguments are valid
+  assertthat::assert_that(
+    is.numeric(x),
+    assertthat::noNA(x),
+    length(x) > 0,
+    assertthat::is.string(dir),
+    assertthat::is.string(version),
+    assertthat::noNA(version),
+    inherits(key, c("NULL", "character")),
+    assertthat::is.number(delay),
+    assertthat::noNA(delay),
+    assertthat::is.flag(force),
+    assertthat::noNA(force),
+    assertthat::is.flag(verbose),
+    assertthat::noNA(verbose)
   )
+
+  # define template
+  data_template <- tibble::tibble(
+    code = character(0),
+    habitat = character(0),
+    suitability = character(0),
+    season = character(0),
+    majorimportance = character(0)
+  )
+
+  # if version is 2025-1, then use new data format
+  if (
+    identical(version, "latest") ||
+    package_version(version) >= package_version("2025-1")
+  ) {
+    x <- get_spp_api_v4_data(
+      x = x,
+      data_format = format_habitat_data,
+      data_template = data_template,
+      dir = dir,
+      version = version,
+      force = force
+    )
+  } else {
+    # otherwise use old data format
+    x <- get_spp_api_v3_data(
+      x = x,
+      data_template = data_template,
+      data_prefix = "habitat",
+      dir = dir,
+      version = version,
+      force = force
+    )
+  }
+
+  # return result
+  x
+}
+
+#' Format habitat data
+#'
+#' Format habitat data from an IUCN Red List assessment.
+#'
+#' @param x `list` object generated from [rredlist::rl_assessment()].
+#'
+#' @param id_no `integer` value with taxon identifier.
+#'
+#' @return A `data.frame` object.
+#'
+#' @noRd
+format_habitat_data <- function(x, id_no) {
+  # assert valid arguments
+  assertthat::assert_that(
+    is.list(x),
+    assertthat::is.number(id_no)
+  )
+
+  # process data
+  if (is.data.frame(x$habitats)) {
+    ## convert to tibble
+    x <- tibble::as_tibble(x$habitats)
+    ## fix column names
+    names(x) <- tolower(names(x))
+    ## extract habitat names
+    if (
+      assertthat::has_name(x, "description") &&
+      is.data.frame(x$description) &&
+      assertthat::has_name(x$description, "en")
+    ) {
+      x$habitat <- x$description$en
+      x$description <- NULL
+    }
+    ## convert code to numeric values
+    if (
+      assertthat::has_name(x, "code") &&
+      is.character(x$code)
+    ) {
+      x$code <- gsub("_", ".", x$code, fixed = TRUE)
+    }
+    ## add in id_no
+    x$id_no <- id_no
+  } else {
+    x <- tibble::tibble(id_no = id_no)
+  }
+
+  # return result
+  x
 }

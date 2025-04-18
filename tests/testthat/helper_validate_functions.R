@@ -66,6 +66,23 @@ validate_summary_data <- function(x, n = 1) {
   expect_true(all(x$elevation_lower <= x$elevation_upper))
 }
 
+validate_threat_data <- function(x, n = 1) {
+  expect_is(x, "tbl_df")
+  expect_true(assertthat::has_name(x, "id_no"))
+  expect_equal(dplyr::n_distinct(x$id_no), n)
+  expect_true(assertthat::noNA(x$id_no))
+  expect_true(assertthat::has_name(x, "code"))
+  expect_true(assertthat::noNA(x$code))
+  expect_true(all(x$code %in% iucn_threat_data$code))
+  expect_true(assertthat::noNA(x$title))
+  expect_true(all(x$title %in% iucn_threat_data$name))
+  expect_true(assertthat::has_name(x, "timing"))
+  expect_true(assertthat::has_name(x, "scope"))
+  expect_true(assertthat::has_name(x, "severity"))
+  expect_true(assertthat::has_name(x, "score"))
+  expect_true(assertthat::has_name(x, "invasive"))
+}
+
 validate_aoh_data <- function(x, elevation_data, habitat_data, crosswalk_data) {
   # assert valid arguments
   assertthat::assert_that(

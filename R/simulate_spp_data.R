@@ -38,6 +38,8 @@ NULL
 #'  information about the species (including elevational limit information.}
 #' \item{spp_habitat_data}{A [tibble::tibble()] object containing habitat
 #'  preferences for the species.}
+#' \item{spp_threat_data}{A [tibble::tibble()] object containing threat
+#'  information for the species.}
 #' }
 #'
 #' @seealso
@@ -404,11 +406,17 @@ simulate_spp_data <- function(n,
     elevation_data = elevation_data
   )
 
+  # simulate threat data
+  sim_threat_data <- simulate_threat_data(
+    x = sim_range_data
+  )
+
   # return result
   list(
     spp_range_data = sf::st_transform(sim_range_data, sf::st_crs(4326)),
     spp_habitat_data = sim_habitat_data,
-    spp_summary_data = sim_summary_data
+    spp_summary_data = sim_summary_data,
+    spp_threat_data = sim_threat_data
   )
 }
 
@@ -470,18 +478,10 @@ simulate_summary_data <- function(x, elevation_data) {
       marine_system = x_distinct$marine[[i]],
       freshwater_system = x_distinct$freshwater[[i]],
       terrestrial_system = x_distinct$terrestial[[i]],
-      assessor = NA_character_,
-      reviewer = NA_character_,
-      aoo_km2 = NA_character_,
-      eoo_km2 = NA_character_,
       elevation_upper = ceiling(elev_range[[2]]),
       elevation_lower = floor(elev_range[[1]]),
       depth_upper = NA_real_,
-      depth_lower = NA_real_,
-      errata_flag = NA_character_,
-      errata_reason = NA_character_,
-      amended_flag = NA_character_,
-      amended_reason = NA_character_
+      depth_lower = NA_real_
     )
   })
 
@@ -609,4 +609,53 @@ simulate_habitat_data <- function(x, habitat_data, crosswalk_data,
 
   # return result
   tibble::as_tibble(result)
+}
+
+simulate_threat_data <- function(x) {
+  # assert that arguments are valid
+  assertthat::assert_that(
+    inherits(x, "sf")
+  )
+
+  # iterate over each species
+  result <- lapply(unique(x$id_no), function(id) {
+    ## determine number of threats that impact species
+    n_threats <- sample.int(5, 1)
+    ## define possible values
+    threat_idx <- sample.int(nrow(iucn_threat_data), n_threats, replace = FALSE)
+    potential_timing <- c(
+      "Ongoing", "Future", "Unknown", "Past, Unlikely to Return",
+      "Past, Likely to Return", NA_character_
+    )
+    potential_scope <- c(
+      "Minority (<50%)", "Unknown", "Majority (50-90%)", "Whole (>90%)",
+      NA_character_
+    )
+    potential_severity <- c(
+      "Unknown", "Negligible declines", "Slow, Significant Declines",
+      "No decline", "Very Rapid Declines", "Rapid Declines",
+      "Causing/Could cause fluctuations",
+      NA_character_
+    )
+    potential_score <- c(
+      "Unknown", "Low Impact: 4", "Low Impact: 3", "No/Negligible Impact: 1",
+      "Low Impact: 5", "Medium Impact: 7", "Medium Impact: 6",
+      "Past Impact", "High Impact: 8", "No/Negligible Impact: 2",
+      "No/Negligible Impact: 0", "High Impact: 9", NA_character_
+    )
+    ## simulate data
+    tibble::tibble(
+      id_no = id,
+      code = iucn_threat_data$code[threat_idx],
+      title = iucn_threat_data$name[threat_idx],
+      timing = sample(potential_timing, n_threats, replace = TRUE),
+      scope = sample(potential_scope, n_threats, replace = TRUE),
+      severity = sample(potential_severity, n_threats, replace = TRUE),
+      score = sample(potential_score, n_threats, replace = TRUE),
+      invasive = NA_character_
+    )
+  })
+
+  # merge results together
+  dplyr::bind_rows(result)
 }

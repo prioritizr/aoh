@@ -32,7 +32,7 @@ Jeff
 * Suggests or Enhances not in mainstream repositories:
   prepr
 
-  **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/dickoa/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
+  **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/prioritizr/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
 
 * Found the following (possibly) invalid URLs:
   URL: https://doi.org/10.1111/2041-210X.13427

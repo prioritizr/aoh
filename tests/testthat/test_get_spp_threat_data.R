@@ -17,8 +17,8 @@ test_that("single taxon identifier", {
   expect_named(
     x,
     c(
-      "id_no", "code", "title", "timing", "scope", "severity",
-      "score", "invasive"
+      "id_no", "code", "title", "timing", "scope", "severity", "score",
+      "internationaltrade", "ancestry", "virus", "ias", "text"
     )
   )
   expect_true(all(id_no %in% x$id_no))
@@ -44,8 +44,8 @@ test_that("multiple taxon identifiers", {
   expect_named(
     x,
     c(
-      "id_no", "code", "title", "timing", "scope", "severity",
-      "score", "invasive"
+      "id_no", "code", "title", "timing", "scope", "severity", "score",
+      "internationaltrade", "ancestry", "virus", "ias", "text"
     )
   )
   expect_true(all(id_no %in% x$id_no))
@@ -74,8 +74,8 @@ test_that("some taxon missing summary data", {
   expect_named(
     x1,
     c(
-      "id_no", "code", "title", "timing", "scope", "severity",
-      "score", "invasive"
+      "id_no", "code", "title", "timing", "scope", "severity", "score",
+      "internationaltrade", "ancestry", "virus", "ias", "text"
     )
   )
   ## x2
@@ -103,8 +103,37 @@ test_that("taxon with multiple records", {
   expect_named(
     x,
     c(
-      "id_no", "code", "title", "timing", "scope", "severity",
-      "score", "invasive"
+      "id_no", "code", "title", "timing", "scope", "severity", "score",
+      "internationaltrade", "ancestry", "virus", "ias", "text"
+    )
+  )
+  expect_true(all(id_no %in% x$id_no))
+  expect_true(all(x$code %in% iucn_threat_data$code))
+})
+
+test_that("accessing API V3 cache", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("vcr")
+  # import data
+  data(iucn_habitat_data)
+  # specify parameters
+  id_no <- c(
+    670L, 2072L, 2374L, 3667L, 4421L, 4650L, 5808L, 6701L, 8110L, 8644L
+  )
+  cache_dir <- system.file("testdata", package = "aoh")
+  # create objects
+  x <- get_spp_threat_data(
+    id_no, dir = cache_dir, version = "1990-1", verbose = interactive()
+  )
+  # tests
+  expect_is(x, "data.frame")
+  expect_gte(nrow(x), 1)
+  expect_named(
+    x,
+    c(
+      "id_no", "code", "title", "timing", "scope", "severity", "score",
+      "invasive"
     )
   )
   expect_true(all(id_no %in% x$id_no))

@@ -25,9 +25,9 @@ collate additional information for subsequent processing (using
 data (Jung \emph{et al.} 2020a,b; Lumbierres *et al. 2021; Robinson \emph{et al.}
 2014) are automatically downloaded, and data on species'
 habitat preferences and elevational limits are obtained automatically using
-the \href{https://apiv3.iucnredlist.org/}{IUCN Red List API}.
+the \href{https://api.iucnredlist.org/}{IUCN Red List API}.
 Since accessing the IUCN Red List API requires a token, users may need to
-\href{https://apiv3.iucnredlist.org/}{obtain a token}
+\href{https://api.iucnredlist.org/}{obtain a token}
 and update their R configuration to
 recognize the token (see instructions below for details).
 }
@@ -35,9 +35,9 @@ recognize the token (see instructions below for details).
 
 
 You will need to obtain a token for the
-\href{https://apiv3.iucnredlist.org/}{IUCN Red List API} (if you do not have one
+\href{https://api.iucnredlist.org/}{IUCN Red List API} (if you do not have one
 already). To achieve this, please visit the IUCN API website
-(\url{https://apiv3.iucnredlist.org/}), click the "Generate a token" link at the
+(\url{https://api.iucnredlist.org/}), click the "Generate a token" link at the
 top of the web page, and fill out the form to apply for a token.
 You should then receive a token shortly after completing
 the form (but not immediately). After receiving a token, please open the
@@ -92,7 +92,7 @@ fused ASTER and SRTM data.
 Rondinini C, Stuart S, Boitani L (2005) Habitat suitability models and the
 shortfall in conservation planning for African vertebrates.
 \emph{Conservation Biology}, 19, 1488--1497.
-\doi{10.1111/j.1523-1739.2005.00204}
+\doi{10.1111/j.1523-1739.2005.00204.x}
 
 Tracewski Ł, Butchart SHM, Di Marco M, Ficetola GF, Rondinini C, Symes A,
 Wheatley H, Beresford AE, Buchanan GM (2016) Toward quantification of the

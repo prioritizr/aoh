@@ -1,114 +1,357 @@
 http_interactions:
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/information/red_list_version
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 23:00:10 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '20'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AOqTjGxFN1bnhjd2zUArszcmpaWn0s6bx.SYfTouxcv1xjasBli9SobBUMM7TN2tKkdnXComySP2w;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"1694e95e54c5590a355e5922b47c7cd9"
+      x-request-id: 59e251bd-883d-48ff-b177-c3c747fb74f2
+      x-runtime: '0.009841'
+      content-length: '29'
+      date: Thu, 17 Apr 2025 22:20:13 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"version":"2022-1"}'
-  recorded_at: 2022-08-08 23:00:14 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"red_list_version":"2025-1"}'
+  recorded_at: 2025-04-17 22:20:20 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/species/id/178652?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/178652
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 23:00:12 GMT
-      content-type: application/json; charset=utf-8
-      transfer-encoding: chunked
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"5db-UkhgBQnXSZJgSuCQai/8Tg"
-      vary: Accept-Encoding
-      content-encoding: gzip
-      set-cookie: sails.sid=s%3ApQ524m4PxwR-nxiJT-e-JHYk16Unxmf2.1zikKfLWkCHm9Q4LdbTBh2jnWvQzNGlOoG7%2BMBXDokE;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"bf0c1a8b6abee1a120e091d81fb05c15"
+      x-request-id: bac98242-db08-496b-89fc-76b765abba3a
+      x-runtime: '0.043501'
+      content-length: '1107'
+      date: Thu, 17 Apr 2025 22:20:16 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"name":"178652","result":[{"taxonid":178652,"scientific_name":"Sphaerodactylus
-        dunni","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"SPHAERODACTYLIDAE","genus":"Sphaerodactylus","main_common_name":"Dunn''s
-        Least Gecko","authority":"Schmidt, 1936","published_year":2013,"assessment_date":"2012-05-08","category":"LC","criteria":null,"population_trend":"Stable","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Townsend,
-        J.H., Wilson, L.D., Luque, I. & Mayer, Greg","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"0","elevation_upper":700,"elevation_lower":60,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null},{"taxonid":178652,"scientific_name":"Sphaerodactylus
-        dunni","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"SPHAERODACTYLIDAE","genus":"Sphaerodactylus","main_common_name":"Dunn''s
-        Least Gecko","authority":"Schmidt, 1936","published_year":2013,"assessment_date":"2012-05-08","category":"LC","criteria":null,"population_trend":"Stable","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Townsend,
-        J.H., Wilson, L.D., Luque, I. & Mayer, Greg","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"18,598","elevation_upper":700,"elevation_lower":60,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
-  recorded_at: 2022-08-08 23:00:14 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"sis_id":178652,"taxon":{"sis_id":178652,"scientific_name":"Sphaerodactylus
+        dunni","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"REPTILIA","order_name":"SQUAMATA","family_name":"SPHAERODACTYLIDAE","genus_name":"Sphaerodactylus","species_name":"dunni","subpopulation_name":null,"infra_name":null,"authority":"Schmidt,
+        1936","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[],"common_names":[{"main":false,"name":"Dunn''s
+        Least Gecko","language":"eng"}],"synonyms":[]},"assessments":[{"year_published":"2013","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":178652,"url":"https://www.iucnredlist.org/species/178652/1540869","assessment_id":1540869,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2010","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":178652,"url":"https://www.iucnredlist.org/species/178652/7588871","assessment_id":7588871,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 22:20:20 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/species/id/177906?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/assessment/1540869
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 23:00:14 GMT
-      content-type: application/json; charset=utf-8
-      transfer-encoding: chunked
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"590-4m0BwF4G5zKdeez3f4NJkg"
-      vary: Accept-Encoding
-      content-encoding: gzip
-      set-cookie: sails.sid=s%3AsgDsyYeDo8OtCC1KEqupETeKYgoJkosC.w82%2BEMsoICXt8IpitMSOg%2FAotUshSlIMmK9EcfrnVjw;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"efc0714c44a5da34d1c364ad0496ae05"
+      x-request-id: 136cf22d-46a0-4f87-8fa4-553039f36571
+      x-runtime: '0.134563'
+      content-length: '8046'
+      date: Thu, 17 Apr 2025 22:20:16 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"name":"177906","result":[{"taxonid":177906,"scientific_name":"Anolis
-        cristifer","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"DACTYLOIDAE","genus":"Anolis","main_common_name":"Abaniquillo
-        Liquenado Crestado","authority":"Smith, 1968","published_year":2021,"assessment_date":"2012-10-11","category":"DD","criteria":null,"population_trend":"Unknown","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Mayer,
-        G.C. & Acevedo, M.","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"0","elevation_upper":1500,"elevation_lower":0,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null},{"taxonid":177906,"scientific_name":"Anolis
-        cristifer","kingdom":"ANIMALIA","phylum":"CHORDATA","class":"REPTILIA","order":"SQUAMATA","family":"DACTYLOIDAE","genus":"Anolis","main_common_name":"Abaniquillo
-        Liquenado Crestado","authority":"Smith, 1968","published_year":2021,"assessment_date":"2012-10-11","category":"DD","criteria":null,"population_trend":"Unknown","marine_system":false,"freshwater_system":false,"terrestrial_system":true,"assessor":"Mayer,
-        G.C. & Acevedo, M.","reviewer":"Bowles, P.","aoo_km2":null,"eoo_km2":"13100","elevation_upper":1500,"elevation_lower":0,"depth_upper":null,"depth_lower":null,"errata_flag":null,"errata_reason":null,"amended_flag":null,"amended_reason":null}]}'
-  recorded_at: 2022-08-08 23:00:14 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"assessment_date":"2012-05-08T00:00:00.000Z","year_published":"2013","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":178652,"criteria":null,"url":"https://www.iucnredlist.org/species/178652/1540869","citation":"Townsend,
+        J.H., Wilson, L.D., Luque, I. \u0026 Mayer, Greg 2013. Sphaerodactylus dunni.
+        The IUCN Red List of Threatened Species 2013: e.T178652A1540869. https://dx.doi.org/10.2305/IUCN.UK.2013-2.RLTS.T178652A1540869.en.
+        Accessed on 17 April 2025.","assessment_id":1540869,"assessment_points":false,"assessment_ranges":true,"taxon":{"sis_id":178652,"scientific_name":"Sphaerodactylus
+        dunni","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"REPTILIA","order_name":"SQUAMATA","family_name":"SPHAERODACTYLIDAE","genus_name":"Sphaerodactylus","species_name":"dunni","subpopulation_name":null,"infra_name":null,"authority":"Schmidt,
+        1936","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[],"common_names":[{"main":false,"name":"Dunn''s
+        Least Gecko","language":"eng"}],"synonyms":[]},"population_trend":{"description":{"en":"Stable"},"code":"2"},"red_list_category":{"version":"3.1","description":{"en":"Least
+        Concern"},"code":"LC"},"supplementary_info":{"upper_elevation_limit":700,"lower_elevation_limit":60,"lower_depth_limit":null,"upper_depth_limit":null,"population_size":null,"population_severely_fragmented":"No","population_continuing_decline":null,"generational_length":null,"congregatory":null,"movement_patterns":null,"continuing_decline_in_area":null,"conservation_actions_in_place":[{"name":"In-place
+        land/water protection","actions":[{"name":"Occurs in at least one protected
+        area","value":"Yes"}]}],"identification_information":null,"extreme_fluctuations":null,"no_of_subpopulations":null,"continuing_decline_in_subpopulations":null,"extreme_fluctuations_in_subpopulations":null,"all_individuals_in_one_subpopulation":null,"no_of_individuals_in_largest_subpopulation":null,"estimated_area_of_occupancy":null,"continuing_decline_in_area_of_occupancy":null,"extreme_fluctuations_in_area_of_occupancy":null,"estimated_extent_of_occurence":"0","continuing_decline_in_extent_of_occurence":null,"extreme_fluctuations_in_extent_of_occurence":null,"continuing_decline_in_number_of_locations":null,"extreme_fluctuations_in_number_of_locations":null},"documentation":{"range":"This
+        species is endemic to northern Honduras and occurs at elevations from 60-700
+        m (Köhler 2003, Köhler and Ferrari 2011).    \u003cp\u003e\u003cbr/\u003e\u003c/p\u003e  .","population":"This
+        species is infrequently encountered, but is reported to have a stable population
+        trend in Honduras (Wilson and McCranie 2003).","habitats":"This species occurs
+        in lowland wet and dry forest where it inhabits the leaf litter of closed
+        canopy forest. It is diurnal. It is not known to occur in secondary forest.","threats":"This
+        species may be threatened locally by habitat loss and degradation due to expanding
+        human populations and agriculture.","measures":"This species occurs in Pico
+        Bonito National Park. Additional protected areas covering lowland rainforest
+        in northern Honduras are needed, as well as research on habitat breadth and
+        population status.","use_trade":"This species is not utilized.","rationale":"\u003cspan
+        style=\"font-style: italic;\"\u003eSphaerodactylus dunni\u003c/span\u003e
+        has been assessed as Least Concern because, although the range is restricted,
+        there is no evidence of a population decline and habitat loss is not a large
+        threat at the moment. Nevertheless, because the species apparently needs intact
+        forest, the status of this species should be monitored due to potentially
+        increased threat on its habitat in the future.","trend_justification":null,"taxonomic_notes":null},"biogeographical_realms":[{"description":{"en":"Neotropical"},"code":"5"}],"conservation_actions":[],"faos":[],"habitats":[{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Dry"},"code":"1_5"},{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Moist Lowland"},"code":"1_6"}],"locations":[{"is_endemic":false,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Honduras
+        (mainland)"},"code":"HON-OO"},{"is_endemic":true,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Honduras"},"code":"HN"}],"researches":[],"use_and_trade":[],"threats":[{"scope":"Minority
+        (\u003c50%)","timing":"Ongoing","internationalTrade":null,"score":"Low Impact:
+        4","severity":"No decline","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Scale
+        Unknown/Unrecorded"},"code":"2_1_4"},{"scope":"Minority (\u003c50%)","timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 4","severity":"No decline","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Housing
+        \u0026 urban areas"},"code":"1_1"}],"credits":[{"credit_type_name":"assessor","full":"Townsend,
+        J.H., Wilson, L.D., Luque, I. \u0026 Mayer, Greg","value":["Gregory Mayer
+        (University of Wisconsin at Parkside)","Ileana Luque (University of Florida)","Larry
+        Wilson (Centro Zamorano de Biodiversidad (formerly Miami-Dade Community University,
+        Florida))","Josiah Townsend (University of Florida)"]},{"credit_type_name":"evaluator","full":"Bowles,
+        P.","value":["Philip Bowles (IUCN SSC/CI Biodiversity Assessment Unit)"]},{"credit_type_name":"contributor","full":"De
+        Silva, R., Milligan, H.T., Wearn, O.R., Wren, S., Zamin, T., Sears, J., Wilson,
+        P., Lewis, S., Lintott, P. \u0026 Powney, G.","value":["Sally Wren (Zoological
+        Society of London, UK)","Oliver Wearn (Imperial College/ Institute of Zoology,
+        London, UK)","Harriet Milligan (IOZ)","Ranmali De Silva (IOZ)","Sarah Lewis
+        (SRLI Reptile Assessment)","Gary Powney (SRLI Reptile Assessment)","Penny
+        Wilson (SRLI Reptile Assessment)","Jennifer Sears (SRLI Reptile Assessment)","Paul
+        Lintott (SRLI Reptile Assessment)","Tara Zamin (ex ZSL)"]}],"errata":[],"references":[{"citation":"Wilson,
+        L.D., Townsend, J.H. and Johnson, J.D. (eds). 2010. \u003ci\u003eConservation
+        of Mesoamerican Amphibians and Reptiles\u003c/i\u003e. pp. 816. Eagle Mountain
+        Publishing, Eagle Mountain, Utah.","year":"2010","title":"Conservation of
+        Mesoamerican Amphibians and Reptiles","author":"Wilson, L.D., Townsend, J.H.
+        and Johnson, J.D.","citation_short":""},{"citation":"Köhler, G. 2003. \u003ci\u003eReptiles
+        of Central America\u003c/i\u003e. Herpeton, Germany.","year":"2003","title":"Reptiles
+        of Central America","author":"Köhler, G.","citation_short":""},{"citation":"Wilson,
+        L.D. and McCranie, J.R. 2003. Herpetofaunal indicator species as measures
+        of environmental stability in Honduras. \u003ci\u003eCaribbean Journal of
+        Science\u003c/i\u003e 39(1): 50-67.","year":"2003","title":"Herpetofaunal
+        indicator species as measures of environmental stability in Honduras","author":"Wilson,
+        L.D. and McCranie, J.R.","citation_short":null},{"citation":"Mayer, G.C. 2007.
+        \u003ci\u003epers. comm. Red List Assessment\u003c/i\u003e.","year":"2007","title":"pers.
+        comm. Red List Assessment","author":"Mayer, G.C.","citation_short":null},{"citation":"IUCN.
+        2013. IUCN Red List of Threatened Species (ver. 2013.2). Available at: \u003ca
+        href=\"http://www.iucnredlist.org\"\u003ehttp://www.iucnredlist.org\u003c/a\u003e.
+        (Accessed: 13 November 2013).","year":"2013","title":"IUCN Red List of Threatened
+        Species (ver. 2013.2)","author":"IUCN","citation_short":"IUCN 2013.2"}],"growth_forms":[],"lmes":[],"scopes":[{"description":{"en":"Global"},"code":"1"}],"stresses":[{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem conversion"},"code":"1_1"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"}],"systems":[{"description":{"en":"Terrestrial"},"code":"0"}]}'
+  recorded_at: 2025-04-17 22:20:20 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
+- request:
+    method: get
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/177906
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"d7b10dd6340779e8bf35d725012f2424"
+      x-request-id: c7b3ab90-ec38-482d-98fb-fbec0c049edd
+      x-runtime: '0.036768'
+      content-length: '2002'
+      date: Thu, 17 Apr 2025 22:20:19 GMT
+    body:
+      encoding: ''
+      file: no
+      string: '{"sis_id":177906,"taxon":{"sis_id":177906,"scientific_name":"Anolis
+        cristifer","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"REPTILIA","order_name":"SQUAMATA","family_name":"ANOLIDAE","genus_name":"Anolis","species_name":"cristifer","subpopulation_name":null,"infra_name":null,"authority":"Smith,
+        1968","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Anoline Lizard Specialist Group","url":"https://www.iucn.org/commissions/ssc-groups/amphibians-reptiles/anoline-lizard","description":"Co-chairs:
+        María del Rosario Castañeda (email: mrosario.castaneda@gmail.com) and Luke
+        Mahler (email: l.mahler@utoronto.ca)\nRed List Authority Coordinator: Phil
+        Bowles (email: philip.bowles@iucn.org)"}],"common_names":[{"main":false,"name":"Crested
+        Lichen Anole","language":"eng"},{"main":true,"name":"Abaniquillo Liquenado
+        Crestado","language":"spa"}],"synonyms":[{"name":"Norops cristifer (Smith,
+        1968)","status":"ACCEPTED","genus_name":"Norops","species_name":"cristifer","species_author":"(Smith,
+        1968)","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null},{"name":"Anolis
+        pentaprion ssp. cristifer Smith, 1968","status":"ACCEPTED","genus_name":"Anolis","species_name":"pentaprion","species_author":null,"infrarank_author":"Smith,
+        1968","subpopulation_name":null,"infra_type":"subspecies","infra_name":"cristifer"}]},"assessments":[{"year_published":"2021","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":177906,"url":"https://www.iucnredlist.org/species/177906/1499473","assessment_id":1499473,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2011","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":177906,"url":"https://www.iucnredlist.org/species/177906/7477463","assessment_id":7477463,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 22:20:20 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
+- request:
+    method: get
+    uri: https://api.iucnredlist.org/api/v4/assessment/1499473
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"0673c2ab5674c5410831edde7aa2bb18"
+      x-request-id: 7b1da794-2454-4179-b5fb-54402edae72c
+      x-runtime: '0.156867'
+      content-length: '13117'
+      date: Thu, 17 Apr 2025 22:20:19 GMT
+    body:
+      encoding: ''
+      file: no
+      string: '{"assessment_date":"2012-10-11T00:00:00.000Z","year_published":"2021","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":177906,"criteria":null,"url":"https://www.iucnredlist.org/species/177906/1499473","citation":"Mayer,
+        G.C. \u0026 Acevedo, M. 2021. Anolis cristifer. The IUCN Red List of Threatened
+        Species 2021: e.T177906A1499473. https://dx.doi.org/10.2305/IUCN.UK.2021-2.RLTS.T177906A1499473.en.
+        Accessed on 17 April 2025.","assessment_id":1499473,"assessment_points":false,"assessment_ranges":true,"taxon":{"sis_id":177906,"scientific_name":"Anolis
+        cristifer","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"REPTILIA","order_name":"SQUAMATA","family_name":"ANOLIDAE","genus_name":"Anolis","species_name":"cristifer","subpopulation_name":null,"infra_name":null,"authority":"Smith,
+        1968","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Anoline Lizard Specialist Group","url":"https://www.iucn.org/commissions/ssc-groups/amphibians-reptiles/anoline-lizard","description":"Co-chairs:
+        María del Rosario Castañeda (email: mrosario.castaneda@gmail.com) and Luke
+        Mahler (email: l.mahler@utoronto.ca)\nRed List Authority Coordinator: Phil
+        Bowles (email: philip.bowles@iucn.org)"}],"common_names":[{"main":false,"name":"Crested
+        Lichen Anole","language":"eng"},{"main":true,"name":"Abaniquillo Liquenado
+        Crestado","language":"spa"}],"synonyms":[{"name":"Norops cristifer (Smith,
+        1968)","status":"ACCEPTED","genus_name":"Norops","species_name":"cristifer","species_author":"(Smith,
+        1968)","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null},{"name":"Anolis
+        pentaprion ssp. cristifer Smith, 1968","status":"ACCEPTED","genus_name":"Anolis","species_name":"pentaprion","species_author":null,"infrarank_author":"Smith,
+        1968","subpopulation_name":null,"infra_type":"subspecies","infra_name":"cristifer"}]},"population_trend":{"description":{"en":"Unknown"},"code":"3"},"red_list_category":{"version":"3.1","description":{"en":"Data
+        Deficient"},"code":"DD"},"supplementary_info":{"upper_elevation_limit":1500,"lower_elevation_limit":0,"lower_depth_limit":null,"upper_depth_limit":null,"population_size":null,"population_severely_fragmented":"No","population_continuing_decline":null,"generational_length":null,"congregatory":null,"movement_patterns":"Not
+        a Migrant","continuing_decline_in_area":null,"conservation_actions_in_place":[{"name":"In-place
+        land/water protection","actions":[{"name":"Occurs in at least one protected
+        area","value":"Yes"}]}],"identification_information":null,"extreme_fluctuations":null,"no_of_subpopulations":null,"continuing_decline_in_subpopulations":null,"extreme_fluctuations_in_subpopulations":null,"all_individuals_in_one_subpopulation":null,"no_of_individuals_in_largest_subpopulation":null,"estimated_area_of_occupancy":null,"continuing_decline_in_area_of_occupancy":null,"extreme_fluctuations_in_area_of_occupancy":null,"estimated_extent_of_occurence":"0","continuing_decline_in_extent_of_occurence":null,"extreme_fluctuations_in_extent_of_occurence":null,"continuing_decline_in_number_of_locations":null,"extreme_fluctuations_in_number_of_locations":null},"documentation":{"range":"This
+        species is known from Chiapas, Mexico south to central Guatemala along the
+        Pacific versant, at elevations below 1,500 m (Köhler and Acevedo 2004, Köhler
+        2010). It has an extent of occurrence of approximately 13,100 km\u003csup\u003e2\u003c/sup\u003e.","population":"There
+        is no population data available for this species.","habitats":"Based on the
+        Pacific lowland distribution of this species (Köhler 2010), the habitat is
+        most likely mixed savanna and semi-deciduous forest (Stuart 1943), as well
+        as evergreen forests.","threats":"This species'' likely habitat was and remains
+        under threat from habitat conversion for development and agriculture. This
+        has been particularly noted for the Pacific lowlands of Mexico and Central
+        America (Stuart 1943, Duellmann 1999). However, it is unknown how this is
+        affecting the species.","measures":"Parts of the range coincide with protected
+        areas (for example La Encrucijada Biosphere Reserve). Conservation needs include
+        further research into threats and their effects on the population, as well
+        as the species'' habitat preferences. Also, research into the taxonomy of
+        the species is needed to solve some of the uncertainty surrounding it.","use_trade":"\u003cp\u003eThis
+        species is not utilized or traded to any significant degree.\u003c/p\u003e","rationale":"\u003cspan
+        style=\"font-style: italic;\"\u003eAnolis cristifer\u003c/span\u003e has been
+        assessed as Data Deficient. The extent of occurrence has been estimated at
+        approximately 13,100 km\u003csup\u003e2\u003c/sup\u003e, and although the
+        range coincides with some protected areas this species is potentially threatened
+        by habitat destruction for agricultural development. The species has, however,
+        not received much research attention, and it is unknown to what degree habitat
+        destruction may be affecting the population. Research is needed to bridge
+        this knowledge gap and establish the species'' habitat requirements as well
+        as assess the effects of habitat loss on the population.","trend_justification":null,"taxonomic_notes":"\u003cspan
+        style=\"font-style: italic;\"\u003eAnolis cristifer\u003c/span\u003e was originally
+        considered to be a subspecies of \u003cspan style=\"font-style: italic;\"\u003eA.
+        pentaprion\u003c/span\u003e, based on a single male specimen the characteristics
+        of which appeared to fall within the variations shown by southern populations
+        of \u003cspan style=\"font-style: italic;\"\u003eA. pentaprion\u003c/span\u003e
+        (Smith 1968). It was elevated to species status based on distinct differences
+        in scalation by Köhler and Acevedo (2004) and Köhler (2008). Since this species
+        has not received much research attention, the taxonomy of it may still need
+        to be resolved."},"biogeographical_realms":[{"description":{"en":"Neotropical"},"code":"5"}],"conservation_actions":[],"faos":[],"habitats":[{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Dry"},"code":"1_5"},{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Moist Lowland"},"code":"1_6"},{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Savanna
+        - Moist"},"code":"2_2"}],"locations":[{"is_endemic":false,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Mexico"},"code":"MX"},{"is_endemic":false,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Guatemala"},"code":"GT"}],"researches":[{"note":null,"code":"3_1","description":{"en":"Population
+        trends"}},{"note":null,"code":"1_3","description":{"en":"Life history \u0026
+        ecology"}},{"note":null,"code":"1_5","description":{"en":"Threats"}},{"note":null,"code":"1_1","description":{"en":"Taxonomy"}},{"note":null,"code":"1_2","description":{"en":"Population
+        size, distribution \u0026 trends"}}],"use_and_trade":[],"threats":[{"scope":"Unknown","timing":"Ongoing","internationalTrade":null,"score":"Unknown","severity":"Unknown","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Scale
+        Unknown/Unrecorded"},"code":"2_3_4"},{"scope":"Unknown","timing":"Ongoing","internationalTrade":null,"score":"Unknown","severity":"Unknown","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Scale
+        Unknown/Unrecorded"},"code":"2_1_4"},{"scope":"Unknown","timing":"Ongoing","internationalTrade":null,"score":"Unknown","severity":"Unknown","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Housing
+        \u0026 urban areas"},"code":"1_1"}],"credits":[{"credit_type_name":"assessor","full":"Mayer,
+        G.C. \u0026 Acevedo, M.","value":["Gregory Mayer (University of Wisconsin
+        at Parkside)","Manuel Acevedo"]},{"credit_type_name":"evaluator","full":"Bowles,
+        P.","value":["Philip Bowles (IUCN SSC/CI Biodiversity Assessment Unit)"]},{"credit_type_name":"facilitators","full":"De
+        Silva, R., Milligan, H.T., Wearn, O.R., Wren, S., Zamin, T., Wilson, P., Sears,
+        J., Lewis, S., Lintott, P. \u0026 Powney, G.","value":["Paul Lintott (SRLI
+        Reptile Assessment)","Sarah Lewis (SRLI Reptile Assessment)","Penny Wilson
+        (SRLI Reptile Assessment)","Jennifer Sears (SRLI Reptile Assessment)","Gary
+        Powney (SRLI Reptile Assessment)","Ranmali De Silva (IOZ)","Sally Wren (Zoological
+        Society of London, UK)","Oliver Wearn (Imperial College/ Institute of Zoology,
+        London, UK)","Harriet Milligan (IOZ)","Tara Zamin (ex ZSL)"]},{"credit_type_name":"institutions","full":"NatureServe","value":["NatureServe"]}],"errata":[],"references":[{"citation":"Wilson,
+        L.D., Townsend, J.H. and Johnson, J.D. (eds). 2010. \u003ci\u003eConservation
+        of Mesoamerican Amphibians and Reptiles\u003c/i\u003e. pp. 816. Eagle Mountain
+        Publishing, Eagle Mountain, Utah.","year":"2010","title":"Conservation of
+        Mesoamerican Amphibians and Reptiles","author":"Wilson, L.D., Townsend, J.H.
+        and Johnson, J.D.","citation_short":""},{"citation":"Köhler, G. 2008. \u003ci\u003eReptiles
+        of Central America, 2nd Edition\u003c/i\u003e. Herpeton Verlag, Offenbach,
+        Germany.","year":"2008","title":"Reptiles of Central America, 2nd Edition","author":"Köhler,
+        G.","citation_short":null},{"citation":"Smith, H.M. 1968. A new pentaprionid
+        anole (Reptilia: Lacertilia) from Pacific slopes of Mexico. \u003ci\u003eTransactions
+        of the Kansas Academy of Sciences\u003c/i\u003e 71: 195-200.","year":"1968","title":"A
+        new pentaprionid anole (Reptilia: Lacertilia) from Pacific slopes of Mexico","author":"Smith,
+        H.M.","citation_short":null},{"citation":"Duellmann, W.E. 1999. \u003ci\u003ePatterns
+        of distribution of amphibians: a global perspective\u003c/i\u003e. The Johns
+        Hopkins University Press, Baltimore, USA.","year":"1999","title":"Patterns
+        of distribution of amphibians: a global perspective","author":"Duellmann,
+        W.E.","citation_short":null},{"citation":"Köhler, G. 2003. \u003ci\u003eReptiles
+        of Central America.\u003c/i\u003e Herpeton Verlag, Offenbach, Germany.","year":"2003","title":"Reptiles
+        of Central America.","author":"Köhler, G.","citation_short":""},{"citation":"Stuart,
+        L.C. 1943. Taxonomic and geographic comments on Guatemalan salamanders of
+        the genus \u003ci\u003eOedipus\u003c/i\u003e. \u003ci\u003eMiscellaneous Publications,
+        Museum of Zoology, University of Michigan\u003c/i\u003e 56: 1-33.","year":"1943","title":"Taxonomic
+        and geographic comments on Guatemalan salamanders of the genus \u003ci\u003eOedipus\u003c/i\u003e","author":"Stuart,
+        L.C.","citation_short":null},{"citation":"Myers, C.W. 1971. Central American
+        Lizards Related to \u003ci\u003eAnolis pentaprion\u003c/i\u003e: Two New Species
+        from the Cordillera de Talamanca. \u003ci\u003eAmerican Museum Novitates\u003c/i\u003e
+        2471: 1-40.","year":"1971","title":"Central American Lizards Related to \u003ci\u003eAnolis
+        pentaprion\u003c/i\u003e: Two New Species from the Cordillera de Talamanca","author":"Myers,
+        C.W.","citation_short":null},{"citation":"Köhler, G. and Acevedo, M. 2004.
+        The anoles (genus \u003ci\u003eNorops\u003c/i\u003e) of Guatemala. I. The
+        species of the Pacific versant below 1500 m elevation. \u003ci\u003eSalamandra\u003c/i\u003e
+        40: 113-140.","year":"2004","title":"The anoles (genus \u003ci\u003eNorops\u003c/i\u003e)
+        of Guatemala. I. The species of the Pacific versant below 1500 m elevation","author":"Köhler,
+        G. and Acevedo, M.","citation_short":null},{"citation":"Köhler, G. 2010. A
+        revision of the Central American species related to \u003ci\u003eAnolis pentaprion\u003c/i\u003e
+        with the resurrection of \u003ci\u003eA. beckeri\u003c/i\u003e and the description
+        of a new species (Squamata: Polychrotidae). \u003ci\u003eZootaxa\u003c/i\u003e
+        2354: 1-18.","year":"2010","title":"A revision of the Central American species
+        related to \u003ci\u003eAnolis pentaprion\u003c/i\u003e with the resurrection
+        of \u003ci\u003eA. beckeri\u003c/i\u003e and the description of a new species
+        (Squamata: Polychrotidae)","author":"Köhler, G.","citation_short":null},{"citation":"IUCN.
+        2021. The IUCN Red List of Threatened Species. Version 2021-2. Available at:
+        \u003ca href=\"www.iucnredlist.org\"\u003ewww.iucnredlist.org\u003c/a\u003e.
+        (Accessed: 04 September 2021).","year":"2021","title":"The IUCN Red List of
+        Threatened Species. Version 2021-2","author":"IUCN","citation_short":"IUCN
+        2021-2"}],"growth_forms":[],"lmes":[],"scopes":[{"description":{"en":"Global"},"code":"1"}],"stresses":[{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem conversion"},"code":"1_1"},{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"}],"systems":[{"description":{"en":"Terrestrial"},"code":"0"}]}'
+  recorded_at: 2025-04-17 22:20:20 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0

@@ -1,74 +1,196 @@
 http_interactions:
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/information/red_list_version
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 23:00:32 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '20'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3ALpCSgoT--e0mr6JCdYOWE-EnkQRnf5Vk.L7HQHivMhSwbMnhEVSUAIzDCA1%2B5SqI%2BhzjOyiLFqRU;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"1694e95e54c5590a355e5922b47c7cd9"
+      x-request-id: b38d92b5-79ad-47f3-b2cd-b6fa04c70570
+      x-runtime: '0.010496'
+      content-length: '29'
+      date: Thu, 17 Apr 2025 23:22:57 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"version":"2022-1"}'
-  recorded_at: 2022-08-08 23:00:35 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"red_list_version":"2025-1"}'
+  recorded_at: 2025-04-17 23:23:00 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/threats/species/id/18?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/18
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 23:00:35 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '864'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"360-0bs5tuFkyL0WyCEQ2zztuQ"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3ANxdkeL8kTiA_QbE7rEIjBNX2ogbhlJDP.Zg%2FA7wnWYAb8r34klPHuEJ35zqAaC1mXN%2FEpcK5%2FP%2F8;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"7c29b01c07c7903f039ed7b5c5c54581"
+      x-request-id: d6890682-f2eb-4672-b7ab-891dadac2641
+      x-runtime: '0.032568'
+      content-length: '1734'
+      date: Thu, 17 Apr 2025 23:22:59 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"18","result":[{"code":"1.1","title":"Housing & urban areas","timing":"Ongoing","scope":null,"severity":null,"score":"Low
-        Impact: 3","invasive":null},{"code":"2.3","title":"Livestock farming & ranching","timing":"Ongoing","scope":null,"severity":null,"score":"Low
-        Impact: 3","invasive":null},{"code":"2.3.2","title":"Small-holder grazing,
-        ranching or farming","timing":"Ongoing","scope":null,"severity":null,"score":"Low
-        Impact: 3","invasive":null},{"code":"4.1","title":"Roads & railroads","timing":"Ongoing","scope":null,"severity":null,"score":"Low
-        Impact: 3","invasive":null},{"code":"7.1","title":"Fire & fire suppression","timing":"Ongoing","scope":null,"severity":null,"score":"Low
-        Impact: 3","invasive":null},{"code":"7.1.3","title":"Trend Unknown/Unrecorded","timing":"Ongoing","scope":null,"severity":null,"score":"Low
-        Impact: 3","invasive":null}]}'
-  recorded_at: 2022-08-08 23:00:35 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"sis_id":18,"taxon":{"sis_id":18,"scientific_name":"Abrocoma boliviensis","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"RODENTIA","family_name":"ABROCOMIDAE","genus_name":"Abrocoma","species_name":"boliviensis","subpopulation_name":null,"infra_name":null,"authority":"Glanz
+        \u0026amp; Anderson, 1990","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Small Mammal Specialist Group","url":"http://www.small-mammals.org/","description":"Co-Chairs:
+        Thomas Lacher (email: tlacher@tamu.edu) and Rosalind Kennerley (email: Rosalind.Kennerley@durrell.org)\nRed
+        List Authority Coordinator: Roslaind Kennedy (email: Rosalind.Kennerley@durrell.org)"}],"common_names":[{"main":false,"name":"Boliviansche
+        Chinchillaratte","language":"ger"},{"main":true,"name":"Bolivian Chinchilla
+        Rat","language":"eng"}],"synonyms":[]},"assessments":[{"year_published":"2016","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":18,"url":"https://www.iucnredlist.org/species/18/22182349","assessment_id":22182349,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2008","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":18,"url":"https://www.iucnredlist.org/species/18/13045034","assessment_id":13045034,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"1996","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":18,"url":"https://www.iucnredlist.org/species/18/13045171","assessment_id":13045171,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 23:23:00 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
+- request:
+    method: get
+    uri: https://api.iucnredlist.org/api/v4/assessment/22182349
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"0db6c856681ae5ce230a31ac83fa5a92"
+      x-request-id: c32db6f9-678d-4c9d-a5b6-db613ad08e25
+      x-runtime: '0.068698'
+      content-length: '10623'
+      date: Thu, 17 Apr 2025 23:23:00 GMT
+    body:
+      encoding: ''
+      file: no
+      string: '{"assessment_date":"2016-03-01T00:00:00.000Z","year_published":"2016","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":18,"criteria":"B1ab(i,ii,iii)","url":"https://www.iucnredlist.org/species/18/22182349","citation":"Bernal,
+        N. 2016. Abrocoma boliviensis. The IUCN Red List of Threatened Species 2016:
+        e.T18A22182349. https://dx.doi.org/10.2305/IUCN.UK.2016-2.RLTS.T18A22182349.en.
+        Accessed on 17 April 2025.","assessment_id":22182349,"assessment_points":false,"assessment_ranges":true,"taxon":{"sis_id":18,"scientific_name":"Abrocoma
+        boliviensis","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"RODENTIA","family_name":"ABROCOMIDAE","genus_name":"Abrocoma","species_name":"boliviensis","subpopulation_name":null,"infra_name":null,"authority":"Glanz
+        \u0026amp; Anderson, 1990","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Small Mammal Specialist Group","url":"http://www.small-mammals.org/","description":"Co-Chairs:
+        Thomas Lacher (email: tlacher@tamu.edu) and Rosalind Kennerley (email: Rosalind.Kennerley@durrell.org)\nRed
+        List Authority Coordinator: Roslaind Kennedy (email: Rosalind.Kennerley@durrell.org)"}],"common_names":[{"main":false,"name":"Boliviansche
+        Chinchillaratte","language":"ger"},{"main":true,"name":"Bolivian Chinchilla
+        Rat","language":"eng"}],"synonyms":[]},"population_trend":{"description":{"en":"Decreasing"},"code":"1"},"red_list_category":{"version":"3.1","description":{"en":"Critically
+        Endangered"},"code":"CR"},"supplementary_info":{"upper_elevation_limit":2270,"lower_elevation_limit":1800,"lower_depth_limit":null,"upper_depth_limit":null,"population_size":null,"population_severely_fragmented":"No","population_continuing_decline":null,"generational_length":null,"congregatory":null,"movement_patterns":null,"continuing_decline_in_area":"Yes","conservation_actions_in_place":[{"name":"In-place
+        land/water protection","actions":[{"name":"Conservation sites identified","value":"Yes,
+        over part of range"},{"name":"Percentage of population protected by PAs","value":"0"},{"name":"Occurs
+        in at least one protected area","value":"No"}]}],"identification_information":null,"extreme_fluctuations":null,"no_of_subpopulations":null,"continuing_decline_in_subpopulations":null,"extreme_fluctuations_in_subpopulations":null,"all_individuals_in_one_subpopulation":null,"no_of_individuals_in_largest_subpopulation":null,"estimated_area_of_occupancy":null,"continuing_decline_in_area_of_occupancy":"Yes","extreme_fluctuations_in_area_of_occupancy":null,"estimated_extent_of_occurence":null,"continuing_decline_in_extent_of_occurence":"Yes","extreme_fluctuations_in_extent_of_occurence":null,"continuing_decline_in_number_of_locations":null,"extreme_fluctuations_in_number_of_locations":null},"documentation":{"range":"This
+        species is known only from the vicinity of the type locality: Comarapa, Province
+        Manuel M. Caballero, in the department of Santa Cruz, Bolivia (Patton and
+        Emmons 2015). It may range more widely, although it may also be restricted
+        to the currently known range, which covers an area less than 100 km². It has
+        been found at an elevation of 1,800 m asl, although the terrain around the
+        town of Comarapa reaches 2,500 m. The second and only known specimen of this
+        species was collected 8 km west of Comarapa, by road, at an elevation of 2,270
+        m (O.P Pearson field notes, MVZ archives).","population":"It is a rare species,
+        which has either gone locally extinct or its abundance has been severely impacted
+        (Patton and Emmons 2015). Additional field work is critically needed in the
+        type locality and areas in diverse valleys region of central Bolivia.","habitats":"It
+        is associated with rocky areas within cloud forest (O.J. Pearson field notes,
+        MVZ archives). It is not known from outside of cloud forest, and may be specialized
+        to rocky areas in this habitat. This rodent is vegetarian and lives in burrows.
+        In common with other hystricognath rodents, it gives birth to precocial young
+        after presumably a lengthy gestation period (Redford and Eisenberg 1992).","threats":"Major
+        threats to this species include clearance of cloud forest for cattle pasture.
+        The range of the species is divided by a road, along which human colonization
+        is taking place, further fragmenting the habitat. \u003cem\u003eAbrocoma\u003c/em\u003e
+        species have previously been collected for their fur, although it does not
+        seem that this species was affected by the fur trade. A pregnant adult female
+        \u003cem\u003eA. boliviensis\u003c/em\u003e was documented inside a local
+        snake species (\u003cem\u003eBoiruna maculata)\u003c/em\u003e\u0026#160;stomach
+        (Munoz 2015).","measures":"This rodent is not known to occur in any protected
+        areas. There is an urgent need to protect the distinct area of Comarapa. Further
+        research is needed in this area to try to find additional populations.","use_trade":null,"rationale":"Listed
+        as Critically Endangered because its extent of occurrence is less than 100
+        km², all individuals are in a single location, and there is continuing decline
+        in the extent and quality of its cloud forest habitat.","trend_justification":null,"taxonomic_notes":null},"biogeographical_realms":[{"description":{"en":"Neotropical"},"code":"5"}],"conservation_actions":[{"note":null,"code":"1_1","description":{"en":"Site/area
+        protection"}}],"faos":[],"habitats":[{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Moist Montane"},"code":"1_9"},{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Rocky
+        areas (eg. inland cliffs, mountain peaks)"},"code":"6"}],"locations":[{"is_endemic":true,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":null,"description":{"en":"Bolivia,
+        Plurinational States of"},"code":"BO"}],"researches":[{"note":null,"code":"1_6","description":{"en":"Actions"}},{"note":null,"code":"3_1","description":{"en":"Population
+        trends"}},{"note":null,"code":"1_2","description":{"en":"Population size,
+        distribution \u0026 trends"}}],"use_and_trade":[],"threats":[{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Roads
+        \u0026 railroads"},"code":"4_1"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Trend
+        Unknown/Unrecorded"},"code":"7_1_3"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Housing
+        \u0026 urban areas"},"code":"1_1"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Small-holder
+        grazing, ranching or farming"},"code":"2_3_2"}],"credits":[{"credit_type_name":"assessor","full":"Bernal,
+        N.","value":["Nuria Bernal"]},{"credit_type_name":"evaluator","full":"Amori,
+        G.","value":["Giovanni Amori (Italian National Research Council, La Sapienza
+        University in Rome, Italy)"]},{"credit_type_name":"contributor","full":"Dunnum,
+        J., Bernal, N. \u0026 Vargas, J.","value":["Jonathan Dunnum","Nuria Bernal","Julieta
+        Vargas"]}],"errata":[],"references":[{"citation":"Voss, R.S. 2015. Family
+        Erethizontidae Bonaparte, 1845. In: Patton, J.L., Pardiñas, U.F.J. and D''Elía,
+        G. (eds), \u003ci\u003eMammals of South America\u003c/i\u003e, pp. 786-805.
+        The University of Chicago Press, Chicago.","year":"2015","title":"Family Erethizontidae
+        Bonaparte, 1845","author":"Voss, R.S","citation_short":""},{"citation":"Patton,
+        J.L. and Emmons, L.H. 2015. Family Abrocomidae G.S. Miller and Gidley, 1918.
+        In: Patton, J.L., Pardinas, U.F.J. and D''Elia, G. (eds), \u003ci\u003eMammals
+        of South America \u003c/i\u003e, The University of Chicago Press.","year":"2015","title":"Family
+        Abrocomidae G.S. Miller and Gidley, 1918","author":"Patton, J.L. and Emmons,
+        L.H.","citation_short":""},{"citation":"Redford, K.H. and Eisenberg, J.F.
+        1992. \u003ci\u003eMammals of the Neotropics, The Southern Cone: Chile, Argentina,
+        Uruguay, Paraguay\u003c/i\u003e. University of Chicago Press, Chicago, USA.","year":"1992","title":"Mammals
+        of the Neotropics, The Southern Cone: Chile, Argentina, Uruguay, Paraguay","author":"Redford,
+        K.H. and Eisenberg, J.F.","citation_short":""},{"citation":"Woods, C.A. and
+        Kilpatrick, C.W. 2005. Infraorder Hystricognathi. In: Wilson, D.E. and Reeder,
+        D.M. (eds), \u003ci\u003eMammal Species of the World\u003c/i\u003e, pp. 1538-1599.
+        The Johns Hopkins University Press, Baltimore, MD, USA.","year":"2005","title":"Infraorder
+        Hystricognathi","author":"Woods, C.A. and Kilpatrick, C.W.","citation_short":""},{"citation":"IUCN.
+        2016. The IUCN Red List of Threatened Species. Version 2016-2. Available at:
+        \u003ca href=\"www.iucnredlist.org\"\u003ewww.iucnredlist.org\u003c/a\u003e.
+        (Accessed: 04 September 2016).","year":"2016","title":"The IUCN Red List of
+        Threatened Species. Version 2016-2","author":"IUCN","citation_short":"IUCN
+        2016-2"},{"citation":"Oliver Quinteros-Muñoz. 2015. A new prey item for the
+        snake Boiruna maculata (Serpentes: Dipsadidae) in the yungas of Bolivia. \u003ci\u003ePhyllomedusa\u003c/i\u003e
+        14(1): 79-81.","year":"2015","title":"A new prey item for the snake Boiruna
+        maculata (Serpentes: Dipsadidae) in the yungas of Bolivia","author":"Oliver
+        Quinteros-Muñoz","citation_short":null},{"citation":"Quinteros Muñoz. 2015.  A
+        new prey item for the snake Boiruna maculata (Serpentes: Dipsadidae) in the
+        yungas of Bolivia . \u003ci\u003ePhyllomedusa: Journal of Herpetology \u003c/i\u003e
+        14(1).","year":"2015","title":" A new prey item for the snake Boiruna maculata
+        (Serpentes: Dipsadidae) in the yungas of Bolivia ","author":"Quinteros Muñoz","citation_short":null}],"growth_forms":[],"lmes":[],"scopes":[{"description":{"en":"Global"},"code":"1"}],"stresses":[{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem conversion"},"code":"1_1"},{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"}],"systems":[{"description":{"en":"Terrestrial"},"code":"0"}]}'
+  recorded_at: 2025-04-17 23:23:00 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
