@@ -14,7 +14,8 @@
   to better align with the new API.
 - Update `simulate_spp_data()` to produce data frames that follow the same
   conventions (i.e., column names and data types) as `get_spp_habitat_data()`,
-  `get_spp_summary_data()`, and `get_spp_threat_data()`.
+  `get_spp_summary_data()`, and `get_spp_threat_data()`. It will now simulate
+  threat data for species too.
 - Update `st_repair_geometry()` instructions for installing the _prepr_ package.
 - Fix DOI in package manual entry.
 - Update URL for IUCN Red List API in documentation.
