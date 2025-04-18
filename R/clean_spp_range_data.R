@@ -480,7 +480,7 @@ clean_spp_range_data <- function(x,
   }
   x$seasonal <- as.integer(x$seasonal)
   x$aoh_id <- withr::with_options(
-    list(scipen = 1000),
+    list(scipen = 9999),
     paste0("AOH_", x$id_no, "_", x$seasonal)
   )
   old_ids <- unique(x$aoh_id)
