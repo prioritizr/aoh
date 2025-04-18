@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-20.04, r: 'release', pkgs: 'all'}
+          - {os: ubuntu-22.04, r: 'release', pkgs: 'all'}
 
     env:
       _R_REMOTES_NO_ERRORS_FROM_WARNINGS_: true
@@ -46,8 +46,6 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
-          sudo apt update
           sudo apt-get install \
             libgdal-dev libgeos-dev libproj-dev gdal-bin grass \
             libgmp3-dev libmpfr-dev libudunits2-dev \
@@ -91,11 +89,9 @@ jobs:
       - name: Check URLs
         if: runner.os == 'Linux' && matrix.config.r == 'release'
         run: |
+          d <- suppressWarnings(readLines("inst/URLLIST"))
           result <- urlchecker::url_check()
-          result <- result[!startsWith(result$URL, "https://doi.org/"), , drop = FALSE]
-          result <- result[!startsWith(result$URL, "https://land.copernicus.eu"), , drop = FALSE]
-          result <- result[!startsWith(result$URL, "https://www.iucnredlist.org"), , drop = FALSE]
-          result <- result[!startsWith(result$URL, "https://lpdaac.usgs.gov"), , drop = FALSE]
+          result <- result[!result$URL %in% d, , drop = FALSE]
           if (nrow(result) > 0) {
             print(result)
             stop("Invalid URLs detected")
