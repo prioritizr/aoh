@@ -16,7 +16,6 @@ Description: Create Area of Habitat data to characterize species distributions.
     To augment data cleaning procedures, users can also install the
     'prepr' R package
     (available at <https://github.com/prioritizr/prepr>).
-
 Authors@R:
     c(person(c('Jeffrey', 'O'), 'Hanson',
         email='jeffrey.hanson@uqconnect.edu.au', role = c('aut','cre'),
