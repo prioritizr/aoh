@@ -121,16 +121,14 @@ get_spp_api_v4_data <- function(
   file_path <- file.path(
     dir, paste0("iucn-red-list-data-", iucn_rl_version, ".rds")
   )
-  if (!identical(version, "latest") && isTRUE(!file.exists(file_path))) {
-    # nocov start
-    stop(
-      paste0(
-        "cannot find previously downloaded data for \"version\" \"", version,
-        "\" at argument to \"dir\""
-      ),
-      call. = FALSE
+  if (!identical(version, "latest")) {
+    assertthat::assert_that(
+      file.exists(file_path),
+      msg = paste0(
+        "can't find previously downloaded data for `version = \"", version,
+        "\"` at the location `dir`"
+      )
     )
-    # nocov end
   }
 
   # access cached data
@@ -190,10 +188,11 @@ get_spp_api_v4_data <- function(
       if (any(!is_valid_failure)) {
         stop(
           paste(
-            "Failed to succesfully query IUCN Red List API,",
+            "Failed to successfully query IUCN Red List API,",
             "please check that the API is online and your internet connection",
             "and try again."
-          )
+          ),
+          call. = FALSE
         )
       }
     }

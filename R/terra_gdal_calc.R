@@ -304,7 +304,7 @@ osgeo4w_gdal_calc <- function(x) {
   )
   assertthat::assert_that(
     identical(length(p), 1L),
-    msg = "could not find \"gdal_calc.py\" in OSGeo4W installation"
+    msg = "can't find \"gdal_calc.py\" in OSGeo4W installation"
   )
   # build command
   paste0("\"", bat, "\" \"", normalize_path(p), "\" ", x)

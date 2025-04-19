@@ -77,7 +77,7 @@ collate_spp_info_data <- function(x,
   assertthat::assert_that(
     all(x$id_no %in% spp_summary_data$id_no),
     msg = paste0(
-      "argument to x contains species not present in summary data ",
+      "`x` contains species not present in summary data ",
       "(i.e., based on matching values in the \"id_no\" columns)"
     )
   )
@@ -85,7 +85,7 @@ collate_spp_info_data <- function(x,
     # nocov start
     warning(
       paste(
-        "argument to \"x\" contains",
+        "`x` contains",
         sum(!x$id_no %in% spp_habitat_data$id_no),
         "species lacking habitat classification data"
       ),
@@ -96,8 +96,8 @@ collate_spp_info_data <- function(x,
   assertthat::assert_that(
     identical(anyDuplicated(spp_summary_data$id_no), 0L),
     msg = paste(
-      "argument to \"spp_summary_data\" must not contain duplicate",
-      "\"id_no\" values"
+      "`spp_summary_data` must not contain duplicate",
+      "values in the \"id_no\" column"
     )
   )
 
@@ -168,9 +168,9 @@ collate_spp_info_data <- function(x,
       all(is.finite(spp_summary_data$elevation_lower)) &&
         all(is.finite(spp_summary_data$elevation_upper)),
       msg = paste(
-        "spp_summary_data must have finite (non-NA) values in the",
+        "`spp_summary_data` must have finite (non-NA) values in the",
         "\"elevation_lower\" and \"elevation_upper\" columns when",
-        "setting \"adjust_elevational_limits = FALSE\""
+        "`adjust_elevational_limits = FALSE`"
       )
     )
   }

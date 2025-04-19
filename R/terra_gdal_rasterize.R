@@ -83,7 +83,7 @@ terra_gdal_rasterize <- function(x, sf,
     requireNamespace("gdalUtilities", quietly = TRUE),
     msg = paste(
       "the \"gdalUtilities\" package needs to be installed, use",
-      "install.packages(\"gdalUtilities\")"
+      "`install.packages(\"gdalUtilities\")`"
     )
   )
   assertthat::assert_that(
@@ -137,7 +137,30 @@ terra_gdal_rasterize <- function(x, sf,
     }
   }
 
-  # save raster if needed
+  # if on windows, then new rasters cannot be created with initial values
+  # as such, we will manually create a new output raster and update it
+  # nocov start
+  if (identical(.Platform$OS.type, "windows") && !isTRUE(update)) {
+    ## if needed, then import raster
+    if (!inherits(x, "SpatRaster")) {
+      x <- terra::rast(x)
+    }
+    ## initialize new raster
+    x <- terra::rast(
+      ncols = terra::ncol(x), nrows = terra::nrow(x),
+      xmin = terra::xmin(x), xmax = terra::xmax(x),
+      ymin= terra::ymin(x), ymax = terra::ymax(x),
+      crs = terra::crs(x), vals = init
+    )
+    ## force dataset to disk
+    x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
+    x <- terra::sources(x)[[1]]
+    ## force update to TRUE
+    update <- TRUE
+  }
+  # nocov end
+
+  # get properties for x
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)

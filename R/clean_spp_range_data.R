@@ -129,7 +129,7 @@ clean_spp_range_data <- function(x,
       assertthat::has_name(x, "SISID") ||
       assertthat::has_name(x, "SISRecID"),
     msg = paste(
-      "argument to \"x\" must have a recognized species identifier column",
+      "`x` must have a recognized species identifier column",
       "(i.e., a column named \"id_no\", \"sisid\", \"SISID\", or",
       "\"SISRecID\")"
     )
@@ -139,26 +139,26 @@ clean_spp_range_data <- function(x,
       assertthat::has_name(x, "SCINAME") ||
       assertthat::has_name(x, "sci_name"),
     msg = paste(
-      "argument to \"x\" must have a recognized species name column",
+      "`x` must have a recognized species name column",
       "(i.e., a column named \"binomial\", \"SCINAME\", or \"sci_name\")"
     )
   )
   assertthat::assert_that(
     all(keep_iucn_rl_presence == round(keep_iucn_rl_presence)),
     msg = c(
-      "argument to \"keep_iucn_rl_presence\" does not contain integer codes"
+      "`keep_iucn_rl_presence` does not contain integer codes"
     )
   )
   assertthat::assert_that(
     all(keep_iucn_rl_origin == round(keep_iucn_rl_origin)),
     msg = c(
-      "argument to \"keep_iucn_rl_origin\" does not contain integer codes"
+      "`keep_iucn_rl_origin` does not contain integer codes"
     )
   )
   assertthat::assert_that(
     all(keep_iucn_rl_seasonal == round(keep_iucn_rl_seasonal)),
     msg = c(
-      "argument to \"keep_iucn_rl_seasonal\" does not contain integer codes"
+      "argument to `keep_iucn_rl_seasonal` does not contain integer codes"
     )
   )
 
@@ -290,7 +290,7 @@ clean_spp_range_data <- function(x,
     if (!any(grepl("birdlife", tolower(names(x))))) {
       cli::cli_alert_warning(
         paste(
-          "argument to \"x\" is missing the \"marine\" column,",
+          "`x` is missing the \"marine\" column,",
           "assuming none of the species are marine-based"
         )
       )
@@ -302,7 +302,7 @@ clean_spp_range_data <- function(x,
     if (!any(grepl("birdlife", tolower(names(x))))) {
       cli::cli_alert_warning(
         paste(
-          "argument to \"x\" is missing the \"freshwater\" column,",
+          "`x` is missing the \"freshwater\" column,",
           "assuming none of the species are freshwater-based"
         )
       )
@@ -314,7 +314,7 @@ clean_spp_range_data <- function(x,
     if (!any(grepl("birdlife", tolower(names(x))))) {
       cli::cli_alert_warning(
         paste(
-          "argument to \"x\" is missing the \"terrestrial\" column,",
+          "`x` is missing the \"terrestrial\" column,",
           "assuming all species are terrestrial"
         )
       )
@@ -365,15 +365,24 @@ clean_spp_range_data <- function(x,
   ## check values
   assertthat::assert_that(
     all(x$freshwater[!is.na(x$freshwater)] %in% c("true", "false")),
-    msg = "freshwater column should contain \"true\" or \"false\" values"
+    msg = paste(
+      "`x` must have `\"true\"` or `\"false\"` values in the",
+      "\"freshwater\" column"
+    )
   )
   assertthat::assert_that(
     all(x$marine[!is.na(x$marine)] %in% c("true", "false")),
-    msg = "marine column should contain \"true\" or \"false\" values"
+    msg = paste(
+      "`x` must have `\"true\"` or `\"false\"` values in the",
+      "\"marine\" column"
+    )
   )
   assertthat::assert_that(
     all(x$terrestrial[!is.na(x$terrestrial)] %in% c("true", "false")),
-    msg = "terrestrial column should contain \"true\" or \"false\" values"
+    msg = paste(
+      "`x` must have `\"true\"` or `\"false\"` values in the",
+      "\"terrestrial\" column"
+    )
   )
 
   # step 2: exclude polygons based on presence code
@@ -468,7 +477,7 @@ clean_spp_range_data <- function(x,
   assertthat::assert_that(
     nrow(x) >= 1,
     msg =  paste0(
-      "all species in argument to \"x\" have been excluded by data cleaning",
+      "all species in `x` have been excluded by data cleaning",
       "procedures."
     )
   )

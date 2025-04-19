@@ -106,11 +106,17 @@ simulate_spp_data <- function(n,
   # assert dependencies available
   assertthat::assert_that(
     requireNamespace("smoothr", quietly = TRUE),
-    msg = "the \"smoothr\" package must be installed to simulate data"
+    msg = paste(
+      "the \"smoothr\" package must be installed to simulate data,",
+      "use `install.packages(\"smoother\")`"
+    )
   )
   assertthat::assert_that(
     requireNamespace("fields", quietly = TRUE),
-    msg = "the \"fields\" package must be installed to simulate data"
+    msg = paste(
+      "the \"fields\" package must be installed to simulate data,",
+      "use `install.packages(\"fields\")`"
+    )
   )
 
   # assert that arguments are valid
@@ -157,7 +163,7 @@ simulate_spp_data <- function(n,
     assertthat::assert_that(
       inherits(crosswalk_data, "data.frame"),
       msg = paste(
-        "argument to \"crosswalk_data\" must be supplied when not using",
+        "`crosswalk_data` must be supplied when not using",
         "default habitat data"
       )
     )
@@ -173,7 +179,7 @@ simulate_spp_data <- function(n,
       elevation_data, habitat_data, res = TRUE, stopOnError = FALSE
     ),
     msg = paste(
-      "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
+      "`elevation_data` and `habitat_data` don't have the",
       "same spatial properties (e.g., coordinate system, extent, resolution)"
     )
   )
@@ -189,7 +195,7 @@ simulate_spp_data <- function(n,
   assertthat::assert_that(
     all(crosswalk_data$code %in% iucn_habitat_data$code),
     msg = paste(
-      "argument to \"crosswalk_data\" contains the following codes that",
+      "`crosswalk_data` contains the following codes that",
       "are not valid IUCN habitat codes:",
       paste(
         paste0(

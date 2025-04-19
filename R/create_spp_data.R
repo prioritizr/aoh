@@ -57,7 +57,7 @@ create_spp_data <- function(x,
   assertthat::assert_that(
     identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),
     msg = paste0(
-      "argument to \"x\" must not contain multiple entries with",
+      "`x` must not contain multiple entries with",
       "the same combination of values for the \"id_no\" and \"seasonal\"",
       "columns"
     )
@@ -87,8 +87,8 @@ create_spp_data <- function(x,
     assertthat::assert_that(
       !identical(engine, "grass"),
       msg = paste0(
-        "argument to \"rasterize_touches\" is TRUE, and so",
-        "argument to \"engine\" cannot be \"grass\""
+        "`rasterize_touches` is `TRUE`, and so",
+        "`engine` must be either `\"terra\"` or `\"gdal\"`"
       )
     )
   }
@@ -100,18 +100,18 @@ create_spp_data <- function(x,
   }
   assertthat::assert_that(
     cache_limit <= 9999,
-    msg = "argument to \"cache_limit\" cannot exceed 9999"
+    msg = "`cache_limit` must not exceed 9999"
   )
   assertthat::assert_that(
     assertthat::has_name(x, "id_no"),
-    msg = "argument to \"x\" does not have a column named \"id_no\""
+    msg = "`x` does not have a column named \"id_no\""
   )
   if (identical(engine, "gdal")) {
   assertthat::assert_that(
     requireNamespace("gdalUtilities", quietly = TRUE),
     msg = paste(
       "the \"gdalUtilities\" package needs to be installed, use",
-      "install.packages(\"gdalUtilities\")"
+      "`install.packages(\"gdalUtilities\")`"
     )
   )
   }
@@ -126,7 +126,7 @@ create_spp_data <- function(x,
       requireNamespace("sp", quietly = TRUE),
       msg = paste(
         "the \"sp\" package needs to be installed, use",
-        "install.packages(\"sp\")"
+        "`install.packages(\"sp\")`"
       )
     )
   }
@@ -175,7 +175,7 @@ create_spp_data <- function(x,
     assertthat::assert_that(
       inherits(crosswalk_data, "data.frame"),
       msg = paste(
-        "argument to \"crosswalk_data\" must be supplied when not using",
+        "`crosswalk_data` must be supplied when not using",
         "default habitat data"
       )
     )
@@ -192,7 +192,7 @@ create_spp_data <- function(x,
       res = TRUE, stopOnError = FALSE
     ),
     msg = paste(
-      "arguments to \"elevation_data\" and \"habitat_data\" don't have the",
+      "`elevation_data` and `habitat_data` don't have the",
       "same spatial properties (e.g., coordinate system, extent, resolution)"
     )
   )
@@ -200,7 +200,7 @@ create_spp_data <- function(x,
   assertthat::assert_that(
     sf::st_crs(x) == terra_st_crs(elevation_data),
     msg = paste(
-      "arguments to \"x\" and \"elevation_data\" don't have the",
+      "`x` and `elevation_data` don't have the",
       "same spatial coordinate reference system"
     )
   )
@@ -216,7 +216,7 @@ create_spp_data <- function(x,
   assertthat::assert_that(
     all(crosswalk_data$code %in% iucn_habitat_data$code),
     msg = paste(
-      "argument to \"crosswalk_data\" contains the following codes that",
+      "`crosswalk_data` contains the following codes that",
       "are not valid IUCN habitat codes:",
       paste(
         paste0(
@@ -234,15 +234,15 @@ create_spp_data <- function(x,
     ## compute aggregation factor
     assertthat::assert_that(
       terra::xres(habitat_data) == terra::yres(habitat_data),
-      msg = "argument to \"habitat_data\" must have square cells"
+      msg = "`habitat_data` must have square cells"
     )
     fact <- res / terra::xres(habitat_data)
     assertthat::assert_that(
       assertthat::is.count(fact),
       assertthat::noNA(fact),
       msg = paste(
-        "argument to \"res\" does not correspond to a valid aggregation factor",
-        "for the arguments to \"habitat_data\" and \"elevation_data\""
+        "`res` does not correspond to a valid aggregation factor",
+        "for the arguments to `habitat_data` and `elevation_data`"
       )
     )
     ## create spatial grid representing aggregated spatial properties
@@ -269,7 +269,7 @@ create_spp_data <- function(x,
   if (any(missing_codes)) {
     cli::cli_alert_warning(
       paste(
-        "argument to \"crosswalk_data\" is missing the following",
+        "`crosswalk_data` is missing the following",
         sum(missing_codes),
         "habitat classification codes:",
         paste(
@@ -286,7 +286,7 @@ create_spp_data <- function(x,
   assertthat::assert_that(
     any(habitat_codes %in% crosswalk_data$code),
     msg = paste(
-      "argument to \"crosswalk_data\" does not contain",
+      "`crosswalk_data` does not contain",
       "IUCN habitat classification codes that are suitable for any species"
     )
   )
@@ -294,8 +294,8 @@ create_spp_data <- function(x,
     length(habitat_codes) >= 1,
     msg = paste(
       "none of the species have any suitable habitat classes -",
-      "perhaps the argument to \"spp_habitat_data\" is missing",
-      "some information or the argument to \"omit_habitat_codes\"",
+      "perhaps the `spp_habitat_data` is missing",
+      "some information or `omit_habitat_codes`",
       "contains codes that should not be omitted?"
     )
   )
@@ -341,7 +341,7 @@ create_spp_data <- function(x,
   if (!isTRUE(not_contained)) {
     cli::cli_alert_warning(
       paste(
-        "arguments to \"habitat_data\" and \"elevation_data\" do not fully",
+        "`habitat_data` and `elevation_data` do not fully",
         "contain the ranges for all the species"
       )
     )

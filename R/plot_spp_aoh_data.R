@@ -166,7 +166,7 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
     assertthat::has_name(x, "xmax"),
     assertthat::has_name(x, "ymin"),
     assertthat::has_name(x, "ymax"),
-    msg = "argument to \"x\" should be the output from create_spp_aoh_data()"
+    msg = "`x` should be the output from `create_spp_aoh_data()`"
   )
   assertthat::assert_that(
     assertthat::is.count(max_plot),
@@ -193,19 +193,19 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
       assertthat::is.number(zoom),
       assertthat::noNA(zoom),
       msg = c(
-        "argument to \"zoom\" must be a number when \"maptype\" is specified"
+        "`zoom` must be a number when `maptype` is specified"
       )
     )
   }
   if (is.null(maptype) && !is.null(zoom)) {
-    cli::cli_alert("argument to \"zoom\" has no effect if \"maptype\" is NULL")
+    cli::cli_alert("`zoom` has no effect if `maptype = NULL`")
   }
   if (nrow(x) > max_plot) {
     # nocov start
     warning(
-      paste(
-        "plotting the first 9 out of", nrow(x), "Area of Habitat datasets;",
-        "use max_plot =", nrow(x), "to plot all"
+      paste0(
+        "plotting the first 9 out of ", nrow(x), " Area of Habitat datasets, ",
+        "use `max_plot = ", nrow(x), "` to plot all datasets"
       ),
       immediate. = TRUE
     )

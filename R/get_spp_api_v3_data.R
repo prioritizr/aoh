@@ -72,8 +72,8 @@ get_spp_api_v3_data <- function(x, data_prefix, data_template,
   assertthat::assert_that(
     !identical(version, "latest"),
     msg = paste(
-      "version number must be specified",
-      "to load cached API V3 data (e.g, version = \"2024-1\")"
+      "`version` must be specified",
+      "for cached API V3 data (e.g, `version = \"2024-1\"`)"
     )
   )
 
@@ -83,7 +83,7 @@ get_spp_api_v3_data <- function(x, data_prefix, data_template,
   ## convert to integer
   assertthat::assert_that(
     all(abs(round(x) - x) <= 1e-5),
-    msg = "x does not contain integer numbers"
+    msg = "`x` does not contain integer numbers"
   )
   x <- as.integer(x)
 
@@ -98,8 +98,8 @@ get_spp_api_v3_data <- function(x, data_prefix, data_template,
   assertthat::assert_that(
     file.exists(file_path),
     msg = paste0(
-      "cannot find previously downloaded data for \"version\" \"", version,
-      "\" at argument to \"dir\""
+      "can't find previously downloaded data for `version = \"", version,
+      "\"` at the location `dir`"
     )
   )
 

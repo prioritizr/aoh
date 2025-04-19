@@ -369,14 +369,14 @@ create_spp_info_data <- function(x,
   )
   assertthat::assert_that(
     crs != sf::st_crs(NA),
-    msg = "argument to \"crs\" must be properly defined"
+    msg = "`crs` must be properly defined"
   )
   assertthat::assert_that(
     assertthat::has_name(x, "id_no") ||
       assertthat::has_name(x, "SISID") ||
       assertthat::has_name(x, "sisid"),
     msg = paste(
-      "argument to \"x\" does not have a recognized species identifier column",
+      "`x` does not have a recognized species identifier column",
       "(i.e., a column named \"id_no\", \"sisid\", or \"SISID\")"
     )
   )
@@ -386,7 +386,7 @@ create_spp_info_data <- function(x,
     # nocov start
     assertthat::assert_that(
       is_iucn_rl_api_available(key = key),
-      msg = "can't access the IUCN Red List API, see ?aoh"
+      msg = "can't access the IUCN Red List API, see `?aoh`"
     )
     # nocov end
   }
@@ -394,8 +394,8 @@ create_spp_info_data <- function(x,
   # display alert if argument to crs is EPSG:4326
   if (isTRUE(sf::st_is_longlat(crs))) {
     cli::cli_alert_warning(
-      paste0(
-        "argument to \"crs\" corresponds to longitudes/latitudes",
+      paste(
+        "`crs` corresponds to longitudes/latitudes",
         "(EPSG:4326); it is generally recommended to use an",
         "equal-area coordinate system to ensure correct calculations"
       )
@@ -419,7 +419,7 @@ create_spp_info_data <- function(x,
   ## addition data validation
   assertthat::assert_that(
     nrow(x) > 0,
-    msg = "argument to x does not contain any terrestrial species"
+    msg = "`x` does not contain any terrestrial species"
   )
   assertthat::assert_that(
     identical(anyDuplicated(paste0(x$id_no, x$seasonal)), 0L),

@@ -75,7 +75,7 @@ get_zenodo_file <- function(x, file, dir = tempdir(),
     idx <- which(f$filename == file)
   }
   if (length(idx) == 0) {
-    stop("argument to \"file\" not found in Zenodo repository") # nocov
+    stop("`file` not found in Zenodo repository") # nocov
   }
 
   # download data and return paths
