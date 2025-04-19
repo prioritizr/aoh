@@ -56,7 +56,7 @@ test_that("invert", {
   x <- terra::setValues(x, runif(terra::ncell(x)))
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, invert = TRUE, burn = 200
+    x, sf, invert = TRUE, burn = 200, NAflag = 9999
   )
   z2 <- terra::rasterize(v, x, field = 0, background = 200)
   # tests
@@ -100,12 +100,12 @@ test_that("touches", {
   terra::crs(x) <- terra::crs(sf)
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, burn = 5, touches = TRUE
+    x, sf, burn = 5, touches = TRUE, NAflag = 9999
   )
   z2 <- terra::deepcopy(x)
   terra::values(z2) <- c(0, 5)
   z3 <- terra_gdal_rasterize(
-    x, sf, burn = 5, touches = FALSE
+    x, sf, burn = 5, touches = FALSE, NAflag = 9999
   )
   z4 <- terra::deepcopy(x)
   terra::values(z4) <- c(0, 0)

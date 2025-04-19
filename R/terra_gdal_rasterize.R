@@ -83,7 +83,7 @@ terra_gdal_rasterize <- function(x, sf,
     requireNamespace("gdalUtilities", quietly = TRUE),
     msg = paste(
       "the \"gdalUtilities\" package needs to be installed, use",
-      "`install.packages(\"gdalUtilities\")`"
+      "install.packages(\"gdalUtilities\")"
     )
   )
   assertthat::assert_that(
@@ -137,30 +137,34 @@ terra_gdal_rasterize <- function(x, sf,
     }
   }
 
-  # if on windows, then new rasters cannot be created with initial values
-  # as such, we will manually create a new output raster and update it
+  # if on Windows, then gdal_rasterize cannot create new rasters
+  # according to the desired specifications (i.e., per init).
+  # as such, we need to initialize a new raster and update it
   # nocov start
   if (identical(.Platform$OS.type, "windows") && !isTRUE(update)) {
-    ## if needed, then import raster
-    if (!inherits(x, "SpatRaster")) {
-      x <- terra::rast(x)
-    }
-    ## initialize new raster
+    ## import raster
+    if (!inherits(x, "SpatRaster")) x <- terra::rast(x)
+    ## manually override with init value
+    x_nms <- names(x)
     x <- terra::rast(
       ncols = terra::ncol(x), nrows = terra::nrow(x),
       xmin = terra::xmin(x), xmax = terra::xmax(x),
-      ymin= terra::ymin(x), ymax = terra::ymax(x),
+      ymin= terra::ymin(x), ymax= terra::ymax(x),
       crs = terra::crs(x), vals = init
     )
+    names(x) <- x_nms
     ## force dataset to disk
-    x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
-    x <- terra::sources(x)[[1]]
-    ## force update to TRUE
+    x <- terra_force_disk(
+      x, overwrite = TRUE, NAflag = ifelse(is.null(NAflag), NA, NAflag),
+      datatype = datatype, gdal = co
+    )
+    ## override arguments so that this new raster is updated during processing
     update <- TRUE
+    NAflag <- NULL
   }
   # nocov end
 
-  # get properties for x
+  # if needed, save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
@@ -211,12 +215,21 @@ terra_gdal_rasterize <- function(x, sf,
         assertthat::noNA(NAflag)
       )
     } else {
+      assertthat::assert_that(
+        isTRUE(
+          package_version(sf::sf_extSoftVersion()["GDAL"]) <=
+          package_version("3.10.0")
+        ),
+        msg = c(
+          "`NAflag` must be an integer for GDAL version 3.10.0 (or greater)"
+        )
+      )
       NAflag <- "None"
     }
     args$a_nodata <- NAflag
   }
   if (!isTRUE(update)) {
-    f3 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
+    f3 <- normalize_p  ath(tempfile(fileext = ".wkt"), mustWork = FALSE)
     writeLines(x_crs, f3)
     args <- append(
       args,
