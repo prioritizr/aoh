@@ -209,27 +209,30 @@ terra_gdal_rasterize <- function(x, sf,
     args$init <- init
   }
   if (!is.null(NAflag)) {
-    if (!identical(NAflag, "none")) {
+    if (!identical(tolower(NAflag), "none")) {
       assertthat::assert_that(
         assertthat::is.number(NAflag),
         assertthat::noNA(NAflag)
       )
     } else {
-      assertthat::assert_that(
-        isTRUE(
-          package_version(sf::sf_extSoftVersion()["GDAL"]) <=
-          package_version("3.10.0")
-        ),
-        msg = c(
-          "`NAflag` must be an integer for GDAL version 3.10.0 (or greater)"
-        )
-      )
       NAflag <- "None"
     }
+  }
+  gdal_new_behavior <- isTRUE(
+    package_version(sf::sf_extSoftVersion()["GDAL"]) >=
+    package_version("3.10.0")
+  )
+  if (!isTRUE(update) && gdal_new_behavior) {
+    assertthat::assert_that(
+      !identical(NAflag, "None"),
+      msg = c(
+        "`NAflag` must be an integer value for GDAL version 3.10.0+"
+      )
+    )
     args$a_nodata <- NAflag
   }
   if (!isTRUE(update)) {
-    f3 <- normalize_p  ath(tempfile(fileext = ".wkt"), mustWork = FALSE)
+    f3 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
     writeLines(x_crs, f3)
     args <- append(
       args,
