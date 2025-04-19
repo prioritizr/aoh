@@ -137,33 +137,6 @@ terra_gdal_rasterize <- function(x, sf,
     }
   }
 
-  # if on Windows, then gdal_rasterize cannot create new rasters
-  # according to the desired specifications (i.e., per init).
-  # as such, we need to initialize a new raster and update it
-  # nocov start
-  if (identical(.Platform$OS.type, "windows") && !isTRUE(update)) {
-    ## import raster
-    if (!inherits(x, "SpatRaster")) x <- terra::rast(x)
-    ## manually override with init value
-    x_nms <- names(x)
-    x <- terra::rast(
-      ncols = terra::ncol(x), nrows = terra::nrow(x),
-      xmin = terra::xmin(x), xmax = terra::xmax(x),
-      ymin= terra::ymin(x), ymax= terra::ymax(x),
-      crs = terra::crs(x), vals = init
-    )
-    names(x) <- x_nms
-    ## force dataset to disk
-    x <- terra_force_disk(
-      x, overwrite = TRUE, NAflag = ifelse(is.null(NAflag), NA, NAflag),
-      datatype = datatype, gdal = co
-    )
-    ## override arguments so that this new raster is updated during processing
-    update <- TRUE
-    NAflag <- NULL
-  }
-  # nocov end
-
   # if needed, save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
@@ -198,6 +171,7 @@ terra_gdal_rasterize <- function(x, sf,
   sf::write_sf(sf, sf_filename, overwrite = TRUE)
 
   # main processing
+  ## set main arguments
   args <- list(
     src_datasource = sf_filename,
     dst_filename = filename,
@@ -205,32 +179,47 @@ terra_gdal_rasterize <- function(x, sf,
     burn = burn,
     at = isTRUE(touches)
   )
+  ## set init argument
   if (!isTRUE(update)) {
     args$init <- init
   }
+  ## set NAflag argument
+  ## validate NAflag
   if (!is.null(NAflag)) {
-    if (!identical(tolower(NAflag), "none")) {
+    if (!identical(NAflag, "none")) {
       assertthat::assert_that(
         assertthat::is.number(NAflag),
         assertthat::noNA(NAflag)
       )
     } else {
-      NAflag <- "None"
+      NAflag <- "none"
     }
   }
+  ## see if default behavior of NAflag has changed
   gdal_new_behavior <- isTRUE(
     package_version(sf::sf_extSoftVersion()["GDAL"]) >=
     package_version("3.10.0")
   )
-  if (!isTRUE(update) && gdal_new_behavior) {
-    assertthat::assert_that(
-      !identical(NAflag, "None"),
-      msg = c(
-        "`NAflag` must be an integer value for GDAL version 3.10.0+"
-      )
+  ## if it has changed and this will affect results, then ensure
+  ## that the output is explicit
+  assertthat::assert_that(
+    !(!isTRUE(update) && gdal_new_behavior && is.null(NAflag)),
+    msg = paste(
+      "`NAflag` must be `\"none\"` or an integer value",
+      "for GDAL version 3.10.0+"
     )
+  )
+  ## if new behavior and NAflag is "none" ,
+  ## then set NAflag to "nan" because "none" is no longer recognized to
+  ## provide backwards compatibility
+  if (!isTRUE(update) && gdal_new_behavior && identical(NAflag, "none")) {
+    NAflag <- "nan" # nocov
+  }
+  ## set the argument
+  if (!update) {
     args$a_nodata <- NAflag
   }
+  ## if update, set remaining arguments
   if (!isTRUE(update)) {
     f3 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
     writeLines(x_crs, f3)
@@ -246,6 +235,8 @@ terra_gdal_rasterize <- function(x, sf,
       )
     )
   }
+
+  # run rasterization
   withr::with_envvar(
     c(
       "NUM_THREADS" = n_threads,
@@ -254,6 +245,7 @@ terra_gdal_rasterize <- function(x, sf,
     ),
     do.call(gdalUtilities::gdal_rasterize, args)
   )
+
   # clean up
   if ((!x_on_disk) && (!update)) {
     rm(x)
