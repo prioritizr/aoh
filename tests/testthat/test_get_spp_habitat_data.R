@@ -7,10 +7,12 @@ test_that("single taxon identifier", {
   # set parameters
   data(iucn_habitat_data)
   id_no <- c(18)
-  # create objects
+  # create object from API
   vcr::use_cassette("habitat-single", {
     x <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   })
+  # create object from cache
+  x2 <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
@@ -20,6 +22,7 @@ test_that("single taxon identifier", {
   )
   expect_true(all(id_no %in% x$id_no))
   expect_true(all(x$code %in% iucn_habitat_data$code))
+  expect_equal(x, x2)
 })
 
 test_that("multiple taxon identifiers", {

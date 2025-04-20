@@ -198,7 +198,7 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
     )
   }
   if (is.null(maptype) && !is.null(zoom)) {
-    cli::cli_alert("`zoom` has no effect if `maptype = NULL`")
+    cli::cli_alert("`zoom` has no effect if `maptype = NULL`") # nocov
   }
   if (nrow(x) > max_plot) {
     # nocov start

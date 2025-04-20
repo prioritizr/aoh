@@ -211,7 +211,7 @@ terra_gdal_rasterize <- function(x, sf,
     NAflag <- "nan" # nocov
   }
   ## set the argument
-  if (!update) {
+  if (!isTRUE(update) && !identical(NAflag, "none")) {
     args$a_nodata <- NAflag
   }
   ## if update, set remaining arguments

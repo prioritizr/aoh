@@ -983,3 +983,65 @@ test_that("bird data (alternate BirdLife format)", {
   # clean up
   unlink(x$path[!is.na(x$path)])
 })
+
+test_that("warnings thrown for missing crosswalk classes", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  elevation_data <- terra::rast(
+    system.file("testdata", "sim_elevation_data.tif", package = "aoh")
+  )
+  habitat_data <- terra::rast(
+    system.file("testdata", "sim_habitat_data.tif", package = "aoh")
+  )
+  spp_habitat_data <- read.csv(
+    system.file("testdata", "sim_spp_habitat_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  spp_summary_data <- read.csv(
+    system.file("testdata", "sim_spp_summary_data.csv", package = "aoh"),
+    sep = ",", header = TRUE
+  )
+  # create new crosswalk table
+  cw_data <- crosswalk_jung_lvl2_data
+  remove_class <- spp_habitat_data$code[[1]]
+  cw_data <- cw_data[cw_data$code != remove_class, , drop = FALSE]
+  # load data
+  d <- create_spp_info_data(
+    x = read_spp_range_data(f),
+    spp_habitat_data = spp_habitat_data,
+    spp_summary_data = spp_summary_data,
+    verbose = interactive()
+  )
+  # create objects
+  expect_message(
+    x <- create_spp_aoh_data(
+      x = d,
+      output_dir = tempdir(),
+      habitat_data = habitat_data,
+      elevation_data = elevation_data,
+      crosswalk_data = cw_data,
+      verbose = FALSE
+    ),
+    "^.*crosswalk.*missing.*habitat.*classification.*$"
+  )
+  # tests
+  expect_is(x, "sf")
+  expect_named(x, aoh_names)
+  expect_equal(nrow(x), dplyr::n_distinct(x$id_no, x$seasonal))
+  expect_equal(
+    d,
+    dplyr::select(x, -habitat_code, -path, -xmin, -xmax, -ymin, -ymax)
+  )
+  expect_is(x$id_no, "integer")
+  expect_is(x$binomial, "character")
+  expect_is(x$seasonal, "integer")
+  expect_is(x$migratory, "logical")
+  expect_is(x$category, "character")
+  expect_is(x$full_habitat_code, "character")
+  expect_is(x$habitat_code, "character")
+  expect_is(x$elevation_lower, "numeric")
+  expect_is(x$elevation_upper, "numeric")
+  expect_is(x$path, "character")
+})
