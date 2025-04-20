@@ -1,3 +1,25 @@
+# aoh 0.0.3.0
+
+- Update package to be compatible with the latest version of the _rredlist_
+  package (i.e., version 1.0.0) and IUCN Red List API version 4. In particular,
+  the following functions have been updated: `get_spp_habitat_data()`,
+  `get_spp_summary_data()`, `get_spp_threat_data()`,
+  `is_iucn_rl_api_available()`. Although the functions for querying data
+  provide full backwards compatibility with previously cached datasets, the
+  `get_spp_summary_data()` and `get_spp_threat_data()` functions now return
+  data frames with slightly different columns when making new API queries.
+  Note that all columns considered for generating area of habitat data maintain
+  the same column names as in previous versions of the package. Additionally,
+  the mechanism for caching data from the IUCN Red List API now uses an RDS file
+  to better align with the new API.
+- Update `simulate_spp_data()` to produce data frames that follow the same
+  conventions (i.e., column names and data types) as `get_spp_habitat_data()`,
+  `get_spp_summary_data()`, and `get_spp_threat_data()`. It will now simulate
+  threat data for species too.
+- Update `st_repair_geometry()` instructions for installing the _prepr_ package.
+- Fix DOI in package manual entry.
+- Update URL for IUCN Red List API in documentation.
+
 # aoh 0.0.2.15
 
 - Update `terra_gdal_rasterize()` to remove the `verbose` parameter.

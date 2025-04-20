@@ -1,175 +1,1112 @@
 http_interactions:
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/information/red_list_version
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:22 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '20'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3ALBbF1KOBcG8RgZn4KO0vhyoT_cxtHoEj.X4OKDTk15FNHxbFGp%2B5JK%2BGk49X7uqrmDKbvCzX23%2B0;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"1694e95e54c5590a355e5922b47c7cd9"
+      x-request-id: 05f1536c-3a2b-4597-8191-68adff07bf0c
+      x-runtime: '0.012115'
+      content-length: '29'
+      date: Thu, 17 Apr 2025 20:05:20 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"version":"2022-1"}'
-  recorded_at: 2022-08-08 22:59:32 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"red_list_version":"2025-1"}'
+  recorded_at: 2025-04-17 20:05:30 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/18?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/137
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:24 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '290'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"122-JHwals/BRrSLj/3hgcM24A"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AbFK5j-YwLjNtLcls_CVScjA4VfGHDXXI.8g6lsG7Z3m97ptdoGQC%2FaP%2Fzr2ZWz3%2B5ut%2F50u6FdcY;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"9fd7262ac753488bf5b247db6f07f3af"
+      x-request-id: eda73fbe-e757-4356-a50d-b747a7b4e341
+      x-runtime: '0.041532'
+      content-length: '2308'
+      date: Thu, 17 Apr 2025 20:05:23 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"18","result":[{"code":"1.9","habitat":"Forest - Subtropical/Tropical
-        Moist Montane","suitability":"Suitable","season":null,"majorimportance":null},{"code":"6","habitat":"Rocky
-        areas (eg. inland cliffs, mountain peaks)","suitability":"Suitable","season":null,"majorimportance":null}]}'
-  recorded_at: 2022-08-08 22:59:32 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"sis_id":137,"taxon":{"sis_id":137,"scientific_name":"Acerodon celebensis","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"CHIROPTERA","family_name":"PTEROPODIDAE","genus_name":"Acerodon","species_name":"celebensis","subpopulation_name":null,"infra_name":null,"authority":"Peters,
+        1867","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Bat Specialist Group","url":"http://www.iucnbsg.org/","description":"Co-Chairs:
+        Tigga Kingston (email: tigga.kingston@ttu.edu) and Rodrigo A. Medellin (email:
+        medellin@miranda.ecologia.unam.mx)\nBat Red List Authority Coordinator (Old
+        World): Dave Waldien (email: dwaldien@gmail.com)\nBat Red List Authority Coordinator
+        (New World): Sergio Solari (email: sergiotys@gmail.com)"}],"common_names":[{"main":false,"name":"Sulawesi
+        Acerodon","language":"eng"},{"main":false,"name":"Sulawesi Flying-fox","language":"eng"},{"main":false,"name":"Sulawesi
+        Flying Fox","language":"eng"},{"main":false,"name":"Sulawesi-Flughund","language":"ger"},{"main":false,"name":"Zorro
+        Volador De Las Célebes","language":"spa"},{"main":true,"name":"Sulawesi Fruit
+        Bat","language":"eng"}],"synonyms":[]},"assessments":[{"year_published":"2022","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":137,"url":"https://www.iucnredlist.org/species/137/220501878","assessment_id":220501878,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2016","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":137,"url":"https://www.iucnredlist.org/species/137/21988719","assessment_id":21988719,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2008","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":137,"url":"https://www.iucnredlist.org/species/137/13032329","assessment_id":13032329,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"1996","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":137,"url":"https://www.iucnredlist.org/species/137/13032507","assessment_id":13032507,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 20:05:30 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/137?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/assessment/220501878
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:27 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '448'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"1c0-/xhqtKpymw7Mu/H+NjyXIQ"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3A24KgM4j5_deX0XsCRZVcGipBGYK62Df-.T9XCUt%2BYLr2Vry5fGLlm5OZS4aaHE4SToSHPZZvJHfI;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"4c827ea1d0ce66a845ec88a02bae4431"
+      x-request-id: 8baa8bea-3bf9-483c-9676-c2810eac2ef3
+      x-runtime: '0.105774'
+      content-length: '23980'
+      date: Thu, 17 Apr 2025 20:05:23 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"137","result":[{"code":"14.4","habitat":"Artificial/Terrestrial
-        - Rural Gardens","suitability":"Suitable","season":null,"majorimportance":"No"},{"code":"1.6","habitat":"Forest
-        - Subtropical/Tropical Moist Lowland","suitability":"Suitable","season":null,"majorimportance":"Yes"},{"code":"1.7","habitat":"Forest
-        - Subtropical/Tropical Mangrove Vegetation Above High Tide Level","suitability":"Suitable","season":null,"majorimportance":"Yes"}]}'
-  recorded_at: 2022-08-08 22:59:32 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"assessment_date":"2022-07-10T00:00:00.000Z","year_published":"2022","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":137,"criteria":"A2cd","url":"https://www.iucnredlist.org/species/137/220501878","citation":"Sheherazade,
+        Tsang, S.M. \u0026 Matorang, Z. 2022. Acerodon celebensis. The IUCN Red List
+        of Threatened Species 2022: e.T137A220501878. https://dx.doi.org/10.2305/IUCN.UK.2022-2.RLTS.T137A220501878.en.
+        Accessed on 17 April 2025.","assessment_id":220501878,"assessment_points":false,"assessment_ranges":true,"taxon":{"sis_id":137,"scientific_name":"Acerodon
+        celebensis","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"CHIROPTERA","family_name":"PTEROPODIDAE","genus_name":"Acerodon","species_name":"celebensis","subpopulation_name":null,"infra_name":null,"authority":"Peters,
+        1867","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Bat Specialist Group","url":"http://www.iucnbsg.org/","description":"Co-Chairs:
+        Tigga Kingston (email: tigga.kingston@ttu.edu) and Rodrigo A. Medellin (email:
+        medellin@miranda.ecologia.unam.mx)\nBat Red List Authority Coordinator (Old
+        World): Dave Waldien (email: dwaldien@gmail.com)\nBat Red List Authority Coordinator
+        (New World): Sergio Solari (email: sergiotys@gmail.com)"}],"common_names":[{"main":false,"name":"Sulawesi
+        Acerodon","language":"eng"},{"main":false,"name":"Sulawesi Flying-fox","language":"eng"},{"main":false,"name":"Sulawesi
+        Flying Fox","language":"eng"},{"main":false,"name":"Sulawesi-Flughund","language":"ger"},{"main":false,"name":"Zorro
+        Volador De Las Célebes","language":"spa"},{"main":true,"name":"Sulawesi Fruit
+        Bat","language":"eng"}],"synonyms":[]},"population_trend":{"description":{"en":"Decreasing"},"code":"1"},"red_list_category":{"version":"3.1","description":{"en":"Vulnerable"},"code":"VU"},"supplementary_info":{"upper_elevation_limit":1500,"lower_elevation_limit":0,"lower_depth_limit":null,"upper_depth_limit":null,"population_size":null,"population_severely_fragmented":"No","population_continuing_decline":"Yes","generational_length":"4.5","congregatory":"Congregatory
+        (year-round)","movement_patterns":"Unknown","continuing_decline_in_area":"Yes","conservation_actions_in_place":[{"name":"In-place
+        research and monitoring","actions":[{"name":"Action Recovery Plan","value":"No"},{"name":"Systematic
+        monitoring scheme","value":"No"}]},{"name":"In-place land/water protection","actions":[{"name":"Conservation
+        sites identified","value":"No"},{"name":"Area based regional management plan","value":"No"},{"name":"Occurs
+        in at least one protected area","value":"Yes"},{"name":"Invasive species control
+        or prevention","value":"Unknown"}]},{"name":"In-place species management","actions":[{"name":"Harvest
+        management plan","value":"No"},{"name":"Successfully reintroduced or introduced
+        benignly","value":"No"},{"name":"Subject to ex-situ conservation","value":"No"}]},{"name":"In-place
+        education","actions":[{"name":"Subject to recent education and awareness programmes","value":"Yes"},{"name":"Included
+        in international legislation","value":"Yes"},{"name":"Subject to any international
+        management / trade controls","value":"Yes"}]}],"identification_information":null,"extreme_fluctuations":"Unknown","no_of_subpopulations":null,"continuing_decline_in_subpopulations":"Unknown","extreme_fluctuations_in_subpopulations":"Unknown","all_individuals_in_one_subpopulation":"Unknown","no_of_individuals_in_largest_subpopulation":null,"estimated_area_of_occupancy":null,"continuing_decline_in_area_of_occupancy":"Yes","extreme_fluctuations_in_area_of_occupancy":null,"estimated_extent_of_occurence":null,"continuing_decline_in_extent_of_occurence":"Yes","extreme_fluctuations_in_extent_of_occurence":null,"continuing_decline_in_number_of_locations":null,"extreme_fluctuations_in_number_of_locations":null},"documentation":{"range":"\u003cp\u003e\u003cem\u003eAcerodon
+        celebensis\u003c/em\u003e is endemic to the Sulawesi subregion of Indonesia.  Historically,
+        the species and its colonies were found throughout  Sulawesi, but in recent
+        years, intensive hunting has led to extirpation  of colonies in North Sulawesi,
+        with occasional anecdotal reports of  foraging within Tangkoko Nature Reserve.
+        It is also known from Buton,  Mangole, Sanana, Siau, Sangihe, and Selayar
+        islands. The “Malenge,  Togian Islands” reference from Musser \u003cem\u003eet
+        al.\u003c/em\u003e (1982) is  incorrectly taken from the Tate (1942) monograph
+        of the specimens from  the Archbold Expedition. It is primarily a lowland
+        species, occurring  from sea level up to 1,500 m asl. Its area of occupancy
+        (AOO) and extent of occurrence (EO)O are declining due to  continuing habitat
+        loss and degradation.\u003c/p\u003e","population":"While there is no global
+        population estimate for \u003cem\u003eAcerodon celebensis\u003c/em\u003e,
+        it is suspected that hunting and habitat loss has caused reduction in the
+        species’ population and the number of mature individuals of at least 30% over
+        the past three generations (GL = 4.5 years; 13.5 years; Pacifici \u003cem\u003eet
+        al.\u003c/em\u003e 2013). Known roost sites are at constant threat from hunting
+        pressures and some sites have been decimated due to over hunting and lack
+        of protection. The population is in decline due to unsustainable levels of
+        hunting and is suspected to have been extirpated from North Sulawesi (Sheherazade
+        and Tsang 2015, Latinne \u003cem\u003eet al.\u003c/em\u003e 2020). The species
+        is thought to be distributed in more than one population given the species
+        distribution among islands in the Sulawesi subbasin of Indonesia.","habitats":"Ace\u003cem\u003erodon
+        celebensis\u003c/em\u003e mainly roosts in mangroves, and also in bamboo and  trees
+        in villages . It is commonly found both inland (up to 1,500 m asl)  and along
+        the coast and shows a medium tolerance of human disturbance.  Currently, large
+        colonies of \u003cem\u003eA. celebensis\u003c/em\u003e are only known from
+        mangrove  forests where they roost with \u003cem\u003ePteropus alecto \u003c/em\u003eon
+        lower branches (S.M.  Tsang pers. obs.).\u003cbr/\u003e\u003cbr/\u003eNeither
+        of two adult females examined by  Flannery in November 1991 were pregnant
+        or lactating, but suggested  seasonal breeding, with births occurring in February
+        to March. In South  Sulawesi females were observed with pups in August, September,
+        and  October (S. Heinrichs pers. comm. 2012).\u003cbr/\u003e\u003cbr/\u003eThe
+        species is found to  migrate seasonally following local weather conditions
+        and food  availability. It is known to feed on \u003cem\u003ePalaquium\u003c/em\u003e
+        sp. and \u003cem\u003eFicus \u003c/em\u003esp., fruits  and nectar of \u003cem\u003eDuabanga
+        moluccana\u003c/em\u003e and \u003cem\u003eDurio\u003c/em\u003e sp., and disperse
+        their  seeds (Sheherazade 2018, Sheherazade \u003cem\u003eet al.\u003c/em\u003e
+        2019). They help to  ensure the regeneration of forests in Sulawesi and act
+        as significant  pollinators of durian, an economically important crop in Sulawesi  (Sheherazade
+        \u003cem\u003eet al.\u003c/em\u003e 2019). In fruit orchards in West Sulawesi,  they
+        also feed on rambutan (\u003cem\u003eNephelium lappaceum\u003c/em\u003e) and
+        langsat (\u003cem\u003eLansium  domesticum\u003c/em\u003e) fruits. During
+        the dry season, \u003cem\u003eA. celebensis\u003c/em\u003e relies heavily  on
+        \u003cem\u003eFicus \u003c/em\u003ebut then uses more varied resources during
+        the wet season,  including but not limited to \u003cem\u003eNeonauclea excelsa\u003c/em\u003e,
+        \u003cem\u003eCocos nucifera\u003c/em\u003e, and  \u003cem\u003eGarcinia\u003c/em\u003e
+        sp. Individuals are commonly seen feeding on breadfruit trees  and coconut
+        (Flannery 1995).\u003cp\u003e\u003c/p\u003e","threats":"There are three primary
+        threats to \u003cem\u003eAcerodon celebensis\u003c/em\u003e:\u003cem\u003e
+        \u003c/em\u003ehunting, persecution, and deforestation. The species is commonly
+        hunted and is found in bushmeat markets of North Sulawesi for local and regional
+        trade with 600,000 to 1,000,000 bats taken annually (Sheherazade and Tsang
+        2015, Latinne \u003cem\u003eet al.\u003c/em\u003e 2020). They are hunted throughout
+        their entire range to satiate the demand for bushmeat in North Sulawesi, where
+        they have been locally extirpated. Known roost sites are at constant threat
+        from hunting pressures, and some sites have been decimated due to overhunting
+        and lack of protection. In a few areas in Central Sulawesi with predominantly
+        non-Muslim residents, flying foxes are occasionally hunted at foraging sites
+        for food. In fruit orchards in West Sulawesi, flying foxes were killed by
+        the community because they fed on rambutan (\u003cem\u003eNephelium lappaceum\u003c/em\u003e)
+        and langsat (\u003cem\u003eLansium domesticum\u003c/em\u003e) fruits. Deforestation
+        due to logging and agriculture is occurring throughout the species'' range
+        and mangroves, where the largest colonies are currently found, are being converted
+        to shrimp aquaculture.","measures":"The species is listed on CITES Appendix
+        II.  Although the species is  known to occasionally forage in protected areas,
+        there are no large  colonies located within protected areas nor are they granted
+        formal  protection.  In some areas (such as Watansoppeng in South Sulawesi)
+        they  are protected, because local people believe this bat brings good  fortune.
+        They believe when the flying foxes are gone, a disaster will  happen to the
+        city. Consequently, Watansoppeng established a local  regulation to protect
+        their flying fox colonies that roost in the city  center. Further, in fruit
+        orchards in West Sulawesi, flying foxes were  killed by the community because
+        they fed on rambutan (\u003cem\u003eNephelium  lappaceum\u003c/em\u003e) and
+        langsat (\u003cem\u003eLansium domesticum\u003c/em\u003e) fruits. After learning
+        about  the role of flying foxes in pollinating durian, which was a major cash  crop
+        at the fruit orchards, the local community decided to switch to  non-lethal
+        methods to deter the bats, such as using a bell or hanging  the internal organs
+        of rotten fish on the fruit trees (Sheherazade  2018).\u003cbr/\u003e\u003cbr/\u003eThe
+        conservation NGO Alliance for Tompotika Conservation  (AlTo) has protected
+        a flying fox colony since 2014 through a  conservation lease with the local
+        community on Tangkuladi Island,  Banggai, Central Sulawesi and are informally
+        monitoring the population.  It has their education programs to educate the
+        community about bats.  Close to Tangkuladi Island, a conservation NGO, PROGRES
+        (Sulawesi  Regional Ecological Conservation Initiative, established their
+        flying  fox conservation program in 2018. Combining science and community-based  approaches,
+        PROGRES has empowered the local community to protect flying  fox colonies
+        from hunting and set up the first scientific, long-term  monitoring program
+        of flying fox populations. They created books and  posters about flying foxes,
+        conducted outreach programs in Central  Sulawesi for children at schools and
+        in the villages, and arranged movie  screenings about bats attended by fishermen
+        and women from the  villages. In North Sulawesi, Selamatkan Yaki has started
+        to include bats  in their trade mitigation programs and WCS Indonesia has
+        supported the  North Sulawesi Nature Conservation Agency (BKSDA Sulawesi Utara),
+        a  government entity, to address the bushmeat trade.\u003cbr/\u003e\u003cbr/\u003eMore
+        studies on  the species populations trends are needed, including on population
+        size  and distribution throughout its range. Also, needed are studies of the  species’
+        habitat requirements to better understand the effects of forest  conversion
+        and land use change. Finally, studies are needed to  determine the amount
+        of hunting of this species and the impact of the  bushmeat trade on population
+        persistence. Like most threatened flying  foxes, local capacity building for
+        conservation managers and education  and awareness within local communities
+        are sorely needed to support  conservation efforts.\u003cp\u003e\u003c/p\u003e","use_trade":"The
+        species is hunted throughout Sulawesi and sent to North Sulawesi markets to
+        meet the demand of the international bushmeat trade.","rationale":"\u003cem\u003eAcerodon
+        celebensis \u003c/em\u003eis listed as Vulnerable under criterion A (VU A2cd),
+        as hunting and habitat loss has caused a suspected reduction of the species’
+        population and number of mature individuals of \u0026gt;30% over the past
+        three generations (GL = 4.5 years; 13.5 years; Pacifici \u003cem\u003eet al.\u003c/em\u003e
+        2013). The hunting is unlikely to stop completely despite efforts to reduce
+        hunting pressure as this species is endemic to the Sulawesi subregion of Indonesia
+        and has been suspected to be extirpated locally in North Sulawesi, the centre
+        of the bushmeat trade at unsustainable rates (Sheherazade and Tsang 2015).
+        Known colonies are under constant threat from hunting pressure (Sheherazade
+        and Tsang 2015, Latinne \u003cem\u003eet al\u003c/em\u003e. 2020), and while
+        none have official government protection, a few colonies have been protected
+        by the local community in collaboration with conservation NGOs. Further, large
+        colonies primarily occur in mangrove forests, which have drastically declined
+        due to conversion to shrimp aquacultures. The continued hunting and loss of
+        critical mangrove habitats over the next decade will likely result in the
+        species being reassessed as Endangered.","trend_justification":null,"taxonomic_notes":"Specimens
+        from Sulawesi assigned to the previously recognized \u003cem\u003ePteropus
+        \u003cem\u003earquatus\u003c/em\u003e\u003c/em\u003e and \u003cem\u003eP.
+        argentatus\u003c/em\u003e are now recognized as \u003cem\u003eAcerodon celebensis
+        \u003c/em\u003e(Musser \u003cem\u003eet al\u003c/em\u003e. 1982, Flannery
+        1995).\u003c/span\u003e"},"biogeographical_realms":[{"description":{"en":"Australasian"},"code":"2"}],"conservation_actions":[{"note":"","code":"2_1","description":{"en":"Site/area
+        management"}},{"note":"","code":"3_1_1","description":{"en":"Harvest management"}},{"note":"","code":"4_3","description":{"en":"Awareness
+        \u0026 communications"}},{"note":"","code":"3_1_2","description":{"en":"Trade
+        management"}},{"note":"","code":"3_2","description":{"en":"Species recovery"}},{"note":"","code":"1_1","description":{"en":"Site/area
+        protection"}},{"note":"","code":"1_2","description":{"en":"Resource \u0026
+        habitat protection"}},{"note":"","code":"5_4_1","description":{"en":"International
+        level"}},{"note":"","code":"5_4_2","description":{"en":"National level"}},{"note":"","code":"5_4_3","description":{"en":"Sub-national
+        level"}},{"note":"","code":"6_2","description":{"en":"Substitution"}},{"note":"","code":"2_3","description":{"en":"Habitat
+        \u0026 natural process restoration"}}],"faos":[],"habitats":[{"majorImportance":null,"season":"Seasonal
+        Occurrence Unknown","suitability":"Marginal","description":{"en":"Artificial/Terrestrial
+        - Rural Gardens"},"code":"14_4"},{"majorImportance":"Yes","season":"Resident","suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Moist Lowland"},"code":"1_6"},{"majorImportance":"Yes","season":"Resident","suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Mangrove Vegetation Above High Tide Level"},"code":"1_7"}],"locations":[{"is_endemic":true,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Indonesia"},"code":"ID"}],"researches":[{"note":"","code":"3_1","description":{"en":"Population
+        trends"}},{"note":"","code":"1_2","description":{"en":"Population size, distribution
+        \u0026 trends"}},{"note":"","code":"1_4","description":{"en":"Harvest, use
+        \u0026 livelihoods"}},{"note":"","code":"1_5","description":{"en":"Threats"}},{"note":"","code":"1_6","description":{"en":"Actions"}},{"note":"","code":"2_2","description":{"en":"Area-based
+        Management Plan"}},{"note":"","code":"2_3","description":{"en":"Harvest \u0026
+        Trade Management Plan"}},{"note":"","code":"3_2","description":{"en":"Harvest
+        level trends"}},{"note":"","code":"3_3","description":{"en":"Trade trends"}},{"note":"","code":"3_4","description":{"en":"Habitat
+        trends"}},{"note":"","code":"1_3","description":{"en":"Life history \u0026
+        ecology"}},{"note":"","code":"2_1","description":{"en":"Species Action/Recovery
+        Plan"}}],"use_and_trade":[{"international":true,"national":true,"other":null,"subsistence":true,"description":{"en":"Food
+        - human"},"code":"1"}],"threats":[{"scope":"Whole (\u003e90%)","timing":"Ongoing","internationalTrade":"Yes","score":"High
+        Impact: 8","severity":"Rapid Declines","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Intentional
+        use (species is the target)"},"code":"5_1_1"},{"scope":"Majority (50-90%)","timing":"Ongoing","internationalTrade":null,"score":"Medium
+        Impact: 6","severity":"Slow, Significant Declines","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Small-holder
+        farming"},"code":"2_1_2"},{"scope":"Majority (50-90%)","timing":"Ongoing","internationalTrade":null,"score":"Medium
+        Impact: 6","severity":"Slow, Significant Declines","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Persecution/control"},"code":"5_1_3"},{"scope":"Majority
+        (50-90%)","timing":"Ongoing","internationalTrade":null,"score":"Medium Impact:
+        6","severity":"Slow, Significant Declines","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Small-holder
+        plantations"},"code":"2_2_1"},{"scope":"Majority (50-90%)","timing":"Ongoing","internationalTrade":null,"score":"Medium
+        Impact: 6","severity":"Slow, Significant Declines","ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Shifting
+        agriculture"},"code":"2_1_1"}],"credits":[{"credit_type_name":"assessor","full":"Sheherazade,
+        Tsang, S.M. \u0026 Matorang, Z.","value":["Z. H. Matorang","Susan Tsang (Department
+        of Biology, City College of New York Department of Mammalogy, American Museum
+        of Natural History)"," Sheherazade (Alliance for Tompotika Conservation)"]},{"credit_type_name":"evaluator","full":"Waldien,
+        D.L. \u0026 Battistoni, A.","value":["Alessia Battistoni (Global Mammal Assessment)","David
+        Waldien (Christopher Newport University)"]},{"credit_type_name":"contributor","full":"Heinrichs,
+        S., Hutson, A.M., Helgen, K., Kingston, T. \u0026 Sinaga, U.","value":["U
+        Sinaga","Kristofer Helgen (Division of Mammals, National Museum of Natural
+        History, Smithsonian Institution)","Anthony Hutson (IUCN SSC Chiroptera Specialist
+        Group)","S Heinrichs","Tigga Kingston (Texas Tech University)"]}],"errata":[],"references":[{"citation":"Pacifici,
+        M., Santini, L., Di Marco, M., Baisero, D., Francucci, L., Grottolo Marasini,
+        G., Visconti, P. and Rondinini, C. 2013. Generation length for mammals. \u003ci\u003eNature
+        Conservation\u003c/i\u003e 5: 87–94.","year":"2013","title":"Generation length
+        for mammals","author":"Pacifici, M., Santini, L., Di Marco, M., Baisero, D.,
+        Francucci, L., Grottolo Marasini, G., Visconti, P. and Rondinini, C.","citation_short":""},{"citation":"Flannery,
+        T.F. 1995. \u003ci\u003eMammals of the South-West Pacific and Moluccan Islands\u003c/i\u003e.
+        Comstock/Cornell, Ithaca, Ny, USA.","year":"1995","title":"Mammals of the
+        South-West Pacific and Moluccan Islands","author":"Flannery, T.F.","citation_short":""},{"citation":"Tate,
+        G. H. H. 1942. Results of the Archbold Expeditions. No. 47. Review of the
+        vespertilionine bats, with special attention to genera and species of the
+        Archbold Collections. \u003ci\u003eBulletin of the American Museum of Natural
+        History\u003c/i\u003e 80: 221-297.","year":"1942","title":"Results of the
+        Archbold Expeditions. No. 47. Review of the vespertilionine bats, with special
+        attention to genera and species of the Archbold Collections","author":"Tate,
+        G. H. H.","citation_short":null},{"citation":"Musser, G.G., Koopman, K.F.
+        and Califia, D. 1982. The Sulawesian \u003ci\u003ePteropus arquatus\u003c/i\u003e
+        and \u003ci\u003eP. argentatus\u003c/i\u003e are \u003ci\u003eAcerodon celebensis\u003c/i\u003e;
+        the Philippine \u003ci\u003eP. leucotis\u003c/i\u003e is an \u003ci\u003eAcerodon\u003c/i\u003e.
+        \u003ci\u003eJournal of Mammalogy\u003c/i\u003e 63(2): 319-328.","year":"1982","title":"The
+        Sulawesian \u003ci\u003ePteropus arquatus\u003c/i\u003e and \u003ci\u003eP.
+        argentatus\u003c/i\u003e are \u003ci\u003eAcerodon celebensis\u003c/i\u003e;
+        the Philippine \u003ci\u003eP. leucotis\u003c/i\u003e is an \u003ci\u003eAcerodon\u003c/i\u003e","author":"Musser,
+        G.G., Koopman, K.F. and Califia, D.","citation_short":""},{"citation":"Sheherazade
+        and Tsang, S.M. 2015. Quantifying the bat bushmeat trade in North Sulawesi,
+        Indonesia, with suggestions for conservation action. \u003ci\u003eGlobal Ecology
+        and Conservation\u003c/i\u003e 3: 324-330.","year":"2015","title":"Quantifying
+        the bat bushmeat trade in North Sulawesi, Indonesia, with suggestions for
+        conservation action","author":"Sheherazade and Tsang, S.M.","citation_short":null},{"citation":"Latinne,
+        A., Saputro, S., Kalengkongan, J., Kowel, C.L., Gaghiwu, L., Ransaleleh, T.A.,
+        Nangoy, M.J., Wahyuni, I., Kusumaningrum, T., Safari, D., Feferholtz, Y.,
+        Li, H., Hagan, E., Miller, M., Francisco, L., Daszak, P., Olival, K.J. and
+        Pamungkas, J. 2020. Characterizing and quantifying the wildlife trade in Sulawesi,
+        Indonesia. \u003ci\u003eGlobal Ecology and Conservation\u003c/i\u003e 21:
+        1-18.","year":"2020","title":"Characterizing and quantifying the wildlife
+        trade in Sulawesi, Indonesia","author":"Latinne, A., Saputro, S., Kalengkongan,
+        J., Kowel, C.L., Gaghiwu, L., Ransaleleh, T.A., Nangoy, M.J., Wahyuni, I.,
+        Kusumaningrum, T., Safari, D., Feferholtz, Y., Li, H., Hagan, E., Miller,
+        M., Francisco, L., Daszak, P., Olival, K.J. and Pamungkas, J. ","citation_short":null},{"citation":"IUCN.
+        2022. The IUCN Red List of Threatened Species. Version 2022-2. Available at:
+        \u003ca href=\"www.iucnredlist.org\"\u003ewww.iucnredlist.org\u003c/a\u003e.
+        (Accessed: 08 December 2022).","year":"2022","title":"The IUCN Red List of
+        Threatened Species. Version 2022-2","author":"IUCN","citation_short":"IUCN
+        2022-2"},{"citation":"Sheherazade. 2018. Ecosystem services of pteropodid
+        bats, with special attention to flying foxes (\u003ci\u003ePteropus\u003c/i\u003e
+        and \u003ci\u003eAcerodon\u003c/i\u003e) in Sulawesi, Indonesia. University
+        of Florida.","year":"2018","title":"Ecosystem services of pteropodid bats,
+        with special attention to flying foxes (\u003ci\u003ePteropus\u003c/i\u003e
+        and \u003ci\u003eAcerodon\u003c/i\u003e) in Sulawesi, Indonesia","author":"Sheherazade","citation_short":null},{"citation":"Sheherazade,
+        Ober, H.K. and Tsang, S.M. 2019. Contributions of bats to the local economy
+        through durian pollination in Sulawesi, Indonesia. \u003ci\u003eBiotropica\u003c/i\u003e
+        51: 913-922.","year":"2019","title":"Contributions of bats to the local economy
+        through durian pollination in Sulawesi, Indonesia.","author":"Sheherazade,
+        Ober, H.K. and Tsang, S.M.","citation_short":null}],"growth_forms":[],"lmes":[],"scopes":[{"description":{"en":"Global"},"code":"1"}],"stresses":[{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem conversion"},"code":"1_1"},{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"},{"description":{"en":"Species
+        mortality"},"code":"2_1"},{"description":{"en":"Species mortality"},"code":"2_1"},{"description":{"en":"Species
+        disturbance"},"code":"2_2"},{"description":{"en":"Species disturbance"},"code":"2_2"},{"description":{"en":"Species
+        disturbance"},"code":"2_2"},{"description":{"en":"Species disturbance"},"code":"2_2"}],"systems":[{"description":{"en":"Terrestrial"},"code":"0"}]}'
+  recorded_at: 2025-04-17 20:05:30 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/138?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/138
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:29 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '156'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"9c-POC3OuObRaL+tXwNDJWrbw"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AKoGYX2n4y-4audWxoNAzMwSfjIUHMTbV.Kkit6fXPL18A1UIErhI82Sxqxj45YD01b38fQd52crI;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"99edb9ca196926b175fedd9251f677c1"
+      x-request-id: 7d15fa82-53cf-49e0-8250-aa746cd39a34
+      x-runtime: '0.038226'
+      content-length: '2291'
+      date: Thu, 17 Apr 2025 20:05:26 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"138","result":[{"code":"1.6","habitat":"Forest - Subtropical/Tropical
-        Moist Lowland","suitability":"Suitable","season":null,"majorimportance":null}]}'
-  recorded_at: 2022-08-08 22:59:32 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"sis_id":138,"taxon":{"sis_id":138,"scientific_name":"Acerodon humilis","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"CHIROPTERA","family_name":"PTEROPODIDAE","genus_name":"Acerodon","species_name":"humilis","subpopulation_name":null,"infra_name":null,"authority":"K.
+        Andersen, 1909","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Bat Specialist Group","url":"http://www.iucnbsg.org/","description":"Co-Chairs:
+        Tigga Kingston (email: tigga.kingston@ttu.edu) and Rodrigo A. Medellin (email:
+        medellin@miranda.ecologia.unam.mx)\nBat Red List Authority Coordinator (Old
+        World): Dave Waldien (email: dwaldien@gmail.com)\nBat Red List Authority Coordinator
+        (New World): Sergio Solari (email: sergiotys@gmail.com)"}],"common_names":[{"main":false,"name":"Talaud
+        Acerodon","language":"eng"},{"main":false,"name":"Talaud Flying-fox","language":"eng"},{"main":false,"name":"Talaud
+        Flying Fox","language":"eng"},{"main":false,"name":"Talaud-Flughund","language":"ger"},{"main":false,"name":"Zorro
+        Volador De Talaud","language":"spa"},{"main":true,"name":"Talaud Fruit Bat","language":"eng"}],"synonyms":[]},"assessments":[{"year_published":"2016","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":138,"url":"https://www.iucnredlist.org/species/138/21988535","assessment_id":21988535,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2016","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":138,"url":"https://www.iucnredlist.org/species/138/115517951","assessment_id":115517951,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2008","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":138,"url":"https://www.iucnredlist.org/species/138/13032725","assessment_id":13032725,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"1996","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":138,"url":"https://www.iucnredlist.org/species/138/13032890","assessment_id":13032890,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 20:05:30 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/139?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/assessment/115517951
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:32 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '451'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"1c3-Nv3t1/eZA/GiX0Zp/CavPw"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3ALPpC7jKr8-UNvrd2IsicmytwqRFT6zjF.ndc%2BI9Hlnkg8hQ6vL7BDWkWpBvaO9AoW3j%2BHIRTW130;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"f382e1ca79379c68fe148e2f44ac14be"
+      x-request-id: 02a08539-da95-441d-97e6-8771bccc8930
+      x-runtime: '0.088606'
+      content-length: '11626'
+      date: Thu, 17 Apr 2025 20:05:26 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"139","result":[{"code":"1.6","habitat":"Forest - Subtropical/Tropical
-        Moist Lowland","suitability":"Suitable","season":null,"majorimportance":"Yes"},{"code":"1.7","habitat":"Forest
-        - Subtropical/Tropical Mangrove Vegetation Above High Tide Level","suitability":"Suitable","season":null,"majorimportance":"No"},{"code":"1.9","habitat":"Forest
-        - Subtropical/Tropical Moist Montane","suitability":"Marginal","season":null,"majorimportance":null}]}'
-  recorded_at: 2022-08-08 22:59:32 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"assessment_date":"2015-06-20T00:00:00.000Z","year_published":"2016","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":138,"criteria":"B1ab(iii,v)","url":"https://www.iucnredlist.org/species/138/115517951","citation":"Mildenstein,
+        T. 2016. Acerodon humilis (errata version published in 2017). The IUCN Red
+        List of Threatened Species 2016: e.T138A115517951. https://dx.doi.org/10.2305/IUCN.UK.2016-3.RLTS.T138A21988535.en.
+        Accessed on 16 April 2025.","assessment_id":115517951,"assessment_points":false,"assessment_ranges":true,"taxon":{"sis_id":138,"scientific_name":"Acerodon
+        humilis","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"CHIROPTERA","family_name":"PTEROPODIDAE","genus_name":"Acerodon","species_name":"humilis","subpopulation_name":null,"infra_name":null,"authority":"K.
+        Andersen, 1909","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Bat Specialist Group","url":"http://www.iucnbsg.org/","description":"Co-Chairs:
+        Tigga Kingston (email: tigga.kingston@ttu.edu) and Rodrigo A. Medellin (email:
+        medellin@miranda.ecologia.unam.mx)\nBat Red List Authority Coordinator (Old
+        World): Dave Waldien (email: dwaldien@gmail.com)\nBat Red List Authority Coordinator
+        (New World): Sergio Solari (email: sergiotys@gmail.com)"}],"common_names":[{"main":false,"name":"Talaud
+        Acerodon","language":"eng"},{"main":false,"name":"Talaud Flying-fox","language":"eng"},{"main":false,"name":"Talaud
+        Flying Fox","language":"eng"},{"main":false,"name":"Talaud-Flughund","language":"ger"},{"main":false,"name":"Zorro
+        Volador De Talaud","language":"spa"},{"main":true,"name":"Talaud Fruit Bat","language":"eng"}],"synonyms":[]},"population_trend":{"description":{"en":"Decreasing"},"code":"1"},"red_list_category":{"version":"3.1","description":{"en":"Endangered"},"code":"EN"},"supplementary_info":{"upper_elevation_limit":null,"lower_elevation_limit":null,"lower_depth_limit":null,"upper_depth_limit":null,"population_size":null,"population_severely_fragmented":"Yes","population_continuing_decline":"Yes","generational_length":null,"congregatory":null,"movement_patterns":null,"continuing_decline_in_area":"Yes","conservation_actions_in_place":[{"name":"In-place
+        land/water protection","actions":[{"name":"Conservation sites identified","value":"Yes,
+        over entire range"}]},{"name":"In-place education","actions":[{"name":"Included
+        in international legislation","value":"Yes"},{"name":"Subject to any international
+        management / trade controls","value":"Yes"}]}],"identification_information":null,"extreme_fluctuations":null,"no_of_subpopulations":null,"continuing_decline_in_subpopulations":null,"extreme_fluctuations_in_subpopulations":null,"all_individuals_in_one_subpopulation":null,"no_of_individuals_in_largest_subpopulation":null,"estimated_area_of_occupancy":null,"continuing_decline_in_area_of_occupancy":null,"extreme_fluctuations_in_area_of_occupancy":null,"estimated_extent_of_occurence":"1577","continuing_decline_in_extent_of_occurence":null,"extreme_fluctuations_in_extent_of_occurence":null,"continuing_decline_in_number_of_locations":null,"extreme_fluctuations_in_number_of_locations":null},"documentation":{"range":"This
+        species is known only from the islands of Salebabu (95 km²) and Karekaleng
+        (976 km²) in the Talaud group, in Indonesia. It was described in 1909 from
+        three specimens and no further specimens had been recorded until Riley (2002)
+        found the bat alive on the Talaud Islands. The type locality for this species
+        is Lirong, Talaud Islands, Indonesia.","population":"The population sizes
+        are continuing to be declining due to hunting.","habitats":"This seems to
+        be a forest-dependent species, but little information is available. This species
+        is thought to be conspicuous due to its roosting habit. It is surprising that
+        they have not been more commonly recorded. Forest habitat on Karakelang is
+        in forest blocks protected under a newly established protected area and the
+        edges of the island are used for agriculture, while on Salebabu there is predominantly
+        agriculture with remnant forest in the low hills (Riley 2001).","threats":"Major
+        threats for this species include hunting and habitat loss due to logging (Riley
+        2001).","measures":"\u003cstrong\u003e\u003cu\u003eCurrent conservation efforts\u003c/u\u003e\u003c/strong\u003e\u003cbr/\u003eThere
+        is a protected area in the species’ range (Karekalang Selatan Hunting Park),
+        but the level of protection for the species remains unknown within this park.\u003cbr/\u003eIt
+        is listed on CITES Appendix II.\u003cbr/\u003e\u003cbr/\u003e\u003cstrong\u003e\u003cu\u003eConservation
+        needs/priorities\u003c/u\u003e\u003c/strong\u003e\u003cbr/\u003eStudies are
+        needed on the species’ population sizes, distribution, and extent of occurrence
+        throughout its range.\u0026#160; Monitoring of population sizes and locations
+        over time are also important to establish whether these are stable or experiencing
+        trends of decline.\u003cbr/\u003e\u003cbr/\u003eThe threats to these bats
+        are poorly understood. Studies are needed on the species’ habitat requirements
+        and on the effects of forest loss and degradation on the species’ population
+        sizes/distribution. Research is also needed on the amount of hunting and the
+        level of bushmeat trade, and the effects of that hunting on population sizes
+        and persistence.\u003cbr/\u003e\u003cbr/\u003eEffective roost site protection
+        efforts are needed to minimize hunting mortality and disturbance to non-target
+        individuals. Similar to most threatened flying foxes, local capacity building
+        for conservation managers and education and awareness within local communities
+        are greatly needed to support conservation efforts.","use_trade":null,"rationale":"\u003cem\u003eAcerodon
+        humilis\u003c/em\u003e is a range-restricted species, known from two islands:
+        Salebabu and Karekaleng. Its extent of occurrence (EOO) is \u003cem\u003eca
+        \u003c/em\u003e1,500 km². It is severely fragmented and its forest habitat
+        is declining due to logging. Also the number of individuals is declining due
+        to hunting.","trend_justification":null,"taxonomic_notes":"Flannery (1995)
+        suggested the holotype might be a chimera consisting of a mismatched skull
+        from an individual of \u003ci\u003ecelebensis\u003c/i\u003e and a skin of
+        a \u003ci\u003ePteropus hypomelanus\u003c/i\u003e. However, \u003ci\u003eA.
+        humilis \u003c/i\u003ehas been shown to be a distinct species through the
+        description of two more specimens by Feiler (1990) and the rediscovery of
+        a living population by Riley (2001)."},"biogeographical_realms":[{"description":{"en":"Australasian"},"code":"2"}],"conservation_actions":[{"note":null,"code":"1_1","description":{"en":"Site/area
+        protection"}},{"note":null,"code":"4_3","description":{"en":"Awareness \u0026
+        communications"}},{"note":null,"code":"2_1","description":{"en":"Site/area
+        management"}}],"faos":[],"habitats":[{"majorImportance":null,"season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Moist Lowland"},"code":"1_6"}],"locations":[{"is_endemic":true,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":null,"description":{"en":"Indonesia"},"code":"ID"}],"researches":[{"note":null,"code":"1_2","description":{"en":"Population
+        size, distribution \u0026 trends"}},{"note":null,"code":"1_6","description":{"en":"Actions"}},{"note":null,"code":"1_4","description":{"en":"Harvest,
+        use \u0026 livelihoods"}},{"note":null,"code":"3_1","description":{"en":"Population
+        trends"}},{"note":null,"code":"1_5","description":{"en":"Threats"}},{"note":null,"code":"1_3","description":{"en":"Life
+        history \u0026 ecology"}}],"use_and_trade":[{"international":null,"national":null,"other":null,"subsistence":true,"description":{"en":"Food
+        - human"},"code":"1"}],"threats":[{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Motivation
+        Unknown/Unrecorded"},"code":"5_3_5"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Intentional
+        use (species is the target)"},"code":"5_1_1"}],"credits":[{"credit_type_name":"assessor","full":"Mildenstein,
+        T.","value":["Tammy Mildenstein (Pteropidae assessments)"]},{"credit_type_name":"evaluator","full":"Battistoni,
+        A.","value":["Alessia Battistoni (Global Mammal Assessment)"]},{"credit_type_name":"contributor","full":"Hutson,
+        A.M., Riley, J., Helgen, K. \u0026 Kingston, T.","value":["Anthony Hutson
+        (IUCN SSC Chiroptera Specialist Group)","Jon Riley (BirdLife International)","Kristofer
+        Helgen (Division of Mammals, National Museum of Natural History, Smithsonian
+        Institution)","Tigga Kingston (Texas Tech University)"]}],"errata":[{"reason":"This
+        errata assessment has been created because the map was accidentally left out
+        of the version published previously."}],"references":[{"citation":"IUCN. 2017.
+        The IUCN Red List of Threatened Species. Version 2017-1. Available at: \u003ca
+        href=\"www.iucnredlist.org\"\u003ewww.iucnredlist.org\u003c/a\u003e. (Accessed:
+        27 April 2017).","year":"2017","title":"The IUCN Red List of Threatened Species.
+        Version 2017-1","author":"IUCN","citation_short":"IUCN 2017-1"},{"citation":"Flannery,
+        T.F. 1995. \u003ci\u003eMammals of the South-West Pacific and Moluccan Islands\u003c/i\u003e.
+        Comstock/Cornell, Ithaca, Ny, USA.","year":"1995","title":"Mammals of the
+        South-West Pacific and Moluccan Islands","author":"Flannery, T.F.","citation_short":""},{"citation":"Riley,
+        J. 2002. Mammals on the Sangihe and Talaud Islands, Indonesia, and the impact
+        of hunting and habitat loss. \u003ci\u003eOryx\u003c/i\u003e 36(3): 288–296.","year":"2002","title":"Mammals
+        on the Sangihe and Talaud Islands, Indonesia, and the impact of hunting and
+        habitat loss","author":"Riley, J.","citation_short":""},{"citation":"Feiler,
+        A. 1990. On the mammals of the Sangihe and Talaud Islands. \u003ci\u003eZoologische
+        Abhandlungen (Staatliches Museum für Tierkunde Dresden)\u003c/i\u003e 46:
+        75-94.","year":"1990","title":"On the mammals of the Sangihe and Talaud Islands","author":"Feiler,
+        A.","citation_short":null},{"citation":"Riley, J. 2002. The rediscovery of
+        Talaud Islands Flying Fox \u003ci\u003eAcerodon humilis\u003c/i\u003e Andersen
+        1909 and notes on other fruit bats (Mammalia: Chiroptera, Pteropodidae) from
+        the Sangihe and Talaud islands, Indonesia. \u003ci\u003eFaunistische Abhandlungen
+        Staatliche Naturhistorische Sammlungen Dresden  Museum fuer Tierkunde\u003c/i\u003e
+        22(2): 393-410.","year":"2002","title":"The rediscovery of Talaud Islands
+        Flying Fox \u003ci\u003eAcerodon humilis\u003c/i\u003e Andersen 1909 and notes
+        on other fruit bats (Mammalia: Chiroptera, Pteropodidae) from the Sangihe
+        and Talaud islands, Indonesia","author":"Riley, J.","citation_short":""},{"citation":"IUCN.
+        2016. The IUCN Red List of Threatened Species. Version 2016-3. Available at:
+        \u003ca href=\"www.iucnredlist.org\"\u003ewww.iucnredlist.org\u003c/a\u003e.
+        (Accessed: 07 December 2016).","year":"2016","title":"The IUCN Red List of
+        Threatened Species. Version 2016-3","author":"IUCN","citation_short":"IUCN
+        2016-3"}],"growth_forms":[],"lmes":[],"scopes":[{"description":{"en":"Global"},"code":"1"}],"stresses":[{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Species mortality"},"code":"2_1"}],"systems":[{"description":{"en":"Terrestrial"},"code":"0"}]}'
+  recorded_at: 2025-04-17 20:05:30 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
+- request:
+    method: get
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/139
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"d6ba9d81f00929d5d5d43985e1f8df0a"
+      x-request-id: 256e9f42-00c0-4fcd-825d-a3d7ad053133
+      x-runtime: '0.035473'
+      content-length: '2477'
+      date: Thu, 17 Apr 2025 20:05:29 GMT
+    body:
+      encoding: ''
+      file: no
+      string: '{"sis_id":139,"taxon":{"sis_id":139,"scientific_name":"Acerodon jubatus","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"CHIROPTERA","family_name":"PTEROPODIDAE","genus_name":"Acerodon","species_name":"jubatus","subpopulation_name":null,"infra_name":null,"authority":"(Eschscholtz,
+        1831)","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Bat Specialist Group","url":"http://www.iucnbsg.org/","description":"Co-Chairs:
+        Tigga Kingston (email: tigga.kingston@ttu.edu) and Rodrigo A. Medellin (email:
+        medellin@miranda.ecologia.unam.mx)\nBat Red List Authority Coordinator (Old
+        World): Dave Waldien (email: dwaldien@gmail.com)\nBat Red List Authority Coordinator
+        (New World): Sergio Solari (email: sergiotys@gmail.com)"}],"common_names":[{"main":false,"name":"Golden-crowned
+        Flying Fox","language":"eng"},{"main":false,"name":"Goldkronenflughund","language":"ger"},{"main":false,"name":"Goldkronen-Flughund","language":"ger"},{"main":false,"name":"Zorro
+        Volador Filipino","language":"spa"},{"main":true,"name":"Golden-capped Fruit
+        Bat","language":"eng"}],"synonyms":[{"name":"Acerodon lucifer Elliot, 1896","status":"MERGE","genus_name":"Acerodon","species_name":"lucifer","species_author":"Elliot,
+        1896","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null}]},"assessments":[{"year_published":"2016","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":139,"url":"https://www.iucnredlist.org/species/139/21988328","assessment_id":21988328,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2008","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":139,"url":"https://www.iucnredlist.org/species/139/13033103","assessment_id":13033103,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"1996","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":139,"url":"https://www.iucnredlist.org/species/139/13033324","assessment_id":13033324,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"1994","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":139,"url":"https://www.iucnredlist.org/species/139/13033082","assessment_id":13033082,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 20:05:30 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
+- request:
+    method: get
+    uri: https://api.iucnredlist.org/api/v4/assessment/21988328
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"9c0ad55c230a49dea7d85e37c1911219"
+      x-request-id: 47b3a088-3859-4d24-8800-7e18b29828c8
+      x-runtime: '0.108882'
+      content-length: '45376'
+      date: Thu, 17 Apr 2025 20:05:29 GMT
+    body:
+      encoding: ''
+      file: no
+      string: '{"assessment_date":"2016-04-05T00:00:00.000Z","year_published":"2016","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":139,"criteria":"A2cd","url":"https://www.iucnredlist.org/species/139/21988328","citation":"Mildenstein,
+        T. \u0026 Paguntalan, L. 2016. Acerodon jubatus. The IUCN Red List of Threatened
+        Species 2016: e.T139A21988328. https://dx.doi.org/10.2305/IUCN.UK.2016-2.RLTS.T139A21988328.en.
+        Accessed on 17 April 2025.","assessment_id":21988328,"assessment_points":false,"assessment_ranges":true,"taxon":{"sis_id":139,"scientific_name":"Acerodon
+        jubatus","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"MAMMALIA","order_name":"CHIROPTERA","family_name":"PTEROPODIDAE","genus_name":"Acerodon","species_name":"jubatus","subpopulation_name":null,"infra_name":null,"authority":"(Eschscholtz,
+        1831)","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Bat Specialist Group","url":"http://www.iucnbsg.org/","description":"Co-Chairs:
+        Tigga Kingston (email: tigga.kingston@ttu.edu) and Rodrigo A. Medellin (email:
+        medellin@miranda.ecologia.unam.mx)\nBat Red List Authority Coordinator (Old
+        World): Dave Waldien (email: dwaldien@gmail.com)\nBat Red List Authority Coordinator
+        (New World): Sergio Solari (email: sergiotys@gmail.com)"}],"common_names":[{"main":false,"name":"Golden-crowned
+        Flying Fox","language":"eng"},{"main":false,"name":"Goldkronenflughund","language":"ger"},{"main":false,"name":"Goldkronen-Flughund","language":"ger"},{"main":false,"name":"Zorro
+        Volador Filipino","language":"spa"},{"main":true,"name":"Golden-capped Fruit
+        Bat","language":"eng"}],"synonyms":[{"name":"Acerodon lucifer Elliot, 1896","status":"MERGE","genus_name":"Acerodon","species_name":"lucifer","species_author":"Elliot,
+        1896","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null}]},"population_trend":{"description":{"en":"Decreasing"},"code":"1"},"red_list_category":{"version":"3.1","description":{"en":"Endangered"},"code":"EN"},"supplementary_info":{"upper_elevation_limit":1100,"lower_elevation_limit":0,"lower_depth_limit":null,"upper_depth_limit":null,"population_size":null,"population_severely_fragmented":"No","population_continuing_decline":null,"generational_length":"10","congregatory":"Congregatory
+        (and dispersive)","movement_patterns":null,"continuing_decline_in_area":null,"conservation_actions_in_place":[{"name":"In-place
+        land/water protection","actions":[{"name":"Conservation sites identified","value":"Yes,
+        over entire range"}]},{"name":"In-place species management","actions":[{"name":"Subject
+        to ex-situ conservation","value":"Yes"}]},{"name":"In-place education","actions":[{"name":"Subject
+        to recent education and awareness programmes","value":"Yes"},{"name":"Included
+        in international legislation","value":"Yes"},{"name":"Subject to any international
+        management / trade controls","value":"Yes"}]}],"identification_information":null,"extreme_fluctuations":null,"no_of_subpopulations":null,"continuing_decline_in_subpopulations":null,"extreme_fluctuations_in_subpopulations":null,"all_individuals_in_one_subpopulation":null,"no_of_individuals_in_largest_subpopulation":null,"estimated_area_of_occupancy":null,"continuing_decline_in_area_of_occupancy":null,"extreme_fluctuations_in_area_of_occupancy":null,"estimated_extent_of_occurence":null,"continuing_decline_in_extent_of_occurence":null,"extreme_fluctuations_in_extent_of_occurence":null,"continuing_decline_in_number_of_locations":null,"extreme_fluctuations_in_number_of_locations":null},"documentation":{"range":"This
+        species is endemic to the Philippines, where it is widespread with the exception
+        of the Palawan faunal region and among the Batanes and Babuyan island groups
+        (Heaney \u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        1998). It generally occurs at an altitude range of 0-1,100 m asl. It is only
+        found in large roosts with \u003cem\u003ePteropus vampyrus\u003c/em\u003e.
+        Although \u003cem\u003eP. vampyrus \u003c/em\u003eroosts have been, and are
+        often still assumed to have \u003cem\u003eA. jubatus\u003c/em\u003e present,
+        the presence of \u003cem\u003eA. jubatus\u003c/em\u003e at many roosts has
+        not been confirmed. There are historic records for the species on the following
+        islands: Basilan, Biliran (forgaging from a roost on Maripipi - Rickart \u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        (1993)), Bohol, Bongao, Boracay, Cabo (in Igat Bay, in Zamboanga del Sur Province,
+        off Mindanao), Cebu, Dinagat, Jolo, Leyte, Luzon, Marinduque, Maripipi, Mindanao,
+        Mindoro, Negros, Panay (formerly regarded as \u003cem\u003eAcerdon lucifer\u003c/em\u003e),
+        Polillo, Sibutu and Siquijor.\u003cbr/\u003e\u003cbr/\u003eRecent surveys
+        by the Bat Count Project (source Bat Count reports: Mildenstein \u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        2005, and Mildenstein 2011, unless alternative source given) on the presence
+        and absence of \u003cem\u003eA. jubatus\u003c/em\u003e at various bat colonies
+        on islands in the Philippines report its presence at the following sites:
+        1) Bohol Island: Raja Sikatuna Protected Landscape, Bilar, 2) Boracay Island:
+        A roosting colony was known that feeds on nearby Panay, but has recently been
+        reported missing (M. Saulog pers. comm. 2011), 3) Cebu: A roost at between
+        barangay Malones and Lanao, Dalaguete: and second roost was located in Boljoon
+        town in southern Cebu in 2008 (L. Paguntalan pers. comm. 2011), 4) Leyte:
+        Bilaran Island (L. Paguntalan pers. comm. 2011) and a colony at Mount Pangasugan,
+        but \u003cem\u003eAcerodon jubatus\u003c/em\u003e presence is unconfirmed,
+        5) Luzon: There are confirmed roosts documented from Subic Forest Watershed
+        Reserve, Subic Bay, Northern Sierra Madre Natural Park, Divilacan, Cagayan,
+        and in Ilocos Norte province, Pangasinan province, Baler in Aurora province,
+        and Calamba in Laguna province (P. Alviola pers. obs. 2005), and possible
+        roosts on Mount Banahaw (D. Balete pers. obs. 2003) and Kamunayan-Tabugan,
+        Baggao, Cagayan (M.R. Duya pers. comm. 2005), 6) Mindanao: Roosts are known
+        from Mutia, Calamba and Oroquieta City, Mount Malindang, Misamis Occidental
+        (Ramayla, pers. obs. 2006, Nuñeza \u003cem\u003eet al.\u003c/em\u003e\u0026#160;2006),
+        Mount Hamguitan, Eastern Mindanao (D. Balete pers. obs. 2005), Malagos Forest
+        Watershed Reserve, Davao (N.R. Ingle pers. obs. 2004, Gomez in litt. 2007,
+        and Bat Count Project), and Mt. Diwata, Agusan del Sur (Nuñeza \u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        2008). In Siocon and the Philippine Coconut Authority Area in Zamboanga del
+        Norte, there is a roost of about 5,000 individuals of \u003cem\u003ePteropus
+        vampyrus\u003c/em\u003e and \u003cem\u003eAcerodon jubatus\u003c/em\u003e
+        (according to trained students and the DENR), and Desmond Allen photographed
+        a roost of \u003cem\u003eAcerodon jubatus\u003c/em\u003e and\u003cem\u003e
+        Pteropus vampyrus\u003c/em\u003e in Bongao, Tawi-tawi (between 2003-2007).
+        Possible roost sites, where the presence of the species requires confirmation,
+        are in: Magum and Mati, Davao Oriental, Malita, Davao del Sur, and Mount Hilong-hilong,
+        in the lowland dipterocarp forest of Cantilan and Carrascal, Surigao del Sur
+        (Gomez in litt. 2007), 7) Mindoro: a roost occurs at Bilog na Sapa, Sablayan,
+        Mindoro Occidental and possibly on the eastern side of the island (Saulog
+        and Garcia pers. comm. 2005), 8) Negros: Calinawan, Enrique Villanueva and
+        Sibulan, in Negros Oriental, Mambukal, Barangay Minoyan, Murcia, Mount Patag,
+        and possible roosts in a mangrove area in the towns of Sagay, Hinoba-An, and
+        Isabella near Mt. Kanlaon (L. Paguntalan pers. comm. 2011) and in the Manlukahoc
+        area (E. Alcala pers. comm. 2006), Negros Occidental, and 9) Polillo: a roost
+        occurs on privately owned land (Alviola pers. comm. 2006).\u003cbr/\u003e\u003cbr/\u003eThe
+        Bat Count Project has surveyed the following colonies of \u003cem\u003ePteropus
+        vampyrus\u003c/em\u003e and did not find any \u003cem\u003eA. jubatus\u003c/em\u003e
+        (though it is unclear whether the species occurred in any of these roosts
+        historically (Mildenstein 2011)): 1) Cebu: Tabunan, 2) Mindanao: Bongo Island,
+        Maguindanao Province, and Pinol and Maitum, Sarangani Province, 3) Negros
+        Oriental (southeast Negros): Sagay, Vallehermosa and San Jose, and 4) Panay:
+        Batbatan Island and Culasi, Antique Province. The Siquijor populations are
+        possibly extinct (Lepiten 1995), this species has been reported absent from
+        there recently (A.B. Cariño pers. comm. 2006).","population":"A rough estimate
+        of the total population of \u003cem\u003eA. jubatus\u003c/em\u003e is around
+        10,000 individuals (and probably no more than 20,000) (Mildenstein 2011, 2012).
+        During the late 1800s and early 1900s there were many anecdotal reports of
+        colonies of 100,000 bats, presumably mixed species. Hence, the total population
+        of\u003cem\u003e A. jubatus\u003c/em\u003e is estimated to be around one or
+        two percent of what it was 200 years ago (L. Heaney pers. comm. 2006). Although
+        there are still a few mixed species colonies that number between 10,000 and
+        30,000 individuals, generally, recent observations of mixed colonies have
+        reported sizes of 5,000 and fewer individuals (Mildenstein 2011, 2012), and
+        concur with surveys from the last three decades (Heaney and Heideman 1987,
+        Heaney and Utzurrum 1991, Mudar and Allen 1986, Rickart \u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e 1993, Utzurrum
+        1992).\u003cbr/\u003e\u003cbr/\u003ePrior to fruit bat population surveys
+        of the early 2000’s, most colonies of large fruit bats were assumed to include
+        \u003cem\u003eAcerodon jubatus\u003c/em\u003e, although the actual presence
+        of the species in many colonies was not confirmed. Recent work by the Bat
+        Count Project has shown that the number of remaining\u003cem\u003e A. jubatus\u003c/em\u003e
+        populations is fewer and population sizes are smaller than were thought to
+        exist historically. Many fruit bat colonies do not have any \u003cem\u003eA.
+        jubatus\u003c/em\u003e at all, and when it is present, it has always been
+        found in mixed species roosts with \u003cem\u003ePteropus vampyrus\u003c/em\u003e
+        (and sometimes also with \u003cem\u003ePteropus hypomelanus\u003c/em\u003e).
+        Of the 23 roosts sampled by Bat Count, only nine of these were found to contain
+        \u003cem\u003eA. jubatus\u003c/em\u003e during several survey days for each
+        roost. For other roosts surveyed by Bat Count Philippines, the presence of
+        the species was not documented, but repeat visits are necessary to confirm
+        absence. It is not known whether colonies lacking\u003cem\u003e A. jubatus\u003c/em\u003e
+        represent extirpated locations or if the species was not found in these sites
+        historically.\u003cbr/\u003e\u003cbr/\u003eFor most colonies known to be of
+        mixed species, it is often unknown how abundant each species is in the colony
+        (i.e. the species composition) (Mildenstein \u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e 2005, Mildenstein
+        2011, 2012). In the mixed colonies that have been surveyed, \u003cem\u003eA.
+        jubatus\u003c/em\u003e make up a small proportion of the total colony size,
+        ranging from \u003cem\u003eA. jubatus\u003c/em\u003e making up around 5% of
+        the mixed species population to as much as 20% of the individuals in the two
+        most protected colonies (Mildenstein \u003cem\u003e\u003cem\u003e\u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e 2005, Mildenstein
+        2011, 2012). In sites that are heavily disturbed, \u003cem\u003eA. jubatus\u003c/em\u003e
+        are often \u0026lt;2% of roosting population (Mildenstein 2011, 2012).\u003cbr/\u003e\u003cbr/\u003eAlong
+        with being small and much less numerous, \u003cem\u003eA. jubatus\u003c/em\u003e
+        populations are also more isolated than\u003cem\u003e Pteropus vampyrus\u003c/em\u003e
+        populations. Molecular study of fecal samples from Subic Bay and Mambukal
+        suggest there is moderate amount of population structure among \u003cem\u003eA.
+        jubatus\u003c/em\u003e populations (Mildenstein 2012), which would be expected
+        given the species greater amount of forest specialization.","habitats":"This
+        is amongst the heaviest of the world''s bats at up to 2.6 pounds (1.2 kg).
+        Currently, it is always found roosting with \u003cem\u003ePteropus vampyrus\u003c/em\u003e
+        (and sometimes \u003cem\u003ePteropus hypomelanus\u003c/em\u003e), but it
+        is uncertain if it has always occurred in mixed roosts. It typically roosts
+        in trees, and sometimes in mangroves on small islands (Hoogstraal 1951, Rabor
+        1986, Heaney \u003cem\u003e\u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        1998). There is generally high roost site fidelity (T. Mildenstein pers. comm.
+        2006), and roost sites are often located on steep slopes and cliff edges in
+        areas that are difficult to access by humans. In mixed roosts of \u003cem\u003eA.
+        jubatus\u003c/em\u003e and \u003cem\u003eP. vampyrus\u003c/em\u003e on Bohol,
+        Boracay, Luzon, Mindanao, and Negros, \u003cem\u003eA. jubatus\u003c/em\u003e
+        was observed in the forest (away from the forest edge), whereas \u003cem\u003eP.
+        vampyrus\u003c/em\u003e were at the periphery, which might reflect a sensitivity
+        of \u003cem\u003eA. jubatus\u003c/em\u003e to disturbance (Mildenstein 2012,
+        Gomez in litt. 2007).\u003cbr/\u003e\u003cbr/\u003e\u003cem\u003eA. jubatus\u003c/em\u003e
+        is known to be forest-dependent based on studies of diet and habitat use (Mildenstein
+        \u003cem\u003e\u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        2005, Stier and Mildenstein 2005, Mildenstein 2012). Compared to co-roosting
+        \u003cem\u003eP. vampyrus\u003c/em\u003e, \u003cem\u003eA. jubatus\u003c/em\u003e’
+        diet consists of a small subset of native forest tree species (N\u0026lt;20
+        species, Stier and Mildenstein 2005) focusing especially on hemi-epiphytic
+        fig species, which may be a staple food item (Stier and Mildenstein 2005).
+        \u003cem\u003eA. jubatus \u003c/em\u003epreferentially selects primary and
+        high-quality second-growth forest for foraging (Stier and Mildenstein 2005,
+        Mildenstein \u003cem\u003e\u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        2005). The species may occasionally leave this type of habitat, using streams
+        where fig trees grow on banks, they rarely forage in orchards on agricultural
+        trees (Mildenstein \u003cem\u003e\u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e\u003c/em\u003e
+        2005). On Mindanao, farmers believe that \u003cem\u003eA. jubatus\u003c/em\u003e
+        is a pest in fruit orchards, but this remains unverified, and it is possible
+        that these individuals are misidentified \u003cem\u003eP. vampyrus\u003c/em\u003e
+        which are known to use orchards regularly (T.L. Mildenstein in litt. 2007).","threats":"The
+        species is threatened by severe habitat loss and hunting throughout its range,
+        including within protected areas (Mildenstein 2012, L. Heaney pers. comm.
+        2006).\u003cbr/\u003e\u003cbr/\u003e\u003cstrong\u003e\u003cu\u003eHabitat
+        Loss\u003c/u\u003e\u003c/strong\u003e\u003cbr/\u003e\u003cbr/\u003e\u003cem\u003eAcerodon
+        jubatus\u003c/em\u003e is a known forest specialist based on studies of diet
+        and habitat use (Mildenstein \u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e
+        2005, Stier and Mildenstein 2005, Mildenstein 2012). Vegetative GIS layers
+        and Bat Count surveys show that population sizes (for both \u003cem\u003eA.
+        jubatus\u003c/em\u003e and \u003cem\u003eP. vampyrus\u003c/em\u003e) correlate
+        closely with available natural forest cover, suggesting bat populations are
+        habitat -limited (Mildenstein 2011, 2012). However, \u003cem\u003eA. jubatus\u003c/em\u003e
+        populations are much more sensitive to habitat loss and degradation due to
+        their exclusive use of natural forest compared to \u003cem\u003ePteropus vampyrus\u003c/em\u003e’
+        included use of agricultural crops and degraded forest areas (Mildenstein
+        2012).\u003cbr/\u003e\u003cbr/\u003eMost (\u0026gt;90%) of Philippines'' original
+        old-growth forest cover has been destroyed (Kummer 1992). If current trends
+        continue, no old-growth lowland forest will remain by 2030. Remaining total
+        forest cover in the Philippines is roughly 10-15% secondary forest cover,
+        much of this extant forest occurs above 1,000 m asl, where \u003cem\u003eA.
+        jubatus \u003c/em\u003eis unlikely to occur (L. Heaney in litt. 2007). Although
+        there has been a moratorium on logging in the Philippines for over two decades,
+        forest removal is on-going. In Samar and Pangasinan (Luzon), open-cast mines
+        are removing forest cover (M. Pedregosa pers. comm. 2006) and in southwestern
+        Negros, a roost of this species occurs in a copper and gold mining claim area
+        (E. Alcala pers. comm. 2006). The forest area in Subic Bay Watershed Reserve
+        has reduced by housing, commercial and tourist developments (T. Mildenstein,
+        pers. comm. 2012). The roost on Polillo which occurs on privately owned land
+        is also under threat from human disturbance (P. Alviola pers. comm. 2006)
+        and the roost site on Boracay was displaced due to infrastructure development
+        for tourism (M. Lorica pers. comm. 2006). Based on these current rates of
+        deforestation, the future population trend for this species will depend on:
+        1) the extent of regenerating secondary forest, and 2) the ability of \u003cem\u003eA.
+        jubatus\u003c/em\u003e to persist in secondary forest (L. Heaney pers. comm.
+        2012).\u003cbr/\u003e\u003cbr/\u003e\u003cu\u003e\u003cstrong\u003eHunting\u003c/strong\u003e\u003c/u\u003e\u003cbr/\u003e\u003cbr/\u003eInternational
+        trade data show that previously thousands of individuals of fruit bats were
+        exported annually from the Philippines (Mickleburgh \u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e 1992), many of these were likely to be \u003cem\u003eA.
+        jubatus\u003c/em\u003e. In 1995, the species were listed with other Pteropodids
+        in Appendix I of the Convention on International Trade in Endangered Species
+        of Wild Fauna and Flora (CITES), which brought about better enforcement of
+        legislation, and increased efforts by customs in both Guam and the Philippines.
+        The international trade of Philippine fruit bats is now minimal, although
+        not altogether stopped (e.g. recent cases in Guam).\u003cbr/\u003e\u003cbr/\u003eHunting
+        of flying foxes is illegal in the Philippines (except for the few remaining
+        indigenous Aeta communities). However, fruit bat hunting is on-going and largely
+        unregulated throughout the country. Reasons for hunting fruit bats in the
+        Philippines vary. Fruit bats hunting is part of Filipino cultural heritage,
+        and fruit bat meat is valued as a delicacy and/or for its medicinal properties
+        (Cariño \u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e 2006,
+        Mildenstein 2012). Fruit bats may also be relied upon as an opportunistic
+        food source for forest workers (Gomez in litt. 2007, T. Mildenstein and S.
+        Stier pers. comm. 2012). Finally, fruit bats are valued for sport hunting
+        and as ‘pulutan’ (any snack eaten while consuming alcohol) (Cariño \u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e 2006, Mildenstein 2012). Depending on seasonal
+        demands, local markets for fruit bats occur throughout the Philippines. Specific
+        reports of local trade include on Negros Island, where individual bats can
+        be sold for 15-30 pesos (0.30 -0.60US$) (Cariño \u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e 2006), in Davao, Calinan province, Mindanao
+        (N. Ingle pers. comm. 2004), at the mixed species roost at the prison at Sablayan
+        (Mindoro) (H. Garcia pers. comm. 2006). In general, hunters and fruit bat
+        buyers think of \u003cem\u003eA. jubatus\u003c/em\u003e as quite odourous
+        compared to \u003cem\u003eP. vampyrus\u003c/em\u003e (S. Stier, pers. comm.
+        2012). In Bataan province and around Subic Bay (Luzon), \u003cem\u003eA. jubatus\u003c/em\u003e
+        is less preferred to \u003cem\u003ePteropus vampyrus\u003c/em\u003e because
+        of this quality, but the species look similar, and hunters are generally not
+        aware of which species they are taking (S.C. Stier in litt. 2007).\u003cbr/\u003e\u003cbr/\u003eHunters
+        use lines with hooks (D. Balete pers. comm. 2006, L. Paguntalan pers. comm.
+        2011), shot guns, rifles, and air guns (T. Mildenstein, pers. comm. 2010,
+        and A. Cariño in litt. 2007). The impact of hunting on fruit bat populations
+        is greatest when it occurs at the roost site, which causes stress and risk
+        of mortality across the entire colony. Species differ in their tolerance of
+        roost site disturbance, with more specialized species expected to be more
+        sensitive. \u003cem\u003eA. jubatus\u003c/em\u003e populations exhibit a 12-fold
+        reduction in population density when roost sites are unprotected compared
+        to protected roosts with the same amount of surrounding habitat (Mildenstein
+        2012). Three roost sites (Boracay, Subic Bay, Luzon, and Mambukal, Negros)
+        are formally protected from hunting by local landowners (Boracay) and the
+        local government (Subic Bay and Mambukal), although occasional hunting is
+        still known to occur at all three locations. At most other roost sites, \u003cem\u003eA.
+        jubatus\u003c/em\u003e experiences regular hunting pressure (Mildenstein 2012).
+        Many flying fox colonies have moved from their original roosting sites due
+        to hunting pressure (Mildenstein 2012), (e.g. Patag, Negros Occidental, Calinawan,
+        Negros Oriental,Davao Oriental, Mindanao (A.B. Cariño pers. comm. 2007, Gomez
+        in litt. 2007)).\u003cbr/\u003e\u003cbr/\u003eWhether or not the roost site
+        is protected from hunting, a large amount of hunting occurs away from the
+        roosts during night-time foraging in protected and unprotected forests as
+        well as farms kilometres from the roost. Nighttime hunting of bats away from
+        the roost is known to be on-going in Subic Bay (S. Stier and T. Mildenstein
+        pers. comm. 2001, M. Pedregosa-Hospadarsky pers. comm. 2010), Bohol (R. Pamaong-Jose
+        pers. comm. 2011), Bilaran, Leyte (L. Paguntalan pers. comm. 2011), Mt. Malindang
+        (Nuñeza \u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e 2006),
+        and Cebu (S. Ramayla pers. comm. 2011), and is likely to occur around all
+        other roost sites containing this species (Mildenstein 2012).\u003cbr/\u003e\u003cbr/\u003e\u003cu\u003e\u003cstrong\u003eRoost
+        site disturbance\u003c/strong\u003e\u003c/u\u003e\u003cbr/\u003e\u003cbr/\u003eThis
+        species has been shown to be especially sensitive to disturbance at the roost
+        site (Van der Aa \u003cem\u003e\u003cem\u003eet al.\u003c/em\u003e\u003c/em\u003e
+        2006, Mildenstein 2012). Even the three most-protected roosts, located on
+        Boracay (off Panay Island), Subic (Luzon), Mambukal (Negros Occidental) are
+        not especially protected from disturbance. All three lie within popular tourist
+        areas, where they are subjected to disturbances caused by tourists and guides
+        (e.g. clapping hands or deliberately tapping the roost trees to make them
+        fly). In addition to causing more stress during a period when the bats are
+        normally sleeping, there have been a number of reports of pups that got separated
+        and abandoned due to disturbances at the roost site (Mildenstein 2012). Recent
+        population estimates at these “protected” roosts show smaller populations
+        compared to the 2000-2002 roost counts (Mildenstein 2012).","measures":"\u003cu\u003e\u003cstrong\u003eCurrent
+        conservation efforts\u003c/strong\u003e\u003c/u\u003e\u003cbr/\u003e\u003cbr/\u003eThe
+        species is protected under the Philippine Wildlife Act (Republic Act No. 9147,
+        2001). \u003cem\u003eA. jubatus\u003c/em\u003e has been included in Appendix
+        I of CITES since 1995 (the species had previously been included in Appendix
+        II since 1990). Although the species itself is formally protected, there is
+        little enforcement of the protective legislation (N. Ingle pers. comm. 2011).\u003cbr/\u003e\u003cbr/\u003eIn
+        addition, the majority of the species'' roosts are within formally designated
+        protected areas, but most receive very little protection (S. Stier and T.
+        Mildenstein pers. comm. 2001, M. Pedregosa-Hospadarsky pers. comm. 2010, R.
+        Pamaong-Jose pers. comm. 2011, L. Paguntalan pers. comm. 2011, Nuñeza \u003cem\u003e\u003cem\u003eet
+        al.\u003c/em\u003e\u003c/em\u003e 2006, S. Ramayla pers. comm. 2011, E. Breganza
+        pers. comm. 2010, Mildenstein 2012).\u003cbr/\u003e\u003cbr/\u003e\u003cu\u003e\u003cstrong\u003eConservation
+        needs/priorities\u003c/strong\u003e\u003c/u\u003e\u003cbr/\u003e\u003cbr/\u003eClearly,
+        one of the top priorities needs to be additional research on which we can
+        base our conservation management decisions. We need to know more about where
+        populations are extant, and we need to know much more about their current
+        status. Long-term studies that track populations are very badly needed (L.
+        Heaney pers. comm. 2011).\u003cbr/\u003eMore focused conservation efforts
+        are also urgently needed for this species throughout its range. Especially
+        needed are the establishment and management of protected roosting areas, which
+        are expected to result in a rapid increase in the number of bats at the roost
+        sites (Mildenstein 2012). Protected flying fox roosts have the added benefit
+        of being popular eco-tourist attractions, providing local communities with
+        a source of pride, income, and a venue for learning about the natural heritage
+        of the Philippines. \u003cbr/\u003e\u003cbr/\u003eIt is imperative that hunting
+        prohibition for this species is enforced until research has been done to identify
+        hunting impacts on population sizes and sustainable harvest levels. Conservation
+        capacity-building, education and awareness within local communities and among
+        local government units and non-profits are also essential to imparting the
+        risks that this species faces and encouraging conservation management. \u003cbr/\u003e\u003cbr/\u003eAlthough
+        some captive breeding facilities exist, it is unclear if these are sufficient
+        for re-enforcing wild populations.","use_trade":"International trade data
+        show that previously thousands of individuals of fruit bats were exported
+        annually from the Philippines (Mickleburgh \u003cem\u003eet al.\u003c/em\u003e
+        1992), many of these were likely to be \u003cem\u003eA. jubatus\u003c/em\u003e.
+        Hunting of flying foxes is illegal in the Philippines (except for the few
+        remaining indigenous Aeta communities). However, fruit bat hunting is on-going
+        and largely unregulated throughout the country. Specific reports of local
+        trade include on Negros Island, where individual bats can be sold for 15-30
+        pesos (0.30 -0.60US$) (Cariño \u003cem\u003eet al.\u003c/em\u003e 2006), in
+        Davao, Calinan province, Mindanao (N. Ingle pers. comm. 2004), at the mixed
+        species roost at the prison at Sablayan (Mindoro) (H. Garcia pers. comm. 2006).","rationale":"\u003cp\u003eListed
+        as Endangered because of a population decline is suspected to be more than
+        50% over the last three generations (30 years; Pacifici \u003cem\u003eet al.\u003c/em\u003e
+        2013). The decline is suspected from the species'' dependence on native forest
+        (Mildenstein 2012) and the observed reduction in the extent of its lowland
+        forest habitat. The species is also extremely sensitive to hunting in general,
+        and especially to roost site disturbances. Only 3 of the 12-15 remaining populations
+        known to contain this species are at roost sites that are essentially protected
+        from most disturbance (Subic Bay, Boracay, Mambukal), and even these populations
+        in the best case scenario are declining at a rate of 10-15% per generation
+        (Mildenstein 2012). Finally, population sizes of this species are very small,
+        most (9 of 12 known populations) containing fewer than 200 individuals, and
+        many of those with fewer than 50 individuals. With the inferred population
+        dynamic and genetic challenges associated with small populations, it is assumed
+        these populations'' decline are exacerbated by their small sizes.\u003c/p\u003e","trend_justification":null,"taxonomic_notes":"This
+        species includes the extinct populations on Panay (often referred to \u003ci\u003eAcerodon
+        lucifer\u003c/i\u003e Elliot, 1896, the Panay golden-crowned flying fox),
+        following (Heaney \u003ci\u003eet al\u003c/i\u003e. 1998). There is significant
+        geographic variation in the species, and more studies are needed (L. Heaney
+        pers. comm. 2006)."},"biogeographical_realms":[{"description":{"en":"Indomalayan"},"code":"3"}],"conservation_actions":[{"note":null,"code":"4_2","description":{"en":"Training"}},{"note":null,"code":"4_3","description":{"en":"Awareness
+        \u0026 communications"}},{"note":null,"code":"2_3","description":{"en":"Habitat
+        \u0026 natural process restoration"}},{"note":null,"code":"2_1","description":{"en":"Site/area
+        management"}},{"note":null,"code":"5_1_3","description":{"en":"Sub-national
+        level"}},{"note":null,"code":"1_1","description":{"en":"Site/area protection"}},{"note":null,"code":"3_1_2","description":{"en":"Trade
+        management"}},{"note":null,"code":"3_1_1","description":{"en":"Harvest management"}},{"note":null,"code":"5_1_2","description":{"en":"National
+        level"}},{"note":null,"code":"5_4_3","description":{"en":"Sub-national level"}},{"note":null,"code":"4_1","description":{"en":"Formal
+        education"}},{"note":null,"code":"5_4_2","description":{"en":"National level"}}],"faos":[],"habitats":[{"majorImportance":null,"season":null,"suitability":"Marginal","description":{"en":"Forest
+        - Subtropical/Tropical Moist Montane"},"code":"1_9"},{"majorImportance":"Yes","season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Moist Lowland"},"code":"1_6"},{"majorImportance":"No","season":null,"suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Mangrove Vegetation Above High Tide Level"},"code":"1_7"}],"locations":[{"is_endemic":true,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Philippines"},"code":"PH"}],"researches":[{"note":null,"code":"1_3","description":{"en":"Life
+        history \u0026 ecology"}},{"note":null,"code":"1_5","description":{"en":"Threats"}},{"note":null,"code":"1_4","description":{"en":"Harvest,
+        use \u0026 livelihoods"}},{"note":null,"code":"1_6","description":{"en":"Actions"}},{"note":null,"code":"1_1","description":{"en":"Taxonomy"}},{"note":"Migrated
+        from 3 Research Actions-\u003e3.7 Cultural relevance","code":"4","description":{"en":"Other"}},{"note":null,"code":"1_2","description":{"en":"Population
+        size, distribution \u0026 trends"}},{"note":null,"code":"3_1","description":{"en":"Population
+        trends"}}],"use_and_trade":[{"international":null,"national":true,"other":null,"subsistence":true,"description":{"en":"Food
+        - human"},"code":"1"}],"threats":[{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Housing
+        \u0026 urban areas"},"code":"1_1"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Motivation
+        Unknown/Unrecorded"},"code":"5_3_5"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Mining
+        \u0026 quarrying"},"code":"3_2"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Work
+        \u0026 other activities"},"code":"6_3"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Small-holder
+        farming"},"code":"2_1_2"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Recreational
+        activities"},"code":"6_1"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Intentional
+        use (species is the target)"},"code":"5_1_1"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Persecution/control"},"code":"5_1_3"},{"scope":null,"timing":"Ongoing","internationalTrade":null,"score":"Low
+        Impact: 3","severity":null,"ancestry":null,"virus":null,"ias":null,"text":null,"description":{"en":"Agro-industry
+        farming"},"code":"2_1_3"}],"credits":[{"credit_type_name":"assessor","full":"Mildenstein,
+        T. \u0026 Paguntalan, L.","value":["Tammy Mildenstein (Pteropidae assessments)","Lisa
+        Paguntalan (Philippines Biodiversity Conservation Foundation Inc.)"]},{"credit_type_name":"evaluator","full":"Battistoni,
+        A.","value":["Alessia Battistoni (Global Mammal Assessment)"]},{"credit_type_name":"contributor","full":"Heaney,
+        L., Duya, M., Carino, A., Ong, T.P., Tabaranza, B., Nuñeza, O.M., Ramayla,
+        S.P., Alviola, P.A., Stier, S., Pedregosa, S., Saulog, M.G., Jakosalem, P.G.,
+        Lorica, R.P., Ingle, N.R., Balete, D.S., Garcia, H.J.D., Gonzalez, J.C. \u0026
+        Rosell-Ambal, R.G.B.","value":["Lawrence Heaney (Field Museum of Natural History
+        Chicago)","Apolinario Carino (BirdLife International)","Melizar Duya (Conservation
+        International Philippines)","Blas Tabaranza (BirdLife International)","Philip
+        Godfrey Jakosalem (Philippine Biodiversity Conservation Foundation)","Tun
+        Pin Ong","Olga Nuñeza","Sherry Ramayla","Phillip Alviola (University of the
+        Philippines Los Banos)","Sam Stier","Ruth Grace Rosell-Ambal","S Pedregosa","Mylanar
+        Saulog","Renee Lorica","Nina Ingle","Danilo Balete (Field Museum of Natural
+        History)","Harvey Garcia","J Gonzalez"]}],"errata":[],"references":[{"citation":"Pacifici,
+        M., Santini, L., Di Marco, M., Baisero, D., Francucci, L., Grottolo Marasini,
+        G., Visconti, P. and Rondinini, C. 2013. Generation length for mammals. \u003ci\u003eNature
+        Conservation\u003c/i\u003e 5: 87–94.","year":"2013","title":"Generation length
+        for mammals","author":"Pacifici, M., Santini, L., Di Marco, M., Baisero, D.,
+        Francucci, L., Grottolo Marasini, G., Visconti, P. and Rondinini, C.","citation_short":""},{"citation":"Simmons,
+        N.B. 2005. Order Chiroptera. In: D.E. Wilson and D.M. Reeder (eds), \u003ci\u003eMammal
+        Species of the World\u003c/i\u003e, pp. 312-529. The Johns Hopkins University
+        Press, Baltimore, MD, USA.","year":"2005","title":"Order Chiroptera","author":"Simmons,
+        N.B.","citation_short":""},{"citation":"Heaney, L.R., Balete, D.S., Dollar,
+        M.L., Alcala, A.C., Dans, A.T.L., Gonzales, P.C., Ingle, N.R., Lepiten, M.V.,
+        Oliver, W.L.R., Ong, P.S., Rickart, E.A., Tabaranza Jr., B.R. and Utzurrum,
+        R.C.B. 1998. A synopsis of the mammalian fauna of the Philippine Islands.
+        \u003ci\u003eFieldiana: Zoology (New Series)\u003c/i\u003e 88: 1–61.","year":"1998","title":"A
+        synopsis of the mammalian fauna of the Philippine Islands","author":"Heaney,
+        L.R., Balete, D.S., Dollar, M.L., Alcala, A.C., Dans, A.T.L., Gonzales, P.C.,
+        Ingle, N.R., Lepiten, M.V., Oliver, W.L.R., Ong, P.S., Rickart, E.A., Tabaranza
+        Jr., B.R. and Utzurrum, R.C.B.","citation_short":""},{"citation":"Lepiten,
+        M. V. 1995. The Mammals of Siquijor Island, Central Philippines. \u003ci\u003eSylvatrop,
+        The Technical Journal of Philippine Ecosystems and Natural Resources\u003c/i\u003e
+        5: 1-17.","year":"1995","title":"The Mammals of Siquijor Island, Central Philippines","author":"Lepiten,
+        M. V.","citation_short":null},{"citation":"Taylor, E.H. 1934. \u003ci\u003ePhilippine
+        land mammals\u003c/i\u003e. Manila.","year":"1934","title":"Philippine land
+        mammals","author":"Taylor, E.H.","citation_short":""},{"citation":"Rabor,
+        D.S. 1986. \u003ci\u003eGuide to the Philippine flora and fauna\u003c/i\u003e.
+        Natural Resources Management Centre. Ministry of Natural Resources and University
+        of the Philippines.","year":"1986","title":"Guide to the Philippine flora
+        and fauna","author":"Rabor, D.S.","citation_short":""},{"citation":"Rickart,
+        E.A., Heaney, L.R., Heidman, P.D. and Utzurrum, R.C.B. 1993. The distribution
+        and ecology of mammals on Leyte, Biliran, and Maripipi islands, Philippines.
+        \u003ci\u003eFieldiana: Zoology\u003c/i\u003e 72: 1-62.","year":"1993","title":"The
+        distribution and ecology of mammals on Leyte, Biliran, and Maripipi islands,
+        Philippines","author":"Rickart, E.A., Heaney, L.R., Heidman, P.D. and Utzurrum,
+        R.C.B.","citation_short":""},{"citation":"Utzurrum, R. C. B. 1992. Conservation
+        status of Philippine fruit bats (Pteropodidae). \u003ci\u003eSilliman Journal\u003c/i\u003e
+        36: 27-45.","year":"1992","title":"Conservation status of Philippine fruit
+        bats (Pteropodidae)","author":"Utzurrum, R. C. B.","citation_short":null},{"citation":"Hoogstraal,
+        H. 1951. Philippine Zoological Expedition, 1946-1947. Narrative and itinerary.
+        \u003ci\u003eFieldiana: Zoology\u003c/i\u003e 33: 1-86.","year":"1951","title":"Philippine
+        Zoological Expedition, 1946-1947. Narrative and itinerary","author":"Hoogstraal,
+        H.","citation_short":null},{"citation":"Lawrence, B. L. 1939. Collections
+        from the Philippine Islands. Mammals. \u003ci\u003eBulletin of the Museum
+        of Comparative Zoology\u003c/i\u003e 86: 28-73.","year":"1939","title":"Collections
+        from the Philippine Islands. Mammals","author":"Lawrence, B. L.","citation_short":null},{"citation":"Mickleburgh,
+        S.P., Hutson, A.M. and Racey, P.A. 1992. \u003ci\u003eOld World Fruit-Bats
+        - An Action Plan for their Conservation\u003c/i\u003e. IUCN, Gland, Switzerland.","year":"1992","title":"Old
+        World Fruit-Bats - An Action Plan for their Conservation","author":"Mickleburgh,
+        S.P., Hutson, A.M. and Racey, P.A.","citation_short":"Mickleburgh \u003ci\u003eet
+        al\u003c/i\u003e. 1992"},{"citation":"Mudar, K. M. and Allen, M. S. 1986.
+        A list of bats from northeastern Luzon, Philippines. \u003ci\u003eMammalia\u003c/i\u003e
+        50: 219-225.","year":"1986","title":"A list of bats from northeastern Luzon,
+        Philippines","author":"Mudar, K. M. and Allen, M. S.","citation_short":null},{"citation":"Cariño,
+        A. B. 2004. Studies of fruit bats on Negros Island, Philippines. \u003ci\u003eSiliman
+        Journal\u003c/i\u003e 45: 137-159.","year":"2004","title":"Studies of fruit
+        bats on Negros Island, Philippines","author":"Cariño, A. B.","citation_short":null},{"citation":"Heaney,
+        L.R. and Utzurrum, R.B. 1991. A review of the conservation status of Philippine
+        land mammals. \u003ci\u003eAssociation of Systematic Biologists of the Philippines,
+        Communications\u003c/i\u003e 3: 1-13.","year":"1991","title":"A review of
+        the conservation status of Philippine land mammals","author":"Heaney, L.R.
+        and Utzurrum, R.B.","citation_short":""},{"citation":"Heaney, L. R. and Heideman,
+        P. D. 1987. Philippine fruit bats, endangered and extinct. \u003ci\u003eBats\u003c/i\u003e
+        5: 3-5.","year":"1987","title":"Philippine fruit bats, endangered and extinct","author":"Heaney,
+        L. R. and Heideman, P. D.","citation_short":null},{"citation":"Mildenstein,
+        T. L., Stier, S. C., Nuevo-Diego, C. E. and Mills, L. S. 2005. Habitat selection
+        of endangered and endemic large flying-foxes in Subic Bay, Philippines. \u003ci\u003eBiological
+        Conservation\u003c/i\u003e 126: 93-102.","year":"2005","title":"Habitat selection
+        of endangered and endemic large flying-foxes in Subic Bay, Philippines","author":"Mildenstein,
+        T. L., Stier, S. C., Nuevo-Diego, C. E. and Mills, L. S.","citation_short":""},{"citation":"Stier,
+        S. C. and Mildenstein, T. L. 2005. Dietary habits of the world’s largest bats:
+        the Philippine flying foxes, \u003ci\u003eAcerodon jubatus\u003c/i\u003e and
+        P\u003ci\u003eteropus vampyrus lanensis\u003c/i\u003e. \u003ci\u003eJournal
+        of Mammalogy\u003c/i\u003e 86(4): 719-728.","year":"2005","title":"Dietary
+        habits of the world’s largest bats: the Philippine flying foxes, \u003ci\u003eAcerodon
+        jubatus\u003c/i\u003e and P\u003ci\u003eteropus vampyrus lanensis\u003c/i\u003e","author":"Stier,
+        S. C. and Mildenstein, T. L.","citation_short":null},{"citation":"Kummer,
+        D. M. and Turner II, B. L. 1994. The human causes of deforestation in southeast
+        Asia. \u003ci\u003eBioScience\u003c/i\u003e 44: 323-328.","year":"1994","title":"The
+        human causes of deforestation in southeast Asia","author":"Kummer, D. M. and
+        Turner II, B. L.","citation_short":null},{"citation":"Kummer, D. M. 1992.
+        \u003ci\u003eDeforestation in the postwar Philippines\u003c/i\u003e. University
+        of Chicago Press, Chicago, USA.","year":"1992","title":"Deforestation in the
+        postwar Philippines","author":"Kummer, D. M.","citation_short":null},{"citation":"Mildenstein,
+        T.L. 2011. Bat count Philippines, final report to the conservation leadership
+        program.","year":"2011","title":"Bat count Philippines, final report to the
+        conservation leadership program","author":"Mildenstein, T.L.","citation_short":""},{"citation":"Paguntalan,
+        Lisa Marie J. and Philip Godfrey C. Jakosalem. 2008. \"Conserving Threatened
+        and Endemic Fruit Bats in Isolated Forest Patches in Cebu.\" Silliman Journal
+        48(2):81-94.Paguntalan, Lisa Marie J. and Philip Godfrey C. Jakosalem. 2008.
+        Conserving Threatened and Endemic Fruit Bats in Isolated Forest Patches in
+        Cebu. \u003ci\u003eSilliman Journal\u003c/i\u003e 48(2): 81-94.","year":"2008","title":"Conserving
+        Threatened and Endemic Fruit Bats in Isolated Forest Patches in Cebu.","author":"Paguntalan,
+        Lisa Marie J. and Philip Godfrey C. Jakosalem. 2008. \"Conserving Threatened
+        and Endemic Fruit Bats in Isolated Forest Patches in Cebu.\" Silliman Journal
+        48(2):81-94.Paguntalan, Lisa Marie J. and Philip Godfrey C. Jakosalem.","citation_short":null},{"citation":"Mildenstein,
+        T. L. 2012. Conservation of endangered flying foxes in the Philippines: Effects
+        of anthropogenic disturbance and research methods for community-based conservation.
+        Ph.D. Dissertation, University of Montana.","year":"2012","title":"Conservation
+        of endangered flying foxes in the Philippines: Effects of anthropogenic disturbance
+        and research methods for community-based conservation","author":"Mildenstein,
+        T. L.","citation_short":null},{"citation":"Van der Aa, P. J. H., Lorica, M.
+        R. P., and Komdeur,  J. 2006. The hormonal and behavioral response to the
+        presence and activities of humans in three co-roosting flying fox species
+        (Acerodon jubatus, Pteropus vampyrus and P. hypomelanus) in Boracay and Mambukal
+        in the Philippines. \u003ci\u003eActa Zoologica Sinica\u003c/i\u003e 52: 827-837.","year":"2006","title":"The
+        hormonal and behavioral response to the presence and activities of humans
+        in three co-roosting flying fox species (Acerodon jubatus, Pteropus vampyrus
+        and P. hypomelanus) in Boracay and Mambukal in the Philippines.","author":"Van
+        der Aa, P. J. H., Lorica, M. R. P., and Komdeur,  J. ","citation_short":null},{"citation":"Nuñeza,
+        O.M., Ates, F.B., Alicante, A.A., Enguito, M.R.C., Bruno, A.G.T., Labajo,
+        Y.I., Dejarme, S.M. 2006. Vertebrate faunal diversity and relevant interrelationships
+        of critical resources in Mt. Malindang, Misamis Occidental.  Biodiversity
+        Research Progamme for Development in Mindanao: Focus on Mt. Malindang and
+        Environs. SEAMEO SEARCA, College, Laguna, Philippines.","year":"2006","title":"Vertebrate
+        faunal diversity and relevant interrelationships of critical resources in
+        Mt. Malindang, Misamis Occidental","author":"Nuñeza, O.M., Ates, F.B., Alicante,
+        A.A., Enguito, M.R.C., Bruno, A.G.T., Labajo, Y.I., Dejarme, S.M.","citation_short":null},{"citation":"IUCN.
+        2016. The IUCN Red List of Threatened Species. Version 2016-2. Available at:
+        \u003ca href=\"www.iucnredlist.org\"\u003ewww.iucnredlist.org\u003c/a\u003e.
+        (Accessed: 04 September 2016).","year":"2016","title":"The IUCN Red List of
+        Threatened Species. Version 2016-2","author":"IUCN","citation_short":"IUCN
+        2016-2"}],"growth_forms":[],"lmes":[],"scopes":[{"description":{"en":"Global"},"code":"1"}],"stresses":[{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem conversion"},"code":"1_1"},{"description":{"en":"Ecosystem
+        conversion"},"code":"1_1"},{"description":{"en":"Ecosystem conversion"},"code":"1_1"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Ecosystem degradation"},"code":"1_2"},{"description":{"en":"Ecosystem
+        degradation"},"code":"1_2"},{"description":{"en":"Species mortality"},"code":"2_1"},{"description":{"en":"Species
+        mortality"},"code":"2_1"},{"description":{"en":"Species disturbance"},"code":"2_2"},{"description":{"en":"Species
+        disturbance"},"code":"2_2"}],"systems":[{"description":{"en":"Terrestrial"},"code":"0"}]}'
+  recorded_at: 2025-04-17 20:05:30 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0

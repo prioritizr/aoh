@@ -185,5 +185,14 @@ write.table(
   row.names = FALSE
 )
 
+## save threat data
+write.table(
+  sim_data$spp_threat_data,
+  "inst/testdata/sim_spp_threat_data.csv",
+  quote = TRUE,
+  sep = ",",
+  row.names = FALSE
+)
+
 ## display message
 message("Done!")

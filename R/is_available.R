@@ -5,7 +5,7 @@ NULL
 #'
 #' The International Union for Conservation of Nature (IUCN)
 #' provides an [API to access data from Red List of Threatened
-#' Species](https://apiv3.iucnredlist.org/).
+#' Species](https://api.iucnredlist.org/).
 #' This function checks whether data can be accessed from the API.
 #' Please note that a token is required to access the API
 #' (see below for instructions to obtain a token).
@@ -28,7 +28,7 @@ NULL
 is_iucn_rl_api_available <- function(key = NULL, n = 5) {
   assertthat::assert_that(assertthat::is.count(n), assertthat::noNA(n))
   for (i in seq_len(n)) {
-    x <- try(rredlist::rl_regions(key = key), silent = TRUE)
+    x <- try(rredlist::rl_pop_trends(key = key), silent = TRUE)
     if (inherits(x, "try-error")) {
       Sys.sleep(3)
     } else {

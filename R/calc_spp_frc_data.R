@@ -125,7 +125,7 @@ calc_spp_frc_data <- function(x,
     assertthat::has_name(x, "xmax"),
     assertthat::has_name(x, "ymin"),
     assertthat::has_name(x, "ymax"),
-    msg = "argument to \"x\" should be the output from create_spp_aoh_data()"
+    msg = "`x` should be the output from create_spp_aoh_data()"
   )
   assertthat::assert_that(
     assertthat::is.string(output_dir),
@@ -148,14 +148,14 @@ calc_spp_frc_data <- function(x,
   )
   assertthat::assert_that(
     cache_limit <= 9999,
-    msg = "argument to \"cache_limit\" cannot exceed 9999"
+    msg = "`cache_limit` must exceed 9999"
   )
   if (isTRUE(identical(engine, "gdal"))) {
     assertthat::assert_that(
       requireNamespace("gdalUtilities", quietly = TRUE),
       msg = paste(
         "the \"gdalUtilities\" package needs to be installed, use",
-        "install.packages(\"gdalUtilities\")"
+        "install.packages(`\"gdalUtilities\"`)"
       )
     )
   }
@@ -181,15 +181,15 @@ calc_spp_frc_data <- function(x,
   # compute aggregation factor
   assertthat::assert_that(
     terra::xres(template_data) == terra::yres(template_data),
-    msg = "argument to \"template_data\" must have square cells"
+    msg = "`template_data` must have square cells"
   )
   fact <- res / terra::xres(template_data)
   assertthat::assert_that(
     assertthat::is.count(fact),
     assertthat::noNA(fact),
     msg = paste(
-      "argument to \"res\" does not correspond to a valid aggregation factor",
-      "for the argument to \"template_data\""
+      "`res` does not correspond to a valid aggregation factor",
+      "for `template_data`"
     )
   )
 

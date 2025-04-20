@@ -52,7 +52,7 @@ read_spp_range_data <- function(path, n = NULL) {
       assertthat::has_extension(path, "zip") ||
       assertthat::has_extension(path, "7z")
     ),
-    msg = "argument to \"path\" should have a \".zip\" or \"7z\" extension"
+    msg = "`path` must have a \".zip\" or \"7z\" file extension"
   )
 
   # create temporary directory
@@ -63,9 +63,13 @@ read_spp_range_data <- function(path, n = NULL) {
   if (endsWith(path, ".zip")) {
     utils::unzip(path, exdir = temp_dir)
   } else{
-    if (!requireNamespace("archive", quietly = TRUE)) {
-      stop("please install the \"archive\" package to read data from 7z files")
-    }
+    assertthat::assert_that(
+      requireNamespace("archive", quietly = TRUE),
+      msg =  paste(
+        "the \"archive\" package needs to be installed to read 7z files, use",
+        "`install.packages(\"archive\")`"
+      )
+    )
     archive::archive_extract(archive = path, dir = temp_dir)
   }
 
@@ -98,7 +102,7 @@ read_spp_range_data <- function(path, n = NULL) {
     assertthat::assert_that(
       all(vapply(nms, FUN.VALUE = logical(1), identical, nms[[1]])),
       msg = paste(
-        "argument to \"path\" contains multiple shapefiles that have",
+        "`path` contains multiple shapefiles that have",
         "different columns names, and so cannot import spatial data"
       )
     )
@@ -116,7 +120,7 @@ read_spp_range_data <- function(path, n = NULL) {
     )
     assertthat::assert_that(
       length(sp_idx) == 1,
-      msg = "argument to \"path\" does not contain species range data"
+      msg = "`path` does not contain species range data"
     )
     ## find index for tabular data
     tbl_idx <- which(
@@ -130,7 +134,7 @@ read_spp_range_data <- function(path, n = NULL) {
     )
     assertthat::assert_that(
       length(tbl_idx) == 1,
-      msg = "argument to \"path\" does not contain species metadata"
+      msg = "`path` does not contain species metadata"
     )
     ## import data
     out <- read_sf_n(gdb_path, gdb_dir$name[sp_idx], n = n)
@@ -146,7 +150,7 @@ read_spp_range_data <- function(path, n = NULL) {
       id_col <- "SISRecID"
     } else {
       stop(
-        "range data in argument to \"path\" does not contain ",
+        "range data in `path` does not contain ",
         "a recognized species identifier column (i.e., a column named ",
         "\"id_no\", \"sisid\", \"SISID\", or \"SISRecID\")"
       )
@@ -163,7 +167,7 @@ read_spp_range_data <- function(path, n = NULL) {
         names(md)[which(names(md) == "SISRecID")[[1]]] <- id_col
       } else {
         stop(
-          "species metadata in argument to \"path\" does not contain ",
+          "species metadata in `path` does not contain ",
           "a recognized species identifier column (i.e., a column named ",
           "\"id_no\", \"sisid\", \"SISID\", or \"SISRecID\")"
         )
@@ -177,7 +181,7 @@ read_spp_range_data <- function(path, n = NULL) {
     )
     out <- dplyr::select(out, -"geometry", dplyr::everything())
   } else {
-    stop("argument to \"path\" does not contain spatial data")
+    stop("`path` does not contain spatial data")
   } # nocov end
 
   # clean up

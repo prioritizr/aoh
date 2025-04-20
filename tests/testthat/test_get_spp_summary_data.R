@@ -21,9 +21,8 @@ test_that("single taxon identifier", {
        "published_year", "assessment_date", "category", "criteria",
        "population_trend", "marine_system", "freshwater_system",
        "terrestrial_system",
-       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
-       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
-       "errata_reason", "amended_flag", "amended_reason"
+       "elevation_upper", "elevation_lower",
+       "depth_upper", "depth_lower"
      )
   )
   expect_true(all(id_no %in% x$id_no))
@@ -34,7 +33,7 @@ test_that("multiple taxon identifiers", {
   # skip if needed
   skip_on_cran()
   skip_if_not_installed("vcr")
-  # tests
+  # set parameters
   id_no <- c(18, 137, 138, 139)
   # create objects
   vcr::use_cassette("summary-multiple", {
@@ -53,9 +52,8 @@ test_that("multiple taxon identifiers", {
        "published_year", "assessment_date", "category", "criteria",
        "population_trend", "marine_system", "freshwater_system",
        "terrestrial_system",
-       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
-       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
-       "errata_reason", "amended_flag", "amended_reason"
+       "elevation_upper", "elevation_lower",
+       "depth_upper", "depth_lower"
      )
   )
   expect_true(all(id_no %in% x$id_no))
@@ -88,9 +86,8 @@ test_that("some taxon missing summary data", {
        "published_year", "assessment_date", "category", "criteria",
        "population_trend", "marine_system", "freshwater_system",
        "terrestrial_system",
-       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
-       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
-       "errata_reason", "amended_flag", "amended_reason"
+       "elevation_upper", "elevation_lower",
+       "depth_upper", "depth_lower"
      )
   )
   ## x2
@@ -122,10 +119,42 @@ test_that("taxon with multiple records", {
        "published_year", "assessment_date", "category", "criteria",
        "population_trend", "marine_system", "freshwater_system",
        "terrestrial_system",
-       "assessor", "reviewer", "aoo_km2", "eoo_km2", "elevation_upper",
-       "elevation_lower", "depth_upper", "depth_lower", "errata_flag",
-       "errata_reason", "amended_flag", "amended_reason"
+       "elevation_upper", "elevation_lower",
+       "depth_upper", "depth_lower"
      )
   )
   expect_equal(anyDuplicated(x$id_no), 0L)
+})
+
+test_that("accessing API V3 cache", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("vcr")
+  # import data
+  data(iucn_habitat_data)
+  # extract parameters
+  id_no <- c(
+    670L, 2072L, 2374L, 3667L, 4421L, 4650L, 5808L, 6701L, 8110L, 8644L
+  )
+  cache_dir <- system.file("testdata", package = "aoh")
+  # create objects
+  x <- get_spp_summary_data(
+    id_no, dir = cache_dir, version = "1990-1", verbose = interactive()
+  )
+  # tests
+  expect_is(x, "data.frame")
+  expect_gte(nrow(x), 1)
+  expect_named(
+    x,
+    c(
+      "id_no", "taxonid", "scientific_name", "kingdom", "phylum",
+      "class", "order", "family", "genus", "main_common_name", "authority",
+      "published_year", "assessment_date", "category", "criteria",
+      "population_trend", "marine_system", "freshwater_system",
+      "terrestrial_system", "assessor", "reviewer", "aoo_km2", "eoo_km2",
+      "elevation_upper", "elevation_lower", "depth_upper", "depth_lower",
+      "errata_flag", "errata_reason", "amended_flag", "amended_reason"
+    )
+  )
+  expect_true(all(id_no %in% x$id_no))
 })

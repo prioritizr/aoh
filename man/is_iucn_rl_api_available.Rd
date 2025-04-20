@@ -19,7 +19,7 @@ A \code{logical} indicating if the IUCN Red List API can be accessed.
 }
 \description{
 The International Union for Conservation of Nature (IUCN)
-provides an \href{https://apiv3.iucnredlist.org/}{API to access data from Red List of Threatened Species}.
+provides an \href{https://api.iucnredlist.org/}{API to access data from Red List of Threatened Species}.
 This function checks whether data can be accessed from the API.
 Please note that a token is required to access the API
 (see below for instructions to obtain a token).
@@ -28,9 +28,9 @@ Please note that a token is required to access the API
 
 
 You will need to obtain a token for the
-\href{https://apiv3.iucnredlist.org/}{IUCN Red List API} (if you do not have one
+\href{https://api.iucnredlist.org/}{IUCN Red List API} (if you do not have one
 already). To achieve this, please visit the IUCN API website
-(\url{https://apiv3.iucnredlist.org/}), click the "Generate a token" link at the
+(\url{https://api.iucnredlist.org/}), click the "Generate a token" link at the
 top of the web page, and fill out the form to apply for a token.
 You should then receive a token shortly after completing
 the form (but not immediately). After receiving a token, please open the

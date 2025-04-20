@@ -6,6 +6,7 @@
     "crosswalk_jung_plvl1_data",
     "crosswalk_lumb_cgls_data",
     "iucn_habitat_data",
+    "iucn_threat_data",
     package = pkgname,
     envir = parent.env(environment())
   )

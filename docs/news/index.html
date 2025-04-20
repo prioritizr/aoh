@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">aoh</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,14 @@
       <small>Source: <a href="https://github.com/prioritizr/aoh/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.3.0" id="aoh-0030">aoh 0.0.3.0<a class="anchor" aria-label="anchor" href="#aoh-0030"></a></h2>
+<ul><li>Update package to be compatible with the latest version of the <em>rredlist</em> package (i.e., version 1.0.0) and IUCN Red List API version 4. In particular, the following functions have been updated: <code><a href="../reference/get_spp_habitat_data.html">get_spp_habitat_data()</a></code>, <code><a href="../reference/get_spp_summary_data.html">get_spp_summary_data()</a></code>, <code><a href="../reference/get_spp_threat_data.html">get_spp_threat_data()</a></code>, <code><a href="../reference/is_iucn_rl_api_available.html">is_iucn_rl_api_available()</a></code>. Although the functions for querying data provide full backwards compatibility with previously cached datasets, the <code><a href="../reference/get_spp_summary_data.html">get_spp_summary_data()</a></code> and <code><a href="../reference/get_spp_threat_data.html">get_spp_threat_data()</a></code> functions now return data frames with slightly different columns when making new API queries. Note that all columns considered for generating area of habitat data maintain the same column names as in previous versions of the package. Additionally, the mechanism for caching data from the IUCN Red List API now uses an RDS file to better align with the new API.</li>
+<li>Update <code><a href="../reference/simulate_spp_data.html">simulate_spp_data()</a></code> to produce data frames that follow the same conventions (i.e., column names and data types) as <code><a href="../reference/get_spp_habitat_data.html">get_spp_habitat_data()</a></code>, <code><a href="../reference/get_spp_summary_data.html">get_spp_summary_data()</a></code>, and <code><a href="../reference/get_spp_threat_data.html">get_spp_threat_data()</a></code>. It will now simulate threat data for species too.</li>
+<li>Update <code><a href="../reference/st_repair_geometry.html">st_repair_geometry()</a></code> instructions for installing the <em>prepr</em> package.</li>
+<li>Fix DOI in package manual entry.</li>
+<li>Update URL for IUCN Red List API in documentation.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.2.15" id="aoh-00215">aoh 0.0.2.15<a class="anchor" aria-label="anchor" href="#aoh-00215"></a></h2>
 <ul><li>Update <code><a href="../reference/terra_gdal_rasterize.html">terra_gdal_rasterize()</a></code> to remove the <code>verbose</code> parameter. This is because the underlying <code><a href="https://rdrr.io/pkg/gdalUtilities/man/gdal_rasterize.html" class="external-link">gdalUtilities::gdal_rasterize()</a></code> function no longer supports the <code>q</code> parameter with recent GDAL versions (i.e., 3.9.3+).</li>

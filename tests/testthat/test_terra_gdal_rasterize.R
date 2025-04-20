@@ -56,7 +56,7 @@ test_that("invert", {
   x <- terra::setValues(x, runif(terra::ncell(x)))
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, invert = TRUE, burn = 200
+    x, sf, invert = TRUE, burn = 200, NAflag = 9999
   )
   z2 <- terra::rasterize(v, x, field = 0, background = 200)
   # tests
@@ -100,12 +100,12 @@ test_that("touches", {
   terra::crs(x) <- terra::crs(sf)
   # create object
   z1 <- terra_gdal_rasterize(
-    x, sf, burn = 5, touches = TRUE
+    x, sf, burn = 5, touches = TRUE, NAflag = 9999
   )
   z2 <- terra::deepcopy(x)
   terra::values(z2) <- c(0, 5)
   z3 <- terra_gdal_rasterize(
-    x, sf, burn = 5, touches = FALSE
+    x, sf, burn = 5, touches = FALSE, NAflag = 9999
   )
   z4 <- terra::deepcopy(x)
   terra::values(z4) <- c(0, 0)
@@ -119,5 +119,41 @@ test_that("touches", {
   expect_equivalent(terra::values(z1), terra::values(z2), tolerance = 1e-5)
   expect_true(terra::compareGeom(z3, z4, stopOnError = FALSE, res = TRUE))
   expect_equal(as.list(terra::ext(z3)), as.list(terra::ext(z4)))
+  expect_equivalent(terra::values(z3), terra::values(z4), tolerance = 1e-5)
+})
+
+test_that("NAflag", {
+  skip_on_cran()
+  skip_if_not_installed("gdalUtilities")
+  # import data
+  sf <- sf::st_sf(
+    tibble::tibble(geom = sf::st_sfc(sf::st_point(c(0, 0)), crs = 3857))
+  )
+  sf <- sf::st_buffer(sf, 10)
+  x <- terra::rast(matrix(c(1, 2)))
+  terra::ext(x) <- c(xmin = -200, xmax = 200, ymin = -300, ymax = 800)
+  terra::crs(x) <- terra::crs(sf)
+  # create object
+  z1 <- terra_gdal_rasterize(
+    x, sf, burn = 5, touches = TRUE, init = 0
+  )
+  z2 <- terra_gdal_rasterize(
+    x, sf, burn = 5, touches = TRUE, init = 0, NAflag = 1
+  )
+  z3 <- terra_gdal_rasterize(
+    x, sf, burn = 5, touches = TRUE, init = 0, NAflag = "none"
+  )
+  z4 <- terra::deepcopy(x)
+  terra::values(z4) <- c(0, 5)
+  # tests
+  expect_is(z1, "SpatRaster")
+  expect_is(z2, "SpatRaster")
+  expect_is(z3, "SpatRaster")
+  expect_is(z4, "SpatRaster")
+  expect_true(terra::compareGeom(z1, z4, stopOnError = FALSE, res = TRUE))
+  expect_true(terra::compareGeom(z2, z4, stopOnError = FALSE, res = TRUE))
+  expect_true(terra::compareGeom(z3, z4, stopOnError = FALSE, res = TRUE))
+  expect_equivalent(terra::values(z1), terra::values(z4), tolerance = 1e-5)
+  expect_equivalent(terra::values(z2), terra::values(z4), tolerance = 1e-5)
   expect_equivalent(terra::values(z3), terra::values(z4), tolerance = 1e-5)
 })

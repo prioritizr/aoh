@@ -1,166 +1,612 @@
 http_interactions:
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/version?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/information/red_list_version
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:34 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '20'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"14-uyTgolGzHBSdJyCMB1FBYA"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AwR5OtVyvsxXTGCQ7fS0uQxMLGJeZTPbw.Mnvw8%2BBfAKl%2Br%2FgHwv3skJjlblcwcBv%2Bqz0gFx4BnS0;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"1694e95e54c5590a355e5922b47c7cd9"
+      x-request-id: 24c6becc-8549-46bd-89b6-2fdc85134baa
+      x-runtime: '0.009792'
+      content-length: '29'
+      date: Thu, 17 Apr 2025 20:06:05 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"version":"2022-1"}'
-  recorded_at: 2022-08-08 22:59:45 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"red_list_version":"2025-1"}'
+  recorded_at: 2025-04-17 20:06:15 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/-100?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/-100
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
-      status_code: '200'
-      message: OK
-      explanation: Request fulfilled, document follows
+      status_code: '404'
+      message: Not Found
+      explanation: Nothing matches the given URI
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:37 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '25'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"19-1bYxLlqZb+XoqxmbHFGK4w"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AiNiadUMSZoUvZcZGh9O4OhBiHupWdy-I.7brBcHMBZbvuff5sdNeSRqeDwGCzA8GeBeW8BlQaDno;
-        Path=/; HttpOnly
+      status: 'HTTP/2 404 '
+      content-type: text/html; charset=UTF-8
+      x-request-id: 3cba8295-d6f8-4f6c-9ea3-8dcea74b590e
+      x-runtime: '0.004104'
+      content-length: '6483'
+      date: Thu, 17 Apr 2025 20:06:07 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"-100","result":[]}'
-  recorded_at: 2022-08-08 22:59:45 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>The page you were looking for doesn't exist (404)</title>
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+          <style>
+
+          @import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
+
+          html {
+            box-sizing: border-box;
+          }
+
+          *, *:before, *:after {
+            box-sizing: inherit;
+          }
+
+          body {
+            font-family: Roboto, sans-serif;
+            color: #080100;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+          }
+
+          ul {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            list-style: none;
+            vertical-align: baseline;
+          }
+
+          a {
+            text-decoration: none;
+          }
+
+          .layout-account {
+            background: #AD180D;
+            padding-top: 0.5em;
+            padding-bottom: 0.5em;
+            text-align: right;
+          }
+
+          .account-item {
+            font-style: normal;
+            font-weight: 400;
+            color: #FFF;
+            display: inline-block;
+            font-size: 0.9375rem;
+            line-height: 1.3;
+            margin: 0 1em 0 0;
+          }
+
+          .account-item--1n {
+            border-right: 0.0625rem solid rgba(255, 255, 255, 0.25);
+            padding: 0 1em 0 0;
+          }
+
+          .account-item--link {
+            border-bottom: 0.0625rem solid #FFF;
+          }
+
+          .account-item--link:hover,
+          .account-item--link:focus {
+            border-bottom: 0.0625rem solid #FFF;
+            box-shadow: 0 0.0625rem #FFF;
+          }
+
+          .content {
+            padding: 2rem 1rem;
+            text-align: center;
+            flex: 1;
+          }
+
+          @media only screen and (min-width: 768px) {
+            .content {
+              padding: 5rem 1rem 15rem;
+              background-image: url("/panthera-tigris-snow.jpg");
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: right 250px;
+            }
+          }
+
+          @media only screen and (min-width: 1024px) {
+            .content {
+              background-position-y: 175px;
+            }
+          }
+
+          .content h1 {
+            font-weight: 500;
+            letter-spacing: -0.05rem;
+          }
+
+          .content p,
+          .layout-footer__colophon p {
+            line-height: 1.4;
+            margin: 0 0 .5rem;
+          }
+
+          .text a {
+            border-bottom: 0.0625rem solid #080100;
+            color: #080100;
+            text-decoration: none;
+          }
+
+          .text a:hover,
+          .text a:focus {
+            border-bottom: 0.125rem solid #080100;
+          }
+
+          .cta {
+            background: #FFC476;
+            border-bottom: 0.0625rem solid #080100;
+            border-radius: 3px;
+            color: #080100;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            margin: 2rem 0 1em;
+            padding: 0.6em 2em;
+          }
+
+          .cta:hover,
+          .cta:focus {
+            background: #ffce8f;
+            border-bottom: 0.0625rem solid #080100;
+            box-shadow: 0 0.0625rem #080100;
+          }
+
+          .bg-brand {
+            background: #DA2A1C;
+            color: #FFF;
+          }
+
+          .layout-masthead,
+          .layout-container--centered,
+          .layout-account__links {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 120rem;
+            padding: 0 1em;
+          }
+
+          .layout-masthead {
+            border-bottom: 0.0625rem solid #FF8076;
+          }
+
+          .brand-symbol {
+            background-image: url("/brand_symbol.svg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 5.75rem;
+            cursor: pointer;
+            display: inline-block;
+            height: 6.875rem;
+            margin: 0 1em 0 0;
+            text-indent: -999em;
+            width: 6.25rem;
+            vertical-align: middle;
+          }
+
+          .brand-wordmark {
+            display: none;
+          }
+
+          @media only screen and (min-width: 768px) {
+            .brand-wordmark {
+              align-items: center;
+              display: flex;
+              height: 6.875rem;
+              margin: 0 auto 0 2em;
+            }
+          }
+
+          .u--hide {
+            left: -999em;
+            overflow: hidden;
+            position: absolute;
+            width: 1px;
+          }
+
+          .nav-greedy {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            position: relative;
+          }
+
+          .layout-footer__colophon {
+            background: #860A00;
+            color: #FFF;
+            padding-top: 0.75em;
+            padding-bottom: 0.75em;
+          }
+
+          .colophon__citation {
+            line-height: 1.5;
+          }
+
+          @media screen and (min-width: 60rem) {
+            .colophon__citation {
+              display: inline-block;
+              margin: 0 1em 0 0;
+            }
+
+            .colophon__issn {
+              border-left: 0.0625rem solid rgba(255, 255, 255, 0.25);
+              display: inline-block;
+              padding: 0 0 0 1em;
+              margin-bottom: 0;
+            }
+          }
+
+          .colophon__copyright {
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 400;
+            display: inline-block;
+            margin: 0.5em 1.25em 0 0;
+          }
+
+          .colophon__copyright__link {
+            color: #FFF;
+            border-bottom: 0.0625rem solid #FFF;
+            text-decoration: none;
+          }
+
+          .colophon__copyright__link:hover,
+          .colophon__copyright__link:focus {
+            border-bottom: 0.125rem solid #fff;
+          }
+
+          </style>
+        </head>
+
+        <body class="error-page">
+          <div class="layout-account">
+            <div class="layout-account__links">
+              <strong class="account-item " title="IUCN Red List version">2024-1</strong>
+            </div>
+          </div>
+          <header class="bg-brand" id="masthead" role="banner">
+            <div class="layout-masthead">
+              <nav class="nav-greedy" id="navigation" role="navigation">
+                <a class="brand-symbol" href="/" rel="home">
+                  The IUCN Red List of Threatened Species
+                </a>
+                <div class="brand-wordmark">
+                  <img class="" alt="The IUCN Red List of Threatened Species" src="/brand_wordmark.svg">
+                </div>
+                <h2 class="u--hide">
+                  Site navigation
+                </h2>
+              </nav>
+            </div>
+          </header>
+
+          <div class="content">
+            <h1>Page cannot be found</h1>
+            <p class="text">Please check our <a href="/">home page</a> to see if you can find what you are looking for there.</p>
+            <p><a class="cta" href="https://www.iucnredlist.org/support/donate">Donate now</a></p>
+          </div>
+
+          <div class="layout-footer__colophon">
+          <div class="layout-container layout-container--centered">
+            <!-- When changing version in the citation below, remember to update rl_value in configuration.yml too for dynamic content. -->
+            <p class="colophon__citation">IUCN 2024. The IUCN Red List of Threatened Species. Version 2024-1. &lt;https://www.iucnredlist.org&gt;</p>
+            <p class="colophon__issn">ISSN 2307-8235</p>
+            <ul>
+              <li class="colophon__copyright">
+                <a class="colophon__copyright__link" href="https://www.iucnredlist.org/policy/privacy-policy">Privacy and security</a>
+              </li>
+              <li class="colophon__copyright">
+                <p>&copy; International Union for Conservation of Nature and Natural Resources.</p>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </body>
+        </html>
+  recorded_at: 2025-04-17 20:06:15 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/41129?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/41129
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:39 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '26'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"1a-XafBQQLkkL0JEg8Girz+NA"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AGWrHnZ92IWCuuUg9Vfz1U4dUPlcsy-mA.V61ia9pBH5QlXcKhPekRuXvS37%2BMeHuX4RlIMQKoRqA;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"210b7ef9ed312aa546a346178cfb77ae"
+      x-request-id: 8969b2de-bd34-4da0-9769-9c6a623da758
+      x-runtime: '0.030277'
+      content-length: '1377'
+      date: Thu, 17 Apr 2025 20:06:10 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"41129","result":[]}'
-  recorded_at: 2022-08-08 22:59:45 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"sis_id":41129,"taxon":{"sis_id":41129,"scientific_name":"Arenophryne
+        rotunda","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"AMPHIBIA","order_name":"ANURA","family_name":"MYOBATRACHIDAE","genus_name":"Arenophryne","species_name":"rotunda","subpopulation_name":null,"infra_name":null,"authority":"Tyler,
+        1976","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Amphibian Specialist Group","url":"https://www.iucn-amphibians.org/","description":"Chair:
+        Ariadne Angulo (email: aangulo@amphibians.org)\nRed List Authority Coordinator:
+        Jennifer Luedtke (email: jluedtke@amphibians.org)\nNewsletter: http://www.amphibians.org/froglog/"}],"common_names":[{"main":false,"name":"Sandhill
+        Frog","language":"eng"}],"synonyms":[]},"assessments":[{"year_published":"2004","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":41129,"url":"https://www.iucnredlist.org/species/41129/10403608","assessment_id":10403608,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2002","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":41129,"url":"https://www.iucnredlist.org/species/41129/10403703","assessment_id":10403703,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 20:06:15 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/135913?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/135913
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:42 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '27'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"1b-gtkyGrg8hbiF3ZCZ8P1mxA"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3AFcJ34LGqKoprO7wEG_v9IzgSYe6MVOap.Ke6CWSZ6leHiA4fZvckLBTUAKK5gQwLpml4bYgmsuBE;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"5074ad04643fda6a482d1b866243f2db"
+      x-request-id: 1fb9b41b-b314-4fb4-a98e-885bf325252e
+      x-runtime: '0.033352'
+      content-length: '1811'
+      date: Thu, 17 Apr 2025 20:06:12 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"135913","result":[]}'
-  recorded_at: 2022-08-08 22:59:45 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"sis_id":135913,"taxon":{"sis_id":135913,"scientific_name":"Julianus
+        camposseabrai","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"AMPHIBIA","order_name":"ANURA","family_name":"HYLIDAE","genus_name":"Julianus","species_name":"camposseabrai","subpopulation_name":null,"infra_name":null,"authority":"(Bokermann,
+        1968)","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Amphibian Specialist Group","url":"https://www.iucn-amphibians.org/","description":"Chair:
+        Ariadne Angulo (email: aangulo@amphibians.org)\nRed List Authority Coordinator:
+        Jennifer Luedtke (email: jluedtke@amphibians.org)\nNewsletter: http://www.amphibians.org/froglog/"}],"common_names":[],"synonyms":[{"name":"Hyla
+        camposseabrai Bokermann, 1966","status":"ACCEPTED","genus_name":"Hyla","species_name":"camposseabrai","species_author":"Bokermann,
+        1966","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null},{"name":"Scinax
+        camposseabrai (Bokermann, 1968)","status":"NEW","genus_name":"Scinax","species_name":"camposseabrai","species_author":"(Bokermann,
+        1968)","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null}]},"assessments":[{"year_published":"2023","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":135913,"url":"https://www.iucnredlist.org/species/135913/172237243","assessment_id":172237243,"scopes":[{"description":{"en":"Global"},"code":"1"}]},{"year_published":"2008","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":135913,"url":"https://www.iucnredlist.org/species/135913/4220327","assessment_id":4220327,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 20:06:15 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
 - request:
     method: get
-    uri: https://apiv3.iucnredlist.org/api/v3/habitats/species/id/135758?token=<<<IUCN_REDLIST_KEY>>>
+    uri: https://api.iucnredlist.org/api/v4/assessment/172237243
     body:
       encoding: ''
       string: ''
     headers:
-      User-Agent: r-curl/4.3.2 crul/1.2.0 rOpenSci(rredlist/0.7.0)
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
       Accept-Encoding: gzip, deflate
       Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
   response:
     status:
       status_code: '200'
       message: OK
       explanation: Request fulfilled, document follows
     headers:
-      status: HTTP/1.1 200 OK
-      server: nginx/1.14.0 (Ubuntu)
-      date: Mon, 08 Aug 2022 22:59:45 GMT
-      content-type: application/json; charset=utf-8
-      content-length: '27'
-      connection: keep-alive
-      x-powered-by: Sails <sailsjs.org>
-      etag: W/"1b-u0QCxsUe0udSvgfS4L47NA"
-      vary: Accept-Encoding
-      set-cookie: sails.sid=s%3Aa31LIR2PGJyQqmtzHqovizjWyzPs8gca.vPH6u8%2FMZyw477Y6NF9c81IYbgIP%2BN6dM6wtHVVX2qM;
-        Path=/; HttpOnly
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"d5e3fb8f509f92bf331d62fcbc9645f0"
+      x-request-id: a8eed344-3a6f-4333-83f2-afb8dc6c0ae2
+      x-runtime: '0.139336'
+      content-length: '12250'
+      date: Thu, 17 Apr 2025 20:06:13 GMT
     body:
-      encoding: UTF-8
+      encoding: ''
       file: no
-      string: '{"id":"135758","result":[]}'
-  recorded_at: 2022-08-08 22:59:45 GMT
-  recorded_with: vcr/1.0.2, webmockr/0.8.0
+      string: '{"assessment_date":"2021-04-02T00:00:00.000Z","year_published":"2023","latest":true,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":135913,"criteria":null,"url":"https://www.iucnredlist.org/species/135913/172237243","citation":"IUCN
+        SSC Amphibian Specialist Group \u0026 Instituto Boitatá de Etnobiologia e
+        Conservação da Fauna 2023. Julianus camposseabrai. The IUCN Red List of Threatened
+        Species 2023: e.T135913A172237243. https://dx.doi.org/10.2305/IUCN.UK.2023-1.RLTS.T135913A172237243.en.
+        Accessed on 17 April 2025.","assessment_id":172237243,"assessment_points":false,"assessment_ranges":true,"taxon":{"sis_id":135913,"scientific_name":"Julianus
+        camposseabrai","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"AMPHIBIA","order_name":"ANURA","family_name":"HYLIDAE","genus_name":"Julianus","species_name":"camposseabrai","subpopulation_name":null,"infra_name":null,"authority":"(Bokermann,
+        1968)","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Amphibian Specialist Group","url":"https://www.iucn-amphibians.org/","description":"Chair:
+        Ariadne Angulo (email: aangulo@amphibians.org)\nRed List Authority Coordinator:
+        Jennifer Luedtke (email: jluedtke@amphibians.org)\nNewsletter: http://www.amphibians.org/froglog/"}],"common_names":[],"synonyms":[{"name":"Hyla
+        camposseabrai Bokermann, 1966","status":"ACCEPTED","genus_name":"Hyla","species_name":"camposseabrai","species_author":"Bokermann,
+        1966","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null},{"name":"Scinax
+        camposseabrai (Bokermann, 1968)","status":"NEW","genus_name":"Scinax","species_name":"camposseabrai","species_author":"(Bokermann,
+        1968)","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null}]},"population_trend":{"description":{"en":"Unknown"},"code":"3"},"red_list_category":{"version":"3.1","description":{"en":"Least
+        Concern"},"code":"LC"},"supplementary_info":{"upper_elevation_limit":1012,"lower_elevation_limit":378,"lower_depth_limit":null,"upper_depth_limit":null,"population_size":null,"population_severely_fragmented":"No","population_continuing_decline":null,"generational_length":null,"congregatory":null,"movement_patterns":"Not
+        a Migrant","continuing_decline_in_area":null,"conservation_actions_in_place":[{"name":"In-place
+        land/water protection","actions":[{"name":"Occurs in at least one protected
+        area","value":"Yes"}]}],"identification_information":null,"extreme_fluctuations":null,"no_of_subpopulations":null,"continuing_decline_in_subpopulations":null,"extreme_fluctuations_in_subpopulations":null,"all_individuals_in_one_subpopulation":null,"no_of_individuals_in_largest_subpopulation":null,"estimated_area_of_occupancy":null,"continuing_decline_in_area_of_occupancy":null,"extreme_fluctuations_in_area_of_occupancy":null,"estimated_extent_of_occurence":"112164","continuing_decline_in_extent_of_occurence":null,"extreme_fluctuations_in_extent_of_occurence":null,"continuing_decline_in_number_of_locations":null,"extreme_fluctuations_in_number_of_locations":null},"documentation":{"range":"\u003cspan
+        id=\"docs-internal-guid-ff9f1134-7fff-dbbe-7a5b-04984faac590\"\u003eThis species
+        is known from the type locality in the Municipality of Maracás, as well as
+        the municipalities of Contendas do Sincorá, Jequié, Igaporã and Curaçá, all
+        in the state of Bahia, and Matias Cardoso, in the state of Minas Gerais, Brazil
+        (Caramaschi and Cardoso 2006, Frost 2020). It occurs at elevation between
+        378-1,012 m asl.","population":"No population status information is currently
+        available for this species.","habitats":"\u003cspan id=\"docs-internal-guid-ad919505-7fff-38ca-f866-9a52ee32d583\"\u003e\u003cp\u003eIt
+        lives in areas of Atlantic Forest-Caatinga ecotone. This species can potentially
+        be found in seasonal forests, gallery forests, arboreal caatinga, and open
+        cerrado-like habitats at “planalto sul-bahiano”, Espinhaço mountain range,
+        and São Francisco dry plains (Cândido \u003cem\u003eet al\u003c/em\u003e.
+        2012). It can be found in temporary ponds formed by heavy rains, on the ground
+        or close to the ground, perched on low shrubs and grasses (Cândido \u003cem\u003eet
+        al.\u003c/em\u003e 2012). Individuals also can be found in epiphytic bromeliads
+        during the day (Caramaschi and Cardoso 2006). It is an explosive breeder,
+        that uses temporary ponds for breeding. Males calls in open areas, floating
+        or gently touching the bottom in shallow water at the margins of temporary
+        ponds, floating in the middle of large rainwater pools or on low bushes and
+        grasses at the edge of ponds (Cândido \u003cem\u003eet al.\u003c/em\u003e
+        2012, Novaes and Zina 2016).\u003c/p\u003e","threats":"\u003cspan id=\"docs-internal-guid-e7991e18-7fff-d961-1129-66bfdba1b044\"\u003e\u003cp\u003eNo
+        major threats are currently known for this species.\u003c/p\u003e","measures":"It
+        has been recorded from protected areas and its distribution includes several.","use_trade":"\u003cspan
+        id=\"docs-internal-guid-745d2fab-7fff-90a6-c21c-3ef0d1b76535\"\u003eThere
+        are no records of this species being utilized or traded.","rationale":"\u003cp\u003eListed
+        as Least Concern in view of its wide distribution (extent of occurrence is
+        112,164 km2), presumed large population, and there are no major threats identified.\u003c/p\u003e","trend_justification":null,"taxonomic_notes":"\u003ci\u003eScinax
+        camposseabrai\u003c/i\u003e was revalidated by Caramaschi and Cardoso (2006)
+        based on morphological comparisons."},"biogeographical_realms":[{"description":{"en":"Neotropical"},"code":"5"}],"conservation_actions":[],"faos":[],"habitats":[{"majorImportance":"Yes","season":"Resident","suitability":"Suitable","description":{"en":"Savanna
+        - Dry"},"code":"2_1"},{"majorImportance":"Yes","season":"Resident","suitability":"Suitable","description":{"en":"Savanna
+        - Moist"},"code":"2_2"},{"majorImportance":"Yes","season":"Resident","suitability":"Suitable","description":{"en":"Wetlands
+        (inland) - Seasonal/Intermittent Freshwater Marshes/Pools (under 8ha)"},"code":"5_8"},{"majorImportance":"Yes","season":"Resident","suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Dry"},"code":"1_5"},{"majorImportance":"Yes","season":"Resident","suitability":"Suitable","description":{"en":"Forest
+        - Subtropical/Tropical Moist Lowland"},"code":"1_6"}],"locations":[{"is_endemic":false,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Bahia"},"code":"BZE-BA"},{"is_endemic":false,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Minas
+        Gerais"},"code":"BZL-MG"},{"is_endemic":true,"formerlyBred":null,"origin":"Native","presence":"Extant","seasonality":["Resident"],"description":{"en":"Brazil"},"code":"BR"}],"researches":[],"use_and_trade":[],"threats":[],"credits":[{"credit_type_name":"assessor","full":"IUCN
+        SSC Amphibian Specialist Group \u0026 Instituto Boitatá de Etnobiologia e
+        Conservação da Fauna","value":[" IUCN SSC Amphibian Specialist Group (IUCN
+        SSC)","contato@institutoboitata.org"]},{"credit_type_name":"evaluator","full":"Chanson,
+        J.S.","value":["Janice Chanson (IUCN SSC Amphibian Red List Authority)"]},{"credit_type_name":"contributor","full":"Angulo,
+        A., Camurugi Almeida Guimarães, F., Cassiano Lima, D., Ávila, R.W., Dill Orrico,
+        V.G., Garda, A., Guedes da Costa, T.B., Machado, I.F., Mângia, S., Mesquita,
+        D., Napoli, M.F., Praciano de Castro, D., Silva Lisboa, B., Solé, M., Tinôco,
+        M.S. \u0026 de Moura, G.J.B.","value":["Ariadne Angulo (GAA)","Robson Waldermar
+        Ávila (Universidade Federal do Ceará)","Moacir S. Tinôco (Universidade Católica
+        do Salvador / DICE)","Marcelo Felgueiras Napoli (Universidade Federal da Bahia)","Geraldo
+        Jorge Barbosa de Moura (Universidade Federal Rural de Pernambuco)","Thais
+        Barreto Guedes da Costa (Universidade Estadual do Maranhão/Brazilian Snakes
+        (Instituto Butantan))","Ibere Farina Machado (Amphibian RLA)","Adrian Garda
+        (Universidade Federal do Rio Grande do Norte)","Daniel Cassiano Lima (Universidade
+        Estadual do Ceará)","Daniel Mesquita (Universidade Federal da Paraíba)","Deborah
+        Praciano de Castro (Universidade Federal do Ceará)","Felipe Camurugi Almeida
+        Guimarães (Universidade Federal de Mato Grosso do Sul)","Mirco Solé (Universidade
+        Estadual de Santa Cruz)","Victor Goyannes Dill Orrico (Universidade Estadual
+        de Santa Cruz)","Barnagleison Silva Lisboa (Federal University of Pernambuco)","Sarah
+        Mângia (Universidade Federal do Mato Grosso do Sul)"]},{"credit_type_name":"facilitators","full":"Abreu-Jardim,
+        T.P.F., Luedtke, J., Machado, I.F., Ramalho, W.P. \u0026 de Andrade, S.","value":["Jennifer
+        Luedtke (Re:wild)","Sheila Pereira de Andrade (RAN/ICMBio)","Ibere Farina
+        Machado (Amphibian RLA)","Tatianne Abreu-Jardim (Amphibian RLA)","Werther
+        Pereira Ramalho (Amphibian RLA)"]}],"errata":[],"references":[{"citation":"Caramaschi,
+        U. and Cardoso, M.C.S. 2006. Taxonomic status of Hyla camposseabrai Bokermann,
+        1968 (Anura: Hylidae). \u003ci\u003eJournal of Herpetology\u003c/i\u003e 40:
+        549-552.","year":"2006","title":"Taxonomic status of Hyla camposseabrai Bokermann,
+        1968 (Anura: Hylidae)","author":"Caramaschi, U. and Cardoso, M.C.S.","citation_short":null},{"citation":"Frost,
+        D.R. 2020. Amphibian Species of the World: an Online Reference. Version 6.0.
+        Available at: \u003ca href=\"https://amphibiansoftheworld.amnh.org/\"\u003ehttps://amphibiansoftheworld.amnh.org/\u003c/a\u003e.
+        ","year":"2020","title":"Amphibian Species of the World: an Online Reference.
+        Version 6.0","author":"Frost, D.R.","citation_short":""},{"citation":"IUCN.
+        2023. The IUCN Red List of Threatened Species. Version 2023-1. Available at:
+        \u003ca href=\"www.iucnredlist.org\"\u003ewww.iucnredlist.org\u003c/a\u003e.
+        (Accessed: 07 December 2023).","year":"2023","title":"The IUCN Red List of
+        Threatened Species. Version 2023-1","author":"IUCN","citation_short":"IUCN
+        2023-1"},{"citation":"Barreto, G.S., Del Grande, M.L., Napoli, M.F., Garda,
+        A.A. and Juncá, F.A. 2019. The tadpole of \u003ci\u003eScinax camposseabrai\u003c/i\u003e
+        (Bokermann) (Amphibia, Anura, Hylidae). \u003ci\u003eZootaxa\u003c/i\u003e
+        4674(3): 393-396.","year":"2019","title":"The tadpole of \u003ci\u003eScinax
+        camposseabrai\u003c/i\u003e (Bokermann) (Amphibia, Anura, Hylidae)","author":"Barreto,
+        G.S., Del Grande, M.L., Napoli, M.F., Garda, A.A. and Juncá, F.A.","citation_short":""},{"citation":"Cândido,
+        C.E.R., Brandão, R.A., Freitas, M.A., Coelho, W.A. and Felberg, E.L. 2012.
+        Amphibia, Anura, Hylidae, \u003ci\u003eScinax camposseabrai\u003c/i\u003e
+        (Bokermann, 1968): Geographic distribution and map. \u003ci\u003eCheck List\u003c/i\u003e
+        8(2): 272-273.","year":"2012","title":"Amphibia, Anura, Hylidae, \u003ci\u003eScinax
+        camposseabrai\u003c/i\u003e (Bokermann, 1968): Geographic distribution and
+        map","author":"Cândido, C.E.R., Brandão, R.A., Freitas, M.A., Coelho, W.A.
+        and Felberg, E.L.","citation_short":""},{"citation":"Caramaschi, U. and Cardoso,
+        M.C.S. 2006. Taxonomic status of \u003ci\u003eHyla camposseabrai\u003c/i\u003e
+        Bokermann, 1968 (Anura: Hylidae). \u003ci\u003eJournal of Herpetology\u003c/i\u003e
+        40: 549-552.","year":"2006","title":"Taxonomic status of \u003ci\u003eHyla
+        camposseabrai\u003c/i\u003e Bokermann, 1968 (Anura: Hylidae)","author":"Caramaschi,
+        U. and Cardoso, M.C.S.","citation_short":""},{"citation":"Novaes, G. and Zina,
+        J. 2016. Advertisement call of \u003ci\u003eScinax camposseabrai\u003c/i\u003e
+        (Bokermann, 1968) (Anura: Hylidae), with comments on the call of three species
+        of the Scinax ruber clade. \u003ci\u003e Zootaxa\u003c/i\u003e 4084 (2): 258-266.","year":"2016","title":"Advertisement
+        call of \u003ci\u003eScinax camposseabrai\u003c/i\u003e (Bokermann, 1968)
+        (Anura: Hylidae), with comments on the call of three species of the Scinax
+        ruber clade","author":"Novaes, G. and Zina, J. ","citation_short":""}],"growth_forms":[],"lmes":[],"scopes":[{"description":{"en":"Global"},"code":"1"}],"stresses":[],"systems":[{"description":{"en":"Terrestrial"},"code":"0"},{"description":{"en":"Freshwater
+        (=Inland waters)"},"code":"1"}]}'
+  recorded_at: 2025-04-17 20:06:15 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0
+- request:
+    method: get
+    uri: https://api.iucnredlist.org/api/v4/taxa/sis/135758
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: r-curl/6.1.0 crul/1.5.0 rOpenSci(rredlist/1.0.0)
+      Accept-Encoding: gzip, deflate
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IUCN_REDLIST_KEY>>>
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: 'HTTP/2 200 '
+      cache-control: max-age=0, private, must-revalidate
+      content-type: application/json
+      etag: W/"9e91066d7f607b83596bfcec81b7501d"
+      x-request-id: 86361ecf-2ea1-4e2b-8a16-8414c0f0fd03
+      x-runtime: '0.030304'
+      content-length: '1586'
+      date: Thu, 17 Apr 2025 20:06:15 GMT
+    body:
+      encoding: ''
+      file: no
+      string: '{"sis_id":135758,"taxon":{"sis_id":135758,"scientific_name":"Pleurodema
+        fuscomaculatum","species_taxa":[],"subpopulation_taxa":[],"infrarank_taxa":[],"kingdom_name":"ANIMALIA","phylum_name":"CHORDATA","class_name":"AMPHIBIA","order_name":"ANURA","family_name":"LEPTODACTYLIDAE","genus_name":"Pleurodema","species_name":"fuscomaculatum","subpopulation_name":null,"infra_name":null,"authority":"(Steindachner,
+        1864)","species":true,"subpopulation":false,"infrarank":false,"ssc_groups":[{"name":"IUCN
+        SSC Amphibian Specialist Group","url":"https://www.iucn-amphibians.org/","description":"Chair:
+        Ariadne Angulo (email: aangulo@amphibians.org)\nRed List Authority Coordinator:
+        Jennifer Luedtke (email: jluedtke@amphibians.org)\nNewsletter: http://www.amphibians.org/froglog/"}],"common_names":[],"synonyms":[{"name":"Pleurodema
+        fuscomaculata (Steindachner, 1864)","status":"A","genus_name":"Pleurodema","species_name":"fuscomaculata","species_author":"(Steindachner,
+        1864)","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null},{"name":"Eupemphix
+        fuscomaculatus Steindachner, 1864","status":"A","genus_name":"Eupemphix","species_name":"fuscomaculatus","species_author":"Steindachner,
+        1864","infrarank_author":null,"subpopulation_name":null,"infra_type":null,"infra_name":null}]},"assessments":[{"year_published":"2008","latest":false,"possibly_extinct":false,"possibly_extinct_in_the_wild":false,"sis_taxon_id":135758,"url":"https://www.iucnredlist.org/species/135758/4197904","assessment_id":4197904,"scopes":[{"description":{"en":"Global"},"code":"1"}]}]}'
+  recorded_at: 2025-04-17 20:06:15 GMT
+  recorded_with: vcr/1.6.0, webmockr/1.0.0

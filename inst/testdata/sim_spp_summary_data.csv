@@ -1,11 +1,11 @@
-"id_no","taxonid","scientific_name","kingdom","phylum","class","order","family","genus","main_common_name","authority","published_year","assessment_date","category","criteria","population_trend","marine_system","freshwater_system","terrestrial_system","assessor","reviewer","aoo_km2","eoo_km2","elevation_upper","elevation_lower","depth_upper","depth_lower","errata_flag","errata_reason","amended_flag","amended_reason"
-670,670,"Simulus spp. 670",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"LC",NA,NA,"false","false","true",NA,NA,NA,NA,942,82,NA,NA,NA,NA,NA,NA
-2072,2072,"Simulus spp. 2072",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"NT",NA,NA,"false","false","true",NA,NA,NA,NA,907,46,NA,NA,NA,NA,NA,NA
-2374,2374,"Simulus spp. 2374",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",NA,NA,NA,NA,1020,65,NA,NA,NA,NA,NA,NA
-3667,3667,"Simulus spp. 3667",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"EN",NA,NA,"false","false","true",NA,NA,NA,NA,598,15,NA,NA,NA,NA,NA,NA
-4421,4421,"Simulus spp. 4421",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",NA,NA,NA,NA,949,85,NA,NA,NA,NA,NA,NA
-4650,4650,"Simulus spp. 4650",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"NT",NA,NA,"false","false","true",NA,NA,NA,NA,951,54,NA,NA,NA,NA,NA,NA
-5808,5808,"Simulus spp. 5808",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",NA,NA,NA,NA,974,91,NA,NA,NA,NA,NA,NA
-6701,6701,"Simulus spp. 6701",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"EN",NA,NA,"false","false","true",NA,NA,NA,NA,1069,221,NA,NA,NA,NA,NA,NA
-8110,8110,"Simulus spp. 8110",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",NA,NA,NA,NA,991,75,NA,NA,NA,NA,NA,NA
-8644,8644,"Simulus spp. 8644",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"LC",NA,NA,"false","false","true",NA,NA,NA,NA,1183,182,NA,NA,NA,NA,NA,NA
+"id_no","taxonid","scientific_name","kingdom","phylum","class","order","family","genus","main_common_name","authority","published_year","assessment_date","category","criteria","population_trend","marine_system","freshwater_system","terrestrial_system","elevation_upper","elevation_lower","depth_upper","depth_lower"
+670,670,"Simulus spp. 670",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"LC",NA,NA,"false","false","true",942,82,NA,NA
+2072,2072,"Simulus spp. 2072",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"NT",NA,NA,"false","false","true",907,46,NA,NA
+2374,2374,"Simulus spp. 2374",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",1019,65,NA,NA
+3667,3667,"Simulus spp. 3667",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"EN",NA,NA,"false","false","true",598,15,NA,NA
+4421,4421,"Simulus spp. 4421",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",949,85,NA,NA
+4650,4650,"Simulus spp. 4650",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"NT",NA,NA,"false","false","true",951,54,NA,NA
+5808,5808,"Simulus spp. 5808",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",974,91,NA,NA
+6701,6701,"Simulus spp. 6701",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"EN",NA,NA,"false","false","true",1069,221,NA,NA
+8110,8110,"Simulus spp. 8110",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"VU",NA,NA,"false","false","true",991,75,NA,NA
+8644,8644,"Simulus spp. 8644",NA,NA,NA,NA,NA,"Simulus",NA,NA,NA,NA,"LC",NA,NA,"false","false","true",1183,182,NA,NA

@@ -1,0 +1,28 @@
+"id_no","code","title","timing","scope","severity","score","invasive"
+670,"2.1.1","Shifting agriculture","Unknown","Unknown","No decline","Past Impact",NA
+670,"8.2.1","Unspecified species","Past, Unlikely to Return","Minority (<50%)","Slow, Significant Declines","High Impact: 9",NA
+2072,"8.4.2","Named species",NA,"Minority (<50%)","Very Rapid Declines","Past Impact",NA
+2072,"5.3.3","Unintentional effects: subsistence/small scale (species being assessed is not the target)[harvest]",NA,"Whole (>90%)",NA,"No/Negligible Impact: 0",NA
+2072,"7.2.7","Abstraction of ground water (agricultural use)","Unknown","Minority (<50%)","Rapid Declines","High Impact: 9",NA
+2072,"7.1.2","Suppression in fire frequency/intensity","Future","Majority (50-90%)","Causing/Could cause fluctuations",NA,NA
+2374,"5.3.2","Intentional use: large scale (species being assessed is the target)[harvest]",NA,NA,NA,"No/Negligible Impact: 0",NA
+2374,"7.2.11","Dams (size unknown)","Future","Unknown","Rapid Declines","High Impact: 9",NA
+2374,"8.2.2","Named species",NA,"Whole (>90%)",NA,"Low Impact: 4",NA
+2374,"10","Geological events","Unknown","Whole (>90%)","Slow, Significant Declines","Medium Impact: 6",NA
+2374,"12.1","Other threat","Past, Unlikely to Return","Unknown","No decline","Low Impact: 4",NA
+3667,"7.2.3","Abstraction of surface water (agricultural use)","Unknown","Whole (>90%)","Causing/Could cause fluctuations","High Impact: 9",NA
+4421,"9.3.4","Type Unknown/Unrecorded","Unknown",NA,"Negligible declines","No/Negligible Impact: 0",NA
+4650,"2.3.2","Small-holder grazing, ranching or farming","Future","Whole (>90%)","No decline","High Impact: 9",NA
+4650,"3.1","Oil & gas drilling","Ongoing","Unknown","Rapid Declines","Medium Impact: 6",NA
+4650,"11.4","Storms & flooding","Unknown","Minority (<50%)","Very Rapid Declines","No/Negligible Impact: 0",NA
+4650,"9.3.4","Type Unknown/Unrecorded",NA,"Majority (50-90%)","No decline","No/Negligible Impact: 2",NA
+5808,"11.5","Other impacts","Ongoing","Majority (50-90%)","Very Rapid Declines","Unknown",NA
+6701,"9.5.1","Acid rain","Future","Unknown","Causing/Could cause fluctuations","Low Impact: 4",NA
+6701,"10.2","Earthquakes/tsunamis",NA,"Whole (>90%)","No decline","Unknown",NA
+6701,"8","Invasive & other problematic species, genes & diseases","Past, Likely to Return","Unknown","Very Rapid Declines",NA,NA
+6701,"5.1.1","Intentional use (species being assessed is the target)","Future","Majority (50-90%)","No decline","High Impact: 8",NA
+8110,"1.1","Housing & urban areas",NA,"Majority (50-90%)","No decline","No/Negligible Impact: 0",NA
+8110,"9.3.4","Type Unknown/Unrecorded","Future","Minority (<50%)","Negligible declines","Low Impact: 4",NA
+8644,"5.3.1","Intentional use: subsistence/small scale (species being assessed is the target [harvest]","Past, Unlikely to Return","Unknown","Slow, Significant Declines","Medium Impact: 6",NA
+8644,"9.5.3","Ozone","Past, Unlikely to Return","Minority (<50%)","Rapid Declines","Past Impact",NA
+8644,"2.2.1","Small-holder plantations","Ongoing","Whole (>90%)","Rapid Declines","Low Impact: 3",NA

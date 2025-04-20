@@ -107,6 +107,8 @@ geographic range data.}
 information about the species (including elevational limit information.}
 \item{spp_habitat_data}{A \code{\link[tibble:tibble]{tibble::tibble()}} object containing habitat
 preferences for the species.}
+\item{spp_threat_data}{A \code{\link[tibble:tibble]{tibble::tibble()}} object containing threat
+information for the species.}
 }
 }
 \description{

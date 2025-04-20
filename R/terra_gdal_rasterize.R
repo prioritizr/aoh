@@ -137,7 +137,7 @@ terra_gdal_rasterize <- function(x, sf,
     }
   }
 
-  # save raster if needed
+  # if needed, save raster if needed
   if (inherits(x, "SpatRaster")) {
     x_on_disk <- terra_on_disk(x)
     x <- terra_force_disk(x, overwrite = TRUE, datatype = datatype, gdal = co)
@@ -171,6 +171,7 @@ terra_gdal_rasterize <- function(x, sf,
   sf::write_sf(sf, sf_filename, overwrite = TRUE)
 
   # main processing
+  ## set main arguments
   args <- list(
     src_datasource = sf_filename,
     dst_filename = filename,
@@ -178,9 +179,12 @@ terra_gdal_rasterize <- function(x, sf,
     burn = burn,
     at = isTRUE(touches)
   )
+  ## set init argument
   if (!isTRUE(update)) {
     args$init <- init
   }
+  ## set NAflag argument
+  ## validate NAflag
   if (!is.null(NAflag)) {
     if (!identical(NAflag, "none")) {
       assertthat::assert_that(
@@ -188,10 +192,28 @@ terra_gdal_rasterize <- function(x, sf,
         assertthat::noNA(NAflag)
       )
     } else {
-      NAflag <- "None"
+      NAflag <- "none"
     }
+  }
+  ## see if default behavior of NAflag has changed
+  gdal_new_behavior <- isTRUE(
+    package_version(sf::sf_extSoftVersion()["GDAL"]) >=
+    package_version("3.10.0")
+  )
+  ## if new behavior and NAflag is NULL or "none" ,
+  ## then set NAflag to "nan" to ensure backwards compatibility
+  if (
+    !isTRUE(update) &&
+    gdal_new_behavior &&
+    (is.null(NAflag) || identical(NAflag, "none"))
+  ) {
+    NAflag <- "nan" # nocov
+  }
+  ## set the argument
+  if (!isTRUE(update) && !identical(NAflag, "none")) {
     args$a_nodata <- NAflag
   }
+  ## if update, set remaining arguments
   if (!isTRUE(update)) {
     f3 <- normalize_path(tempfile(fileext = ".wkt"), mustWork = FALSE)
     writeLines(x_crs, f3)
@@ -207,6 +229,8 @@ terra_gdal_rasterize <- function(x, sf,
       )
     )
   }
+
+  # run rasterization
   withr::with_envvar(
     c(
       "NUM_THREADS" = n_threads,
@@ -215,6 +239,7 @@ terra_gdal_rasterize <- function(x, sf,
     ),
     do.call(gdalUtilities::gdal_rasterize, args)
   )
+
   # clean up
   if ((!x_on_disk) && (!update)) {
     rm(x)
