@@ -12,7 +12,10 @@ test_that("single taxon identifier", {
     x <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   })
   # create object from cache
-  x2 <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
+  x2 <- get_spp_habitat_data(
+    id_no, force = FALSE, verbose = interactive(), key = "asdf",
+    version = "2025-1" # matches vcr cassette from previous call
+  )
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
