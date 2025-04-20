@@ -83,6 +83,32 @@ test_that("some taxon missing habitat information", {
   expect_equal(x3$majorimportance, rep(NA_character_, length(id_no) - 1))
 })
 
+test_that("all taxon missing habitat information", {
+  # skip if needed
+  skip_on_cran()
+  skip_if_not_installed("vcr")
+  # set parameters
+  data(iucn_habitat_data)
+  id_no <- c(-100)
+  # create objects
+  vcr::use_cassette("habitat-missing", {
+    x <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
+  })
+  # tests
+  expect_is(x, "data.frame")
+  expect_gte(nrow(x), 1)
+  expect_named(
+    x,
+    c("id_no", "code", "habitat", "suitability", "season", "majorimportance")
+  )
+  expect_equal(x$id_no, -100)
+  expect_equal(x$code, rep(NA_character_, length(id_no)))
+  expect_equal(x$habitat, rep(NA_character_, length(id_no)))
+  expect_equal(x$suitability, rep(NA_character_, length(id_no)))
+  expect_equal(x$season, rep(NA_character_, length(id_no)))
+  expect_equal(x$majorimportance, rep(NA_character_, length(id_no)))
+})
+
 test_that("accessing API V3 cache", {
   # skip if needed
   skip_on_cran()
