@@ -225,7 +225,7 @@ get_spp_api_v4_data <- function(
     }
   } else {
     ## initialize as empty list
-    out <- list()
+    out <- list() # nocov
   }
 
   ## if there are any id_no with failed calls, then add elements for them
