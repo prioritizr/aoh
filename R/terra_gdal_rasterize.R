@@ -200,19 +200,14 @@ terra_gdal_rasterize <- function(x, sf,
     package_version(sf::sf_extSoftVersion()["GDAL"]) >=
     package_version("3.10.0")
   )
-  ## if it has changed and this will affect results, then ensure
-  ## that the output is explicit
-  assertthat::assert_that(
-    !(!isTRUE(update) && gdal_new_behavior && is.null(NAflag)),
-    msg = paste(
-      "`NAflag` must be `\"none\"` or an integer value",
-      "for GDAL version 3.10.0+"
-    )
-  )
   ## if new behavior and NAflag is "none" ,
   ## then set NAflag to "nan" because "none" is no longer recognized to
   ## provide backwards compatibility
-  if (!isTRUE(update) && gdal_new_behavior && identical(NAflag, "none")) {
+  if (
+    !isTRUE(update) &&
+    identical(NAflag, "none") &&
+    gdal_new_behavior
+  ) {
     NAflag <- "nan" # nocov
   }
   ## set the argument
