@@ -32,7 +32,13 @@ get_doi_files <- function(x) {
   )
 
   # scrape html file
-  d <- rvest::read_html(x)
+  ## note that we use a strategy that is robust to failures
+  ## and mimics a web browser because Zenodo is unstable
+  d <- httr2::request(x)
+  d <- httr2::req_retry(d, max_tries = 5, backoff = function(resp) 10)
+  d <- httr2::req_user_agent(d, string = "Mozilla/5.0")
+  d <- httr2::req_perform(d)
+  d <- httr2::resp_body_html(d)
 
   # extract metedata
   md <- rvest::html_elements(d, css = "#recordVersions")
@@ -75,7 +81,13 @@ get_doi_versions <- function(x) {
   )
 
   # scrape html file
-  d <- rvest::read_html(x)
+  ## note that we use a strategy that is robust to failures
+  ## and mimics a web browser because Zenodo is unstable
+  d <- httr2::request(x)
+  d <- httr2::req_retry(d, max_tries = 5, backoff = function(resp) 10)
+  d <- httr2::req_user_agent(d, string = "Mozilla/5.0")
+  d <- httr2::req_perform(d)
+  d <- httr2::resp_body_html(d)
 
   # find metadata containers
   md <- rvest::html_elements(d, css = "#recordVersions")

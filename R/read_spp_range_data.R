@@ -76,6 +76,8 @@ read_spp_range_data <- function(path, n = NULL) {
   # find extracted data
   shp_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE, recursive = TRUE)
   shp_path <- gsub("\\", "/", shp_path, fixed = TRUE)
+  gpkg_path <- dir(temp_dir, "^.*\\.gpkg$", full.names = TRUE, recursive = TRUE)
+  gpkg_path <- gsub("\\", "/", gpkg_path, fixed = TRUE)
   gdb_path <- dir(
     temp_dir, "^.*\\.gdb$", include.dirs = TRUE, full.names = TRUE,
     recursive = TRUE
@@ -180,6 +182,8 @@ read_spp_range_data <- function(path, n = NULL) {
       by = id_col
     )
     out <- dplyr::select(out, -"geometry", dplyr::everything())
+  } else if (length(gpkg_path) == 1) {
+    out <- read_sf_n(gpkg_path, n = n)
   } else {
     stop("`path` does not contain spatial data")
   } # nocov end

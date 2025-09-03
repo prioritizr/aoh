@@ -8,9 +8,8 @@ test_that("single taxon identifier", {
   data(iucn_habitat_data)
   id_no <- c(18)
   # create object from API
-  vcr::use_cassette("habitat-single", {
-    x <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
-  })
+  vcr::local_cassette("habitat-single")
+  x <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   # create object from cache
   x2 <- get_spp_habitat_data(
     id_no, force = FALSE, verbose = interactive(), key = "asdf",
@@ -36,9 +35,8 @@ test_that("multiple taxon identifiers", {
   data(iucn_habitat_data)
   id_no <- c(18, 137, 138, 139)
   # create objects
-  vcr::use_cassette("habitat-multiple", {
-    x <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
-  })
+  vcr::local_cassette("habitat-multiple")
+  x <- get_spp_habitat_data(id_no, force = FALSE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
@@ -58,9 +56,8 @@ test_that("some taxon missing habitat information", {
   data(iucn_habitat_data)
   id_no <- c(-100, 135913)
   # create objects
-  vcr::use_cassette("habitat-missing", {
-    x <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("habitat-missing")
+  x <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
@@ -91,9 +88,8 @@ test_that("all taxon missing habitat information", {
   data(iucn_habitat_data)
   id_no <- c(-100)
   # create objects
-  vcr::use_cassette("habitat-missing", {
-    x <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("habitat-missing")
+  x <- get_spp_habitat_data(id_no, force = TRUE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)

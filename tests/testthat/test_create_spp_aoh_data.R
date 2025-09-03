@@ -273,16 +273,15 @@ test_that("example data", {
   cd2 <- tempfile()
   dir.create(cd2, showWarnings = FALSE, recursive = TRUE)
   # load data
-  vcr::use_cassette("aoh-example-info", {
-    d <-
-    suppressMessages(
-      create_spp_info_data(
-        x = read_spp_range_data(f),
-        cache = cd2,
-        verbose = TRUE
-      )
+  vcr::local_cassette("aoh-example-info")
+  d <-
+  suppressMessages(
+    create_spp_info_data(
+      x = read_spp_range_data(f),
+      cache = cd2,
+      verbose = TRUE
     )
-  })
+  )
   # create objects
   x <- suppressMessages(
     suppressWarnings(

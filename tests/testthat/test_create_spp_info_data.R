@@ -71,16 +71,15 @@ test_that("example data", {
   # load data
   d <- read_spp_range_data(f)
   # create objects
-  vcr::use_cassette("example-info", {
-    version <- rredlist::rl_version()
-    x <- suppressWarnings(
-      create_spp_info_data(
-        x = d,
-        cache_dir = cd,
-        verbose = interactive()
-      )
+  vcr::local_cassette("example-info")
+  version <- rredlist::rl_version()
+  x <- suppressWarnings(
+    create_spp_info_data(
+      x = d,
+      cache_dir = cd,
+      verbose = interactive()
     )
-  })
+  )
   # tests
   expect_is(x, "sf")
   expect_named(x, info_names)

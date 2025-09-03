@@ -7,9 +7,8 @@ test_that("single taxon identifier", {
   # set parameters
   id_no <- c(18)
   # create objects
-  vcr::use_cassette("summary-single", {
-    x <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("summary-single")
+  x <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
@@ -36,11 +35,10 @@ test_that("multiple taxon identifiers", {
   # set parameters
   id_no <- c(18, 137, 138, 139)
   # create objects
-  vcr::use_cassette("summary-multiple", {
-    x <- suppressMessages(
-      get_spp_summary_data(id_no, force = TRUE, verbose = TRUE)
-    )
-  })
+  vcr::local_cassette("summary-multiple")
+  x <- suppressMessages(
+    get_spp_summary_data(id_no, force = TRUE, verbose = TRUE)
+  )
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
@@ -67,12 +65,10 @@ test_that("some taxon missing summary data", {
   # set parameters
   id_no <- c(18, -100)
   # create objects
-  vcr::use_cassette("summary-missing-x1", {
-    x1 <- get_spp_summary_data(id_no[1], force = TRUE, verbose = interactive())
-  })
-  vcr::use_cassette("summary-missing-x2", {
-    x2 <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("summary-missing-x1")
+  x1 <- get_spp_summary_data(id_no[1], force = TRUE, verbose = interactive())
+  vcr::local_cassette("summary-missing-x2")
+  x2 <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
   # tests
   ## x1
   expect_is(x1, "data.frame")
@@ -105,9 +101,8 @@ test_that("taxon with multiple records", {
   # set parameters
   id_no <- c(178652, 177906)
   # create objects
-  vcr::use_cassette("summary-multiple-records", {
-    x <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("summary-multiple-records")
+  x <- get_spp_summary_data(id_no, force = TRUE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_equal(nrow(x), 2)
