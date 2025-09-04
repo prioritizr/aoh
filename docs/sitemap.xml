@@ -1,144 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://prioritizr.github.io/aoh/404.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/articles/aoh.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/articles/customization.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/aoh.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/calc_spp_frc_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/create_spp_aoh_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/create_spp_frc_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/create_spp_info_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/crosswalk_jung_lvl1_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/crosswalk_jung_lvl2_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/crosswalk_jung_plvl1_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/crosswalk_lumb_cgls_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_global_elevation_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_jung_lvl1_habitat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_jung_lvl2_habitat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_jung_plvl1_habitat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_lumb_cgls_habitat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_spp_habitat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_spp_summary_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/get_spp_threat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/is_gdal_calc_available.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/is_grass_available.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/is_iucn_rl_api_available.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/is_osgeo4w_available.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_artificial.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_introduced.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_marine.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_misc.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_terrestrial.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/iucn_threat_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/plot_spp_aoh_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/plot_spp_frc_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/read_spp_range_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/simulate_spp_data.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/st_repair_geometry.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/system_gdal_version.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/terra_combine.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/terra_gdal_calc.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/terra_gdal_crop.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/terra_gdal_project.html</loc>
-  </url>
-  <url>
-    <loc>https://prioritizr.github.io/aoh/reference/terra_gdal_rasterize.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://prioritizr.github.io/aoh/404.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/articles/aoh.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/articles/customization.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/articles/index.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/authors.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/index.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/news/index.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/aoh.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/calc_spp_frc_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/create_spp_aoh_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/create_spp_frc_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/create_spp_info_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/crosswalk_jung_lvl1_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/crosswalk_jung_lvl2_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/crosswalk_jung_plvl1_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/crosswalk_lumb_cgls_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_global_elevation_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_jung_lvl1_habitat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_jung_lvl2_habitat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_jung_plvl1_habitat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_lumb_cgls_habitat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_spp_habitat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_spp_summary_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/get_spp_threat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/index.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/is_gdal_calc_available.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/is_grass_available.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/is_iucn_rl_api_available.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/is_osgeo4w_available.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_artificial.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_introduced.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_marine.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_misc.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_codes_terrestrial.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/iucn_habitat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/iucn_threat_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/plot_spp_aoh_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/plot_spp_frc_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/read_spp_range_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/simulate_spp_data.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/st_repair_geometry.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/system_gdal_version.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/terra_combine.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/terra_gdal_calc.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/terra_gdal_crop.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/terra_gdal_project.html</loc></url>
+<url><loc>https://prioritizr.github.io/aoh/reference/terra_gdal_rasterize.html</loc></url>
 </urlset>
+

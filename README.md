@@ -286,7 +286,7 @@ print(spp_aoh_rasters)
 
     ## [[1]]
     ## class       : SpatRaster 
-    ## dimensions  : 2593, 3701, 1  (nrow, ncol, nlyr)
+    ## size        : 2593, 3701, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -467931, -97831, 4364377, 4623677  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
@@ -297,7 +297,7 @@ print(spp_aoh_rasters)
     ## 
     ## [[2]]
     ## class       : SpatRaster 
-    ## dimensions  : 2266, 5670, 1  (nrow, ncol, nlyr)
+    ## size        : 2266, 5670, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -248331, 318669, 4838277, 5064877  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
@@ -308,7 +308,7 @@ print(spp_aoh_rasters)
     ## 
     ## [[3]]
     ## class       : SpatRaster 
-    ## dimensions  : 5149, 5361, 1  (nrow, ncol, nlyr)
+    ## size        : 5149, 5361, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -914731, -378631, 4551877, 5066777  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
@@ -319,7 +319,7 @@ print(spp_aoh_rasters)
     ## 
     ## [[4]]
     ## class       : SpatRaster 
-    ## dimensions  : 4978, 7512, 1  (nrow, ncol, nlyr)
+    ## size        : 4978, 7512, 1  (nrow, ncol, nlyr)
     ## resolution  : 100, 100  (x, y)
     ## extent      : -904331, -153131, 4568977, 5066777  (xmin, xmax, ymin, ymax)
     ## coord. ref. : World_Behrmann 
@@ -366,7 +366,7 @@ produce Area of Habitat data.
     relevant data using:
 
       Hanson JO (2025) aoh: Create Area of Habitat Data. R package version
-      0.0.3.0. Available at https://github.com/prioritizr/aoh.
+      0.0.3.1. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

@@ -11,5 +11,5 @@ if (require(vcr)) {
       "<<<IUCN_REDLIST_KEY>>>" = Sys.getenv("IUCN_REDLIST_KEY")
     )
   ))
-  vcr::check_cassette_names()
+  vcr::cassette_path()
 }

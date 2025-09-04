@@ -253,29 +253,56 @@ clean_spp_range_data <- function(x,
     ))
   }
   ## "kingdom" column is missing
+  # nocov start
   if (!assertthat::has_name(x, "kingdom")) {
     if (any(grepl("birdlife", tolower(names(x))))) {
-      x$kingdom <- "ANIMALIA" # nocov
+      x$kingdom <- "ANIMALIA"
+    } else if (assertthat::has_name(x, "citation")) {
+      x$kingdom <- dplyr::if_else(
+        grepl(" bird ", tolower(x$citation), fixed = TRUE) |
+          grepl(" birds ", tolower(x$citation), fixed = TRUE),
+        "ANIMALIA",
+        NA_character_
+      )
     } else {
       x$kingdom <- NA_character_
     }
   }
+  # nocov end
   ## "phylum" column is missing
+  # nocov start
   if (!assertthat::has_name(x, "phylum")) {
     if (any(grepl("birdlife", tolower(names(x))))) {
       x$phylum <- "CHORDATA" # nocov
+    } else if (assertthat::has_name(x, "citation")) {
+      x$phylum <- dplyr::if_else(
+        grepl(" bird ", tolower(x$citation), fixed = TRUE) |
+          grepl(" birds ", tolower(x$citation), fixed = TRUE),
+        "CHORDATA",
+        NA_character_
+      )
     } else {
       x$phylum <- NA_character_
     }
   }
+  # nocov end
   ## "class" column is missing
+  # nocov start
   if (!assertthat::has_name(x, "class")) {
     if (any(grepl("birdlife", tolower(names(x))))) {
       x$class <- "AVES" #nocov
+    } else if (assertthat::has_name(x, "citation")) {
+      x$class <- dplyr::if_else(
+        grepl(" bird ", tolower(x$citation), fixed = TRUE) |
+          grepl(" birds ", tolower(x$citation), fixed = TRUE),
+        "AVES",
+        NA_character_
+      )
     } else {
       x$class <- NA_character_
     }
   }
+  # nocov end
   ## "subspecies" column is missing
   if (!assertthat::has_name(x, "subspecies")) {
     x$subspecies <- NA_character_

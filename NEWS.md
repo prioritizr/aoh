@@ -1,3 +1,11 @@
+# aoh 0.0.3.1
+
+- Update package to be compatible with the latest version of the BirdLife
+  species range dataset (version 2024-2).
+- Update unit tests for compatibility with the _vcr_ package.
+- Update code for interfacing with Zenodo to be more robust.
+- Update URLs in Getting started vignette.
+
 # aoh 0.0.3.0
 
 - Update package to be compatible with the latest version of the _rredlist_

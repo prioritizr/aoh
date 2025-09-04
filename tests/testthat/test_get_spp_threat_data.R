@@ -8,9 +8,8 @@ test_that("single taxon identifier", {
   data(iucn_threat_data)
   id_no <- c(18)
   # create objects
-  vcr::use_cassette("threat-single", {
-    x <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("threat-single")
+  x <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
@@ -33,11 +32,10 @@ test_that("multiple taxon identifiers", {
   data(iucn_threat_data)
   id_no <- c(18, 137, 138, 139)
   # create objects
-  vcr::use_cassette("threat-multiple", {
-    x <- suppressMessages(
-      get_spp_threat_data(id_no, force = TRUE, verbose = TRUE)
-    )
-  })
+  vcr::local_cassette("threat-multiple")
+  x <- suppressMessages(
+    get_spp_threat_data(id_no, force = TRUE, verbose = TRUE)
+  )
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)
@@ -60,12 +58,10 @@ test_that("some taxon missing summary data", {
   data(iucn_threat_data)
   id_no <- c(18, -100)
   # create objects
-  vcr::use_cassette("threat-missing-x1", {
-    x1 <- get_spp_threat_data(id_no[1], force = TRUE, verbose = interactive())
-  })
-  vcr::use_cassette("threat-missing-x2", {
-    x2 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("threat-missing-x1")
+  x1 <- get_spp_threat_data(id_no[1], force = TRUE, verbose = interactive())
+  vcr::local_cassette("threat-missing-x2")
+  x2 <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
   # tests
   ## x1
   expect_is(x1, "data.frame")
@@ -94,9 +90,8 @@ test_that("taxon with multiple records", {
   data(iucn_threat_data)
   id_no <- c(178652, 177906)
   # create objects
-  vcr::use_cassette("threat-multiple-records", {
-    x <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
-  })
+  vcr::local_cassette("threat-multiple-records")
+  x <- get_spp_threat_data(id_no, force = TRUE, verbose = interactive())
   # tests
   expect_is(x, "data.frame")
   expect_gte(nrow(x), 1)

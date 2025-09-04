@@ -169,13 +169,12 @@ test_that("example data", {
   cd2 <- tempfile()
   dir.create(cd2, showWarnings = FALSE, recursive = TRUE)
   # prepare data
-  vcr::use_cassette("frc-example-info", {
-    i = create_spp_info_data(
-      x = read_spp_range_data(f),
-      cache_dir = cd2,
-      verbose = interactive()
-    )
-  })
+  vcr::local_cassette("frc-example-info")
+  i = create_spp_info_data(
+    x = read_spp_range_data(f),
+    cache_dir = cd2,
+    verbose = interactive()
+  )
   d <- suppressWarnings(
     create_spp_aoh_data(
       x = i,

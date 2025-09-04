@@ -117,6 +117,7 @@ test_that("multiple layers (single core)", {
 
 test_that("multiple layers (parallel processing)", {
   skip_on_cran()
+  skip_on_os("windows")
   skip_if_not_installed("gdalUtilities")
   # create data
   x <- terra::rast(
