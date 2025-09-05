@@ -1,7 +1,12 @@
+# aoh 0.0.3.2
+
+- Update `read_spp_range_data()` function to be able to import shapefile
+  and geopackage files.
+
 # aoh 0.0.3.1
 
-- Update package to be compatible with the latest version of the BirdLife
-  species range dataset (version 2024-2).
+- Update `read_spp_range_data()` to be compatible with the latest version of
+  the BirdLife species range dataset (version 2024-2).
 - Update unit tests for compatibility with the _vcr_ package.
 - Update code for interfacing with Zenodo to be more robust.
 - Update URLs in Getting started vignette.

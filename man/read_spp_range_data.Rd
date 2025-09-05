@@ -7,7 +7,10 @@
 read_spp_range_data(path, n = NULL)
 }
 \arguments{
-\item{path}{\code{character} File path to the data (zip archive) file.}
+\item{path}{\code{character} File path to the data file. A variety of file
+formats are supported, including geopackage (\code{.gpkg}), shapefile
+(\code{.shp}), geodatabase (\code{.gdb}), and archives containing these files
+(\code{.zip}, and \verb{.7z}).}
 
 \item{n}{\code{numeric} Number of features in the dataset to import.
 Defaults to \code{NULL} such that all available data is imported.}

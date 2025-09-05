@@ -8,7 +8,10 @@ NULL
 #' [International Union for Conservation of Nature (IUCN) Red List of
 #' Threatened Species](https://www.iucnredlist.org/).
 #'
-#' @param path `character` File path to the data (zip archive) file.
+#' @param path `character` File path to the data file. A variety of file
+#'  formats are supported, including geopackage (`.gpkg`), shapefile
+#'  (`.shp`), geodatabase (`.gdb`), and archives containing these files
+#' (`.zip`, and `.7z`).
 #'
 #' @param n `numeric` Number of features in the dataset to import.
 #'  Defaults to `NULL` such that all available data is imported.
@@ -50,9 +53,14 @@ read_spp_range_data <- function(path, n = NULL) {
   assertthat::assert_that(
     isTRUE(
       assertthat::has_extension(path, "zip") ||
-      assertthat::has_extension(path, "7z")
+      assertthat::has_extension(path, "7z") ||
+      assertthat::has_extension(path, "gpkg") ||
+      assertthat::has_extension(path, "shp")
     ),
-    msg = "`path` must have a \".zip\" or \"7z\" file extension"
+    msg = paste(
+      "`path` must have a supported file extension",
+      "(\".shp\", \".gpkg\", \".zip\", \".7z\")."
+    )
   )
 
   # create temporary directory
@@ -61,28 +69,50 @@ read_spp_range_data <- function(path, n = NULL) {
 
   # unzip data to temporary directory
   if (endsWith(path, ".zip")) {
-    utils::unzip(path, exdir = temp_dir)
-  } else{
+    res <- rlang::try_fetch(
+      utils::unzip(path, exdir = temp_dir),
+      warning = function(x) x,
+      error = function(x) x
+    )
+    assertthat::assert_that(
+      !inherits(res, c("warning", "error")),
+      msg = paste(
+        "cannot automatically unzip the file,",
+        "try manually unzipping the file and reading the contents."
+      )
+    )
+  } else if (endsWith(path, ".7z")) {
     assertthat::assert_that(
       requireNamespace("archive", quietly = TRUE),
-      msg =  paste(
-        "the \"archive\" package needs to be installed to read 7z files, use",
+      msg = paste(
+        "the \"archive\" package must be installed to read 7z files, use",
         "`install.packages(\"archive\")`"
       )
     )
     archive::archive_extract(archive = path, dir = temp_dir)
   }
 
-  # find extracted data
-  shp_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE, recursive = TRUE)
-  shp_path <- gsub("\\", "/", shp_path, fixed = TRUE)
-  gpkg_path <- dir(temp_dir, "^.*\\.gpkg$", full.names = TRUE, recursive = TRUE)
-  gpkg_path <- gsub("\\", "/", gpkg_path, fixed = TRUE)
-  gdb_path <- dir(
-    temp_dir, "^.*\\.gdb$", include.dirs = TRUE, full.names = TRUE,
-    recursive = TRUE
-  )
-  gdb_path <- gsub("\\", "/", gdb_path, fixed = TRUE)
+  # find file path with data to import
+  if (endsWith(path, ".zip") || endsWith(path, ".7z")) {
+    shp_path <- dir(temp_dir, "^.*\\.shp$", full.names = TRUE, recursive = TRUE)
+    shp_path <- gsub("\\", "/", shp_path, fixed = TRUE)
+    gpkg_path <-
+      dir(temp_dir, "^.*\\.gpkg$", full.names = TRUE, recursive = TRUE)
+    gpkg_path <- gsub("\\", "/", gpkg_path, fixed = TRUE)
+    gdb_path <- dir(
+      temp_dir, "^.*\\.gdb$", include.dirs = TRUE, full.names = TRUE,
+      recursive = TRUE
+    )
+    gdb_path <- gsub("\\", "/", gdb_path, fixed = TRUE)
+  } else if (endsWith(path, ".shp")) {
+    shp_path <- path
+    gpkg_path <- c()
+    gdb_path <- c()
+  } else if (endsWith(path, ".gpkg")) {
+    shp_path <- c()
+    gpkg_path <- path
+    gdb_path <- c()
+  }
 
   # import data
   if (length(shp_path) == 1) {

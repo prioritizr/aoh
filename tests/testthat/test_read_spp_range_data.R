@@ -15,6 +15,50 @@ test_that("simulated data (shapefile zip format)", {
   expect_equal(dplyr::last(names(x)), "geometry")
 })
 
+test_that("simulated data (shapefile format)", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  td <- gsub("\\", "/", tempfile(), fixed = TRUE)
+  dir.create(td, showWarnings = FALSE, recursive = TRUE)
+  unzip(f, exdir = td)
+  f <- paste0(td, "/SIMULATED_SPECIES.shp")
+  # create data
+  x <- read_spp_range_data(f)
+  # tests
+  expect_is(x, "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_true(all(assertthat::has_name(x, iucn_names)))
+  expect_equal(dplyr::last(names(x)), "geometry")
+  # clean up
+  unlink(td, force = TRUE, recursive = TRUE)
+})
+
+test_that("simulated data (gpkg format)", {
+  # skip if needed
+  skip_on_cran()
+  # specify file path
+  f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
+  td <- gsub("\\", "/", tempfile(), fixed = TRUE)
+  dir.create(td, showWarnings = FALSE, recursive = TRUE)
+  unzip(f, exdir = td)
+  d <- sf::read_sf(paste0(td, "/SIMULATED_SPECIES.shp"))
+  f <- paste0(td, "/sim-data.gpkg")
+  sf::write_sf(d, f)
+  # create data
+  x <- read_spp_range_data(f)
+  # tests
+  expect_is(x, "sf")
+  expect_gt(nrow(x), 1)
+  expect_true(sf::st_crs(x) == st_crs(4326))
+  expect_true(all(assertthat::has_name(x, iucn_names)))
+  expect_equal(dplyr::last(names(x)), "geometry")
+  # clean up
+  unlink(td, force = TRUE, recursive = TRUE)
+})
+
 test_that("simulated data (shapefile zip format, multiple files)", {
   # unzip data
   td1 <- tempfile()
