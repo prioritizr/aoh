@@ -51,6 +51,8 @@ A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.
 \description{
 Create a map to compare species geographic range and fractional
 coverage data.
+Note that this function requires the \pkg{ggplot2} package to be
+installed.
 }
 \details{
 Note that data are automatically projected to a

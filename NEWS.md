@@ -1,3 +1,10 @@
+# aoh 0.0.3.3
+
+- Fix typo in documentation (#65). Thanks to Steven Bachman (\@stevenpbachman)
+  for bug report.
+- Reduce the number of mandatory dependencies by making the _gpplot2_ package
+  optional and removing dependency on the _plyr_ package.
+
 # aoh 0.0.3.2
 
 - Update `read_spp_range_data()` function to be able to import shapefile

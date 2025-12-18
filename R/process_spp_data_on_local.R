@@ -14,7 +14,7 @@ NULL
 #' @param x [sf::sf()] Spatial data delineating species geographic ranges
 #'   obtained from the [IUCN Red List](https://www.iucnredlist.org/).
 #'   These data should have previously been cleaned (via
-#'   [clean_spp_range_data()] and contain the following additional columns:
+#'   `clean_spp_range_data()` and contain the following additional columns:
 #'   `"habitat_code"`, `"elevation_lower"`, `"elevation_upper"`,
 #'   `"xmin"`, `"xmax"`, `"ymin"`, `"ymax"`, `"path"`.
 #'
@@ -253,10 +253,7 @@ process_spp_data_on_local <- function(x,
   }
 
   # main processing
-  result <- suppressWarnings(plyr::llply(
-    .data = idx,
-    .fun = function(i) {
-
+  result <- suppressWarnings(lapply(idx, function(i) {
       ## determine path for saving AOH data
       curr_spp_path <- x$path[i]
       if (is.null(frc_template_data)) {

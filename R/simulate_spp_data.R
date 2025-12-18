@@ -441,7 +441,7 @@ simulate_summary_data <- function(x, elevation_data) {
 
   # main processing
   # create habitat data
-  result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
+  result <- dplyr::bind_rows(lapply(seq_len(nrow(x_distinct)), function(i) {
     ## initialization
     curr_id_no <- x_distinct$id_no[[i]]
 
@@ -489,7 +489,7 @@ simulate_summary_data <- function(x, elevation_data) {
       depth_upper = NA_real_,
       depth_lower = NA_real_
     )
-  })
+  }))
 
   # return result
   tibble::as_tibble(result)
@@ -517,7 +517,7 @@ simulate_habitat_data <- function(x, habitat_data, crosswalk_data,
   x_distinct$seasonal_name <- convert_to_seasonal_name(x_distinct$seasonal)
 
   # create habitat data
-  result <- plyr::ldply(seq_len(nrow(x_distinct)), function(i) {
+  result <- dplyr::bind_rows(lapply(seq_len(nrow(x_distinct)), function(i) {
     ## initialization
     curr_id_no <- x_distinct$id_no[[i]]
     curr_seasonal <- x_distinct$seasonal[[i]]
@@ -611,7 +611,7 @@ simulate_habitat_data <- function(x, habitat_data, crosswalk_data,
       season = curr_seasonal_name,
       majorimportance = NA_character_
     )
-  })
+  }))
 
   # return result
   tibble::as_tibble(result)

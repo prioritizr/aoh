@@ -38,7 +38,7 @@ collate_spp_extent_data <- function(x, template_data) {
   ### note that we return NAs if the species doesn't overlap with the template
   x <- dplyr::bind_cols(
     x,
-    plyr::ldply(seq_len(nrow(x)), function(i) {
+    dplyr::bind_rows(lapply(seq_len(nrow(x)), function(i) {
       if (
         sf::st_intersects(
           x = sf::st_as_sfc(terra_st_bbox(empty_template)),
@@ -66,7 +66,7 @@ collate_spp_extent_data <- function(x, template_data) {
         ymin = ex$ymin,
         ymax = ex$ymax
       )
-    })
+    }))
   )
 
   # re-order columns

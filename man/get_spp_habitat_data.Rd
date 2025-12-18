@@ -91,7 +91,7 @@ List API. To verify this, please try running the following \emph{R} code and --
 assuming everything works correctly -- you should see \code{TRUE} as the output:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{# verify access to IUCN Red List API
-is_iucn_rl_available()
+is_iucn_rl_api_available()
 }\if{html}{\out{</div>}}
 
 If these instructions did not work, please consult the documentation for the
@@ -115,7 +115,7 @@ if (!file.exists(download_dir)) {
 result <- get_spp_habitat_data(spp_ids, download_dir)
 }
 
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \dontrun{
 # preview data
 print(result)

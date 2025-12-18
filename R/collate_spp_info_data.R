@@ -10,7 +10,7 @@ NULL
 #' habitat preferences, and elevational limits into a single dataset.
 #'
 #' @param x `sf::st_sf()` Spatial object containing species range data.
-#'  Arguments should follow the output format from [clean_spp_range_data()].
+#'  Arguments should follow the output format from `clean_spp_range_data()`.
 #'
 #' @param spp_summary_data `tibble:tibble()` Table containing species
 #'   summary data.

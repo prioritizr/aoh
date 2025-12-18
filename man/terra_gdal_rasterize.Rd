@@ -105,7 +105,7 @@ This function is a wrapper for \code{\link[gdalUtilities:gdal_rasterize]{gdalUti
 \examples{
 # please ensure that the gdalUtilities package is installed
 # to run this example
-\dontshow{if (requireNamespace("gdalUtilities", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("gdalUtilities", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # import vector data
 f <- system.file("ex/lux.shp", package = "terra")
 sf <- read_sf(f)
