@@ -49,7 +49,7 @@
 #'
 #' ```
 #' # verify access to IUCN Red List API
-#' is_iucn_rl_available()
+#' is_iucn_rl_api_available()
 #' ```
 #'
 #' If these instructions did not work, please consult the documentation for the

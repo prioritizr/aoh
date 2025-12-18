@@ -156,7 +156,7 @@ spp_aoh_frc_data <- calc_spp_frc_data(
 )
 }
 
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \dontrun{
 # preview data
 print(spp_aoh_frc_data)

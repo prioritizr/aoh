@@ -4,6 +4,8 @@ NULL
 #' Plot species range and Area of Habitat data
 #'
 #' Create a map to compare species geographic range and Area of Habitat data.
+#' Note that this function requires the \pkg{ggplot2} package to be
+#' installed.
 #'
 #' @param x [sf::st_sf()] Object containing the species data.
 #'   This object should be produced using the [create_spp_aoh_data()]
@@ -158,6 +160,13 @@ plot_spp_data <- function(x, max_plot = 9, expand = 0.05,
                           zoom = NULL, maptype = NULL, maxcell = 50000,
                           binary = FALSE, ...) {
   # assert argument is valid
+  assertthat::assert_that(
+    requireNamespace("ggplot2", quietly = TRUE),
+    msg = paste(
+      "the \"ggplot2\" package needs to be installed, use: \n",
+      "`install.packages(\"ggplot2\")`"
+    )
+  )
   assertthat::assert_that(
     inherits(x, "sf"),
     assertthat::has_name(x, "id_no"),

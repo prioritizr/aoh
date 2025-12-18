@@ -73,7 +73,7 @@ for use with \pkg{terra} objects.
 # please ensure that the gdalUtilities package is installed
 # to run this example
 
-\dontshow{if (requireNamespace("gdalUtilities", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("gdalUtilities", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # create raster with data
 x <- rast(
   ncols = 40, nrows = 40, xmin = -110, xmax = -90, ymin = 40, ymax=60,

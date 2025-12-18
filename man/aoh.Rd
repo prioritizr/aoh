@@ -53,7 +53,7 @@ List API. To verify this, please try running the following \emph{R} code and --
 assuming everything works correctly -- you should see \code{TRUE} as the output:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{# verify access to IUCN Red List API
-is_iucn_rl_available()
+is_iucn_rl_api_available()
 }\if{html}{\out{</div>}}
 
 If these instructions did not work, please consult the documentation for the

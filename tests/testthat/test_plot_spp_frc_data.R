@@ -3,6 +3,7 @@ context("plot_spp_frc_data()")
 test_that("no base map", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("ggplot2")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(
@@ -44,6 +45,7 @@ test_that("no base map", {
 test_that("base map", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("ggplot2")
   skip_if_not_installed("ggmap")
   skip_if_not(nzchar(Sys.getenv("GGMAP_STADIAMAPS_API_KEY")))
   # specify file path
@@ -87,6 +89,7 @@ test_that("base map", {
 test_that("customized", {
   # skip if needed
   skip_on_cran()
+  skip_if_not_installed("ggplot2")
   # specify file path
   f <- system.file("testdata", "SIMULATED_SPECIES.zip", package = "aoh")
   elevation_data <- terra::rast(

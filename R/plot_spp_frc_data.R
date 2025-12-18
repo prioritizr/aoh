@@ -5,6 +5,8 @@ NULL
 #'
 #' Create a map to compare species geographic range and fractional
 #' coverage data.
+#' Note that this function requires the \pkg{ggplot2} package to be
+#' installed.
 #'
 #' @param x [sf::st_sf()] Object containing the species data.
 #'   This object should be produced using the [calc_spp_frc_data()]

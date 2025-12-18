@@ -120,7 +120,7 @@ species geographic ranges, summary information, and habitat preferences.
 # please ensure that the fields and smoothr packages are installed
 # to run these examples
 
-\dontshow{if (require(fields) && require(smoothr)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require(fields) && require(smoothr)) withAutoprint(\{ # examplesIf}
 \dontrun{
 # define persistent storage location
 download_dir <- rappdirs::user_data_dir("aoh")
