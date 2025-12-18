@@ -2,6 +2,7 @@ context("terra_gdal_rasterize")
 
 test_that("normal", {
   skip_on_cran()
+  skip_on_os("mac")
   skip_if_not_installed("gdalUtilities")
   # import data
   f <- system.file("ex/lux.shp", package = "terra")
@@ -23,6 +24,7 @@ test_that("normal", {
 
 test_that("filename", {
   skip_on_cran()
+  skip_on_os("mac")
   skip_if_not_installed("gdalUtilities")
   # import data
   f <- system.file("ex/lux.shp", package = "terra")
@@ -47,6 +49,7 @@ test_that("filename", {
 
 test_that("invert", {
   skip_on_cran()
+  skip_on_os("mac")
   skip_if_not_installed("gdalUtilities")
   # import data
   f <- system.file("ex/lux.shp", package = "terra")
@@ -68,6 +71,7 @@ test_that("invert", {
 
 test_that("update", {
   skip_on_cran()
+  skip_on_os("mac")
   skip_if_not_installed("gdalUtilities")
   # import data
   f <- system.file("ex/lux.shp", package = "terra")
@@ -89,6 +93,7 @@ test_that("update", {
 
 test_that("touches", {
   skip_on_cran()
+  skip_on_os("mac")
   skip_if_not_installed("gdalUtilities")
   # create data
   sf <- sf::st_sf(
@@ -124,6 +129,7 @@ test_that("touches", {
 
 test_that("NAflag", {
   skip_on_cran()
+  skip_on_os("mac")
   skip_if_not_installed("gdalUtilities")
   # import data
   sf <- sf::st_sf(
