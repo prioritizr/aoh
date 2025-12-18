@@ -104,10 +104,12 @@ vigns:
 
 quicksite:
 	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
+	rm -f docs/authors.md
 
 site:
 	R --slave -e "pkgdown::clean_site()"
 	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = FALSE)"
+	rm -f docs/authors.md
 
 # checks
 quickcheck:
