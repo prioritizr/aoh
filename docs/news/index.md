@@ -1,5 +1,11 @@
 # Changelog
 
+## aoh 0.0.3.4
+
+- Fix issue with failing to download data from Zenodo
+  ([\#67](https://github.com/prioritizr/aoh/issues/67)). Thanks to
+  [@federicafonda](https://github.com/federicafonda) for bug report.
+
 ## aoh 0.0.3.3
 
 - Fix typo in documentation

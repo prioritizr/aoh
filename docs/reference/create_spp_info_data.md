@@ -422,22 +422,22 @@ spp_info_data <- create_spp_info_data(
   cache_dir = cache_dir
 )
 #> ℹ initializing
-#> ✔ initializing [436ms]
+#> ✔ initializing [655ms]
 #> 
 #> ℹ cleaning species range data
-#> ✔ cleaning species range data [3.3s]
+#> ✔ cleaning species range data [3.5s]
 #> 
 #> ℹ importing species summary data
-#> ✔ importing species summary data [747ms]
+#> ✔ importing species summary data [568ms]
 #> 
 #> ℹ importing species habitat data
-#> ✔ importing species habitat data [414ms]
+#> ✔ importing species habitat data [560ms]
 #> 
 #> ℹ collating species data
 #> ✔ collating species data [238ms]
 #> 
 #> ℹ post-processing results
-#> ✔ post-processing results [11ms]
+#> ✔ post-processing results [12ms]
 #> 
 #> ✔ finished
 # }

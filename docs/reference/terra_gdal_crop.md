@@ -121,6 +121,6 @@ print(z)
 #> resolution  : 0.5, 0.5  (x, y)
 #> extent      : -105, -92.5, 41, 58.5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-#> source      : file13f09257fa442.tif 
+#> source      : fileab64378f2695.tif 
 #> name        : lyr.1 
 ```
