@@ -17,26 +17,11 @@ NULL
 #'
 #' @noRd
 get_doi_files <- function(x) {
-  # assert valid argument
-  assertthat::assert_that(
-    assertthat::is.string(x),
-    assertthat::noNA(x)
-  )
-  assertthat::assert_that(
-    startsWith(x, "https://doi.org/"),
-    msg = "argument to x is not a DOI."
-  )
-  assertthat::assert_that(
-    grepl("/zenodo.", x, fixed = TRUE),
-    msg = "argument to x is not a Zenodo DOI."
-  )
-
   # scrape html file
   ## note that we use a strategy that is robust to failures
   ## and mimics a web browser because Zenodo is unstable
-  d <- httr2::request(x)
+  d <- httr2::request(zenodo_doi_to_url(x))
   d <- httr2::req_retry(d, max_tries = 5, backoff = function(resp) 10)
-  d <- httr2::req_user_agent(d, string = "Mozilla/5.0")
   d <- httr2::req_perform(d)
   d <- httr2::resp_body_html(d)
 
@@ -66,26 +51,11 @@ get_doi_files <- function(x) {
 #'
 #' @noRd
 get_doi_versions <- function(x) {
-  # assert valid argument
-  assertthat::assert_that(
-    assertthat::is.string(x),
-    assertthat::noNA(x)
-  )
-  assertthat::assert_that(
-    startsWith(x, "https://doi.org/"),
-    msg = "argument to x is not a DOI."
-  )
-  assertthat::assert_that(
-    grepl("/zenodo.", x, fixed = TRUE),
-    msg = "argument to x is not a Zenodo DOI."
-  )
-
   # scrape html file
   ## note that we use a strategy that is robust to failures
   ## and mimics a web browser because Zenodo is unstable
-  d <- httr2::request(x)
+  d <- httr2::request(zenodo_doi_to_url(x))
   d <- httr2::req_retry(d, max_tries = 5, backoff = function(resp) 10)
-  d <- httr2::req_user_agent(d, string = "Mozilla/5.0")
   d <- httr2::req_perform(d)
   d <- httr2::resp_body_html(d)
 
@@ -121,4 +91,33 @@ get_doi_versions <- function(x) {
 
   # return result (reverse row ordering for compatibility with zen4R
   info[rev(seq_len(nrow(info))), , drop = FALSE]
+}
+
+#' Convert Zenodo DOI to URL
+#'
+#' Convert a Zenodo DOI to URL.
+#'
+#' @param x `character` value.
+#'
+#' @return A `character` value.
+#'
+#' @noRd
+zenodo_doi_to_url <- function(x) {
+  # assert valid argument
+  assertthat::assert_that(
+    assertthat::is.string(x),
+    assertthat::noNA(x)
+  )
+  assertthat::assert_that(
+    startsWith(x, "https://doi.org/"),
+    msg = "argument to x is not a DOI."
+  )
+  assertthat::assert_that(
+    grepl("/zenodo.", x, fixed = TRUE),
+    msg = "argument to x is not a Zenodo DOI."
+  )
+
+  # convert to URL
+  x <- strsplit(basename(x), ".", fixed = TRUE)[[1]][[2]]
+  paste0("https://zenodo.org/records/", x)
 }

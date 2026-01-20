@@ -1,3 +1,8 @@
+# aoh 0.0.3.4
+
+- Fix issue with failing to download data from Zenodo (#67). Thanks to
+  \@federicafonda for bug report.
+
 # aoh 0.0.3.3
 
 - Fix typo in documentation (#65). Thanks to Steven Bachman (\@stevenpbachman)
