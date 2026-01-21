@@ -140,8 +140,6 @@ if (!file.exists(download_dir)) {
 
 # download and import habitat preference data
 result <- get_spp_habitat_data(spp_ids, download_dir)
-#> querying ■■■■■■■■■■■■■■■■                  50% | ETA:  3s
-#> querying ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 # }
 
 if (FALSE) { # interactive()

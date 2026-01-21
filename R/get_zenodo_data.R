@@ -46,7 +46,7 @@ get_zenodo_data <- function(x, file, version, dir = tempdir(),
   # find version if needed
   if (identical(version, "latest")) {
     ## verify if internet connection present
-    if (!curl::has_internet()) {
+    if (!httr2::is_online()) {
       stop("no internet connection detected.") # nocov
     }
     ## find latest version

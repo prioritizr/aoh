@@ -106,22 +106,22 @@ spp_info_data <- create_spp_info_data(
   cache_dir = cache_dir
 )
 #> ℹ initializing
-#> ✔ initializing [661ms]
+#> ✔ initializing [617ms]
 #> 
 #> ℹ cleaning species range data
-#> ✔ cleaning species range data [3.6s]
+#> ✔ cleaning species range data [4s]
 #> 
 #> ℹ importing species summary data
-#> ✔ importing species summary data [675ms]
+#> ✔ importing species summary data [658ms]
 #> 
 #> ℹ importing species habitat data
-#> ✔ importing species habitat data [381ms]
+#> ✔ importing species habitat data [360ms]
 #> 
 #> ℹ collating species data
-#> ✔ collating species data [262ms]
+#> ✔ collating species data [279ms]
 #> 
 #> ℹ post-processing results
-#> ✔ post-processing results [13ms]
+#> ✔ post-processing results [16ms]
 #> 
 #> ✔ finished
 
@@ -133,22 +133,22 @@ spp_aoh_data <- create_spp_aoh_data(
   cache_dir = cache_dir
 )
 #> ℹ initializing
-#> ✔ initializing [5ms]
+#> ✔ initializing [6ms]
 #> 
 #> ℹ importing global elevation data
-#> ✔ importing global elevation data [7.4s]
+#> ✔ importing global elevation data [3.9s]
 #> 
 #> ℹ importing global habitat data
 #> ! `crosswalk_data` is missing the following 2 habitat classification codes: "7.1", "7.2"
 #> ℹ importing global habitat data
-#> ✔ importing global habitat data [5.7s]
+#> ✔ importing global habitat data [2.9s]
 #> 
 #> ℹ generating Area of Habitat data
 #>     skipping 4 species distributions already processed
-#> ✔ generating Area of Habitat data [43ms]
+#> ✔ generating Area of Habitat data [46ms]
 #> 
 #> ℹ post-processing results
-#> ✔ post-processing results [15ms]
+#> ✔ post-processing results [16ms]
 #> 
 #> ✔ finished
 

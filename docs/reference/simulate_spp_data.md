@@ -202,10 +202,10 @@ x <- simulate_spp_data(
   n = 5, boundary_data = boundary_data, cache_dir = download_dir
 )
 #> ℹ importing global elevation data
-#> ✔ importing global elevation data [7.2s]
+#> ✔ importing global elevation data [3.1s]
 #> 
 #> ℹ importing global habitat data
-#> ✔ importing global habitat data [38.6s]
+#> ✔ importing global habitat data [52.6s]
 #> 
 
 # preview species range data

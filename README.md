@@ -354,7 +354,7 @@ map <-
 print(map)
 ```
 
-<img src="man/figures/README-map-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-map-1.png" alt="" width="90%" style="display: block; margin: auto;" />
 
 ### Citation
 
@@ -365,8 +365,8 @@ produce Area of Habitat data.
     Depending on which datasets are used, please cite the aoh package and
     relevant data using:
 
-      Hanson JO (2025) aoh: Create Area of Habitat Data. R package version
-      0.0.3.3. Available at https://github.com/prioritizr/aoh.
+      Hanson JO (2026) aoh: Create Area of Habitat Data. R package version
+      0.0.3.4. Available at https://github.com/prioritizr/aoh.
 
       IUCN [insert year] IUCN Red List of Threatened Species. Version
       [insert version]. Available at www.iucnredlist.org.

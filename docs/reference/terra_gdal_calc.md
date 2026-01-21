@@ -170,7 +170,7 @@ values(x) <- seq_len(ncell(x))
 
 # run calculation
 y <- terra_gdal_calc(x, "(X < 20) * 1")
-#> ℹ System command: gdal_calc.py -X "/tmp/Rtmpc9ujEP/file13f096eea8a92.tif" --outfile="/tmp/Rtmpc9ujEP/file13f09596c994d.tif" --calc="(X < 20) * 1" --type="Float32" --co="NUM_THREADS=1" --co="COMPRESS=LZW" --co="PREDICTOR=1"
+#> ℹ System command: gdal_calc.py -X "/tmp/Rtmpzj5TVj/fileab6476a0eaea.tif" --outfile="/tmp/Rtmpzj5TVj/fileab64441b2853.tif" --calc="(X < 20) * 1" --type="Float32" --co="NUM_THREADS=1" --co="COMPRESS=LZW" --co="PREDICTOR=1"
 
 # preview result
 print(y)
@@ -179,7 +179,7 @@ print(y)
 #> resolution  : 0.5, 0.5  (x, y)
 #> extent      : -110, -90, 40, 60  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-#> source      : file13f09596c994d.tif 
+#> source      : fileab64441b2853.tif 
 #> name        : lyr.1 
 # }
 ```

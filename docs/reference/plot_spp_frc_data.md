@@ -106,22 +106,22 @@ spp_info_data <- create_spp_info_data(
   cache_dir = cache_dir
 )
 #> ℹ initializing
-#> ✔ initializing [448ms]
+#> ✔ initializing [520ms]
 #> 
 #> ℹ cleaning species range data
-#> ✔ cleaning species range data [3.5s]
+#> ✔ cleaning species range data [3.9s]
 #> 
 #> ℹ importing species summary data
-#> ✔ importing species summary data [547ms]
+#> ✔ importing species summary data [517ms]
 #> 
 #> ℹ importing species habitat data
-#> ✔ importing species habitat data [561ms]
+#> ✔ importing species habitat data [479ms]
 #> 
 #> ℹ collating species data
-#> ✔ collating species data [249ms]
+#> ✔ collating species data [266ms]
 #> 
 #> ℹ post-processing results
-#> ✔ post-processing results [11ms]
+#> ✔ post-processing results [13ms]
 #> 
 #> ✔ finished
 
@@ -137,19 +137,19 @@ spp_aoh_data <- create_spp_frc_data(
 #> ✔ initializing [5ms]
 #> 
 #> ℹ importing global elevation data
-#> ✔ importing global elevation data [5.9s]
+#> ✔ importing global elevation data [5.2s]
 #> 
 #> ℹ importing global habitat data
 #> ! `crosswalk_data` is missing the following 2 habitat classification codes: "7.1", "7.2"
 #> ℹ importing global habitat data
-#> ✔ importing global habitat data [4.1s]
+#> ✔ importing global habitat data [2s]
 #> 
 #> ℹ generating Area of Habitat data
 #>     skipping 4 species distributions already processed
-#> ✔ generating Area of Habitat data [34ms]
+#> ✔ generating Area of Habitat data [59ms]
 #> 
 #> ℹ post-processing results
-#> ✔ post-processing results [33ms]
+#> ✔ post-processing results [59ms]
 #> 
 #> ✔ finished
 
@@ -162,7 +162,7 @@ spp_frc_data <- calc_spp_frc_data(
 )
 #> ℹ importing global habitat data
 #>     skipping 4 species distributions already processed
-#> ✔ importing global habitat data [6s]
+#> ✔ importing global habitat data [2.2s]
 #> 
 # plot the data to visualize the range maps and fractional coverage data
 p <- plot_spp_frc_data(spp_frc_data)

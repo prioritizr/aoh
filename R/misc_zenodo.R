@@ -17,28 +17,8 @@ NULL
 #'
 #' @noRd
 get_doi_files <- function(x) {
-  # assert valid argument
-  assertthat::assert_that(
-    assertthat::is.string(x),
-    assertthat::noNA(x)
-  )
-  assertthat::assert_that(
-    startsWith(x, "https://doi.org/"),
-    msg = "argument to x is not a DOI."
-  )
-  assertthat::assert_that(
-    grepl("/zenodo.", x, fixed = TRUE),
-    msg = "argument to x is not a Zenodo DOI."
-  )
-
   # scrape html file
-  ## note that we use a strategy that is robust to failures
-  ## and mimics a web browser because Zenodo is unstable
-  d <- httr2::request(x)
-  d <- httr2::req_retry(d, max_tries = 5, backoff = function(resp) 10)
-  d <- httr2::req_user_agent(d, string = "Mozilla/5.0")
-  d <- httr2::req_perform(d)
-  d <- httr2::resp_body_html(d)
+  d <- read_html(zenodo_doi_to_url(x))
 
   # extract metedata
   md <- rvest::html_elements(d, css = "#recordVersions")
@@ -66,34 +46,15 @@ get_doi_files <- function(x) {
 #'
 #' @noRd
 get_doi_versions <- function(x) {
-  # assert valid argument
-  assertthat::assert_that(
-    assertthat::is.string(x),
-    assertthat::noNA(x)
-  )
-  assertthat::assert_that(
-    startsWith(x, "https://doi.org/"),
-    msg = "argument to x is not a DOI."
-  )
-  assertthat::assert_that(
-    grepl("/zenodo.", x, fixed = TRUE),
-    msg = "argument to x is not a Zenodo DOI."
-  )
-
   # scrape html file
   ## note that we use a strategy that is robust to failures
-  ## and mimics a web browser because Zenodo is unstable
-  d <- httr2::request(x)
-  d <- httr2::req_retry(d, max_tries = 5, backoff = function(resp) 10)
-  d <- httr2::req_user_agent(d, string = "Mozilla/5.0")
-  d <- httr2::req_perform(d)
-  d <- httr2::resp_body_html(d)
+  d <- read_html(zenodo_doi_to_url(x))
 
   # find metadata containers
   md <- rvest::html_elements(d, css = "#recordVersions")
   md <- jsonlite::fromJSON(rvest::html_attr(md, "data-record"))
-  md <- rvest::read_html(md$links$versions)
-  md <- jsonlite::fromJSON(rvest::html_text(md), "p")$hits[[1]]
+  md <- read_json(md$links$versions)
+  md <- md$hits$hits
 
   # extract metadata
   version <- vapply(md, FUN.VALUE = character(1), function(x) {
@@ -121,4 +82,95 @@ get_doi_versions <- function(x) {
 
   # return result (reverse row ordering for compatibility with zen4R
   info[rev(seq_len(nrow(info))), , drop = FALSE]
+}
+
+#' Convert Zenodo DOI to URL
+#'
+#' Convert a Zenodo DOI to URL.
+#'
+#' @param x `character` value.
+#'
+#' @return A `character` value.
+#'
+#' @noRd
+zenodo_doi_to_url <- function(x) {
+  # assert valid argument
+  assertthat::assert_that(
+    assertthat::is.string(x),
+    assertthat::noNA(x)
+  )
+  assertthat::assert_that(
+    startsWith(x, "https://doi.org/"),
+    msg = "argument to x is not a DOI."
+  )
+  assertthat::assert_that(
+    grepl("/zenodo.", x, fixed = TRUE),
+    msg = "argument to x is not a Zenodo DOI."
+  )
+
+  # convert to URL
+  x <- strsplit(basename(x), ".", fixed = TRUE)[[1]][[2]]
+  paste0("https://zenodo.org/records/", x)
+}
+
+#' Read HTML
+#'
+#' Read HTML from URL.
+#'
+#' @details This function is a robust version of [rvest::read_html()] designed
+#' to overcome itermittent failures in the Zenodo website.
+#'
+#' @return A `html_document` object.
+#'
+#' @noRd
+read_html <- function(x, n_attempts = 10) {
+  httr2::resp_body_html(read_online_source(x, n_attempts = n_attempts))
+}
+
+#' Read JSON
+#'
+#' Read JSON from URL.
+#'
+#' @details This function is a robust version of [rvest::read_html()] designed
+#' to overcome itermittent failures in the Zenodo website.
+#'
+#' @return A `html_document` object.
+#'
+#' @noRd
+read_json <- function(x, n_attempts = 10) {
+  httr2::resp_body_json(read_online_source(x, n_attempts = n_attempts))
+}
+
+#' Read online source
+#'
+#' Read online source.
+#'
+#' @return A [httr2::req_perform] object.
+#'
+#' @noRd
+read_online_source <- function(x, n_attempts = n_attempts) {
+  # assert valid argument
+  assertthat::assert_that(
+    assertthat::is.string(x),
+    assertthat::noNA(x)
+  )
+  if (!httr2::is_online()) {
+    stop("no internet connection detected.") # nocov
+  }
+
+  # read HTML
+  out <- httr2::request(x)
+  out <- httr2::req_retry(
+    out,
+    max_tries = 10,
+    backoff = function(resp) 10,
+    retry_on_failure = TRUE,
+    is_transient = function(resp) {
+      httr2::resp_status(resp) %in% c(429, 500, 503, 403, 504)
+    }
+  )
+  out <- httr2::req_perform(out)
+
+  # return result
+  out
 }

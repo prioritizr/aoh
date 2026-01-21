@@ -162,22 +162,22 @@ spp_info_data <- create_spp_info_data(
   cache_dir = cache_dir
 )
 #> ℹ initializing
-#> ✔ initializing [684ms]
+#> ✔ initializing [716ms]
 #> 
 #> ℹ cleaning species range data
-#> ✔ cleaning species range data [2.3s]
+#> ✔ cleaning species range data [2.2s]
 #> 
 #> ℹ importing species summary data
-#> ✔ importing species summary data [565ms]
+#> ✔ importing species summary data [590ms]
 #> 
 #> ℹ importing species habitat data
-#> ✔ importing species habitat data [559ms]
+#> ✔ importing species habitat data [346ms]
 #> 
 #> ℹ collating species data
-#> ✔ collating species data [221ms]
+#> ✔ collating species data [197ms]
 #> 
 #> ℹ post-processing results
-#> ✔ post-processing results [15ms]
+#> ✔ post-processing results [13ms]
 #> 
 #> ✔ finished
 
@@ -189,7 +189,7 @@ spp_aoh_data <- create_spp_aoh_data(
   cache_dir = cache_dir
 )
 #> ℹ initializing
-#> ✔ initializing [7ms]
+#> ✔ initializing [5ms]
 #> 
 #> ℹ importing global elevation data
 #> ✔ importing global elevation data [5.9s]
@@ -197,19 +197,19 @@ spp_aoh_data <- create_spp_aoh_data(
 #> ℹ importing global habitat data
 #> ! `crosswalk_data` is missing the following 2 habitat classification codes: "7.1", "7.2"
 #> ℹ importing global habitat data
-#> ✔ importing global habitat data [4.1s]
+#> ✔ importing global habitat data [2.9s]
 #> 
 #> ℹ generating Area of Habitat data
-#> ℹ processing ■■■■■■■■■                        [ 25% | ETA: 12s]
-#> ℹ processing ■■■■■■■■■■■■■■■■                 [ 50% | ETA:  8s]
-#> ℹ processing ■■■■■■■■■■■■■■■■■■■■■■■          [ 75% | ETA:  5s]
-#> ✔ processing [24.9s]
+#> ℹ processing ■■■■■■■■■                        [ 25% | ETA: 13s]
+#> ℹ processing ■■■■■■■■■■■■■■■■                 [ 50% | ETA:  9s]
+#> ℹ processing ■■■■■■■■■■■■■■■■■■■■■■■          [ 75% | ETA:  6s]
+#> ✔ processing [28.4s]
 #> 
 #> ℹ generating Area of Habitat data
-#> ✔ generating Area of Habitat data [24.9s]
+#> ✔ generating Area of Habitat data [28.4s]
 #> 
 #> ℹ post-processing results
-#> ✔ post-processing results [11ms]
+#> ✔ post-processing results [13ms]
 #> 
 #> ✔ finished
 
@@ -221,7 +221,7 @@ spp_aoh_frc_data <- calc_spp_frc_data(
   cache_dir = cache_dir
 )
 #> ℹ importing global habitat data
-#> ✔ importing global habitat data [5.3s]
+#> ✔ importing global habitat data [4.2s]
 #> 
 # }
 
